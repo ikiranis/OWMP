@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language name="gr">
+
+    <page name="login">
+        <phrase name="user_logged_in">Είσοδος χρήστη </phrase>
+        <phrase name="form_user_name">Όνομα χρήστη </phrase>
+        <phrase name="form_password">Συνθηματικό </phrase>
+        <phrase name="form_repeat_password">Επανέλαβε συνθηματικό </phrase>
+        <phrase name="form_save_password">Μην με ξεχάσεις </phrase>
+        <phrase name="form_login">Είσοδος</phrase>
+        <phrase name="form_email">E-mail </phrase>
+        <phrase name="form_register">Εγγραφή </phrase>
+        <phrase name="register_with_success">Η εγγραφή ολοκληρώθηκε με επιτυχία</phrase>
+        <phrase name="not_the_same_password">Δεν συμφωνούν τα 2 συνθηματικά</phrase>
+        <phrase name="user_is_founded">Βρέθηκε ο χρήστης</phrase>
+        <phrase name="wrong_password">Λάθος συνθηματικό</phrase>
+        <phrase name="user_dont_exist">Δεν υπάρχει αυτός ο χρήστης</phrase>
+        <phrase name="logout">Αποσύνδεση</phrase>
+    </page>
+
+    <page name="footer">
+        <phrase name="footer_text">Ανάπτυξη εφαρμογής: Rocean</phrase>
+    </page>
+
+    <page name="nav">
+        <phrase name="nav_item_1">Κεντρικός Πίνακας</phrase>
+        <phrase name="nav_item_2">Ρυθμίσεις</phrase>
+    </page>
+
+    <page name="dashboard">
+    </page>
+
+    <page name="settings">
+        <phrase name="settings_sensors">Αισθητήρες</phrase>
+        <phrase name="settings_power">Διακόπτες</phrase>
+        <phrase name="settings_alerts">Ειδοποιήσεις</phrase>
+        <phrase name="settings_users">Χρήστες</phrase>
+        <phrase name="settings_options">Options</phrase>
+        <phrase name="update_row">Ενημέρωση</phrase>
+        <phrase name="delete_row">Διαγραφή</phrase>
+        <phrase name="insert_row">Εισαγωγή</phrase>
+        <phrase name="sensors_room">Δωμάτιο</phrase>
+        <phrase name="sensors_sensor">Αισθητήρας</phrase>
+        <phrase name="sensors_dbfield">Όνομα πεδίου</phrase>
+        <phrase name="power_room">Δωμάτιο</phrase>
+        <phrase name="power_switch">Διακόπτης</phrase>
+        <phrase name="alerts_email">email</phrase>
+        <phrase name="alerts_timelimit">Χρονικό όριο (ώρες)</phrase>
+        <phrase name="alerts_templimit">Θερμοκρασία</phrase>
+        <phrase name="alerts_sensor">Αισθητήρας</phrase>
+        <phrase name="alerts_alert_time">Χρόνος εκτέλεσης</phrase>
+        <phrase name="users_username">Χρήστης</phrase>
+        <phrase name="users_email">Email</phrase>
+        <phrase name="users_password">Συνθηματικό</phrase>
+        <phrase name="users_repeat_password">Επανάληψη συνθηματικού</phrase>
+        <phrase name="users_user_group">Ομάδα χρηστών</phrase>
+        <phrase name="users_firstname">Όνομα</phrase>
+        <phrase name="users_lastname">Επώνυμο</phrase>
+        <phrase name="options_option">Option</phrase>
+        <phrase name="options_value">Value</phrase>
+    </page>
+
+    <page name="validation_errors">
+        <phrase name="valid_username">Απαιτείται. Τουλάχιστον 5 χαρακτήρες. Μόνο λατινικά αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_password">Απαιτείται. Τουλάχιστον 8 χαρακτήρες. Τουλάχιστον ένας αριθμός, ένα κεφαλαίο κι ένα μικρό</phrase>
+        <phrase name="valid_register_password">Δεν απαιτείται. Τουλάχιστον 8 χαρακτήρες. Τουλάχιστον ένας αριθμός, ένα κεφαλαίο κι ένα μικρό</phrase>
+        <phrase name="valid_register_repeat_password">Δεν απαιτείται. Να είναι ίδιο με το συνθηματικό</phrase>
+        <phrase name="valid_room">Απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_sensor">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_dbfield">Απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο λατινικά αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_power_name">Απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_email">Απαιτείται. Έγκυρο email</phrase>
+        <phrase name="valid_fname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_λname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_time_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
+        <phrase name="valid_temp_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
+        <phrase name="valid_option">Απαιτείται</phrase>
+        <phrase name="user_error1">Ο χρήστης</phrase>
+        <phrase name="user_error2">υπάρχει ήδη</phrase>
+    </page>
+
+
+</language>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language name="en">
+
+    <page name="login">
+        <phrase name="user_logged_in">User Logged in </phrase>
+        <phrase name="form_user_name">Username </phrase>
+        <phrase name="form_password">Password </phrase>
+        <phrase name="form_repeat_password">Repeat Password </phrase>
+        <phrase name="form_save_password">Don't Forget </phrase>
+        <phrase name="form_login">Login</phrase>
+        <phrase name="form_email">E-mail </phrase>
+        <phrase name="form_register">Register </phrase>
+        <phrase name="register_with_success">Registration completed successfully</phrase>
+        <phrase name="not_the_same_password">Not the same password</phrase>
+        <phrase name="user_is_founded">User is founded</phrase>
+        <phrase name="wrong_password">Wrong password</phrase>
+        <phrase name="user_dont_exist">User don't exist</phrase>
+        <phrase name="logout">Logout</phrase>
+    </page>
+
+    <page name="footer">
+        <phrase name="footer_text">Developed by Rocean</phrase>
+    </page>
+
+    <page name="nav">
+        <phrase name="nav_item_1">Dashboard</phrase>
+        <phrase name="nav_item_2">Configuration</phrase>
+    </page>
+
+    <page name="dashboard">
+    </page>
+
+    <page name="settings">
+        <phrase name="settings_sensors">Sensors</phrase>
+        <phrase name="settings_power">Power</phrase>
+        <phrase name="settings_alerts">Alerts</phrase>
+        <phrase name="settings_users">Users</phrase>
+        <phrase name="settings_options">Options</phrase>
+        <phrase name="update_row">Update</phrase>
+        <phrase name="delete_row">Delete</phrase>
+        <phrase name="insert_row">Insert</phrase>
+        <phrase name="sensors_room">Room</phrase>
+        <phrase name="sensors_sensor">Sensor</phrase>
+        <phrase name="sensors_dbfield">DB Field</phrase>
+        <phrase name="power_room">Room</phrase>
+        <phrase name="power_switch">Switch</phrase>
+        <phrase name="alerts_email">Email</phrase>
+        <phrase name="alerts_timelimit">Time Limit (hours)</phrase>
+        <phrase name="alerts_templimit">Temperature</phrase>
+        <phrase name="alerts_sensor">Sensor</phrase>
+        <phrase name="alerts_alert_time">Alert Time</phrase>
+        <phrase name="users_username">Username</phrase>
+        <phrase name="users_email">Email</phrase>
+        <phrase name="users_password">Password</phrase>
+        <phrase name="users_repeat_password">Repeat Password</phrase>
+        <phrase name="users_user_group">UserGroup</phrase>
+        <phrase name="users_firstname">FirstName</phrase>
+        <phrase name="users_lastname">LastName</phrase>
+        <phrase name="options_option">Option</phrase>
+        <phrase name="options_value">Value</phrase>
+    </page>
+
+    <page name="validation_errors">
+        <phrase name="valid_username">Required. At least 5 characters. Only latin alphanumerics. Not special characters</phrase>
+        <phrase name="valid_password">Required. At least 8 characters. Only latin alphanumerics. Must contain at least one number and one uppercase and lowercase letter</phrase>
+        <phrase name="valid_register_password">Not Required. At least 8 characters. Only latin alphanumerics. Must contain at least one number and one uppercase and lowercase letter</phrase>
+        <phrase name="valid_register_repeat_password">Not Required. Same with the password</phrase>
+        <phrase name="valid_room">Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_sensor">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_dbfield">Required. At least 3 characters. Only latin alphanumerics. Not special characters</phrase>
+        <phrase name="valid_power_name">Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_email">Required. Valid email</phrase>
+        <phrase name="valid_fname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_lname">Not Required. At least 3 characters. Only alphanumerics. Not special characters</phrase>
+        <phrase name="valid_time_limit">Required. Valid number</phrase>
+        <phrase name="valid_temp_limit">Required. Valid number</phrase>
+        <phrase name="valid_option">Required</phrase>
+        <phrase name="user_error1">The user</phrase>
+        <phrase name="user_error2">already exists</phrase>
+    </page>
+
+
+
+</language>

@@ -1,0 +1,726 @@
+html, body {
+    height:100%;
+    width: 99%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    background-color: #CFD8DC;
+}
+
+
+header, footer {
+    margin: 5px;
+    border-radius: 6px;
+    padding: 1em 1em;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    display:block;
+}
+
+main {
+    display:flex;
+    height:  80%;
+    width: 100%;
+    align-items: center;
+}
+
+
+
+
+/*Κεντρικό box*/
+section {
+    margin: 5px;
+    padding: 1em 1em;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    position: relative;
+    display: block;
+    width: 75%;
+    height: 75%;
+    float: right;
+    background-color: #ECEFF1;
+    margin-bottom: 1em;
+    color: #455A64;
+}
+
+article {
+    position: inherit;
+    padding-bottom: 1em;
+    height: 95%;
+    display: block;
+    overflow-y: scroll;
+}
+
+article h2 {
+    color: #37474F;
+ }
+
+article h3 {
+    color: #37474F;
+}
+
+
+/*Μύνημα λάθους*/
+#error_container {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 1em;
+    display: flex;
+    z-index: 10;
+}
+
+#alert_error {
+    display:none;
+    width: 20em;
+    height: auto;
+    margin: auto;
+    box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.7);
+    background-color: #FFEDED;
+    padding: 0.5em 1em;
+
+}
+
+
+
+/*Nav menu*/
+nav {
+    position: relative;
+    width: 18%;
+    height: 75%;
+    float: left;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin: 5px;
+    display:block;
+    font-size: 0.8em;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+}
+
+nav li a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+
+}
+
+nav li {
+    margin-top:0.7em;
+    color: #607D8B;
+    box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
+    background-color: #ECEFF1;
+    transition:all 0.5s;
+}
+
+
+
+nav li a.active {
+    background-color: #546E7A;
+    color: white;
+    box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+
+}
+
+nav li a:hover:not(.active) {
+    background-color: #B0BEC5;
+    color: white;
+    box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+
+/*Κατάσταση αισθητήρων*/
+#MysqlStatus {
+    font-size: 0.7em;
+    position: absolute;
+    display: inline-block;
+    width:100%;
+    bottom:0;
+    text-align: center;
+
+}
+
+#MysqlStatusText {
+    font-weight: bold;
+}
+
+.SensorsON {
+    color: #546E7A;
+}
+
+.SensorsOFF {
+    color: #90A4AE;
+    font-weight: bold;
+}
+
+
+
+/*Οι σημαίες για τις γλώσσες*/
+.flags {
+    width: 1.8em;
+    height: 1.3em;
+}
+
+
+
+#languages {
+    margin-top: 1em;
+    width: 100%;
+    display:block;
+    text-align: center;
+}
+
+
+/*Κεντρική mainbar*/
+header {
+    height: 3%;
+    background-color: #607D8B;
+    color: white;
+    overflow: hidden;
+}
+
+#LeftSide {
+    width: 30%;
+    float: left;
+    display: inline-block;
+}
+
+#RightSide {
+    width: 50%;
+    float: right;
+    text-align: right;
+    display: inline-block;
+
+
+}
+
+.mainbarcontent {
+
+
+    display: inline-flex;
+}
+
+#logout img {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#account_name {
+    align-self: center;
+}
+
+#account_image {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#SystemTime {
+    align-self: center;
+    display: inline-flex;
+}
+
+#timetext {
+    align-self: center;
+}
+
+#SystemTime img {
+    width: 1.5em;
+    height: 1.5em;
+
+}
+
+
+
+
+
+/*Login Window*/
+
+#LoginWindow {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: auto;
+
+    border-radius: 6px;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    padding: 1em;
+    background-color: #ECEFF1;
+
+}
+
+#LoginWindow .formRow {
+    display: block;
+    margin-top: 1em;
+}
+
+#LoginWindow input[type=text] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#LoginWindow input[type=password] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#LoginWindow input[type=button] {
+    background-color: #607D8B;
+    color: white;
+    width: 15em;
+    border-radius: 6px;
+    border: none;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition:all 0.5s;
+}
+
+#LoginWindow input[type=button]:hover {
+    transform: scale(1.05);
+}
+
+
+
+/*Register Window*/
+
+#RegisterUserWindow {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: auto;
+
+    border-radius: 6px;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    padding: 1em;
+    background-color: #ECEFF1;
+
+}
+
+#RegisterUserWindow .formRow {
+    display: block;
+    margin-top: 1em;
+}
+
+#RegisterUserWindow input[type=text] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#RegisterUserWindow input[type=email] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#RegisterUserWindow input[type=password] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#RegisterUserWindow input[type=button] {
+    background-color: #607D8B;
+    color: white;
+    width: 15em;
+    border-radius: 6px;
+    border: none;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition:all 0.5s;
+}
+
+#RegisterUserWindow input[type=button]:hover {
+    transform: scale(1.05);
+}
+
+/*Τα errors στο validation*/
+div.error {
+    position: relative;
+    display: block;
+    color: black;
+    border: 1px dotted black;
+    font-size: 0.8em;
+    margin-top: 0.3em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    padding: 0.5em;
+    background-color: #FFEDED;
+    border-radius: 6px;
+    width: 20em;
+}
+
+
+
+
+
+
+/*To footer της σελίδας*/
+footer {
+    clear: both;
+    position: relative;
+    background-color: #90A4AE;
+    height: 3%;
+    font-size: 0.8em;
+    color: #FFFFFF;
+    display: flex;
+
+}
+
+footer span {
+    align-self: center;
+    display: inline-flex;
+}
+
+
+/*Στοιχεία εμφάνισης στα logs*/
+
+.row {
+
+}
+
+.col {
+    position:relative;
+    display: block;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    width: 10%;
+    float: left;
+    text-align: center;
+
+
+}
+
+
+/*Στοιχεία εμφάνισης οθόνης θερμοκρασιών*/
+
+.temperature_block {
+    position: relative;
+    display: block;
+    width:27%;
+    height:7em;
+    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    float: left;
+    margin: 1em 1em;
+    background-color: #ee8a10;
+    transition:all 0.5s;
+
+
+}
+
+
+
+.cold {
+    background-color: #CFD8DC;
+    background-image: url('../img/cold.png') ;
+    background-repeat: no-repeat;
+    background-size: 2.5em 2.5em;
+    background-position: right top;
+
+
+
+}
+
+.warm {
+    background-color: #546E7A;
+    background-image: url('../img/hot.png') ;
+    background-repeat: no-repeat;
+    background-size: 2.5em 2.5em;
+    background-position: right top;
+    color: #FFFFFF;
+
+
+}
+
+.equal {
+    background-color: #ECEFF1;
+    background-image: url('../img/equal.png') ;
+    background-repeat: no-repeat;
+    background-size: 2.5em 2.5em;
+    background-position: right top;
+
+}
+
+.temperature_text {
+    position: relative;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-left: 0.3em;
+    display: block;
+}
+
+.dif_text {
+    position: relative;
+    font-size: 3em;
+    float: right;
+
+    top:-1.1em;
+}
+
+.room_text {
+    top:6em;
+    display: block;
+    padding-left: 1em;
+}
+
+.sensor_name_text {
+    display: block;
+    padding-left: 1.6em;
+    font-size: 0.6em;
+}
+
+.time_text {
+    font-size: 0.8em;
+    color: #000;
+    text-align: center;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    opacity: 0.5;
+}
+
+/*Στοιχεία εμφάνισης οθόνης διακοπτών*/
+
+.power_block {
+    position: relative;
+    display: block;
+    width:27%;
+    height:5em;
+    padding-top: 1em;
+    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    float: left;
+    margin: 1em 1em;
+    cursor: pointer;
+
+    transition:all 0.5s;
+}
+
+.sensor_name_text {
+    padding-top: 0.5em;
+}
+
+.power_block:hover  {
+    transform: scale(1.05);
+}
+
+.powerON {
+    background-color: #546E7A;
+    color: #FFFFFF;
+    background-image: url('../img/white_power.png') ;
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+.powerOFF {
+    background-color: #CFD8DC;
+    color: #546E7A;
+    background-image: url('../img/power.png') ;
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+.onoff_text {
+    position: relative;
+    display: block;
+    padding-left: 1.5em;
+    font-size: 1.2em;
+    font-weight: bold;
+    bottom: -0.5em;
+}
+
+
+/*Στοιχεία εμφάνισης ρυθμίσεων*/
+.SensorsRow {
+    display:table-row;
+}
+
+.PowersRow {
+    display:table-row;
+}
+
+.UsersRow {
+    display:table-row;
+}
+
+
+.ListTable {
+    display:table;
+    width:auto;
+}
+
+.AlertsRow{
+    display:table-row;
+}
+
+.ListColumn {
+    float: left; /*fix for  buggy browsers*/
+    display: table-column;
+    text-align: center;
+    margin-right: 0.3em;
+}
+
+.input_field {
+    width: 10em;
+    font-size: 0.7em;
+    /*box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);*/
+}
+
+.ListTittleRow {
+    font-weight: bold;
+}
+
+
+.update_button {
+    background-image: url( '../img/update.png' );
+    background-repeat: no-repeat;
+}
+
+.delete_button {
+    background-image: url( '../img/delete.png' );
+    background-repeat: no-repeat;
+}
+
+.button_img {
+    background-size: 1.5em;
+    background-color: transparent;
+    width: 1.5em;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    top:-0.3em;
+    background-position: center center;
+}
+
+.message {
+    background-size: 1.5em;
+
+    border: none;
+    background-color: transparent;
+    background-position: center center;
+}
+
+.success {
+    background-image: url( '../img/done.png' );
+    background-repeat: no-repeat;
+
+
+}
+
+.failure {
+    background-image: url( '../img/problem.png' );
+    background-repeat: no-repeat;
+
+}
+
+.table_form {
+    padding: 0;
+    margin: 0;
+}
+
+
+details div.error {
+    position: relative;
+    display: block;
+    color: black;
+    border: 1px dotted black;
+    font-size: 0.8em;
+    margin-top: 0.3em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    padding: 0.5em;
+    background-color: #FFEDED;
+    border-radius: 6px;
+    width: 7em;
+}
+
+details .insert_row  {
+    margin: 0.5em 0;
+}
+
+/*Εμφάνιση του summary/details*/
+
+summary {
+    cursor: pointer;
+}
+
+
+
+
+/*Input Fields Validation*/
+
+input:required:invalid {
+    background-image: url(../img/invalid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid #ee8a10;
+    outline: none;
+}
+
+input:focus:invalid, input:invalid {
+    background-image: url(../img/invalid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid red;
+    outline: none;
+}
+input:required:valid {
+    background-image: url(../img/valid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid green;
+    outline: none;
+}
+
+input {
+    border: 1px solid black;
+    outline: none;
+}
+
+
+
+/*Dashboard*/
+
+#dasboard_alerts .ListTittleRow {
+    font-weight: bold;
+}
+
+#dasboard_alerts .ListTable {
+    display:table;
+    width:auto;
+}
+
+#dasboard_alerts .AlertsRow{
+    display:table-row;
+
+}
+
+#dasboard_alerts .ListColumn {
+    display: table-cell;
+    width: 12em;
+    text-align: center;
+}
+
+#dasboard_alerts .ListColumn span {
+}
+
+
