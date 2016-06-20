@@ -4,10 +4,15 @@
  * Created by rocean
  * Date: 20/06/16
  * Time: 19:58
+ * Επιστρέφει τα metadata του αρχείου (video)
  */
 
-require_once('../libraries/getid3/getid3.php');
+
 require_once ('../libraries/common.inc.php');
+
+
+// @source https://github.com/JamesHeinrich/getID3/
+require_once('../libraries/getid3/getid3.php');
 
 
 if(isset($_GET['filename']))

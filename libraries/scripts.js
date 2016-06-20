@@ -438,6 +438,14 @@ $(function(){
         }
 
     });
+
+    window.addEventListener('keydown', function(event) {
+        if (event.keyCode === 39) {
+            //left arrow was pressed
+
+            loadAndplayNextVideo();
+        }
+    }, false);
     
 
 
