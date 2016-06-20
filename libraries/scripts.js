@@ -288,11 +288,28 @@ function insertUser() {
 // source.length does that)
 function loadNextVideo() {
 
+    files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
+    file_path=files[files_index][1];    // Το filename μαζί με όλο το path
+    myVideo.src = file_path;
 
-    // console.log(files[0][1]);
-    files_index=Math.floor(Math.random()*files.length);
-    console.log(files_index);
-    myVideo.src = files[files_index][1];
+    filename=file_path.split('/'); // σκέτο το filename
+    filename=filename[filename.length-1];
+
+    callFile = AJAX_path+"getVideoMetadata.php?filename=" + encodeURIComponent(file_path);
+    console.log(file_path);
+    
+    $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
+
+        if (data.success == true) {
+        //     console.log(data);
+            if (data.artist)
+                $('#file_name').text(data.artist+' - '+data.title);
+            else $('#file_name').text(filename);
+        }
+
+    }, "json");
+    
+    
 
     myVideo.load();
 }

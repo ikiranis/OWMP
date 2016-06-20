@@ -15,7 +15,7 @@ class OWMP
 
         $files=$conn->getTableArray('files');  // Παίρνει τον πίνακα files σε array
 
-        $count_files=$conn->countTable('files');
+        $count_files=count($files);
 
 
         
@@ -23,10 +23,13 @@ class OWMP
         <h2><?php echo __('nav_item_1'); ?></h2>
 
         <video id="myVideo" width="80%" height="60%" controls autoplay></video>
+        
+        <div id="file_name"></div>
 
         <br>
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
+        
 
 
         <script type="text/javascript">
@@ -34,7 +37,7 @@ class OWMP
             var files= <?php echo json_encode($files); ?>;
             
 //            files=JSON.parse(files);
-            
+
             init();
 
         </script>

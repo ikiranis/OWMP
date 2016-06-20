@@ -23,7 +23,7 @@
     </page>
 
     <page name="nav">
-        <phrase name="nav_item_1">Dashboard</phrase>
+        <phrase name="nav_item_1">Video</phrase>
         <phrase name="nav_item_2">Configuration</phrase>
     </page>
 

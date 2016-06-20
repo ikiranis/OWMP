@@ -17,6 +17,7 @@ require_once ('Language.php');
 require_once ('OWMP.php');
 require_once ('scanDir.php');
 
+
 define (PROJECT_PATH,'/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
 
 define(CONNSTR, 'mysql:host=localhost;dbname=OWMP');
