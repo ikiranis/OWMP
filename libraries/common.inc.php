@@ -15,7 +15,7 @@ require_once ('Language.php');
 
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
 require_once ('OWMP.php');
-require_once ('scanDir.php');
+
 
 
 define (PROJECT_PATH,'/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
