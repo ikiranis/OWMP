@@ -37,9 +37,11 @@ if (isset($_GET['logout']))
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
 
-$scripts=array ('src=libraries/jquery.min.js', 'src=libraries/scripts.js', 
-    'src=libraries/details.js', 'src=libraries/jquery.validate.min.js',
-    'src=libraries/pattern.js', 'src=https://www.gstatic.com/charts/loader.js');
+$scripts=array ('src=libraries/jquery.min.js',   // jquery
+    'src=libraries/scripts.js',    // my scripts
+    'src=libraries/details.js',    // polyfile για το summary/details
+    'src=libraries/jquery.validate.min.js',      // extension του jquery για form validation
+    'src=libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
 $MainPage->setScript($scripts);
 
