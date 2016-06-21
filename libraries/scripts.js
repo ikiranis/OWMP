@@ -13,7 +13,6 @@ var AJAX_path='AJAX/';
 
 
 var myVideo;
-var currentVideo = 25313;
 
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
@@ -95,6 +94,8 @@ function login() {
         if ($("#LoginWindow").find('input[name="SavePassword"]').is(":checked"))
             SavePassword = true;
         else SavePassword = false;
+
+        console.log(SavePassword);
 
         if ($('#LoginForm').valid()) {
 
@@ -292,6 +293,7 @@ function loadNextVideo() {
     file_path=files[files_index][1];    // Το filename μαζί με όλο το path
     myVideo.src = file_path;
 
+    
     filename=file_path.split('/'); // σκέτο το filename
     filename=filename[filename.length-1];
 

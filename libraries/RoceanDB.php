@@ -110,8 +110,8 @@ class RoceanDB
 
                     // Χρησιμοποιούμε 2 cookies. Στο ένα έχουμε το username και στο άλλο το salt του χρήστη
                     // Τα Cookies θα μείνουν ανοιχτά για self::$CookieTime χρόνο
-                    setcookie('username', $item['username'], time()+self::$CookieTime);
-                    setcookie('salt', $user_salt, time()+self::$CookieTime);
+                    setcookie('username', $item['username'], time()+self::$CookieTime, PROJECT_PATH);
+                    setcookie('salt', $user_salt, time()+self::$CookieTime, PROJECT_PATH);
 
                 }
                 else {

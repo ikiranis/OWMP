@@ -49,7 +49,6 @@ $MainPage->showHeader();
 
 $logged_in=false;
 
-
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
     if (isset($_SESSION["username"]))

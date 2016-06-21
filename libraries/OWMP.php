@@ -29,7 +29,8 @@ class OWMP
         <br>
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
-        
+
+
 
 
         <script type="text/javascript">
@@ -44,7 +45,7 @@ class OWMP
 
         <?php
 
-        echo "<p>Σύνολο αρχείων: ".$count_files.'</p>';
+        echo '<p>Παίζουν '.$count_files.' Videoclips: </p>';
 
 
     }
