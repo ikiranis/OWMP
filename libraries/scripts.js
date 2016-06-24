@@ -187,7 +187,7 @@ function updateOption(id) {
     option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
 
 
-    callFile="updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
+    callFile=AJAX_path+"updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
 
 
     // console.log(callFile);
@@ -208,7 +208,7 @@ function updateOption(id) {
 
 // Σβήνει την εγγραφή στο user, user_details, salts
 function deleteUser(id) {
-    callFile="deleteUser.php?id="+id;
+    callFile=AJAX_path+"deleteUser.php?id="+id;
 
     $.get( callFile, function( data ) {
         console.log(data.success);
@@ -286,60 +286,6 @@ function insertUser() {
 }
 
 
-// Set the src of the video to the next URL in the playlist
-// If at the end we start again from beginning (the modulo
-// source.length does that)
-function loadNextVideo() {
-
-    files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
-    file_path=DIR_PREFIX+files[files_index][1]+files[files_index][2];    // Το filename μαζί με όλο το path
-    myVideo.src = file_path;
-
-    
-    filename=file_path.split('/'); // σκέτο το filename
-    filename=filename[filename.length-1];
-
-    // callFile = AJAX_path+"getVideoMetadata.php?filename=" + encodeURIComponent(file_path)+"&id="+files[files_index][0];
-
-    callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
-    console.log(file_path);
-
-    console.log('id: '+files[files_index][0]);
-    
-    $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
-
-        if (data.success == true) {
-            console.log(data);
-            if (data.rating) {
-                $('#file_name').text(data.artist + ' - ' + data.title);
-                $('#genre').text('Genre: ' + data.genre+', Rating: '+data.rating);
-            }
-            else $('#file_name').text(filename);
-        }
-
-    }, "json");
-    
-    
-
-    myVideo.load();
-}
-// callback that loads and plays the next video
-function loadAndplayNextVideo() {
-    // console.log("playing " + files[Math.random()*files.length][1]);
-    loadNextVideo();
-    myVideo.play();
-}
-// Called when the page is loaded
-function init(){
-    // get the video element using the DOM api
-    myVideo = document.querySelector("#myVideo");
-    // Define a callback function called each time a video ends
-    myVideo.addEventListener('ended', loadAndplayNextVideo, false);
-    // Load the first video when the page is loaded.
-    loadNextVideo();
-}
-
-
 
 // μετράει τα πεδία ενός json object
 function countjson(obj) {
@@ -372,6 +318,79 @@ function getTime(name) {
 
     $(name).text(curTime);
 }
+
+
+// Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
+function DisplayWindow(page) {
+    console.log('page: '+page);
+    callFile="displayWindow.php?page="+page;
+
+
+
+        $('section').load(callFile, function() {
+                console.log('load is done');
+        });
+}
+
+
+
+// OWMP functions
+
+// Set the src of the video to the next URL in the playlist
+// If at the end we start again from beginning (the modulo
+// source.length does that)
+function loadNextVideo() {
+
+    files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
+    file_path=DIR_PREFIX+files[files_index][1]+files[files_index][2];    // Το filename μαζί με όλο το path
+    myVideo.src = file_path;
+
+
+    filename=file_path.split('/'); // σκέτο το filename
+    filename=filename[filename.length-1];
+
+    // callFile = AJAX_path+"getVideoMetadata.php?filename=" + encodeURIComponent(file_path)+"&id="+files[files_index][0];
+
+    callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
+    console.log(file_path);
+
+    console.log('id: '+files[files_index][0]);
+
+    $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
+
+        if (data.success == true) {
+            console.log(data);
+            if (data.rating) {
+                $('#file_name').text(data.artist + ' - ' + data.title);
+                $('#genre').text('Genre: ' + data.genre+', Rating: '+data.rating);
+            }
+            else $('#file_name').text(filename);
+        }
+
+    }, "json");
+
+
+
+    myVideo.load();
+}
+// callback that loads and plays the next video
+function loadAndplayNextVideo() {
+    // console.log("playing " + files[Math.random()*files.length][1]);
+    loadNextVideo();
+    myVideo.play();
+}
+// Called when the page is loaded
+function init(){
+    // get the video element using the DOM api
+    myVideo = document.querySelector("#myVideo");
+    // Define a callback function called each time a video ends
+    myVideo.addEventListener('ended', loadAndplayNextVideo, false);
+    // Load the first video when the page is loaded.
+    loadNextVideo();
+}
+
+
+
 
 $(function(){
     $('#LoginForm').validate({ // initialize the plugin

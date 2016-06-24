@@ -32,7 +32,21 @@ section {
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     position: relative;
     display: block;
-    width: 75%;
+    width: 50%;
+    height: 75%;
+    float: right;
+    background-color: #ECEFF1;
+    margin-bottom: 1em;
+    color: #455A64;
+}
+
+aside {
+    margin: 5px;
+    padding: 1em 1em;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    position: relative;
+    display: block;
+    width: 20%;
     height: 75%;
     float: right;
     background-color: #ECEFF1;
@@ -132,31 +146,6 @@ nav li a:hover:not(.active) {
     color: white;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
-}
-
-
-/*Κατάσταση αισθητήρων*/
-#MysqlStatus {
-    font-size: 0.7em;
-    position: absolute;
-    display: inline-block;
-    width:100%;
-    bottom:0;
-    text-align: center;
-
-}
-
-#MysqlStatusText {
-    font-weight: bold;
-}
-
-.SensorsON {
-    color: #546E7A;
-}
-
-.SensorsOFF {
-    color: #90A4AE;
-    font-weight: bold;
 }
 
 
@@ -410,143 +399,6 @@ footer span {
 }
 
 
-/*Στοιχεία εμφάνισης οθόνης θερμοκρασιών*/
-
-.temperature_block {
-    position: relative;
-    display: block;
-    width:27%;
-    height:7em;
-    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
-    float: left;
-    margin: 1em 1em;
-    background-color: #ee8a10;
-    transition:all 0.5s;
-
-
-}
-
-
-
-.cold {
-    background-color: #CFD8DC;
-    background-image: url('../img/cold.png') ;
-    background-repeat: no-repeat;
-    background-size: 2.5em 2.5em;
-    background-position: right top;
-
-
-
-}
-
-.warm {
-    background-color: #546E7A;
-    background-image: url('../img/hot.png') ;
-    background-repeat: no-repeat;
-    background-size: 2.5em 2.5em;
-    background-position: right top;
-    color: #FFFFFF;
-
-
-}
-
-.equal {
-    background-color: #ECEFF1;
-    background-image: url('../img/equal.png') ;
-    background-repeat: no-repeat;
-    background-size: 2.5em 2.5em;
-    background-position: right top;
-
-}
-
-.temperature_text {
-    position: relative;
-    font-size: 1.5em;
-    font-weight: bold;
-    padding-left: 0.3em;
-    display: block;
-}
-
-.dif_text {
-    position: relative;
-    font-size: 3em;
-    float: right;
-
-    top:-1.1em;
-}
-
-.room_text {
-    top:6em;
-    display: block;
-    padding-left: 1em;
-}
-
-.sensor_name_text {
-    display: block;
-    padding-left: 1.6em;
-    font-size: 0.6em;
-}
-
-.time_text {
-    font-size: 0.8em;
-    color: #000;
-    text-align: center;
-    display: block;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: #FFFFFF;
-    opacity: 0.5;
-}
-
-/*Στοιχεία εμφάνισης οθόνης διακοπτών*/
-
-.power_block {
-    position: relative;
-    display: block;
-    width:27%;
-    height:5em;
-    padding-top: 1em;
-    box-shadow: 5px 2px 10px 1px rgba(0, 0, 0, 0.7);
-    float: left;
-    margin: 1em 1em;
-    cursor: pointer;
-
-    transition:all 0.5s;
-}
-
-.sensor_name_text {
-    padding-top: 0.5em;
-}
-
-.power_block:hover  {
-    transform: scale(1.05);
-}
-
-.powerON {
-    background-color: #546E7A;
-    color: #FFFFFF;
-    background-image: url('../img/white_power.png') ;
-    background-repeat: no-repeat;
-    background-position: right top;
-}
-
-.powerOFF {
-    background-color: #CFD8DC;
-    color: #546E7A;
-    background-image: url('../img/power.png') ;
-    background-repeat: no-repeat;
-    background-position: right top;
-}
-
-.onoff_text {
-    position: relative;
-    display: block;
-    padding-left: 1.5em;
-    font-size: 1.2em;
-    font-weight: bold;
-    bottom: -0.5em;
-}
 
 
 /*Στοιχεία εμφάνισης ρυθμίσεων*/
@@ -699,28 +551,5 @@ input {
 
 
 /*Dashboard*/
-
-#dasboard_alerts .ListTittleRow {
-    font-weight: bold;
-}
-
-#dasboard_alerts .ListTable {
-    display:table;
-    width:auto;
-}
-
-#dasboard_alerts .AlertsRow{
-    display:table-row;
-
-}
-
-#dasboard_alerts .ListColumn {
-    display: table-cell;
-    width: 12em;
-    text-align: center;
-}
-
-#dasboard_alerts .ListColumn span {
-}
 
 

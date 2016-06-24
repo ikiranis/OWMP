@@ -169,8 +169,9 @@ class Page
     }
 
 
-    // Τυπώνει την λίστα με τα Nav Items.
-    static function NavList ($NavActiveItem) {
+    // Τυπώνει την λίστα με τα Nav Items. Αν $targetPage=page αλλάζει τα περιεχόμενα όλης της σελίδας.
+    // Αν είναι window μόνο στο κεντρικό window
+    static function NavList ($NavActiveItem, $targetPage) {
 
 //        if (!isset($_COOKIE['page'])) self::setNavActiveItem(1); // Σετάρει το NavActiveItem σε 1, αν δεν έχει κάποια τιμή
 
@@ -184,11 +185,21 @@ class Page
             <ul>
                 <?php
                     foreach (self::$nav_list as $item) {
+                        if($targetPage=='page') {
                 ?>
                         <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
                                 href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
                 
                 <?php
+                        }
+
+                        if($targetPage=='window') {
+                            ?>
+                            <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
+                                    onclick="DisplayWindow(<?php echo $counter; ?>);"><?php echo $item; ?></a></li>
+
+                            <?php
+                        }
 
                         $counter++;
                     }

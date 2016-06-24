@@ -27,7 +27,13 @@ function DisplayMainPage() {
     $languages_text=$lang->print_languages('lang_id',' ',true,false);
  
     ?>
-    
+
+        <aside>
+
+            <?php OWMP::showVideo(); ?>
+
+        </aside>
+
 
         <section>
             <article>
@@ -42,9 +48,10 @@ function DisplayMainPage() {
         </section>
 
 
+
         <nav>
 
-            <?php echo Page::NavList($NavActiveItem); ?>
+            <?php echo Page::NavList($NavActiveItem,'page'); ?>
 
 
             <div id="languages">

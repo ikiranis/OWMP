@@ -98,9 +98,7 @@ function writeTracks ()
     $counter = 0;
     $general_counter=0;
 
-    $name = $artist = $genre = $date_added = $play_date =  $album = '';
 
-    $play_count = $rating = $size = $track_time = $video_width = $video_height = $album_artwork_id = 0;
 
     $hash = '';
 
@@ -154,7 +152,9 @@ function writeTracks ()
             echo 'found ' . $file . ' βρέθηκε στο ' . $key . '<br>';
 
 
+            $name = $artist = $genre = $date_added = $play_date =  $album = '';
 
+            $play_count = $rating = $size = $track_time = $video_width = $video_height = $album_artwork_id = 0;
 
             if ($tags[$track_id]['Name'])
                 $name = ClearString($tags[$track_id]['Name']);

@@ -5,25 +5,24 @@
  * Created by rocean
  * Date: 19/06/16
  * Time: 23:18
+ * Βασική class του OWMP
  */
-
 
 class OWMP
 {
-    static function showDashboard () {
+
+    static function showVideo () {
+
         $conn = new RoceanDB();
 
         $files=$conn->getTableArray('files');  // Παίρνει τον πίνακα files σε array
 
         $count_files=count($files);
 
-
-        
         ?>
-        <h2><?php echo __('nav_item_1'); ?></h2>
 
-        <video id="myVideo" width="80%" height="60%" controls autoplay></video>
-        
+        <video id="myVideo" width="100%"  controls autoplay></video>
+
         <div id="file_name"></div><br>
         <div id="genre"></div>
 
@@ -31,14 +30,9 @@ class OWMP
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
 
-
-
-
         <script type="text/javascript">
 
             var files= <?php echo json_encode($files); ?>;
-            
-//            files=JSON.parse(files);
 
             init();
 
@@ -47,6 +41,18 @@ class OWMP
         <?php
 
         echo '<p>Παίζουν '.$count_files.' Videoclips: </p>';
+    }
+
+
+    static function showDashboard () {
+        ?>
+        <h2><?php echo __('nav_item_1'); ?></h2>
+
+
+
+
+        <?php
+
 
 
     }

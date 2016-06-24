@@ -92,6 +92,7 @@ class Language
     }
 }
 
+
 // shortcut του $lang->phrases[$text];    Using like: __('αυτό είναι ένα μήνυμα');
 function __($text){
     global $lang;

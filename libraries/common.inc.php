@@ -7,18 +7,20 @@
  */
 
 
-require_once ('Page.php');
-require_once ('Session.php');
-require_once ('RoceanDB.php');
-require_once ('Crypto.php');
-require_once ('Language.php');
+define (PROJECT_PATH,'/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
+
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Page.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/RoceanDB.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Crypto.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php');
 
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
-require_once ('OWMP.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/OWMP.php');
 
 
 
-define (PROJECT_PATH,'/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
+
 
 define(CONNSTR, 'mysql:host=localhost;dbname=OWMP');
 define(DBUSER, 'root');
