@@ -6,7 +6,6 @@
  * Time: 19:44
  * Συνεχής έλεγχος για την κατάσταση διάφορων πραγμάτων για alerts κτλ
  * Τρέχει συνεχώς στο crontab
- * PHP Mailer https://github.com/PHPMailer/PHPMailer
  */
 
 set_time_limit(0);
