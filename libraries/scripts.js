@@ -14,6 +14,8 @@ var AJAX_path='AJAX/';
 
 var myVideo;
 
+var DIR_PREFIX='/media/';
+
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -290,20 +292,24 @@ function insertUser() {
 function loadNextVideo() {
 
     files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
-    file_path=files[files_index][1];    // Το filename μαζί με όλο το path
+    file_path=DIR_PREFIX+files[files_index][1]+files[files_index][2];    // Το filename μαζί με όλο το path
     myVideo.src = file_path;
 
     
     filename=file_path.split('/'); // σκέτο το filename
     filename=filename[filename.length-1];
 
-    callFile = AJAX_path+"getVideoMetadata.php?filename=" + encodeURIComponent(file_path);
+    // callFile = AJAX_path+"getVideoMetadata.php?filename=" + encodeURIComponent(file_path)+"&id="+files[files_index][0];
+
+    callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
     console.log(file_path);
+
+    console.log('id: '+files[files_index][0]);
     
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
 
         if (data.success == true) {
-        //     console.log(data);
+            console.log(data);
             if (data.artist)
                 $('#file_name').text(data.artist+' - '+data.title);
             else $('#file_name').text(filename);

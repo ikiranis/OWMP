@@ -46,6 +46,12 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
 
 
 
+
+// OWMP variables
+
+define (DIR_PREFIX,'/media/');
+
+
 // Public functions
 
 // Καθαρίζει τα data που έδωσε ο χρήστης από περίεργο κώδικα
