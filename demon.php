@@ -9,6 +9,7 @@
  * PHP Mailer https://github.com/PHPMailer/PHPMailer
  */
 
+set_time_limit(0);
 
 $general_start = microtime(true);
 
@@ -37,23 +38,14 @@ function getItunesLibrary()
 
     $trimTracks=array();
     foreach ($tracks as $track) {
-        $trimTracks[$track['Track ID']]=urldecode(str_replace('file:///Volumes/','',$track['Location']));
+        $replace_text=array('file:///Volumes/', 'file://localhost/Volumes/');
+
+        $location=urldecode(str_replace($replace_text,'',$track['Location']));
+
+        $trimTracks[$track['Track ID']]=$location;
     }
-// TODO: να τον κάνω μονοδιάστατο
     $tracks=$trimTracks;
 
-    $trimTracks='';
-
-    //echo '<p>'.count($tracks).'</p>';
-    //
-    //foreach ($tracks as $track){
-    //    echo $track['Location'].'<br>';
-    //}
-
-
-    //echo'<pre>';
-    //print_r($tracks);
-    //echo'</pre>';
 
 }
 
@@ -81,26 +73,6 @@ function scanFiles ()
 
     $trimFiles='';
 
-//    echo '<p>Σύνολο αρχείων: ' . count($files) . '</p>';
-//
-//    $sql = 'INSERT INTO files(dir_path) VALUES(?)';  // Εισάγει στον πίνακα user_details
-//    $counter = 1;
-//    foreach ($files as $value) {
-//
-//        if (strpos($value, '._') == false) {   // αν το αρχείο δεν περιέχει '._'
-//            $filesArray = array($value);
-//
-//            if ($conn->ExecuteSQL($sql, $filesArray)) echo ' ok ';
-//            else echo ' not ok ';
-//
-//            $counter++;
-//
-//        }
-//
-//
-//    }
-//
-//    echo '<p>Συνολο αρχείων ' . $counter . '</p>';
 }
 
 function writeTracks ()
@@ -132,6 +104,8 @@ function writeTracks ()
     $play_count = $rating = $size = $track_time = $video_width = $video_height = $album_artwork_id = 0;
 
     $hash = '';
+
+    $inserted_id=1;
 
 
     foreach ($files as $file) {
@@ -178,7 +152,7 @@ function writeTracks ()
         if ( ($key) && (!$inserted_id==0) ) {   // Αν υπάρχει στην itunes library
             $track_id = $key;
 //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
-//            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . '<br>';
+            echo 'found ' . $file . ' βρέθηκε στο ' . $key . '<br>';
 
 
 
@@ -210,23 +184,22 @@ function writeTracks ()
 
             if($stmt_tags->execute($sqlParamsTags))
                 echo $general_counter.' ' . $inserted_id.' '.$name.' '. $artist.' '. $genre.' '. $date_added.' '. $play_count.' '. $play_date.' '. $rating.' '.
-            $video_width.' '. $video_height.' '. $size.' '. $track_time.'<br>';
+                    $video_width.' '. $video_height.' '. $size.' '. $track_time.'<br>';
             else echo '<p>problem</p>';
 
 
             $counter++;
 
         }
+        else echo '<p>not found '.$file.'</p>';
 
         $general_counter++;
 
-        $time_elapsed_secs = microtime(true) - $start;
-        echo '<p>'.$file.'   Time: '.$time_elapsed_secs.'</p>';
 
 
     }
 
-    echo '<p>Βρέθηκαν ' . $counter . " κοινα. </p>";
+    echo '<p>Συγχρονίστηκαν με το itunes ' . $counter . " βίντεο. </p>";
 }
 
 
@@ -238,7 +211,7 @@ writeTracks();
 
 
 //    echo'<pre>';
-//    print_r($tags);
+//    print_r($tracks);
 //    echo'</pre>';
 
 $time_elapsed=microtime(true) - $general_start;

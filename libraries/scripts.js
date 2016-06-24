@@ -310,8 +310,10 @@ function loadNextVideo() {
 
         if (data.success == true) {
             console.log(data);
-            if (data.artist)
-                $('#file_name').text(data.artist+' - '+data.title);
+            if (data.rating) {
+                $('#file_name').text(data.artist + ' - ' + data.title);
+                $('#genre').text('Genre: ' + data.genre+', Rating: '+data.rating);
+            }
             else $('#file_name').text(filename);
         }
 

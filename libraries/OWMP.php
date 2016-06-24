@@ -24,7 +24,8 @@ class OWMP
 
         <video id="myVideo" width="80%" height="60%" controls autoplay></video>
         
-        <div id="file_name"></div>
+        <div id="file_name"></div><br>
+        <div id="genre"></div>
 
         <br>
 

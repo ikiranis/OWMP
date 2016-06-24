@@ -44,8 +44,21 @@ if(isset($_GET['id']))
 
 $metadata=$conn->getTableArray('music_tags','*', 'id=?', array($id));
 
+$rating=($metadata[0]['rating']/10)/2;
+
+switch ($rating) {
+    case 1: $stars='*'; break;
+    case 2: $stars='**'; break;
+    case 3: $stars='***'; break;
+    case 4: $stars='****'; break;
+    case 5: $stars='*****'; break;
+    
+}
+
 $jsonArray=array( 'success'=>true,
     'artist'=>$metadata[0]['artist'],
-    'title'=>$metadata[0]['name']) ;
+    'title'=>$metadata[0]['name'],
+    'genre'=>$metadata[0]['genre'],
+    'rating'=>$stars ) ;
 
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
