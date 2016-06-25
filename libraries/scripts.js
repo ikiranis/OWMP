@@ -323,7 +323,7 @@ function getTime(name) {
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page) {
     console.log('page: '+page);
-    callFile="displayWindow.php?page="+page;
+    callFile=AJAX_path+"displayWindow.php?page="+page;
 
 
 

@@ -42,7 +42,7 @@ if(isset($_GET['id']))
 //    'artist'=>$ThisFileInfo['comments_html']['artist'][0],
 //    'title'=>$ThisFileInfo['comments_html']['title'][0]) ;
 
-$metadata=$conn->getTableArray('music_tags','*', 'id=?', array($id));
+$metadata=$conn->getTableArray('music_tags','*', 'id=?', array($id),null);
 
 $rating=($metadata[0]['rating']/10)/2;
 

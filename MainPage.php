@@ -10,6 +10,7 @@
 
 
 function DisplayMainPage() {
+    
     if(isset($_GET['page'])) {
         $NavActiveItem=$_GET['page'];
         Page::setNavActiveItem($_GET['page']);
@@ -51,7 +52,7 @@ function DisplayMainPage() {
 
         <nav>
 
-            <?php echo Page::NavList($NavActiveItem,'page'); ?>
+            <?php echo Page::NavList($NavActiveItem,'window'); ?>
 
 
             <div id="languages">

@@ -61,7 +61,7 @@ class OWMP
     static function getOptionsInFormFields () {
         $conn = new RoceanDB();
 
-        $options=$conn->getTableArray('options', null, 'setting=?', array(1));  // Παίρνει τα δεδομένα του πίνακα alerts σε array
+        $options=$conn->getTableArray('options', null, 'setting=?', array(1));  // Παίρνει τα δεδομένα του πίνακα options σε array
 
 
         ?>
@@ -230,11 +230,12 @@ class OWMP
 
 
     static function showConfiguration () {
+
         $conn = new RoceanDB();
         $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         ?>
-        <h2><?php echo __('nav_item_5'); ?></h2>
+        <h2><?php echo __('nav_item_2'); ?></h2>
 
 
         <?php

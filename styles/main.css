@@ -129,6 +129,7 @@ nav li {
     box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
     background-color: #ECEFF1;
     transition:all 0.5s;
+    cursor: pointer;
 }
 
 

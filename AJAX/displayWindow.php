@@ -6,8 +6,9 @@
  * Time: 22:36
  * Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου
  */
+session_start();
 
-require_once('libraries/common.inc.php');
+require_once('../libraries/common.inc.php');
 
 
 

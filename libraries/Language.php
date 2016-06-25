@@ -21,7 +21,7 @@ class Language
         
         
         //path to language directory
-        $lang_path=('..'.LANG_PATH.$lang_id.'.xml');
+        $lang_path=(LANG_PATH.$lang_id.'.xml');
         $xml->load($lang_path);
 
         //phrases are inside page tags, first we must get these
@@ -42,7 +42,7 @@ class Language
 
         }
 
-        $this->phrases=$phrases;
+        self::$phrases=$phrases;
     }
 
     public function lang_id() {
@@ -75,7 +75,8 @@ class Language
         $result='';
 
         foreach ($languages as $language) {
-            $flag_icon = '..'.LANG_PATH.'flags/'.$language['lang_id'].'.png';
+            $flag_icon = 'http://'.LANG_PATH_HTTP.'flags/'.$language['lang_id'].'.png';
+
             if($show_flag) $flag_img=' <img src='.$flag_icon.' class="flags">'; else $flag_img=''; // προσθέτει img της σημαίας ή όχι
 
             if($show_texts) $insert_text=$language[$name]; else $insert_text=''; // προσθέτει το κείμενο ή όχι
@@ -95,9 +96,8 @@ class Language
 
 // shortcut του $lang->phrases[$text];    Using like: __('αυτό είναι ένα μήνυμα');
 function __($text){
-    global $lang;
-    
-    return $lang->phrases[$text];
+
+    return Language::$phrases[$text];
     
 }
 

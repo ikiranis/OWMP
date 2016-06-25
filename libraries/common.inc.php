@@ -28,7 +28,9 @@ define(DBPASS, 'documents2015');
 
 define(PAGE_TITTLE,'Open Web Media Player');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
-define (LANG_PATH,PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
+define (LANG_PATH,$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
+define (LANG_PATH_HTTP,$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
+
 
 define (NAV_LIST_ITEMS, '2'); // Ο αριθμός των επιλογών στo Nav Menu
 
@@ -64,6 +66,9 @@ function ClearString($data) {
     return $data;
 }
 
+
+$conn = new RoceanDB();
+$lang = new Language();
 
 
 
