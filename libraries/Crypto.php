@@ -64,6 +64,7 @@ class Crypto
         $encryption_key = hash('md5',self::$KeyForPasswords); // hashing του $KeyForPasswords
 //        echo '<p>Hash key: '.$encryption_key.'      '.strlen($encryption_key).'</p>';
         $iv = bin2hex(openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc')));   // Δημιουργία τυχαίου $iv
+        $iv=substr($iv,0,16);  // κόβει το string σε 16 χαρακτήρες. Στους 32 χτυπάει warning
         $encrypted = openssl_encrypt($text, 'aes-256-cbc', $encryption_key, 0, $iv);   // Δημιουργεί το encrypted text
 //        echo '<p>iv:'.$iv.'</p>';
 

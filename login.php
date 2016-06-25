@@ -9,7 +9,6 @@
 
 require_once ('libraries/common.inc.php');
 
-session_start();
 
 $lang = new Language();
 
@@ -64,7 +63,6 @@ function logout() {
         foreach($cookies as $cookie) {
             $parts = explode('=', $cookie);
             $name = trim($parts[0]);
-            setcookie($name, '', time()-1000, PROJECT_PATH);
             setcookie($name, '', time()-1000, PROJECT_PATH);
         }
     }

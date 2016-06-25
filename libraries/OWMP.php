@@ -15,7 +15,7 @@ class OWMP
 
         $conn = new RoceanDB();
 
-        $files=$conn->getTableArray('files');  // Παίρνει τον πίνακα files σε array
+        $files=$conn->getTableArray('files',null,null,null,null);  // Παίρνει τον πίνακα files σε array
 
         $count_files=count($files);
 

@@ -8,11 +8,11 @@
  *
  */
 
-
+session_start();
 
 require_once('../libraries/common.inc.php');
 
-session_start();
+
 
 $conn = new RoceanDB();
 $lang = new Language();

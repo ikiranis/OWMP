@@ -71,7 +71,7 @@
         <phrase name="valid_power_name">Απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
         <phrase name="valid_email">Απαιτείται. Έγκυρο email</phrase>
         <phrase name="valid_fname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
-        <phrase name="valid_λname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
+        <phrase name="valid_lname">Δεν απαιτείται. Τουλάχιστον 3 χαρακτήρες. Μόνο αλφαριθμητικά. Όχι ειδικούς χαρακτήρες</phrase>
         <phrase name="valid_time_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
         <phrase name="valid_temp_limit">Απαιτείται. Έγκυρος αριθμός</phrase>
         <phrase name="valid_option">Απαιτείται</phrase>
