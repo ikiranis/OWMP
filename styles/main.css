@@ -551,6 +551,13 @@ input {
 
 
 
+/*Video */
+
+#FormTags input {
+    width:100%;
+    height:1.5em;
+}
+
 /*Dashboard*/
 
 

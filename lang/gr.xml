@@ -79,5 +79,19 @@
         <phrase name="user_error2">υπάρχει ήδη</phrase>
     </page>
 
+    <page mame="tags">
+        <phrase name="tag_title">Τίτλος</phrase>
+        <phrase name="tag_artist">Καλλιτέχνης</phrase>
+        <phrase name="tag_genre">Είδος</phrase>
+        <phrase name="tag_year">Έτος</phrase>
+        <phrase name="tag_album">Album</phrase>
+        <phrase name="tag_play_count">Σύνολο αναπαραγωγών</phrase>
+        <phrase name="tag_date_played">Ημ/νία αναπαραγωγής</phrase>
+        <phrase name="tag_date_added">Ημ/νία προσθήκης</phrase>
+        <phrase name="tag_rating">Βαθμολογία</phrase>
+        <phrase name="tag_track_time">Χρόνος</phrase>
+        <phrase name="tag_form_submit">Ενημέρωση</phrase>
+    </page>
+
 
 </language>

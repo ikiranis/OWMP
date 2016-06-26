@@ -354,17 +354,27 @@ function loadNextVideo() {
     callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
     console.log(file_path);
 
-    console.log('id: '+files[files_index][0]);
+    // console.log('id: '+files[files_index][0]);
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
 
         if (data.success == true) {
-            console.log(data);
-            if (data.rating) {
-                $('#file_name').text(data.artist + ' - ' + data.title);
-                $('#genre').text('Genre: ' + data.genre+', Rating: '+data.rating);
-            }
-            else $('#file_name').text(filename);
+            // console.log(data);
+                $('#title').val(data.title);
+                $('#artist').val(data.artist);
+                $('#genre').val(data.genre);
+                $('#year').val(data.year);
+                $('#album').val(data.album);
+                $('#play_count').val(data.play_count);
+                $('#date_played').val(data.date_played);
+                $('#date_added').val(data.date_added);
+                $('#rating').val(data.rating);
+                $('#track_time').val(data.track_time);
+
+        } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
+
+            $('#FormTags').find('input').not('[type="button"]').val('');
+            $('#title').val(filename);
         }
 
     }, "json");
@@ -387,6 +397,29 @@ function init(){
     myVideo.addEventListener('ended', loadAndplayNextVideo, false);
     // Load the first video when the page is loaded.
     loadNextVideo();
+}
+
+function failed(e) {
+    // video playback failed - show a message saying why
+    switch (e.target.error.code) {
+        case e.target.error.MEDIA_ERR_ABORTED:
+            console.log('You aborted the video playback.');
+            break;
+        case e.target.error.MEDIA_ERR_NETWORK:
+            console.log('A network error caused the video download to fail part-way.');
+            break;
+        case e.target.error.MEDIA_ERR_DECODE:
+            console.log('The video playback was aborted due to a corruption problem or because the video used features your browser did not support.');
+            break;
+        case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            console.log('The video could not be loaded, either because the server or network failed or because the format is not supported.');
+            break;
+        default:
+            console.log('An unknown error occurred.');
+            break;
+    }
+
+    loadAndplayNextVideo();
 }
 
 

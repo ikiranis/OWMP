@@ -14,21 +14,129 @@ class OWMP
     static function showVideo () {
 
         $conn = new RoceanDB();
+        $tags = new Page();
 
         $files=$conn->getTableArray('files',null,null,null,null);  // Παίρνει τον πίνακα files σε array
 
         $count_files=count($files);
 
+        $FormElementsArray = array(
+            array('name' => 'title',
+                'fieldtext' => __('tag_title'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '255',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'artist',
+                'fieldtext' => __('tag_artist'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '100',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'genre',
+                'fieldtext' => __('tag_genre'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '20',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'year',
+                'fieldtext' => __('tag_year'),
+                'type' => 'number',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'album',
+                'fieldtext' => __('tag_album'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '255',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'play_count',
+                'fieldtext' => __('tag_play_count'),
+                'type' => 'number',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'date_played',
+                'fieldtext' => __('tag_date_played'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '20',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'date_added',
+                'fieldtext' => __('tag_date_added'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '20',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'rating',
+                'fieldtext' => __('tag_rating'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '5',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+            array('name' => 'track_time',
+                'fieldtext' => __('tag_track_time'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '10',
+                'pattern' => '',
+                'title' => '',
+                'value' => null),
+
+            array('name' => 'submit',
+                'fieldtext' => '',
+                'type' => 'button',
+                'onclick' => 'update_tags();',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
+                'value' => __('tag_form_submit'))
+        );
+
+
         ?>
 
-        <video id="myVideo" width="100%"  controls autoplay></video>
-
-        <div id="file_name"></div><br>
-        <div id="genre"></div>
-
-        <br>
+        <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
+
+        <div id="tags">
+
+            <?php $tags->MakeForm('FormTags', $FormElementsArray); ?>
+
+        </div>
+
+
 
         <script type="text/javascript">
 
@@ -61,7 +169,7 @@ class OWMP
     static function getOptionsInFormFields () {
         $conn = new RoceanDB();
 
-        $options=$conn->getTableArray('options', null, 'setting=?', array(1));  // Παίρνει τα δεδομένα του πίνακα options σε array
+        $options=$conn->getTableArray('options', null, 'setting=?', array(1), null);  // Παίρνει τα δεδομένα του πίνακα options σε array
 
 
         ?>

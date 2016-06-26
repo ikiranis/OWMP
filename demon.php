@@ -155,7 +155,7 @@ function writeTracks ()
             $name = $artist = $genre = $date_added = $play_date =  $album = '';
 
             $play_count = $rating = $size = $track_time = $video_width = $video_height = $album_artwork_id = 0;
-
+// TODO να προσθέσω και year και αν είναι live ή όχι
             if ($tags[$track_id]['Name'])
                 $name = ClearString($tags[$track_id]['Name']);
 

@@ -79,6 +79,20 @@
         <phrase name="user_error2">already exists</phrase>
     </page>
 
+    <page mame="tags">
+        <phrase name="tag_title">Title</phrase>
+        <phrase name="tag_artist">Artist</phrase>
+        <phrase name="tag_genre">Genre</phrase>
+        <phrase name="tag_year">Year</phrase>
+        <phrase name="tag_album">Album</phrase>
+        <phrase name="tag_play_count">Plays</phrase>
+        <phrase name="tag_date_played">Date played</phrase>
+        <phrase name="tag_date_added">Date Added</phrase>
+        <phrase name="tag_rating">Rating</phrase>
+        <phrase name="tag_track_time">Track Time</phrase>
+        <phrase name="tag_form_submit">Update</phrase>
+    </page>
+
 
 
 </language>
