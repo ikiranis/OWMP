@@ -16,8 +16,18 @@ require_once('../libraries/common.inc.php');
 if(isset($_GET['page']))
     $page=ClearString($_GET['page']);
 
+if(isset($_GET['offset']))
+    $offset=ClearString($_GET['offset']);
+else $offset=0;
+
+if(isset($_GET['step']))
+    $step=ClearString($_GET['step']);
+else $step=1000;
+
+
+
 
 switch ($page) {
-    case 1: OWMP::showDashboard(); break;
+    case 1: OWMP::showPlaylistWindow($offset,$step); break;
     case 2: OWMP::showConfiguration(); break;
 }

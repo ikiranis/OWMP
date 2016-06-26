@@ -321,16 +321,22 @@ function getTime(name) {
 
 
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
-function DisplayWindow(page) {
-    console.log('page: '+page);
-    callFile=AJAX_path+"displayWindow.php?page="+page;
+function DisplayWindow(page, offset, step) {
+    console.log('offset: '+offset+' step: '+step);
+    callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step;
 
 
 
-        $('section').load(callFile, function() {
+        $('section article').load(callFile, function() {
                 console.log('load is done');
         });
 }
+
+
+
+
+
+
 
 
 
@@ -339,37 +345,38 @@ function DisplayWindow(page) {
 // Set the src of the video to the next URL in the playlist
 // If at the end we start again from beginning (the modulo
 // source.length does that)
-function loadNextVideo() {
+function loadNextVideo(id) {
+    if(id==0) {
+        files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
+        callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
+        console.log(callFile);
+    }
 
-    files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
-    file_path=DIR_PREFIX+files[files_index][1]+files[files_index][2];    // Το filename μαζί με όλο το path
-    myVideo.src = file_path;
-
-
-    filename=file_path.split('/'); // σκέτο το filename
-    filename=filename[filename.length-1];
-
-    // callFile = AJAX_path+"getVideoMetadata.php?filename=" + encodeURIComponent(file_path)+"&id="+files[files_index][0];
-
-    callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
-    console.log(file_path);
-
-    // console.log('id: '+files[files_index][0]);
+    else {
+        files_index=id;
+        callFile = AJAX_path+"getVideoMetadata.php?id="+id;
+    }
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
+        // console.log(data);
+        file_path=DIR_PREFIX+data.file.path+data.file.filename;    // Το filename μαζί με όλο το path
+        myVideo.src = file_path;
+        // console.log(file_path);
 
-        if (data.success == true) {
+        filename=data.file.filename; // σκέτο το filename
+
+        if (data.tags.success == true) {
             // console.log(data);
-                $('#title').val(data.title);
-                $('#artist').val(data.artist);
-                $('#genre').val(data.genre);
-                $('#year').val(data.year);
-                $('#album').val(data.album);
-                $('#play_count').val(data.play_count);
-                $('#date_played').val(data.date_played);
-                $('#date_added').val(data.date_added);
-                $('#rating').val(data.rating);
-                $('#track_time').val(data.track_time);
+                $('#title').val(data.tags.title);
+                $('#artist').val(data.tags.artist);
+                $('#genre').val(data.tags.genre);
+                $('#year').val(data.tags.year);
+                $('#album').val(data.tags.album);
+                $('#play_count').val(data.tags.play_count);
+                $('#date_played').val(data.tags.date_played);
+                $('#date_added').val(data.tags.date_added);
+                $('#rating').val(data.tags.rating);
+                $('#track_time').val(data.tags.track_time);
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
 
@@ -385,8 +392,7 @@ function loadNextVideo() {
 }
 // callback that loads and plays the next video
 function loadAndplayNextVideo() {
-    // console.log("playing " + files[Math.random()*files.length][1]);
-    loadNextVideo();
+    loadNextVideo(0);
     myVideo.play();
 }
 // Called when the page is loaded
@@ -396,7 +402,7 @@ function init(){
     // Define a callback function called each time a video ends
     myVideo.addEventListener('ended', loadAndplayNextVideo, false);
     // Load the first video when the page is loaded.
-    loadNextVideo();
+    loadNextVideo(0);
 }
 
 function failed(e) {
@@ -507,6 +513,7 @@ $(function(){
 
             loadAndplayNextVideo();
         }
+
     }, false);
     
 

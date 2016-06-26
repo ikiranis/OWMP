@@ -10,6 +10,7 @@
 
 
 function DisplayMainPage() {
+    $_SESSION['PlaylistCounter']=0;
     
     if(isset($_GET['page'])) {
         $NavActiveItem=$_GET['page'];
@@ -40,7 +41,7 @@ function DisplayMainPage() {
             <article>
             <?php
                 switch ($NavActiveItem) {
-                    case 1: OWMP::showDashboard(); break;
+                    case 1: OWMP::showPlaylistWindow(0,1000); break;
                     case 2: OWMP::showConfiguration(); break;
                 }
 
@@ -64,4 +65,6 @@ function DisplayMainPage() {
  
     
     <?php
+    
+
 }

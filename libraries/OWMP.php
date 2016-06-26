@@ -16,9 +16,9 @@ class OWMP
         $conn = new RoceanDB();
         $tags = new Page();
 
-        $files=$conn->getTableArray('files',null,null,null,null);  // Παίρνει τον πίνακα files σε array
+//        $files=$conn->getTableArray('files',null,null,null,null);  // Παίρνει τον πίνακα files σε array
 
-        $count_files=count($files);
+//        $count_files=count($files);
 
         $FormElementsArray = array(
             array('name' => 'title',
@@ -138,23 +138,23 @@ class OWMP
 
 
 
-        <script type="text/javascript">
 
-            var files= <?php echo json_encode($files); ?>;
-
-            init();
-
-        </script>
 
         <?php
 
-        echo '<p>Παίζουν '.$count_files.' Videoclips: </p>';
+//        echo '<p>Παίζουν '.$count_files.' Videoclips: </p>';
     }
 
 
-    static function showDashboard () {
+    static function showPlaylistWindow ($offset,$step) {
         ?>
         <h2><?php echo __('nav_item_1'); ?></h2>
+
+        <div id="playlist_containter">
+            <?php self::getPlaylist(null,null,null,$offset,$step); ?>
+
+        </div>
+
 
 
 
@@ -382,6 +382,77 @@ class OWMP
         </script>
 
         <?php
+
+    }
+
+    // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
+    static function getPlaylist($title, $artist, $genre, $offset, $step) {
+
+        if($_SESSION['PlaylistCounter']==0) {
+            $playlistToPlay = RoceanDB::getTableArray('music_tags', '*', null, null, 'date_added DESC'); // Ολόκληρη η λίστα
+            $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+        }
+
+        $playlist=RoceanDB::getTableArray('music_tags', '*', null,null,'date_added DESC LIMIT '.$offset.','.$step);  // Η λίστα προς εμφάνιση
+
+
+        $counter=0;
+        ?>
+
+        <div id="playlistTable">
+        <?php
+
+            foreach ($playlist as $track) {
+                ?>
+                    <div class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+                        <div class="tag name">
+                            <?php echo $track['name']; ?>
+                        </div>
+                        <div class="tag artist">
+                            <?php echo $track['artist']; ?>
+                        </div>
+                        <div class="tag genre">
+                            <?php echo $track['genre']; ?>
+                        </div>
+                        <div class="tag play_count">
+                            <?php echo $track['play_count']; ?>
+                        </div>
+                        <div class="tag rating">
+                            <?php echo $track['rating']; ?>
+                        </div>
+                        <div class="tag date_last_played">
+                            <?php echo $track['date_added']; ?>
+                        </div>
+                    </div>
+
+                <?php
+                $counter++;
+            }
+
+            $offset=intval($offset);
+            $step=intval($step);
+        ?>
+        </div>
+
+        <input id="previous" type="button" value="previous" onclick="DisplayWindow(1, <?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
+        <input id="next" type="button" value="next" onclick="DisplayWindow(1, <?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
+
+        <?php
+            if($_SESSION['PlaylistCounter']==0) {
+                ?>
+
+                <script type="text/javascript">
+
+                    var files = <?php echo json_encode($playlistToPlay); ?>;
+
+                    init();
+
+                </script>
+
+                <?php
+            }
+
+        $_SESSION['PlaylistCounter']++;
 
     }
 }

@@ -558,6 +558,48 @@ input {
     height:1.5em;
 }
 
+#playlistTable {
+    display: table;
+    width: 100%;
+    font-size: 0.7em;
+}
+
+.track {
+    display: table-row;
+    cursor: pointer;
+}
+
+.tag {
+    display: table-cell;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left:1em;
+}
+
+.name {
+    max-width: 10em;
+}
+
+.artist {
+    max-width: 5em;
+}
+
+.genre {
+    width: 2em;
+}
+
+.play_count {
+    width: 1em;
+}
+
+.rating {
+    width: 1em;
+}
+
+.date_last_played {
+    width: 3em;
+}
+
 /*Dashboard*/
 
 

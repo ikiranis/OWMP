@@ -42,8 +42,12 @@ if(isset($_GET['id']))
 //    'artist'=>$ThisFileInfo['comments_html']['artist'][0],
 //    'title'=>$ThisFileInfo['comments_html']['title'][0]) ;
 
-if($metadata=$conn->getTableArray('music_tags','*', 'id=?', array($id),null)) {
+$file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null);
 
+$filesArray=array('path'=>$file[0]['path'],
+                    'filename'=>$file[0]['filename']);
+
+if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null)) {
 
     if ($metadata[0]['rating']) {
         $rating = ($metadata[0]['rating'] / 10) / 2;
@@ -88,4 +92,5 @@ if($metadata=$conn->getTableArray('music_tags','*', 'id=?', array($id),null)) {
 }
 else $jsonArray = array('success' => false);
 
-echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
+
+echo json_encode(array('tags'=>$jsonArray,'file'=>$filesArray), JSON_UNESCAPED_UNICODE);
