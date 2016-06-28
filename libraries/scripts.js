@@ -349,7 +349,6 @@ function loadNextVideo(id) {
     if(id==0) {
         files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
         callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
-        console.log(callFile);
     }
 
     else {
@@ -359,9 +358,9 @@ function loadNextVideo(id) {
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
         // console.log(data);
-        file_path=DIR_PREFIX+data.file.path+data.file.filename;    // Το filename μαζί με όλο το path
+        file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
         myVideo.src = file_path;
-        // console.log(file_path);
+        console.log(file_path);
 
         filename=data.file.filename; // σκέτο το filename
 
