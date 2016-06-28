@@ -58,9 +58,9 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
 
     $jsonArray = array('success' => true,
         'artist' => $metadata[0]['artist'],
-        'title' => $metadata[0]['name'],
+        'title' => $metadata[0]['song_name'],
         'genre' => $metadata[0]['genre'],
-        'year' => $metadata[0]['year'],
+        'year' => $metadata[0]['song_year'],
         'album' => $metadata[0]['album'],
         'play_count' => $metadata[0]['play_count'],
         'date_played' => $metadata[0]['date_last_played'],

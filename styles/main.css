@@ -588,6 +588,10 @@ input {
     width: 2em;
 }
 
+.year {
+    width: 2em;
+}
+
 .play_count {
     width: 1em;
 }

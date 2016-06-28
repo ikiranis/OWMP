@@ -406,13 +406,16 @@ class OWMP
                 ?>
                     <div class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
                         <div class="tag name">
-                            <?php echo $track['name']; ?>
+                            <?php echo $track['song_name']; ?>
                         </div>
                         <div class="tag artist">
                             <?php echo $track['artist']; ?>
                         </div>
                         <div class="tag genre">
                             <?php echo $track['genre']; ?>
+                        </div>
+                        <div class="tag year">
+                            <?php echo $track['song_year']; ?>
                         </div>
                         <div class="tag play_count">
                             <?php echo $track['play_count']; ?>
