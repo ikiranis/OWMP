@@ -29,7 +29,7 @@ $filesArray=array('path'=>$file[0]['path'],
 
 if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null)) {
 
-    if ($metadata[0]['rating']) {
+    if (isset($metadata[0]['rating'])) {
         $rating = ($metadata[0]['rating'] / 10) / 2;
 
         switch ($rating) {
@@ -54,6 +54,7 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
 
         }
     }
+    else $stars='';
 
 
     $jsonArray = array('success' => true,
