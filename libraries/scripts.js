@@ -365,8 +365,8 @@ function loadNextVideo(id) {
         currentID=id;
     }
 
-    console.log('CURRENT ID '.currentID);
-
+    TimeUpdated=false;
+    
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
         // console.log(data);
         file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
@@ -404,7 +404,7 @@ function loadNextVideo(id) {
 function loadAndplayNextVideo() {
     loadNextVideo(0);
     myVideo.play();
-    TimeUpdated=false;
+
 }
 
 // Called when the page is loaded
@@ -565,12 +565,45 @@ $(function(){
 
     });
 
-    window.addEventListener('keydown', function(event) {
-        if (event.keyCode === 39) {
-            //left arrow was pressed
+    window.addEventListener('keydown', function(event) {  // Έλεγχος πατήματος πλήκτρων
+        if (event.keyCode === 39) {  // δεξί βελάκι
 
             loadAndplayNextVideo();
         }
+
+        if (event.keyCode === 32) {   // space
+
+            if(myVideo.paused)
+                myVideo.play();
+            else myVideo.pause();
+        }
+
+        if (event.keyCode === 187) {   // +
+
+            myVideo.volume+=0.05;
+        }
+
+        if (event.keyCode === 189) {   // -
+
+            myVideo.volume-=0.05;
+        }
+
+        if (event.keyCode === 190) {   // >
+
+            myVideo.playbackRate+=1;
+        }
+
+        if (event.keyCode === 188) {   // <
+
+            myVideo.playbackRate-=1;
+        }
+
+        if (event.keyCode === 191) {   // /
+
+            myVideo.playbackRate=1;
+        }
+
+        console.log(event.keyCode);
 
     }, false);
 
