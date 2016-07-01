@@ -10,6 +10,7 @@ var UserKeyPressed=false;
 
 // TODO να το τραβάει από τα options ή από το common.inc.php
 var AJAX_path='AJAX/';  // ο κατάλογος των AJAX files
+var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
 var currentID; // Το τρέχον βίντεο
 
@@ -580,8 +581,9 @@ $(function(){
         "timeupdate",
         function(event){
             curTimePercent=(this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
-            
-            if( (curTimePercent>20) && (TimeUpdated==false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
+
+
+            if( (curTimePercent>TimePercentTrigger) && (TimeUpdated==false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
                 updateVideoPlayed();
                 TimeUpdated=true;
             }
