@@ -19,6 +19,9 @@ var myVideo;
 var DIR_PREFIX='/media/';    // dir που μπαίνει μπροστά από το path
 
 
+var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
+
+
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
 $.fn.addClassDelay = function(className,delay) {
@@ -400,6 +403,7 @@ function loadNextVideo(id) {
 function loadAndplayNextVideo() {
     loadNextVideo(0);
     myVideo.play();
+    TimeUpdated=false;
 }
 
 // Called when the page is loaded
@@ -408,6 +412,9 @@ function init(){
     myVideo = document.querySelector("#myVideo");
     // Define a callback function called each time a video ends
     myVideo.addEventListener('ended', loadAndplayNextVideo, false);
+
+
+
     // Load the first video when the page is loaded.
     loadNextVideo(0);
 }
@@ -454,9 +461,28 @@ function update_tags() {
             if (data.success == true) {
 
                 $("#message").addClassDelay("success", 3000);
+
             }
             else $("#message").addClassDelay("failure", 3000);
         }, "json");
+}
+
+
+function updateVideoPlayed() {
+    callFile=AJAX_path+"updateTimePlayed.php?id="+currentID;
+
+
+    $.get(callFile, function (data) {
+        if (data.success == true) {
+
+            // $("#message").addClassDelay("success", 3000);
+
+            $('#play_count').val(data.play_count);
+            $('#date_played').val(data.date_last_played);
+
+        }
+        // else $("#message").addClassDelay("failure", 3000);
+    }, "json");
 }
 
 
@@ -546,6 +572,21 @@ $(function(){
         }
 
     }, false);
+
+
+
+
+    $("#myVideo").on(    // Ελέγχει τον χρόνο που βρίσκετα το βίντεο και όταν περάσει το όριο εκτελεί συγκεκριμένες εντολές
+        "timeupdate",
+        function(event){
+            curTimePercent=(this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
+            
+            if( (curTimePercent>20) && (TimeUpdated==false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
+                updateVideoPlayed();
+                TimeUpdated=true;
+            }
+
+        });
     
 
 

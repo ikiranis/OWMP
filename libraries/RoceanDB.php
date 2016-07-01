@@ -579,7 +579,7 @@ class RoceanDB
 
     // Ενημερώνει fields σε ένα table
     // $table ο πίνακας, $condition σε μορφή 'id=?'
-    // $fields και $values σε array
+    // $fields και $values σε array. To $id το βάζουμε στο τέλος του $values
     static function updateTableFields ($table, $condition, $fields, $values)
     {
         self::CreateConnection();
@@ -599,6 +599,29 @@ class RoceanDB
         if($stmt->execute($values))
 
             $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+
+    // Ανάγνωση μιας τιμής ενός $field στον πίνακα $table
+    // $table ο πίνακας, $condition σε μορφή 'id=?'. To $id το παιρνάμε στην $condition_value
+    public function getTableFieldValue ($table, $condition, $condition_value, $field) {
+        self::CreateConnection();
+
+        $sql = 'SELECT '.$field.' FROM '.$table.' WHERE '.$condition;
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($condition_value));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item[$field];
 
         else $result=false;
 

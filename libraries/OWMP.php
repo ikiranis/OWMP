@@ -57,16 +57,6 @@ class OWMP
                 'title' => '',
                 'disabled' => 'no',
                 'value' => null),
-            array('name' => 'album',
-                'fieldtext' => __('tag_album'),
-                'type' => 'text',
-                'onclick' => '',
-                'required' => 'no',
-                'maxlength' => '255',
-                'pattern' => '',
-                'title' => '',
-                'disabled' => 'no',
-                'value' => null),
             array('name' => 'rating',
                 'fieldtext' => __('tag_rating'),
                 'type' => 'text',
@@ -87,6 +77,17 @@ class OWMP
                 'title' => '',
                 'disabled' => 'no',
                 'value' => null),
+            array('name' => 'album',
+                'fieldtext' => __('tag_album'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '255',
+                'pattern' => '',
+                'title' => '',
+                'disabled' => 'no',
+                'value' => null),
+            
             array('name' => 'play_count',
                 'fieldtext' => __('tag_play_count'),
                 'type' => 'number',
@@ -405,6 +406,9 @@ class OWMP
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
     static function getPlaylist($title, $artist, $genre, $offset, $step) {
+
+        if(!isset($_SESSION['PlaylistCounter']))
+            $_SESSION['PlaylistCounter']=0;
 
         if($_SESSION['PlaylistCounter']==0) {
             $playlistToPlay = RoceanDB::getTableArray('music_tags', '*', null, null, 'date_added DESC'); // Ολόκληρη η λίστα
