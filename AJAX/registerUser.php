@@ -22,7 +22,7 @@ if(isset($_GET['password']))
     $password=ClearString($_GET['password']);
 
 if (isset($_GET['email']))
-    $email=$_GET['email'];
+    $email=ClearString($_GET['email']);
 
 
 

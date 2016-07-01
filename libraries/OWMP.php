@@ -13,12 +13,8 @@ class OWMP
 
     static function showVideo () {
 
-        $conn = new RoceanDB();
         $tags = new Page();
 
-//        $files=$conn->getTableArray('files',null,null,null,null);  // Παίρνει τον πίνακα files σε array
-
-//        $count_files=count($files);
 
         $FormElementsArray = array(
             array('name' => 'title',
@@ -29,6 +25,7 @@ class OWMP
                 'maxlength' => '255',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'artist',
                 'fieldtext' => __('tag_artist'),
@@ -38,6 +35,7 @@ class OWMP
                 'maxlength' => '100',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'genre',
                 'fieldtext' => __('tag_genre'),
@@ -47,6 +45,7 @@ class OWMP
                 'maxlength' => '20',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'year',
                 'fieldtext' => __('tag_year'),
@@ -56,6 +55,7 @@ class OWMP
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'album',
                 'fieldtext' => __('tag_album'),
@@ -65,33 +65,7 @@ class OWMP
                 'maxlength' => '255',
                 'pattern' => '',
                 'title' => '',
-                'value' => null),
-            array('name' => 'play_count',
-                'fieldtext' => __('tag_play_count'),
-                'type' => 'number',
-                'onclick' => '',
-                'required' => 'no',
-                'maxlength' => '',
-                'pattern' => '',
-                'title' => '',
-                'value' => null),
-            array('name' => 'date_played',
-                'fieldtext' => __('tag_date_played'),
-                'type' => 'text',
-                'onclick' => '',
-                'required' => 'no',
-                'maxlength' => '20',
-                'pattern' => '',
-                'title' => '',
-                'value' => null),
-            array('name' => 'date_added',
-                'fieldtext' => __('tag_date_added'),
-                'type' => 'text',
-                'onclick' => '',
-                'required' => 'no',
-                'maxlength' => '20',
-                'pattern' => '',
-                'title' => '',
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'rating',
                 'fieldtext' => __('tag_rating'),
@@ -101,6 +75,27 @@ class OWMP
                 'maxlength' => '5',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
+                'value' => null),
+            array('name' => 'live',
+                'fieldtext' => __('tag_live'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '1',
+                'pattern' => '',
+                'title' => '',
+                'disabled' => 'no',
+                'value' => null),
+            array('name' => 'play_count',
+                'fieldtext' => __('tag_play_count'),
+                'type' => 'number',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '',
+                'pattern' => '',
+                'title' => '',
+                'disabled' => 'yes',
                 'value' => null),
             array('name' => 'track_time',
                 'fieldtext' => __('tag_track_time'),
@@ -110,6 +105,27 @@ class OWMP
                 'maxlength' => '10',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'yes',
+                'value' => null),
+            array('name' => 'date_added',
+                'fieldtext' => __('tag_date_added'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '20',
+                'pattern' => '',
+                'title' => '',
+                'disabled' => 'yes',
+                'value' => null),
+            array('name' => 'date_played',
+                'fieldtext' => __('tag_date_played'),
+                'type' => 'text',
+                'onclick' => '',
+                'required' => 'no',
+                'maxlength' => '20',
+                'pattern' => '',
+                'title' => '',
+                'disabled' => 'yes',
                 'value' => null),
 
             array('name' => 'submit',
@@ -120,6 +136,7 @@ class OWMP
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => __('tag_form_submit'))
         );
 
@@ -136,13 +153,14 @@ class OWMP
 
         </div>
 
+        <input type="button" class="message" id="message">
+
 
 
 
 
         <?php
 
-//        echo '<p>Παίζουν '.$count_files.' Videoclips: </p>';
     }
 
 

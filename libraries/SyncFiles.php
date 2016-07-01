@@ -163,21 +163,32 @@ class SyncFiles
 
                     $full_path = DIR_PREFIX . $path . $filename;
 
-                    $idtags = $this->getMediaFileTags($full_path);
+                    if($idtags = $this->getMediaFileTags($full_path)) {
 
-                    $this->name = $idtags['title'];
-                    $this->artist = $idtags['artist'];
-                    $this->genre = $idtags['genre'];
-                    $this->date_added = date('Y-m-d H:i:s');
+                        $this->name = $idtags['title'];
+                        $this->artist = $idtags['artist'];
+                        $this->genre = $idtags['genre'];
+                        $this->date_added = date('Y-m-d H:i:s');
+                        $this->track_time = $idtags['track_time'];
+                        $this->video_width = $idtags['video_width'];
+                        $this->video_height = $idtags['video_height'];
+                        $this->size = $idtags['size'];
+                    }
+                    else {
+                        $this->name = $filename;
+                        $this->artist = '';
+                        $this->genre = '';
+                        $this->date_added = date('Y-m-d H:i:s');
+                        $this->track_time = 0;
+                        $this->video_width = 0;
+                        $this->video_height = 0;
+                        $this->size = 0;
+                    }
+                    
                     $this->play_date = null;
                     $this->album = '';
-
                     $this->play_count = 0;
                     $this->rating = 0;
-                    $this->size = $idtags['size'];
-                    $this->track_time = $idtags['track_time'];
-                    $this->video_width = $idtags['video_width'];
-                    $this->video_height = $idtags['video_height'];
                     $this->album_artwork_id = 0;
                     $this->year = 0;
                     $this->live = 0;
@@ -319,58 +330,55 @@ class SyncFiles
 
         getid3_lib::CopyTagsToComments($ThisFileInfo);
 
+        if(isset($ThisFileInfo['filename'])) {
+            $replace_text = array('.mp4', '.m4v');
 
-        $replace_text = array('.mp4', '.m4v');
+            if (isset($ThisFileInfo['comments_html']['title'][0]))
+                if ($this->detectUTF8($ThisFileInfo['comments_html']['title'][0])) {
+                    $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
+                    trigger_error('EINAI UTF-8');
+                } else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
+            else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
 
-        if(isset($ThisFileInfo['comments_html']['title'][0]))
-            if($this->detectUTF8($ThisFileInfo['comments_html']['title'][0])) {
-                $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
-                trigger_error('EINAI UTF-8');
-            }
-            else $title=str_replace($replace_text,'',$ThisFileInfo['filename']);
-        else $title=str_replace($replace_text,'',$ThisFileInfo['filename']);
-        
-        if(isset($ThisFileInfo['comments_html']['artist'][0]))
-            if($this->detectUTF8($ThisFileInfo['comments_html']['artist'][0]))
-                $artist=ClearString($ThisFileInfo['comments_html']['artist'][0]);
-            else $artist='';
-        else $artist='';
-        
-        if(isset($ThisFileInfo['filesize']))
-            $size=intval($ThisFileInfo['filesize']);
-        else $size=0;
-        
-        if(isset($ThisFileInfo['video']['resolution_x']))
-            $video_width=intval($ThisFileInfo['video']['resolution_x']);
-        else $video_width=0;
-        
-        if(isset($ThisFileInfo['video']['resolution_y']))
-            $video_height=intval($ThisFileInfo['video']['resolution_y']);
-        else $video_height=0;
-        
-        if(isset($ThisFileInfo['comments_html']['genre'][0])) {
-            $genre = ClearString($ThisFileInfo['comments_html']['genre'][0]);
-            $genre=substr($genre,0,19);
-        }
-        else $genre='';
-        
+            if (isset($ThisFileInfo['comments_html']['artist'][0]))
+                if ($this->detectUTF8($ThisFileInfo['comments_html']['artist'][0]))
+                    $artist = ClearString($ThisFileInfo['comments_html']['artist'][0]);
+                else $artist = '';
+            else $artist = '';
+
+            if (isset($ThisFileInfo['filesize']))
+                $size = intval($ThisFileInfo['filesize']);
+            else $size = 0;
+
+            if (isset($ThisFileInfo['video']['resolution_x']))
+                $video_width = intval($ThisFileInfo['video']['resolution_x']);
+            else $video_width = 0;
+
+            if (isset($ThisFileInfo['video']['resolution_y']))
+                $video_height = intval($ThisFileInfo['video']['resolution_y']);
+            else $video_height = 0;
+
+            if (isset($ThisFileInfo['comments_html']['genre'][0])) {
+                $genre = ClearString($ThisFileInfo['comments_html']['genre'][0]);
+                $genre = substr($genre, 0, 19);
+            } else $genre = '';
 
 
-        if(isset($ThisFileInfo['playtime_seconds']))
-            $track_time=floatval($ThisFileInfo['playtime_seconds']);
-        else $track_time=0;
+            if (isset($ThisFileInfo['playtime_seconds']))
+                $track_time = floatval($ThisFileInfo['playtime_seconds']);
+            else $track_time = 0;
 
-        $result=array(
-            'artist'=>$artist,
-            'title'=>$title,
-            'size'=>$size,
-            'video_width'=>$video_width,
-            'video_height'=>$video_height,
-            'genre'=>$genre,
-            'track_time'=>$track_time
+            $result = array(
+                'artist' => $artist,
+                'title' => $title,
+                'size' => $size,
+                'video_width' => $video_width,
+                'video_height' => $video_height,
+                'genre' => $genre,
+                'track_time' => $track_time
 
 
-            ) ;
+            );
 
 //        echo'<pre>';
 //        print_r($result);
@@ -382,7 +390,8 @@ class SyncFiles
 
 //        unset(self::$getID3);
 
-        return $result;
+            return $result;
+        } else return false;
     }
 
 
@@ -390,7 +399,7 @@ class SyncFiles
     // Κεντρική function που κάνει τον συγχρονισμό
     public function syncTheFiles() {
         set_time_limit(0);
-//        ini_set('memory_limit','1500M');
+        ini_set('memory_limit','1024M');
 
 //        $getID3 = new getID3;
 

@@ -576,5 +576,37 @@ class RoceanDB
         return $result;
     }
 
+
+    // Ενημερώνει fields σε ένα table
+    // $table ο πίνακας, $condition σε μορφή 'id=?'
+    // $fields και $values σε array
+    static function updateTableFields ($table, $condition, $fields, $values)
+    {
+        self::CreateConnection();
+
+        $fieldsText='';
+
+        foreach ($fields as $field) {
+            $fieldsText = $fieldsText . $field . '=?, ';
+        }
+
+        $fieldsText=page::cutLastString($fieldsText,', '); // Κόβει την τελευταία ','
+        
+
+        $sql = 'UPDATE '.$table.' SET '.$fieldsText.' WHERE '.$condition;
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        if($stmt->execute($values))
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
 }
 

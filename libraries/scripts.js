@@ -8,13 +8,15 @@
 
 var UserKeyPressed=false;
 
+// TODO να το τραβάει από τα options ή από το common.inc.php
+var AJAX_path='AJAX/';  // ο κατάλογος των AJAX files
 
-var AJAX_path='AJAX/';
-
+var currentID; // Το τρέχον βίντεο
 
 var myVideo;
 
-var DIR_PREFIX='/media/';
+// TODO να το παίρνει από τα options
+var DIR_PREFIX='/media/';    // dir που μπαίνει μπροστά από το path
 
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
@@ -346,15 +348,20 @@ function DisplayWindow(page, offset, step) {
 // If at the end we start again from beginning (the modulo
 // source.length does that)
 function loadNextVideo(id) {
+
     if(id==0) {
         files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
         callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
+        currentID=files[files_index][0];
     }
 
     else {
         files_index=id;
         callFile = AJAX_path+"getVideoMetadata.php?id="+id;
+        currentID=id;
     }
+
+    console.log('CURRENT ID '.currentID);
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
         // console.log(data);
@@ -376,6 +383,7 @@ function loadNextVideo(id) {
                 $('#date_added').val(data.tags.date_added);
                 $('#rating').val(data.tags.rating);
                 $('#track_time').val(data.tags.track_time);
+                $('#live').val(data.tags.live);
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
 
@@ -385,15 +393,15 @@ function loadNextVideo(id) {
 
     }, "json");
 
-
-
     myVideo.load();
 }
+
 // callback that loads and plays the next video
 function loadAndplayNextVideo() {
     loadNextVideo(0);
     myVideo.play();
 }
+
 // Called when the page is loaded
 function init(){
     // get the video element using the DOM api
@@ -404,6 +412,7 @@ function init(){
     loadNextVideo(0);
 }
 
+// Όταν δεν βρει ένα video να παίξει
 function failed(e) {
     // video playback failed - show a message saying why
     switch (e.target.error.code) {
@@ -425,6 +434,29 @@ function failed(e) {
     }
 
     loadAndplayNextVideo();
+}
+
+function update_tags() {
+    song_name=$('#title').val();
+    artist=$('#artist').val();
+    genre=$('#genre').val();
+    song_year=$('#year').val();
+    album=$('#album').val();
+    rating=$('#rating').val();
+    live=$('#live').val();
+
+
+    callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+song_name+"&artist="+artist+"&genre="+genre+
+        "&song_year="+song_year+"&album="+album+"&rating="+rating+"&live="+live;
+
+
+        $.get(callFile, function (data) {
+            if (data.success == true) {
+
+                $("#message").addClassDelay("success", 3000);
+            }
+            else $("#message").addClassDelay("failure", 3000);
+        }, "json");
 }
 
 

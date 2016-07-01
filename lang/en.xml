@@ -90,6 +90,7 @@
         <phrase name="tag_date_added">Date Added</phrase>
         <phrase name="tag_rating">Rating</phrase>
         <phrase name="tag_track_time">Track Time</phrase>
+        <phrase name="tag_live">Live</phrase>
         <phrase name="tag_form_submit">Update</phrase>
     </page>
 

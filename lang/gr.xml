@@ -90,6 +90,7 @@
         <phrase name="tag_date_added">Ημ/νία προσθήκης</phrase>
         <phrase name="tag_rating">Βαθμολογία</phrase>
         <phrase name="tag_track_time">Χρόνος</phrase>
+        <phrase name="tag_live">Live</phrase>
         <phrase name="tag_form_submit">Ενημέρωση</phrase>
     </page>
 

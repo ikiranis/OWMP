@@ -124,6 +124,7 @@ class Page
                            <?php if(!$item['pattern']=='')echo 'pattern='.$item['pattern']; ?>
                            <?php if(!$item['title']=='')echo 'title="'.$item['title'].'"'; ?>
                            <?php if($item['required']=='yes') echo ' required '; ?>
+                           <?php if($item['disabled']=='yes') echo ' disabled '; ?>
                            <?php echo 'placeholder="'.$item['fieldtext'].'"'; ?>
                     >
                 </div>

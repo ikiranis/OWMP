@@ -32,29 +32,8 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
     if (isset($metadata[0]['rating'])) {
         $rating = ($metadata[0]['rating'] / 10) / 2;
 
-        switch ($rating) {
-            case 0:
-                $stars = '';
-                break;
-            case 1:
-                $stars = '*';
-                break;
-            case 2:
-                $stars = '**';
-                break;
-            case 3:
-                $stars = '***';
-                break;
-            case 4:
-                $stars = '****';
-                break;
-            case 5:
-                $stars = '*****';
-                break;
-
-        }
     }
-    else $stars='';
+    else $rating='';
 
 
     $jsonArray = array('success' => true,
@@ -67,7 +46,8 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
         'date_played' => $metadata[0]['date_last_played'],
         'date_added' => $metadata[0]['date_added'],
         'track_time' => $metadata[0]['track_time'],
-        'rating' => $stars);
+        'live' => $metadata[0]['live'],
+        'rating' => $rating);
 
 
 }
