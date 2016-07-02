@@ -145,6 +145,7 @@ class OWMP
         ?>
 
         <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
+<!--        <div id="overlay">This is HTML overlay on top of the video! </div>-->
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
 
@@ -426,8 +427,8 @@ class OWMP
 
             foreach ($playlist as $track) {
                 ?>
-                    <div class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
-                        <div class="tag name">
+                    <div id="fileID<?php echo $track['id']; ?>" class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+                        <div class="tag song_name">
                             <?php echo $track['song_name']; ?>
                         </div>
                         <div class="tag artist">
@@ -436,16 +437,16 @@ class OWMP
                         <div class="tag genre">
                             <?php echo $track['genre']; ?>
                         </div>
-                        <div class="tag year">
+                        <div class="tag song_year">
                             <?php echo $track['song_year']; ?>
                         </div>
                         <div class="tag play_count">
                             <?php echo $track['play_count']; ?>
                         </div>
                         <div class="tag rating">
-                            <?php echo $track['rating']; ?>
+                            <?php echo ( ($track['rating']/10)/2 ); ?>
                         </div>
-                        <div class="tag date_last_played">
+                        <div class="tag date_added">
                             <?php echo $track['date_added']; ?>
                         </div>
                     </div>

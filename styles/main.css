@@ -576,7 +576,7 @@ input {
     padding-left:1em;
 }
 
-.name {
+.song_name {
     max-width: 10em;
 }
 
@@ -588,7 +588,7 @@ input {
     width: 2em;
 }
 
-.year {
+.song_year {
     width: 2em;
 }
 
@@ -600,9 +600,26 @@ input {
     width: 1em;
 }
 
-.date_last_played {
+.date_added {
     width: 3em;
 }
+
+
+/*#overlay {*/
+    /*position: relative;*/
+    /*top: 0;*/
+    /*color: #FFF;*/
+    /*text-align: left;*/
+    /*font-size: 2em;*/
+    /*background-color: rgba(221, 221, 221, 0.3);*/
+    /*width: 15em;*/
+    /*padding: 10px 0;*/
+    /*z-index: 2147483647;*/
+/*}*/
+
+/*#myVideo {*/
+    /*z-index: 1;*/
+/*}*/
 
 /*Dashboard*/
 

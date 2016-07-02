@@ -21,6 +21,7 @@ var DIR_PREFIX='/media/';    // dir που μπαίνει μπροστά από 
 
 
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
+var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
 
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
@@ -371,7 +372,7 @@ function loadNextVideo(id) {
         // console.log(data);
         file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
         myVideo.src = file_path;
-        console.log(file_path);
+        // console.log(file_path);
 
         filename=data.file.filename; // σκέτο το filename
 
@@ -444,14 +445,17 @@ function failed(e) {
     loadAndplayNextVideo();
 }
 
-function update_tags() {
+function update_tags(key_rating) {
     song_name=$('#title').val();
     artist=$('#artist').val();
     genre=$('#genre').val();
     song_year=$('#year').val();
     album=$('#album').val();
-    rating=$('#rating').val();
+    if(!key_rating)
+        rating=$('#rating').val();
+    else rating=key_rating;  // Αν έχει πατηθεί νούμερο για βαθμολογία
     live=$('#live').val();
+
 
 
     callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+song_name+"&artist="+artist+"&genre="+genre+
@@ -462,6 +466,18 @@ function update_tags() {
             if (data.success == true) {
 
                 $("#message").addClassDelay("success", 3000);
+
+                if($("#fileID"+currentID).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                    $("#fileID"+currentID).find('.song_name').text(song_name);
+                    $("#fileID"+currentID).find('.artist').text(artist);
+                    $("#fileID"+currentID).find('.genre').text(genre);
+                    $("#fileID"+currentID).find('.song_year').text(song_year);
+                    $("#fileID"+currentID).find('.rating').text(rating);
+                }
+
+                if(key_rating)    // Αν έχει πατηθεί νούμερο για βαθμολογία
+                    $('#rating').val(rating);
+
 
             }
             else $("#message").addClassDelay("failure", 3000);
@@ -476,13 +492,15 @@ function updateVideoPlayed() {
     $.get(callFile, function (data) {
         if (data.success == true) {
 
-            // $("#message").addClassDelay("success", 3000);
 
-            $('#play_count').val(data.play_count);
+            $('#play_count').val(data.play_count);     // Ενημερώνει τα σχετικά input πεδία
             $('#date_played').val(data.date_last_played);
 
+            if($("#fileID"+currentID).length) {    // Ενημερώνει τα σχετικά πεδία στην λίστα
+                $("#fileID"+currentID).find('.play_count').text(data.play_count);
+            }
+
         }
-        // else $("#message").addClassDelay("failure", 3000);
     }, "json");
 }
 
@@ -565,45 +583,74 @@ $(function(){
 
     });
 
+    // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
+    $("#FormTags input").click(function() {
+        FocusOnForm=true;
+    });
+
+    $("#FormTags input").blur(function() {
+        FocusOnForm=false;
+    });
+
+    
     window.addEventListener('keydown', function(event) {  // Έλεγχος πατήματος πλήκτρων
-        if (event.keyCode === 39) {  // δεξί βελάκι
 
-            loadAndplayNextVideo();
+        // console.log($(document.activeElement));
+
+        if (!FocusOnForm) {
+            if (event.keyCode === 39) {  // δεξί βελάκι
+                loadAndplayNextVideo();
+            }
+
+            if (event.keyCode === 32) {   // space
+                if (myVideo.paused)
+                    myVideo.play();
+                else myVideo.pause();
+            }
+
+            if (event.keyCode === 187) {   // +
+                myVideo.volume += 0.05;
+            }
+
+            if (event.keyCode === 189) {   // -
+                myVideo.volume -= 0.05;
+            }
+
+            if (event.keyCode === 190) {   // >
+                myVideo.playbackRate += 1;
+            }
+
+            if (event.keyCode === 188) {   // <
+                myVideo.playbackRate -= 1;
+            }
+
+            if (event.keyCode === 191) {   // /
+                myVideo.playbackRate = 1;
+            }
+
+            if (event.keyCode === 49) {   // 1
+                update_tags(1);
+            }
+
+            if (event.keyCode === 50) {   // 2
+                update_tags(2);
+            }
+
+            if (event.keyCode === 51) {   // 3
+                update_tags(3);
+            }
+
+            if (event.keyCode === 52) {   // 4
+                update_tags(4);
+            }
+
+            if (event.keyCode === 53) {   // 5
+                update_tags(5);
+            }
+
         }
 
-        if (event.keyCode === 32) {   // space
-
-            if(myVideo.paused)
-                myVideo.play();
-            else myVideo.pause();
-        }
-
-        if (event.keyCode === 187) {   // +
-
-            myVideo.volume+=0.05;
-        }
-
-        if (event.keyCode === 189) {   // -
-
-            myVideo.volume-=0.05;
-        }
-
-        if (event.keyCode === 190) {   // >
-
-            myVideo.playbackRate+=1;
-        }
-
-        if (event.keyCode === 188) {   // <
-
-            myVideo.playbackRate-=1;
-        }
-
-        if (event.keyCode === 191) {   // /
-
-            myVideo.playbackRate=1;
-        }
-
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
 
     }, false);
 
