@@ -30,6 +30,7 @@ function DisplayMainPage() {
  
     ?>
 
+
         <aside>
 
             <?php OWMP::showVideo(); ?>
@@ -39,7 +40,7 @@ function DisplayMainPage() {
 
         <section>
             <article>
-            <?php
+                <?php
                 switch ($NavActiveItem) {
                     case 1: OWMP::showPlaylistWindow(0,1000); break;
                     case 2: OWMP::showConfiguration(); break;

@@ -145,7 +145,7 @@ class OWMP
         ?>
 
         <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
-<!--        <div id="overlay">This is HTML overlay on top of the video! </div>-->
+        <div id="overlay"></div>
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
 

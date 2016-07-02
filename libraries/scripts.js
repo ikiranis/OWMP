@@ -349,6 +349,44 @@ function DisplayWindow(page, offset, step) {
 
 // OWMP functions
 
+// βάζει/βγάζει το video σε fullscren
+function toggleFullscreen() {
+    elem = myVideo;
+    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+}
+
+
+// Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
+function showFullScreenVideoTags() {
+    if (document.fullscreenElement || document.mozFullScreenElement ||
+        document.webkitFullscreenElement || document.msFullscreenElement)  // Αν είναι σε fullscreen
+        $('#overlay').clearQueue().show('slow').delay(5000).hide('fast');
+    else $('#overlay').hide();
+    // alert('hey');
+
+}
+
 // Set the src of the video to the next URL in the playlist
 // If at the end we start again from beginning (the modulo
 // source.length does that)
@@ -378,6 +416,8 @@ function loadNextVideo(id) {
 
         if (data.tags.success == true) {
             // console.log(data);
+
+                // εμφανίζει τα metadata στα input fields
                 $('#title').val(data.tags.title);
                 $('#artist').val(data.tags.artist);
                 $('#genre').val(data.tags.genre);
@@ -389,6 +429,13 @@ function loadNextVideo(id) {
                 $('#rating').val(data.tags.rating);
                 $('#track_time').val(data.tags.track_time);
                 $('#live').val(data.tags.live);
+
+
+                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+                $('#overlay').html(data.tags.artist + ' - ' + data.tags.title + ' ' + data.tags.year + '<br>' + data.tags.genre + ' ' +
+                        data.tags.rating);
+                showFullScreenVideoTags();
+
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
 
@@ -478,6 +525,13 @@ function update_tags(key_rating) {
                 if(key_rating)    // Αν έχει πατηθεί νούμερο για βαθμολογία
                     $('#rating').val(rating);
 
+                FocusOnForm=false;
+
+                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+                $('#overlay').html(artist + ' - ' + song_name + ' ' + song_year + '<br>' + genre + ' ' +
+                    rating);
+                showFullScreenVideoTags();
+
 
             }
             else $("#message").addClassDelay("failure", 3000);
@@ -503,6 +557,8 @@ function updateVideoPlayed() {
         }
     }, "json");
 }
+
+
 
 
 
@@ -588,11 +644,18 @@ $(function(){
         FocusOnForm=true;
     });
 
-    $("#FormTags input").blur(function() {
+    $("#FormTags input").focus(function() {
+        FocusOnForm=true;
+    });
+
+    $("#FormTags input").focusout(function() {
         FocusOnForm=false;
     });
 
-    
+    document.addEventListener("webkitfullscreenchange", function() {
+        showFullScreenVideoTags();
+    });
+
     window.addEventListener('keydown', function(event) {  // Έλεγχος πατήματος πλήκτρων
 
         // console.log($(document.activeElement));
@@ -608,23 +671,23 @@ $(function(){
                 else myVideo.pause();
             }
 
-            if (event.keyCode === 187) {   // +
+            if (event.keyCode === 190) {   // +
                 myVideo.volume += 0.05;
             }
 
-            if (event.keyCode === 189) {   // -
+            if (event.keyCode === 188) {   // -
                 myVideo.volume -= 0.05;
             }
 
-            if (event.keyCode === 190) {   // >
+            if (event.keyCode === 187) {   // > 187
                 myVideo.playbackRate += 1;
             }
 
-            if (event.keyCode === 188) {   // <
+            if (event.keyCode === 189) {   // < 189
                 myVideo.playbackRate -= 1;
             }
 
-            if (event.keyCode === 191) {   // /
+            if (event.keyCode === 48) {   // /
                 myVideo.playbackRate = 1;
             }
 
@@ -646,6 +709,11 @@ $(function(){
 
             if (event.keyCode === 53) {   // 5
                 update_tags(5);
+            }
+
+            if (event.keyCode === 70) {   // F
+                toggleFullscreen();  // μπαινοβγαίνει σε fullscreen
+                FocusOnForm=false;
             }
 
         }
