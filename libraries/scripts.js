@@ -280,11 +280,6 @@ function insertUser() {
 
         $('#users_formID0').validate({ // initialize the plugin
             errorElement: 'div'
-            // rules : {
-            //     repeat_password: {
-            //         equalTo : '[name="password"]'
-            //     }
-            // }
         });
 
 
@@ -346,7 +341,7 @@ function DisplayWindow(page, offset, step) {
 
 
 
-
+// *************************************************************************
 // OWMP functions
 
 // Εμφανίζει rating αστεράκια στο elem
@@ -399,8 +394,10 @@ function toggleFullscreen() {
 // Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
 function showFullScreenVideoTags() {
     if (document.fullscreenElement || document.mozFullScreenElement ||
-        document.webkitFullscreenElement || document.msFullscreenElement)  // Αν είναι σε fullscreen
-        $('#overlay').clearQueue().show().delay(10000).hide('slow');
+        document.webkitFullscreenElement || document.msFullscreenElement) {  // Αν είναι σε fullscreen
+
+        $('#overlay').stop(true,true).show().delay(10000).hide('slow');
+    }
     else $('#overlay').hide();
 
 }
@@ -596,6 +593,25 @@ function updateVideoPlayed() {
 
 
 
+// αναζήτηση στην playlist
+function searchPlaylist(offset, step, firstTime) {
+    search_text=$('#search_text').val();
+    search_genre=$('#search_genre').val();
+
+
+    callFile=AJAX_path+"searchPlaylist.php?search_text="+encodeURIComponent(search_text)+"&search_genre="+encodeURIComponent(search_genre)
+        +"&offset="+offset+"&step="+step+"&firstTime="+firstTime;
+
+
+
+    $('#playlist_containter').load(callFile, function() {
+        console.log('load is done');
+    });
+    
+}
+
+
+
 
 
 
@@ -617,11 +633,6 @@ $(function(){
     $('.users_form').each(function() {  // attach to all form elements on page
         $(this).validate({       // initialize plugin on each form
             errorElement: 'div'
-        //     rules : {
-        //         repeat_password: {
-        //             equalTo : '[name="password"]'
-        //         }
-        //     }
         });
     });
 
@@ -695,8 +706,6 @@ $(function(){
 
     window.addEventListener('keydown', function(event) {  // Έλεγχος πατήματος πλήκτρων
 
-        // console.log($(document.activeElement));
-
         if (!FocusOnForm) {
             if (event.keyCode === 39) {  // δεξί βελάκι
                 loadAndplayNextVideo();
@@ -709,23 +718,23 @@ $(function(){
                 showFullScreenVideoTags();
             }
 
-            if (event.keyCode === 190) {   // +
+            if (event.keyCode === 38) {   // πάνω βελάκι
                 myVideo.volume += 0.05;
             }
 
-            if (event.keyCode === 188) {   // -
+            if (event.keyCode === 40) {   // κάτω βελάκι
                 myVideo.volume -= 0.05;
             }
 
-            if (event.keyCode === 187) {   // > 187
+            if (event.keyCode === 187) {   // +
                 myVideo.playbackRate += 1;
             }
 
-            if (event.keyCode === 189) {   // < 189
+            if (event.keyCode === 189) {   // -
                 myVideo.playbackRate -= 1;
             }
 
-            if (event.keyCode === 48) {   // /
+            if (event.keyCode === 48) {   // 0
                 myVideo.playbackRate = 1;
             }
 

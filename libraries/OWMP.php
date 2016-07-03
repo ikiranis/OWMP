@@ -14,6 +14,12 @@ class OWMP
     static function showVideo () {
 
         $tags = new Page();
+        $conn = new RoceanDB();
+        $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+        if ($UserGroup==1)  // Αν ο χρήστης είναι admin
+            $disabled='no';
+        else $disabled='yes';
 
 
         $FormElementsArray = array(
@@ -25,7 +31,7 @@ class OWMP
                 'maxlength' => '255',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             array('name' => 'artist',
                 'fieldtext' => __('tag_artist'),
@@ -35,7 +41,7 @@ class OWMP
                 'maxlength' => '100',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             array('name' => 'genre',
                 'fieldtext' => __('tag_genre'),
@@ -45,7 +51,7 @@ class OWMP
                 'maxlength' => '20',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             array('name' => 'year',
                 'fieldtext' => __('tag_year'),
@@ -55,7 +61,7 @@ class OWMP
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             array('name' => 'rating',
                 'fieldtext' => __('tag_rating'),
@@ -65,7 +71,7 @@ class OWMP
                 'maxlength' => '5',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             array('name' => 'live',
                 'fieldtext' => __('tag_live'),
@@ -75,7 +81,7 @@ class OWMP
                 'maxlength' => '1',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             array('name' => 'album',
                 'fieldtext' => __('tag_album'),
@@ -85,7 +91,7 @@ class OWMP
                 'maxlength' => '255',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => null),
             
             array('name' => 'play_count',
@@ -137,7 +143,7 @@ class OWMP
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => 'no',
+                'disabled' => $disabled,
                 'value' => __('tag_form_submit'))
         );
 
@@ -145,6 +151,8 @@ class OWMP
         ?>
 
         <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
+
+<!--        Fullscreen overlay elements-->
         <div id="overlay">
             <div id="bottom_overlay">
                 <span id="overlay_song_name"></span>
@@ -156,7 +164,6 @@ class OWMP
             <div id="overlay_play_count"></div>
         </div>
 
-        <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
 
         <div id="tags">
 
@@ -175,9 +182,27 @@ class OWMP
     }
 
 
-    static function showPlaylistWindow ($offset,$step) {
+    static function showPlaylistWindow ($offset, $step) {
         ?>
-        <h2><?php echo __('nav_item_1'); ?></h2>
+
+        <details>
+            <summary>
+                Search
+            </summary>
+            <div id="search">
+                <form id="SearchForm" name="SearchForm">
+                    <label for="search_text">
+                        <input type="text" name="search_text" id="search_text">
+                    </label>
+
+                    <label for="search_genre">
+                        <input type="text" name="search_genre" id="search_genre">
+                    </label>
+
+                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true);">
+                </form>
+            </div>
+        </details>
 
         <div id="playlist_containter">
             <?php self::getPlaylist(null,null,null,$offset,$step); ?>
@@ -415,17 +440,45 @@ class OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($title, $artist, $genre, $offset, $step) {
+    static function getPlaylist($title=null, $artist=null, $genre=null, $offset, $step) {
+
+        $condition='';
+        $arrayParams=array();
+
+        if ( !$artist=='' ) {
+            $condition = $condition . 'artist LIKE ? OR ';
+            $arrayParams[]='%'.$artist.'%';
+        }
+        else $artist=null;
+
+        if ( !$title=='' ) {
+            $condition = $condition.'song_name LIKE ? OR ';
+            $arrayParams[]='%'.$title.'%';
+        }
+        else $title=null;
+
+        if ( !$genre=='' ) {
+            $condition = $condition . 'genre=? OR ';
+            $arrayParams[]=$genre;
+        }
+        else $genre=null;
+
+        if (!$condition=='') {
+            $condition = page::cutLastString($condition, 'OR ');
+            
+        }
+        else $condition=null;
+
 
         if(!isset($_SESSION['PlaylistCounter']))
             $_SESSION['PlaylistCounter']=0;
 
         if($_SESSION['PlaylistCounter']==0) {
-            $playlistToPlay = RoceanDB::getTableArray('music_tags', '*', null, null, 'date_added DESC'); // Ολόκληρη η λίστα
+            $playlistToPlay = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
             $_SESSION['$countThePlaylist'] = count($playlistToPlay);
         }
 
-        $playlist=RoceanDB::getTableArray('music_tags', '*', null,null,'date_added DESC LIMIT '.$offset.','.$step);  // Η λίστα προς εμφάνιση
+        $playlist=RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT '.$offset.','.$step);  // Η λίστα προς εμφάνιση
 
 
         $counter=0;
@@ -469,8 +522,8 @@ class OWMP
         ?>
         </div>
 
-        <input id="previous" type="button" value="previous" onclick="DisplayWindow(1, <?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
-        <input id="next" type="button" value="next" onclick="DisplayWindow(1, <?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
+        <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
+        <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
 
         <?php
             if($_SESSION['PlaylistCounter']==0) {

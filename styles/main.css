@@ -558,6 +558,12 @@ input {
     height:1.5em;
 }
 
+#FormTags input:disabled {
+    background-color: #CFD8DC;
+    color: grey;
+
+}
+
 #playlistTable {
     display: table;
     width: 100%;

@@ -24,6 +24,9 @@ if(isset($_GET['step']))
     $step=ClearString($_GET['step']);
 else $step=1000;
 
+if(isset($_GET['search_text']))
+    $search_text=ClearString($_GET['search_text']);
+
 
 
 
