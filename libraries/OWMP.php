@@ -145,7 +145,16 @@ class OWMP
         ?>
 
         <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
-        <div id="overlay"></div>
+        <div id="overlay">
+            <div id="bottom_overlay">
+                <span id="overlay_song_name"></span>
+                <span id="overlay_artist"></span>
+                <span id="overlay_song_year"></span>
+                <span id="overlay_album"></span>
+            </div>
+            <div id="overlay_rating"></div>
+            <div id="overlay_play_count"></div>
+        </div>
 
         <input type="button" onclick="loadAndplayNextVideo();" value="Επόμενο">
 

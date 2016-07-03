@@ -349,6 +349,25 @@ function DisplayWindow(page, offset, step) {
 
 // OWMP functions
 
+// Εμφανίζει rating αστεράκια στο elem
+function ratingToStars(rating,elem) {
+    rating=parseInt(rating);
+
+    $(elem).html('');
+
+    for(i=1;i<=rating;i++){
+        var img = document.createElement("img");
+        img.src = "img/star.png";
+        var src = document.querySelector(elem);
+        src.appendChild(img);
+    }
+
+
+}
+
+
+
+// TODO συμβατότητα με safari και firefox. Ο Firefox δεν εμφανίζει τον div. Ο safari δεν δέχεται κάποια keys όταν είναι σε fullscreen
 // βάζει/βγάζει το video σε fullscren
 function toggleFullscreen() {
     elem = myVideo;
@@ -381,9 +400,8 @@ function toggleFullscreen() {
 function showFullScreenVideoTags() {
     if (document.fullscreenElement || document.mozFullScreenElement ||
         document.webkitFullscreenElement || document.msFullscreenElement)  // Αν είναι σε fullscreen
-        $('#overlay').clearQueue().show('slow').delay(5000).hide('fast');
+        $('#overlay').clearQueue().show().delay(10000).hide('slow');
     else $('#overlay').hide();
-    // alert('hey');
 
 }
 
@@ -414,8 +432,12 @@ function loadNextVideo(id) {
 
         filename=data.file.filename; // σκέτο το filename
 
+
+
         if (data.tags.success == true) {
             // console.log(data);
+
+
 
                 // εμφανίζει τα metadata στα input fields
                 $('#title').val(data.tags.title);
@@ -432,8 +454,13 @@ function loadNextVideo(id) {
 
 
                 // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-                $('#overlay').html(data.tags.artist + ' - ' + data.tags.title + ' ' + data.tags.year + '<br>' + data.tags.genre + ' ' +
-                        data.tags.rating);
+                $('#overlay_artist').html(data.tags.artist);
+                $('#overlay_song_name').html(data.tags.title);
+                $('#overlay_song_year').html(data.tags.year);
+                $('#overlay_album').html(data.tags.album);
+                // $('#overlay_rating').html(stars);
+                ratingToStars(data.tags.rating,'#overlay_rating');
+                $('#overlay_play_count').html(data.tags.play_count);
                 showFullScreenVideoTags();
 
 
@@ -522,14 +549,21 @@ function update_tags(key_rating) {
                     $("#fileID"+currentID).find('.rating').text(rating);
                 }
 
+
                 if(key_rating)    // Αν έχει πατηθεί νούμερο για βαθμολογία
                     $('#rating').val(rating);
 
                 FocusOnForm=false;
 
+
                 // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-                $('#overlay').html(artist + ' - ' + song_name + ' ' + song_year + '<br>' + genre + ' ' +
-                    rating);
+                $('#overlay_artist').html(artist);
+                $('#overlay_song_name').html(song_name);
+                $('#overlay_song_year').html(song_year);
+                $('#overlay_album').html(album);
+                // $('#overlay_rating').html(stars);
+                ratingToStars(rating,'#overlay_rating');
+
                 showFullScreenVideoTags();
 
 
@@ -553,6 +587,8 @@ function updateVideoPlayed() {
             if($("#fileID"+currentID).length) {    // Ενημερώνει τα σχετικά πεδία στην λίστα
                 $("#fileID"+currentID).find('.play_count').text(data.play_count);
             }
+
+            $('#overlay_play_count').html(data.play_count);
 
         }
     }, "json");
@@ -652,6 +688,7 @@ $(function(){
         FocusOnForm=false;
     });
 
+    // TODO συμβατότητα με άλλους browsers
     document.addEventListener("webkitfullscreenchange", function() {
         showFullScreenVideoTags();
     });
@@ -669,6 +706,7 @@ $(function(){
                 if (myVideo.paused)
                     myVideo.play();
                 else myVideo.pause();
+                showFullScreenVideoTags();
             }
 
             if (event.keyCode === 190) {   // +
