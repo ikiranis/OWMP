@@ -7,12 +7,12 @@
  * Κάνει το search στην playlist
  */
 
-session_start();
+
 
 
 require_once('../libraries/common.inc.php');
 
-
+session_start();
 
 if(isset($_GET['search_text']))
     $search_text=ClearString($_GET['search_text']);

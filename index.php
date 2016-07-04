@@ -7,9 +7,12 @@
  * Time: 01:17
  */
 
-session_start();
+
 
 require_once ('libraries/common.inc.php');
+
+session_start();
+
 require_once ('login.php');
 require_once ('MainPage.php');
 

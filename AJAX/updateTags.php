@@ -8,12 +8,20 @@
  *
  */
 
-session_start();
+
 
 require_once('../libraries/common.inc.php');
 
+session_start();
+
 $conn = new RoceanDB();
-$UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+// Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
+if(!$UserGroup=$conn->getUserGroup($conn->getSession('username')))  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+    if($conn->CheckCookiesForLoggedUser()) {
+        $UserGroup=$conn->getUserGroup($conn->getSession('username'));
+    }
+
 
 if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 

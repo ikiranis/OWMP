@@ -704,7 +704,8 @@ $(function(){
         showFullScreenVideoTags();
     });
 
-    window.addEventListener('keydown', function(event) {  // Έλεγχος πατήματος πλήκτρων
+    // Έλεγχος πατήματος πλήκτρων
+    window.addEventListener('keydown', function(event) {
 
         if (!FocusOnForm) {
             if (event.keyCode === 39) {  // δεξί βελάκι
@@ -715,6 +716,10 @@ $(function(){
                 if (myVideo.paused)
                     myVideo.play();
                 else myVideo.pause();
+                showFullScreenVideoTags();
+            }
+
+            if (event.keyCode === 73) {   // I
                 showFullScreenVideoTags();
             }
 

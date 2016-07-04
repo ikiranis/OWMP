@@ -6,11 +6,11 @@
  * Time: 22:36
  * Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου
  */
-session_start();
+
 
 require_once('../libraries/common.inc.php');
 
-
+session_start();
 
 
 if(isset($_GET['page']))
