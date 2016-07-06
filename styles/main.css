@@ -671,8 +671,8 @@ input {
 
 #overlay_artist { font-weight: bold; display: block; }
 #overlay_song_name { display: block; font-size: 0.7em; }
-#overlay_song_year { display: inline-block; float: left; }
-#overlay_album { display: inline-block; float: left; font-size: 0.5em; }
+#overlay_song_year { display: block;  }
+#overlay_album { display: block;  font-size: 0.6em; }
 
 /*Dashboard*/
 

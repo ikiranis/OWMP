@@ -708,8 +708,16 @@ $(function(){
     window.addEventListener('keydown', function(event) {
 
         if (!FocusOnForm) {
-            if (event.keyCode === 39) {  // δεξί βελάκι
+            if (event.keyCode === 78) {  // N
                 loadAndplayNextVideo();
+            }
+
+            if (event.keyCode === 39) {  // δεξί βελάκι
+                myVideo.playbackRate += 1;
+            }
+
+            if (event.keyCode === 37) {  // αριστερό βελάκι
+                myVideo.playbackRate -= 1;
             }
 
             if (event.keyCode === 32) {   // space
@@ -731,15 +739,15 @@ $(function(){
                 myVideo.volume -= 0.05;
             }
 
-            if (event.keyCode === 187) {   // +
-                myVideo.playbackRate += 1;
-            }
+            // if (event.keyCode === 187) {   // +
+            //     myVideo.playbackRate += 1;
+            // }
+            //
+            // if (event.keyCode === 189) {   // -
+            //     myVideo.playbackRate -= 1;
+            // }
 
-            if (event.keyCode === 189) {   // -
-                myVideo.playbackRate -= 1;
-            }
-
-            if (event.keyCode === 48) {   // 0
+            if (event.keyCode === 191) {   // /
                 myVideo.playbackRate = 1;
             }
 

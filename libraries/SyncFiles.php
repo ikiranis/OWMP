@@ -104,66 +104,79 @@ class SyncFiles
 
         }
 
-        // Γράφει τα αρχεία που βρίσκει στην βάση
-        public function writeTracks($searchItunes)
-        {
-            $this->scanFiles();
+    // Γράφει τα αρχεία που βρίσκει στην βάση
+    public function writeTracks($searchItunes,$searchIDFiles)
+    {
+        $this->scanFiles();
 
-            if($searchItunes)
-                $this->getItunesLibrary();
+        if($searchItunes)
+            $this->getItunesLibrary();
 
-            $conn = new RoceanDB();
+        $conn = new RoceanDB();
 
-            $filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null); // Ολόκληρη η λίστα
-
-            foreach($filesOnDB as $file) {
-                $newFilesOnDB[$file['id']]=$file['path'].$file['filename'];
+        if(!$filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+            $filesOnDB='';
+        else {
+            foreach ($filesOnDB as $file) {
+                $newFilesOnDB[$file['id']] = $file['path'] . $file['filename'];
             }
-            $filesOnDB=$newFilesOnDB;
+            $filesOnDB = $newFilesOnDB;
+        }
 
-            $conn->CreateConnection();
+        $conn->CreateConnection();
 
-            $sql_insert_file = 'INSERT INTO files (path, filename, hash, kind) VALUES (?,?,?,?)';
+        $sql_insert_file = 'INSERT INTO files (path, filename, hash, kind) VALUES (?,?,?,?)';
 
-            $sql_insert_tags = 'INSERT INTO music_tags (id, song_name, artist, genre, date_added, play_count, 
+        $sql_insert_tags = 'INSERT INTO music_tags (id, song_name, artist, genre, date_added, play_count, 
                           date_last_played, rating, album, album_artwork_id, video_width, video_height, filesize, track_time, song_year, live) 
                           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-            $stmt_file = RoceanDB::$conn->prepare($sql_insert_file);
-            $stmt_tags = RoceanDB::$conn->prepare($sql_insert_tags);
+        $stmt_file = RoceanDB::$conn->prepare($sql_insert_file);
+        $stmt_tags = RoceanDB::$conn->prepare($sql_insert_tags);
 
 
-            $counter = 0;
-            $general_counter = 0;
+        $counter = 0;
+        $general_counter = 0;
 
 
-            $hash = '';
+        $hash = '';
 
-            $inserted_id = 1;
-
-
-            foreach (self::$files as $file) {
+//            $inserted_id = 1;
 
 
-                $string_array = explode('/', $file);
-                $filename = $string_array[count($string_array) - 1];
-                $path = str_replace($filename, '', $file);
+        foreach (self::$files as $file) {
 
 
+            $string_array = explode('/', $file);
+            $filename = $string_array[count($string_array) - 1];
+            $path = str_replace($filename, '', $file);
+
+            if(is_array($filesOnDB)){
                 if($fileKey=array_search($file, $filesOnDB)) {
-//                    trigger_error('$filenameKey '.$fileKey.' COUNTER '.$general_counter);
+                    //                    trigger_error('$filenameKey '.$fileKey.' COUNTER '.$general_counter);
                     $fileAlreadySynced=true;
                 } else $fileAlreadySynced=false;
+            } else $fileAlreadySynced=false;
 
-                
-                if(!$fileAlreadySynced) {
-                    
+
+            if(!$fileAlreadySynced) {
+
 //                    trigger_error('TRYING TO SYNC '.$file['track_id'].' COUNTER '.$general_counter);
 
 
-                    $full_path = DIR_PREFIX . $path . $filename;
+                $full_path = DIR_PREFIX . $path . $filename;
 
-                    if($idtags = $this->getMediaFileTags($full_path)) {
+                $this->name = $filename;
+                $this->artist = '';
+                $this->genre = '';
+                $this->date_added = date('Y-m-d H:i:s');
+                $this->track_time = 0;
+                $this->video_width = 0;
+                $this->video_height = 0;
+                $this->size = 0;
+
+                if($searchIDFiles==true)
+                    if( $idtags = $this->getMediaFileTags($full_path) )   {
 
                         $this->name = $idtags['title'];
                         $this->artist = $idtags['artist'];
@@ -174,134 +187,133 @@ class SyncFiles
                         $this->video_height = $idtags['video_height'];
                         $this->size = $idtags['size'];
                     }
-                    else {
-                        $this->name = $filename;
-                        $this->artist = '';
-                        $this->genre = '';
-                        $this->date_added = date('Y-m-d H:i:s');
-                        $this->track_time = 0;
-                        $this->video_width = 0;
-                        $this->video_height = 0;
-                        $this->size = 0;
-                    }
-                    
-                    $this->play_date = null;
-                    $this->album = '';
-                    $this->play_count = 0;
-                    $this->rating = 0;
-                    $this->album_artwork_id = 0;
-                    $this->year = 0;
-                    $this->live = 0;
 
 
-                    ////        $full_path='/media/Dalek/Videoclips/Uncategorized/ПРЕМЬЕРА! Dasha Luks ft. Belozerov & Voronov - Raspberry.mp4';
-                    //        $start = microtime(true);
-                    //
-                    ////        $result = explode("  ", exec("md5sum $full_path"));
-                    ////        $hash=$result[0];
-                    //
-                    //
-                    //        $hash = sha1_file($full_path);
-                    //        $time_elapsed_secs = microtime(true) - $start;
-                    //
-                    ////        echo 'fullpath: '.$file.' filename: '.$filename.' path: '.$path.'<br>';
-                    //
-                    //        echo 'fullpath: '.$full_path.'  hash: '.$hash.' time: '.$time_elapsed_secs.'<br>';
+                $this->play_date = null;
+                $this->album = '';
+                $this->play_count = 0;
+                $this->rating = 0;
+                $this->album_artwork_id = 0;
+                $this->year = 0;
+                $this->live = 0;
 
 
-                    // Αρχική εγγραφή στο files
-                    $sqlParamsFile = array($path, $filename, $hash, 'Music Video');
+                ////        $full_path='/media/Dalek/Videoclips/Uncategorized/ПРЕМЬЕРА! Dasha Luks ft. Belozerov & Voronov - Raspberry.mp4';
+                //        $start = microtime(true);
+                //
+                ////        $result = explode("  ", exec("md5sum $full_path"));
+                ////        $hash=$result[0];
+                //
+                //
+                //        $hash = sha1_file($full_path);
+                //        $time_elapsed_secs = microtime(true) - $start;
+                //
+                ////        echo 'fullpath: '.$file.' filename: '.$filename.' path: '.$path.'<br>';
+                //
+                //        echo 'fullpath: '.$full_path.'  hash: '.$hash.' time: '.$time_elapsed_secs.'<br>';
 
-                    if ($stmt_file->execute($sqlParamsFile)) {
-                        $inserted_id = RoceanDB::$conn->lastInsertId();
+
+                // Αρχική εγγραφή στο files
+                $sqlParamsFile = array($path, $filename, $hash, 'Music Video');
+
+                if ($stmt_file->execute($sqlParamsFile)) {
+                    $inserted_id = RoceanDB::$conn->lastInsertId();
 //                        trigger_error('SUCCESS '.$inserted_id);
-                    }
-                    else {
-                        $inserted_id = 0;
-                        trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
-                    }
+                }
+                else {
+                    $inserted_id = 0;
+                    trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
+                }
 
 
 
-                    $status = 'not founded';
+                $status = 'not founded';
 
-                    if ($searchItunes) {
-                        $key = array_search($file, self::$tracks);
-
-
-                        if (($key) && (!$inserted_id == 0)) {   // Αν υπάρχει στην itunes library
-                            $track_id = $key;
-                            //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
-
-                            if (isset(self::$tags[$track_id]['Name'])) {
-                                $this->name = ClearString(self::$tags[$track_id]['Name']);
-                            }
-
-                            if (isset(self::$tags[$track_id]['Artist'])) {
-                                $this->artist = ClearString(self::$tags[$track_id]['Artist']);
-                            }
+                if ($searchItunes) {
+                    $key = array_search($file, self::$tracks);
 
 
-                            if (isset(self::$tags[$track_id]['Genre'])) {
-                                $this->genre = ClearString(self::$tags[$track_id]['Genre']);
-                                $this->genre=substr($this->genre,0,19);
-                            }
+                    if (($key) && (!$inserted_id == 0)) {   // Αν υπάρχει στην itunes library
+                        $track_id = $key;
+                        //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
 
-                            if (isset(self::$tags[$track_id]['Date Added']))
-                                $this->date_added = date('Y-m-d H:i:s', strtotime(self::$tags[$track_id]['Date Added']));
-
-                            if (isset(self::$tags[$track_id]['Play Count']))
-                                $this->play_count = intval(self::$tags[$track_id]['Play Count']);
-
-                            if (isset(self::$tags[$track_id]['Play Date']))
-                                $this->play_date = date('Y-m-d H:i:s', strtotime(self::$tags[$track_id]['Play Date UTC']));
-
-                            if (isset(self::$tags[$track_id]['Rating']))
-                                $this->rating = intval(self::$tags[$track_id]['Rating']);
-
-                            if (isset(self::$tags[$track_id]['Year']))
-                                $this->year = intval(self::$tags[$track_id]['Year']);
-
-                            if (isset(self::$tags[$track_id]['Comments']))
-                                if (self::$tags[$track_id]['Comments'] == 'Live')
-                                    $this->live = 1;
-
-                            $counter++;
-
-                            $status = 'founded';
-
+                        if (isset(self::$tags[$track_id]['Name'])) {
+                            $this->name = ClearString(self::$tags[$track_id]['Name']);
                         }
+
+                        if (isset(self::$tags[$track_id]['Artist'])) {
+                            $this->artist = ClearString(self::$tags[$track_id]['Artist']);
+                        }
+
+                        if (isset(self::$tags[$track_id]['Album'])) {
+                            $this->album = ClearString(self::$tags[$track_id]['Album']);
+                        }
+
+                        if (isset(self::$tags[$track_id]['Genre'])) {
+                            $this->genre = ClearString(self::$tags[$track_id]['Genre']);
+                            $this->genre=substr($this->genre,0,19);
+                        }
+
+                        if (isset(self::$tags[$track_id]['Date Added']))
+                            $this->date_added = date('Y-m-d H:i:s', strtotime(self::$tags[$track_id]['Date Added']));
+
+                        if (isset(self::$tags[$track_id]['Play Count']))
+                            $this->play_count = intval(self::$tags[$track_id]['Play Count']);
+
+                        if (isset(self::$tags[$track_id]['Play Date']))
+                            $this->play_date = date('Y-m-d H:i:s', strtotime(self::$tags[$track_id]['Play Date UTC']));
+
+                        if (isset(self::$tags[$track_id]['Rating']))
+                            $this->rating = intval(self::$tags[$track_id]['Rating']);
+
+                        if (isset(self::$tags[$track_id]['Year']))
+                            $this->year = intval(self::$tags[$track_id]['Year']);
+
+                        if (isset(self::$tags[$track_id]['Comments']))
+                            if (self::$tags[$track_id]['Comments'] == 'Live')
+                                $this->live = 1;
+
+//                        if (isset(self::$tags[$track_id]['Grouping']))
+//                            if (self::$tags[$track_id]['Grouping'] == 'Done')
+//                                $this->play_count++;
+
+                        $counter++;
+
+                        $status = 'founded';
+
+                    }
 //                        else echo 'not found ' . $file;
 
 
 //                    echo $this->name.'      found ' . $file . ' βρέθηκε στο ' . $key . '<br>';
 
-                    }
-
-                    $sqlParamsTags = array($inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
-                        $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
-                        $this->size, $this->track_time, $this->year, $this->live
-
-                    );
-
-
-                    if ($stmt_tags->execute($sqlParamsTags))
-                        trigger_error($general_counter . ' SUCCESS!!!!!!!    ');
-                    else trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
-                        '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
-                        '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
-
-
                 }
 
-                $general_counter++;
+                $sqlParamsTags = array($inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
+                    $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
+                    $this->size, $this->track_time, $this->year, $this->live
 
-//                if($general_counter>16000) die();
-                
+                );
+
+
+                if ($stmt_tags->execute($sqlParamsTags))
+                    echo $general_counter.' ';
+//                    trigger_error($general_counter . ' SUCCESS!!!!!!!    ');
+                else trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
+                    '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
+                    '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+
+
             }
 
-            echo '<p>Συγχρονίστηκαν με το itunes ' . $counter . " βίντεο. </p>";
+            $general_counter++;
+
+//                if($general_counter>16000) die();
+
         }
+
+        echo '<p>Συγχρονίστηκαν με το itunes ' . $counter . " βίντεο. </p>";
+    }
 
 
     // Επιστρέφει true αν το string είναι UTF-8
@@ -403,7 +415,7 @@ class SyncFiles
 
 //        $getID3 = new getID3;
 
-        $this->writeTracks(true);
+        $this->writeTracks(true,true);
 
 //        $this->getMediaFileTags('/media/Therion/videoclips/Pop/Sugababes/Sugababes_ CD_UK 19.11.2005 - Ugly(360p_H.264-AAC).mp4');
 
@@ -414,10 +426,3 @@ class SyncFiles
 
 
 }
-
-
-
-
-
-
-
