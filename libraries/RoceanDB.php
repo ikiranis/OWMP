@@ -630,6 +630,15 @@ class RoceanDB
 
         return $result;
     }
+    
+    
+    // μετατρέπει τον δισδιάστατο πίνακα, που παράγει το PDO, σε μονοδιάστατο
+    static function clearArray($someArray){
+        foreach($someArray as $some)
+            $newArray[]=$some[0];
+        
+        return $newArray;
+    }
 
 }
 

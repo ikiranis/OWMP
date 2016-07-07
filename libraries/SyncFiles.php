@@ -72,14 +72,16 @@ class SyncFiles
 
 
         }
+    
 
         // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
         public function scanFiles()
         {
+            $conn= new RoceanDB();
+            
+            $dirs = $conn->getTableArray('paths', 'file_path', null, null, null); // Παίρνει τα paths
 
-            $dirs = array('/media/Dalek/Videoclips', '/media/Dalek/New', '/media/Therion/videoclips');
-
-    //    $dirs = array('/media/Therion/videoclips');
+            $dirs=$conn->clearArray($dirs);
 
             $extensions = array('mp4', 'm4v');
 
@@ -137,6 +139,7 @@ class SyncFiles
 
         $counter = 0;
         $general_counter = 0;
+        $added_video = 0;
 
 
         $hash = '';
@@ -166,7 +169,9 @@ class SyncFiles
 
                 $full_path = DIR_PREFIX . $path . $filename;
 
-                $this->name = $filename;
+                $replace_text = array('.mp4', '.m4v');
+
+                $this->name = str_replace($replace_text, '', $filename);
                 $this->artist = '';
                 $this->genre = '';
                 $this->date_added = date('Y-m-d H:i:s');
@@ -296,12 +301,16 @@ class SyncFiles
                 );
 
 
-                if ($stmt_tags->execute($sqlParamsTags))
-                    echo $general_counter.' ';
-//                    trigger_error($general_counter . ' SUCCESS!!!!!!!    ');
-                else trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
-                    '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
-                    '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+                if ($stmt_tags->execute($sqlParamsTags)){
+                    echo 'added... '.$general_counter.' '.$this->name.'<br>';
+                    $added_video++;
+                }
+                else {
+                    echo 'not added... '.$general_counter.' '.$this->name.'<br>';
+                    trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
+                        '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
+                        '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+                }
 
 
             }
@@ -312,7 +321,7 @@ class SyncFiles
 
         }
 
-        echo '<p>Συγχρονίστηκαν με το itunes ' . $counter . " βίντεο. </p>";
+        echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
     }
 
 
@@ -348,7 +357,6 @@ class SyncFiles
             if (isset($ThisFileInfo['comments_html']['title'][0]))
                 if ($this->detectUTF8($ThisFileInfo['comments_html']['title'][0])) {
                     $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
-                    trigger_error('EINAI UTF-8');
                 } else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
             else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
 
@@ -392,15 +400,6 @@ class SyncFiles
 
             );
 
-//        echo'<pre>';
-//        print_r($result);
-//        echo'</pre>';
-//
-//        echo'<pre>';
-//        print_r($ThisFileInfo);
-//        echo'</pre>';
-
-//        unset(self::$getID3);
 
             return $result;
         } else return false;
@@ -413,11 +412,7 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
-//        $getID3 = new getID3;
-
-        $this->writeTracks(true,true);
-
-//        $this->getMediaFileTags('/media/Therion/videoclips/Pop/Sugababes/Sugababes_ CD_UK 19.11.2005 - Ugly(360p_H.264-AAC).mp4');
+        $this->writeTracks(false,true);
 
 //        echo'<pre>';
 //        print_r(self::$tags);

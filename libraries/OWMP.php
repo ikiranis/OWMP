@@ -38,7 +38,7 @@ class OWMP
                 'type' => 'text',
                 'onclick' => '',
                 'required' => 'no',
-                'maxlength' => '100',
+                'maxlength' => '255',
                 'pattern' => '',
                 'title' => '',
                 'disabled' => $disabled,
@@ -93,7 +93,7 @@ class OWMP
                 'title' => '',
                 'disabled' => $disabled,
                 'value' => null),
-            
+
             array('name' => 'play_count',
                 'fieldtext' => __('tag_play_count'),
                 'type' => 'number',
@@ -135,16 +135,27 @@ class OWMP
                 'disabled' => 'yes',
                 'value' => null),
 
-            array('name' => 'submit',
-                'fieldtext' => '',
-                'type' => 'button',
-                'onclick' => 'update_tags();',
+            array('name' => 'path_filename',
+                'fieldtext' => __('tag_path_filename'),
+                'type' => 'text',
+                'onclick' => '',
                 'required' => 'no',
-                'maxlength' => '',
+                'maxlength' => '255',
                 'pattern' => '',
                 'title' => '',
-                'disabled' => $disabled,
-                'value' => __('tag_form_submit'))
+                'disabled' => 'yes',
+                'value' => null)
+
+//            array('name' => 'submit',
+//                'fieldtext' => '',
+//                'type' => 'button',
+//                'onclick' => 'update_tags();',
+//                'required' => 'no',
+//                'maxlength' => '',
+//                'pattern' => '',
+//                'title' => '',
+//                'disabled' => $disabled,
+//                'value' => __('tag_form_submit'))
         );
 
 
@@ -152,7 +163,7 @@ class OWMP
 
         <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
 
-<!--        Fullscreen overlay elements-->
+        <!--        Fullscreen overlay elements-->
         <div id="overlay">
             <div id="bottom_overlay">
                 <span id="overlay_song_name"></span>
@@ -167,7 +178,10 @@ class OWMP
 
         <div id="tags">
 
-            <?php $tags->MakeForm('FormTags', $FormElementsArray); ?>
+            <?php $tags->MakeForm('FormTags', $FormElementsArray, true); ?>
+
+            <input type="button" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
+                value="<?php echo __('tag_form_submit'); ?>" onclick="update_tags();">
 
         </div>
 
@@ -204,8 +218,16 @@ class OWMP
             </div>
         </details>
 
-        <div id="playlist_containter">
-            <?php self::getPlaylist(null,null,null,$offset,$step); ?>
+        <div id="playlist_container">
+            <?php
+                if($_SESSION['PlaylistCounter']==0)
+                    self::getPlaylist(null,null,null,$offset,$step);
+                else {
+                    ?>
+                        <div id="playlistTable"></div>
+                    <?php
+                }
+            ?>
 
         </div>
 
@@ -465,7 +487,7 @@ class OWMP
 
         if (!$condition=='') {
             $condition = page::cutLastString($condition, 'OR ');
-            
+
         }
         else $condition=null;
 
@@ -485,33 +507,33 @@ class OWMP
         ?>
 
         <div id="playlistTable">
-        <?php
+            <?php
 
             foreach ($playlist as $track) {
                 ?>
-                    <div id="fileID<?php echo $track['id']; ?>" class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
-                        <div class="tag song_name">
-                            <?php echo $track['song_name']; ?>
-                        </div>
-                        <div class="tag artist">
-                            <?php echo $track['artist']; ?>
-                        </div>
-                        <div class="tag genre">
-                            <?php echo $track['genre']; ?>
-                        </div>
-                        <div class="tag song_year">
-                            <?php echo $track['song_year']; ?>
-                        </div>
-                        <div class="tag play_count">
-                            <?php echo $track['play_count']; ?>
-                        </div>
-                        <div class="tag rating">
-                            <?php echo ( ($track['rating']/10)/2 ); ?>
-                        </div>
-                        <div class="tag date_added">
-                            <?php echo $track['date_added']; ?>
-                        </div>
+                <div id="fileID<?php echo $track['id']; ?>" class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+                    <div class="tag song_name">
+                        <?php echo $track['song_name']; ?>
                     </div>
+                    <div class="tag artist">
+                        <?php echo $track['artist']; ?>
+                    </div>
+                    <div class="tag genre">
+                        <?php echo $track['genre']; ?>
+                    </div>
+                    <div class="tag song_year">
+                        <?php echo $track['song_year']; ?>
+                    </div>
+                    <div class="tag play_count">
+                        <?php echo $track['play_count']; ?>
+                    </div>
+                    <div class="tag rating">
+                        <?php echo ( ($track['rating']/10)/2 ); ?>
+                    </div>
+                    <div class="tag date_added">
+                        <?php echo $track['date_added']; ?>
+                    </div>
+                </div>
 
                 <?php
                 $counter++;
@@ -519,26 +541,30 @@ class OWMP
 
             $offset=intval($offset);
             $step=intval($step);
-        ?>
+            ?>
+
+            <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
+            <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
+
         </div>
 
-        <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
-        <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
-
+        
         <?php
-            if($_SESSION['PlaylistCounter']==0) {
-                ?>
+        if($_SESSION['PlaylistCounter']==0) {
+            ?>
 
-                <script type="text/javascript">
+            <script type="text/javascript">
 
-                    var files = <?php echo json_encode($playlistToPlay); ?>;
+                var files = <?php echo json_encode($playlistToPlay); ?>;
 
-                    init();
+                PlaylistContainerHTML=$('#playlistTable').html();
 
-                </script>
+                init();
 
-                <?php
-            }
+            </script>
+
+            <?php
+        }
 
         $_SESSION['PlaylistCounter']++;
 

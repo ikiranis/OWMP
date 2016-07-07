@@ -27,10 +27,11 @@ else $step=1000;
 if(isset($_GET['search_text']))
     $search_text=ClearString($_GET['search_text']);
 
-
-
+//if(isset($_SESSION['PlaylistCounter']))
+//    $_SESSION['PlaylistCounter']=0;
 
 switch ($page) {
     case 1: OWMP::showPlaylistWindow($offset,$step); break;
     case 2: OWMP::showConfiguration(); break;
 }
+

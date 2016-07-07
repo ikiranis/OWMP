@@ -23,6 +23,8 @@ var DIR_PREFIX='/media/';    // dir που μπαίνει μπροστά από 
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
 var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
 
+var PlaylistContainerHTML='';   // τα περιεχόμενα του div playlist_containter
+
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -98,32 +100,32 @@ function registerUser() {
 
 // Έλεγχος του login
 function login() {
-        username = $("#LoginWindow").find('input[name="username"]').val();
-        password = $("#LoginWindow").find('input[name="password"]').val();
-        if ($("#LoginWindow").find('input[name="SavePassword"]').is(":checked"))
-            SavePassword = true;
-        else SavePassword = false;
+    username = $("#LoginWindow").find('input[name="username"]').val();
+    password = $("#LoginWindow").find('input[name="password"]').val();
+    if ($("#LoginWindow").find('input[name="SavePassword"]').is(":checked"))
+        SavePassword = true;
+    else SavePassword = false;
 
-        console.log(SavePassword);
+    console.log(SavePassword);
 
-        if ($('#LoginForm').valid()) {
+    if ($('#LoginForm').valid()) {
 
 
-            callFile = AJAX_path+"checkLogin.php?username=" + username + "&password=" + password + "&SavePassword=" + SavePassword;
+        callFile = AJAX_path+"checkLogin.php?username=" + username + "&password=" + password + "&SavePassword=" + SavePassword;
 
-            $.get(callFile, function (data) {
+        $.get(callFile, function (data) {
 
-                result = JSON.parse(data);
-                console.log(result['success']);
-                if (result['success'] == true) {
+            result = JSON.parse(data);
+            console.log(result['success']);
+            if (result['success'] == true) {
 
-                    window.location.href = "index.php";
-                }
-                else  DisplayMessage('#alert_error',result['message']);
+                window.location.href = "index.php";
+            }
+            else  DisplayMessage('#alert_error',result['message']);
 
-            });
+        });
 
-        }
+    }
 
 }
 
@@ -147,7 +149,7 @@ function updateUser(id) {
 
     if(changepass)
         callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
-        "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
+            "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
     else callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
@@ -175,10 +177,10 @@ function updateUser(id) {
                 else $("#messageUserID" + id).addClassDelay("success", 3000);
             }
             else if(data.UserExists) {
-                    $("#messageUserID" + id).addClassDelay("failure", 3000);
+                $("#messageUserID" + id).addClassDelay("failure", 3000);
 
-                    DisplayMessage('#alert_error', error1+' '+username+' '+error2);
-                } else $("#messageUserID" + id).addClassDelay("failure", 3000);
+                DisplayMessage('#alert_error', error1+' '+username+' '+error2);
+            } else $("#messageUserID" + id).addClassDelay("failure", 3000);
 
         }, "json");
     }
@@ -203,7 +205,7 @@ function updateOption(id) {
         $.get(callFile, function (data) {
             if (data.success == 'true') {
 
-               $("#messageOptionID" + id).addClassDelay("success", 3000);
+                $("#messageOptionID" + id).addClassDelay("success", 3000);
             }
             else $("#messageOptionID" + id).addClassDelay("failure", 3000);
         }, "json");
@@ -315,8 +317,8 @@ function getTime(name) {
     var myTime = new Date();
 
     var curTime=addZero(myTime.getHours())+':'+
-                addZero(myTime.getMinutes())+':'+
-                addZero(myTime.getSeconds());
+        addZero(myTime.getMinutes())+':'+
+        addZero(myTime.getSeconds());
 
     $(name).text(curTime);
 }
@@ -324,14 +326,24 @@ function getTime(name) {
 
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page, offset, step) {
-    console.log('offset: '+offset+' step: '+step);
+    // console.log(curNavItem+ ' '+ NavLength);
     callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step;
 
 
 
-        $('section article').load(callFile, function() {
-                console.log('load is done');
-        });
+    $('section article').load(callFile, function() {
+
+        if(page==1) {
+
+            $('#playlistTable').html(PlaylistContainerHTML);
+        }
+
+
+        for(i=1;i<=NavLength;i++)   // Κάνει όλα τα nav πεδία inactive
+            $('#navID'+i).removeClass('active');
+        
+        $('#navID'+page).addClass('active');   // κάνει το page active
+    });
 }
 
 
@@ -420,7 +432,7 @@ function loadNextVideo(id) {
     }
 
     TimeUpdated=false;
-    
+
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
         // console.log(data);
         file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
@@ -436,29 +448,30 @@ function loadNextVideo(id) {
 
 
 
-                // εμφανίζει τα metadata στα input fields
-                $('#title').val(data.tags.title);
-                $('#artist').val(data.tags.artist);
-                $('#genre').val(data.tags.genre);
-                $('#year').val(data.tags.year);
-                $('#album').val(data.tags.album);
-                $('#play_count').val(data.tags.play_count);
-                $('#date_played').val(data.tags.date_played);
-                $('#date_added').val(data.tags.date_added);
-                $('#rating').val(data.tags.rating);
-                $('#track_time').val(data.tags.track_time);
-                $('#live').val(data.tags.live);
+            // εμφανίζει τα metadata στα input fields
+            $('#title').val(data.tags.title);
+            $('#artist').val(data.tags.artist);
+            $('#genre').val(data.tags.genre);
+            $('#year').val(data.tags.year);
+            $('#album').val(data.tags.album);
+            $('#play_count').val(data.tags.play_count);
+            $('#date_played').val(data.tags.date_played);
+            $('#date_added').val(data.tags.date_added);
+            $('#rating').val(data.tags.rating);
+            $('#track_time').val(data.tags.track_time);
+            $('#live').val(data.tags.live);
+            $('#path_filename').val(decodeURIComponent(file_path));
 
 
-                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-                $('#overlay_artist').html(data.tags.artist);
-                $('#overlay_song_name').html(data.tags.title);
-                $('#overlay_song_year').html(data.tags.year);
-                $('#overlay_album').html(data.tags.album);
-                // $('#overlay_rating').html(stars);
-                ratingToStars(data.tags.rating,'#overlay_rating');
-                $('#overlay_play_count').html(data.tags.play_count);
-                showFullScreenVideoTags();
+            // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+            $('#overlay_artist').html(data.tags.artist);
+            $('#overlay_song_name').html(data.tags.title);
+            $('#overlay_song_year').html(data.tags.year);
+            $('#overlay_album').html(data.tags.album);
+            // $('#overlay_rating').html(stars);
+            ratingToStars(data.tags.rating,'#overlay_rating');
+            $('#overlay_play_count').html(data.tags.play_count);
+            showFullScreenVideoTags();
 
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
@@ -533,40 +546,40 @@ function update_tags(key_rating) {
         "&song_year="+song_year+"&album="+album+"&rating="+rating+"&live="+live;
 
 
-        $.get(callFile, function (data) {
-            if (data.success == true) {
+    $.get(callFile, function (data) {
+        if (data.success == true) {
 
-                $("#message").addClassDelay("success", 3000);
+            $("#message").addClassDelay("success", 3000);
 
-                if($("#fileID"+currentID).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-                    $("#fileID"+currentID).find('.song_name').text(song_name);
-                    $("#fileID"+currentID).find('.artist').text(artist);
-                    $("#fileID"+currentID).find('.genre').text(genre);
-                    $("#fileID"+currentID).find('.song_year').text(song_year);
-                    $("#fileID"+currentID).find('.rating').text(rating);
-                }
-
-
-                if(key_rating)    // Αν έχει πατηθεί νούμερο για βαθμολογία
-                    $('#rating').val(rating);
-
-                FocusOnForm=false;
-
-
-                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-                $('#overlay_artist').html(artist);
-                $('#overlay_song_name').html(song_name);
-                $('#overlay_song_year').html(song_year);
-                $('#overlay_album').html(album);
-                // $('#overlay_rating').html(stars);
-                ratingToStars(rating,'#overlay_rating');
-
-                showFullScreenVideoTags();
-
-
+            if($("#fileID"+currentID).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                $("#fileID"+currentID).find('.song_name').text(song_name);
+                $("#fileID"+currentID).find('.artist').text(artist);
+                $("#fileID"+currentID).find('.genre').text(genre);
+                $("#fileID"+currentID).find('.song_year').text(song_year);
+                $("#fileID"+currentID).find('.rating').text(rating);
             }
-            else $("#message").addClassDelay("failure", 3000);
-        }, "json");
+
+
+            if(key_rating)    // Αν έχει πατηθεί νούμερο για βαθμολογία
+                $('#rating').val(rating);
+
+            FocusOnForm=false;
+
+
+            // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+            $('#overlay_artist').html(artist);
+            $('#overlay_song_name').html(song_name);
+            $('#overlay_song_year').html(song_year);
+            $('#overlay_album').html(album);
+            // $('#overlay_rating').html(stars);
+            ratingToStars(rating,'#overlay_rating');
+
+            showFullScreenVideoTags();
+
+
+        }
+        else $("#message").addClassDelay("failure", 3000);
+    }, "json");
 }
 
 
@@ -604,10 +617,10 @@ function searchPlaylist(offset, step, firstTime) {
 
 
 
-    $('#playlist_containter').load(callFile, function() {
-        console.log('load is done');
+    $('#playlist_container').load(callFile, function() {
+        // console.log('load is done');
     });
-    
+
 }
 
 
@@ -622,11 +635,11 @@ $(function(){
 
     $('#RegisterForm').validate({ // initialize the plugin
         errorElement: 'div',
-             rules : {
-                 repeat_password: {
-                     equalTo : '[name="password"]'
-                 }
-             }
+        rules : {
+            repeat_password: {
+                equalTo : '[name="password"]'
+            }
+        }
     });
 
 
@@ -713,11 +726,11 @@ $(function(){
             }
 
             if (event.keyCode === 39) {  // δεξί βελάκι
-                myVideo.playbackRate += 1;
+                myVideo.currentTime+=60;
             }
 
             if (event.keyCode === 37) {  // αριστερό βελάκι
-                myVideo.playbackRate -= 1;
+                myVideo.currentTime-=60;
             }
 
             if (event.keyCode === 32) {   // space
@@ -739,12 +752,18 @@ $(function(){
                 myVideo.volume -= 0.05;
             }
 
+            if (event.keyCode === 190) {   // >
+                myVideo.playbackRate += 1;
+            }
+
+            if (event.keyCode === 188) {   // <
+                myVideo.playbackRate -= 1;
+            }
+
             // if (event.keyCode === 187) {   // +
-            //     myVideo.playbackRate += 1;
             // }
             //
             // if (event.keyCode === 189) {   // -
-            //     myVideo.playbackRate -= 1;
             // }
 
             if (event.keyCode === 191) {   // /
@@ -797,7 +816,7 @@ $(function(){
             }
 
         });
-    
+
 
 
 

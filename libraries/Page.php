@@ -105,14 +105,29 @@ class Page
 // );
 
 
-    function MakeForm($name, $form_elements)
+    function MakeForm($name, $form_elements, $splitToDetails)
     {
+        $splitted=false;
         ?>
         <form class="validate-form" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
             <?php
             foreach ($form_elements as $item) {
+
+                if( $splitToDetails==true && $splitted==false )
+                    if($item['disabled']=='yes') {
+                         $splitted=true;
+                    ?>
+                        <details>
+                            <summary>
+                                Λεπτομέρειες
+                            </summary>
+
+
+                    <?php
+                    }
+
+
                 ?>
-                
                 <div class="formRow">
                     <label for="<?php echo $item['name']; ?>"><?php if($item['type']=='checkbox') echo $item['fieldtext']; ?></label>
                     <input type="<?php echo $item['type']; ?>"
@@ -131,7 +146,16 @@ class Page
  
                 <?php
             }
-            ?>
+
+                if( $splitToDetails==true ) {
+                ?>
+                            </details>
+
+                <?php
+                }
+
+
+        ?>
 
         </form>
 
@@ -196,8 +220,8 @@ class Page
 
                         if($targetPage=='window') {
                             ?>
-                            <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
-                                    onclick="DisplayWindow(<?php echo $counter; ?>);"><?php echo $item; ?></a></li>
+                            <li><a id="navID<?php echo $counter; ?>" <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
+                                    onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a></li>
 
                             <?php
                         }
@@ -206,6 +230,12 @@ class Page
                     }
                 ?>        
             </ul>
+
+        <script type="text/javascript">
+
+            var NavLength = <?php echo $counter-1; ?>;
+
+        </script>
 
         <?php
     }
@@ -222,7 +252,7 @@ class Page
 
     static function setNavActiveItem($NavActiveItem) {
         $expiration=60*30;
-        setcookie('page', $NavActiveItem, time()+$expiration);
+        setcookie('page', $NavActiveItem, time()+$expiration, PROJECT_PATH);
 
     }
 
