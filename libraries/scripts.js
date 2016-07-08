@@ -329,6 +329,8 @@ function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
     callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step;
 
+    if(page!==1)
+        PlaylistContainerHTML=$('#playlistTable').html();
 
 
     $('section article').load(callFile, function() {
@@ -499,7 +501,10 @@ function init(){
     // Define a callback function called each time a video ends
     myVideo.addEventListener('ended', loadAndplayNextVideo, false);
 
+    if(!localStorage.volume)  // Αν δεν υπάρχει το localStorage.volume θέτει αρχική τιμή
+        localStorage.volume='1';
 
+    myVideo.volume=parseFloat(localStorage.volume);   // Θέτει το volume με βάση την τιμή του localStorage.volume
 
     // Load the first video when the page is loaded.
     loadNextVideo(0);
@@ -746,10 +751,12 @@ $(function(){
 
             if (event.keyCode === 38) {   // πάνω βελάκι
                 myVideo.volume += 0.05;
+                localStorage.volume=myVideo.volume;
             }
 
             if (event.keyCode === 40) {   // κάτω βελάκι
                 myVideo.volume -= 0.05;
+                localStorage.volume=myVideo.volume;
             }
 
             if (event.keyCode === 190) {   // >

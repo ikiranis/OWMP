@@ -557,7 +557,7 @@ class OWMP
 
                 var files = <?php echo json_encode($playlistToPlay); ?>;
 
-                PlaylistContainerHTML=$('#playlistTable').html();
+                
 
                 init();
 
