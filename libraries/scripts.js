@@ -488,7 +488,7 @@ function loadNextVideo(id) {
 // callback that loads and plays the next video
 function loadAndplayNextVideo() {
     loadNextVideo(0);
-    myVideo.play();
+    // myVideo.play();
 
 }
 
@@ -582,7 +582,7 @@ function update_tags(key_rating) {
     }, "json");
 }
 
-
+// Ενημερώνει τα play count και date last played
 function updateVideoPlayed() {
     callFile=AJAX_path+"updateTimePlayed.php?id="+currentID;
 
