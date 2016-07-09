@@ -14,11 +14,6 @@ require_once('../libraries/common.inc.php');
 
 session_start();
 
-if(isset($_GET['search_text']))
-    $search_text=ClearString($_GET['search_text']);
-
-if(isset($_GET['search_genre']))
-    $search_genre=ClearString($_GET['search_genre']);
 
 if(isset($_GET['offset']))
     $offset=ClearString($_GET['offset']);
@@ -28,6 +23,10 @@ if(isset($_GET['step']))
     $step=ClearString($_GET['step']);
 else $step=1000;
 
+if(isset($_GET['jsonArray']))  // Παίρνει τα δεδομένα σε πίνακα από JSON
+    $jsonArray=json_decode($_GET['jsonArray'],true);
+
+
 
 if(isset($_GET['firstTime']))
     $firstTime=ClearString($_GET['firstTime']);
@@ -36,5 +35,7 @@ if(isset($_GET['firstTime']))
 if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
-OWMP::getPlaylist($search_text,$search_text,$search_genre,$offset,$step);
+
+
+OWMP::getPlaylist($jsonArray,$offset,$step);
 

@@ -197,6 +197,9 @@ class OWMP
 
 
     static function showPlaylistWindow ($offset, $step) {
+
+        $fields=RoceanDB::getTableFields('music_tags',array('id','album_artwork_id'));
+
         ?>
 
         <details>
@@ -205,23 +208,69 @@ class OWMP
             </summary>
             <div id="search">
                 <form id="SearchForm" name="SearchForm">
-                    <label for="search_text">
-                        <input type="text" name="search_text" id="search_text">
-                    </label>
+                    <?php
 
-                    <label for="search_genre">
-                        <input type="text" name="search_genre" id="search_genre">
-                    </label>
+                    for($counter=1;$counter<3;$counter++) {
 
-                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true);">
+                    ?>
+                    <div id="searchRow<?php echo $counter; ?>">
+                        <label for="search_field<?php echo $counter; ?>">
+                            <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
+                                <?php
+                                foreach ($fields as $field) {
+                                    ?>
+                                    <option value="<?php echo $field; ?>">
+                                        <?php echo $field; ?>
+                                    </option>
+
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </label>
+
+                        <label for="search_text<?php echo $counter; ?>">
+                            <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
+                        </label>
+
+                        <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
+
+                                <option value="OR">
+                                    OR
+                                </option>
+
+                                <option value="AND">
+                                    AND
+                                </option>
+
+                        </select>
+                    </div>
+
+                    <?php
+                    }
+                    ?>
+
+                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true, 2);">
+
+<!--                    <label for="search_text">-->
+<!--                        <input type="text" name="search_text" id="search_text">-->
+<!--                    </label>-->
+<!---->
+<!--                    <label for="search_genre">-->
+<!--                        <input type="text" name="search_genre" id="search_genre">-->
+<!--                    </label>-->
+
+
                 </form>
             </div>
+
+
         </details>
 
         <div id="playlist_container">
             <?php
                 if($_SESSION['PlaylistCounter']==0)
-                    self::getPlaylist(null,null,null,$offset,$step);
+                    self::getPlaylist(null,$offset,$step);
                 else {
                     ?>
                         <div id="playlistTable"></div>
@@ -462,34 +511,26 @@ class OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($title=null, $artist=null, $genre=null, $offset, $step) {
+    static function getPlaylist($fieldsArray=null, $offset, $step) {
 
         $condition='';
         $arrayParams=array();
 
-        if ( !$artist=='' ) {
-            $condition = $condition . 'artist LIKE ? OR ';
-            $arrayParams[]='%'.$artist.'%';
-        }
-        else $artist=null;
-
-        if ( !$title=='' ) {
-            $condition = $condition.'song_name LIKE ? OR ';
-            $arrayParams[]='%'.$title.'%';
-        }
-        else $title=null;
-
-        if ( !$genre=='' ) {
-            $condition = $condition . 'genre=? OR ';
-            $arrayParams[]=$genre;
-        }
-        else $genre=null;
+        if($fieldsArray)
+            foreach ($fieldsArray as $field) {
+                if( (!$field==null) && (!$field['search_text']=='') ) {
+                    $condition = $condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
+                    $arrayParams[]='%'.$field['search_text'].'%';
+                }
+            }
 
         if (!$condition=='') {
             $condition = page::cutLastString($condition, 'OR ');
+//            $condition = page::cutLastString($condition, 'AND ');
 
         }
         else $condition=null;
+        
 
 
         if(!isset($_SESSION['PlaylistCounter']))

@@ -341,7 +341,7 @@ function DisplayWindow(page, offset, step) {
         }
 
 
-        for(i=1;i<=NavLength;i++)   // Κάνει όλα τα nav πεδία inactive
+        for(var i=1;i<=NavLength;i++)   // Κάνει όλα τα nav πεδία inactive
             $('#navID'+i).removeClass('active');
         
         $('#navID'+page).addClass('active');   // κάνει το page active
@@ -364,7 +364,7 @@ function ratingToStars(rating,elem) {
 
     $(elem).html('');
 
-    for(i=1;i<=rating;i++){
+    for(var i=1;i<=rating;i++){
         var img = document.createElement("img");
         img.src = "img/star.png";
         var src = document.querySelector(elem);
@@ -443,12 +443,8 @@ function loadNextVideo(id) {
 
         filename=data.file.filename; // σκέτο το filename
 
-
-
         if (data.tags.success == true) {
             // console.log(data);
-
-
 
             // εμφανίζει τα metadata στα input fields
             $('#title').val(data.tags.title);
@@ -485,6 +481,7 @@ function loadNextVideo(id) {
     }, "json");
 
     myVideo.load();
+
 }
 
 // callback that loads and plays the next video
@@ -612,13 +609,21 @@ function updateVideoPlayed() {
 
 
 // αναζήτηση στην playlist
-function searchPlaylist(offset, step, firstTime) {
-    search_text=$('#search_text').val();
-    search_genre=$('#search_genre').val();
+function searchPlaylist(offset, step, firstTime, numberOfQueries) {
+    var searchArray=[];
+    for(var i=1;i<=numberOfQueries;i++){
+        searchArray[i]= {
+            'search_field': $('#search_field' + i).val(),
+            'search_text': $('#search_text' + i).val(),
+            'search_operator': $('#search_operator' + i).val()
+        }
+    }
 
+    jsonArray=JSON.stringify(searchArray);
 
-    callFile=AJAX_path+"searchPlaylist.php?search_text="+encodeURIComponent(search_text)+"&search_genre="+encodeURIComponent(search_genre)
-        +"&offset="+offset+"&step="+step+"&firstTime="+firstTime;
+    console.log(jsonArray);
+
+    callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime;
 
 
 
@@ -631,8 +636,8 @@ function searchPlaylist(offset, step, firstTime) {
 
 
 
-
-
+// ************************************
+// On load
 $(function(){
     $('#LoginForm').validate({ // initialize the plugin
         errorElement: 'div'
@@ -668,7 +673,8 @@ $(function(){
     getTime('#timetext'); // Εμφανίζει την ώρα
 
 
-    setInterval(function(){  // Εμφανίζει συνεχώς την ώρα
+    // Εμφανίζει συνεχώς την ώρα
+    setInterval(function(){
         getTime('#timetext');
 
     }, 1000);
@@ -810,8 +816,8 @@ $(function(){
 
 
 
-
-    $("#myVideo").on(    // Ελέγχει τον χρόνο που βρίσκετα το βίντεο και όταν περάσει το όριο εκτελεί συγκεκριμένες εντολές
+    // Ελέγχει τον χρόνο που βρίσκεται το βίντεο και όταν περάσει το όριο εκτελεί συγκεκριμένες εντολές
+    $("#myVideo").on(
         "timeupdate",
         function(event){
             curTimePercent=(this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού

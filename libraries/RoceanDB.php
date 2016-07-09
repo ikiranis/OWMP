@@ -640,5 +640,30 @@ class RoceanDB
         return $newArray;
     }
 
+
+    // Επιστρέφει την λίστα των πεδίων του $table σε μονοδιάστατο array. Αφαιρεί το $exclude array
+    static function getTableFields ($table, $exclude) {
+
+        self::CreateConnection();
+
+        $sql = 'SHOW COLUMNS FROM '.$table;
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        $result=$stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        foreach ($result as $item) {   // Φτιάχνει τον μονοδιάστατο πίνακα, αρκεί να μην είναι πεδίο που είναι στα $exclude
+            if(!in_array($item['Field'], $exclude))
+                $simpleResult[] = $item['Field'];
+        }
+
+        return $simpleResult;
+    }
+
 }
 
