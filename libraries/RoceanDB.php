@@ -665,5 +665,32 @@ class RoceanDB
         return $simpleResult;
     }
 
+
+    // Επιστρέφει τον τύπο ενός field
+    static function getTableFieldType ($table, $field) {
+
+        self::CreateConnection();
+
+        $sql = 'SHOW COLUMNS FROM '.$table.' WHERE Field=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array($field));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['Type'];
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+
+        return $result;
+    }
+
+
+
 }
 

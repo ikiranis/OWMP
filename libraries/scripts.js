@@ -615,13 +615,13 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
         searchArray[i]= {
             'search_field': $('#search_field' + i).val(),
             'search_text': $('#search_text' + i).val(),
-            'search_operator': $('#search_operator' + i).val()
+            'search_operator': $('#search_operator' + i).val(),
+            'search_equality': $('#search_equality' + i).val()
         }
     }
 
     jsonArray=JSON.stringify(searchArray);
 
-    console.log(jsonArray);
 
     callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime;
 

@@ -210,7 +210,7 @@ class OWMP
                 <form id="SearchForm" name="SearchForm">
                     <?php
 
-                    for($counter=1;$counter<3;$counter++) {
+                    for($counter=1;$counter<6;$counter++) {
 
                     ?>
                     <div id="searchRow<?php echo $counter; ?>">
@@ -228,6 +228,23 @@ class OWMP
                                 ?>
                             </select>
                         </label>
+
+                        <select class="search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
+
+                            <option value="equal">
+                                Equal
+                            </option>
+
+                            <option value="greater">
+                                Greater
+                            </option>
+
+                            <option value="less">
+                                Less
+                            </option>
+
+
+                        </select>
 
                         <label for="search_text<?php echo $counter; ?>">
                             <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
@@ -250,7 +267,7 @@ class OWMP
                     }
                     ?>
 
-                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true, 2);">
+                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true, 5);">
 
 <!--                    <label for="search_text">-->
 <!--                        <input type="text" name="search_text" id="search_text">-->
@@ -519,8 +536,32 @@ class OWMP
         if($fieldsArray)
             foreach ($fieldsArray as $field) {
                 if( (!$field==null) && (!$field['search_text']=='') ) {
-                    $condition = $condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
-                    $arrayParams[]='%'.$field['search_text'].'%';
+                    $fieldType=RoceanDB::getTableFieldType('music_tags',$field['search_field']);  // παίρνει το type του field
+//                    trigger_error($fieldType);
+                    if ( $fieldType=='int(11)' || $fieldType=='tinyint(4)' || $fieldType=='datetime' ) {   // αν το type είναι νούμερο
+                        if($fieldType=='datetime')
+                            $searchText = $field['search_text'];
+                        else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
+
+                        $equality=$field['search_equality'];
+                        switch ($equality) {
+                            case 'equal': $equality_sign='='; break;
+                            case 'greater': $equality_sign='>'; break;
+                            case 'less': $equality_sign='<'; break;
+                        }
+
+                        $condition = $condition . $field['search_field'] . $equality_sign.'? ' . $field['search_operator'] . ' ';
+                        $arrayParams[]=$searchText;
+                    }
+                    else {   // αν είναι string
+                        $searchText=ClearString($field['search_text']);
+                        $condition = $condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
+                        $arrayParams[]='%'.$searchText.'%';
+                    }
+                    
+                    
+
+
                 }
             }
 
@@ -532,6 +573,7 @@ class OWMP
         else $condition=null;
         
 
+//        trigger_error($condition);
 
         if(!isset($_SESSION['PlaylistCounter']))
             $_SESSION['PlaylistCounter']=0;
