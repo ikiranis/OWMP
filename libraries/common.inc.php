@@ -32,7 +32,7 @@ define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // �
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
 
 
-define ('NAV_LIST_ITEMS', '2'); // Ο αριθμός των επιλογών στo Nav Menu
+define ('NAV_LIST_ITEMS', '3'); // Ο αριθμός των επιλογών στo Nav Menu
 
 $languages = array (    // Οι γλώσσες που υποστηρίζονται
     array ('language' => 'Ελληνικά',

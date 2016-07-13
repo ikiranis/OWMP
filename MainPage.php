@@ -44,6 +44,8 @@ function DisplayMainPage() {
                 switch ($NavActiveItem) {
                     case 1: OWMP::showPlaylistWindow(0,1000,null); break;
                     case 2: OWMP::showConfiguration(); break;
+                    case 2: OWMP::showSynchronization(); break;
+                    
                 }
 
             ?>

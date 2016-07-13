@@ -317,6 +317,9 @@ class SyncFiles
 
             $general_counter++;
 
+
+
+
 //                if($general_counter>16000) die();
 
         }
@@ -411,6 +414,8 @@ class SyncFiles
     public function syncTheFiles() {
         set_time_limit(0);
         ini_set('memory_limit','1024M');
+
+
 
         $this->writeTracks(false,true);
 

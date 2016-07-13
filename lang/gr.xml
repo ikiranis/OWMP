@@ -25,6 +25,7 @@
     <page name="nav">
         <phrase name="nav_item_1">Λίστες</phrase>
         <phrase name="nav_item_2">Ρυθμίσεις</phrase>
+        <phrase name="nav_item_3">Συγχρονισμός</phrase>
     </page>
 
     <page name="dashboard">
@@ -93,6 +94,10 @@
         <phrase name="tag_live">Live</phrase>
         <phrase name="tag_path_filename">Διαδρομή αρχείου</phrase>
         <phrase name="tag_form_submit">Ενημέρωση</phrase>
+    </page>
+
+    <page name="sync">
+        <phrase name="Synchronize">Συγχρονισμός</phrase>
     </page>
 
 

@@ -25,6 +25,7 @@
     <page name="nav">
         <phrase name="nav_item_1">Playlists</phrase>
         <phrase name="nav_item_2">Configuration</phrase>
+        <phrase name="nav_item_3">Synchronization</phrase>
     </page>
 
     <page name="dashboard">
@@ -93,6 +94,10 @@
         <phrase name="tag_live">Live</phrase>
         <phrase name="tag_path_filename">Path</phrase>
         <phrase name="tag_form_submit">Update</phrase>
+    </page>
+
+    <page name="sync">
+        <phrase name="Synchronize">Synchronization</phrase>
     </page>
 
 

@@ -269,14 +269,6 @@ class OWMP
 
                     <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true, 5);">
 
-<!--                    <label for="search_text">-->
-<!--                        <input type="text" name="search_text" id="search_text">-->
-<!--                    </label>-->
-<!---->
-<!--                    <label for="search_genre">-->
-<!--                        <input type="text" name="search_genre" id="search_genre">-->
-<!--                    </label>-->
-
 
                 </form>
             </div>
@@ -525,6 +517,21 @@ class OWMP
 
         <?php
 
+    }
+
+
+    // εμφάνιση των επιλογών συγχρονισμού
+    static function showSynchronization () {
+        ?>
+
+        <input type="button" id="startSync" name="startSync" onclick="startSync();" value="<?php echo __('Synchronize'); ?>">
+
+        <div id="SyncDetails">
+            <div id="progress"></div>
+        </div>
+
+
+        <?php
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης

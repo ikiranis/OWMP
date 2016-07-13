@@ -633,6 +633,24 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
 
 }
 
+// TODO να επιτρέπει να πατιέται μόνο μία φορά πριν τελειώσει όλη η διαδικασία
+// Κάνει τον συγχρονισμό των αρχείων
+function startSync() {
+    callFile=AJAX_path+"syncTheFiles.php";
+
+    $('#progress').show();
+
+
+    $('#SyncDetails').load(callFile, function() {
+        // console.log('load is done');
+        $('#progress').hide();
+    });
+}
+
+
+
+
+
 
 
 
