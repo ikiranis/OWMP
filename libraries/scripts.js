@@ -435,6 +435,8 @@ function loadNextVideo(id) {
 
     TimeUpdated=false;
 
+
+
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
         // console.log(data);
         file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
@@ -478,9 +480,13 @@ function loadNextVideo(id) {
             $('#title').val(filename);
         }
 
+        $("#TotalNumberInPlaylist").text(files.length);  // εμφανίζει το σύνολο των κομματιών στην playlist
+
     }, "json");
 
     myVideo.load();
+
+
 
 }
 
@@ -503,8 +509,10 @@ function init(){
 
     myVideo.volume=parseFloat(localStorage.volume);   // Θέτει το volume με βάση την τιμή του localStorage.volume
 
+
     // Load the first video when the page is loaded.
     loadNextVideo(0);
+
 }
 
 // Όταν δεν βρει ένα video να παίξει

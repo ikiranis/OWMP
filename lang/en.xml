@@ -26,6 +26,7 @@
         <phrase name="nav_item_1">Playlists</phrase>
         <phrase name="nav_item_2">Configuration</phrase>
         <phrase name="nav_item_3">Synchronization</phrase>
+        <phrase name="items_in_playlist">items in playlist</phrase>
     </page>
 
     <page name="dashboard">

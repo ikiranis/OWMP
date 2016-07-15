@@ -22,13 +22,10 @@ else $offset=0;
 
 if(isset($_GET['step']))
     $step=ClearString($_GET['step']);
-else $step=1000;
+else $step=PLAYLIST_LIMIT;
 
 if(isset($_GET['search_text']))
     $search_text=ClearString($_GET['search_text']);
-
-//if(isset($_SESSION['PlaylistCounter']))
-//    $_SESSION['PlaylistCounter']=0;
 
 switch ($page) {
     case 1: OWMP::showPlaylistWindow($offset,$step,null); break;

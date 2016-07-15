@@ -42,7 +42,7 @@ function DisplayMainPage() {
             <article>
                 <?php
                 switch ($NavActiveItem) {
-                    case 1: OWMP::showPlaylistWindow(0,1000,null); break;
+                    case 1: OWMP::showPlaylistWindow(0,PLAYLIST_LIMIT,null); break;
                     case 2: OWMP::showConfiguration(); break;
                     case 2: OWMP::showSynchronization(); break;
                     
@@ -62,6 +62,8 @@ function DisplayMainPage() {
             <div id="languages">
                 <?php echo $languages_text; ?>
             </div>
+
+            <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"></span> <?php echo __('items_in_playlist'); ?></div>
         </nav>
 
 

@@ -54,6 +54,7 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
 // OWMP variables
 
 define ('DIR_PREFIX','/media/');
+define ('PLAYLIST_LIMIT',150);
 
 
 // Public functions

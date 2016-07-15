@@ -26,6 +26,7 @@
         <phrase name="nav_item_1">Λίστες</phrase>
         <phrase name="nav_item_2">Ρυθμίσεις</phrase>
         <phrase name="nav_item_3">Συγχρονισμός</phrase>
+        <phrase name="items_in_playlist">κομμάτια στην λίστα</phrase>
     </page>
 
     <page name="dashboard">

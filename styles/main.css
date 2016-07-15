@@ -150,6 +150,15 @@ nav li a:hover:not(.active) {
 }
 
 
+#TotalInPlaylist {
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom:0;
+    text-align: center;
+}
+
+
 
 /*Οι σημαίες για τις γλώσσες*/
 .flags {

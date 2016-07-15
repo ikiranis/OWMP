@@ -586,7 +586,7 @@ class OWMP
             $_SESSION['PlaylistCounter']=0;
 
         if($_SESSION['PlaylistCounter']==0) {
-            $playlistToPlay = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
+            $playlistToPlay = RoceanDB::getTableArray('music_tags', 'id', $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
             $_SESSION['$countThePlaylist'] = count($playlistToPlay);
         }
 
