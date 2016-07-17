@@ -267,7 +267,7 @@ class OWMP
                     }
                     ?>
 
-                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,1000, true, 5);">
+                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
 
 
                 </form>
@@ -278,8 +278,11 @@ class OWMP
 
         <div id="playlist_container">
             <?php
-                if($_SESSION['PlaylistCounter']==0)
+                if($_SESSION['PlaylistCounter']==0) {
+                    $_SESSION['condition']=null;
+                    $_SESSION['arrayParams']=null;
                     self::getPlaylist(null,$offset,$step);
+                }
                 else {
                     ?>
                         <div id="playlistTable"></div>
@@ -576,14 +579,29 @@ class OWMP
             $condition = page::cutLastString($condition, 'OR ');
 //            $condition = page::cutLastString($condition, 'AND ');
 
+            $_SESSION['condition']=$condition;  // Το κρατάει σε session για μελοντική χρήση
+            $_SESSION['arrayParams']=$arrayParams;
+
         }
         else $condition=null;
+
+        if(isset($_SESSION['condition']))
+            $condition=$_SESSION['condition'];
+        
+        if(isset($_SESSION['arrayParams']))
+            $arrayParams=$_SESSION['arrayParams'];
+        
+
         
 
 //        trigger_error($condition);
 
-        if(!isset($_SESSION['PlaylistCounter']))
+        if(!isset($_SESSION['PlaylistCounter'])){
             $_SESSION['PlaylistCounter']=0;
+            $_SESSION['condition']=null;
+            $_SESSION['arrayParams']=null;
+        }
+            
 
         if($_SESSION['PlaylistCounter']==0) {
             $playlistToPlay = RoceanDB::getTableArray('music_tags', 'id', $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
