@@ -279,7 +279,7 @@ class OWMP
         <div id="playlist_container">
             <?php
                 if($_SESSION['PlaylistCounter']==0) {
-                    $_SESSION['condition']=null;
+                    $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                     $_SESSION['arrayParams']=null;
                     self::getPlaylist(null,$offset,$step);
                 }
@@ -545,7 +545,14 @@ class OWMP
 
         if($fieldsArray)
             foreach ($fieldsArray as $field) {
-                if( (!$field==null) && (!$field['search_text']=='') ) {
+
+                if($field['search_text']==='0')  // Βάζει ένα κενό όταν μηδέν, αλλιώς το νομίζει null
+                    $searchText = ' '.$field['search_text'];
+                else
+                    $searchText = $field['search_text'];
+
+                if( (!$field==null) && (!$searchText==null) ) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
+
                     $fieldType=RoceanDB::getTableFieldType('music_tags',$field['search_field']);  // παίρνει το type του field
 //                    trigger_error($fieldType);
                     if ( $fieldType=='int(11)' || $fieldType=='tinyint(4)' || $fieldType=='datetime' ) {   // αν το type είναι νούμερο

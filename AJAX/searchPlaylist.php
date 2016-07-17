@@ -21,7 +21,7 @@ else $offset=0;
 
 if(isset($_GET['step']))
     $step=ClearString($_GET['step']);
-else $step=1000;
+else $step=PLAYLIST_LIMIT;
 
 if(isset($_GET['jsonArray']))  // Παίρνει τα δεδομένα σε πίνακα από JSON
     $jsonArray=json_decode($_GET['jsonArray'],true);
