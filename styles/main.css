@@ -412,13 +412,7 @@ footer span {
 
 
 /*Στοιχεία εμφάνισης ρυθμίσεων*/
-.SensorsRow {
-    display:table-row;
-}
 
-.PowersRow {
-    display:table-row;
-}
 
 .UsersRow {
     display:table-row;
@@ -428,10 +422,6 @@ footer span {
 .ListTable {
     display:table;
     width:auto;
-}
-
-.AlertsRow{
-    display:table-row;
 }
 
 .ListColumn {
@@ -573,51 +563,6 @@ input {
 
 }
 
-#playlistTable {
-    display: table;
-    width: 100%;
-    font-size: 0.7em;
-}
-
-.track {
-    display: table-row;
-    cursor: pointer;
-}
-
-.tag {
-    display: table-cell;
-    white-space: nowrap;
-    overflow: hidden;
-    padding-left:1em;
-}
-
-.song_name {
-    max-width: 10em;
-}
-
-.artist {
-    max-width: 5em;
-}
-
-.genre {
-    width: 2em;
-}
-
-.song_year {
-    width: 2em;
-}
-
-.play_count {
-    width: 1em;
-}
-
-.rating {
-    width: 1em;
-}
-
-.date_added {
-    width: 3em;
-}
 
 
 
@@ -696,5 +641,69 @@ input {
     width: 10em;
     height: 10em;
     display: none;
+}
+
+
+
+/*Playlist*/
+#playlistTable {
+    display: table;
+    width: 100%;
+    font-size: 0.7em;
+    border-collapse: collapse;
+}
+
+.track {
+    display: table-row;
+    cursor: pointer;
+}
+
+.track:nth-child(odd) {
+    background-color: #CFD8DC;
+}
+
+.track:nth-child(even) {
+    background-color: #ECEFF1;
+}
+
+.track:hover {
+    background-color: #B0BEC5;
+}
+
+
+
+.tag {
+    display: table-cell;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left:1em;
+}
+
+.song_name {
+    max-width: 10em;
+}
+
+.artist {
+    max-width: 5em;
+}
+
+.genre {
+    width: 2em;
+}
+
+.song_year {
+    width: 2em;
+}
+
+.play_count {
+    width: 1em;
+}
+
+.rating {
+    width: 1em;
+}
+
+.date_added {
+    width: 3em;
 }
 

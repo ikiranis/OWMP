@@ -53,8 +53,8 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
 
 // OWMP variables
 
-define ('DIR_PREFIX','/media/');
-define ('PLAYLIST_LIMIT',150);
+define ('DIR_PREFIX','/media/');   // Το αρχικό κομμάτι του path.
+define ('PLAYLIST_LIMIT',150);   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 
 
 // Public functions
