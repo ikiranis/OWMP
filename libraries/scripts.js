@@ -323,7 +323,7 @@ function getTime(name) {
     $(name).text(curTime);
 }
 
-
+// TODO να το υλοποιήσω αλλιώς. Κάθε σελίδα να είναι σε ξεχωριστό div και να κάνει hide/show όποιο έχεις επιλέξει
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
@@ -445,7 +445,7 @@ function loadNextVideo(id) {
 
         filename=data.file.filename; // σκέτο το filename
 
-        if (data.tags.success == true) {
+        if (data.tags.success == true) { // τυπώνει τα data που τραβάει
             // console.log(data);
 
             // εμφανίζει τα metadata στα input fields
@@ -472,6 +472,8 @@ function loadNextVideo(id) {
             ratingToStars(data.tags.rating,'#overlay_rating');
             $('#overlay_play_count').html(data.tags.play_count);
             showFullScreenVideoTags();
+
+            makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist
 
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
@@ -539,6 +541,20 @@ function failed(e) {
     loadAndplayNextVideo();
 }
 
+// Κάνει active το τρέχον row στην playlist
+function makePlaylistItemActive(id) {
+    $('.track').removeClass('ItemActive');  // Κάνει unactive όλα τα rows
+
+    if($("#fileID"+id).length) { // Αν υπάρχει στην λίστα το συγκεκριμένο row το κάνει active
+        $("#fileID" + id).addClass('ItemActive');
+
+        document.querySelector("#fileID"+id).scrollIntoView();  // κάνει scrolling στο συγκεκριμένο row
+    }
+
+}
+
+
+// Ενημερώνει τα tags του κομματιού
 function update_tags(key_rating) {
     song_name=$('#title').val();
     artist=$('#artist').val();
@@ -748,6 +764,22 @@ $(function(){
     $("#FormTags input").focusout(function() {
         FocusOnForm=false;
     });
+
+
+    // έλεγχος του focus στην SearchForm
+    $("#SearchForm input").click(function() {
+        FocusOnForm=true;
+    });
+
+    $("#SearchForm input").focus(function() {
+        FocusOnForm=true;
+    });
+
+    $("#SearchForm input").focusout(function() {
+        FocusOnForm=false;
+    });
+
+    
 
     // TODO συμβατότητα με άλλους browsers
     document.addEventListener("webkitfullscreenchange", function() {

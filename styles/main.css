@@ -676,6 +676,10 @@ input {
     background-color: #B0BEC5;
 }
 
+#playlistTable .ItemActive {
+    background-color: #B0BEC5;
+}
+
 
 
 .tag {
