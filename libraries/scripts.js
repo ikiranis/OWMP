@@ -405,10 +405,17 @@ function toggleFullscreen() {
 }
 
 
+// Ελέγχει αν βρίσκεται σε fullscreen
+function checkFullscreen () {
+    if (document.fullscreenElement || document.mozFullScreenElement ||
+        document.webkitFullscreenElement || document.msFullscreenElement)
+        return true;
+    else return false;
+}
+
 // Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
 function showFullScreenVideoTags() {
-    if (document.fullscreenElement || document.mozFullScreenElement ||
-        document.webkitFullscreenElement || document.msFullscreenElement) {  // Αν είναι σε fullscreen
+    if (checkFullscreen ()) {  // Αν είναι σε fullscreen
 
         $('#overlay').stop(true,true).show().delay(10000).hide('slow');
     }
@@ -548,7 +555,8 @@ function makePlaylistItemActive(id) {
     if($("#fileID"+id).length) { // Αν υπάρχει στην λίστα το συγκεκριμένο row το κάνει active
         $("#fileID" + id).addClass('ItemActive');
 
-        document.querySelector("#fileID"+id).scrollIntoView();  // κάνει scrolling στο συγκεκριμένο row
+        if (!checkFullscreen ()) // Αν δεν είναι σε fullscreen, αλλιώς λειτουργεί περιέργως
+            document.querySelector("#fileID"+id).scrollIntoView();  // κάνει scrolling στο συγκεκριμένο row
     }
 
 }
@@ -672,7 +680,33 @@ function startSync() {
 }
 
 
+// TODO να το κάνω και το αντίστροφο. Ένα select να το αλλάζει se text
+// Αλλάζει ένα text input σε select
+function changeToSelect(elem, elementID) {
 
+    elem.outerHTML = ""; // Σβήσιμο του υπάρχοντος
+    delete elem;
+
+    var afterElement=document.querySelector('#search_operator'+elementID); // To element πριν το οποίο θα προστεθεί το select
+
+    // Δημιουργεί το select
+    var element = document.createElement('select');
+    element.setAttribute('type', 'text');
+    element.setAttribute('id', 'search_text'+elementID);
+    element.setAttribute('name', 'search_text'+elementID);
+
+    // Δημιουργεί τα options του select
+    var option1 = document.createElement('option');
+    option1.value='0';
+    option1.innerHTML = 'Official';
+    var option2 = document.createElement('option');
+    option2.value='1';
+    option2.innerHTML = 'Live';
+
+    var newSelect=document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement); // προσθέτει το element πριν το afterElement
+    newSelect.appendChild(option1); // προσθέτει τα options
+    newSelect.appendChild(option2);
+}
 
 
 
@@ -779,7 +813,7 @@ $(function(){
         FocusOnForm=false;
     });
 
-    
+
 
     // TODO συμβατότητα με άλλους browsers
     document.addEventListener("webkitfullscreenchange", function() {
@@ -887,6 +921,36 @@ $(function(){
             }
 
         });
+
+
+    // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
+    $('.search_field').change(function() {
+        changedElement=$(this).attr('id');  // το id του αλλαγμένου selected
+        valueOfChangedElement=$(this).val();  // η τιμή του αλλαγμένου selected
+
+        elementID=parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
+        searchStringElement=document.querySelector('#search_text'+elementID);
+
+
+        switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
+            case 'date_added': searchStringElement.type='datetime-local'; break;
+            case 'date_last_played': searchStringElement.type='datetime-local'; break;
+            case 'play_count': searchStringElement.type='number'; break;
+            case 'rating': searchStringElement.type='number'; break;
+            case 'video_width': searchStringElement.type='number'; break;
+            case 'video_height': searchStringElement.type='number'; break;
+            case 'filesize': searchStringElement.type='number'; break;
+            case 'track_time': searchStringElement.type='number'; break;
+            case 'song_year': searchStringElement.type='number'; break;
+            case 'live': changeToSelect(searchStringElement, elementID); break;
+            case 'song_name': searchStringElement.type='text'; break;
+            case 'artist': searchStringElement.type='text'; break;
+            case 'genre': searchStringElement.type='text'; break;
+            case 'album': searchStringElement.type='text'; break;
+        }
+
+
+    });
 
 
 
