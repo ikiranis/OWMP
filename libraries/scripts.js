@@ -466,7 +466,7 @@ function loadNextVideo(id) {
             $('#date_played').val(data.tags.date_played);
             $('#date_added').val(data.tags.date_added);
             $('#rating').val(data.tags.rating);
-            printValue(rating, rating_output);
+            $('#rating_output').val(data.tags.rating);
             $('#track_time').val(data.tags.track_time);
             $('#live').val(data.tags.live);
             $('#path_filename').val(decodeURIComponent(file_path));
