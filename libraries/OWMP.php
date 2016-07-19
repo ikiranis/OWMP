@@ -65,17 +65,24 @@ class OWMP
                 'value' => null),
             array('name' => 'rating',
                 'fieldtext' => __('tag_rating'),
-                'type' => 'text',
+                'type' => 'range',
                 'onclick' => '',
                 'required' => 'no',
                 'maxlength' => '5',
+                'min' => '0',
+                'max' => '5',
+                'step' => '1',
                 'pattern' => '',
                 'title' => '',
                 'disabled' => $disabled,
-                'value' => null),
+                'value' => '0'),
             array('name' => 'live',
                 'fieldtext' => __('tag_live'),
-                'type' => 'text',
+                'type' => 'select',
+                'options' => array(
+                                    array('value' => '0', 'name' => 'official'),
+                                    array('value' => '1', 'name' => 'live')
+                                    ),
                 'onclick' => '',
                 'required' => 'no',
                 'maxlength' => '1',
@@ -146,16 +153,6 @@ class OWMP
                 'disabled' => 'yes',
                 'value' => null)
 
-//            array('name' => 'submit',
-//                'fieldtext' => '',
-//                'type' => 'button',
-//                'onclick' => 'update_tags();',
-//                'required' => 'no',
-//                'maxlength' => '',
-//                'pattern' => '',
-//                'title' => '',
-//                'disabled' => $disabled,
-//                'value' => __('tag_form_submit'))
         );
 
 
@@ -180,8 +177,14 @@ class OWMP
 
             <?php $tags->MakeForm('FormTags', $FormElementsArray, true); ?>
 
+            <?php
+                if ($UserGroup==1)  {
+            ?>
             <input type="button" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
                 value="<?php echo __('tag_form_submit'); ?>" onclick="update_tags();">
+            <?php
+            }
+            ?>
 
         </div>
 
@@ -525,16 +528,26 @@ class OWMP
 
     // εμφάνιση των επιλογών συγχρονισμού
     static function showSynchronization () {
-        ?>
 
-        <input type="button" id="startSync" name="startSync" onclick="startSync();" value="<?php echo __('Synchronize'); ?>">
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
 
-        <div id="SyncDetails">
-            <div id="progress"></div>
-        </div>
+        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+        if($UserGroupID==1) {
+            ?>
+
+            <input type="button" id="startSync" name="startSync" onclick="startSync();"
+                   value="<?php echo __('Synchronize'); ?>">
+
+            <div id="SyncDetails">
+                <div id="progress"></div>
+            </div>
 
 
-        <?php
+            <?php
+        }
+        else echo '<p>Περιοχή μόνο για τον admin</p>';
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης

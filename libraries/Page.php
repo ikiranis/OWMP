@@ -28,7 +28,7 @@ class Page
         ?>
 
         <!DOCTYPE html>
-        <HTML>
+    <HTML xmlns="http://www.w3.org/1999/html">
         <head>
             <meta charset="utf-8">
 
@@ -129,19 +129,73 @@ class Page
 
                 ?>
                 <div class="formRow">
-                    <label for="<?php echo $item['name']; ?>"><?php if($item['type']=='checkbox') echo $item['fieldtext']; ?></label>
-                    <input type="<?php echo $item['type']; ?>"
-                           <?php if(!$item['onclick']=='') echo 'onClick='.$item['onclick']; ?>
-                           <?php if(!$item['name']=='') echo 'id='.$item['name']; ?>
-                           <?php if(!$item['name']=='') echo 'name='.$item['name']; ?>
-                           <?php if(!$item['value']=='')echo 'value='.$item['value']; ?>
-                           <?php if(!$item['maxlength']=='')echo 'maxlength='.$item['maxlength']; ?>
-                           <?php if(!$item['pattern']=='')echo 'pattern='.$item['pattern']; ?>
-                           <?php if(!$item['title']=='')echo 'title="'.$item['title'].'"'; ?>
-                           <?php if($item['required']=='yes') echo ' required '; ?>
-                           <?php if($item['disabled']=='yes') echo ' disabled '; ?>
-                           <?php echo 'placeholder="'.$item['fieldtext'].'"'; ?>
-                    >
+                    <label for="<?php echo $item['name']; ?>"><?php if ( ($item['type']=='checkbox') || ($item['type']=='range') ) echo $item['fieldtext']; ?></label>
+                    <?php
+                        if($item['type']=='select') {
+                            ?>
+                                <select <?php if (!$item['name'] == '') echo 'id=' . $item['name']; ?>
+                                        <?php if (!$item['name'] == '') echo 'name=' . $item['name']; ?>
+                            
+                                >
+                                    <?php 
+                                        if (isset($item['options']))
+                                            foreach ($item['options'] as $option)
+                                            {
+                                                ?>
+                                                    <option value="<?php echo $option['value']; ?>">
+                                                        <?php echo $option['name']; ?>
+                                                    </option>
+                                                <?php
+                                            }
+                                    ?>
+                            
+                                </select
+                            
+                            <?php
+                        }
+                    else {
+                        if($item['type']=='range') {
+                            ?>
+                            <output for="<?php echo $item['name']; ?>" id="<?php echo $item['name']; ?>_output"><?php echo $item['value']; ?></output>
+                            <?php
+                        }
+                        ?>
+                        <input type="<?php echo $item['type']; ?>"
+                            <?php if (!$item['onclick'] == '') echo 'onClick=' . $item['onclick']; ?>
+                            <?php if (!$item['name'] == '') echo 'id=' . $item['name']; ?>
+                            <?php if (!$item['name'] == '') echo 'name=' . $item['name']; ?>
+                            <?php if (!$item['value'] == '') echo 'value=' . $item['value']; ?>
+                            <?php if (!$item['maxlength'] == '') echo 'maxlength=' . $item['maxlength']; ?>
+                            <?php if (!$item['pattern'] == '') echo 'pattern=' . $item['pattern']; ?>
+                            <?php if (!$item['title'] == '') echo 'title="' . $item['title'] . '"'; ?>
+                            <?php if ($item['required'] == 'yes') echo ' required '; ?>
+                            <?php if ($item['disabled'] == 'yes') echo ' disabled '; ?>
+                            <?php if (!$item['max'] == '') echo 'max="' . $item['max'] . '"'; ?>
+                            <?php if (!$item['min'] == '') echo 'min="' . $item['min'] . '"'; ?>
+                            <?php if (!$item['step'] == '') echo 'step="' . $item['step'] . '"'; ?>
+                            <?php if($item['type']=='range') echo 'oninput="printValue('.$item['name'].','.$item['name'].'_output)"'; ?>
+                            <?php if (isset($item['ticks'])) echo 'list=ticks'; ?>
+                            <?php echo 'placeholder="' . $item['fieldtext'] . '"'; ?>
+                        >
+                        <?php
+
+                        if (isset($item['ticks'])) {
+                            ?>
+                            <datalist id="ticks">
+                            <?php
+                            foreach ($item['ticks'] as $tick) {
+                                ?>
+                                    <option> <?php echo $tick; ?> </option>
+
+                                <?php
+                            }
+                            ?>
+                            </datalist>
+                            <?php
+                        }
+                    }
+
+                    ?>
                 </div>
  
                 <?php

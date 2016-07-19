@@ -26,6 +26,7 @@ var FocusOnForm=false; // Κρατάει το αν είμαστε στην φό�
 var PlaylistContainerHTML='';   // τα περιεχόμενα του div playlist_containter
 
 
+
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
 $.fn.addClassDelay = function(className,delay) {
@@ -465,6 +466,7 @@ function loadNextVideo(id) {
             $('#date_played').val(data.tags.date_played);
             $('#date_added').val(data.tags.date_added);
             $('#rating').val(data.tags.rating);
+            printValue(rating, rating_output);
             $('#track_time').val(data.tags.track_time);
             $('#live').val(data.tags.live);
             $('#path_filename').val(decodeURIComponent(file_path));
@@ -594,8 +596,10 @@ function update_tags(key_rating) {
             }
 
 
-            if(key_rating)    // Αν έχει πατηθεί νούμερο για βαθμολογία
+            if(key_rating) {   // Αν έχει πατηθεί νούμερο για βαθμολογία
                 $('#rating').val(rating);
+                $('#rating_output').val(rating);
+            }
 
             FocusOnForm=false;
 
@@ -708,8 +712,12 @@ function changeToSelect(elem, elementID) {
     newSelect.appendChild(option2);
 }
 
-
-
+// εμφανίζει το sliderId value στο outputId
+function printValue(sliderId, outputId) {
+    // var x = document.getElementById(outputId);
+    // var y = document.getElementById(sliderId);
+    outputId.value = sliderId.value;
+}
 
 
 // ************************************
