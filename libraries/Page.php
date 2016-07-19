@@ -161,18 +161,18 @@ class Page
                         }
                         ?>
                         <input type="<?php echo $item['type']; ?>"
-                            <?php if (!$item['onclick'] == '') echo 'onClick=' . $item['onclick']; ?>
-                            <?php if (!$item['name'] == '') echo 'id=' . $item['name']; ?>
-                            <?php if (!$item['name'] == '') echo 'name=' . $item['name']; ?>
-                            <?php if (!$item['value'] == '') echo 'value=' . $item['value']; ?>
-                            <?php if (!$item['maxlength'] == '') echo 'maxlength=' . $item['maxlength']; ?>
-                            <?php if (!$item['pattern'] == '') echo 'pattern=' . $item['pattern']; ?>
-                            <?php if (!$item['title'] == '') echo 'title="' . $item['title'] . '"'; ?>
+                            <?php if (isset($item['onclick'])) echo 'onClick=' . $item['onclick']; ?>
+                            <?php if (isset($item['name'])) echo 'id=' . $item['name']; ?>
+                            <?php if (isset($item['name'])) echo 'name=' . $item['name']; ?>
+                            <?php if (isset($item['value'])) echo 'value=' . $item['value']; ?>
+                            <?php if (isset($item['maxlength'])) echo 'maxlength=' . $item['maxlength']; ?>
+                            <?php if (isset($item['pattern'])) echo 'pattern=' . $item['pattern']; ?>
+                            <?php if (isset($item['title'])) echo 'title="' . $item['title'] . '"'; ?>
                             <?php if ($item['required'] == 'yes') echo ' required '; ?>
                             <?php if ($item['disabled'] == 'yes') echo ' disabled '; ?>
-                            <?php if (!$item['max'] == '') echo 'max="' . $item['max'] . '"'; ?>
-                            <?php if (!$item['min'] == '') echo 'min="' . $item['min'] . '"'; ?>
-                            <?php if (!$item['step'] == '') echo 'step="' . $item['step'] . '"'; ?>
+                            <?php if (isset($item['max'])) echo 'max="' . $item['max'] . '"'; ?>
+                            <?php if (isset($item['min'])) echo 'min="' . $item['min'] . '"'; ?>
+                            <?php if (isset($item['step'])) echo 'step="' . $item['step'] . '"'; ?>
                             <?php if($item['type']=='range') echo 'oninput="printValue('.$item['name'].','.$item['name'].'_output)"'; ?>
                             <?php if (isset($item['ticks'])) echo 'list=ticks'; ?>
                             <?php echo 'placeholder="' . $item['fieldtext'] . '"'; ?>
