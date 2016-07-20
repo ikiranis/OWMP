@@ -128,8 +128,8 @@ class Page
 
 
                 ?>
-                <div class="formRow">
-                    <label for="<?php echo $item['name']; ?>"><?php if ( ($item['type']=='checkbox') || ($item['type']=='range') ) echo $item['fieldtext']; ?></label>
+                <div class="formRow" id="<?php echo $item['name']; ?>_div">
+                    <label for="<?php echo $item['name']; ?>"><?php if ( ($item['type']=='checkbox')  ) echo $item['fieldtext']; ?></label>
                     <?php
                         if($item['type']=='select') {
                             ?>
@@ -149,16 +149,12 @@ class Page
                                             }
                                     ?>
                             
-                                </select
+                                </select>
                             
                             <?php
                         }
                     else {
-                        if($item['type']=='range') {
-                            ?>
-                            <output for="<?php echo $item['name']; ?>" id="<?php echo $item['name']; ?>_output"><?php echo $item['value']; ?></output>
-                            <?php
-                        }
+
                         ?>
                         <input type="<?php echo $item['type']; ?>"
                             <?php if (isset($item['onclick'])) echo 'onClick=' . $item['onclick']; ?>
@@ -179,6 +175,12 @@ class Page
                         >
                         <?php
 
+                        if($item['type']=='range') {
+                            ?>
+                            <output for="<?php echo $item['name']; ?>" id="<?php echo $item['name']; ?>_output"><?php echo $item['value']; ?></output>
+                            <?php
+                        }
+                        
                         if (isset($item['ticks'])) {
                             ?>
                             <datalist id="ticks">

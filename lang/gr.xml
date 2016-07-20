@@ -95,6 +95,8 @@
         <phrase name="tag_live">Live</phrase>
         <phrase name="tag_path_filename">Διαδρομή αρχείου</phrase>
         <phrase name="tag_form_submit">Ενημέρωση</phrase>
+        <phrase name="tag_live_official">Επίσημο</phrase>
+        <phrase name="tag_live_live">Ζωντανό</phrase>
     </page>
 
     <page name="sync">

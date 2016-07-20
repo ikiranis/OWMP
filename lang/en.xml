@@ -95,6 +95,8 @@
         <phrase name="tag_live">Live</phrase>
         <phrase name="tag_path_filename">Path</phrase>
         <phrase name="tag_form_submit">Update</phrase>
+        <phrase name="tag_live_official">Official</phrase>
+        <phrase name="tag_live_live">Live</phrase>
     </page>
 
     <page name="sync">
