@@ -671,8 +671,8 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
 
 // TODO να επιτρέπει να πατιέται μόνο μία φορά πριν τελειώσει όλη η διαδικασία
 // Κάνει τον συγχρονισμό των αρχείων
-function startSync() {
-    callFile=AJAX_path+"syncTheFiles.php";
+function startSync(operation) {
+    callFile=AJAX_path+"syncTheFiles.php?operation="+operation;
 
     $('#progress').show();
 
@@ -714,10 +714,32 @@ function changeToSelect(elem, elementID) {
 
 // εμφανίζει το sliderId value στο outputId
 function printValue(sliderId, outputId) {
-    // var x = document.getElementById(outputId);
-    // var y = document.getElementById(sliderId);
     outputId.value = sliderId.value;
 }
+
+// Σβήνει ένα αρχείο μαζί με την αντίστοιχη εγγραφή στην βάση
+function deleteFile(id) {
+    callFile=AJAX_path+"deleteFile.php?id="+id;
+
+    var confirmAnswer=confirm('Are You Sure?');
+
+    if (confirmAnswer==true) {
+        $.get(callFile, function (data) {
+            // console.log(data.success);
+            if (data.success == true) {
+
+                $("#fileID" + id).remove();
+                // loadNextVideo(0);
+            }
+
+
+        }, "json");
+    }
+}
+
+
+
+
 
 
 // ************************************

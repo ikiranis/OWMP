@@ -425,4 +425,32 @@ class SyncFiles
     }
 
 
+    // Ψάχνει για αρχεία που δεν παίζουν και διαγράφει τις αντίστοιχες εγγραφές
+    public function clearTheFiles() {
+        $conn = new RoceanDB();
+
+        $counter=0;
+
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        {
+            foreach ($filesOnDB as $file) {
+                $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
+                if(!file_exists($full_path)) {
+                    OWMP::deleteFile($file['id']);
+                    echo $full_path.'<br>';
+                    $counter++;
+                }
+
+
+            }
+
+            echo '<p>Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν</p>';
+        }
+
+
+
+
+    }
+
+
 }

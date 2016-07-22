@@ -12,6 +12,14 @@
 require_once ('../libraries/common.inc.php');
 require_once ('../libraries/SyncFiles.php');
 
+if(isset($_GET['operation']))
+    $operation=ClearString($_GET['operation']);
+
+
 $sync = new SyncFiles();
 
-$sync->syncTheFiles();
+if($operation=='sync')
+    $sync->syncTheFiles();
+
+if($operation=='clear')
+    $sync->clearTheFiles();

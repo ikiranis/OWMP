@@ -583,6 +583,7 @@ input {
     width:100%;
 }
 
+
 #FormTags #album {
     font-size: 0.8em;
     margin-top: 0.2em;
@@ -779,11 +780,18 @@ input {
 
 
 
+
 .tag {
     display: table-cell;
     white-space: nowrap;
     overflow: hidden;
     padding-left:1em;
+}
+
+.delete_file {
+    width: 0.2em;
+    margin: 0;
+    z-index: 100;
 }
 
 .song_name {

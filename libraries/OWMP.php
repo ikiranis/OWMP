@@ -502,8 +502,11 @@ class OWMP
         if($UserGroupID==1) {
             ?>
 
-            <input type="button" id="startSync" name="startSync" onclick="startSync();"
+            <input type="button" id="startSync" name="startSync" onclick="startSync('sync');"
                    value="<?php echo __('Synchronize'); ?>">
+
+            <input type="button" id="startClear" name="startClear" onclick="startSync('clear');"
+                   value="Clear">
 
             <div id="SyncDetails">
                 <div id="progress"></div>
@@ -517,7 +520,8 @@ class OWMP
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
     static function getPlaylist($fieldsArray=null, $offset, $step) {
-
+        $conn = new RoceanDB();
+        
         $condition='';
         $arrayParams=array();
 
@@ -605,6 +609,23 @@ class OWMP
             foreach ($playlist as $track) {
                 ?>
                 <div id="fileID<?php echo $track['id']; ?>" class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+
+                    <?php
+
+                        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+                        if($UserGroupID==1) {
+                            ?>
+                            <div class="tag delete_file">
+                                <input type="button" class="delete_button button_img"
+                                       title="<?php echo __('delete_row'); ?>"
+                                       onclick="deleteFile(<?php echo $track['id']; ?>);"">
+                            </div>
+
+                            <?php
+                        }
+                    ?>
+
                     <div class="tag song_name">
                         <?php echo $track['song_name']; ?>
                     </div>
@@ -636,11 +657,10 @@ class OWMP
             $step=intval($step);
             ?>
 
-            <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
-            <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
 
         </div>
-
+        <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
+        <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
         
         <?php
         if($_SESSION['PlaylistCounter']==0) {
@@ -662,4 +682,37 @@ class OWMP
         $_SESSION['PlaylistCounter']++;
 
     }
+    
+    
+    static function deleteFile($id) {
+        $conn = new RoceanDB();
+        
+        $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null);   // Παίρνει το συγκεκριμένο αρχείο
+
+        $filesArray=array('path'=>$file[0]['path'],
+            'filename'=>$file[0]['filename']);
+
+        $fullPath=DIR_PREFIX.$filesArray['path'].$filesArray['filename'];   // Το full path του αρχείου
+
+        if (file_exists($fullPath)) {  // αν υπάρχει το αρχείο, σβήνει το αρχείο μαζί με την εγγραφή στην βάση
+            if (unlink($fullPath)) {
+                if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$id))
+                    if($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
+                        $result = true;
+                    else $result = false;
+            }
+        }
+        else  {  // Αν δεν υπάρχει το αρχείο σβήνει μόνο την εγγραφή στην βάση
+            if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$id))
+                if($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
+                    $result = true;
+                else $result = false;
+        }
+        
+        return $result;
+    }
+    
+    
+    
+    
 }
