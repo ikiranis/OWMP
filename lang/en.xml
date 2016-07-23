@@ -103,6 +103,12 @@
         <phrase name="Synchronize">Synchronization</phrase>
     </page>
 
+    <page name="plalist">
+        <phrase name="delete_file">Delete File</phrase>
+        <phrase name="play_file">Play</phrase>
+        <phrase name="add_to_playlist">Add to playlist</phrase>
+    </page>
+
 
 
 </language>

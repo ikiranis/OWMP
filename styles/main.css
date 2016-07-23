@@ -759,7 +759,7 @@ input {
 
 .track {
     display: table-row;
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
 .track:nth-child(odd) {
@@ -822,3 +822,23 @@ input {
     width: 3em;
 }
 
+.play_button {
+    background-image: url( '../img/play.png' );
+    background-repeat: no-repeat;
+}
+
+.playlist_add_button {
+    background-image: url( '../img/playlist_add.png' );
+    background-repeat: no-repeat;
+}
+
+.playlist_button_img {
+    background-size: 1.5em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: center center;
+}

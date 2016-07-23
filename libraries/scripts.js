@@ -26,7 +26,6 @@ var FocusOnForm=false; // Κρατάει το αν είμαστε στην φό�
 var PlaylistContainerHTML='';   // τα περιεχόμενα του div playlist_containter
 
 
-
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
 $.fn.addClassDelay = function(className,delay) {
@@ -669,18 +668,33 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
 
 }
 
-// TODO να επιτρέπει να πατιέται μόνο μία φορά πριν τελειώσει όλη η διαδικασία
 // Κάνει τον συγχρονισμό των αρχείων
 function startSync(operation) {
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation;
 
-    $('#progress').show();
+    if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
+        localStorage.syncPressed=false;
 
 
-    $('#SyncDetails').load(callFile, function() {
-        // console.log('load is done');
-        $('#progress').hide();
-    });
+    if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
+        localStorage.syncPressed=true;
+
+        $('#progress').show();
+        
+        $('#syncButtons').find('input').prop('disabled', true);
+
+        $('#SyncDetails').load(callFile, function() {
+            // console.log('load is done');
+            $('#progress').hide();
+            localStorage.syncPressed=false;
+            $('#syncButtons').find('input').prop('disabled', false);
+        });
+    }
+    else alert ('Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη');
+    // TODO υπάρχει περίπτωση να κλείσει ο browser πριν να τελειώσει η διεργασία και άρα το localStorage να μην πάρει
+    // την τιμή false.  Έτσι δεν θα μπορούμε να ξανατρέξουμε την διεργασία. Να το διορθώσω με κάποιον έλεγχο ή να
+    // μπορείς από τα options να το κάνεις reset.
+
 }
 
 
@@ -737,6 +751,10 @@ function deleteFile(id) {
     }
 }
 
+// Προσθέτει ένα αρχείο σε playlist
+function addToPlaylist(id) {
+    alert('Δεν είναι έτοιμο ακόμη');
+}
 
 
 

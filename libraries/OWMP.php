@@ -501,12 +501,16 @@ class OWMP
 
         if($UserGroupID==1) {
             ?>
-
-            <input type="button" id="startSync" name="startSync" onclick="startSync('sync');"
-                   value="<?php echo __('Synchronize'); ?>">
-
-            <input type="button" id="startClear" name="startClear" onclick="startSync('clear');"
-                   value="Clear">
+            <div id="syncButtons">
+                
+                <input type="button" id="startSync" name="startSync" onclick="startSync('sync');"
+                       value="<?php echo __('Synchronize'); ?>">
+    
+                <input type="button" id="startClear" name="startClear" onclick="startSync('clear');"
+                       value="Clear">
+                   
+            </div>
+            
 
             <div id="SyncDetails">
                 <div id="progress"></div>
@@ -608,7 +612,7 @@ class OWMP
 
             foreach ($playlist as $track) {
                 ?>
-                <div id="fileID<?php echo $track['id']; ?>" class="track" onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+                <div id="fileID<?php echo $track['id']; ?>" class="track" >
 
                     <?php
 
@@ -617,8 +621,18 @@ class OWMP
                         if($UserGroupID==1) {
                             ?>
                             <div class="tag delete_file">
-                                <input type="button" class="delete_button button_img"
-                                       title="<?php echo __('delete_row'); ?>"
+                                <input type="checkbox" id="check_item" name="check_item" value="<?php echo $track['id']; ?>">
+
+                                <input type="button" class="play_button playlist_button_img"
+                                       title="<?php echo __('play_file'); ?>"
+                                       onclick="loadNextVideo(<?php echo $track['id']; ?>);"">
+
+                                <input type="button" class="playlist_add_button playlist_button_img"
+                                       title="<?php echo __('add_to_playlist'); ?>"
+                                       onclick="addToPlaylist(<?php echo $track['id']; ?>);"">
+                                
+                                <input type="button" class="delete_button playlist_button_img"
+                                       title="<?php echo __('delete_file'); ?>"
                                        onclick="deleteFile(<?php echo $track['id']; ?>);"">
                             </div>
 
@@ -683,7 +697,7 @@ class OWMP
 
     }
     
-    
+    // Σβήνει ένα αρχείο και την αντίστοιχη εγγραφή στην βάση
     static function deleteFile($id) {
         $conn = new RoceanDB();
         
