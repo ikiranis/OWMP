@@ -695,14 +695,12 @@ class OWMP
         $fullPath=DIR_PREFIX.$filesArray['path'].$filesArray['filename'];   // Το full path του αρχείου
 
         if (file_exists($fullPath)) {  // αν υπάρχει το αρχείο, σβήνει το αρχείο μαζί με την εγγραφή στην βάση
-            if(chmod($fullPath,0777))
                 if (unlink($fullPath)) {
                     if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$id))
                         if($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
                             $result = true;
                         else $result = false;
                 }
-            else $result = false;
         }
         else  {  // Αν δεν υπάρχει το αρχείο σβήνει μόνο την εγγραφή στην βάση
             if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$id))
