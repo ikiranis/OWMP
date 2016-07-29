@@ -16,7 +16,7 @@ if(isset($_GET['id']))
 
 
 if(OWMP::deleteFile($id)==true)
-    $jsonArray = array('success' => true);
+    $jsonArray = array('success' => true, 'id'=>$id);
 else $jsonArray=array( 'success'=> false);
 
 

@@ -244,6 +244,15 @@ class OWMP
 
         </details>
 
+        <script type="text/javascript">
+
+            // περνάει στην javascript τα options των αντίστοιχων select
+            var liveOptions = <?php echo json_encode([__('tag_live_official'),__('tag_live_live')]); ?>;
+
+            var ratingOptions = <?php echo json_encode([0,1,2,3,4,5]); ?>;
+
+        </script>
+
         <div id="playlist_container">
             <?php
                 if($_SESSION['PlaylistCounter']==0) {
@@ -537,14 +546,20 @@ class OWMP
                 else
                     $searchText = $field['search_text'];
 
+
+
                 if( (!$field==null) && (!$searchText==null) ) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
 
                     $fieldType=RoceanDB::getTableFieldType('music_tags',$field['search_field']);  // παίρνει το type του field
 //                    trigger_error($fieldType);
                     if ( $fieldType=='int(11)' || $fieldType=='tinyint(4)' || $fieldType=='datetime' ) {   // αν το type είναι νούμερο
-                        if($fieldType=='datetime')
+                        if ($fieldType == 'datetime')
                             $searchText = $field['search_text'];
-                        else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
+                        else {
+                            if ($field['search_field'] == 'rating')
+                                $searchText = intval($field['search_text']) * 20;
+                            else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
+                        }
 
                         $equality=$field['search_equality'];
                         switch ($equality) {
@@ -621,7 +636,7 @@ class OWMP
                         if($UserGroupID==1) {
                             ?>
                             <div class="tag delete_file">
-                                <input type="checkbox" id="check_item" name="check_item" value="<?php echo $track['id']; ?>">
+                                <input type="checkbox" id="check_item[]" name="check_item[]" value="<?php echo $track['id']; ?>">
 
                                 <input type="button" class="play_button playlist_button_img"
                                        title="<?php echo __('play_file'); ?>"
@@ -650,13 +665,13 @@ class OWMP
                         <?php echo $track['genre']; ?>
                     </div>
                     <div class="tag song_year">
-                        <?php echo $track['song_year']; ?>
+                        <?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>
                     </div>
                     <div class="tag play_count">
                         <?php echo $track['play_count']; ?>
                     </div>
                     <div class="tag rating">
-                        <?php echo ( ($track['rating']/10)/2 ); ?>
+                        <?php echo ( ($track['rating']/20) ); ?>
                     </div>
                     <div class="tag date_added">
                         <?php echo $track['date_added']; ?>
@@ -675,7 +690,17 @@ class OWMP
         </div>
         <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
         <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
-        
+
+        <?php
+            if($UserGroupID==1) {
+                ?>
+                <input type="button" class="delete_button playlist_button_img"
+                       title="<?php echo __('delete_file'); ?>"
+                       onclick="deleteFile(0);"">
+                <?php
+            }
+                ?>
+
         <?php
         if($_SESSION['PlaylistCounter']==0) {
             ?>
