@@ -576,8 +576,8 @@ function update_tags(key_rating) {
 
 
 
-    callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+song_name+"&artist="+artist+"&genre="+genre+
-        "&song_year="+song_year+"&album="+album+"&rating="+rating+"&live="+live;
+    callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+encodeURIComponent(song_name)+"&artist="+encodeURIComponent(artist)+"&genre="+genre+
+        "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live;
 
 
     $.get(callFile, function (data) {

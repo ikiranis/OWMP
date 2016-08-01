@@ -50,7 +50,7 @@ if ($UserGroup==1) { // Αν ο χρήστης είναι admin
     if (isset($_GET['live']))
         $live = intval($_GET['live']);
 
-    $rating = ($rating * 10) * 2;
+    $rating = $rating * 20;
 
 
     $update = RoceanDB::updateTableFields('music_tags', 'id=?',

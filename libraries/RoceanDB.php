@@ -304,7 +304,7 @@ class RoceanDB
         if (!self::$conn) {
             try {
                 self::$conn = new PDO(self::$connStr, self::$DBuser, self::$DBpass,
-                    array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+                    array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
             } catch (PDOException $pe) {
                 die('Could not connect to the database because: ' .
                     $pe->getMessage());
@@ -591,7 +591,8 @@ class RoceanDB
         }
 
         $fieldsText=page::cutLastString($fieldsText,', '); // Κόβει την τελευταία ','
-        
+
+
 
         $sql = 'UPDATE '.$table.' SET '.$fieldsText.' WHERE '.$condition;
         $stmt = RoceanDB::$conn->prepare($sql);
