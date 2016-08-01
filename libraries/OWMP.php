@@ -517,6 +517,9 @@ class OWMP
     
                 <input type="button" id="startClear" name="startClear" onclick="startSync('clear');"
                        value="Clear">
+
+                <input type="button" id="startHash" name="startHash" onclick="startSync('hash');"
+                       value="Hash">
                    
             </div>
             

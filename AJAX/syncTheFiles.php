@@ -23,3 +23,6 @@ if($operation=='sync')
 
 if($operation=='clear')
     $sync->clearTheFiles();
+
+if($operation=='hash')
+    $sync->hashTheFiles();

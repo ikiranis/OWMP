@@ -203,19 +203,7 @@ class SyncFiles
                 $this->live = 0;
 
 
-                ////        $full_path='/media/Dalek/Videoclips/Uncategorized/ПРЕМЬЕРА! Dasha Luks ft. Belozerov & Voronov - Raspberry.mp4';
-                //        $start = microtime(true);
-                //
-                ////        $result = explode("  ", exec("md5sum $full_path"));
-                ////        $hash=$result[0];
-                //
-                //
-                //        $hash = sha1_file($full_path);
-                //        $time_elapsed_secs = microtime(true) - $start;
-                //
-                ////        echo 'fullpath: '.$file.' filename: '.$filename.' path: '.$path.'<br>';
-                //
-                //        echo 'fullpath: '.$full_path.'  hash: '.$hash.' time: '.$time_elapsed_secs.'<br>';
+
 
 
                 // Αρχική εγγραφή στο files
@@ -427,6 +415,8 @@ class SyncFiles
 
     // Ψάχνει για αρχεία που δεν παίζουν και διαγράφει τις αντίστοιχες εγγραφές
     public function clearTheFiles() {
+        set_time_limit(0);
+
         $conn = new RoceanDB();
 
         $counter=0;
@@ -448,7 +438,65 @@ class SyncFiles
         }
 
 
+    }
 
+    private function hashFile($full_path) {
+
+        // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
+        $start=256;
+        $size=1024;
+
+        $handle   = fopen($full_path, "rb");
+        fseek($handle, $start);
+        $contents = fread($handle, $size);
+
+        // Παράγουμε το md5 από το συγκεκριμένο string του αρχείου
+        $result = md5($contents);
+
+        return $result;
+    }
+
+    // Παράγει hash για κάθε αρχείο
+    static function hashTheFiles() {
+        set_time_limit(0);
+
+        $script_start = microtime(true);
+
+        $conn = new RoceanDB();
+
+        $counter=0;
+
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        {
+            foreach ($filesOnDB as $file) {
+                $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
+                if(file_exists($full_path)) {
+                            $start = microtime(true);
+                    
+                            $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
+
+                            $time_elapsed_secs = microtime(true) - $start;
+
+                            // Ενημερώνουμε την βάση με το επιστρεφόμενο hash
+                            $update = RoceanDB::updateTableFields('files', 'id=?',
+                                                                    array('hash'),
+                                                                    array($hash, $file['id']));
+
+                            if ($update) {
+                                echo 'fullpath: ' . $full_path . '  hash: ' . $hash . ' time: ' . $time_elapsed_secs . '<br>';
+                                $counter++;
+                            }
+                            else echo 'Πρόβλημα με το αρχειο '.$full_path;
+                }
+
+
+            }
+
+            $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash</p>';
+            echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+        }
 
     }
 
