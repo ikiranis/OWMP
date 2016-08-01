@@ -25,6 +25,8 @@ var FocusOnForm=false; // Κρατάει το αν είμαστε στην φό�
 
 var PlaylistContainerHTML='';   // τα περιεχόμενα του div playlist_containter
 
+var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
+var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -413,10 +415,30 @@ function checkFullscreen () {
 }
 
 // Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
-function showFullScreenVideoTags() {
+function showFullScreenVideoTags(toggle) {
     if (checkFullscreen ()) {  // Αν είναι σε fullscreen
+        if(toggle!=null) {
+            if (toggle == 'on') {
+                $('#overlay').show();
+                OverlayAllwaysOn = true;
+            }
+            else {
+                $('#overlay').hide();
+                OverlayAllwaysOn = false;
+            }
+        }
+        else {
+            if (!OverlayAllwaysOn) {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
+                if (!OverlayON) {  // αν δεν είναι on ήδη
+                    OverlayON = true;
+                    $('#overlay').show().delay(5000).hide('slow');
+                    OverlayON = false;
+                }
 
-        $('#overlay').stop(true,true).show().delay(10000).hide('slow');
+            }
+            else $('#overlay').show();
+        }
+
     }
     else $('#overlay').hide();
 
@@ -936,7 +958,11 @@ $(function(){
             }
 
             if (event.keyCode === 73) {   // I
-                showFullScreenVideoTags();
+                if(OverlayAllwaysOn)
+                    showFullScreenVideoTags('off');
+                else
+                    showFullScreenVideoTags('on');
+
             }
 
             if (event.keyCode === 38) {   // πάνω βελάκι

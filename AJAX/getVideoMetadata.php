@@ -40,11 +40,11 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
     else $song_year=$metadata[0]['song_year'];
 
     $jsonArray = array('success' => true,
-        'artist' => $metadata[0]['artist'],
-        'title' => $metadata[0]['song_name'],
-        'genre' => $metadata[0]['genre'],
+        'artist' => htmlspecialchars_decode($metadata[0]['artist']),
+        'title' => htmlspecialchars_decode($metadata[0]['song_name']),
+        'genre' => htmlspecialchars_decode($metadata[0]['genre']),
         'year' => $song_year,
-        'album' => $metadata[0]['album'],
+        'album' => htmlspecialchars_decode($metadata[0]['album']),
         'play_count' => $metadata[0]['play_count'],
         'date_played' => $metadata[0]['date_last_played'],
         'date_added' => $metadata[0]['date_added'],
