@@ -142,7 +142,7 @@ class SyncFiles
         $added_video = 0;
 
 
-        $hash = '';
+//        $hash = '';
 
 //            $inserted_id = 1;
 
@@ -156,18 +156,27 @@ class SyncFiles
 
             if(is_array($filesOnDB)){
                 if($fileKey=array_search($file, $filesOnDB)) {
-                    //                    trigger_error('$filenameKey '.$fileKey.' COUNTER '.$general_counter);
                     $fileAlreadySynced=true;
                 } else $fileAlreadySynced=false;
             } else $fileAlreadySynced=false;
 
+            $full_path = DIR_PREFIX . $path . $filename;
 
-            if(!$fileAlreadySynced) {
+
+
+            if(!$fileAlreadySynced) { // Έλεγχος στα νέα αρχεία αν το hash υπάρχει ήδη στην βάση
+
+                $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
+
+                if($searchHash=self::searchForHash($hash)) // Έλεγχος στην βάση για to hash
+                    echo '<p>Το αρχείο '.$filename.' υπάρχει ήδη</p>';
+
+            } else $searchHash=false;
+
+            if(!$fileAlreadySynced && !$searchHash ) {
 
 //                    trigger_error('TRYING TO SYNC '.$file['track_id'].' COUNTER '.$general_counter);
 
-
-                $full_path = DIR_PREFIX . $path . $filename;
 
                 $replace_text = array('.mp4', '.m4v');
 
@@ -440,11 +449,12 @@ class SyncFiles
 
     }
 
-    private function hashFile($full_path) {
+    // Επιστρέφει το hash για το αρχείο $full_path
+    static function hashFile($full_path) {
 
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
-        $start=256;
-        $size=1024;
+        $start=1024*1024;
+        $size=1024*1024;
 
         $handle   = fopen($full_path, "rb");
         fseek($handle, $start);
@@ -456,7 +466,7 @@ class SyncFiles
         return $result;
     }
 
-    // Παράγει hash για κάθε αρχείο
+    // Παράγει hash για κάθε αρχείο και ενημερώνει την βάση
     static function hashTheFiles() {
         set_time_limit(0);
 
@@ -498,6 +508,27 @@ class SyncFiles
             echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
         }
 
+    }
+
+    static function searchForHash($hash) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT id FROM files WHERE hash=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($hash));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['id'];
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
     }
 
 
