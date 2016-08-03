@@ -453,8 +453,8 @@ class SyncFiles
     static function hashFile($full_path) {
 
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
-        $start=1024*1024;
-        $size=1024*1024;
+        $start=filesize($full_path)/2;
+        $size=1024;
 
         $handle   = fopen($full_path, "rb");
         fseek($handle, $start);
@@ -510,6 +510,7 @@ class SyncFiles
 
     }
 
+    // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη
     static function searchForHash($hash) {
         $conn = new RoceanDB();
         $conn->CreateConnection();

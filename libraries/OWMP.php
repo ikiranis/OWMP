@@ -237,6 +237,7 @@ class OWMP
 
                     <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
 
+                    <input type="button" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(true);">
 
                 </form>
             </div>
@@ -534,8 +535,28 @@ class OWMP
         else echo '<p>Περιοχή μόνο για τον admin</p>';
     }
 
+    static function getFilesDuplicates () {
+
+        $conn = new RoceanDB();
+
+        $conn->createConnection();
+
+        $sql='SELECT files.id as id, song_name, artist, genre, date_added, play_count, rating, song_year FROM files JOIN music_tags on files.id=music_tags.id WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        $result=$stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step) {
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null) {
         $conn = new RoceanDB();
         
         $condition='';
@@ -614,15 +635,28 @@ class OWMP
         }
             
 
-        if($_SESSION['PlaylistCounter']==0) {
-            $playlistToPlay = RoceanDB::getTableArray('music_tags', 'id', $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
-            $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+
+        if($duplicates==null) {   // κανονική λίστα
+            if ($_SESSION['PlaylistCounter'] == 0) {
+                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'id', $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
+                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+            }
+
+            $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step);  // Η λίστα προς εμφάνιση
+
+        }
+        else {  // εμφάνιση διπλών εγγραφών
+            if ($_SESSION['PlaylistCounter'] == 0) {
+                $playlistToPlay = OWMP::getFilesDuplicates(); // Ολόκληρη η λίστα
+                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+            }
+
+            $playlist = OWMP::getFilesDuplicates();
         }
 
-        $playlist=RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT '.$offset.','.$step);  // Η λίστα προς εμφάνιση
-
-
+//        var_dump($playlist);
         $counter=0;
+        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         ?>
 
         <div id="playlistTable">
@@ -634,7 +668,7 @@ class OWMP
 
                     <?php
 
-                        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
 
                         if($UserGroupID==1) {
                             ?>

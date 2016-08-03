@@ -662,7 +662,15 @@ function updateVideoPlayed() {
     }, "json");
 }
 
+// Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
+function findDuplicates(firstTime) {
+    callFile=AJAX_path+"searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime;
 
+
+    $('#playlist_container').load(callFile, function() {
+        // console.log('load is done');
+    });
+}
 
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, numberOfQueries) {

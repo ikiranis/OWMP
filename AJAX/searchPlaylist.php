@@ -25,17 +25,22 @@ else $step=PLAYLIST_LIMIT;
 
 if(isset($_GET['jsonArray']))  // Παίρνει τα δεδομένα σε πίνακα από JSON
     $jsonArray=json_decode($_GET['jsonArray'],true);
-
+else $jsonArray=null;
 
 
 if(isset($_GET['firstTime']))
     $firstTime=ClearString($_GET['firstTime']);
+
+if(isset($_GET['duplicates']))
+    $duplicates=true;
+else $duplicates=false;
 
 
 if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
 
-
-OWMP::getPlaylist($jsonArray,$offset,$step);
+if($duplicates==false)
+    OWMP::getPlaylist($jsonArray,$offset,$step,null);
+else OWMP::getPlaylist($jsonArray,$offset,$step,$duplicates);
 
