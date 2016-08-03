@@ -237,7 +237,7 @@ class OWMP
 
                     <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
 
-                    <input type="button" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(true);">
+                    <input type="button" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
                 </form>
             </div>
@@ -535,7 +535,7 @@ class OWMP
         else echo '<p>Περιοχή μόνο για τον admin</p>';
     }
 
-    static function getFilesDuplicates () {
+    static function getFilesDuplicates ($offset, $step) {
 
         $conn = new RoceanDB();
 
@@ -543,6 +543,9 @@ class OWMP
 
         $sql='SELECT files.id as id, song_name, artist, genre, date_added, play_count, rating, song_year FROM files JOIN music_tags on files.id=music_tags.id WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
+        if(isset($offset))
+            $sql=$sql.' LIMIT '.$offset.','.$step;
+        
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute();
@@ -647,11 +650,11 @@ class OWMP
         }
         else {  // εμφάνιση διπλών εγγραφών
             if ($_SESSION['PlaylistCounter'] == 0) {
-                $playlistToPlay = OWMP::getFilesDuplicates(); // Ολόκληρη η λίστα
+                $playlistToPlay = OWMP::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
                 $_SESSION['$countThePlaylist'] = count($playlistToPlay);
             }
 
-            $playlist = OWMP::getFilesDuplicates();
+            $playlist = OWMP::getFilesDuplicates($offset,$step);
         }
 
 //        var_dump($playlist);
@@ -725,9 +728,25 @@ class OWMP
 
 
         </div>
-        <input id="previous" type="button" value="previous" onclick="searchPlaylist(<?php if($offset>0) echo $offset-$step; ?>,<?php echo $step; ?>);">
-        <input id="next" type="button" value="next" onclick="searchPlaylist(<?php if( ($offset+$step)<$_SESSION['$countThePlaylist']) echo $offset+$step; ?>,<?php echo $step; ?>);">
-
+    
+        <?php
+        if($duplicates==null) {
+            ?>
+            <input id="previous" type="button" value="previous"
+                   onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+            <input id="next" type="button" value="next"
+                   onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            <?php
+        } else {
+            ?>
+            <input id="previous" type="button" value="previous"
+                   onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+            <input id="next" type="button" value="next"
+                   onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            <?php
+        }
+            ?>
+            
         <?php
             if($UserGroupID==1) {
                 ?>

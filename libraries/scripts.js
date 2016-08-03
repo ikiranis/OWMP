@@ -663,8 +663,8 @@ function updateVideoPlayed() {
 }
 
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
-function findDuplicates(firstTime) {
-    callFile=AJAX_path+"searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime;
+function findDuplicates(offset, step, firstTime) {
+    callFile=AJAX_path+"searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step;
 
 
     $('#playlist_container').load(callFile, function() {
