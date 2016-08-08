@@ -693,6 +693,22 @@ class RoceanDB
     }
 
 
+    // Αντιγράφει ένα array σε αντίστοιχο table
+    static function copyArrayToTable ($arrayToCopy, $table) {
+        self::CreateConnection();
+
+        $sql = 'INSERT INTO '.$table.' (id, file_id) VALUES(?,?)';
+        $stmt = self::$conn->prepare($sql);
+
+        foreach ($arrayToCopy as $item) {
+            $stmt->execute(array($item['id'], $item['file_id']));
+        }
+
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
 
 }
 

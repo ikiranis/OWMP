@@ -538,6 +538,7 @@ class OWMP
         else echo '<p>Περιοχή μόνο για τον admin</p>';
     }
 
+    // Επιστρέφει τις διπλές εγγραφές με βάση το hash
     static function getFilesDuplicates ($offset, $step) {
 
         $conn = new RoceanDB();
@@ -559,6 +560,17 @@ class OWMP
         $stmt = null;
 
         return $result;
+    }
+
+    // Δημιουργεί ένα κατάλληλο array ώστε να αντιγραφεί σε προσωρινό table
+    static function makePlaylistArrayToCopy($arrayToCopy) {
+        $counter=0;
+        foreach($arrayToCopy as $item) {
+            $newArray[]=array('id'=>$counter, 'file_id'=>$item['id']);
+            $counter++;
+        }
+
+        return $newArray;
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
@@ -660,7 +672,10 @@ class OWMP
             $playlist = OWMP::getFilesDuplicates($offset,$step);
         }
 
-//        var_dump($playlist);
+        // αντιγραφή του playlist σε αντίστοιχο table ώστε ο player να παίζει από εκεί
+//        $arrayToCopy=self::makePlaylistArrayToCopy($playlistToPlay);
+//        RoceanDB::copyArrayToTable($arrayToCopy, 'current_playlist');
+
         $counter=0;
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         ?>
