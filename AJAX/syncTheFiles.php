@@ -26,3 +26,6 @@ if($operation=='clear')
 
 if($operation=='hash')
     $sync->hashTheFiles();
+
+if($operation=='metadata')
+    $sync->filesMetadata();

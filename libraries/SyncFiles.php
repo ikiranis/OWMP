@@ -514,4 +514,44 @@ class SyncFiles
     }
 
 
+    // Ενημερώνει μαζικά την βάση με τα metadata των αρχείων. filesize, track time, video width, video height
+    public function filesMetadata() {
+        set_time_limit(0);
+
+        $script_start = microtime(true);
+
+        $conn = new RoceanDB();
+
+        $counter=0;
+
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        {
+            foreach ($filesOnDB as $file) {
+                $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
+                if(file_exists($full_path)) {
+
+                    self::getMediaFileTags($full_path);  // Παίρνουμε τα metadata του αρχείου
+
+                    // Ενημερώνουμε την βάση με τα αντίστοιχα metadata
+                    $update = RoceanDB::updateTableFields('music_tags', 'id=?',
+                        array('track_time', 'video_width', 'video_height', 'filesize'),
+                        array($this->track_time, $this->video_width, $this->video_height, $this->size, $file['id']));
+
+                    if ($update) {
+                        $counter++;
+                    }
+                    else echo 'Πρόβλημα με το αρχειο '.$full_path;
+                }
+
+
+            }
+
+            $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata</p>';
+            echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+        }
+    }
+
+
 }

@@ -521,6 +521,9 @@ class OWMP
 
                 <input type="button" id="startHash" name="startHash" onclick="startSync('hash');"
                        value="Hash">
+
+                <input type="button" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
+                       value="Metadata">
                    
             </div>
             
