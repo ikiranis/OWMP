@@ -11,10 +11,12 @@
 
 require_once ('libraries/common.inc.php');
 
+
 session_start();
 
 require_once ('login.php');
 require_once ('MainPage.php');
+
 
 $MainPage = new Page();
 
@@ -28,8 +30,11 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
-if (isset($_GET['logout']))
+if (isset($_GET['logout'])) {
+    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
     logout();
+
+}
 
 // Τίτλος της σελίδας
 $MainPage->tittle = PAGE_TITTLE;
@@ -52,7 +57,6 @@ $logged_in=false;
 if(!$conn->CheckCookiesForLoggedUser()) {
     if (isset($_SESSION["username"]))
     {
-
         $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$conn->getSession('username').'</span>';
 //        session_regenerate_id(true);
 
@@ -63,6 +67,9 @@ if(!$conn->CheckCookiesForLoggedUser()) {
 else {
     $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$_COOKIE["username"].'</span>';
     $logged_in=true;
+    
+    if (!isset($_SESSION["username"]))
+        $conn->setSession('username', $_COOKIE["username"]);
 }
 
 
@@ -71,8 +78,16 @@ if($logged_in)
 
 $timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
 
-if($logged_in)
+if($logged_in) {
     $MainPage->showMainBar($timediv, $LoginNameText);
+
+    // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
+    if(Page::checkNewPageRunning()) {
+        if(!RoceanDB::checkMySQLEventScheduler()) {   // Αν δεν είναι ενεργοποιημένος ήδη ο event scheduler
+            RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
+        }
+    }
+}
 
 
 
@@ -89,6 +104,10 @@ if($logged_in) DisplayMainPage();
 if($logged_in)
     $MainPage->showFooter();
 
+
+// Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
+//$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
+//RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
 
 ?>

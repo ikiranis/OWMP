@@ -31,5 +31,6 @@ switch ($page) {
     case 1: OWMP::showPlaylistWindow($offset,$step,null); break;
     case 2: OWMP::showConfiguration(); break;
     case 3: OWMP::showSynchronization(); break;
+    case 4: OWMP::showLogs(); break;
 }
 

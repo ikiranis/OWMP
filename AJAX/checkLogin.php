@@ -28,7 +28,6 @@ if (isset($_GET['SavePassword']))
     $SavePassword=$_GET['SavePassword'];
 
 
-
     $login=$conn->CheckLogin($username, $password, $SavePassword);
 
     if($login['success']) {

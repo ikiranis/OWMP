@@ -260,12 +260,25 @@ class Page
 
         $counter=1;
 
+        global $adminNavItems;
+
+        $conn = new RoceanDB();
+        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
 
         ?>
             
             <ul>
                 <?php
                     foreach (self::$nav_list as $item) {
+
+                        // έλεγχος αν ο χρήστης είναι admin σε items που πρέπει να είναι admin
+                        if (in_array($counter, $adminNavItems)) {
+                            if ($UserGroupID == 1) $displayOK = true;
+                            else $displayOK = false;
+                        }  else $displayOK=true;
+                        
+                        
                         if($targetPage=='page') {
                 ?>
                         <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
@@ -316,6 +329,61 @@ class Page
     // Κόβει το $cut_string που βρίσκεται στο τέλος του $main_string
     static function cutLastString($main_string, $cut_string) {
         $result=substr($main_string,0,-strlen($cut_string));
+
+        return $result;
+    }
+
+    // Ελέγχει αν η σελίδα έχει τρέξει πρόσφατα. Επιστρέφει false αν η σελίδα έχει τρέξει το
+    // τελευταίο μισάωρο (χρόνος ζωής του session). Αν όχι επιστρέφει true
+    static function checkNewPageRunning() {
+
+        if(isset($_SESSION['PageRunning'])) { // Αν υπάρχει ήδη η session
+            $result = false;
+        }
+        else {
+            $_SESSION['PageRunning']=date('Y-m-d H:i:s');
+            $result=true;
+        }
+
+        return $result;
+
+    }
+
+
+
+    //year    = $diff->format('%y');
+    //month    = $diff->format('%m');
+    //day      = $diff->format('%d');
+    //hour     = $diff->format('%h');
+    //min      = $diff->format('%i');
+    //sec      = $diff->format('%s');
+    // Επιστρέφει την διαφορά της $endDate με την $startDate και επιστρέφει τιμή αναλόγως το $returnedFormat
+    static function dateDifference($startDate, $endDate, $returnedFormat) {
+        $d_start    = new DateTime($startDate);
+        $d_end      = new DateTime($endDate); // Τα παίρνουμε σε αντικείμενα
+        $diff = $d_start->diff($d_end);   // Υπολογίζουμε την διαφορά
+
+        $difference      = $diff->format($returnedFormat);    // στο format βάζουμε αναλόγως σε τι θέλουμε να πάρουμε την διαφορά
+
+        return $difference;
+    }
+
+    // Δημιουργεί εγγραφή στο crontab. Προσθέτει το demon.php
+    static function createCrontab() {
+        file_put_contents('/tmp/crontab.txt', '* * * * * php '.$_SERVER['DOCUMENT_ROOT'].'/demon.php'.PHP_EOL);
+        shell_exec('crontab /tmp/crontab.txt');
+
+        $output = shell_exec('crontab -l');
+        return $output;
+    }
+
+    // Επιστρέφει το crontab που ισχύει
+    static function getCrontab() {
+        $output = shell_exec('crontab -l');
+
+        if($output)
+            $result=$output;
+        else $result=false;
 
         return $result;
     }

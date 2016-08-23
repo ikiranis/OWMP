@@ -11,6 +11,7 @@
 
 require_once('../libraries/common.inc.php');
 
+session_start();
 
 $conn = new RoceanDB();
 $lang = new Language();
@@ -36,9 +37,9 @@ else {
 }
 
 
-$dbstatus=$conn->getOption('dbstatus');
+$someOption=$conn->getOption('interval_value');
 
-if(!$dbstatus) {  // αρχικοποίηση options
+if(!$someOption) {  // αρχικοποίηση options
     $conn->createOption('interval_value','5',1,0);
     $conn->createOption('mail_host','smtp.gmail.com',1,0);
     $conn->createOption('mail_username','username',1,0);
@@ -46,6 +47,12 @@ if(!$dbstatus) {  // αρχικοποίηση options
     $conn->createOption('mail_from','username@mail.com',1,0);
     $conn->createOption('mail_from_name','name',1,0);
 }
+
+// Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
+$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
+RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
+
+//Page::createCrontab(); // Προσθέτει τον demon στο crontab
 
 
 

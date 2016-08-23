@@ -14,25 +14,6 @@ $lang = new Language();
 
 
 
-//if (isset($_POST['submit'])) {
-//
-//    if (isset($_POST['SavePassword']))
-//        $SavePassword=true;
-//    else $SavePassword=false;
-//
-//    $myConnect = new RoceanDB();
-//    $login=$myConnect->CheckLogin(ClearString($_POST['username']), ClearString($_POST['password']), $SavePassword);
-//    if($login['success']) {
-//        echo $login['message'];
-//        header('Location:index.php');
-//    }
-//    else {
-//        echo $login['message'];
-//        header('Refresh:3;URL=index.php');
-//    }
-//
-//
-//}
 
 if (isset($_POST['register'])) {
     
@@ -40,8 +21,9 @@ if (isset($_POST['register'])) {
 
     // Έλεγχος αν συμφωνούν τα 2 passwords
     if($_POST['password']==$_POST['repeat_password']) {
-        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) // Δημιουργεί τον χρήστη
-            echo '<p>'.__('register_with_success').'</p>';
+        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) { // Δημιουργεί τον χρήστη
+            echo '<p>' . __('register_with_success') . '</p>';
+        }
     }
     else echo '<p>'.__('not_the_same_password').'</p>';
     
@@ -96,6 +78,7 @@ function showLoginWindow()
                 'maxlength' => '15',
                 'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
                 'title' => __('valid_username'),
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'password',
                 'fieldtext' => __('form_password'),
@@ -105,6 +88,7 @@ function showLoginWindow()
                 'maxlength' => '15',
                 'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
                 'title' => __('valid_password'),
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'SavePassword',
                 'fieldtext' => __('form_save_password'),
@@ -114,6 +98,7 @@ function showLoginWindow()
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => 'yes'),
             array('name' => 'submit',
                 'fieldtext' => '',
@@ -123,10 +108,11 @@ function showLoginWindow()
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => __('form_login'))
         );
 
-        $LoginWindow->MakeForm('LoginForm', $FormElementsArray);
+        $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
         
         // TODO να το κάνω να στέλνει και όταν πατηθεί enter
         $languages_text=$lang->print_languages('lang_id',' ',true,false);
@@ -176,6 +162,7 @@ function ShowRegisterUser()
                 'maxlength' => '15',
                 'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
                 'title' => __('valid_username'),
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'email',
                 'fieldtext' => __('form_email'),
@@ -185,6 +172,7 @@ function ShowRegisterUser()
                 'maxlength' => '50',
                 'pattern' => '',
                 'title' => __('valid_email'),
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'password',
                 'fieldtext' => __('form_password'),
@@ -194,6 +182,7 @@ function ShowRegisterUser()
                 'maxlength' => '15',
                 'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
                 'title' => __('valid_password'),
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'repeat_password',
                 'fieldtext' => __('form_repeat_password'),
@@ -203,6 +192,7 @@ function ShowRegisterUser()
                 'maxlength' => '15',
                 'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
                 'title' => __('valid_password'),
+                'disabled' => 'no',
                 'value' => null),
             array('name' => 'register',
                 'fieldtext' => '',
@@ -212,10 +202,11 @@ function ShowRegisterUser()
                 'maxlength' => '',
                 'pattern' => '',
                 'title' => '',
+                'disabled' => 'no',
                 'value' => __('form_register'))
         );
 
-        $RegisterUserWindow->MakeForm('RegisterForm', $FormElementsArray);
+        $RegisterUserWindow->MakeForm('RegisterForm', $FormElementsArray, false);
 
         $languages_text=$lang->print_languages('lang_id',' ',true,false);
 

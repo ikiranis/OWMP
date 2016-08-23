@@ -397,21 +397,63 @@ footer span {
 
 
 /*Στοιχεία εμφάνισης στα logs*/
+#logs {
+    display: table;
+    width: auto;
+    font-size: 0.7em;
+}
 
-.row {
+#logs .row {
+    display: table-row;
+}
+
+
+#logs .row:nth-child(odd) {
+    background-color: #DCEDC8;
+}
+
+#logs .row:nth-child(even) {
+    background-color: #F1F8E9;
+}
+
+#logs .col {
+    position:relative;
+    display: table-cell;
+    padding-right: 1em;
 
 }
 
-.col {
-    position:relative;
-    display: block;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    width: 10%;
-    float: left;
+
+.logs_id {
+    width: 5%;
+}
+
+.logs_message {
+    width: 30%;
+}
+
+.logs_ip {
+    width: 5%;
     text-align: center;
+}
 
+.logs_user {
+    width: 15%;
+    text-align: center;
+}
 
+.logs_date {
+    width: 15%;
+    text-align: center;
+}
+
+.logs_browser {
+    width: 30%;
+}
+
+.basic {
+    font-weight: bold;
+    text-align: center;
 }
 
 

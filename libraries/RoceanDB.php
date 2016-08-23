@@ -127,6 +127,7 @@ class RoceanDB
 
                 self::setSession('username',$item['username']);
 
+                self::insertLog('User Login'); // Προσθήκη της κίνησης στα logs
 
 //                $_SESSION["username"]=$crypto->EncryptText($item['username']);
 
@@ -708,6 +709,227 @@ class RoceanDB
         $stmt->closeCursor();
         $stmt = null;
 
+    }
+
+    // Επιστρέφει τον browser του χρήστη
+    static function getBrowser()
+    {
+        $u_agent = $_SERVER['HTTP_USER_AGENT'];
+        $bname = 'Unknown';
+        $platform = 'Unknown';
+        $version= "";
+
+        //First get the platform?
+        if (preg_match('/linux/i', $u_agent)) {
+            $platform = 'linux';
+        }
+        elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+            $platform = 'mac';
+        }
+        elseif (preg_match('/windows|win32/i', $u_agent)) {
+            $platform = 'windows';
+        }
+
+        // Next get the name of the useragent yes seperately and for good reason
+        if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+        {
+            $bname = 'Internet Explorer';
+            $ub = "MSIE";
+        }
+        elseif(preg_match('/Firefox/i',$u_agent))
+        {
+            $bname = 'Mozilla Firefox';
+            $ub = "Firefox";
+        }
+        elseif(preg_match('/Chrome/i',$u_agent))
+        {
+            $bname = 'Google Chrome';
+            $ub = "Chrome";
+        }
+        elseif(preg_match('/Safari/i',$u_agent))
+        {
+            $bname = 'Apple Safari';
+            $ub = "Safari";
+        }
+        elseif(preg_match('/Opera/i',$u_agent))
+        {
+            $bname = 'Opera';
+            $ub = "Opera";
+        }
+        elseif(preg_match('/Netscape/i',$u_agent))
+        {
+            $bname = 'Netscape';
+            $ub = "Netscape";
+        }
+
+        // finally get the correct version number
+        $known = array('Version', $ub, 'other');
+        $pattern = '#(?<browser>' . join('|', $known) .
+            ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+        if (!preg_match_all($pattern, $u_agent, $matches)) {
+            // we have no matching number just continue
+        }
+
+        // see how many we have
+        $i = count($matches['browser']);
+        if ($i != 1) {
+            //we will have two since we are not using 'other' argument yet
+            //see if version is before or after the name
+            if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+                $version= $matches['version'][0];
+            }
+            else {
+                $version= $matches['version'][1];
+            }
+        }
+        else {
+            $version= $matches['version'][0];
+        }
+
+        // check if we have a number
+        if ($version==null || $version=="") {$version="?";}
+
+        return array(
+            'userAgent' => $u_agent,
+            'name'      => $bname,
+            'version'   => $version,
+            'platform'  => $platform,
+            'pattern'    => $pattern
+        );
+    }
+
+    // Εισάγει μια εγγραφή στα logs
+    static function insertLog ($message) {
+        self::CreateConnection();
+
+        $sql = 'INSERT INTO logs (message, ip, user_name, log_date, browser) VALUES(?,?,?,?,?)';
+        $stmt = self::$conn->prepare($sql);
+
+        $ip=$_SERVER['REMOTE_ADDR'];  // H ip του χρήστη
+        $user_name=self::getSession('username');        // το όνομα του χρήστη
+        $log_date=date('Y-m-d H:i:s');
+        $ua=self::getBrowser();  // Τραβάει τις πληροφορίες για τον browser και το σύστημα του χρήστη
+
+        $browser=$ua['name'] . " " . $ua['version'] . " on " .$ua['platform'];
+
+        if($stmt->execute(array($message, $ip, $user_name, $log_date, $browser)))
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Ελέγχει αν είναι ενεργοποιημένος ο event scheduler
+    static function checkMySQLEventScheduler() {
+        self::CreateConnection();
+
+        $sql = 'select user from INFORMATION_SCHEMA.PROCESSLIST where user=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array('event_scheduler'));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=true;
+
+        else $result=false;
+
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Θέτει τον event scheduler της mysql σε ON
+    static function enableMySQLEventScheduler() {
+        self::CreateConnection();
+
+        $sql = 'SET GLOBAL event_scheduler = ON;';
+        $stmt = self::$conn->prepare($sql);
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Δημιουργεί ένα event στην βάση
+    // $timeInterval της μορφής '1 MINUTE', '1 ΜΟΝΤΗ' κοκ
+    static function createMySQLEvent($eventName, $eventQuery, $timeInterval ) {
+        self::CreateConnection();
+
+        $event='CREATE EVENT '.$eventName.
+            ' ON SCHEDULE EVERY '.$timeInterval.
+            ' ON COMPLETION PRESERVE '.
+            ' DO '.$eventQuery.
+            ';';
+
+        $stmt = self::$conn->prepare($event);
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+
+    }
+
+
+    // Σβήνει παλιότερες εγγραφές από έναν πίνανα πριν τις $days μέρες
+    static function deleteTableBeforeNDays($table, $dateField, $days) {
+        self::CreateConnection();
+
+        $sql = 'DELETE FROM '.$table.' WHERE '.$dateField.'<timestamp(date_sub(NOW(), INTERVAL '.$days.' DAY))';
+        $stmt = self::$conn->prepare($sql);
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Σβήνει τα πάντα από το $table
+    static function deleteTable($table) {
+        self::CreateConnection();
+
+        $sql = 'DELETE FROM '.$table;
+        $stmt = self::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
     }
 
 }
