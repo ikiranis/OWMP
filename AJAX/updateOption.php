@@ -28,7 +28,8 @@ $conn = new RoceanDB();
  
 
 if($conn->changeOption($option_name, $option_value)) {
-   $jsonArray=array( 'success'=>'true');
+    $jsonArray=array( 'success'=>'true');
+    RoceanDB::insertLog('Option '.$option_name.'changed'); // Προσθήκη της κίνησης στα logs
 }
 else $jsonArray=array( 'success'=>'false');
 

@@ -307,6 +307,8 @@ class SyncFiles
         }
 
         echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
+
+        RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
     }
 
 
@@ -425,6 +427,8 @@ class SyncFiles
             }
 
             echo '<p>Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν</p>';
+
+            RoceanDB::insertLog('Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν'); // Προσθήκη της κίνησης στα logs
         }
 
 
@@ -487,6 +491,8 @@ class SyncFiles
 
             echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash</p>';
             echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+
+            RoceanDB::insertLog($counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash'); // Προσθήκη της κίνησης στα logs
         }
 
     }
@@ -550,6 +556,8 @@ class SyncFiles
 
             echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata</p>';
             echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+
+            RoceanDB::insertLog($counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata'); // Προσθήκη της κίνησης στα logs
         }
     }
 

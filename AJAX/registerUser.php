@@ -31,6 +31,7 @@ $register=$conn->CreateUser($username, $email, $password, '1', 'local', null, nu
 
 if($register['success']) {
     $jsonArray=array( 'success'=>true);
+    RoceanDB::insertLog('User '.$username.' registered'); // Προσθήκη της κίνησης στα logs
 }
 else {
     $jsonArray=array( 'success'=>false);

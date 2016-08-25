@@ -64,6 +64,7 @@ if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 
     if ($update) {
         $jsonArray = array('success' => true);
+        RoceanDB::insertLog('Changed tags for song id: '.$id); // Προσθήκη της κίνησης στα logs
     } else {
         $jsonArray = array('success' => false);
     }

@@ -25,8 +25,11 @@ $deleteUserDetails=$conn->deleteRowFromTable ('user_details','user_id',$id);
 
 
 if($deleteSalts==true && $deleteUserDetails==true){
-    if($conn->deleteRowFromTable ('user','user_id',$id))
-        $jsonArray=array( 'success'=>'true');
+    if($conn->deleteRowFromTable ('user','user_id',$id)) {
+        $jsonArray = array('success' => 'true');
+
+        RoceanDB::insertLog('User deleted with id '.$id); // Προσθήκη της κίνησης στα logs
+    }
     else $jsonArray=array( 'success'=>'false');
 }
 
