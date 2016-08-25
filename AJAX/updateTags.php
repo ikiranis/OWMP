@@ -16,17 +16,15 @@ session_start();
 
 $conn = new RoceanDB();
 
-session_regenerate_id(true);
-
 // Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
-//if (!isset($_SESSION["username"]))
-//    if($conn->CheckCookiesForLoggedUser()) {
-//        $conn->setSession('username', $_COOKIE["username"]);
-//        $UserGroup=$conn->getUserGroup($conn->getSession('username'));
-//    }
-//else $UserGroup=$conn->getUserGroup($conn->getSession('username'));
+if (!isset($_SESSION["username"])) {
+    if ($conn->CheckCookiesForLoggedUser()) {
+        $conn->setSession('username', $_COOKIE["username"]);
+        $UserGroup = $conn->getUserGroup($conn->getSession('username'));
+    }
+}
+else $UserGroup=$conn->getUserGroup($conn->getSession('username'));
 
-$UserGroup=$conn->getUserGroup($conn->getSession('username'));
 
 if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 

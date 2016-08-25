@@ -668,6 +668,7 @@ input {
 }
 
 #FormTags #rating {
+    -webkit-appearance: none;
     width: 90%;
     height:10px;
     border-radius: 8px;
@@ -721,6 +722,32 @@ input {
     display: none;
 }
 
+#overlay_track_time {
+    position: absolute;
+    top: 2em;
+    right: 0;
+    color: #FFF;
+    width: 100%;
+    height: 1em;
+    text-align: center;
+    font-size: 1em;
+    z-index: 2147483647;
+    display: inline-block;
+
+}
+
+
+#overlay_track_range {
+    -webkit-appearance: none;
+    width: 30%;
+    height:10px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px #333;
+    background-image:linear-gradient(to right, white, black 100%);
+
+    transition: background 450ms;
+}
+
 #bottom_overlay {
     position: absolute;
     bottom: 0;
@@ -731,18 +758,18 @@ input {
     text-align: left;
     font-size: 2em;
     background-color: rgba(221, 221, 221, 0.3);
-    padding: 0.5em 1em;
+    padding: 0.5em 1em 0.5em 1em;
     z-index: 2147483647;
     display: inline-block;
 }
 
 #overlay_rating {
     position: absolute;
-    top: 0;
+    top: 20px;
     left: 0;
     color: #FFF;
     width: 5em;
-    height: 3em;
+    height: 2em;
     text-align: left;
     font-size: 3em;
     z-index: 2147483647;
@@ -751,12 +778,12 @@ input {
 
 #overlay_play_count {
     position: absolute;
-    top: 0;
+    top: 20px;
     right: 0;
     border-radius: 15px;
     color: #FFF;
     width: 2em;
-    height: 1.2em;
+    height: 2em;
     text-align: center;
     font-size: 2em;
     z-index: 2147483647;
@@ -773,6 +800,27 @@ input {
 #overlay_song_name { display: block; font-size: 0.7em; }
 #overlay_song_year { display: block;  }
 #overlay_album { display: block;  font-size: 0.6em; }
+
+#bottom_right_overlay {
+    position: absolute;
+    bottom: 1em;
+    right: 0;
+    color: #FFF;
+    width: 100%;
+    height: 3em;
+    text-align: right;
+    font-size: 1em;
+    padding: 0.5em 1em 0.5em 1em;
+    z-index: 2147483647;
+    display: inline-block;
+}
+
+#overlay_live { display: block; }
+
+
+
+
+
 
 /*Dashboard*/
 

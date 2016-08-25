@@ -12,8 +12,6 @@ require_once('../libraries/common.inc.php');
 
 session_start();
 
-session_regenerate_id(true);
-
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);

@@ -303,7 +303,21 @@ function countjson(obj) {
     return count;
 }
 
+// Μετατρέπει τα δευτερόλεπτα σε "ανθρώπινα" λεπτά και δευτερόλεπτα. Επιστρέφει τιμές σε array (minutes, seconds)
+function seconds2MinutesAndSeconds(timeInSeconds) {
+    timeInMinutes=parseInt(timeInSeconds/60);
+    newTimeInSeconds=parseInt(timeInSeconds%60);
 
+    if(timeInMinutes<10) timeInMinutes='0'+timeInMinutes.toString();
+    if(newTimeInSeconds<10) newTimeInSeconds='0'+newTimeInSeconds.toString();
+
+    timeArray= {  // Μετατροπή σε array
+            'minutes': timeInMinutes,
+            'seconds': newTimeInSeconds
+        }
+
+    return timeArray;
+}
 
 // Προσθέτει το 0 μπροστά από τον αριθμό όταν είναι κάτω από το 10
 function addZero(i) {
@@ -476,6 +490,9 @@ function loadNextVideo(id) {
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
             // console.log(data);
 
+            //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
+            timeInMinutesAndSeconds=seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
+
             // εμφανίζει τα metadata στα input fields
             $('#title').val(data.tags.title);
             $('#artist').val(data.tags.artist);
@@ -487,7 +504,7 @@ function loadNextVideo(id) {
             $('#date_added').val(data.tags.date_added);
             $('#rating').val(data.tags.rating);
             $('#rating_output').val(data.tags.rating);
-            $('#track_time').val(data.tags.track_time);
+            $('#track_time').val(timeInMinutesAndSeconds);
             $('#live').val(data.tags.live);
             $('#path_filename').val(decodeURIComponent(file_path));
 
@@ -500,6 +517,8 @@ function loadNextVideo(id) {
             // $('#overlay_rating').html(stars);
             ratingToStars(data.tags.rating,'#overlay_rating');
             $('#overlay_play_count').html(data.tags.play_count);
+            $('#overlay_total_track_time').html(timeInMinutesAndSeconds);
+            $('#overlay_live').html(liveOptions[data.tags.live]);
             showFullScreenVideoTags();
 
             makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist
@@ -629,6 +648,7 @@ function update_tags(key_rating) {
             $('#overlay_song_name').html(song_name);
             $('#overlay_song_year').html(song_year);
             $('#overlay_album').html(album);
+
             // $('#overlay_rating').html(stars);
             ratingToStars(rating,'#overlay_rating');
 
@@ -1045,6 +1065,13 @@ $(function(){
                 updateVideoPlayed();
                 TimeUpdated=true;
             }
+
+            //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
+            timeInMinutesAndSeconds=seconds2MinutesAndSeconds(this.currentTime)['minutes']+' : '+seconds2MinutesAndSeconds(this.currentTime)['seconds'];
+
+            // Εμφάνιση του τρεχόντα track time
+            $('#overlay_current_track_time').html(timeInMinutesAndSeconds);
+            $('#overlay_track_range').val(curTimePercent);
 
         });
 
