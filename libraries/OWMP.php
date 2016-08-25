@@ -156,7 +156,12 @@ class OWMP
         <input type="button" class="message" id="message">
 
 
+        <script type="text/javascript">
 
+            // περνάει στην javascript το ότι το video φορτώθηκε
+            var VideoLoaded=true
+
+        </script>
 
 
         <?php

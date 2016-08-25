@@ -945,7 +945,7 @@ $(function(){
     // Έλεγχος πατήματος πλήκτρων
     window.addEventListener('keydown', function(event) {
 
-        if (!FocusOnForm) {
+        if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
                 loadAndplayNextVideo();
             }
