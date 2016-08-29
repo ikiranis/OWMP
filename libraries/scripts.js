@@ -850,6 +850,14 @@ function addToPlaylist(id) {
     alert('Δεν είναι έτοιμο ακόμη');
 }
 
+// Εμφανίζει το volume
+function displayVolume() {
+    volume=parseInt(localStorage.volume*100);
+
+    document.querySelector('#overlay_volume_text').innerText=volume;
+
+    $('#overlay_volume').show().delay(1000).fadeOut();
+}
 
 
 
@@ -994,13 +1002,15 @@ $(function(){
             }
 
             if (event.keyCode === 38) {   // πάνω βελάκι
-                myVideo.volume += 0.05;
+                myVideo.volume += 0.01;
                 localStorage.volume=myVideo.volume;
+                displayVolume();
             }
 
             if (event.keyCode === 40) {   // κάτω βελάκι
-                myVideo.volume -= 0.05;
+                myVideo.volume -= 0.01;
                 localStorage.volume=myVideo.volume;
+                displayVolume();
             }
 
             if (event.keyCode === 190) {   // >

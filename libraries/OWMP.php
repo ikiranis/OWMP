@@ -123,7 +123,7 @@ class OWMP
 
         ?>
 
-        <video id="myVideo" width="100%"  controls autoplay onerror="failed(event)"></video>
+        <video id="myVideo" width="100%" autoplay onerror="failed(event)"></video>
 
         <!--        Fullscreen overlay elements-->
         <div id="overlay">
@@ -133,6 +133,10 @@ class OWMP
                 <span id="overlay_current_track_time">00:00</span>
                 <input type=range id="overlay_track_range" name="overlay_track_range" min=0 max=100 list=overlay_track_ticks value=0>
                 <span id="overlay_total_track_time">00:00</span>
+            </div>
+
+            <div id="overlay_volume">
+                <span id="overlay_volume_text"></span>
             </div>
 
             <div id="bottom_overlay">
