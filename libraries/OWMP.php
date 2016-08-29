@@ -125,19 +125,21 @@ class OWMP
 
         <video id="myVideo" width="100%" autoplay onerror="failed(event)"></video>
 
+        <div id="overlay_volume">
+            <span id="overlay_volume_text"></span>
+        </div>
+
         <!--        Fullscreen overlay elements-->
         <div id="overlay">
             <div id="overlay_rating"></div>
             <div id="overlay_play_count"></div>
             <div id="overlay_track_time">
                 <span id="overlay_current_track_time">00:00</span>
-                <input type=range id="overlay_track_range" name="overlay_track_range" min=0 max=100 list=overlay_track_ticks value=0>
+                <input type=range id="overlay_track_range" name="overlay_track_range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
                 <span id="overlay_total_track_time">00:00</span>
             </div>
 
-            <div id="overlay_volume">
-                <span id="overlay_volume_text"></span>
-            </div>
+
 
             <div id="bottom_overlay">
                 <span id="overlay_song_name"></span>

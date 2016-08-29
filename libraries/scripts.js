@@ -437,7 +437,7 @@ function showFullScreenVideoTags(toggle) {
                 OverlayAllwaysOn = true;
             }
             else {
-                $('#overlay').hide();
+                $('#overlay').hide('fast');
                 OverlayAllwaysOn = false;
             }
         }
@@ -445,7 +445,7 @@ function showFullScreenVideoTags(toggle) {
             if (!OverlayAllwaysOn) {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
                 if (!OverlayON) {  // αν δεν είναι on ήδη
                     OverlayON = true;
-                    $('#overlay').show().delay(5000).hide('slow');
+                    $('#overlay').show().delay(5000).hide('fast');
                     OverlayON = false;
                 }
 
@@ -454,7 +454,7 @@ function showFullScreenVideoTags(toggle) {
         }
 
     }
-    else $('#overlay').hide();
+    else $('#overlay').hide('fast');
 
 }
 
@@ -648,6 +648,7 @@ function update_tags(key_rating) {
             $('#overlay_song_name').html(song_name);
             $('#overlay_song_year').html(song_year);
             $('#overlay_album').html(album);
+            $('#overlay_live').html(liveOptions[live]);
 
             // $('#overlay_rating').html(stars);
             ratingToStars(rating,'#overlay_rating');
@@ -852,11 +853,22 @@ function addToPlaylist(id) {
 
 // Εμφανίζει το volume
 function displayVolume() {
-    volume=parseInt(localStorage.volume*100);
+    var volume=parseInt(localStorage.volume*100);
 
     document.querySelector('#overlay_volume_text').innerText=volume;
 
     $('#overlay_volume').show().delay(1000).fadeOut();
+}
+
+
+// Αλλάζει τον χρόνο που βρίσκεται το track αναλόγως την θέση στον slider
+function controlTrack() {
+    var curTime=document.querySelector('#overlay_track_range').value;  // ο τρέχον track time σε ποσοστό
+    var duration=myVideo.duration;  // ο συνολικός track time
+
+    var PercentToTrackSeconds=parseInt( (curTime/100)*duration );  // μετατροπή του ποσοστού χρόνου σε πραγματικά δευτερόλεπτα
+
+    myVideo.currentTime=PercentToTrackSeconds;
 }
 
 
