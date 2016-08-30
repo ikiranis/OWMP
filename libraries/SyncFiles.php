@@ -225,8 +225,36 @@ class SyncFiles
 
                 $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
 
-                if($searchHash=self::searchForHash($hash)) // Έλεγχος στην βάση για to hash
-                    echo '<p>Το αρχείο '.$filename.' υπάρχει ήδη</p>';
+                if($searchHash=self::searchForHash($hash)) { // Έλεγχος στην βάση για to hash
+
+                    $oldFullPath=DIR_PREFIX.OWMP::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
+                    trigger_error($oldFullPath);
+                    trigger_error(file_exists($oldFullPath));
+
+                    // TODO θέλει περισσότερα τεστ γιατί παίζει φάση μάλλον με το ότι κρατάει κάποια cashe με τα αρχεία και δείχνει λανθασμένα ότι υπάρχει το αρχείο
+                    if(!OWMP::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
+                        trigger_error('UPDATE');
+                        // κάνει update την βάση με το νέο path και filename
+                        $update = RoceanDB::updateTableFields('files', 'id=?',
+                            array('path', 'filename'),
+                            array($path, $filename, $searchHash));
+
+                        if($update) {
+                            echo '<p>Το αρχείο ' . $filename . ' άλλαξε θέση</p>';
+
+                            RoceanDB::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
+                        }
+                    }
+                    else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
+
+                        trigger_error('DIAGRAFH');
+                        if (OWMP::deleteOnlyFile($full_path)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
+                            echo '<p>Το αρχείο ' . $filename . ' υπάρχει ήδη και διαγράφτηκε</p>';
+
+                            RoceanDB::insertLog('File ' . $filename . ' deleted.'); // Προσθήκη της κίνησης στα logs
+                        }
+                    }
+                }
 
             } else $searchHash=false;
 
@@ -311,6 +339,7 @@ class SyncFiles
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
     }
 
+    
 
     // Επιστρέφει true αν το string είναι UTF-8
     public function detectUTF8($string)

@@ -878,6 +878,18 @@ class OWMP
 
     }
     
+    
+    // Σβήνει μόνο το αρχείο στον δίσκο
+    static function deleteOnlyFile($fullPath) {
+        if (file_exists($fullPath)) {  // αν υπάρχει το αρχείο, σβήνει το αρχείο 
+            if (unlink($fullPath)) 
+                $result = true;
+            else $result = false;
+        } else $result = false;
+        
+        return $result;
+    }
+    
     // Σβήνει ένα αρχείο και την αντίστοιχη εγγραφή στην βάση
     static function deleteFile($id) {
         $conn = new RoceanDB();
@@ -906,8 +918,36 @@ class OWMP
         
         return $result;
     }
-    
-    
+
+    // Επιστρέφει τo fullpath από τα files με $id
+    static function getFullPathFromFileID($id) {
+        $conn = new RoceanDB();
+
+        $conn->createConnection();
+
+        $sql='SELECT path, filename FROM files WHERE id=?';
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['path'].urldecode($item['filename']);
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // TODO να τσεκάρω αν αυτό αργεί πολύ αλλιώς να κάνω άλλη υλοποίηση
+    // πραγματικός έλεγχος αν ένα αρχείο υπάρχει, γιατί παίζει μερικές φορές λόγω cashe να επιστρέφει λάθος αποτέλεσμα η file_exists
+    static function fileExists($path){
+        return (@fopen($path,"r")==true);
+    }
     
     
 }
