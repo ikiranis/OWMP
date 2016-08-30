@@ -26,7 +26,7 @@ var FocusOnForm=false; // Κρατάει το αν είμαστε στην φό�
 var PlaylistContainerHTML='';   // τα περιεχόμενα του div playlist_containter
 
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
-var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
+// var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -430,19 +430,21 @@ function checkFullscreen () {
 
 // Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
 function showFullScreenVideoTags(toggle) {
+    if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';
+
     if (checkFullscreen ()) {  // Αν είναι σε fullscreen
         if(toggle!=null) {
             if (toggle == 'on') {
                 $('#overlay').show();
-                OverlayAllwaysOn = true;
+                localStorage.OverlayAllwaysOn = 'true';
             }
             else {
                 $('#overlay').hide();
-                OverlayAllwaysOn = false;
+                localStorage.OverlayAllwaysOn = 'false';
             }
         }
         else {
-            if (!OverlayAllwaysOn) {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
+            if (localStorage.OverlayAllwaysOn=='false') {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
                 if (!OverlayON) {  // αν δεν είναι on ήδη
                     OverlayON = true;
                     $('#overlay').show().delay(5000).hide('fast');
@@ -1026,7 +1028,9 @@ $(function(){
             }
 
             if (event.keyCode === 73) {   // I
-                if(OverlayAllwaysOn)
+                if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';
+
+                if(localStorage.OverlayAllwaysOn=='true')
                     showFullScreenVideoTags('off');
                 else
                     showFullScreenVideoTags('on');
