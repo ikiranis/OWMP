@@ -786,15 +786,41 @@ input {
     text-align: center;
     z-index: 2147483647;
     display: none;
-
-
 }
 
 
 #overlay_volume_text {
+    width: 1.2em;
+    height: 1.4em;
+    padding: 0.2em;
     font-size: 10em;
     background-color: rgba(221, 221, 221, 0.3);
+    border-radius: 0.2em;
+    display: inline-block;
+}
 
+.overlay_volume_up {
+    background-image: url(../img/volume_up.png);
+    background-size: 0.5em;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    outline: none;
+}
+
+.overlay_volume_down {
+    background-image: url(../img/volume_down.png);
+    background-size: 0.5em;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    outline: none;
+}
+
+.overlay_volume_mute {
+    background-image: url(../img/volume_off.png);
+    background-size: 0.5em;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    outline: none;
 }
 
 #bottom_overlay {
@@ -811,6 +837,7 @@ input {
     z-index: 2147483647;
     display: inline-block;
 }
+
 
 
 

@@ -126,7 +126,9 @@ class OWMP
         <video id="myVideo" width="100%" autoplay onerror="failed(event)"></video>
 
         <div id="overlay_volume">
-            <span id="overlay_volume_text"></span>
+            <span id="overlay_volume_text">
+                
+            </span>
         </div>
 
         <!--        Fullscreen overlay elements-->

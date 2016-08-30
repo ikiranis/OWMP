@@ -852,12 +852,22 @@ function addToPlaylist(id) {
 }
 
 // Εμφανίζει το volume
-function displayVolume() {
+function displayVolume(operation) {
     var volume=parseInt(localStorage.volume*100);
 
     document.querySelector('#overlay_volume_text').innerText=volume;
 
-    $('#overlay_volume').show().delay(1000).fadeOut();
+    $('#overlay_volume_text').removeClass();
+
+    switch (operation) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
+        case 'up': $('#overlay_volume_text').addClass('overlay_volume_up'); break;
+        case 'down': $('#overlay_volume_text').addClass('overlay_volume_down'); break;
+        case 'mute': $('#overlay_volume_text').addClass('overlay_volume_mute'); break;
+    }
+
+
+
+    $('#overlay_volume').show().delay(1500).fadeOut();
 }
 
 
@@ -1016,13 +1026,30 @@ $(function(){
             if (event.keyCode === 38) {   // πάνω βελάκι
                 myVideo.volume += 0.01;
                 localStorage.volume=myVideo.volume;
-                displayVolume();
+                displayVolume('up');
             }
 
             if (event.keyCode === 40) {   // κάτω βελάκι
                 myVideo.volume -= 0.01;
                 localStorage.volume=myVideo.volume;
-                displayVolume();
+                displayVolume('down');
+            }
+
+            if (event.keyCode === 77) {   // M Mute
+                if(localStorage.mute==null) localStorage.mute='false';
+
+                if (localStorage.mute=='false') {
+                    localStorage.oldVolume = localStorage.volume;
+                    localStorage.mute = 'true';
+                    myVideo.volume = 0;
+                    localStorage.volume = myVideo.volume;
+                    displayVolume('mute');
+                } else {
+                    localStorage.mute = 'false';
+                    myVideo.volume = localStorage.oldVolume;
+                    localStorage.volume = myVideo.volume;
+                    displayVolume('up');
+                }
             }
 
             if (event.keyCode === 190) {   // >
