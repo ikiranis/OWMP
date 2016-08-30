@@ -437,7 +437,7 @@ function showFullScreenVideoTags(toggle) {
                 OverlayAllwaysOn = true;
             }
             else {
-                $('#overlay').hide('fast');
+                $('#overlay').hide();
                 OverlayAllwaysOn = false;
             }
         }
@@ -454,7 +454,10 @@ function showFullScreenVideoTags(toggle) {
         }
 
     }
-    else $('#overlay').hide('fast');
+    else {
+        $('#overlay').hide();
+        $('#overlay_volume').hide();
+    }
 
 }
 
@@ -853,21 +856,28 @@ function addToPlaylist(id) {
 
 // Εμφανίζει το volume
 function displayVolume(operation) {
-    var volume=parseInt(localStorage.volume*100);
+    if(checkFullscreen()) {
+        var volume = parseInt(localStorage.volume * 100);
 
-    document.querySelector('#overlay_volume_text').innerText=volume;
+        document.querySelector('#overlay_volume_text').innerText = volume;
 
-    $('#overlay_volume_text').removeClass();
+        $('#overlay_volume_text').removeClass();
 
-    switch (operation) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
-        case 'up': $('#overlay_volume_text').addClass('overlay_volume_up'); break;
-        case 'down': $('#overlay_volume_text').addClass('overlay_volume_down'); break;
-        case 'mute': $('#overlay_volume_text').addClass('overlay_volume_mute'); break;
+        switch (operation) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
+            case 'up':
+                $('#overlay_volume_text').addClass('overlay_volume_up');
+                break;
+            case 'down':
+                $('#overlay_volume_text').addClass('overlay_volume_down');
+                break;
+            case 'mute':
+                $('#overlay_volume_text').addClass('overlay_volume_mute');
+                break;
+        }
+
+
+        $('#overlay_volume').show().delay(1500).fadeOut();
     }
-
-
-
-    $('#overlay_volume').show().delay(1500).fadeOut();
 }
 
 

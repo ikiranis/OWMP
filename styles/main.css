@@ -846,6 +846,10 @@ input {
     height: 40%;
 }
 
+#myVideo::-webkit-media-controls {
+    display:none !important;
+}
+
 
 #overlay_artist { font-weight: bold; display: block; }
 #overlay_song_name { display: block; font-size: 0.7em; }
