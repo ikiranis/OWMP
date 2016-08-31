@@ -42,6 +42,8 @@ class SyncFiles
     public $year = 0;
     public $live = 0;
 
+    static $filesForDelete = array();
+
 
         // Διάβασμα της library στο itunes
         public function getItunesLibrary()
@@ -203,7 +205,6 @@ class SyncFiles
         $mediaKind='Music Video';
 
 
-
         foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
 
 
@@ -228,11 +229,10 @@ class SyncFiles
                 if($searchHash=self::searchForHash($hash)) { // Έλεγχος στην βάση για to hash
 
                     $oldFullPath=DIR_PREFIX.OWMP::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
-                    trigger_error($oldFullPath);
-                    trigger_error(file_exists($oldFullPath));
 
-                    // TODO θέλει περισσότερα τεστ γιατί παίζει φάση μάλλον με το ότι κρατάει κάποια cashe με τα αρχεία και δείχνει λανθασμένα ότι υπάρχει το αρχείο
                     if(!OWMP::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
+
+                        // TODO να κάνω και το update με επιβεβαίωση και μέσω javacrript όπως η διαγραφή
                         trigger_error('UPDATE');
                         // κάνει update την βάση με το νέο path και filename
                         $update = RoceanDB::updateTableFields('files', 'id=?',
@@ -247,12 +247,17 @@ class SyncFiles
                     }
                     else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
 
-                        trigger_error('DIAGRAFH');
-                        if (OWMP::deleteOnlyFile($full_path)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
-                            echo '<p>Το αρχείο ' . $filename . ' υπάρχει ήδη και διαγράφτηκε</p>';
+                        self::$filesForDelete[]= [  // Πίνακας με τα id των προς διαγραφή αρχείων
+                                'filename' => $filename,
+                                'fullpath' => $full_path
+                            ];
 
-                            RoceanDB::insertLog('File ' . $filename . ' deleted.'); // Προσθήκη της κίνησης στα logs
-                        }
+                        trigger_error('DIAGRAFH');
+//                        if (OWMP::deleteOnlyFile($full_path)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
+//                            echo '<p>Το αρχείο ' . $filename . ' υπάρχει ήδη και διαγράφτηκε</p>';
+//
+//                            RoceanDB::insertLog('File ' . $filename . ' deleted.'); // Προσθήκη της κίνησης στα logs
+//                        }
                     }
                 }
 
@@ -335,6 +340,22 @@ class SyncFiles
         }
 
         echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
+
+        echo '<p>Αρχεία προς διαγραφή: </p>';
+
+        foreach(self::$filesForDelete as $item) {
+            echo $item['filename'].'<br>';
+        }
+
+        // Παίρνουμε το array και πέρασμα στην javascript
+        $deleteFilesArrayForJavascript=json_encode(self::$filesForDelete, JSON_UNESCAPED_UNICODE);
+
+        ?>
+
+        <input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="Διαγραφή αρχείων"
+               onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
+
+        <?php
 
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
     }
@@ -446,7 +467,7 @@ class SyncFiles
         {
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
-                if(!file_exists($full_path)) {
+                if(!OWMP::fileExists($full_path)) {
                     OWMP::deleteFile($file['id']);
                     echo $full_path.'<br>';
                     $counter++;
@@ -494,7 +515,7 @@ class SyncFiles
         {
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
-                if(file_exists($full_path)) {
+                if(OWMP::fileExists($full_path)) {
                             $start = microtime(true);
                     
                             $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
@@ -563,7 +584,7 @@ class SyncFiles
         {
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
-                if(file_exists($full_path)) {
+                if(OWMP::fileExists($full_path)) {
 
                     self::getMediaFileTags($full_path);  // Παίρνουμε τα metadata του αρχείου
 

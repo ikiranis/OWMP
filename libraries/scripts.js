@@ -851,6 +851,24 @@ function deleteFile(id) {
     }
 }
 
+// Σβήνει μια λίστα (array) αρχείων
+function deleteFiles(filesArray) {
+    var confirmAnswer=confirm('Are You Sure?');
+
+    if (confirmAnswer==true) {
+        for (var i = 0; i < filesArray.length; i++) {
+            callFile = AJAX_path + "deleteOnlyTheFile.php?fullpath=" + encodeURIComponent(filesArray[i]['fullpath']) + 
+                            "&filename=" + encodeURIComponent(filesArray[i]['filename']);
+
+            $.get(callFile, function (data) {
+                if (data.success == true) {
+                    console.log('success');
+                }
+            }, "json");
+        }
+    }
+}
+
 // Προσθέτει ένα αρχείο σε playlist
 function addToPlaylist(id) {
     alert('Δεν είναι έτοιμο ακόμη');
@@ -1153,8 +1171,8 @@ $(function(){
                 changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
 
         switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
-            case 'date_added': searchStringElement.type='datetime-local'; break;
-            case 'date_last_played': searchStringElement.type='datetime-local'; break;
+            case 'date_added': searchStringElement.type='date'; break;
+            case 'date_last_played': searchStringElement.type='date'; break;
             case 'play_count': searchStringElement.type='number'; break;
             case 'rating': changeToSelect(searchStringElement, elementID, ratingOptions); break;
             case 'video_width': searchStringElement.type='number'; break;
