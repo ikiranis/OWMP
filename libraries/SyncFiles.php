@@ -383,7 +383,7 @@ class SyncFiles
 
         $script_time_elapsed_secs = microtime(true) - $script_start;
 
-        echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+        echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
 
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
     }
@@ -487,6 +487,8 @@ class SyncFiles
     public function clearTheFiles() {
         set_time_limit(0);
 
+        $script_start = microtime(true);
+
         $conn = new RoceanDB();
 
         $counter=0;
@@ -507,6 +509,10 @@ class SyncFiles
             echo '<p>Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν</p>';
 
             RoceanDB::insertLog('Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν'); // Προσθήκη της κίνησης στα logs
+
+            $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
         }
 
 
@@ -569,7 +575,7 @@ class SyncFiles
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
             echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash</p>';
-            echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
 
             RoceanDB::insertLog($counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash'); // Προσθήκη της κίνησης στα logs
         }
@@ -634,7 +640,7 @@ class SyncFiles
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
             echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata</p>';
-            echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
+            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
 
             RoceanDB::insertLog($counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata'); // Προσθήκη της κίνησης στα logs
         }

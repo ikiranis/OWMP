@@ -387,5 +387,18 @@ class Page
 
         return $result;
     }
+    
+    // Επιστρέφει την μετατροπή των δευτερολέπτων σε λεπτά:δευτερόλεπτα
+    static function seconds2MinutesAndSeconds($timeInSeconds) {
+        $timeInMinutes=(int)($timeInSeconds/60);
+        $newTimeInSeconds=(int)($timeInSeconds%60);
+
+        if($timeInMinutes<10) $timeInMinutes='0'.$timeInMinutes;
+        if($newTimeInSeconds<10) $newTimeInSeconds='0'+$newTimeInSeconds;
+
+        $timeArray= $timeInMinutes.' : '.$newTimeInSeconds;
+
+        return $timeArray;
+    }
 
 }
