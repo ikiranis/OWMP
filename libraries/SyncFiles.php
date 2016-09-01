@@ -43,7 +43,7 @@ class SyncFiles
     public $live = 0;
 
     static $filesForDelete = array();
-
+    static $filesForUpdate = array();
 
         // Διάβασμα της library στο itunes
         public function getItunesLibrary()
@@ -169,6 +169,8 @@ class SyncFiles
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks($searchItunes,$searchIDFiles)
     {
+        $script_start = microtime(true);
+
         $this->scanFiles();
 
         if($searchItunes)
@@ -232,32 +234,25 @@ class SyncFiles
 
                     if(!OWMP::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
 
-                        // TODO να κάνω και το update με επιβεβαίωση και μέσω javacrript όπως η διαγραφή
+                        self::$filesForUpdate[]= [  // Πίνακας με τα id των προς διαγραφή αρχείων
+                            'id' => $searchHash,
+                            'filename' => $filename,
+                            'path' => $path
+                        ];
+
                         trigger_error('UPDATE');
-                        // κάνει update την βάση με το νέο path και filename
-                        $update = RoceanDB::updateTableFields('files', 'id=?',
-                            array('path', 'filename'),
-                            array($path, $filename, $searchHash));
 
-                        if($update) {
-                            echo '<p>Το αρχείο ' . $filename . ' άλλαξε θέση</p>';
-
-                            RoceanDB::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
-                        }
                     }
                     else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
 
-                        self::$filesForDelete[]= [  // Πίνακας με τα id των προς διαγραφή αρχείων
+                        self::$filesForDelete[]= [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
+                                'id' => $searchHash,
                                 'filename' => $filename,
                                 'fullpath' => $full_path
                             ];
 
                         trigger_error('DIAGRAFH');
-//                        if (OWMP::deleteOnlyFile($full_path)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
-//                            echo '<p>Το αρχείο ' . $filename . ' υπάρχει ήδη και διαγράφτηκε</p>';
-//
-//                            RoceanDB::insertLog('File ' . $filename . ' deleted.'); // Προσθήκη της κίνησης στα logs
-//                        }
+
                     }
                 }
 
@@ -341,21 +336,54 @@ class SyncFiles
 
         echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
 
-        echo '<p>Αρχεία προς διαγραφή: </p>';
 
-        foreach(self::$filesForDelete as $item) {
-            echo $item['filename'].'<br>';
+        // Διαγραφή αρχείων αν χρειάζονται
+        if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
+            echo '<p>Αρχεία προς διαγραφή: </p>';
+
+            foreach (self::$filesForDelete as $item) {  // Εμφανίζει τα αρχεία προς διαγράφη
+                ?>
+                    <div id=deleteRow<?php echo $item['id']; ?> class="deleteRows"><?php echo $item['filename']; ?></div>
+
+                <?php
+            }
+
+            // Παίρνουμε το array για πέρασμα στην javascript
+            $deleteFilesArrayForJavascript = json_encode(self::$filesForDelete, JSON_UNESCAPED_UNICODE);
+
+            ?>
+
+            <br><input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="Διαγραφή αρχείων"
+                   onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
+
+            <?php
         }
 
-        // Παίρνουμε το array και πέρασμα στην javascript
-        $deleteFilesArrayForJavascript=json_encode(self::$filesForDelete, JSON_UNESCAPED_UNICODE);
+        // Ενημέρωση της βάσης με τα νέα path και filename των αρχείων που έχουν αλλάξει θέση
+        if(self::$filesForUpdate) {  // Αν υπάρχουν αρχεία προς ενημέρωση
+            echo '<p>Αρχεία προς Ενημέρωση που αλλάξανε θέση: </p>';
 
-        ?>
+            foreach (self::$filesForUpdate as $item) {  // Εμφανίζει τα αρχεία προς ενημέρωση
+                ?>
+                    <div id=updateRow<?php echo $item['id']; ?> class="updateRows"><?php echo $item['filename']; ?></div>
 
-        <input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="Διαγραφή αρχείων"
-               onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
+                <?php
+            }
 
-        <?php
+            // Παίρνουμε το array για πέρασμα στην javascript
+            $updateFilesArrayForJavascript = json_encode(self::$filesForUpdate, JSON_UNESCAPED_UNICODE);
+
+            ?>
+
+            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="Ενημέρωση αρχείων"
+                   onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
+
+            <?php
+        }
+
+        $script_time_elapsed_secs = microtime(true) - $script_start;
+
+        echo '<p>Συνολικός χρόνος: '.$script_time_elapsed_secs;
 
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
     }
@@ -494,6 +522,7 @@ class SyncFiles
         $handle   = fopen($full_path, "rb");
         fseek($handle, $start);
         $contents = fread($handle, $size);
+        fclose($handle);
 
         // Παράγουμε το md5 από το συγκεκριμένο string του αρχείου
         $result = md5($contents);

@@ -858,14 +858,38 @@ function deleteFiles(filesArray) {
     if (confirmAnswer==true) {
         for (var i = 0; i < filesArray.length; i++) {
             callFile = AJAX_path + "deleteOnlyTheFile.php?fullpath=" + encodeURIComponent(filesArray[i]['fullpath']) + 
-                            "&filename=" + encodeURIComponent(filesArray[i]['filename']);
+                            "&filename=" + encodeURIComponent(filesArray[i]['filename']) +
+                            "&id=" + filesArray[i]['id'];
+
 
             $.get(callFile, function (data) {
                 if (data.success == true) {
-                    console.log('success');
+                    $("#deleteRow" + data.id).remove();
                 }
             }, "json");
         }
+        $("#AgreeToDeleteFiles").remove();
+    }
+}
+
+
+// Ενημερώνει μια λίστα (array) αρχείων που έχουν αλλάξει filepath και filename
+function updateFiles(filesArray) {
+    var confirmAnswer=confirm('Are You Sure?');
+
+    if (confirmAnswer==true) {
+        for (var i = 0; i < filesArray.length; i++) {
+            callFile = AJAX_path + "updateFile.php?path=" + encodeURIComponent(filesArray[i]['path']) +
+                "&filename=" + encodeURIComponent(filesArray[i]['filename']) +
+                "&id=" + filesArray[i]['id'];
+
+            $.get(callFile, function (data) {
+                if (data.success == true) {
+                    $("#updateRow" + data.id).remove();
+                }
+            }, "json");
+        }
+        $("#AgreeToUpdateFiles").remove();
     }
 }
 

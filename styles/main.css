@@ -987,3 +987,10 @@ input {
     display: inline-block;
     background-position: center center;
 }
+
+
+/*Συγχρονισμός */
+
+.updateRows, .deleteRows {
+    display: block;
+}

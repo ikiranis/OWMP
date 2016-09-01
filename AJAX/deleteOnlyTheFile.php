@@ -20,9 +20,12 @@ if(isset($_GET['filename']))
 if(isset($_GET['fullpath']))
     $fullpath=ClearString($_GET['fullpath']);
 
+if(isset($_GET['id']))
+    $id=ClearString($_GET['id']);
+
 
 if (OWMP::deleteOnlyFile($fullpath)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
-    $jsonArray = array('success' => true);
+    $jsonArray = array('success' => true, 'id' => $id);
 
     RoceanDB::insertLog('File ' . $filename . ' deleted.'); // Προσθήκη της κίνησης στα logs
 }
