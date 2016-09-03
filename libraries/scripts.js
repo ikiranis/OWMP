@@ -364,7 +364,46 @@ function DisplayWindow(page, offset, step) {
 }
 
 
+// *******************************************************************
+// functions για έλεγχο των audio output devices. Παίζουν μόνο σε https
+function gotDevices(deviceInfos) {
+    window.deviceInfos = deviceInfos;
+    for (var i = 0; i !== deviceInfos.length; ++i) {
+        var deviceInfo = deviceInfos[i];
 
+        if (deviceInfo.kind === 'audiooutput') {
+            console.log('Found audio output device: ' + deviceInfo.deviceId + '  ' + deviceInfo.label);
+        }
+    }
+}
+
+function errorCallback(error) {
+    console.log('Error: ', error);
+}
+
+// Attach audio output device to video element using device/sink ID.
+function attachSinkId(element, sinkId) {
+    if (typeof element.sinkId !== 'undefined') {
+        element.setSinkId(sinkId)
+            .then(function() {
+                console.log('Success, audio output device attached: ' + sinkId);
+            })
+            .catch(function(error) {
+                var errorMessage = error;
+                if (error.name === 'SecurityError') {
+                    errorMessage = 'You need to use HTTPS for selecting audio output ' +
+                        'device: ' + error;
+                }
+                console.error(errorMessage);
+                // Jump back to first output device in the list as it's the default.
+                audioOutputSelect.selectedIndex = 0;
+            });
+    } else {
+        console.warn('Browser does not support output device selection.');
+    }
+}
+
+// *******************************************************************
 
 
 
@@ -941,6 +980,9 @@ function controlTrack() {
 // ************************************
 // On load
 $(function(){
+
+
+
     $('#LoginForm').validate({ // initialize the plugin
         errorElement: 'div'
     });
@@ -1126,6 +1168,15 @@ $(function(){
                 myVideo.playbackRate = 1;
             }
 
+            if (event.keyCode === 76) {   // L Αλλαγή live
+                live=$('#live').val(); // Η τρέχουσα τιμή του live
+
+                if (live==0) $('#live').val('1'); // Αν είναι 0 το κάνει 1
+                else $('#live').val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
+
+                update_tags();  // ενημερώνει τα tags
+            }
+
             if (event.keyCode === 49) {   // 1
                 update_tags(1);
             }
@@ -1213,6 +1264,15 @@ $(function(){
 
 
     });
+
+
+    // Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
+    // navigator.mediaDevices.enumerateDevices()
+    //     .then(gotDevices)
+    //     .catch (errorCallback);
+    //
+    // attachSinkId('myVideo', 'c24273a0adae150d3db9e021ca6dfdf277eefcac460801e9a007f960a106b871');
+
 
 
 
