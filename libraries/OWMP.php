@@ -151,7 +151,8 @@ class OWMP
             </div>
 
             <div id="bottom_right_overlay">
-                    <span id="overlay_live">/span>
+                <span id="overlay_live"></span>
+                <span id="overlay_time"></span>
             </div>
 
         </div>

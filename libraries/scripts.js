@@ -1020,6 +1020,7 @@ $(function(){
     // Εμφανίζει συνεχώς την ώρα
     setInterval(function(){
         getTime('#timetext');
+        if(checkFullscreen()) getTime('#overlay_time');
 
     }, 1000);
 
