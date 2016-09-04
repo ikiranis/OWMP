@@ -75,7 +75,7 @@ class Language
         $result='';
 
         foreach ($languages as $language) {
-            $flag_icon = 'http://'.LANG_PATH_HTTP.'flags/'.$language['lang_id'].'.png';
+            $flag_icon = HTTP_TEXT.LANG_PATH_HTTP.'flags/'.$language['lang_id'].'.png';
 
             if($show_flag) $flag_img=' <img src='.$flag_icon.' class="flags">'; else $flag_img=''; // προσθέτει img της σημαίας ή όχι
 

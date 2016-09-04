@@ -1267,12 +1267,12 @@ $(function(){
     });
 
 
-    // Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
-    // navigator.mediaDevices.enumerateDevices()
-    //     .then(gotDevices)
-    //     .catch (errorCallback);
-    //
-    // attachSinkId('myVideo', 'c24273a0adae150d3db9e021ca6dfdf277eefcac460801e9a007f960a106b871');
+    //Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
+    navigator.mediaDevices.enumerateDevices()
+        .then(gotDevices)
+        .catch (errorCallback);
+
+    attachSinkId('myVideo', '8e2bf9f13b6253c686d45db2c3a7a38154f2ca4cb08243e32f8baa4171999958');
 
 
 
