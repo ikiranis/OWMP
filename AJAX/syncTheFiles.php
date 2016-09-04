@@ -20,8 +20,9 @@ if(isset($_GET['operation']))
 
 $sync = new SyncFiles();
 
+// TODO να το κάνω να παίρνω το media kind από σχετικό combo box
 if($operation=='sync')
-    $sync->syncTheFiles();
+    $sync->syncTheFiles('Music Video');
 
 if($operation=='clear')
     $sync->clearTheFiles();

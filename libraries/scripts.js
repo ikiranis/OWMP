@@ -367,7 +367,7 @@ function DisplayWindow(page, offset, step) {
 // *******************************************************************
 // functions για έλεγχο των audio output devices. Παίζουν μόνο σε https
 function gotDevices(deviceInfos) {
-    window.deviceInfos = deviceInfos;
+    // window.deviceInfos = deviceInfos;
     for (var i = 0; i !== deviceInfos.length; ++i) {
         var deviceInfo = deviceInfos[i];
 
@@ -380,6 +380,7 @@ function gotDevices(deviceInfos) {
 function errorCallback(error) {
     console.log('Error: ', error);
 }
+
 
 // Attach audio output device to video element using device/sink ID.
 function attachSinkId(element, sinkId) {
@@ -1267,13 +1268,16 @@ $(function(){
     });
 
 
+
+
     //Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
-    navigator.mediaDevices.enumerateDevices()
-        .then(gotDevices)
-        .catch (errorCallback);
-
-    attachSinkId('myVideo', '8e2bf9f13b6253c686d45db2c3a7a38154f2ca4cb08243e32f8baa4171999958');
-
+    // navigator.mediaDevices.enumerateDevices()
+    //     .then(gotDevices)
+    //     .catch (errorCallback);
+    //
+    //
+    // attachSinkId(myVideo, '8e2bf9f13b6253c686d45db2c3a7a38154f2ca4cb08243e32f8baa4171999958');
+    //
 
 
 

@@ -867,7 +867,7 @@ input {
 
 #bottom_right_overlay {
     position: absolute;
-    bottom: 0;
+    bottom: 1em;
     right: 0;
     color: #FFF;
     width: 100%;
@@ -879,7 +879,7 @@ input {
     display: inline-block;
 }
 
-#overlay_live { display: block; font-size: 0.8em;}
+#overlay_live { display: block; font-size: 1em;}
 #overlay_time { display: block; font-size: 1.4em; }
 
 

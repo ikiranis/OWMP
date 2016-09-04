@@ -77,15 +77,17 @@ class SyncFiles
     
 
     // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
-    public function scanFiles()
+    public function scanFiles($mediakind)
     {
         $conn= new RoceanDB();
 
-        $dirs = $conn->getTableArray('paths', 'file_path', null, null, null); // Παίρνει τα paths
-
+        $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null); // Παίρνει τα paths
         $dirs=$conn->clearArray($dirs);
 
-        $extensions = array('mp4', 'm4v');
+        switch ($mediakind) {
+            case 'Music Video': $extensions = array('mp4', 'm4v'); break;
+            case 'Music': $extensions = array('mp3', 'm4a'); break;
+        }
 
         self::$files = scanDir::scan($dirs, $extensions, true);   // παίρνει το σύνολο των αρχείων με $extensions από τους φάκελους $dirs
 
@@ -106,7 +108,7 @@ class SyncFiles
     // Αρχικοποίηση τιμών
     public function startingValues($filename) {
         // Αρχικοποίηση τιμών
-        $replace_text = array('.mp4', '.m4v');
+        $replace_text = array('.mp4', '.m4v', '.mp3', 'm4a');
 
         $this->name = str_replace($replace_text, '', $filename);
         $this->artist = '';
@@ -167,11 +169,11 @@ class SyncFiles
     }
 
     // Γράφει τα αρχεία που βρίσκει στην βάση
-    public function writeTracks($searchItunes,$searchIDFiles)
+    public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
     {
         $script_start = microtime(true);
 
-        $this->scanFiles();
+        $this->scanFiles($mediaKind);
 
         if($searchItunes)
             $this->getItunesLibrary();
@@ -204,7 +206,7 @@ class SyncFiles
         $general_counter = 0;
         $added_video = 0;
 
-        $mediaKind='Music Video';
+//        $mediaKind='Music Video';
 
 
         foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
@@ -416,24 +418,35 @@ class SyncFiles
 
         getid3_lib::CopyTagsToComments($ThisFileInfo);
 
+//                           echo'<pre>';
+//       print_r($ThisFileInfo);
+//        echo'</pre>';
+        
+
         if(isset($ThisFileInfo['filename'])) {
-            $replace_text = array('.mp4', '.m4v');
+            $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a');
 
             if (isset($ThisFileInfo['comments_html']['title'][0]))
-                if ($this->detectUTF8($ThisFileInfo['comments_html']['title'][0])) {
                     $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
-                } else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
             else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
 
             if (isset($ThisFileInfo['comments_html']['artist'][0]))
-                if ($this->detectUTF8($ThisFileInfo['comments_html']['artist'][0]))
                     $artist = ClearString($ThisFileInfo['comments_html']['artist'][0]);
-                else $artist = '';
             else $artist = '';
+
+            // TODO να κάνω upload του image και προσθήκη του στην βάση σε σχετικό table
+            $albumCover='data:'.$ThisFileInfo['comments']['picture'][0]['image_mime'].';charset=utf-8;base64,'.base64_encode($ThisFileInfo['comments']['picture'][0]['data']);;
+
+
+//            echo '<img src='.$albumCover.' />';
 
             if (isset($ThisFileInfo['filesize']))
                 $size = intval($ThisFileInfo['filesize']);
             else $size = 0;
+
+            if (isset($ThisFileInfo['comments_html']['album'][0]))
+                    $album = ClearString($ThisFileInfo['comments_html']['album'][0]);
+            else $album = '';
 
             if (isset($ThisFileInfo['video']['resolution_x']))
                 $video_width = intval($ThisFileInfo['video']['resolution_x']);
@@ -456,6 +469,7 @@ class SyncFiles
             $this->name = $title;
             $this->artist = $artist;
             $this->genre = $genre;
+            $this->album = $album;
             $this->date_added = date('Y-m-d H:i:s');
             $this->track_time = $track_time;
             $this->video_width = $video_width;
@@ -469,17 +483,11 @@ class SyncFiles
 
 
     // Κεντρική function που κάνει τον συγχρονισμό
-    public function syncTheFiles() {
+    public function syncTheFiles($mediakind) {
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
-
-
-        $this->writeTracks(false,true);
-
-//        echo'<pre>';
-//        print_r(self::$tags);
-//        echo'</pre>';
+        $this->writeTracks($mediakind, false, true);
     }
 
 
