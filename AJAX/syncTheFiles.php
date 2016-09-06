@@ -17,12 +17,17 @@ session_start();
 if(isset($_GET['operation']))
     $operation=ClearString($_GET['operation']);
 
+if(isset($_GET['mediakind']))
+    $mediaKind=ClearString($_GET['mediakind']);
+
 
 $sync = new SyncFiles();
 
+trigger_error($mediaKind);
+
 // TODO να το κάνω να παίρνω το media kind από σχετικό combo box
 if($operation=='sync')
-    $sync->syncTheFiles('Music Video');
+    $sync->syncTheFiles($mediaKind);
 
 if($operation=='clear')
     $sync->clearTheFiles();

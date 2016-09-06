@@ -542,12 +542,27 @@ class OWMP
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
+        global $mediaKinds;
+
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         if($UserGroupID==1) {
             ?>
             <div id="syncButtons">
-                
+
+                <select name="mediakind" id="mediakind">
+                    <?php
+                    foreach ($mediaKinds as $kind) {
+                        ?>
+                        <option value="<?php echo $kind; ?>">
+                            <?php echo $kind; ?>
+                        </option>
+
+                        <?php
+                    }
+                    ?>
+                </select>
+
                 <input type="button" id="startSync" name="startSync" onclick="startSync('sync');"
                        value="<?php echo __('Synchronize'); ?>">
     

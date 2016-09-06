@@ -765,7 +765,9 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
 
 // Κάνει τον συγχρονισμό των αρχείων
 function startSync(operation) {
-    callFile=AJAX_path+"syncTheFiles.php?operation="+operation;
+    var mediaKind=document.querySelector('#mediakind').value;
+    
+    callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
     if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
         localStorage.syncPressed=false;

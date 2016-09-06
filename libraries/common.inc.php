@@ -61,6 +61,9 @@ define ('DIR_PREFIX','/media/');   // Το αρχικό κομμάτι του pa
 define ('PLAYLIST_LIMIT',150);   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 
 
+$mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
+
+
 // Public functions
 
 // Καθαρίζει τα data που έδωσε ο χρήστης από περίεργο κώδικα
