@@ -434,9 +434,14 @@ class SyncFiles
                     $artist = ClearString($ThisFileInfo['comments_html']['artist'][0]);
             else $artist = '';
 
-            // TODO να κάνω upload του image και προσθήκη του στην βάση σε σχετικό table
-            $albumCover='data:'.$ThisFileInfo['comments']['picture'][0]['image_mime'].';charset=utf-8;base64,'.base64_encode($ThisFileInfo['comments']['picture'][0]['data']);;
+            if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
+                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
+//                imagepng($albumCover, ALBUM_COVERS_DIR.'image.png');
+            }
+            else $albumCover = '';
 
+            // TODO να κάνω upload του image και προσθήκη του στην βάση σε σχετικό table
+            // TODO έχει πρόβλημα με τον συσχετισμό στην βάση του music tags με τα album artworks
 
 //            echo '<img src='.$albumCover.' />';
 

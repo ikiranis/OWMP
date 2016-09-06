@@ -964,6 +964,12 @@ class OWMP
     static function fileExists($path){
         return (@fopen($path,"r")==true);
     }
+
+
+    // upload ενός image κι εισαγωγή στην βάση
+    static function uploadAlbumImage($image) {
+        
+    }
     
     
 }

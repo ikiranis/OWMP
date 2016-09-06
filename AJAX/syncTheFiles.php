@@ -23,9 +23,7 @@ if(isset($_GET['mediakind']))
 
 $sync = new SyncFiles();
 
-trigger_error($mediaKind);
 
-// TODO να το κάνω να παίρνω το media kind από σχετικό combo box
 if($operation=='sync')
     $sync->syncTheFiles($mediaKind);
 
