@@ -967,8 +967,76 @@ class OWMP
 
 
     // upload ενός image κι εισαγωγή στην βάση
-    static function uploadAlbumImage($image) {
-        
+    static function uploadAlbumImage($image, $mime) {
+        $conn = new RoceanDB();
+
+        $hash=SyncFiles::hashString($image); // Δημιουργούμε hash της εικόνας
+
+        if(!$coverArtID=SyncFiles::searchForImageHash($hash)) {  // Ψάχνουμε αν το hash της εικόνας υπάρχει ήδη
+
+            // εγγραφή του image σαν αρχείο σε υποκατάλογο έτους και μήνα
+            switch ($mime) {  // το  extension του αρχείου αναλόγως το mime
+                case 'image/png':
+                    $imageExtension = '.png';
+                    break;
+                case 'image/jpeg':
+                    $imageExtension = '.jpg';
+                    break;
+            }
+
+            $myYear = date('Y');
+            $myMonth = date('m');
+            $imageDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
+            $timestampFilename = date('YmdHis'); // Το όνομα του αρχείου
+
+            if (!is_dir(ALBUM_COVERS_DIR . $imageDir))  // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+                mkdir(ALBUM_COVERS_DIR . $imageDir, 0777, true);
+
+            $file = ALBUM_COVERS_DIR . $imageDir . $timestampFilename . $imageExtension;  // Το πλήρες path που θα γραφτεί το αρχείο
+
+            $success = file_put_contents($file, $image);  // Κάνει την τελική εγγραφή του image σε αρχείο
+
+            if ($success) {  // Αν το αρχείο δημιουργηθεί κανονικά κάνουμε εγγραφή στην βάση
+
+                $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
+
+                $artsArray = array($imageDir, $timestampFilename.$imageExtension, $hash);
+
+                $coverID=$conn->ExecuteSQL($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
+            }
+
+        }
+        else $coverID=$coverArtID;
+
+
+        return $coverID;
+
+
+    }
+
+
+    // Επιστρέφει το fullpath του album cover για το $id
+    static function getAlbumImagePath($id) {
+        $conn = new RoceanDB();
+
+        $conn->createConnection();
+
+        $sql='SELECT path, filename FROM album_arts WHERE id=?';
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($id));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['path'] . $item['filename'];
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
     }
     
     

@@ -123,7 +123,7 @@ class SyncFiles
         $this->album = '';
         $this->play_count = 0;
         $this->rating = 0;
-        $this->album_artwork_id = 0;
+        $this->album_artwork_id = 1;
         $this->year = 0;
         $this->live = 0;
     }
@@ -319,9 +319,9 @@ class SyncFiles
                 }
                 else {
                     echo 'not added... '.$general_counter.' '.$this->name.'<br>';
-//                    trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
-//                        '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
-//                        '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+                    trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
+                        '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
+                        '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
                 }
 
 
@@ -435,15 +435,16 @@ class SyncFiles
             else $artist = '';
 
             if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
-                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
-//                imagepng($albumCover, ALBUM_COVERS_DIR.'image.png');
+//                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
+                $albumCoverID=OWMP::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
+//                echo '<img src='.$albumCover.' />';
             }
-            else $albumCover = '';
+            else $albumCoverID = 1;
+            
+            
 
             // TODO να κάνω upload του image και προσθήκη του στην βάση σε σχετικό table
-            // TODO έχει πρόβλημα με τον συσχετισμό στην βάση του music tags με τα album artworks
 
-//            echo '<img src='.$albumCover.' />';
 
             if (isset($ThisFileInfo['filesize']))
                 $size = intval($ThisFileInfo['filesize']);
@@ -452,6 +453,10 @@ class SyncFiles
             if (isset($ThisFileInfo['comments_html']['album'][0]))
                     $album = ClearString($ThisFileInfo['comments_html']['album'][0]);
             else $album = '';
+
+            if (isset($ThisFileInfo['comments_html']['year'][0]))
+                $songYear = intval($ThisFileInfo['comments_html']['year'][0]);
+            else $songYear = 0;
 
             if (isset($ThisFileInfo['video']['resolution_x']))
                 $video_width = intval($ThisFileInfo['video']['resolution_x']);
@@ -480,6 +485,8 @@ class SyncFiles
             $this->video_width = $video_width;
             $this->video_height = $video_height;
             $this->size = $size;
+            $this->album_artwork_id = $albumCoverID;
+            $this->year = $songYear;
 
 
         } else return false;
@@ -549,6 +556,21 @@ class SyncFiles
         return $result;
     }
 
+    // Επιστρέφει το hash από κομμάτι που είναι στην μέση του $theString
+    static function hashString($theString) {
+
+        // Παίρνουμε ένα κομμάτι (string) από το $theString και το διαβάζουμε
+        $start=strlen($theString)/2;
+        $size=1024;
+
+        $contents=substr($theString, $start, $size);
+
+        // Παράγουμε το md5 από το συγκεκριμένο string του $theString
+        $result = md5($contents);
+
+        return $result;
+    }
+
     // Παράγει hash για κάθε αρχείο και ενημερώνει την βάση
     static function hashTheFiles() {
         set_time_limit(0);
@@ -595,12 +617,34 @@ class SyncFiles
 
     }
 
-    // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη
+    // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη στα τραγούδια
     static function searchForHash($hash) {
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
         $sql = 'SELECT id FROM files WHERE hash=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($hash));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+
+            $result=$item['id'];
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη στις εικόνες
+    static function searchForImageHash($hash) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'SELECT id FROM album_arts WHERE hash=?';
         $stmt = RoceanDB::$conn->prepare($sql);
 
         $stmt->execute(array($hash));

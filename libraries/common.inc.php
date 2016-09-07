@@ -60,7 +60,7 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
 define ('DIR_PREFIX','/media/');   // Το αρχικό κομμάτι του path.
 define ('PLAYLIST_LIMIT',150);   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 
-define ('ALBUM_COVERS_DIR', '/album_covers');
+define ('ALBUM_COVERS_DIR', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'album_covers/');
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 

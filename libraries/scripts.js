@@ -10,6 +10,7 @@ var UserKeyPressed=false;
 
 // TODO να το τραβάει από τα options ή από το common.inc.php
 var AJAX_path='AJAX/';  // ο κατάλογος των AJAX files
+var Album_covers_path='album_covers/';
 var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
 var currentID; // Το τρέχον βίντεο
@@ -530,10 +531,20 @@ function loadNextVideo(id) {
         myVideo.src = file_path;
         // console.log(file_path);
 
+
+
+
+
         filename=data.file.filename; // σκέτο το filename
 
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
             // console.log(data);
+
+            if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
+                var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
+                console.log(albumCoverPath);
+                myVideo.poster = albumCoverPath;
+            }
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
             timeInMinutesAndSeconds=seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];

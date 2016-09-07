@@ -26,8 +26,10 @@ if(isset($_GET['id']))
 
 $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null);
 
+
 $filesArray=array('path'=>$file[0]['path'],
-                    'filename'=>$file[0]['filename']);
+                    'filename'=>$file[0]['filename'],
+                    'kind'=>$file[0]['kind']);
 
 if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null)) {
 
@@ -41,6 +43,10 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
         $song_year='';
     else $song_year=$metadata[0]['song_year'];
 
+    if($file[0]['kind']=='Music')
+        $albumCoverPath=OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
+    else $albumCoverPath=null;
+
     $jsonArray = array('success' => true,
         'artist' => htmlspecialchars_decode($metadata[0]['artist']),
         'title' => htmlspecialchars_decode($metadata[0]['song_name']),
@@ -52,7 +58,9 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null))
         'date_added' => $metadata[0]['date_added'],
         'track_time' => $metadata[0]['track_time'],
         'live' => $metadata[0]['live'],
-        'rating' => $rating);
+        'rating' => $rating,
+        'albumCoverPath'=>$albumCoverPath);
+
 
 
 }
