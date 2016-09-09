@@ -271,7 +271,7 @@ class SyncFiles
                     $this->getMediaFileTags($full_path); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
 
                     // TODO να βρω τρόπο να ξέρω ότι το συγκεκριμέμενο ALAC έχει περαστεί ήδη
-                    if($this->codec='Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
+                    if($this->codec=='Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
                         if($newPath=self::convertALACtoMP3($full_path)) {  // Το μετατρέπουμε και το παίρνουμε
                             $path=$newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
                             $filename=$newPath['filename'];
