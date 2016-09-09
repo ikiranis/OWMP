@@ -532,9 +532,6 @@ function loadNextVideo(id) {
         // console.log(file_path);
 
 
-
-
-
         filename=data.file.filename; // σκέτο το filename
 
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
@@ -542,7 +539,6 @@ function loadNextVideo(id) {
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
                 var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
-                console.log(albumCoverPath);
                 myVideo.poster = albumCoverPath;
             }
 

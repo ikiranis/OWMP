@@ -170,7 +170,6 @@ function ShowRegisterUser()
                 'onclick' => '',
                 'required' => 'yes',
                 'maxlength' => '50',
-                'pattern' => '',
                 'title' => __('valid_email'),
                 'disabled' => 'no',
                 'value' => null),

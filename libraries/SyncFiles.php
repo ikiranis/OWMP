@@ -41,6 +41,7 @@ class SyncFiles
     public $album_artwork_id = 0;
     public $year = 0;
     public $live = 0;
+    public $codec = '';
 
     static $filesForDelete = array();
     static $filesForUpdate = array();
@@ -126,6 +127,7 @@ class SyncFiles
         $this->album_artwork_id = 1;
         $this->year = 0;
         $this->live = 0;
+        $this->codec = '';
     }
 
 
@@ -265,8 +267,21 @@ class SyncFiles
 
                 $this->startingValues($filename); // Αρχικοποίηση τιμών
 
-                if($searchIDFiles==true)  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
+                if($searchIDFiles==true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
                     $this->getMediaFileTags($full_path); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
+
+                    // TODO να βρω τρόπο να ξέρω ότι το συγκεκριμέμενο ALAC έχει περαστεί ήδη
+                    if($this->codec='Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
+                        if($newPath=self::convertALACtoMP3($full_path)) {  // Το μετατρέπουμε και το παίρνουμε
+                            $path=$newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
+                            $filename=$newPath['filename'];
+                            $hash = self::hashFile(DIR_PREFIX .$path.$filename);
+                        }
+                    }
+
+                }
+
+
 
                 // Εγγραφή στο files
                 $sqlParamsFile = array($path, $filename, $hash, $mediaKind);
@@ -422,9 +437,16 @@ class SyncFiles
 //       print_r($ThisFileInfo);
 //        echo'</pre>';
         
+// TODO να κάνω έλεγχο είδος αρχείου... Αν είναι ALAC να μην το περνάει π.χ.
 
         if(isset($ThisFileInfo['filename'])) {
             $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a');
+
+
+            if (isset($ThisFileInfo['audio']['codec'])){
+                $this->codec = ClearString($ThisFileInfo['audio']['codec']);
+                trigger_error($this->codec);
+            }
 
             if (isset($ThisFileInfo['comments_html']['title'][0]))
                     $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
@@ -441,10 +463,6 @@ class SyncFiles
             }
             else $albumCoverID = 1;
             
-            
-
-            // TODO να κάνω upload του image και προσθήκη του στην βάση σε σχετικό table
-
 
             if (isset($ThisFileInfo['filesize']))
                 $size = intval($ThisFileInfo['filesize']);
@@ -541,6 +559,7 @@ class SyncFiles
     // Επιστρέφει το hash για το αρχείο $full_path
     static function hashFile($full_path) {
 
+        // TODO έλεγχος αν επιστρέφει τιμή το filesize γιατί σε κάποιες περιπτώσεις επιστρέφει error
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
         $start=filesize($full_path)/2;
         $size=1024;
@@ -704,4 +723,23 @@ class SyncFiles
     }
 
 
+    // Μετατρέπει ένα ALAC αρχείο σε mp3. Το δημιουργεί σε νέα τοποθεσία την οποία επιστρέφει
+    public function convertALACtoMP3($fullPath) {
+
+        $timestampFilename = date('YmdHis'); // Το όνομα του αρχείου
+
+        // TODO να το βάλω στο common
+        $internalPath='/var/www/html'.PROJECT_PATH.'ConvertedMusic/';
+
+        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -V 2 - "'.$internalPath.$timestampFilename.'.m4a" ');
+        // TODO να το κάνω move αντί copy
+        print shell_exec('cp "'.$internalPath.$timestampFilename.'.m4a" "'.DIR_PREFIX.MUSIC_UPLOAD.$timestampFilename.'.m4a"');
+
+
+        if(OWMP::fileExists(DIR_PREFIX.MUSIC_UPLOAD.$timestampFilename.'.m4a')) {
+            $result=array('path' => MUSIC_UPLOAD, 'filename' => $timestampFilename.'.m4a');
+        } else $result=false;
+
+        return $result;
+    }
 }
