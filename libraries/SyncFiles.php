@@ -208,7 +208,6 @@ class SyncFiles
         $general_counter = 0;
         $added_video = 0;
 
-//        $mediaKind='Music Video';
 
 
         foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
@@ -267,89 +266,88 @@ class SyncFiles
 
                 $this->startingValues($filename); // Αρχικοποίηση τιμών
 
-                if($searchIDFiles==true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
+                $dontDoRecord = false;
+
+                if ($searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
                     $this->getMediaFileTags($full_path); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
 
-                    // TODO να βρω τρόπο να ξέρω ότι το συγκεκριμέμενο ALAC έχει περαστεί ήδη
-                    if($this->codec=='Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
-                        if($newPath=self::convertALACtoMP3($full_path)) {  // Το μετατρέπουμε και το παίρνουμε
-                            $path=$newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
-                            $filename=$newPath['filename'];
-                            $hash = self::hashFile(DIR_PREFIX .$path.$filename);
+                    if ($this->codec == 'Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
+                        if (CONVERT_ALAC_FILES) { // Αν θέλουμε να μετατραπεί
+                            if ($newPath = self::convertALACtoMP3($full_path, $filename, $path)) {  // Το μετατρέπουμε και το παίρνουμε
+                                $path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
+                                $hash = self::hashFile(DIR_PREFIX . $path . $filename);
+                            }
+                            else $dontDoRecord = true;
+                        } else $dontDoRecord = true;  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
+                    }
+
+                }
+
+
+                if (!$dontDoRecord) {   // Αν είναι ALAC αρχείο και θέλουμε να μετατραπεί και δεν υπάρχει σφάλμα στην μετατροπή
+
+                    // Εγγραφή στο files
+                    $sqlParamsFile = array($path, $filename, $hash, $mediaKind);
+
+                    if ($stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
+                        $inserted_id = RoceanDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
+                    } else {
+                        $inserted_id = 0;
+                        trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
+                    }
+
+
+                    $status = 'not founded';
+
+                    if ($searchItunes) {  // Αν έχει επιλεγεί να κάνουμε συγχρονισμό με itunes
+                        $key = array_search($file, self::$tracks);  // Έλεγχος αν υπάρχει στην λίστα του itunes
+
+
+                        if (($key) && (!$inserted_id == 0)) {   // Αν υπάρχει στην itunes library
+                            $track_id = $key;
+                            //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
+
+                            $this->getItunesValues($track_id);  // Παίρνει τις τιμές από την itunes library
+
+                            $counter++;
+
+                            $status = 'founded';
+
                         }
-                    }
-
-                }
-
-
-
-                // Εγγραφή στο files
-                $sqlParamsFile = array($path, $filename, $hash, $mediaKind);
-
-                if ($stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
-                    $inserted_id = RoceanDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
-                }
-                else {
-                    $inserted_id = 0;
-                    trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
-                }
-
-
-
-                $status = 'not founded';
-
-                if ($searchItunes) {  // Αν έχει επιλεγεί να κάνουμε συγχρονισμό με itunes
-                    $key = array_search($file, self::$tracks);  // Έλεγχος αν υπάρχει στην λίστα του itunes
-
-
-                    if (($key) && (!$inserted_id == 0)) {   // Αν υπάρχει στην itunes library
-                        $track_id = $key;
-                        //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
-
-                        $this->getItunesValues($track_id);  // Παίρνει τις τιμές από την itunes library
-
-                        $counter++;
-
-                        $status = 'founded';
-
-                    }
 //                        else echo 'not found ' . $file;
 
 
+                    }
 
+
+                    // Εγγραφή στο music_tags
+                    $sqlParamsTags = array($inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
+                        $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
+                        $this->size, $this->track_time, $this->year, $this->live
+
+                    );
+
+
+                    if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
+                        echo 'added... ' . $general_counter . ' ' . $this->name . '<br>';
+                        $added_video++;
+                    } else {
+                        echo 'not added... ' . $general_counter . ' ' . $this->name . '<br>';
+                        trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
+                            '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
+                            '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+                    }
+
+                    $general_counter++;
                 }
-
-
-                // Εγγραφή στο music_tags
-                $sqlParamsTags = array($inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
-                    $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
-                    $this->size, $this->track_time, $this->year, $this->live
-
-                );
-
-
-                if ($stmt_tags->execute($sqlParamsTags)){  // Αν η εγγραφή είναι επιτυχής
-                    echo 'added... '.$general_counter.' '.$this->name.'<br>';
-                    $added_video++;
-                }
-                else {
-                    echo 'not added... '.$general_counter.' '.$this->name.'<br>';
-                    trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
-                        '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
-                        '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
-                }
-
 
             }
 
-            $general_counter++;
-
-
-
-
-//                if($general_counter>16000) die();
 
         }
+
+
+        // μετά την ολοκλήρωση τους σκανιαρίσματος των αρχείων
 
         echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
 
@@ -408,18 +406,11 @@ class SyncFiles
     
 
     // Επιστρέφει true αν το string είναι UTF-8
-    public function detectUTF8($string)
+    public function detectBadEncoding($string)
     {
-        return preg_match('%(?:
-        [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-        |\xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
-        |[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
-        |\xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
-        |\xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
-        |[\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
-        |\xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-        )+%xs',
-            $string);
+//        trigger_error(strpos($string,'&#'));
+
+        if(strpos($string,'&amp;#') || strpos($string,';&#')) return true;
     }
 
 
@@ -437,7 +428,6 @@ class SyncFiles
 //       print_r($ThisFileInfo);
 //        echo'</pre>';
         
-// TODO να κάνω έλεγχο είδος αρχείου... Αν είναι ALAC να μην το περνάει π.χ.
 
         if(isset($ThisFileInfo['filename'])) {
             $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a');
@@ -445,15 +435,25 @@ class SyncFiles
 
             if (isset($ThisFileInfo['audio']['codec'])){
                 $this->codec = ClearString($ThisFileInfo['audio']['codec']);
-                trigger_error($this->codec);
             }
 
             if (isset($ThisFileInfo['comments_html']['title'][0]))
+                if(!$this->detectBadEncoding($ThisFileInfo['comments_html']['title'][0])) {
                     $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
+                    trigger_error('OK');
+                }
+                else {
+                    $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
+                    trigger_error('NOT OK');
+                }
+
             else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
 
+
             if (isset($ThisFileInfo['comments_html']['artist'][0]))
+                if(!$this->detectBadEncoding($ThisFileInfo['comments_html']['artist'][0]))
                     $artist = ClearString($ThisFileInfo['comments_html']['artist'][0]);
+                else $artist = '';
             else $artist = '';
 
             if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
@@ -469,7 +469,9 @@ class SyncFiles
             else $size = 0;
 
             if (isset($ThisFileInfo['comments_html']['album'][0]))
+                if(!$this->detectBadEncoding($ThisFileInfo['comments_html']['album'][0]))
                     $album = ClearString($ThisFileInfo['comments_html']['album'][0]);
+                else $album = '';
             else $album = '';
 
             if (isset($ThisFileInfo['comments_html']['year'][0]))
@@ -724,20 +726,26 @@ class SyncFiles
 
 
     // Μετατρέπει ένα ALAC αρχείο σε mp3. Το δημιουργεί σε νέα τοποθεσία την οποία επιστρέφει
-    public function convertALACtoMP3($fullPath) {
-
-        $timestampFilename = date('YmdHis'); // Το όνομα του αρχείου
-
-        // TODO να το βάλω στο common
-        $internalPath='/var/www/html'.PROJECT_PATH.'ConvertedMusic/';
-
-        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -V 2 - "'.$internalPath.$timestampFilename.'.m4a" ');
-        // TODO να το κάνω move αντί copy
-        print shell_exec('cp "'.$internalPath.$timestampFilename.'.m4a" "'.DIR_PREFIX.MUSIC_UPLOAD.$timestampFilename.'.m4a"');
+    public function convertALACtoMP3($fullPath, $filename, $path) {
 
 
-        if(OWMP::fileExists(DIR_PREFIX.MUSIC_UPLOAD.$timestampFilename.'.m4a')) {
-            $result=array('path' => MUSIC_UPLOAD, 'filename' => $timestampFilename.'.m4a');
+        // TODO να βρω τρόπο να ελέγχω αν είναι εγκατεστημένα τα ffmpeg και lame
+
+        // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχή σε temp dir (INTERNAL_CONVERT_PATH)
+        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -V 2 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
+
+        if(OWMP::fileExists(INTERNAL_CONVERT_PATH.$filename)) { // Αν η μετατροπή έχει γίνει
+            // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί
+            if(rename(DIR_PREFIX.$path.$filename, DIR_PREFIX.$path.$filename.'.converted')){ // Αν μετονομαστεί με επιτυχία
+                // Το αντιγράφει στην τοποθεσία DIR_PREFIX.MUSIC_UPLOAD όπου βάζει όλα τα converted και πρέπει να έχει δικαιώματα
+                print shell_exec('cp "'.INTERNAL_CONVERT_PATH.$filename.'" "'.DIR_PREFIX.MUSIC_UPLOAD.$filename.'"');
+                unlink(INTERNAL_CONVERT_PATH.$filename); // Το σβήνει από την προσωρινή τοποθεσία INTERNAL_CONVERT_PATH
+
+                if(OWMP::fileExists(DIR_PREFIX.MUSIC_UPLOAD.$filename)) // Αν έχει γίνει σωστά η αντιγραφή
+                    $result=array('path' => MUSIC_UPLOAD); // Επιστρέφει το νέο path
+                else $result=false;
+            } else $result=false;
+
         } else $result=false;
 
         return $result;
