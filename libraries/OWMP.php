@@ -989,8 +989,7 @@ class OWMP
             $imageDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
             $timestampFilename = date('YmdHis'); // Το όνομα του αρχείου
 
-            if (!is_dir(ALBUM_COVERS_DIR . $imageDir))  // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
-                mkdir(ALBUM_COVERS_DIR . $imageDir, 0777, true);
+            self::createDirectory(ALBUM_COVERS_DIR . $imageDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
 
             $file = ALBUM_COVERS_DIR . $imageDir . $timestampFilename . $imageExtension;  // Το πλήρες path που θα γραφτεί το αρχείο
 
@@ -1037,6 +1036,18 @@ class OWMP
         $stmt = null;
 
         return $result;
+    }
+
+    // Ελέγχει την ύπαρξη ενός directory και αν μπορεί το δημιουργεί
+    static function createDirectory($dir) {
+        if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+            if (mkdir($dir, 0777, true)) {
+                if (!is_writable($dir))
+                    exit('Δεν μπορώ να γράψω στο path ' . $dir . '. Δώσε δικαιώματα 777');
+            }
+            else exit('Δεν μπορώ να δημιουργήσω το path ' . $dir.'. Δημιούργησε το εσύ με 777 δικαιώματα');
+        } else if(!is_writable($dir))
+            exit('Δεν μπορώ να γράψω στο path ' . $dir . '. Δώσε δικαιώματα 777');
     }
     
     

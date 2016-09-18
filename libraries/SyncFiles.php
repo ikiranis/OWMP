@@ -175,6 +175,18 @@ class SyncFiles
     {
         $script_start = microtime(true);
 
+        // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
+        if($mediaKind=='Music') {
+            OWMP::createDirectory(ALBUM_COVERS_DIR); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+
+            if(CONVERT_ALAC_FILES) {
+                // Έλεγχοι φακέλων που χρειάζονται
+                OWMP::createDirectory(INTERNAL_CONVERT_PATH);
+                OWMP::createDirectory(DIR_PREFIX.MUSIC_UPLOAD);
+            }
+        }
+
+
         $this->scanFiles($mediaKind);
 
         if($searchItunes)
@@ -438,17 +450,10 @@ class SyncFiles
             }
 
             if (isset($ThisFileInfo['comments_html']['title'][0]))
-                if(!$this->detectBadEncoding($ThisFileInfo['comments_html']['title'][0])) {
+                if(!$this->detectBadEncoding($ThisFileInfo['comments_html']['title'][0]))
                     $title = ClearString($ThisFileInfo['comments_html']['title'][0]);
-                    trigger_error('OK');
-                }
-                else {
-                    $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
-                    trigger_error('NOT OK');
-                }
-
+                else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
             else $title = str_replace($replace_text, '', $ThisFileInfo['filename']);
-
 
             if (isset($ThisFileInfo['comments_html']['artist'][0]))
                 if(!$this->detectBadEncoding($ThisFileInfo['comments_html']['artist'][0]))
@@ -496,10 +501,10 @@ class SyncFiles
                 $track_time = floatval($ThisFileInfo['playtime_seconds']);
             else $track_time = 0;
 
-            $this->name = $title;
-            $this->artist = $artist;
-            $this->genre = $genre;
-            $this->album = $album;
+            $this->name = substr($title,0,255);
+            $this->artist = substr($artist,0,255);
+            $this->genre = substr($genre,0,19);
+            $this->album = substr($album,0,255);
             $this->date_added = date('Y-m-d H:i:s');
             $this->track_time = $track_time;
             $this->video_width = $video_width;
@@ -730,9 +735,12 @@ class SyncFiles
 
 
         // TODO να βρω τρόπο να ελέγχω αν είναι εγκατεστημένα τα ffmpeg και lame
+        // TODO να γίνονται έλεγχοι για το αν υπάρχουν οι παραπάνω φάκελοι και αν έχουν τα κατάλληλα δικαιώματα
+        // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους
 
-        // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχή σε temp dir (INTERNAL_CONVERT_PATH)
-        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -V 2 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
+
+        // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
+        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -b 320 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
 
         if(OWMP::fileExists(INTERNAL_CONVERT_PATH.$filename)) { // Αν η μετατροπή έχει γίνει
             // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί
