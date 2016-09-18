@@ -750,7 +750,7 @@ class OWMP
             $_SESSION['arrayParams']=null;
         }
             
-
+        // TODO Επιλογή αναζήτησης σε μουσική ή βιντεοκλιπς ή και τα 2
 
         if($duplicates==null) {   // κανονική λίστα
             if ($_SESSION['PlaylistCounter'] == 0) {

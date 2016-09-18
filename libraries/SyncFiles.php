@@ -71,6 +71,8 @@ class SyncFiles
 //        print_r(self::$tracks);
 //        echo'</pre>';
 //
+//            exit('stop');
+//
 //            echo count(self::$tracks);
 
 
@@ -319,6 +321,7 @@ class SyncFiles
                             $track_id = $key;
                             //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
 
+                            trigger_error('BRE8HKE STO ITUNES '.$file);
                             $this->getItunesValues($track_id);  // Παίρνει τις τιμές από την itunes library
 
                             $counter++;
@@ -524,7 +527,7 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
-        $this->writeTracks($mediakind, false, true);
+        $this->writeTracks($mediakind, true, true);
     }
 
 
