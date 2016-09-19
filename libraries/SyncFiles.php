@@ -321,7 +321,6 @@ class SyncFiles
                             $track_id = $key;
                             //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
 
-                            trigger_error('BRE8HKE STO ITUNES '.$file);
                             $this->getItunesValues($track_id);  // Παίρνει τις τιμές από την itunes library
 
                             $counter++;
