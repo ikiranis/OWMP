@@ -504,6 +504,45 @@ function showFullScreenVideoTags(toggle) {
 
 }
 
+function getItunesCover (album) {
+    // url για search στο itunes search api
+    callFile = "https://itunes.apple.com/search?term=" + encodeURI(album);
+
+    // παίρνουμε τα αποτελέσματα
+    $.get(callFile, function (data) {
+        var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+
+        if (firstResult) {
+            // το album cover σε ανάλυση 1400χ1400
+            albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
+        }
+        else albumCoverPath = false;
+    }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
+
+    return albumCoverPath;
+}
+
+function getItunesCover(album) {
+
+        // url για search στο itunes search api
+        callFile = "https://itunes.apple.com/search?term=" + encodeURI(album);
+
+        // παίρνουμε τα αποτελέσματα
+        return $.get(callFile, function (data) {
+            var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+
+            if (firstResult) {
+                // το album cover σε ανάλυση 1400χ1400
+                albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
+
+                myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+            }
+            else {
+
+            }
+        }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
+}
+
 // Set the src of the video to the next URL in the playlist
 // If at the end we start again from beginning (the modulo
 // source.length does that)
@@ -540,24 +579,47 @@ function loadNextVideo(id) {
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
                 var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
 
-                if (albumCoverPath=='album_covers/testtest') {  // Αν δεν υπάρχει album cover το ψάχνουμε στο itunes
+                if (albumCoverPath=='album_covers/default.gif') {  // Αν δεν υπάρχει album cover το ψάχνουμε στο itunes
                     // url για search στο itunes search api
-                    callFile="https://itunes.apple.com/search?term="+encodeURI(data.tags.album);
+                    callFile = "https://itunes.apple.com/search?term=" + encodeURI(data.tags.album);
 
-                    // παίρνουμε τα αποτελέσματα
-                    $.get(callFile, function (data) {
-                        var firstResult=data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+                    (function(title) {     // τρόπος για να παιρνάει το title
+                        // παίρνουμε τα αποτελέσματα
+                        $.get(callFile, function (data) {
+                            var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+                            
+                            if (firstResult) {
+                                // το album cover σε ανάλυση 1400χ1400
+                                albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
+    
+                                myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+                            }
+                            else { // αν δεν βρει στο itunes, ψάχνει στο giphy με βάση τον τίτλο
+                                
+                                    // url για search στο giphy search api
+                                    callFile = "https://api.giphy.com/v1/gifs/search?q="+encodeURI(title)+"&api_key=dc6zaTOxFJmzC";
+    
+                                    // παίρνουμε τα αποτελέσματα
+                                    $.get(callFile, function (result) {
 
-                        if(firstResult) {
-                            // το album cover σε ανάλυση 1400χ1400
-                            albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
+                                        var firstResult = result.data[0]; // Παίρνουμε το πρώτο αποτέλεσμα
 
-                            myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-                        }
-                        else myVideo.poster=''; // Σβήνουμε το προηγούμενο αλλιώς εμφανίζει εκείνο
-                    }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
+                                        if (firstResult) {
+                                            albumCoverPath = firstResult.images.downsized_large.url;
+                                            myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+                                        }
+                                        else myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
 
-                } else myVideo.poster = albumCoverPath;
+                                    }, "json");
+                                
+                               
+                            }
+                        }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
+                    })(data.tags.title)
+                }
+                else myVideo.poster = albumCoverPath;
+
+
             }
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα

@@ -982,6 +982,9 @@ class OWMP
                 case 'image/jpeg':
                     $imageExtension = '.jpg';
                     break;
+                case 'image/gif':
+                    $imageExtension = '.gif';
+                    break;
             }
 
             $myYear = date('Y');
