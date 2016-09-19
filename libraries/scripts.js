@@ -29,6 +29,8 @@ var PlaylistContainerHTML='';   // τα περιεχόμενα του div playli
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
 
+var AllwaysGiphy=false;
+
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
 $.fn.addClassDelay = function(className,delay) {
@@ -577,48 +579,67 @@ function loadNextVideo(id) {
             // console.log(data);
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
-                var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
 
-                if (albumCoverPath=='album_covers/default.gif') {  // Αν δεν υπάρχει album cover το ψάχνουμε στο itunes
-                    // url για search στο itunes search api
-                    callFile = "https://itunes.apple.com/search?term=" + encodeURI(data.tags.album);
+                if(AllwaysGiphy) {
+                    // url για search στο giphy search api
+                    callFile = "https://api.giphy.com/v1/gifs/search?q="+encodeURI(data.tags.title)+"&api_key=dc6zaTOxFJmzC";
 
-                    (function(title) {     // τρόπος για να παιρνάει το title
-                        // παίρνουμε τα αποτελέσματα
-                        $.get(callFile, function (data) {
-                            var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
-                            
-                            if (firstResult) {
-                                // το album cover σε ανάλυση 1400χ1400
-                                albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
-    
-                                myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-                            }
-                            else { // αν δεν βρει στο itunes, ψάχνει στο giphy με βάση τον τίτλο
-                                
-                                    // url για search στο giphy search api
-                                    callFile = "https://api.giphy.com/v1/gifs/search?q="+encodeURI(title)+"&api_key=dc6zaTOxFJmzC";
-    
-                                    // παίρνουμε τα αποτελέσματα
-                                    $.get(callFile, function (result) {
+                    // παίρνουμε τα αποτελέσματα
+                    $.get(callFile, function (result) {
 
-                                        var firstResult = result.data[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+                        var firstResult = result.data[0]; // Παίρνουμε το πρώτο αποτέλεσμα
 
-                                        if (firstResult) {
-                                            albumCoverPath = firstResult.images.downsized_large.url;
-                                            myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-                                        }
-                                        else myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+                        if (firstResult) {
+                            albumCoverPath = firstResult.images.downsized_large.url;
+                            myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+                        }
+                        else myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
 
-                                    }, "json");
-                                
-                               
-                            }
-                        }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
-                    })(data.tags.title)
+                    }, "json");
+                } else {
+                    var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
+
+                    if (albumCoverPath == 'album_covers/default.gif') {  // Αν δεν υπάρχει album cover το ψάχνουμε στο itunes
+                        // url για search στο itunes search api
+                        callFile = "https://itunes.apple.com/search?term=" + encodeURI(data.tags.album);
+
+                            (function (title) {     // τρόπος για να παιρνάει το title
+                                // παίρνουμε τα αποτελέσματα
+                                $.get(callFile, function (data) {
+                                    var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+
+                                    if (firstResult) {
+                                        // το album cover σε ανάλυση 1400χ1400
+                                        albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
+
+                                        myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+                                    }
+                                    else { // αν δεν βρει στο itunes, ψάχνει στο giphy με βάση τον τίτλο
+
+                                        // url για search στο giphy search api
+                                        callFile = "https://api.giphy.com/v1/gifs/search?q=" + encodeURI(title) + "&api_key=dc6zaTOxFJmzC";
+
+                                        // παίρνουμε τα αποτελέσματα
+                                        $.get(callFile, function (result) {
+
+                                            var firstResult = result.data[0]; // Παίρνουμε το πρώτο αποτέλεσμα
+
+                                            if (firstResult) {
+                                                albumCoverPath = firstResult.images.downsized_large.url;
+                                                myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+                                            }
+                                            else myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
+
+                                        }, "json");
+
+
+                                    }
+                                }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
+                            })(data.tags.title)
+
+                    }
+                    else myVideo.poster = albumCoverPath;
                 }
-                else myVideo.poster = albumCoverPath;
-
 
             }
 
