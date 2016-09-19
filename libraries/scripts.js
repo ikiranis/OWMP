@@ -29,7 +29,8 @@ var PlaylistContainerHTML='';   // τα περιεχόμενα του div playli
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
 
-var AllwaysGiphy=false;
+if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';
+if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -580,7 +581,7 @@ function loadNextVideo(id) {
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
-                if(AllwaysGiphy) {
+                if(localStorage.AllwaysGiphy=='true') {
                     // url για search στο giphy search api
                     callFile = "https://api.giphy.com/v1/gifs/search?q="+encodeURI(data.tags.title)+"&api_key=dc6zaTOxFJmzC";
 
@@ -1224,12 +1225,20 @@ $(function(){
             }
 
             if (event.keyCode === 73) {   // I
-                if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';
 
                 if(localStorage.OverlayAllwaysOn=='true')
                     showFullScreenVideoTags('off');
                 else
                     showFullScreenVideoTags('on');
+
+            }
+
+            if (event.keyCode === 71) {   // G
+
+                if(localStorage.AllwaysGiphy=='true')
+                    localStorage.AllwaysGiphy='false';
+                else
+                    localStorage.AllwaysGiphy='true';
 
             }
 
