@@ -29,8 +29,8 @@ var PlaylistContainerHTML='';   // τα περιεχόμενα του div playli
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
 
-if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';
-if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';
+if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
+if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -849,6 +849,8 @@ function findDuplicates(offset, step, firstTime) {
 
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, numberOfQueries) {
+    $('#progress').show();
+    
     var searchArray=[];
     for(var i=1;i<=numberOfQueries;i++){
         searchArray[i]= {
@@ -859,15 +861,18 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
         }
     }
 
+    var mediaKind=document.querySelector('#ChooseMediaKind select[name=mediakind]').value;
+
     jsonArray=JSON.stringify(searchArray);
 
 
-    callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime;
+    callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind);
 
 
-
+    
     $('#playlist_container').load(callFile, function() {
         // console.log('load is done');
+        $('#progress').hide();
     });
 
 }

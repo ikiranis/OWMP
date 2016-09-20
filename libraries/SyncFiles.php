@@ -84,7 +84,7 @@ class SyncFiles
     {
         $conn= new RoceanDB();
 
-        $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null); // Παίρνει τα paths
+        $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null, null, null); // Παίρνει τα paths
         $dirs=$conn->clearArray($dirs);
 
         switch ($mediakind) {
@@ -197,7 +197,7 @@ class SyncFiles
         $conn = new RoceanDB();
 
         // Παίρνουμε τις εγγραφές στο table files σε array
-        if(!$filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        if(!$filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
             $filesOnDB='';
         else {
             foreach ($filesOnDB as $file) {
@@ -540,7 +540,7 @@ class SyncFiles
 
         $counter=0;
 
-        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
@@ -609,7 +609,7 @@ class SyncFiles
 
         $counter=0;
 
-        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
@@ -700,7 +700,7 @@ class SyncFiles
 
         $counter=0;
 
-        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null)) // Ολόκληρη η λίστα
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);

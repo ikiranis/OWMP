@@ -203,11 +203,34 @@ class OWMP
 
         $fields=RoceanDB::getTableFields('music_tags',array('id','album_artwork_id'));
 
+        global $mediaKinds;
+
         ?>
 
+        <div id="progress"></div>
+        
         <details>
             <summary>
                 Search
+
+                <div id="ChooseMediaKind">
+                    <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
+                        <option value="">
+                            All
+                        </option>
+                        <?php
+                        foreach ($mediaKinds as $kind) {
+                            ?>
+                            <option value="<?php echo $kind; ?>">
+                                <?php echo $kind; ?>
+                            </option>
+
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                
             </summary>
             <div id="search">
                 <form id="SearchForm" name="SearchForm">
@@ -290,11 +313,12 @@ class OWMP
         </script>
 
         <div id="playlist_container">
+
             <?php
                 if($_SESSION['PlaylistCounter']==0) {
                     $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                     $_SESSION['arrayParams']=null;
-                    self::getPlaylist(null,$offset,$step);
+                    self::getPlaylist(null,$offset,$step,null,null);
                 }
                 else {
                     ?>
@@ -302,6 +326,7 @@ class OWMP
                     <?php
                 }
             ?>
+
 
         </div>
 
@@ -319,7 +344,7 @@ class OWMP
     static function getOptionsInFormFields () {
         $conn = new RoceanDB();
 
-        $options=$conn->getTableArray('options', null, 'setting=?', array(1), null);  // Παίρνει τα δεδομένα του πίνακα options σε array
+        $options=$conn->getTableArray('options', null, 'setting=?', array(1), null, null, null);  // Παίρνει τα δεδομένα του πίνακα options σε array
 
 
         ?>
@@ -672,9 +697,9 @@ class OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null) {
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null) {
         $conn = new RoceanDB();
-        
+
         $condition='';
         $arrayParams=array();
 
@@ -729,20 +754,27 @@ class OWMP
 
             $_SESSION['condition']=$condition;  // Το κρατάει σε session για μελοντική χρήση
             $_SESSION['arrayParams']=$arrayParams;
-
         }
         else $condition=null;
+
+
 
         if(isset($_SESSION['condition']))
             $condition=$_SESSION['condition'];
         
         if(isset($_SESSION['arrayParams']))
             $arrayParams=$_SESSION['arrayParams'];
-        
 
-        
+        // Επιλογές για join ώστε να πάρουμε το media kind από το files
+        if(isset($mediaKind)) {
+            if (!$condition=='')
+                $condition = '(' . $condition . ')' . ' AND files.kind=? ';
+            else $condition.=  ' files.kind=? ';
+            
+            $arrayParams[]=$mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
+        }
 
-//        trigger_error($condition);
+//        trigger_error('CONDITION   '.$condition);
 
         if(!isset($_SESSION['PlaylistCounter'])){
             $_SESSION['PlaylistCounter']=0;
@@ -750,15 +782,16 @@ class OWMP
             $_SESSION['arrayParams']=null;
         }
             
-        // TODO Επιλογή αναζήτησης σε μουσική ή βιντεοκλιπς ή και τα 2
+
+        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
 
         if($duplicates==null) {   // κανονική λίστα
             if ($_SESSION['PlaylistCounter'] == 0) {
-                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'id', $condition, $arrayParams, 'date_added DESC'); // Ολόκληρη η λίστα
+                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
                 $_SESSION['$countThePlaylist'] = count($playlistToPlay);
             }
 
-            $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step);  // Η λίστα προς εμφάνιση
+            $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);  // Η λίστα προς εμφάνιση
 
         }
         else {  // εμφάνιση διπλών εγγραφών
@@ -910,7 +943,7 @@ class OWMP
     static function deleteFile($id) {
         $conn = new RoceanDB();
         
-        $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null);   // Παίρνει το συγκεκριμένο αρχείο
+        $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
 
         $filesArray=array('path'=>$file[0]['path'],
             'filename'=>$file[0]['filename']);
@@ -1041,7 +1074,7 @@ class OWMP
         return $result;
     }
 
-    // Ελέγχει την ύπαρξη ενός directory και αν μπορεί το δημιουργεί
+    // Ελέγχει την ύπαρξη ενός directory και αν μπορεί το δημιουργεί, όταν δεν υπάρχει
     static function createDirectory($dir) {
         if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
             if (mkdir($dir, 0777, true)) {

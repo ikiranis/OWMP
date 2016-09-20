@@ -373,12 +373,15 @@ class RoceanDB
     
     // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields.
     // Επίσης δέχεται $condition (π.χ. id=?) για το WHERE μαζί με τις παραμέτρους σε array για το execute
-    static function getTableArray ($table, $fields, $condition, $ParamsArray, $orderBy) {
-        
+    static function getTableArray ($table, $fields, $condition, $ParamsArray, $orderBy, $joinTable, $joinFields) {
+        //SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id
         self::CreateConnection();
 
         if(!isset($fields)) $sql = 'SELECT * FROM '.$table;
         else $sql = 'SELECT '.$fields.' FROM '.$table;
+
+        if(isset($joinTable))
+            $sql=$sql.' JOIN '.$joinTable.' on '.$table.'.'.$joinFields['firstField'].'='.$joinTable.'.'.$joinFields['secondField'];
 
         if(isset($condition))
             $sql=$sql.' WHERE '.$condition;
@@ -387,6 +390,7 @@ class RoceanDB
             $sql=$sql.' ORDER BY '.$orderBy;
         
 
+//        trigger_error('SQL   '.$sql);
 
         $stmt = self::$conn->prepare($sql);
 

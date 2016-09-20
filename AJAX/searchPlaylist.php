@@ -27,6 +27,12 @@ if(isset($_GET['jsonArray']))  // Παίρνει τα δεδομένα σε πί
     $jsonArray=json_decode($_GET['jsonArray'],true);
 else $jsonArray=null;
 
+if(isset($_GET['mediaKind']))
+    if(!$_GET['mediaKind']=='')
+        $mediaKind = ClearString($_GET['mediaKind']);
+    else $mediaKind=null;
+else $mediaKind=null;
+
 
 if(isset($_GET['firstTime']))
     $firstTime=ClearString($_GET['firstTime']);
@@ -41,6 +47,6 @@ if($firstTime=='true')
 
 
 if($duplicates==false)
-    OWMP::getPlaylist($jsonArray,$offset,$step,null);
-else OWMP::getPlaylist($jsonArray,$offset,$step,$duplicates);
+    OWMP::getPlaylist($jsonArray,$offset,$step,null,$mediaKind);
+else OWMP::getPlaylist($jsonArray,$offset,$step,$duplicates,$mediaKind);
 

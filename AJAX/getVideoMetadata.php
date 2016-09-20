@@ -24,14 +24,14 @@ if(isset($_GET['id']))
 
 
 
-$file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null);
+$file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
 
 
 $filesArray=array('path'=>$file[0]['path'],
                     'filename'=>$file[0]['filename'],
                     'kind'=>$file[0]['kind']);
 
-if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null)) {
+if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, null, null)) {
 
     if (isset($metadata[0]['rating'])) {
         $rating = ($metadata[0]['rating'] / 10) / 2;
