@@ -710,6 +710,14 @@ input {
     transform: scale(1.05);
 }
 
+/*FormMassiveTags*/
+
+#editTag {
+    display: none;
+    width: 50%;
+    height: auto;
+    border: solid 1px black;
+}
 
 
 

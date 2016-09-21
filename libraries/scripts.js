@@ -507,44 +507,6 @@ function showFullScreenVideoTags(toggle) {
 
 }
 
-function getItunesCover (album) {
-    // url για search στο itunes search api
-    callFile = "https://itunes.apple.com/search?term=" + encodeURI(album);
-
-    // παίρνουμε τα αποτελέσματα
-    $.get(callFile, function (data) {
-        var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
-
-        if (firstResult) {
-            // το album cover σε ανάλυση 1400χ1400
-            albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
-        }
-        else albumCoverPath = false;
-    }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
-
-    return albumCoverPath;
-}
-
-function getItunesCover(album) {
-
-        // url για search στο itunes search api
-        callFile = "https://itunes.apple.com/search?term=" + encodeURI(album);
-
-        // παίρνουμε τα αποτελέσματα
-        return $.get(callFile, function (data) {
-            var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
-
-            if (firstResult) {
-                // το album cover σε ανάλυση 1400χ1400
-                albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
-
-                myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-            }
-            else {
-
-            }
-        }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
-}
 
 // Set the src of the video to the next URL in the playlist
 // If at the end we start again from beginning (the modulo
@@ -759,19 +721,19 @@ function makePlaylistItemActive(id) {
 
 // Ενημερώνει τα tags του κομματιού
 function update_tags(key_rating) {
-    song_name=$('#title').val();
-    artist=$('#artist').val();
-    genre=$('#genre').val();
-    song_year=$('#year').val();
-    album=$('#album').val();
+    song_name=$('#FormTags #title').val();
+    artist=$('#FormTags #artist').val();
+    genre=$('#FormTags #genre').val();
+    song_year=$('#FormTags #year').val();
+    album=$('#FormTags #album').val();
     if(!key_rating)
-        rating=$('#rating').val();
+        rating=$('#FormTags #rating').val();
     else rating=key_rating;  // Αν έχει πατηθεί νούμερο για βαθμολογία
-    live=$('#live').val();
+    live=$('#FormTags #live').val();
 
 
 
-    callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+encodeURIComponent(song_name)+"&artist="+encodeURIComponent(artist)+"&genre="+genre+
+    callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+encodeURIComponent(song_name)+"&artist="+encodeURIComponent(artist)+"&genre="+encodeURIComponent(genre)+
         "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live;
 
 
@@ -968,11 +930,11 @@ function deleteFile(id) {
     if(id==0) {  // Αν το id 0 παίρνει τα ids όλων των checkbox items σε πίνακα
         var all_checkboxes = document.querySelectorAll('input[name="check_item[]"]:checked');
 
-        var checIDs = [];
+        var checkIDs = [];
 
         for(var i = 0; i < all_checkboxes.length;  i++)
         {
-            checIDs.push(all_checkboxes[i].value);
+            checkIDs.push(all_checkboxes[i].value);
         }
     }
 
@@ -994,8 +956,8 @@ function deleteFile(id) {
             }, "json");
         }
         else {  // σβήνει μαζικά όσα αρχεία έχουν τσεκαριστεί
-            for(var i = 0; i < checIDs.length;  i++) {
-                callFile = AJAX_path + "deleteFile.php?id=" + checIDs[i];
+            for(var i = 0; i < checkIDs.length;  i++) {
+                callFile = AJAX_path + "deleteFile.php?id=" + checkIDs[i];
 
                 $.get(callFile, function (data) {
                     if (data.success == true) {
@@ -1026,6 +988,62 @@ function deleteFiles(filesArray) {
         }
         $("#AgreeToDeleteFiles").remove();
     }
+}
+
+function openMassiveTagsWindow() {
+    $('#editTag').show();
+}
+
+// Κάνει edit των στοιχείων μιας λίστας (array) αρχείων
+function editFiles() {
+
+    var confirmAnswer=confirm('Are You Sure?');
+
+    if (confirmAnswer==true) {
+        var all_checkboxes = document.querySelectorAll('input[name="check_item[]"]:checked');
+
+        var checkIDs = [];
+
+        for(var i = 0; i < all_checkboxes.length;  i++)
+        {
+            checkIDs.push(all_checkboxes[i].value);
+        }
+
+        artist=$('#FormMassiveTags #artist').val();
+        genre=$('#FormMassiveTags #genre').val();
+        song_year=$('#FormMassiveTags #year').val();
+        album=$('#FormMassiveTags #album').val();
+        rating=$('#FormMassiveTags #rating').val();
+        live=$('#FormMassiveTags #live').val();
+
+
+
+        for (var i = 0; i < checkIDs.length; i++) {
+
+            callFile=AJAX_path+"updateTags.php?id="+checkIDs[i]+"&artist="+encodeURIComponent(artist)+"&genre="+encodeURIComponent(genre)+
+                "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live;
+
+            $.get(callFile, function (data) {
+                if (data.success == true) {
+
+                    if($("#fileID"+data.id).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                        if(artist!='')
+                            $("#fileID"+data.id).find('.artist').text(artist);
+                        if(genre!='')
+                            $("#fileID"+data.id).find('.genre').text(genre);
+                        if(song_year!='')
+                            $("#fileID"+data.id).find('.song_year').text(song_year);
+                        if(rating!=0)
+                            $("#fileID"+data.id).find('.rating').text(rating);
+                    }
+
+                }
+            }, "json");
+        }
+
+        $('#editTag').hide();
+    }
+
 }
 
 

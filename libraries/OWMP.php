@@ -205,9 +205,88 @@ class OWMP
 
         global $mediaKinds;
 
+        $tags = new Page();
+        $conn = new RoceanDB();
+        $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+        if ($UserGroup==1)  // Αν ο χρήστης είναι admin
+            $disabled='no';
+        else $disabled='yes';
+
+
+        $FormElementsArray = array(
+            array('name' => 'artist',
+                'fieldtext' => __('tag_artist'),
+                'type' => 'text',
+                'required' => 'no',
+                'maxlength' => '255',
+                'disabled' => $disabled,
+                'value' => null),
+            array('name' => 'album',
+                'fieldtext' => __('tag_album'),
+                'type' => 'text',
+                'required' => 'no',
+                'maxlength' => '255',
+                'disabled' => $disabled,
+                'value' => null),
+            array('name' => 'genre',
+                'fieldtext' => __('tag_genre'),
+                'type' => 'text',
+                'required' => 'no',
+                'maxlength' => '20',
+                'disabled' => $disabled,
+                'value' => null),
+            array('name' => 'year',
+                'fieldtext' => __('tag_year'),
+                'type' => 'number',
+                'required' => 'no',
+                'disabled' => $disabled,
+                'value' => null),
+            array('name' => 'live',
+                'fieldtext' => __('tag_live'),
+                'type' => 'select',
+                'options' => array(
+                    array('value' => '0', 'name' => __('tag_live_official')),
+                    array('value' => '1', 'name' => __('tag_live_live'))
+                ),
+                'required' => 'no',
+                'maxlength' => '1',
+                'disabled' => $disabled,
+                'value' => null),
+            array('name' => 'rating',
+                'fieldtext' => __('tag_rating'),
+                'type' => 'range',
+                'required' => 'no',
+                'maxlength' => '5',
+                'min' => '0',
+                'max' => '5',
+                'step' => '1',
+                'ticks' => array(0,1,2,3,4,5),
+                'disabled' => $disabled,
+                'value' => '0')
+
+
+
+        );
+
         ?>
 
         <div id="progress"></div>
+
+        <div id="editTag">
+
+            <?php $tags->MakeForm('FormMassiveTags', $FormElementsArray, true); ?>
+
+            <?php
+            if ($UserGroup==1)  {
+                ?>
+                <input type="button" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
+                       value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
+                <?php
+            }
+            ?>
+
+        </div>
         
         <details>
             <summary>
@@ -901,12 +980,14 @@ class OWMP
                 ?>
                 <input type="button" class="delete_button playlist_button_img"
                        title="<?php echo __('delete_file'); ?>"
-                       onclick="deleteFile(0);"">
+                       onclick="deleteFile(0);">
+                <input type="button" class="edit_button playlist_button_img"
+                       title="<?php echo __('delete_file'); ?>"
+                       onclick="openMassiveTagsWindow();" value="edit">
+                
                 <?php
             }
-                ?>
-
-        <?php
+               
         if($_SESSION['PlaylistCounter']==0) {
             ?>
 
