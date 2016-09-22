@@ -24,13 +24,16 @@ class Page
 
     function showHeader()
     {
+        
 
-        ?>
+    ?>
 
         <!DOCTYPE html>
     <HTML xmlns="http://www.w3.org/1999/html">
         <head>
             <meta charset="utf-8">
+
+
 
             <link rel="stylesheet" href="styles/main.css">
             
@@ -59,6 +62,8 @@ class Page
         <BODY>
 
         <?php
+        
+        
     }
 
 // Δέχεται array από strings ή σκέτο string

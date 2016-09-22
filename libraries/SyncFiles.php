@@ -175,6 +175,8 @@ class SyncFiles
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
     {
+        file_put_contents(INTERNAL_CONVERT_PATH.'log.txt', '0%');
+        
         $script_start = microtime(true);
 
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
@@ -222,10 +224,12 @@ class SyncFiles
         $general_counter = 0;
         $added_video = 0;
 
+        $totalFiles=count(self::$files);
+
+        $progressCounter=0;
 
 
         foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
-
 
             $string_array = explode('/', $file);
             $filename = $string_array[count($string_array) - 1];
@@ -267,6 +271,7 @@ class SyncFiles
                                 'filename' => $filename,
                                 'fullpath' => $full_path
                             ];
+
 
                         trigger_error('DIAGRAFH');
 
@@ -342,6 +347,7 @@ class SyncFiles
                     );
 
 
+
                     if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
                         echo 'added... ' . $general_counter . ' ' . $this->name . '<br>';
                         $added_video++;
@@ -352,10 +358,27 @@ class SyncFiles
                             '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
                     }
 
-                    $general_counter++;
+
+
+
+
                 }
 
+
+
             }
+
+
+            if($progressCounter>100) {
+                $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                file_put_contents(INTERNAL_CONVERT_PATH . 'log.txt', $progressPercent . '%');
+
+                $progressCounter=0;
+            }
+            else $progressCounter++;
+
+            $general_counter++;
 
 
         }
@@ -415,6 +438,10 @@ class SyncFiles
         echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
 
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
+
+        ob_flush();
+        flush();
+
     }
 
     
@@ -526,6 +553,9 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
+
+
+
         $this->writeTracks($mediakind, true, true);
     }
 
@@ -570,16 +600,20 @@ class SyncFiles
 
         // TODO έλεγχος αν επιστρέφει τιμή το filesize γιατί σε κάποιες περιπτώσεις επιστρέφει error
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
-        $start=filesize($full_path)/2;
-        $size=1024;
+        if(OWMP::fileExists($full_path)) {
+            $start=filesize($full_path)/2;
+            $size=1024;
 
-        $handle   = fopen($full_path, "rb");
-        fseek($handle, $start);
-        $contents = fread($handle, $size);
-        fclose($handle);
+            $handle   = fopen($full_path, "rb");
+            fseek($handle, $start);
+            $contents = fread($handle, $size);
+            fclose($handle);
 
-        // Παράγουμε το md5 από το συγκεκριμένο string του αρχείου
-        $result = md5($contents);
+            // Παράγουμε το md5 από το συγκεκριμένο string του αρχείου
+            $result = md5($contents);
+        }
+        else $result=false;
+
 
         return $result;
     }

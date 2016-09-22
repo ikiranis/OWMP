@@ -680,11 +680,14 @@ class OWMP
                        value="Metadata">
                    
             </div>
-            
 
+            
+            
             <div id="SyncDetails">
                 <div id="progress"></div>
             </div>
+
+            <div id="logprogress"></div>
 
 
             <?php

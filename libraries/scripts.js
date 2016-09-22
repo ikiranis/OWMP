@@ -845,7 +845,7 @@ function startSync(operation) {
     
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
-    if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
+    // if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
         localStorage.syncPressed=false;
 
 
@@ -856,8 +856,15 @@ function startSync(operation) {
         
         $('#syncButtons').find('input').prop('disabled', true);
 
+
+        setInterval(function(){
+            $('#logprogress').load('ConvertedMusic/log.txt');
+
+        }, 5000);
+
         $('#SyncDetails').load(callFile, function() {
-            // console.log('load is done');
+
+        // console.log('load is done');
             $('#progress').hide();
             localStorage.syncPressed=false;
             $('#syncButtons').find('input').prop('disabled', false);
