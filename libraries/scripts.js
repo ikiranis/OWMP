@@ -737,48 +737,63 @@ function update_tags(key_rating) {
 
 
 
-    callFile=AJAX_path+"updateTags.php?id="+currentID+"&song_name="+encodeURIComponent(song_name)+"&artist="+encodeURIComponent(artist)+"&genre="+encodeURIComponent(genre)+
-        "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live;
+    callFile=AJAX_path+"updateTags.php";
 
 
-    $.get(callFile, function (data) {
-        if (data.success == true) {
+    $.ajax({
+        url: callFile,
+        type: 'POST',
+        data: {
+            id: currentID,
+            song_name: song_name,
+            artist: artist,
+            genre: genre,
+            song_year: song_year,
+            album: album,
+            rating: rating,
+            live: live
+        },
+        dataType: "json",
+        success: function(data) {
+            if (data.success == true) {
 
-            $("#message").addClassDelay("success", 3000);
+                $("#message").addClassDelay("success", 3000);
 
-            if($("#fileID"+currentID).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-                $("#fileID"+currentID).find('.song_name').text(song_name);
-                $("#fileID"+currentID).find('.artist').text(artist);
-                $("#fileID"+currentID).find('.genre').text(genre);
-                $("#fileID"+currentID).find('.song_year').text(song_year);
-                $("#fileID"+currentID).find('.rating').text(rating);
+                if($("#fileID"+currentID).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                    $("#fileID"+currentID).find('.song_name').text(song_name);
+                    $("#fileID"+currentID).find('.artist').text(artist);
+                    $("#fileID"+currentID).find('.genre').text(genre);
+                    $("#fileID"+currentID).find('.song_year').text(song_year);
+                    $("#fileID"+currentID).find('.rating').text(rating);
+                }
+
+
+                if(key_rating) {   // Αν έχει πατηθεί νούμερο για βαθμολογία
+                    $('#rating').val(rating);
+                    $('#rating_output').val(rating);
+                }
+
+                FocusOnForm=false;
+
+
+                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+                $('#overlay_artist').html(artist);
+                $('#overlay_song_name').html(song_name);
+                $('#overlay_song_year').html(song_year);
+                $('#overlay_album').html(album);
+                $('#overlay_live').html(liveOptions[live]);
+
+                // $('#overlay_rating').html(stars);
+                ratingToStars(rating,'#overlay_rating');
+
+                showFullScreenVideoTags();
+
+
             }
-
-
-            if(key_rating) {   // Αν έχει πατηθεί νούμερο για βαθμολογία
-                $('#rating').val(rating);
-                $('#rating_output').val(rating);
-            }
-
-            FocusOnForm=false;
-
-
-            // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-            $('#overlay_artist').html(artist);
-            $('#overlay_song_name').html(song_name);
-            $('#overlay_song_year').html(song_year);
-            $('#overlay_album').html(album);
-            $('#overlay_live').html(liveOptions[live]);
-
-            // $('#overlay_rating').html(stars);
-            ratingToStars(rating,'#overlay_rating');
-
-            showFullScreenVideoTags();
-
-
+            else $("#message").addClassDelay("failure", 3000);
         }
-        else $("#message").addClassDelay("failure", 3000);
-    }, "json");
+
+    })
 }
 
 // Ενημερώνει τα play count και date last played
@@ -1090,16 +1105,16 @@ function editFiles() {
                 type: 'POST',
                 data: {
                     id: checkIDs[i],
-                    artist: encodeURIComponent(artist),
-                    genre: encodeURIComponent(genre),
+                    artist: artist,
+                    genre: genre,
                     song_year: song_year,
-                    album: encodeURIComponent(album),
+                    album: album,
                     rating: rating,
                     live: live,
-                    coverMime: encodeURIComponent(coverMime),
+                    coverMime: coverMime,
                     coverImage: coverImage
                 },
-                datatype: 'json',
+                dataType: "json",
                 success: function(data) {
                     if (data.success == true) {
 

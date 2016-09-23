@@ -81,7 +81,7 @@ if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 
 
     if (isset($_POST['coverImage']) && !$_POST['coverImage']=='') {
-        $coverMime = urldecode($_POST['coverMime']);
+        $coverMime = $_POST['coverMime'];
 
         // Απαραίτητες μετατροπές του dataurl για να σωθεί σε αρχείο
         $coverImage = str_replace(' ','+',$_POST['coverImage']);
