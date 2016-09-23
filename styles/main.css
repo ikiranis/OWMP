@@ -722,6 +722,11 @@ input {
     z-index:10;
 }
 
+#editTag .thumb {
+    width:5em;
+    height:5em;
+}
+
 
 
 /*Fullscreen video*/

@@ -11,6 +11,7 @@
 
 
 require_once('../libraries/common.inc.php');
+require_once ('../libraries/SyncFiles.php');
 
 session_start();
 
@@ -31,50 +32,65 @@ if ($UserGroup==1) { // Αν ο χρήστης είναι admin
     $fieldsArray = array();  // το array των ονομάτων των πεδίων
     $valuesArray = array();  // το array με τις τιμές των πεδίων
 
-    if (isset($_GET['id']))
-        $id = ClearString($_GET['id']);
+    if (isset($_POST['id']))
+        $id = ClearString($_POST['id']);
 
-    if (isset($_GET['song_name']) && !$_GET['song_name']=='') {
-        $song_name = ClearString($_GET['song_name']);
+    if (isset($_POST['song_name']) && !$_POST['song_name']=='') {
+        $song_name = ClearString($_POST['song_name']);
         $fieldsArray[]='song_name';
         $valuesArray[]=$song_name;
     }
 
-    if (isset($_GET['artist']) && !$_GET['artist']=='') {
-        $artist = ClearString($_GET['artist']);
+    if (isset($_POST['artist']) && !$_POST['artist']=='') {
+        $artist = ClearString($_POST['artist']);
         $fieldsArray[]='artist';
         $valuesArray[]=$artist;
     }
 
-    if (isset($_GET['genre']) && !$_GET['genre']=='') {
-        $genre = ClearString($_GET['genre']);
+    if (isset($_POST['genre']) && !$_POST['genre']=='') {
+        $genre = ClearString($_POST['genre']);
         $fieldsArray[]='genre';
         $valuesArray[]=$genre;
     }
 
-    if (isset($_GET['song_year']) && !$_GET['song_year']=='') {
-        $song_year = intval($_GET['song_year']);
+    if (isset($_POST['song_year']) && !$_POST['song_year']=='') {
+        $song_year = intval($_POST['song_year']);
         $fieldsArray[]='song_year';
         $valuesArray[]=$song_year;
     }
 
-    if (isset($_GET['album']) && !$_GET['album']=='') {
-        $album = ClearString($_GET['album']);
+    if (isset($_POST['album']) && !$_POST['album']=='') {
+        $album = ClearString($_POST['album']);
         $fieldsArray[]='album';
         $valuesArray[]=$album;
     }
 
-    if (isset($_GET['rating']) && !$_GET['rating']=='') {
-        $rating = intval($_GET['rating']);
+    if (isset($_POST['rating']) && !$_POST['rating']=='') {
+        $rating = intval($_POST['rating']);
         $rating = $rating * 20;
         $fieldsArray[]='rating';
         $valuesArray[]=$rating;
     }
 
-    if (isset($_GET['live']) && !$_GET['live']=='') {
-        $live = intval($_GET['live']);
+    if (isset($_POST['live']) && !$_POST['live']=='') {
+        $live = intval($_POST['live']);
         $fieldsArray[]='live';
         $valuesArray[]=$live;
+    }
+
+
+
+    if (isset($_POST['coverImage']) && !$_POST['coverImage']=='') {
+        $coverMime = urldecode($_POST['coverMime']);
+
+        // Απαραίτητες μετατροπές του dataurl για να σωθεί σε αρχείο
+        $coverImage = str_replace(' ','+',$_POST['coverImage']);
+        $coverImage =  substr($coverImage,strpos($coverImage,",")+1);
+        $coverImage = base64_decode($coverImage);
+
+        $albumCoverID=OWMP::uploadAlbumImage($coverImage,$coverMime); // Ανεβάζει το αρχείο της εικόνας και παίρνει το album_artwork_id
+        $fieldsArray[]='album_artwork_id';
+        $valuesArray[]=$albumCoverID;
     }
 
     $valuesArray[]=$id;

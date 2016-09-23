@@ -176,7 +176,7 @@ class SyncFiles
     public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
     {
         file_put_contents(INTERNAL_CONVERT_PATH.'log.txt', '0%');
-        
+
         $script_start = microtime(true);
 
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
@@ -439,8 +439,7 @@ class SyncFiles
 
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
 
-        ob_flush();
-        flush();
+
 
     }
 
@@ -552,9 +551,6 @@ class SyncFiles
     public function syncTheFiles($mediakind) {
         set_time_limit(0);
         ini_set('memory_limit','1024M');
-
-
-
 
         $this->writeTracks($mediakind, true, true);
     }

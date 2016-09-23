@@ -29,8 +29,12 @@ var PlaylistContainerHTML='';   // τα περιεχόμενα του div playli
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
 
+var myImage='';   // Το cover art που κάνουμε upload
+var myMime='';  // Ο τύπος του cover art
+
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
+
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -845,7 +849,9 @@ function startSync(operation) {
     
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
-    // if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
+
+    // TODO να κάνω έλεγχο του php id process για να βλέπω αν τρέχει διεργασία αντί για το localstorage
+    if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
         localStorage.syncPressed=false;
 
 
@@ -997,8 +1003,44 @@ function deleteFiles(filesArray) {
     }
 }
 
+
+// Ανοίγει το παράθυρο για edit των tags
 function openMassiveTagsWindow() {
     $('#editTag').show();
+}
+
+// Κλείνει το παράθυρο για edit των tags
+function cancelEdit() {
+    $('#editTag').hide();
+}
+
+function readImage(files) {
+    var selectedFile = document.getElementById('uploadFile').files[0];
+
+    myMime = selectedFile.type;
+
+    var f = files[0];
+
+
+    var reader = new FileReader();
+
+    // Called when the file content is loaded, e.target.result is
+    // The content
+    reader.onload = function (e) {
+        // create a span with CSS class="thumb", for nicer layout
+        var thumbImage = document.querySelector('#myImage');
+
+        thumbImage.innerHTML = "<img class='thumb' src='" +
+            e.target.result + "' alt='a picture'/>";
+
+        myImage = e.target.result;
+
+    };
+
+
+    // Start reading asynchronously the file
+    reader.readAsDataURL(f);
+
 }
 
 // Κάνει edit των στοιχείων μιας λίστας (array) αρχείων
@@ -1023,29 +1065,75 @@ function editFiles() {
         rating=$('#FormMassiveTags #rating').val();
         live=$('#FormMassiveTags #live').val();
 
+        console.log(myImage);
+
+        if(myImage!='') {
+            coverImage = myImage;
+            coverMime = myMime;
+        }
+        else {
+            coverImage = '';
+            coverMime = '';
+        }
+
 
 
         for (var i = 0; i < checkIDs.length; i++) {
 
-            callFile=AJAX_path+"updateTags.php?id="+checkIDs[i]+"&artist="+encodeURIComponent(artist)+"&genre="+encodeURIComponent(genre)+
-                "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live;
+            // callFile=AJAX_path+"updateTags.php?id="+checkIDs[i]+"&artist="+encodeURIComponent(artist)+"&genre="+encodeURIComponent(genre)+
+            //     "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live+"&coverMime="+encodeURIComponent(coverMime);
 
-            $.get(callFile, function (data) {
-                if (data.success == true) {
+            callFile=AJAX_path+"updateTags.php";
 
-                    if($("#fileID"+data.id).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-                        if(artist!='')
-                            $("#fileID"+data.id).find('.artist').text(artist);
-                        if(genre!='')
-                            $("#fileID"+data.id).find('.genre').text(genre);
-                        if(song_year!='')
-                            $("#fileID"+data.id).find('.song_year').text(song_year);
-                        if(rating!=0)
-                            $("#fileID"+data.id).find('.rating').text(rating);
+            $.ajax({
+                url: callFile,
+                type: 'POST',
+                data: {
+                    id: checkIDs[i],
+                    artist: encodeURIComponent(artist),
+                    genre: encodeURIComponent(genre),
+                    song_year: song_year,
+                    album: encodeURIComponent(album),
+                    rating: rating,
+                    live: live,
+                    coverMime: encodeURIComponent(coverMime),
+                    coverImage: coverImage
+                },
+                datatype: 'json',
+                success: function(data) {
+                    if (data.success == true) {
+
+                        if($("#fileID"+data.id).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                            if(artist!='')
+                                $("#fileID"+data.id).find('.artist').text(artist);
+                            if(genre!='')
+                                $("#fileID"+data.id).find('.genre').text(genre);
+                            if(song_year!='')
+                                $("#fileID"+data.id).find('.song_year').text(song_year);
+                            if(rating!=0)
+                                $("#fileID"+data.id).find('.rating').text(rating);
+                        }
+
                     }
-
                 }
-            }, "json");
+            })
+            
+            // $.get(callFile, function (data) {
+            //     if (data.success == true) {
+            //
+            //         if($("#fileID"+data.id).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+            //             if(artist!='')
+            //                 $("#fileID"+data.id).find('.artist').text(artist);
+            //             if(genre!='')
+            //                 $("#fileID"+data.id).find('.genre').text(genre);
+            //             if(song_year!='')
+            //                 $("#fileID"+data.id).find('.song_year').text(song_year);
+            //             if(rating!=0)
+            //                 $("#fileID"+data.id).find('.rating').text(rating);
+            //         }
+            //
+            //     }
+            // }, "json");
         }
 
         $('#editTag').hide();

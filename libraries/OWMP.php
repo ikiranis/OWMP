@@ -201,7 +201,7 @@ class OWMP
 
     static function showPlaylistWindow ($offset, $step) {
 
-        $fields=RoceanDB::getTableFields('music_tags',array('id','album_artwork_id'));
+        $fields=RoceanDB::getTableFields('music_tags',array('id'));
 
         global $mediaKinds;
 
@@ -276,15 +276,16 @@ class OWMP
         <div id="editTag">
 
             <?php $tags->MakeForm('FormMassiveTags', $FormElementsArray, true); ?>
-
-            <?php
-            if ($UserGroup==1)  {
-                ?>
-                <input type="button" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
+            
+                <div id="myImage"></div>
+                
+                <input type="file" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
+           
+                <input type="button" name="submit" id="submit" 
                        value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
-                <?php
-            }
-            ?>
+            
+                <input type="button" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
+
 
         </div>
         
@@ -688,7 +689,6 @@ class OWMP
             </div>
 
             <div id="logprogress"></div>
-
 
             <?php
         }
@@ -1097,6 +1097,9 @@ class OWMP
                     $imageExtension = '.png';
                     break;
                 case 'image/jpeg':
+                    $imageExtension = '.jpeg';
+                    break;
+                case 'image/jpg':
                     $imageExtension = '.jpg';
                     break;
                 case 'image/gif':
