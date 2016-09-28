@@ -243,44 +243,49 @@ class SyncFiles
 
             $full_path = DIR_PREFIX . $path . $filename;
 
-
+            $problemInFilePath=false;
 
             if(!$fileAlreadySynced) { // Έλεγχος στα νέα αρχεία αν το hash υπάρχει ήδη στην βάση
 
-                $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
+                if(OWMP::fileExists($full_path)) { // Αν το αρχείο υπάρχει
+                    $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
 
-                if($searchHash=self::searchForHash($hash)) { // Έλεγχος στην βάση για to hash
+                    if ($searchHash = self::searchForHash($hash)) { // Έλεγχος στην βάση για to hash
 
-                    $oldFullPath=DIR_PREFIX.OWMP::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
+                        $oldFullPath = DIR_PREFIX . OWMP::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
 
-                    if(!OWMP::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
+                        if (!OWMP::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
 
-                        self::$filesForUpdate[]= [  // Πίνακας με τα id των προς διαγραφή αρχείων
-                            'id' => $searchHash,
-                            'filename' => $filename,
-                            'path' => $path
-                        ];
+                            self::$filesForUpdate[] = [  // Πίνακας με τα id των προς διαγραφή αρχείων
+                                'id' => $searchHash,
+                                'filename' => $filename,
+                                'path' => $path
+                            ];
 
-                        trigger_error('UPDATE');
+                            trigger_error('UPDATE ' . $hash . ' FILENAME ' . $filename);
 
-                    }
-                    else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
+                        } else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
 
-                        self::$filesForDelete[]= [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
+                            self::$filesForDelete[] = [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
                                 'id' => $searchHash,
                                 'filename' => $filename,
                                 'fullpath' => $full_path
                             ];
 
 
-                        trigger_error('DIAGRAFH');
+                            trigger_error('DIAGRAFH ' . $hash . ' FILENAME ' . $filename);
 
+                        }
                     }
+                }
+                else {
+                    echo 'Υπάρχει πρόβλημα με το αρχείο '.$full_path.' Πιθανά κάποιος ειδικός χαρακτήρας υπάρχει στο path. <br>';
+                    $problemInFilePath=true;
                 }
 
             } else $searchHash=false;
 
-            if(!$fileAlreadySynced && !$searchHash ) {  // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του
+            if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {  // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
 
 
                 $this->startingValues($filename); // Αρχικοποίηση τιμών
@@ -395,7 +400,7 @@ class SyncFiles
 
             foreach (self::$filesForDelete as $item) {  // Εμφανίζει τα αρχεία προς διαγράφη
                 ?>
-                    <div id=deleteRow<?php echo $item['id']; ?> class="deleteRows"><?php echo $item['filename']; ?></div>
+                    <div id=deleteRow<?php echo $item['id']; ?> class="deleteRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
 
                 <?php
             }
@@ -417,7 +422,7 @@ class SyncFiles
 
             foreach (self::$filesForUpdate as $item) {  // Εμφανίζει τα αρχεία προς ενημέρωση
                 ?>
-                    <div id=updateRow<?php echo $item['id']; ?> class="updateRows"><?php echo $item['filename']; ?></div>
+                    <div id=updateRow<?php echo $item['id']; ?> class="updateRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
 
                 <?php
             }

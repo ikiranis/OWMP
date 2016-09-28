@@ -722,7 +722,7 @@ function makePlaylistItemActive(id) {
 
 }
 
-
+// TODO για κάποιον λόγο κάποιες φορές πρέπει να παίρνει λάθος currentID και κάνει update λάθος εγγραφή
 // Ενημερώνει τα tags του κομματιού
 function update_tags(key_rating) {
     song_name=$('#FormTags #title').val();
@@ -1058,7 +1058,7 @@ function readImage(files) {
 
 }
 
-// Κάνει edit των στοιχείων μιας λίστας (array) αρχείων
+// Κάνει μαζικό edit των στοιχείων μιας λίστας (array) αρχείων
 function editFiles() {
 
     var confirmAnswer=confirm('Are You Sure?');
@@ -1080,7 +1080,6 @@ function editFiles() {
         rating=$('#FormMassiveTags #rating').val();
         live=$('#FormMassiveTags #live').val();
 
-        console.log(myImage);
 
         if(myImage!='') {
             coverImage = myImage;
@@ -1095,8 +1094,6 @@ function editFiles() {
 
         for (var i = 0; i < checkIDs.length; i++) {
 
-            // callFile=AJAX_path+"updateTags.php?id="+checkIDs[i]+"&artist="+encodeURIComponent(artist)+"&genre="+encodeURIComponent(genre)+
-            //     "&song_year="+song_year+"&album="+encodeURIComponent(album)+"&rating="+rating+"&live="+live+"&coverMime="+encodeURIComponent(coverMime);
 
             callFile=AJAX_path+"updateTags.php";
 
@@ -1133,22 +1130,6 @@ function editFiles() {
                 }
             })
             
-            // $.get(callFile, function (data) {
-            //     if (data.success == true) {
-            //
-            //         if($("#fileID"+data.id).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-            //             if(artist!='')
-            //                 $("#fileID"+data.id).find('.artist').text(artist);
-            //             if(genre!='')
-            //                 $("#fileID"+data.id).find('.genre').text(genre);
-            //             if(song_year!='')
-            //                 $("#fileID"+data.id).find('.song_year').text(song_year);
-            //             if(rating!=0)
-            //                 $("#fileID"+data.id).find('.rating').text(rating);
-            //         }
-            //
-            //     }
-            // }, "json");
         }
 
         $('#editTag').hide();
