@@ -877,9 +877,15 @@ function startSync(operation) {
         
         $('#syncButtons').find('input').prop('disabled', true);
 
+        progressCallFile = AJAX_path + "getProgress.php";
 
         setInterval(function(){
-            $('#logprogress').load('ConvertedMusic/log.txt');
+
+            $.get(progressCallFile, function (progressData) {
+                if (progressData.success == true) {
+                    $("#logprogress" ).html(progressData.progressInPercent+'%');
+                }
+            }, "json");
 
         }, 5000);
 
@@ -1003,7 +1009,7 @@ function deleteFiles(filesArray) {
 
     if (confirmAnswer==true) {
         for (var i = 0; i < filesArray.length; i++) {
-            callFile = AJAX_path + "deleteOnlyTheFile.php?fullpath=" + encodeURIComponent(filesArray[i]['fullpath']) + 
+            callFile = AJAX_path + "deleteOnlyTheFile.php?fullpath=" + encodeURIComponent(filesArray[i]['fullpath']) +
                             "&filename=" + encodeURIComponent(filesArray[i]['filename']) +
                             "&id=" + filesArray[i]['id'];
 

@@ -399,11 +399,25 @@ class Page
         $newTimeInSeconds=(int)($timeInSeconds%60);
 
         if($timeInMinutes<10) $timeInMinutes='0'.$timeInMinutes;
-        if($newTimeInSeconds<10) $newTimeInSeconds='0'+$newTimeInSeconds;
+        if($newTimeInSeconds<10) $newTimeInSeconds='0'.$newTimeInSeconds;
 
         $timeArray= $timeInMinutes.' : '.$newTimeInSeconds;
 
         return $timeArray;
+    }
+
+    // Καταχωρεί το ποσοστό εξέλιξης progress
+    static function updatePercentProgress($progress) {
+        $progressUpdateArray=array ($progress, 'progressInPercent');
+        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+    }
+    
+    
+    // Επιστρέφει το ποσοστό εξέλιξης progress
+    static function getPercentProgress() {
+        $result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue');
+        
+        return $result;
     }
 
 }

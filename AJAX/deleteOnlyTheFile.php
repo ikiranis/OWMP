@@ -18,7 +18,7 @@ if(isset($_GET['filename']))
     $filename=ClearString($_GET['filename']);
 
 if(isset($_GET['fullpath']))
-    $fullpath=ClearString($_GET['fullpath']);
+    $fullpath=urldecode($_GET['fullpath']);
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);

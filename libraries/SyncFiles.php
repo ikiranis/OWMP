@@ -175,7 +175,7 @@ class SyncFiles
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
     {
-        file_put_contents(INTERNAL_CONVERT_PATH.'log.txt', '0%');
+        Page::updatePercentProgress(0);
 
         $script_start = microtime(true);
 
@@ -301,7 +301,10 @@ class SyncFiles
                                 $path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
                                 $hash = self::hashFile(DIR_PREFIX . $path . $filename);
                             }
-                            else $dontDoRecord = true;
+                            else {
+                                $dontDoRecord = true;
+                                echo 'Πρόβλημα με την μετατροπή του ALAC. Πιθανά κάποιος ειδικός χαρακτήρας υπάρχει στο path. '.$full_path.'<br>';
+                            }
                         } else $dontDoRecord = true;  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
                     }
 
@@ -377,7 +380,7 @@ class SyncFiles
             if($progressCounter>100) {
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                file_put_contents(INTERNAL_CONVERT_PATH . 'log.txt', $progressPercent . '%');
+                Page::updatePercentProgress($progressPercent);
 
                 $progressCounter=0;
             }
@@ -772,9 +775,8 @@ class SyncFiles
 
 
         // TODO να βρω τρόπο να ελέγχω αν είναι εγκατεστημένα τα ffmpeg και lame
-        // TODO να γίνονται έλεγχοι για το αν υπάρχουν οι παραπάνω φάκελοι και αν έχουν τα κατάλληλα δικαιώματα
         // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους
-
+        trigger_error($fullPath);
 
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
         print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -b 320 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
@@ -795,4 +797,6 @@ class SyncFiles
 
         return $result;
     }
+    
+
 }
