@@ -679,6 +679,14 @@ class OWMP
 
                 <input type="button" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
                        value="Metadata">
+
+
+
+                <p>
+                    <input type="text" id="youTubeUrl" name="youTubeUrl">
+                    <input type="button" id="downloadYouTube" name="downloadYouTube" onclick="downloadYouTube();"
+                       value="Download YouTube">
+                </p>
                    
             </div>
 
@@ -1171,6 +1179,31 @@ class OWMP
             else exit('Δεν μπορώ να δημιουργήσω το path ' . $dir.'. Δημιούργησε το εσύ με 777 δικαιώματα');
         } else if(!is_writable($dir))
             exit('Δεν μπορώ να γράψω στο path ' . $dir . '. Δώσε δικαιώματα 777');
+    }
+
+
+    // Εκτελεί την linux εντολή για μετατροπή ενός ALAC σε mp3
+    static function execConvertALAC ($source, $target, $bitrate) {
+        // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
+        print shell_exec('ffmpeg -i "'.$source.'" -ac 2 -f wav - | lame -b '.$bitrate.' - "'.$target.'" ');
+    }
+
+
+    // Κατεβάζει ένα βίντεο από το Youtube
+    static function downloadYoutube($url) {
+        $myYear = date('Y');
+        $myMonth = date('m');
+        $fileDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
+
+        $uploadDir=FILE_UPLOAD . $fileDir;
+        self::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+
+        // TODO να πάρω πίσω το τελικό fullpath και να κάνω έλεγχο αν έχει κατέβει
+        $result= shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.'%(title)s.%(ext)s" '.$url);
+
+        if($result)
+            return $result;
+        else return false;
     }
     
     

@@ -60,10 +60,13 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
 define ('DIR_PREFIX','/media/');   // Το αρχικό κομμάτι του path.
 define ('PLAYLIST_LIMIT',150);   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 
+
+// TODO να τα παίρνω από την βάση αυτά
 define ('ALBUM_COVERS_DIR', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
 define ('MUSIC_UPLOAD', 'My Book/mp3/Converted/');  // O φάκελος που μετατρέπονται τα mp3
 define ('INTERNAL_CONVERT_PATH', '/var/www/html'.PROJECT_PATH.'ConvertedMusic/');
 define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
+define ('FILE_UPLOAD', DIR_PREFIX.'Dalek/Videoclips/Download/');
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 

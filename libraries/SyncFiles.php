@@ -175,7 +175,7 @@ class SyncFiles
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
     {
-        Page::updatePercentProgress(0);
+        Page::updatePercentProgress(0);   // Μηδενίζει το progress
 
         $script_start = microtime(true);
 
@@ -377,7 +377,8 @@ class SyncFiles
             }
 
 
-            if($progressCounter>100) {
+            // TODO να το κάνω να ενημερώνει με βάση τον χρόνο
+            if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
                 Page::updatePercentProgress($progressPercent);
@@ -776,10 +777,11 @@ class SyncFiles
 
         // TODO να βρω τρόπο να ελέγχω αν είναι εγκατεστημένα τα ffmpeg και lame
         // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους
-        trigger_error($fullPath);
 
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
-        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -b 320 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
+        OWMP::execConvertALAC($fullPath, INTERNAL_CONVERT_PATH.$filename, '320');
+
+//        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -b 320 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
 
         if(OWMP::fileExists(INTERNAL_CONVERT_PATH.$filename)) { // Αν η μετατροπή έχει γίνει
             // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί

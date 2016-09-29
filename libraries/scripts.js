@@ -904,6 +904,21 @@ function startSync(operation) {
 
 }
 
+// Κατεβάζει ένα βίντεο από το YouTube
+function downloadYouTube() {
+    var url=document.querySelector('#youTubeUrl').value;
+
+    CallFile = AJAX_path + "getYouTube.php?url="+url;
+    $('#progress').show();
+    
+    $.get(CallFile, function (Data) {
+        if (Data.success == true) {
+            $('#progress').hide();
+            $("#logprogress" ).html(Data.result);
+        }
+    }, "json");
+}
+
 
 // Αλλάζει ένα text input σε select. Elem είναι το input field που θα αλλάξουμε. ID το id του row
 function changeToSelect(elem, elementID, optionsArray) {
