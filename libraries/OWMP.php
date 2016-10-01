@@ -683,7 +683,7 @@ class OWMP
 
 
                 <p>
-                    <input type="text" id="youTubeUrl" name="youTubeUrl">
+                    <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
                     <input type="button" id="downloadYouTube" name="downloadYouTube" onclick="downloadYouTube();"
                        value="Download YouTube">
                 </p>
@@ -1198,11 +1198,16 @@ class OWMP
         $uploadDir=FILE_UPLOAD . $fileDir;
         self::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
 
-        // TODO να πάρω πίσω το τελικό fullpath και να κάνω έλεγχο αν έχει κατέβει
-        $result= shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.'%(title)s.%(ext)s" '.$url);
+        // το όνομα του αρχείου που θα κατεβάσει με το full path
+        $outputfilename = shell_exec('youtube-dl --get-filename -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.'%(title)s.%(ext)s" '.$url);
+        // κατεβάζει το βίντεο
+        shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.'%(title)s.%(ext)s" '.$url);
 
-        if($result)
-            return $result;
+        $outputfilename=str_replace("\n",'',$outputfilename);
+
+        // έλεγχος αν έχει κατέβει το βίντεο
+        if(OWMP::fileExists($outputfilename))
+            return $outputfilename;
         else return false;
     }
     

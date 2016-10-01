@@ -70,6 +70,31 @@ $.fn.addClassDelay = function(className,delay) {
     };
 })(jQuery);
 
+// extension του jquery για να τρέχει ajax requests σε queue. Παράδειγμα στην function downloadYouTube()
+(function($) {
+    // Empty object, we are going to use this as our Queue
+    var ajaxQueue = $({});
+
+    $.ajaxQueue = function(ajaxOpts) {
+        // hold the original complete function
+        var oldComplete = ajaxOpts.complete;
+
+        // queue our ajax request
+        ajaxQueue.queue(function(next) {
+
+            // create a complete callback to fire the next event in the queue
+            ajaxOpts.complete = function() {
+                // fire the original complete if it was there
+                if (oldComplete) oldComplete.apply(this, arguments);
+                next(); // run the next query in the queue
+            };
+
+            // run the query
+            $.ajax(ajaxOpts);
+        });
+    };
+
+})(jQuery);
 
 function DisplayMessage (element, error) {
     $(element).text(error);
@@ -906,17 +931,41 @@ function startSync(operation) {
 
 // Κατεβάζει ένα βίντεο από το YouTube
 function downloadYouTube() {
-    var url=document.querySelector('#youTubeUrl').value;
+    var urls=document.querySelector('#youTubeUrl').value;
 
-    CallFile = AJAX_path + "getYouTube.php?url="+url;
+    urls=urls.split(',');  // Παίρνουμε το string σε array
+
     $('#progress').show();
-    
-    $.get(CallFile, function (Data) {
-        if (Data.success == true) {
-            $('#progress').hide();
-            $("#logprogress" ).html(Data.result);
+
+    var theQueue = $({});
+
+    for (var i = 0; i < urls.length; i++) {
+        $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+            url: AJAX_path + "getYouTube.php",
+            type: 'GET',
+            async: true,
+            data: {
+                url: urls[i]
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.success == true) {
+                    $("#logprogress").append('<p>To video κατέβηκε στο path: ' + data.result + '</p>');
+                }
+            }
+        });
+
+    }
+
+    for (var i = 0; i < urls.length; i++) {
+        theQueue.dequeue('dlYoutube'+i);
         }
-    }, "json");
+
+    $( document ).ajaxStop(function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+        $("#progress").hide();
+    });
+
+
 }
 
 
