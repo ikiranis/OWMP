@@ -929,6 +929,28 @@ function startSync(operation) {
 
 }
 
+
+// Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
+function callGetYouTube(url) {
+    $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+        url: AJAX_path + "getYouTube.php",
+        type: 'GET',
+        async: true,
+        data: {
+            url: url
+        },
+        dataType: "json",
+        beforeSend: function (xhr) {
+            $("#logprogress").append('<p>Κατεβάζω το ' + url + '</p>');
+        },
+        success: function (data) {
+            if (data.success == true) {
+                $("#logprogress").append('<p>To video κατέβηκε στο path: ' + data.result + '</p>');
+            }
+        }
+    });
+}
+
 // Κατεβάζει ένα βίντεο από το YouTube
 function downloadYouTube() {
     var urls=document.querySelector('#youTubeUrl').value;
@@ -937,32 +959,18 @@ function downloadYouTube() {
 
     $('#progress').show();
 
-    var theQueue = $({});
-
     for (var i = 0; i < urls.length; i++) {
-        $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-            url: AJAX_path + "getYouTube.php",
-            type: 'GET',
-            async: true,
-            data: {
-                url: urls[i]
-            },
-            dataType: "json",
-            success: function(data) {
-                if (data.success == true) {
-                    $("#logprogress").append('<p>To video κατέβηκε στο path: ' + data.result + '</p>');
-                }
-            }
-        });
+
+        callGetYouTube(urls[i]);
 
     }
 
-    for (var i = 0; i < urls.length; i++) {
-        theQueue.dequeue('dlYoutube'+i);
-        }
 
-    $( document ).ajaxStop(function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+    $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
         $("#progress").hide();
+        $("#logprogress").append('<p>Αρχίζω τον συγχρονισμό</p>');
+        startSync('sync');
+        return;
     });
 
 
