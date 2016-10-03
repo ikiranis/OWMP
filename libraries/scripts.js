@@ -32,6 +32,8 @@ var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζε�
 var myImage='';   // Το cover art που κάνουμε upload
 var myMime='';  // Ο τύπος του cover art
 
+var myResult;
+
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
@@ -951,12 +953,12 @@ function callGetYouTube(url) {
     });
 }
 
-// Κατεβάζει ένα βίντεο από το YouTube
+// Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
 function downloadYouTube() {
     var urls=document.querySelector('#youTubeUrl').value;
 
     urls=urls.split(',');  // Παίρνουμε το string σε array
-
+    
     $('#progress').show();
 
     for (var i = 0; i < urls.length; i++) {
@@ -968,9 +970,9 @@ function downloadYouTube() {
 
     $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
         $("#progress").hide();
-        $("#logprogress").append('<p>Αρχίζω τον συγχρονισμό</p>');
-        startSync('sync');
-        return;
+        // $("#logprogress").append('<p>Αρχίζω τον συγχρονισμό</p>');
+        // startSync('sync');
+        // return;
     });
 
 

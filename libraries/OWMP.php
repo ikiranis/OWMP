@@ -1189,6 +1189,60 @@ class OWMP
     }
 
 
+    // Επιστρέφει το id ενός youtube video από το url του
+    static function youtubeID($url){
+        $res = explode("v",$url);
+        if(isset($res[1])) {
+            $res1 = explode('&',$res[1]);
+            if(isset($res1[1])){
+                $res[1] = $res1[0];
+            }
+            $res1 = explode('#',$res[1]);
+            if(isset($res1[1])){
+                $res[1] = $res1[0];
+            }
+        }
+        return substr($res[1],1,12);
+        return false;
+    }
+    
+    // Επιστρέφει τον τίτλο του βίντεο
+    static function getYoutubeTitle($url){
+        $youtubeID=self::youtubeID($url);
+            
+        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key=AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q&part=snippet';
+        $response = file_get_contents($html);
+        $decoded = json_decode($response, true);
+        foreach ($decoded['items'] as $items) {
+            $title= $items['snippet']['title'];
+            return $title;
+        }
+    }
+
+
+
+    // Μετατροπή Ελληνικών και Κυριλικών χαρακτήρων σε λατινικούς
+    static function GrCyr2Latin($string) {
+        $cyr = array(
+            'а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п',
+            'р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я',
+            'А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П',
+            'Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'
+    );
+        $lat = array(
+            'a','b','v','g','d','e','io','zh','z','i','y','k','l','m','n','o','p',
+            'r','s','t','u','f','h','ts','ch','sh','sht','a','i','y','e','yu','ya',
+            'A','B','V','G','D','E','Io','Zh','Z','I','Y','K','L','M','N','O','P',
+            'R','S','T','U','F','H','Ts','Ch','Sh','Sht','A','I','Y','e','Yu','Ya'
+    );
+        $greek   = array('α','ά','Ά','Α','β','Β','γ', 'Γ', 'δ','Δ','ε','έ','Ε','Έ','ζ','Ζ','η','ή','Η','θ','Θ','ι','ί','ϊ','ΐ','Ι','Ί', 'κ','Κ','λ','Λ','μ','Μ','ν','Ν','ξ','Ξ','ο','ό','Ο','Ό','π','Π','ρ','Ρ','σ','ς', 'Σ','τ','Τ','υ','ύ','Υ','Ύ','φ','Φ','χ','Χ','ψ','Ψ','ω','ώ','Ω','Ώ',"'","'",',');
+        $english = array('a', 'a','A','A','b','B','g','G','d','D','e','e','E','E','z','Z','i','i','I','th','Th', 'i','i','i','i','I','I','k','K','l','L','m','M','n','N','x','X','o','o','O','O','p','P' ,'r','R','s','s','S','t','T','u','u','Y','Y','f','F','ch','Ch','ps','Ps','o','o','O','O','_','_','_');
+        $string  = str_replace($greek, $english, $string);
+        $string  = str_replace($cyr, $lat, $string);
+        return $string;
+    }
+
+
     // Κατεβάζει ένα βίντεο από το Youtube
     static function downloadYoutube($url) {
         $myYear = date('Y');
@@ -1198,10 +1252,15 @@ class OWMP
         $uploadDir=FILE_UPLOAD . $fileDir;
         self::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
 
+        // Παίρνει τον τίτλο του βίντεο και τον μετατρέπει σε greeklish αν χρειάζεται
+        $title=self::getYoutubeTitle($url);
+        $title=str_replace("/",'',$title);
+        $title=self::GrCyr2Latin(ClearString($title));
+
         // το όνομα του αρχείου που θα κατεβάσει με το full path
-        $outputfilename = shell_exec('youtube-dl --get-filename -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.'%(title)s.%(ext)s" '.$url);
+        $outputfilename = shell_exec('youtube-dl --get-filename -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
         // κατεβάζει το βίντεο
-        shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.'%(title)s.%(ext)s" '.$url);
+        shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
 
         $outputfilename=str_replace("\n",'',$outputfilename);
 
