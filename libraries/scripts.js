@@ -8,18 +8,11 @@
 
 var UserKeyPressed=false;
 
-// TODO να το τραβάει από τα options ή από το common.inc.php
-var AJAX_path='AJAX/';  // ο κατάλογος των AJAX files
-
 var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
 var currentID; // Το τρέχον βίντεο
 
 var myVideo;
-
-// TODO να το παίρνει από τα options
-var DIR_PREFIX='/media/';    // dir που μπαίνει μπροστά από το path
-var Album_covers_path=DIR_PREFIX+'My Book/mp3/album_covers/';
 
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
 var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
@@ -32,7 +25,6 @@ var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζε�
 var myImage='';   // Το cover art που κάνουμε upload
 var myMime='';  // Ο τύπος του cover art
 
-var myResult;
 
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums

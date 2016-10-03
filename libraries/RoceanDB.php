@@ -618,13 +618,15 @@ class RoceanDB
 
     // Ανάγνωση μιας τιμής ενός $field στον πίνακα $table
     // $table ο πίνακας, $condition σε μορφή 'id=?'. To $id το παιρνάμε στην $condition_value
-    public function getTableFieldValue ($table, $condition, $condition_value, $field) {
+    static function getTableFieldValue ($table, $condition, $condition_value, $field) {
         self::CreateConnection();
 
         $sql = 'SELECT '.$field.' FROM '.$table.' WHERE '.$condition;
         $stmt = RoceanDB::$conn->prepare($sql);
 
-        $stmt->execute(array($condition_value));
+        if(!is_array($condition_value))
+            $stmt->execute(array($condition_value));
+        else $stmt->execute($condition_value);
 
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 
@@ -936,6 +938,7 @@ class RoceanDB
         return $result;
     }
 
+ 
     
 
 }

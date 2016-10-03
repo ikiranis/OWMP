@@ -13,6 +13,7 @@ class OWMP
 
     static function showVideo () {
 
+        
         $tags = new Page();
         $conn = new RoceanDB();
         $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
@@ -189,7 +190,7 @@ class OWMP
         <script type="text/javascript">
 
             // περνάει στην javascript το ότι το video φορτώθηκε
-            var VideoLoaded=true
+            var VideoLoaded=true;
 
         </script>
 
@@ -1191,7 +1192,7 @@ class OWMP
 
     // Επιστρέφει το id ενός youtube video από το url του
     // Source from http://code.runnable.com/VUpjz28i-V4jETgo/get-youtube-video-id-from-url-for-php
-    static function youtubeID($url){
+    static function getYoutubeID($url){
         $video_id = false;
         $url = parse_url($url);
         if (strcasecmp($url['host'], 'youtu.be') === 0)
@@ -1223,13 +1224,15 @@ class OWMP
         return $video_id;
     }
     
-    // Επιστρέφει τον τίτλο του βίντεο
+    // Επιστρέφει τον τίτλο του βίντεο μέσω του Youtube API
+    // Details @ https://developers.google.com/youtube/v3/getting-started
     static function getYoutubeTitle($url){
-        $youtubeID=self::youtubeID($url);
+        $youtubeID=self::getYoutubeID($url);
+        $youtubeAPI='AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q';
 
         trigger_error($youtubeID);
             
-        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key=AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q&part=snippet';
+        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key='.$youtubeAPI.'&part=snippet';
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
         foreach ($decoded['items'] as $items) {
@@ -1254,8 +1257,8 @@ class OWMP
             'A','B','V','G','D','E','Io','Zh','Z','I','Y','K','L','M','N','O','P',
             'R','S','T','U','F','H','Ts','Ch','Sh','Sht','A','I','Y','e','Yu','Ya'
     );
-        $greek   = array('α','ά','Ά','Α','β','Β','γ', 'Γ', 'δ','Δ','ε','έ','Ε','Έ','ζ','Ζ','η','ή','Η','θ','Θ','ι','ί','ϊ','ΐ','Ι','Ί', 'κ','Κ','λ','Λ','μ','Μ','ν','Ν','ξ','Ξ','ο','ό','Ο','Ό','π','Π','ρ','Ρ','σ','ς', 'Σ','τ','Τ','υ','ύ','Υ','Ύ','φ','Φ','χ','Χ','ψ','Ψ','ω','ώ','Ω','Ώ',"'","'",',');
-        $english = array('a', 'a','A','A','b','B','g','G','d','D','e','e','E','E','z','Z','i','i','I','th','Th', 'i','i','i','i','I','I','k','K','l','L','m','M','n','N','x','X','o','o','O','O','p','P' ,'r','R','s','s','S','t','T','u','u','Y','Y','f','F','ch','Ch','ps','Ps','o','o','O','O','_','_','_');
+        $greek   = array('α','ά','Ά','Α','β','Β','γ', 'Γ', 'δ','Δ','ε','έ','Ε','Έ','ζ','Ζ','η','ή','Η','θ','Θ','ι','ί','ϊ','ΐ','Ι','Ί', 'κ','Κ','λ','Λ','μ','Μ','ν','Ν','ξ','Ξ','ο','ό','Ο','Ό','π','Π','ρ','Ρ','σ','ς', 'Σ','τ','Τ','υ','ύ','Υ','Ύ','φ','Φ','χ','Χ','ψ','Ψ','ω','ώ','Ω','Ώ',"'","'",',',':','+');
+        $english = array('a', 'a','A','A','b','B','g','G','d','D','e','e','E','E','z','Z','i','i','I','th','Th', 'i','i','i','i','I','I','k','K','l','L','m','M','n','N','x','X','o','o','O','O','p','P' ,'r','R','s','s','S','t','T','u','u','Y','Y','f','F','ch','Ch','ps','Ps','o','o','O','O','','','_','-','-');
         $string  = str_replace($greek, $english, $string);
         $string  = str_replace($cyr, $lat, $string);
         return $string;

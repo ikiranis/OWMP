@@ -18,7 +18,6 @@ require_once ('MainPage.php');
 
 $MainPage = new Page();
 
-
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
     $targetPage='Location:index.php';
@@ -50,6 +49,19 @@ $MainPage->showHeader();
 //$languages_text=$lang->print_languages('lang_id',' ',true,false);
 
 $logged_in=false;
+
+// Περνάει βασικές μεταβλητές στην javascript
+?>
+
+    <script type="text/javascript">
+
+        var AJAX_path="<?php echo AJAX_PATH; ?>";  // ο κατάλογος των AJAX files
+        var DIR_PREFIX="<?php echo DIR_PREFIX; ?>";
+        var Album_covers_path="<?php echo ALBUM_COVERS_DIR; ?>";
+
+    </script>
+
+<?php
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
@@ -108,5 +120,4 @@ if($logged_in)
 //RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
 
-?>
 

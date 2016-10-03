@@ -31,6 +31,9 @@ define('PAGE_TITTLE','Open Web Media Player');     // ονομασία της ε
 define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
 
+
+define ('AJAX_PATH', 'AJAX/');
+
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');
 
@@ -52,23 +55,39 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
         'group_name' => 'user')
 );
 
-
+$mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
 
 // OWMP variables
 
-define ('DIR_PREFIX','/media/');   // Το αρχικό κομμάτι του path.
-define ('PLAYLIST_LIMIT',150);   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 
 
-// TODO να τα παίρνω από την βάση αυτά
-define ('ALBUM_COVERS_DIR', 'My Book/mp3/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
-define ('MUSIC_UPLOAD', 'My Book/mp3/Converted/');  // O φάκελος που μετατρέπονται τα mp3
-define ('INTERNAL_CONVERT_PATH', '/var/www/html'.PROJECT_PATH.'ConvertedMusic/');
-define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
-define ('FILE_UPLOAD', DIR_PREFIX.'Dalek/Videoclips/Download/');
+$conn = new RoceanDB();
+$lang = new Language();
 
-$mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
+// Τραβάει τιμές από την βάση
+$MusicMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
+$MusicVideoMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music Video'), 'file_path');
+$convertALACOption= $conn->getOption('convert_alac_files');
+if ($convertALACOption=='true')
+    define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
+else define ('CONVERT_ALAC_FILES', false);
+
+
+define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
+define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
+
+// Paths που χρησιμοποιεί η εφαρμογή
+define ('ALBUM_COVERS_DIR', $MusicMainDir.'/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
+define ('MUSIC_UPLOAD', $MusicMainDir.'/Converted/');  // O φάκελος που μετατρέπονται τα mp3
+define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'ConvertedMusic/');
+define ('FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
+
+
+
+
+
+
 
 
 
@@ -82,9 +101,6 @@ function ClearString($data) {
     return $data;
 }
 
-
-$conn = new RoceanDB();
-$lang = new Language();
 
 
 

@@ -24,7 +24,6 @@ class Page
 
     function showHeader()
     {
-        
 
     ?>
 
@@ -48,13 +47,19 @@ class Page
                 }
             ?>
 
+
             <?php
             //  Καθορισμός των scripts αρχείων. Ζητάει το string μετά το "<script "
             if (isset($this->script))
                 foreach ($this->script as $a) {
                     echo '<script ' . $a . '></script>';
                 }
+
             ?>
+
+
+
+
             
 
         </head>

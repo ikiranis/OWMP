@@ -186,7 +186,7 @@ class SyncFiles
             if(CONVERT_ALAC_FILES) {
                 // Έλεγχοι φακέλων που χρειάζονται
                 OWMP::createDirectory(INTERNAL_CONVERT_PATH);
-                OWMP::createDirectory(DIR_PREFIX.MUSIC_UPLOAD);
+                OWMP::createDirectory(MUSIC_UPLOAD);
             }
         }
 
@@ -785,12 +785,12 @@ class SyncFiles
 
         if(OWMP::fileExists(INTERNAL_CONVERT_PATH.$filename)) { // Αν η μετατροπή έχει γίνει
             // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί
-            if(rename(DIR_PREFIX.$path.$filename, DIR_PREFIX.$path.$filename.'.converted')){ // Αν μετονομαστεί με επιτυχία
+            if(rename($path.$filename, $path.$filename.'.converted')){ // Αν μετονομαστεί με επιτυχία
                 // Το αντιγράφει στην τοποθεσία DIR_PREFIX.MUSIC_UPLOAD όπου βάζει όλα τα converted και πρέπει να έχει δικαιώματα
-                print shell_exec('cp "'.INTERNAL_CONVERT_PATH.$filename.'" "'.DIR_PREFIX.MUSIC_UPLOAD.$filename.'"');
+                print shell_exec('cp "'.INTERNAL_CONVERT_PATH.$filename.'" "'.MUSIC_UPLOAD.$filename.'"');
                 unlink(INTERNAL_CONVERT_PATH.$filename); // Το σβήνει από την προσωρινή τοποθεσία INTERNAL_CONVERT_PATH
 
-                if(OWMP::fileExists(DIR_PREFIX.MUSIC_UPLOAD.$filename)) // Αν έχει γίνει σωστά η αντιγραφή
+                if(OWMP::fileExists(MUSIC_UPLOAD.$filename)) // Αν έχει γίνει σωστά η αντιγραφή
                     $result=array('path' => MUSIC_UPLOAD); // Επιστρέφει το νέο path
                 else $result=false;
             } else $result=false;
