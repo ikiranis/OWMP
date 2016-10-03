@@ -62,7 +62,7 @@ define ('PLAYLIST_LIMIT',150);   // Τα κομμάτια που θα εμφαν
 
 
 // TODO να τα παίρνω από την βάση αυτά
-define ('ALBUM_COVERS_DIR', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
+define ('ALBUM_COVERS_DIR', 'My Book/mp3/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
 define ('MUSIC_UPLOAD', 'My Book/mp3/Converted/');  // O φάκελος που μετατρέπονται τα mp3
 define ('INTERNAL_CONVERT_PATH', '/var/www/html'.PROJECT_PATH.'ConvertedMusic/');
 define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC

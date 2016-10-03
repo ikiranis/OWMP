@@ -1190,25 +1190,44 @@ class OWMP
 
 
     // Επιστρέφει το id ενός youtube video από το url του
+    // Source from http://code.runnable.com/VUpjz28i-V4jETgo/get-youtube-video-id-from-url-for-php
     static function youtubeID($url){
-        $res = explode("v",$url);
-        if(isset($res[1])) {
-            $res1 = explode('&',$res[1]);
-            if(isset($res1[1])){
-                $res[1] = $res1[0];
+        $video_id = false;
+        $url = parse_url($url);
+        if (strcasecmp($url['host'], 'youtu.be') === 0)
+        {
+            #### (dontcare)://youtu.be/<video id>
+            $video_id = substr($url['path'], 1);
+        }
+        elseif (strcasecmp($url['host'], 'www.youtube.com') === 0)
+        {
+            if (isset($url['query']))
+            {
+                parse_str($url['query'], $url['query']);
+                if (isset($url['query']['v']))
+                {
+                    #### (dontcare)://www.youtube.com/(dontcare)?v=<video id>
+                    $video_id = $url['query']['v'];
+                }
             }
-            $res1 = explode('#',$res[1]);
-            if(isset($res1[1])){
-                $res[1] = $res1[0];
+            if ($video_id == false)
+            {
+                $url['path'] = explode('/', substr($url['path'], 1));
+                if (in_array($url['path'][0], array('e', 'embed', 'v')))
+                {
+                    #### (dontcare)://www.youtube.com/(whitelist)/<video id>
+                    $video_id = $url['path'][1];
+                }
             }
         }
-        return substr($res[1],1,12);
-        return false;
+        return $video_id;
     }
     
     // Επιστρέφει τον τίτλο του βίντεο
     static function getYoutubeTitle($url){
         $youtubeID=self::youtubeID($url);
+
+        trigger_error($youtubeID);
             
         $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key=AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q&part=snippet';
         $response = file_get_contents($html);
@@ -1254,13 +1273,20 @@ class OWMP
 
         // Παίρνει τον τίτλο του βίντεο και τον μετατρέπει σε greeklish αν χρειάζεται
         $title=self::getYoutubeTitle($url);
+
+        trigger_error($title);
+
         $title=str_replace("/",'',$title);
         $title=self::GrCyr2Latin(ClearString($title));
+
+        trigger_error($title);
 
         // το όνομα του αρχείου που θα κατεβάσει με το full path
         $outputfilename = shell_exec('youtube-dl --get-filename -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
         // κατεβάζει το βίντεο
-        shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
+        $result=shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
+
+        trigger_error($result);
 
         $outputfilename=str_replace("\n",'',$outputfilename);
 

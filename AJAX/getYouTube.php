@@ -12,6 +12,8 @@ require_once('../libraries/common.inc.php');
 
 session_start();
 
+set_time_limit(0);
+
 
 
 if(isset($_GET['url']))

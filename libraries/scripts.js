@@ -10,7 +10,7 @@ var UserKeyPressed=false;
 
 // TODO να το τραβάει από τα options ή από το common.inc.php
 var AJAX_path='AJAX/';  // ο κατάλογος των AJAX files
-var Album_covers_path='album_covers/';
+
 var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
 var currentID; // Το τρέχον βίντεο
@@ -19,7 +19,7 @@ var myVideo;
 
 // TODO να το παίρνει από τα options
 var DIR_PREFIX='/media/';    // dir που μπαίνει μπροστά από το path
-
+var Album_covers_path=DIR_PREFIX+'My Book/mp3/album_covers/';
 
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
 var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
@@ -893,7 +893,7 @@ function startSync(operation) {
 
 
     // TODO να κάνω έλεγχο του php id process για να βλέπω αν τρέχει διεργασία αντί για το localstorage
-    if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
+    // if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
         localStorage.syncPressed=false;
 
 
@@ -970,8 +970,8 @@ function downloadYouTube() {
 
     $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
         $("#progress").hide();
-        // $("#logprogress").append('<p>Αρχίζω τον συγχρονισμό</p>');
-        // startSync('sync');
+        $("#logprogress").append('<p>Αρχίζω τον συγχρονισμό</p>');
+        startSync('sync');
         // return;
     });
 
