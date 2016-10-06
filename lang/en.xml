@@ -27,6 +27,7 @@
         <phrase name="nav_item_2">Configuration</phrase>
         <phrase name="nav_item_3">Library</phrase>
         <phrase name="nav_item_4">Logs</phrase>
+        <phrase name="nav_item_5">Help</phrase>
         <phrase name="items_in_playlist">items in playlist</phrase>
     </page>
 

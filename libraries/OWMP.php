@@ -753,6 +753,20 @@ class OWMP
 
     }
 
+    // Εμφάνιση της οθόνης βοήθειας
+    static function showHelp ()
+    {
+        ?>
+        <h2><?php echo __('nav_item_5'); ?></h2>
+
+        <?php
+
+        $lang = new Language();
+
+        include ('../lang/'.$lang->lang_id().'.help.html');
+
+    }
+
     // Επιστρέφει τις διπλές εγγραφές με βάση το hash
     static function getFilesDuplicates ($offset, $step) {
 

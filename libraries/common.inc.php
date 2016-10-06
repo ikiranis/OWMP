@@ -37,7 +37,8 @@ define ('AJAX_PATH', 'AJAX/');
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');
 
-define ('NAV_LIST_ITEMS', '4'); // Ο αριθμός των επιλογών στo Nav Menu
+// TODO να το αλλάξω. να μην χρειάζεται με χρήση foreach
+define ('NAV_LIST_ITEMS', '5'); // Ο αριθμός των επιλογών στo Nav Menu
 
 $adminNavItems = array(3,4);  // Οι αριθμοί των items που είναι μόνο για τον admin
 

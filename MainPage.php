@@ -46,6 +46,7 @@ function DisplayMainPage() {
                     case 2: OWMP::showConfiguration(); break;
                     case 3: OWMP::showSynchronization(); break;
                     case 4: OWMP::showLogs(); break;
+                    case 5: OWMP::showHelp(); break;
                     
                 }
 
