@@ -1298,6 +1298,42 @@ class OWMP
             return $outputfilename;
         else return false;
     }
+
+
+    // Επιστρέφει το λινκ με το artwork cover από το itunes API
+    static function getItunesCover($search){
+
+        $html = 'https://itunes.apple.com/search?term='.urlencode($search);
+//        trigger_error($html);
+        $response = file_get_contents($html);
+        $decoded = json_decode($response, true);
+
+        if($decoded) {
+            foreach ($decoded['results'] as $items) {
+                $artwork = $items['artworkUrl100'];
+                $artwork = str_replace('100x100', '1400x1400', $artwork);
+                return $artwork;
+            }
+        } else return false;
+    }
+
+    // Επιστρέφει το λινκ με το gif από το giphy API
+    static function getGiphy($search){
+
+        $giphyAPI='dc6zaTOxFJmzC';
+        
+        $html = 'https://api.giphy.com/v1/gifs/search?q='.urlencode($search).'&api_key='.$giphyAPI;
+//        trigger_error($html);
+        $response = file_get_contents($html);
+        $decoded = json_decode($response, true);
+
+        if($decoded) {
+            foreach ($decoded['data'] as $items) {
+                $giphy = $items['images']['downsized_large']['url'];
+                return $giphy;
+            }
+        } else return false;
+    }
     
     
 }

@@ -43,9 +43,22 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         $song_year='';
     else $song_year=$metadata[0]['song_year'];
 
-    if($file[0]['kind']=='Music')
-        $albumCoverPath=OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
+    $fromAPI=null;
+
+    if($file[0]['kind']=='Music') {
+        $albumCoverPath = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
+
+        // Χρησιμοποιεί το itunes ή giphy api για να πάρει artwork όταν δεν υπάρχει artwork στο τραγούδι
+        if($metadata[0]['album_artwork_id']==1) {
+            if ($iTunesArtwork = OWMP::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist'])))
+                $fromAPI = $iTunesArtwork;
+            else if ($giphy = OWMP::getGiphy(htmlspecialchars_decode($metadata[0]['song_name'])))
+                $fromAPI = $giphy;
+        }
+    }
     else $albumCoverPath=null;
+
+
 
     $jsonArray = array('success' => true,
         'artist' => htmlspecialchars_decode($metadata[0]['artist']),
@@ -59,7 +72,8 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         'track_time' => $metadata[0]['track_time'],
         'live' => $metadata[0]['live'],
         'rating' => $rating,
-        'albumCoverPath'=>$albumCoverPath);
+        'albumCoverPath'=>$albumCoverPath,
+        'fromAPI'=>$fromAPI);
 
 
 

@@ -585,44 +585,11 @@ function loadNextVideo(id) {
                 } else {
                     var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
 
-                    if (albumCoverPath == 'album_covers/default.gif') {  // Αν δεν υπάρχει album cover το ψάχνουμε στο itunes
-                        // url για search στο itunes search api
-                        callFile = "https://itunes.apple.com/search?term=" + encodeURI(data.tags.album);
-
-                            (function (title) {     // τρόπος για να παιρνάει το title
-                                // παίρνουμε τα αποτελέσματα
-                                $.get(callFile, function (data) {
-                                    var firstResult = data.results[0]; // Παίρνουμε το πρώτο αποτέλεσμα
-
-                                    if (firstResult) {
-                                        // το album cover σε ανάλυση 1400χ1400
-                                        albumCoverPath = firstResult.artworkUrl100.replace('100x100', '1400x1400');
-
-                                        myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-                                    }
-                                    else { // αν δεν βρει στο itunes, ψάχνει στο giphy με βάση τον τίτλο
-
-                                        // url για search στο giphy search api
-                                        callFile = "https://api.giphy.com/v1/gifs/search?q=" + encodeURI(title) + "&api_key=dc6zaTOxFJmzC";
-
-                                        // παίρνουμε τα αποτελέσματα
-                                        $.get(callFile, function (result) {
-
-                                            var firstResult = result.data[0]; // Παίρνουμε το πρώτο αποτέλεσμα
-
-                                            if (firstResult) {
-                                                albumCoverPath = firstResult.images.downsized_large.url;
-                                                myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-                                            }
-                                            else myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-
-                                        }, "json");
-
-
-                                    }
-                                }, "jsonp");   // το jsonp το βάζουμε όταν είμαστε σε localhost,  αλλιώς βγάζει error
-                            })(data.tags.title)
-
+                    if (albumCoverPath == Album_covers_path+ 'default.gif') {  // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
+                        if(data.tags.fromAPI) {
+                            myVideo.poster = data.tags.fromAPI;
+                        }
+                        else myVideo.poster = albumCoverPath;
                     }
                     else myVideo.poster = albumCoverPath;
                 }
