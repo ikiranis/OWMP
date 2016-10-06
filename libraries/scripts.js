@@ -551,6 +551,8 @@ function loadNextVideo(id) {
     TimeUpdated=false;
 
 
+    if(localStorage.AllwaysGiphy=='true') // Αν θέλουμε μόνο από Giphy
+        callFile=callFile+'&onlyGiphy=true';
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
         // console.log(data);
@@ -566,27 +568,18 @@ function loadNextVideo(id) {
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
-                if(localStorage.AllwaysGiphy=='true') {
-                    // url για search στο giphy search api
-                    callFile = "https://api.giphy.com/v1/gifs/search?q="+encodeURI(data.tags.title)+"&api_key=dc6zaTOxFJmzC";
 
-                    // παίρνουμε τα αποτελέσματα
-                    $.get(callFile, function (result) {
-
-                        var firstResult = result.data[0]; // Παίρνουμε το πρώτο αποτέλεσμα
-
-                        if (firstResult) {
-                            albumCoverPath = firstResult.images.downsized_large.url;
-                            myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-                        }
-                        else myVideo.poster = albumCoverPath; // εμφανίζουμε το cover
-
-                    }, "json");
-                } else {
                     var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
+                    document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
 
-                    if (albumCoverPath == Album_covers_path+ 'default.gif') {  // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
-                        if(data.tags.fromAPI) {
+                if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
+                    if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
+                        myVideo.poster = data.tags.fromAPI;
+                    }
+                    else myVideo.poster = albumCoverPath;
+                } else {   // όταν δεν θέλουμε μόνο από giphy
+                    if (albumCoverPath == Album_covers_path + 'default.gif') {  // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
+                        if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                             myVideo.poster = data.tags.fromAPI;
                         }
                         else myVideo.poster = albumCoverPath;
@@ -595,6 +588,7 @@ function loadNextVideo(id) {
                 }
 
             }
+            else document.querySelector('#overlay_poster_source').innerHTML='';
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
             timeInMinutesAndSeconds=seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
@@ -1207,7 +1201,8 @@ function displayVolume(operation) {
     if(checkFullscreen()) {
         var volume = parseInt(localStorage.volume * 100);
 
-        document.querySelector('#overlay_volume_text').innerText = volume;
+        if(operation!='giphyON' && operation!='giphyOFF')
+            document.querySelector('#overlay_volume_text').innerText = volume;
 
         $('#overlay_volume_text').removeClass();
 
@@ -1220,6 +1215,14 @@ function displayVolume(operation) {
                 break;
             case 'mute':
                 $('#overlay_volume_text').addClass('overlay_volume_mute');
+                break;
+            case 'giphyON':
+                $('#overlay_volume_text').addClass('overlay_giphy');
+                document.querySelector('#overlay_volume_text').innerText = 'on';
+                break;
+            case 'giphyOFF':
+                $('#overlay_volume_text').addClass('overlay_giphy');
+                document.querySelector('#overlay_volume_text').innerText = 'off';
                 break;
         }
 
@@ -1388,10 +1391,14 @@ $(function(){
 
             if (event.keyCode === 71) {   // G
 
-                if(localStorage.AllwaysGiphy=='true')
-                    localStorage.AllwaysGiphy='false';
-                else
-                    localStorage.AllwaysGiphy='true';
+                if(localStorage.AllwaysGiphy=='true') {
+                    localStorage.AllwaysGiphy = 'false';
+                    displayVolume('giphyOFF');
+                }
+                else {
+                    localStorage.AllwaysGiphy = 'true';
+                    displayVolume('giphyON');
+                }
 
             }
 

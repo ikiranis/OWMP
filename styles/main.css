@@ -848,6 +848,14 @@ input {
     outline: none;
 }
 
+.overlay_giphy {
+    background-image: url(../img/giphy_logo.png);
+    background-size: 0.4em;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    outline: none;
+}
+
 #bottom_overlay {
     position: absolute;
     bottom: 0;
@@ -883,7 +891,7 @@ input {
 
 #bottom_right_overlay {
     position: absolute;
-    bottom: 1em;
+    bottom: 2em;
     right: 0;
     color: #FFF;
     width: 100%;

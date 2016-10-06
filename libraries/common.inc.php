@@ -85,6 +85,10 @@ define ('FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
 
 
 
+// API keys
+
+define ('YOUTUBE_API', 'AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q');
+define ('GIPHY_API', 'dc6zaTOxFJmzC');
 
 
 

@@ -152,6 +152,7 @@ class OWMP
             </div>
 
             <div id="bottom_right_overlay">
+                <span id="overlay_poster_source"></span>
                 <span id="overlay_live"></span>
                 <span id="overlay_time"></span>
             </div>
@@ -1228,11 +1229,10 @@ class OWMP
     // Details @ https://developers.google.com/youtube/v3/getting-started
     static function getYoutubeTitle($url){
         $youtubeID=self::getYoutubeID($url);
-        $youtubeAPI='AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q';
 
         trigger_error($youtubeID);
             
-        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key='.$youtubeAPI.'&part=snippet';
+        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key='.YOUTUBE_API.'&part=snippet';
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
         foreach ($decoded['items'] as $items) {
@@ -1320,9 +1320,7 @@ class OWMP
     // Επιστρέφει το λινκ με το gif από το giphy API
     static function getGiphy($search){
 
-        $giphyAPI='dc6zaTOxFJmzC';
-        
-        $html = 'https://api.giphy.com/v1/gifs/search?q='.urlencode($search).'&api_key='.$giphyAPI;
+        $html = 'https://api.giphy.com/v1/gifs/search?q='.urlencode($search).'&api_key='.GIPHY_API;
 //        trigger_error($html);
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);

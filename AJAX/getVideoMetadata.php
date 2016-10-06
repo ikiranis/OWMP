@@ -19,9 +19,9 @@ $conn = new RoceanDB();
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
-
-
-
+if(isset($_GET['onlyGiphy']))
+    $onlyGiphy=ClearString($_GET['onlyGiphy']);
+else $onlyGiphy=null;
 
 
 $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
@@ -47,14 +47,32 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
 
     if($file[0]['kind']=='Music') {
         $albumCoverPath = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
+        $apiSource='artwork';
 
         // Χρησιμοποιεί το itunes ή giphy api για να πάρει artwork όταν δεν υπάρχει artwork στο τραγούδι
         if($metadata[0]['album_artwork_id']==1) {
-            if ($iTunesArtwork = OWMP::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist'])))
+            
+            // Από itunes API
+            if ($iTunesArtwork = OWMP::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist']))) {
                 $fromAPI = $iTunesArtwork;
-            else if ($giphy = OWMP::getGiphy(htmlspecialchars_decode($metadata[0]['song_name'])))
+                $apiSource='iTunes';
+            }
+            else if ($giphy = OWMP::getGiphy(htmlspecialchars_decode($metadata[0]['song_name']))) { // Από Giphy API
                 $fromAPI = $giphy;
+                $apiSource='Giphy';
+            }
         }
+
+        // Αν έχουμε επιλέξει πάντα να εμφανίζει από giphy
+        if($onlyGiphy=='true') {
+            if ($giphy = OWMP::getGiphy(htmlspecialchars_decode($metadata[0]['song_name']))) { // Από Giphy API
+                $fromAPI = $giphy;
+                $albumCoverPath=null;
+                $apiSource='Giphy';
+            }
+            else $fromAPI=null;
+        }
+                
     }
     else $albumCoverPath=null;
 
@@ -73,7 +91,8 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         'live' => $metadata[0]['live'],
         'rating' => $rating,
         'albumCoverPath'=>$albumCoverPath,
-        'fromAPI'=>$fromAPI);
+        'fromAPI'=>$fromAPI,
+        'apiSource'=>$apiSource);
 
 
 
