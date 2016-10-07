@@ -561,7 +561,7 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
-        $this->writeTracks($mediakind, true, true);
+        $this->writeTracks($mediakind, SYNC_ITUNES, true);
     }
 
 

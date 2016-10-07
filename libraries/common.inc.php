@@ -74,6 +74,10 @@ if ($convertALACOption=='true')
     define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
 else define ('CONVERT_ALAC_FILES', false);
 
+if ($conn->getOption('syncItunes')=='true')
+    define ('SYNC_ITUNES', true); // true για να μετατρέπει συγχρονίζει με itunes
+else define ('SYNC_ITUNES', false);
+
 
 define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
