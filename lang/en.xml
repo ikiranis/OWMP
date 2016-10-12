@@ -40,6 +40,7 @@
         <phrase name="settings_alerts">Alerts</phrase>
         <phrase name="settings_users">Users</phrase>
         <phrase name="settings_options">Options</phrase>
+        <phrase name="settings_paths">Paths</phrase>
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>
         <phrase name="insert_row">Insert</phrase>

@@ -40,6 +40,7 @@
         <phrase name="settings_alerts">Ειδοποιήσεις</phrase>
         <phrase name="settings_users">Χρήστες</phrase>
         <phrase name="settings_options">Options</phrase>
+        <phrase name="settings_paths">Διαδρομές αρχείων</phrase>
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>
         <phrase name="insert_row">Εισαγωγή</phrase>

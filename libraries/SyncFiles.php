@@ -785,7 +785,7 @@ class SyncFiles
 
         if(OWMP::fileExists(INTERNAL_CONVERT_PATH.$filename)) { // Αν η μετατροπή έχει γίνει
             // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί
-            if(rename($path.$filename, $path.$filename.'.converted')){ // Αν μετονομαστεί με επιτυχία
+            if(rename(DIR_PREFIX.$path.$filename, DIR_PREFIX.$path.$filename.'.converted')){ // Αν μετονομαστεί με επιτυχία
                 // Το αντιγράφει στην τοποθεσία DIR_PREFIX.MUSIC_UPLOAD όπου βάζει όλα τα converted και πρέπει να έχει δικαιώματα
                 print shell_exec('cp "'.INTERNAL_CONVERT_PATH.$filename.'" "'.MUSIC_UPLOAD.$filename.'"');
                 unlink(INTERNAL_CONVERT_PATH.$filename); // Το σβήνει από την προσωρινή τοποθεσία INTERNAL_CONVERT_PATH

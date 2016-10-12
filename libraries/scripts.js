@@ -7,6 +7,7 @@
 //
 
 var UserKeyPressed=false;
+var PathKeyPressed=false;
 
 var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
@@ -439,6 +440,91 @@ function attachSinkId(element, sinkId) {
 
 // *************************************************************************
 // OWMP functions
+
+// Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table paths, ή εισάγει νέα εγγραφή
+function updatePath(id) {
+    file_path=$("#PathID"+id).find('input[name="file_path"]').val();
+    kind=$("#PathID"+id).find('select[name="kind"]').val();
+    main=$("#PathID"+id).find('select[name="main"]').val();
+
+    callFile=AJAX_path+"updatePath.php?id="+id+"&file_path="+file_path+"&kind="+kind+"&main="+main;
+
+    if ($('#paths_formID'+id).valid()) {
+        $.get(callFile, function (data) {
+            if (data.success == true) {
+                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    PathKeyPressed = false;
+                    LastInserted = data.lastInserted;
+                    $("#PathID0").prop('id', 'PathID' + LastInserted);
+                    $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
+                    $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
+                    $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
+                    $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
+                    $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
+                }
+                else $("#messagePathID" + id).addClassDelay("success", 3000);
+            }
+            else $("#messagePathID" + id).addClassDelay("failure", 3000);
+        }, "json");
+    }
+}
+
+// Σβήνει την εγγραφή στο paths
+function deletePath(id) {
+    callFile=AJAX_path+"deletePath.php?id="+id;
+
+    $.get( callFile, function( data ) {
+        if(data.success==true) {
+
+            $("#messagePathID"+id).addClassDelay("success",3000);
+
+
+            myClasses= $("#PathID"+id).find('input[name=delete_path]').classes();   // Παίρνει τις κλάσεις του delete_path
+
+            if(!myClasses[2])   // Αν δεν έχει κλάση dontdelete σβήνει το div
+                $("#PathID"+id).remove();
+            else {   // αλλιώς καθαρίζει μόνο τα πεδία
+                $("#PathID"+id).find('input').val('');   // clear field values
+                $("#PathID"+id).prop('id','PathID0');
+                $("#PathID0").find('form').prop('id','paths_formID0');
+                $("#PathID0").find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
+                // αλλάζει την function στο button
+                $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
+                $("#PathID0").find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
+
+                $('#paths_formID0').validate({ // initialize the plugin
+                    errorElement: 'div'
+                });
+
+            }
+        }
+        else $("#messagePathID"+id).addClassDelay("failure",3000);
+    }, "json" );
+
+}
+
+// Εισάγει νέα div γραμμή αντιγράφοντας την τελευταία και μηδενίζοντας τις τιμές που είχε η τελευταία
+function insertPath() {
+
+    if(!PathKeyPressed) {
+        // clone last div row
+        $('div[id^="PathID"]:last').clone().insertAfter('div[id^="PathID"]:last').prop('id','PathID0');
+        $("#PathID0").find('input').val('');   // clear field values
+        $("#PathID0").find('form').prop('id','paths_formID0');
+        $("#PathID0").find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
+        // αλλάζει την function στο button
+        $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
+        $("#PathID0").find('input[name="delete_path"]').attr("onclick", "deletePath(0)");
+        PathKeyPressed=true;
+
+        $('#paths_formID0').validate({ // initialize the plugin
+            errorElement: 'div'
+        });
+
+
+    }
+}
+
 
 // Εμφανίζει rating αστεράκια στο elem
 function ratingToStars(rating,elem) {

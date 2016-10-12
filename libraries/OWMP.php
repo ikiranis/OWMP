@@ -592,6 +592,83 @@ class OWMP
         $stmt = null;
 
     }
+    
+    static function getPathsInFormFields() {
+        $conn = new RoceanDB();
+        global $mediaKinds;
+
+
+        $paths=$conn->getTableArray('paths', null, null, null, null, null, null);  // Παίρνει τα δεδομένα του πίνακα paths σε array
+
+        if(empty($paths)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
+            $paths[]=array('id'=>'0', 'file_path'=>'', 'kind'=>'', 'main'=>'');
+        }
+
+        $counter=1;
+
+
+        ?>
+        <div class="ListTable">
+
+            <?php
+
+            // TODO όταν επιλέγεις main να κάνει main μόνο το συγκεκριμένο του mediakind και not main τα υπόλοιπα
+            foreach($paths as $path)
+            {
+                ?>
+                <div class="PathsRow" id="PathID<?php echo $path['id']; ?>">
+                    <form class="table_form paths_form" id="paths_formID<?php echo $path['id']; ?>">
+
+<!--                        TODO να προσθέσω τα κατάλληλα κείμενα στις γλώσσσες -->
+                        <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('power_room'); ?>"
+                                                        title="<?php echo __('valid_room'); ?>"
+                                                        maxlength="255" required type="text" name="file_path" value="<?php echo $path['file_path']; ?>"></span>
+                        <span class="ListColumn">
+                            <select class="input_field" name="kind" >
+                                <?php
+                                foreach ($mediaKinds as $mediaKind) {
+                                    ?>
+                                    <option value="<?php echo $mediaKind; ?>"
+                                        <?php if($mediaKind==$path['kind']) echo 'selected=selected'; ?>>
+                                        <?php echo $mediaKind ?>
+                                    </option>
+
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </span>
+
+                        <span class="ListColumn">
+                            <select class="input_field" name="main" >
+                                <option value="0" <?php if($path['main']==0) echo 'selected=selected'; ?> >
+                                    not main
+                                </option>
+                                <option value="1" <?php if($path['main']==1) echo 'selected=selected'; ?> >
+                                    main
+                                </option>
+                            </select>
+                        </span>
+
+                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath(<?php echo $path['id']; ?>);"">
+
+                        <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_path" title="<?php echo __('delete_row'); ?>" onclick="deletePath(<?php echo $path['id']; ?>);"">
+
+                        <input type="button" class="message" id="messagePathID<?php echo $path['id']; ?>">
+                    </form>
+
+                </div>
+                <?php
+                $counter++;
+            }
+            ?>
+
+        </div>
+        <input type="button" class="insert_row" name="insert_path" onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
+
+        <?php
+    }
 
 
     static function showConfiguration () {
@@ -645,6 +722,14 @@ class OWMP
 
     // εμφάνιση των επιλογών συγχρονισμού
     static function showSynchronization () {
+
+        ?>
+            <details>
+                <summary><?php echo __('settings_paths'); ?></summary>
+                <?php self::getPathsInFormFields(); ?>
+            </details>
+
+        <?php
 
         $conn = new RoceanDB();
         $conn->CreateConnection();
