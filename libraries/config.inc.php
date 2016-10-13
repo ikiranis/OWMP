@@ -1,3 +1,4 @@
+
 <?php
 /**
  * File: config.inc.php
@@ -5,7 +6,7 @@
  * Date: 13/10/16
  * Time: 19:08
  *
- * Ρυθμίσεις mysql 
+ * Ρυθμίσεις mysql
  *
  */
 
@@ -15,4 +16,4 @@ define('CONNSTR', 'mysql:host=localhost;dbname=OWMP');
 define('DBUSER', 'root');
 define('DBPASS', 'documents2015');
 
-sd
+
