@@ -619,10 +619,8 @@ class OWMP
                 <div class="PathsRow" id="PathID<?php echo $path['id']; ?>">
                     <form class="table_form paths_form" id="paths_formID<?php echo $path['id']; ?>">
 
-<!--                        TODO να προσθέσω τα κατάλληλα κείμενα στις γλώσσσες -->
                         <span class="ListColumn"><input class="input_field"
-                                                        placeholder="<?php echo __('power_room'); ?>"
-                                                        title="<?php echo __('valid_room'); ?>"
+                                                        placeholder="<?php echo __('paths_file_path'); ?>"
                                                         maxlength="255" required type="text" name="file_path" value="<?php echo $path['file_path']; ?>"></span>
                         <span class="ListColumn">
                             <select class="input_field" name="kind" >

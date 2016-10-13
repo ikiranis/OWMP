@@ -4,11 +4,18 @@
  * Created by rocean
  * Date: 04/05/16
  * Time: 22:36
+ * 
+ * Αρχικές ρυθμίσεις εφαρμογής
  */
 
-
 define ('PROJECT_PATH','/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
+define('PAGE_TITTLE','Open Web Media Player');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
+
+
+
+
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/config.inc.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Page.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/RoceanDB.php');
@@ -18,15 +25,6 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php')
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/OWMP.php');
 
-
-
-
-
-define('CONNSTR', 'mysql:host=localhost;dbname=OWMP');
-define('DBUSER', 'root');
-define('DBPASS', 'documents2015');
-
-define('PAGE_TITTLE','Open Web Media Player');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
 define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
@@ -56,12 +54,12 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
         'group_name' => 'user')
 );
 
-$mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
 
 // OWMP variables
 
 
+$mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
 $conn = new RoceanDB();
 $lang = new Language();
