@@ -37,17 +37,8 @@ else {
     $jsonArray=array( 'success'=>false);
 }
 
-
-$someOption=$conn->getOption('interval_value');
-
-if(!$someOption) {  // αρχικοποίηση options
-    $conn->createOption('interval_value','5',1,0);
-    $conn->createOption('mail_host','smtp.gmail.com',1,0);
-    $conn->createOption('mail_username','username',1,0);
-    $conn->createOption('mail_password','',1,1);
-    $conn->createOption('mail_from','username@mail.com',1,0);
-    $conn->createOption('mail_from_name','name',1,0);
-}
+// εισάγουμε τις αρχικές τιμές στον πίνακα options
+OWMP::startBasicOptions();
 
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
 $eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';

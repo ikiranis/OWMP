@@ -1,0 +1,8 @@
+INSTALLATION
+
+- Κάνουμε import το sql script στην βάση
+- Κατεβάζουμε τα αρχεία της εφαρμογής στον φάκελο που θέλουμε στον web server
+- Βάζουμε τα στοιχεία της mysql στο αρχείο libraries/config.inc.php
+- Στο αρχείο common.inc.php πειράζουμε την γραμμή
+        define ('PROJECT_PATH','/OpenWebMediaPlayer/');
+    και βάζουμε το directory στο οποίο έχουμε κατεβάσει την εφαρμογή

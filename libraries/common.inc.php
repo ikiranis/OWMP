@@ -85,10 +85,24 @@ define ('FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
 
 
 
+// Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη
+$defaultArtwork=RoceanDB::getTableFieldValue('album_arts', 'filename=?', 'default.gif', 'id');
+if($defaultArtwork)
+    define ('DEFAULT_ARTWORK_ID', $defaultArtwork);
+else {
+    // Αν δεν υπάρχει ήδη εγγραφή, αντιγράφει το default.gif και κάνει την εγγραφή
+    if(copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif')) {
+        $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
+        $artsArray = array('', 'default.gif', '');
+        if ($coverID = $conn->ExecuteSQL($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
+            define('DEFAULT_ARTWORK', $coverID);
+    }
+}
+
 // API keys
 
-define ('YOUTUBE_API', 'AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q');
-define ('GIPHY_API', 'dc6zaTOxFJmzC');
+define ('YOUTUBE_API', 'AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q'); // βάζεις το δικό σου αν θες
+define ('GIPHY_API', 'dc6zaTOxFJmzC'); // default
 
 
 

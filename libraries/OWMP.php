@@ -1429,6 +1429,31 @@ class OWMP
             }
         } else return false;
     }
+
+    
+    // Εισάγει τις αρχικές τιμές στον πίνακα Options
+    static function startBasicOptions()
+    {
+
+        $conn = new RoceanDB();
+
+        $someOption = $conn->getOption('convert_alac_files');
+
+        if (!$someOption)
+        {  // αρχικοποίηση options
+            $conn->createOption('interval_value', '5', 1, 0);
+            $conn->createOption('mail_host', 'smtp.gmail.com', 1, 0);
+            $conn->createOption('mail_username', 'username', 1, 0);
+            $conn->createOption('mail_password', '', 1, 1);
+            $conn->createOption('mail_from', 'username@mail.com', 1, 0);
+            $conn->createOption('mail_from_name', 'name', 1, 0);
+            $conn->createOption('convert_alac_files', 'false', 1, 0);
+            $conn->createOption('playlist_limit', '150', 1, 0);
+            $conn->createOption('dir_prefix', '/', 1, 0);
+            $conn->createOption('syncItunes', 'false', 1, 0);
+
+        }
+    }
     
     
 }
