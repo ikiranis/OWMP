@@ -12,7 +12,7 @@
 
 
 define('CONNSTR', 'mysql:host=localhost;dbname=OWMP');
-define('DBUSER', 'root');
+define('DBUSER', 'ss');
 define('DBPASS', 'documents2015');
 
   
