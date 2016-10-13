@@ -11,10 +11,7 @@
 define ('PROJECT_PATH','/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
 define('PAGE_TITTLE','Open Web Media Player');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
-
-
-
-
+dssds
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/config.inc.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Page.php');
