@@ -1,4 +1,3 @@
-
 <?php
 /**
  * File: config.inc.php
@@ -17,3 +16,4 @@ define('DBUSER', 'root');
 define('DBPASS', 'documents2015');
 
 
+ 
