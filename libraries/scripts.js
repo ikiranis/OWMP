@@ -644,7 +644,7 @@ function loadNextVideo(id) {
         // console.log(data);
         file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
         myVideo.src = file_path;
-        console.log(file_path);
+        console.log(myVideo.src);
 
 
         filename=data.file.filename; // σκέτο το filename
