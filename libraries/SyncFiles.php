@@ -98,8 +98,11 @@ class SyncFiles
         $trimFiles = array();
 
         foreach (self::$files as $file) {
-            if (strpos($file, '._') == false)
-                $trimFiles[] = urldecode(str_replace(DIR_PREFIX, '', $file));
+            if (strpos($file, '._') == false) {
+                if(!DIR_PREFIX=='/')
+                    $trimFiles[] = urldecode(str_replace(DIR_PREFIX, '', $file));
+                else $trimFiles[] = urldecode($file);
+            }
         }
 
         self::$files = $trimFiles;

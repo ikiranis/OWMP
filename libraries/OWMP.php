@@ -1278,6 +1278,8 @@ class OWMP
             else exit('Δεν μπορώ να δημιουργήσω το path ' . $dir.'. Δημιούργησε το εσύ με 777 δικαιώματα');
         } else if(!is_writable($dir))
             exit('Δεν μπορώ να γράψω στο path ' . $dir . '. Δώσε δικαιώματα 777');
+        
+        return true;
     }
 
 
