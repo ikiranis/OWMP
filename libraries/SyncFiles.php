@@ -101,7 +101,7 @@ class SyncFiles
             if (strpos($file, '._') == false) {
                 if(DIR_PREFIX!='/')
                     $trimFiles[] = urldecode(str_replace(DIR_PREFIX, '', $file));
-                else $trimFiles[] = urldecode(substr($file,1));
+                else $trimFiles[] =  urldecode(substr($file,1));
             }
         }
 
