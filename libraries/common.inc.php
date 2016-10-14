@@ -90,15 +90,17 @@ $defaultArtwork=RoceanDB::getTableFieldValue('album_arts', 'filename=?', 'defaul
 if($defaultArtwork)
     define ('DEFAULT_ARTWORK_ID', $defaultArtwork);
 else {
-    if(OWMP::createDirectory(ALBUM_COVERS_DIR)) {  // Δημιουργεί το directory αν δεν υπάρχει
-        // Αν δεν υπάρχει ήδη εγγραφή, αντιγράφει το default.gif και κάνει την εγγραφή
-        if (copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif')) {
-            $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
-            $artsArray = array('', 'default.gif', '');
-            if ($coverID = $conn->ExecuteSQL($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
-                define('DEFAULT_ARTWORK', $coverID);
-        }
-    }
+//    if($MusicMainDir) {
+//        if (OWMP::createDirectory(ALBUM_COVERS_DIR)) {  // Δημιουργεί το directory αν δεν υπάρχει
+//            // Αν δεν υπάρχει ήδη εγγραφή, αντιγράφει το default.gif και κάνει την εγγραφή
+//            if (copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif')) {
+        $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
+        $artsArray = array('', 'default.gif', '');
+        if ($coverID = $conn->ExecuteSQL($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
+            define('DEFAULT_ARTWORK', $coverID);
+//            }
+//        }
+//    }
 }
 
 // API keys
