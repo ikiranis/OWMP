@@ -99,7 +99,7 @@ class SyncFiles
 
         foreach (self::$files as $file) {
             if (strpos($file, '._') == false) {
-                if(!DIR_PREFIX=='/')
+                if(DIR_PREFIX!='/')
                     $trimFiles[] = urldecode(str_replace(DIR_PREFIX, '', $file));
                 else $trimFiles[] = urldecode($file);
             }
