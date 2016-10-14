@@ -10,6 +10,8 @@ import καλό είναι να το σβήσετε.
 - Στο αρχείο common.inc.php πειράζουμε την γραμμή
         define ('PROJECT_PATH','/OpenWebMediaPlayer/');
     και βάζουμε το directory στο οποίο έχουμε κατεβάσει την εφαρμογή
+        define ('PROJECT_PATH','/');
+    Αν είναι στο root του web server.
 
 ΑΡΧΙΚΕΣ ΡΥΘΜΙΣΕΙΣ
 
