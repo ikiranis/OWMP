@@ -4,7 +4,7 @@
 
 - Κατεβάζουμε τα αρχεία της εφαρμογής στον φάκελο που θέλουμε στον web server
 
-- Βάζουμε τα στοιχεία της mysql στο αρχείο libraries/config.inc.php
+- Μετονομάζουμε το libraries/config.inc.php.sample σε libraries/config.inc.php και βάζουμε τα στοιχεία της mysql
 
 - Στο αρχείο common.inc.php πειράζουμε την γραμμή
         define ('PROJECT_PATH','/OpenWebMediaPlayer/');
@@ -39,6 +39,32 @@
 
 
 ΕΝΗΜΕΡΩΣΗ ΤΟΥ VIRTUALHOST ΣΤΟΝ APACHE ΜΕ ΤΑ PATHS ΤΩΝ ΑΡΧΕΙΩΝ ΜΑΣ
+
+Για να μπορούμε να έχουμε πρόσβαση στα αρχεία μουσικής μας από το web πρέπει να βάλουμε τα paths και στο
+virtualhost του apache.
+
+Κάνουμε edit το αρχείο
+
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+Αν υποθέσουμε ότι το path των αρχείων μας είναι στο /media/myDisk/myDirectory
+
+Κάπου ανάμεσα στα  <VirtualHost *:80>  </VirtualHost>
+
+βάζουμε τις παρακάτω γραμμές, για κάθε ξεχωριστό path
+
+Alias /media/myDisk/myDirectory "/media/myDisk/myDirectory"
+<Directory "/media/myDisk/myDirectory">
+     Order allow,deny
+     Allow from all
+     Require all granted
+</Directory>
+
+κάνουμε restart τον Apache
+
+sudo service apache2 restart
+
+
 
 ΣΥΓΧΡΟΝΙΣΜΟΣ
 
