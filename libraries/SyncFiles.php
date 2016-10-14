@@ -185,6 +185,8 @@ class SyncFiles
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
         if($mediaKind=='Music') {
             OWMP::createDirectory(ALBUM_COVERS_DIR); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+            if(!is_dir(ALBUM_COVERS_DIR . 'default.gif'))   // Αν δεν υπάρχει το default.gif το αντιγράφουμε
+                copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif');
 
             if(CONVERT_ALAC_FILES) {
                 // Έλεγχοι φακέλων που χρειάζονται
