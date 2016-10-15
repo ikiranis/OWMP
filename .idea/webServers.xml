@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="435459b9-a053-40ab-b165-a6099fbb6cff" name="OWMP Web" url="http://rocean.ddns.net:9999/OpenWebMediaPlayer">
-        <fileTransfer host="192.168.1.19" port="22" rootFolder="/var/www/html/OpenWebMediaPlayer" accessType="SFTP" password="dfcedfc5dfc9dfdfdfc7dfcfdfc4dfdedfd9df98df9adf9bdf9f" username="drop">
+        <fileTransfer host="192.168.1.19" port="22" rootFolder="/var/www/html/OpenWebMediaPlayer" accessType="SFTP" password="df8bdfdadfcbdfc5dfc1df9bdf93df9bdf9d" username="drop">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>
