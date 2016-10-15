@@ -63,7 +63,20 @@ $lang = new Language();
 
 // Τραβάει τιμές από την βάση
 $MusicMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
+if($MusicMainDir) {
+    define ('ALBUM_COVERS_DIR', $MusicMainDir.'/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
+    define ('MUSIC_UPLOAD', $MusicMainDir.'/Converted/');  // O φάκελος που μετατρέπονται τα mp3
+}
+else {
+    define ('ALBUM_COVERS_DIR', null);  // Ο φάκελος που ανεβαίνουν τα covers
+    define ('MUSIC_UPLOAD', null);  // O φάκελος που μετατρέπονται τα mp3
+}
+
 $MusicVideoMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music Video'), 'file_path');
+if($MusicVideoMainDir)
+    define ('FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
+else define ('FILE_UPLOAD', null);
+
 $convertALACOption= $conn->getOption('convert_alac_files');
 if ($convertALACOption=='true')
     define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
@@ -78,10 +91,8 @@ define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κ�
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 
 // Paths που χρησιμοποιεί η εφαρμογή
-define ('ALBUM_COVERS_DIR', $MusicMainDir.'/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
-define ('MUSIC_UPLOAD', $MusicMainDir.'/Converted/');  // O φάκελος που μετατρέπονται τα mp3
 define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'ConvertedMusic/');
-define ('FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
+
 
 
 
@@ -90,17 +101,10 @@ $defaultArtwork=RoceanDB::getTableFieldValue('album_arts', 'filename=?', 'defaul
 if($defaultArtwork)
     define ('DEFAULT_ARTWORK_ID', $defaultArtwork);
 else {
-//    if($MusicMainDir) {
-//        if (OWMP::createDirectory(ALBUM_COVERS_DIR)) {  // Δημιουργεί το directory αν δεν υπάρχει
-//            // Αν δεν υπάρχει ήδη εγγραφή, αντιγράφει το default.gif και κάνει την εγγραφή
-//            if (copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif')) {
-        $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
-        $artsArray = array('', 'default.gif', '');
-        if ($coverID = $conn->ExecuteSQL($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
-            define('DEFAULT_ARTWORK', $coverID);
-//            }
-//        }
-//    }
+    $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
+    $artsArray = array('', 'default.gif', '');
+    if ($coverID = $conn->ExecuteSQL($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
+        define('DEFAULT_ARTWORK', $coverID);
 }
 
 // API keys
