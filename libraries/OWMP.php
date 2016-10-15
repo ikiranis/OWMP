@@ -1366,9 +1366,11 @@ class OWMP
 
     // Κατεβάζει ένα βίντεο από το Youtube
     static function downloadYoutube($url) {
+        trigger_error(FILE_UPLOAD);
+        
         if(!FILE_UPLOAD)
             exit('Δεν έχεις σετάρει Music Video path');
-         
+
         $myYear = date('Y');
         $myMonth = date('m');
         $fileDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
