@@ -766,11 +766,17 @@ class OWMP
                        value="Metadata">
 
 
+                <?php
+                if(!FILE_UPLOAD) // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+                    $disableYoutube='disabled';
+                else $disableYoutube=null;
+                ?>
 
                 <p>
                     <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
                     <input type="button" id="downloadYouTube" name="downloadYouTube" onclick="downloadYouTube();"
-                       value="Download YouTube">
+                       value="Download YouTube" <?php echo $disableYoutube; ?>>
+                    <?php if ($disableYoutube) echo 'Δεν έχει οριστεί Music Video path'; ?>
                 </p>
                    
             </div>
@@ -1367,7 +1373,7 @@ class OWMP
     // Κατεβάζει ένα βίντεο από το Youtube
     static function downloadYoutube($url) {
         trigger_error(FILE_UPLOAD);
-        
+
         if(!FILE_UPLOAD)
             exit('Δεν έχεις σετάρει Music Video path');
 
