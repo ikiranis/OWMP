@@ -3,7 +3,8 @@
 - Κάνουμε import το sql script στην βάση. Το αρχείο είναι το OWMP.sql και βρίσκεται στο root του project. Μετά το
 import καλό είναι να το σβήσετε.
 
-- Κατεβάζουμε τα αρχεία της εφαρμογής στον φάκελο που θέλουμε στον web server
+- Κατεβάζουμε τα αρχεία της εφαρμογής στον φάκελο που θέλουμε στον web server. Ή με download ή απευθείας με git
+    git clone https://rocean@bitbucket.org/rocean/owmp.git /myWebServerPath
 
 - Μετονομάζουμε το libraries/config.inc.php.sample σε libraries/config.inc.php και βάζουμε τα στοιχεία της mysql
 
