@@ -8,8 +8,7 @@ import καλό είναι να το σβήσετε.
     git clone https://rocean@bitbucket.org/rocean/owmp.git /myWebServerPath
 
 - Μετονομάζουμε το libraries/config.inc.php.sample σε libraries/config.inc.php και βάζουμε τα στοιχεία της mysql
-
-- Στο αρχείο common.inc.php πειράζουμε την γραμμή
+    Επίσης πειράζουμε την γραμμή
         define ('PROJECT_PATH','/OpenWebMediaPlayer/');
     και βάζουμε το directory στο οποίο έχουμε κατεβάσει την εφαρμογή
         define ('PROJECT_PATH','/');

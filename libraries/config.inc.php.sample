@@ -5,7 +5,7 @@
  * Date: 13/10/16
  * Time: 19:08
  *
- * Ρυθμίσεις mysql
+ * Ρυθμίσεις mysql και άλλων βασικών στοιχείων που ορίζει ο χρήστης
  *
  */
 
@@ -14,4 +14,7 @@
 define('CONNSTR', 'mysql:host=localhost;dbname=XXXXXXX');
 define('DBUSER', 'XXXXXX');
 define('DBPASS', 'XXXXXX');
+
+define ('PROJECT_PATH','/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
+define('PAGE_TITTLE','Open Web Media Player');     // ονομασία της εφαρμογής που θα φαίνεται στον τίτλο της σελίδας
 
