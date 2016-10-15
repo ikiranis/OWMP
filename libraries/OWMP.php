@@ -767,17 +767,26 @@ class OWMP
 
 
                 <?php
-                if(!FILE_UPLOAD) // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
-                    $disableYoutube='disabled';
-                else $disableYoutube=null;
+                if(FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+
+                    if(self::createDirectory(FILE_UPLOAD)) {
+
+                        ?>
+                        <p>
+                            <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
+                            <input type="button" id="downloadYouTube" name="downloadYouTube"
+                                   onclick="downloadYouTube();"
+                                   value="Download YouTube" >
+                        </p>
+
+                        <?php
+                    }
+
+                }
+                else echo 'Δεν έχει οριστεί Music Video path';
                 ?>
 
-                <p>
-                    <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
-                    <input type="button" id="downloadYouTube" name="downloadYouTube" onclick="downloadYouTube();"
-                       value="Download YouTube" <?php echo $disableYoutube; ?>>
-                    <?php if ($disableYoutube) echo 'Δεν έχει οριστεί Music Video path'; ?>
-                </p>
+
                    
             </div>
 
@@ -1372,11 +1381,6 @@ class OWMP
 
     // Κατεβάζει ένα βίντεο από το Youtube
     static function downloadYoutube($url) {
-        trigger_error(FILE_UPLOAD);
-
-        if(!FILE_UPLOAD)
-            exit('Δεν έχεις σετάρει Music Video path');
-
         $myYear = date('Y');
         $myMonth = date('m');
         $fileDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
