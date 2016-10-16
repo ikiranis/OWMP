@@ -47,8 +47,8 @@ import καλό είναι να το σβήσετε.
 
     Για κάθε media kind (Music/Music Video) σετάρουμε δηλαδή κι ένα main path.
 
-    ΠΡΟΣΟΧΗ: Αν path που θα βάλουμε είναι έξω από το web directory του server πρέπει να ορίσουμε alias στο
-    virtualhost για το καθένα (οδηγίες παρακάτω)
+    ΠΡΟΣΟΧΗ: Αν το path που θα βάλουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να
+    ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)
 
     Αν το path είναι μέσα στο web folder (π.χ /var/www/html/) τότε για path (για videos π.χ.) βάζουμε κάτι σαν αυτό
     /var/www/html/myVideos και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost. Για να παίξει σωστά όμως
