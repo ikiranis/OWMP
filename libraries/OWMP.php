@@ -1454,26 +1454,23 @@ class OWMP
 
         $conn = new RoceanDB();
 
-        if(!$conn->getOption('interval_value'))
-            $conn->createOption('interval_value', '5', 1, 0);
+//        if(!$conn->getOption('interval_value'))
+//            $conn->createOption('interval_value', '5', 1, 0);
         
-        if(!$conn->getOption('mail_host'))
-            $conn->createOption('mail_host', 'smtp.gmail.com', 1, 0);
-        
-        if(!$conn->getOption('mail_username'))
-            $conn->createOption('mail_username', 'username', 1, 0);
-        
-        if($mailPass=$conn->getOption('mail_password')) {
-            trigger_error($mailPass);
-            if ($mailPass == '')
-                $conn->changeOption('mail_password', '12345678');
-        } else $conn->createOption('mail_password', '12345678',1,1);
-        
-        if(!$conn->getOption('mail_from'))
-            $conn->createOption('mail_from', 'username@mail.com', 1, 0);
-        
-        if(!$conn->getOption('mail_from_name'))
-            $conn->createOption('mail_from_name', 'name', 1, 0);
+//        if(!$conn->getOption('mail_host'))
+//            $conn->createOption('mail_host', 'smtp.gmail.com', 1, 0);
+//
+//        if(!$conn->getOption('mail_username'))
+//            $conn->createOption('mail_username', 'username', 1, 0);
+//
+//        if(!$conn->getOption('mail_password')) {
+//            $conn->createOption('mail_password', '12345678',1,1);
+//
+//        if(!$conn->getOption('mail_from'))
+//            $conn->createOption('mail_from', 'username@mail.com', 1, 0);
+//
+//        if(!$conn->getOption('mail_from_name'))
+//            $conn->createOption('mail_from_name', 'name', 1, 0);
         
         if(!$conn->getOption('convert_alac_files'))
             $conn->createOption('convert_alac_files', 'false', 1, 0);
