@@ -1464,6 +1464,7 @@ class OWMP
             $conn->createOption('mail_username', 'username', 1, 0);
         
         if($mailPass=$conn->getOption('mail_password')) {
+            trigger_error($mailPass);
             if ($mailPass == '')
                 $conn->changeOption('mail_password', '12345678');
         } else $conn->createOption('mail_password', '12345678',1,1);
@@ -1487,7 +1488,7 @@ class OWMP
             $conn->createOption('syncItunes', 'false', 1, 0);
 
         if(!$conn->getOption('web_folder_path'))
-            $conn->createOption('web_folder_path', '/var/www/html/', 1, 0);
+            $conn->createOption('web_folder_path', 'var/www/html/', 1, 0);
         
         
     }
