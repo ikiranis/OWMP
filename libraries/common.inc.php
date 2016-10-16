@@ -55,6 +55,9 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
+// ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
+OWMP::startBasicOptions();
+
 $conn = new RoceanDB();
 $lang = new Language();
 
@@ -84,6 +87,8 @@ if ($conn->getOption('syncItunes')=='true')
 else define ('SYNC_ITUNES', false);
 
 
+
+define ('WEB_FOLDER_PATH',$conn->getOption('web_folder_path'));  // To path του web folder
 define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 

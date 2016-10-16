@@ -641,16 +641,18 @@ function loadNextVideo(id) {
         callFile=callFile+'&onlyGiphy=true';
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
-        // console.log(data);
-        file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
-        myVideo.src = file_path;
-        console.log(myVideo.src);
+
 
 
         filename=data.file.filename; // σκέτο το filename
 
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
             // console.log(data);
+            data.file.path=data.file.path.replace(WebFolderPath,'');
+            file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
+
+            myVideo.src = file_path;
+            console.log(myVideo.src);
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 

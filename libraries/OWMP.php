@@ -1454,22 +1454,42 @@ class OWMP
 
         $conn = new RoceanDB();
 
-        $someOption = $conn->getOption('convert_alac_files');
-
-        if (!$someOption)
-        {  // αρχικοποίηση options
+        if(!$conn->getOption('interval_value'))
             $conn->createOption('interval_value', '5', 1, 0);
+        
+        if(!$conn->getOption('mail_host'))
             $conn->createOption('mail_host', 'smtp.gmail.com', 1, 0);
+        
+        if(!$conn->getOption('mail_username'))
             $conn->createOption('mail_username', 'username', 1, 0);
-            $conn->createOption('mail_password', '', 1, 1);
+        
+        if($mailPass=$conn->getOption('mail_password')) {
+            if ($mailPass == '')
+                $conn->changeOption('mail_password', '12345678');
+        } else $conn->createOption('mail_password', '12345678',1,1);
+        
+        if(!$conn->getOption('mail_from'))
             $conn->createOption('mail_from', 'username@mail.com', 1, 0);
+        
+        if(!$conn->getOption('mail_from_name'))
             $conn->createOption('mail_from_name', 'name', 1, 0);
+        
+        if(!$conn->getOption('convert_alac_files'))
             $conn->createOption('convert_alac_files', 'false', 1, 0);
+        
+        if(!$conn->getOption('playlist_limit'))
             $conn->createOption('playlist_limit', '150', 1, 0);
+        
+        if(!$conn->getOption('dir_prefix'))
             $conn->createOption('dir_prefix', '/', 1, 0);
+        
+        if(!$conn->getOption('syncItunes'))
             $conn->createOption('syncItunes', 'false', 1, 0);
 
-        }
+        if(!$conn->getOption('web_folder_path'))
+            $conn->createOption('web_folder_path', '/var/www/html/', 1, 0);
+        
+        
     }
     
     

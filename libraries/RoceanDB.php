@@ -499,9 +499,13 @@ class RoceanDB
     // Δημιουργία ενός option
     public function createOption ($option, $value, $setting, $encrypt) {
         self::CreateConnection();
+        $crypto = new Crypto();
 
         $sql = 'INSERT INTO options (option_name, option_value, setting, encrypt) VALUES(?,?,?,?)';
         $stmt = RoceanDB::$conn->prepare($sql);
+
+        if($encrypt==1)
+            $value= $crypto->EncryptText($value);
 
         if($stmt->execute(array($option, $value, $setting, $encrypt)))
 
@@ -525,15 +529,15 @@ class RoceanDB
 
         $stmt->execute(array($option));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            $result=$item['option_value'];
+            $result = $item['option_value'];
+            if($result && $item['encrypt']==1)
+                $result= $crypto->DecryptText($result);
+        }
 
         else $result=false;
 
-
-        if($item['encrypt']==1)
-            $result= $crypto->DecryptText($result);
 
         $stmt->closeCursor();
         $stmt = null;
@@ -553,6 +557,31 @@ class RoceanDB
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 
             $result=$item['encrypt'];
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Καθαρίζει τα options από διπλοεγγραφές
+    static function clearOptions() {
+        self::CreateConnection();
+
+        $sql = 'DELETE FROM options
+                WHERE option_id NOT IN (SELECT * 
+                FROM (SELECT MIN(o.option_id)
+                            FROM options o
+                            GROUP BY o.option_name) x)';
+
+        $stmt = self::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result=true;
 
         else $result=false;
 
@@ -937,6 +966,7 @@ class RoceanDB
 
         return $result;
     }
+
 
 
     

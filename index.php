@@ -58,6 +58,7 @@ $logged_in=false;
         var AJAX_path="<?php echo AJAX_PATH; ?>";  // ο κατάλογος των AJAX files
         var DIR_PREFIX="<?php echo DIR_PREFIX; ?>";
         var Album_covers_path="<?php echo ALBUM_COVERS_DIR; ?>";
+        var WebFolderPath="<?php echo WEB_FOLDER_PATH; ?>";
 
     </script>
 
