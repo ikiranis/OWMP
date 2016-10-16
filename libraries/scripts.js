@@ -648,8 +648,8 @@ function loadNextVideo(id) {
 
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
             // console.log(data);
-            data.file.path=data.file.path.replace(WebFolderPath,'');
-            file_path=DIR_PREFIX+data.file.path+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
+            var thePath=data.file.path.replace(WebFolderPath,'');
+            file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
             myVideo.src = file_path;
             console.log(myVideo.src);
