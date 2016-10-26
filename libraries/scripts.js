@@ -847,6 +847,7 @@ function update_tags(key_rating) {
                     $("#fileID"+currentID).find('.song_name').text(song_name);
                     $("#fileID"+currentID).find('.artist').text(artist);
                     $("#fileID"+currentID).find('.genre').text(genre);
+                    $("#fileID"+currentID).find('.album').text(album);
                     $("#fileID"+currentID).find('.song_year').text(song_year);
                     $("#fileID"+currentID).find('.rating').text(rating);
                 }
@@ -1346,6 +1347,11 @@ function controlTrack() {
     myVideo.currentTime=PercentToTrackSeconds;
 }
 
+function displayCoverImage(elem) {
+    $('.coverImage').hide();
+    $('#'+elem).find('img').show();
+}
+
 
 
 
@@ -1426,31 +1432,31 @@ $(function(){
         }
 
     });
-
+    // $("#FormMassiveTags input")
     // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
-    $("#FormTags input").click(function() {
+    $("#FormTags input, #FormMassiveTags input, #SearchForm input").click(function() {
         FocusOnForm=true;
     });
 
-    $("#FormTags input").focus(function() {
+    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focus(function() {
         FocusOnForm=true;
     });
 
-    $("#FormTags input").focusout(function() {
+    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focusout(function() {
         FocusOnForm=false;
     });
 
 
     // έλεγχος του focus στην SearchForm
-    $("#SearchForm input").click(function() {
+    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").click(function() {
         FocusOnForm=true;
     });
 
-    $("#SearchForm input").focus(function() {
+    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focus(function() {
         FocusOnForm=true;
     });
 
-    $("#SearchForm input").focusout(function() {
+    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focusout(function() {
         FocusOnForm=false;
     });
 
@@ -1649,7 +1655,6 @@ $(function(){
 
 
     });
-
 
 
 

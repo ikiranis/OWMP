@@ -91,6 +91,7 @@ else define ('SYNC_ITUNES', false);
 define ('WEB_FOLDER_PATH',$conn->getOption('web_folder_path'));  // To path του web folder
 define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
+define ('DATE_FORMAT',$conn->getOption('date_format'));  // To format των ημερομηνιών που εμφανίζονται στο site
 
 // Paths που χρησιμοποιεί η εφαρμογή
 define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'ConvertedMusic/');

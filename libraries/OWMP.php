@@ -285,15 +285,15 @@ class OWMP
                 
                 <input type="file" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
            
-                <input type="button" class="myButton" name="submit" id="submit"
-                       value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
-            
-                <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
-
+                <div id="editTagButtons">
+                    <input type="button" class="myButton" name="submit" id="submit"
+                           value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
+                
+                    <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
+                </div>
 
         </div>
 
-        <div id="playlistBar">
 
             <div id="ChooseMediaKind">
                 <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
@@ -418,7 +418,6 @@ class OWMP
             }
             ?>
 
-        </div>
 
         <div id="playlist_container">
 
@@ -470,7 +469,7 @@ class OWMP
 
                                                     maxlength="255" required type="<?php if($option['encrypt']==0) echo 'text'; else echo 'password'; ?>" name="option_value" value="<?php if($option['encrypt']==0) echo $option['option_value']; ?>"></span>
 
-                        <input type="button" class="pdate_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
+                        <input type="button" class="update_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
 
                         <input type="button" class="message" id="messageOptionID<?php echo $option['option_id']; ?>">
                     </form>
@@ -1060,33 +1059,37 @@ class OWMP
         <div id="playlistTable">
 
 
+            <div class="tag kind"></div>
+
             <div class="tag delete_file">
                 <input type="checkbox" id="checkAll" name="checkAll" onchange="changeCheckAll('checkAll', 'check_item[]');">
             </div>
 
-            <div class="tag song_name playlistTittle">
-                <?php echo 'Title'; ?>
+
+
+            <div class="tag song_name playlistTittle" title="<?php echo __('tag_title'); ?>">
+                <?php echo __('tag_title'); ?>
             </div>
-            <div class="tag artist playlistTittle">
-                <?php echo 'Artist'; ?>
+            <div class="tag artist playlistTittle" title="<?php echo __('tag_artist'); ?>">
+                <?php echo __('tag_artist'); ?>
             </div>
-            <div class="tag album playlistTittle">
-                <?php echo 'Album'; ?>
+            <div class="tag album playlistTittle" title="<?php echo __('tag_album'); ?>">
+                <?php echo __('tag_album'); ?>
             </div>
-            <div class="tag genre playlistTittle">
-                <?php echo 'Genre'; ?>
+            <div class="tag genre playlistTittle" title="<?php echo __('tag_genre'); ?>">
+                <?php echo __('tag_genre'); ?>
             </div>
-            <div class="tag song_year playlistTittle">
-                <?php echo 'Year'; ?>
+            <div class="tag song_year playlistTittle" title="<?php echo __('tag_year'); ?>">
+                <?php echo __('tag_year'); ?>
             </div>
-            <div class="tag play_count playlistTittle">
-                <?php echo 'Playcount'; ?>
+            <div class="tag play_count playlistTittle" title="<?php echo __('tag_play_count'); ?>">
+                <?php echo __('tag_play_count'); ?>
             </div>
-            <div class="tag rating playlistTittle">
-                <?php echo 'Rating'; ?>
+            <div class="tag rating playlistTittle" title="<?php echo __('tag_rating'); ?>">
+                <?php echo __('tag_rating'); ?>
             </div>
-            <div class="tag date_added playlistTittle">
-                <?php echo 'Date Added'; ?>
+            <div class="tag date_added playlistTittle" title="<?php echo __('tag_date_added'); ?>">
+                <?php echo __('tag_date_added'); ?>
             </div>
 
 
@@ -1097,7 +1100,12 @@ class OWMP
 
             foreach ($playlist as $track) {
                 ?>
-                <div id="fileID<?php echo $track['id']; ?>" class="track" >
+                <div id="fileID<?php echo $track['id']; ?>" class="track" onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');">
+
+
+                    <div class="tag kind <?php if ($track['kind']=='Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
+                         title="<?php if ($track['kind']=='Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
+                     
 
                     <?php
 
@@ -1106,6 +1114,16 @@ class OWMP
                         if($UserGroupID==1) {
                             ?>
                             <div class="tag delete_file">
+
+                                <?php
+                                    if ($track['kind']=='Music')
+                                    {
+                                    ?>
+                                        <img class="coverImage" src="<?php echo ALBUM_COVERS_DIR.self::getAlbumImagePath($track['album_artwork_id']); ?>">
+                                    <?php
+                                    }
+                                ?>
+
                                 <input type="checkbox" id="check_item[]" name="check_item[]" value="<?php echo $track['id']; ?>">
 
                                 <input type="button" class="play_button playlist_button_img"
@@ -1124,6 +1142,8 @@ class OWMP
                             <?php
                         }
                     ?>
+
+
 
                     <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
                         <?php echo $track['song_name']; ?>
@@ -1147,7 +1167,7 @@ class OWMP
                         <?php echo ( ($track['rating']/20) ); ?>
                     </div>
                     <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
-                        <?php echo $track['date_added']; ?>
+                        <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
                     </div>
                 </div>
 
@@ -1558,6 +1578,9 @@ class OWMP
 
         if(!$conn->getOption('web_folder_path'))
             $conn->createOption('web_folder_path', 'var/www/html/', 1, 0);
+
+        if(!$conn->getOption('date_format'))
+            $conn->createOption('date_format', 'Y-m-d', 1, 0);
         
         
     }

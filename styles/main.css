@@ -606,14 +606,6 @@ input {
 
 
 
-/*Video form tags*/
-
-/*#FormTags input {*/
-    /*width:100%;*/
-/*}*/
-
-
-
 #FormTags input:disabled {
     background-color: #CFD8DC;
     color: grey;
@@ -659,7 +651,7 @@ input {
 
 #FormTags #live {
     margin-top: 0.2em;
-    width: 31%;
+    width: 30%;
     font-size:0.8em;
     margin-left:0.2em;
     float: right;
@@ -721,12 +713,14 @@ input {
 /*FormMassiveTags*/
 
 #editTag {
-    position: fixed;
+    position: absolute;
     display: none;
     background-color: white;
+    right: 0;
     width: 50%;
     height: auto;
     border: solid 1px black;
+    padding: 1em;
     z-index:10;
 }
 
@@ -734,6 +728,75 @@ input {
     width:5em;
     height:5em;
 }
+
+#editTag #artist {
+    font-size: 1em;
+    margin-top: 0.2em;
+    width:100%;
+}
+
+#editTag #album {
+    font-size: 0.8em;
+    margin-top: 0.2em;
+    width:100%;
+}
+
+#editTag #genre {
+    font-size: 0.8em;
+    margin-top: 0.2em;
+    width:33%;
+    float: left;
+    display: inline-block;
+}
+
+#editTag #year {
+    font-size: 0.8em;
+    margin-top: 0.2em;
+    width:33%;
+    margin-left:0.2em;
+    float: left;
+    display: inline-block;
+}
+
+#editTag #live {
+    margin-top: 0.2em;
+    width: 30%;
+    font-size:0.8em;
+    margin-left:0.2em;
+    float: right;
+    display: inline-block;
+}
+
+
+#editTag #rating {
+    -webkit-appearance: none;
+    width: 90%;
+    height:10px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px #333;
+    background-image:linear-gradient(to right, white, black 100%);
+
+    transition: background 450ms;
+}
+
+
+
+#editTag #rating_output {
+    border: 1px solid black;
+    background-color: white;
+    width: 1em;
+    height: auto;
+    text-align: center;
+    display: inline-block;
+}
+
+#editTag #editTagButtons {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+
 
 
 
@@ -947,11 +1010,10 @@ input {
     width:100%;
     display: block;
     text-align: right;
-    padding: 0.3em 0 0.3em 0;
+    padding: 0em 0 0.3em 0;
 }
 
 .myButton {
-    margin-top:0.5em;
     background-color: black;
     color: white;
     width: auto;
@@ -961,7 +1023,7 @@ input {
     box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
     cursor: pointer;
     transition:all 0.5s;
-    margin-left: 0.5em;
+    margin: 0.1em 0.5em 0.1em 0.5em;
 }
 
 
@@ -993,14 +1055,10 @@ input {
     font-weight: bold;
 }
 
-#playlistBar {
-    display: block;
-    margin-bottom: 0.5em;
-}
 
 #playlist_container {
     overflow-y: scroll;
-    height:90%;
+    height:95%;
 }
 
 #playlistTable {
@@ -1038,13 +1096,32 @@ input {
     display: table-cell;
     white-space: nowrap;
     overflow: hidden;
-    padding-left:1em;
+    padding-left: 0.5em;
+}
+
+.kind {
+    max-width: 1em;
+    padding: 0.4em;
+}
+
+.kind_music {
+    background-image: url( '../img/music.png' );
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: center center;
+}
+
+.kind_music_video {
+    background-image: url( '../img/music_video.png' );
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: center center;
 }
 
 .delete_file {
     width: 0.2em;
     margin: 0;
-    z-index: 100;
+    z-index: 10;
 }
 
 .song_name {
@@ -1060,23 +1137,23 @@ input {
 }
 
 .genre {
-    width: 2em;
+    max-width: 2em;
 }
 
 .song_year {
-    width: 2em;
+    max-width: 2em;
 }
 
 .play_count {
-    width: 1em;
+    max-width: 1em;
 }
 
 .rating {
-    width: 1em;
+    max-width: 1em;
 }
 
 .date_added {
-    width: 3em;
+    max-width: 3em;
 }
 
 .play_button {
@@ -1098,6 +1175,18 @@ input {
     position: relative;
     display: inline-block;
     background-position: center center;
+}
+
+
+.coverImage {
+    display: none;
+    position: fixed;
+    left: 0%;
+    top:50%;
+    width: 15em;
+    height: 15em;
+    padding-left:1em;
+    z-index:10;
 }
 
 
