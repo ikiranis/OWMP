@@ -177,7 +177,7 @@ class OWMP
             <?php
                 if ($UserGroup==1)  {
             ?>
-            <input type="button" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
+            <input type="button" class="myButton" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
                 value="<?php echo __('tag_form_submit'); ?>" onclick="update_tags();">
             <?php
             }
@@ -275,6 +275,8 @@ class OWMP
 
         <div id="progress"></div>
 
+
+<!--        Εμφάνιση του παραθύρου για edit tags-->
         <div id="editTag">
 
             <?php $tags->MakeForm('FormMassiveTags', $FormElementsArray, true); ?>
@@ -283,116 +285,140 @@ class OWMP
                 
                 <input type="file" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
            
-                <input type="button" name="submit" id="submit" 
+                <input type="button" class="myButton" name="submit" id="submit"
                        value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
             
-                <input type="button" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
+                <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
 
 
         </div>
-        
-        <details>
-            <summary>
-                Search
 
-                <div id="ChooseMediaKind">
-                    <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
-                        <option value="">
-                            All
-                        </option>
-                        <?php
-                        foreach ($mediaKinds as $kind) {
-                            ?>
-                            <option value="<?php echo $kind; ?>">
-                                <?php echo $kind; ?>
-                            </option>
+        <div id="playlistBar">
 
-                            <?php
-                        }
+            <div id="ChooseMediaKind">
+                <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
+                    <option value="">
+                        All
+                    </option>
+                    <?php
+                    foreach ($mediaKinds as $kind) {
                         ?>
-                    </select>
-                </div>
-                
-            </summary>
-            <div id="search">
-                <form id="SearchForm" name="SearchForm">
-                    <?php
+                        <option value="<?php echo $kind; ?>">
+                            <?php echo $kind; ?>
+                        </option>
 
-                    for($counter=1;$counter<6;$counter++) {
-
-                    ?>
-                    <div id="searchRow<?php echo $counter; ?>">
-                        <label for="search_field<?php echo $counter; ?>">
-                            <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
-                                <?php
-                                foreach ($fields as $field) {
-                                    ?>
-                                    <option value="<?php echo $field; ?>">
-                                        <?php echo $field; ?>
-                                    </option>
-
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </label>
-
-                        <select class="search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
-
-                            <option value="equal">
-                                Equal
-                            </option>
-
-                            <option value="greater">
-                                Greater
-                            </option>
-
-                            <option value="less">
-                                Less
-                            </option>
-
-
-                        </select>
-
-                        <label for="search_text<?php echo $counter; ?>">
-                            <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
-                        </label>
-
-                        <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
-
-                                <option value="OR">
-                                    OR
-                                </option>
-
-                                <option value="AND">
-                                    AND
-                                </option>
-
-                        </select>
-                    </div>
-
-                    <?php
+                        <?php
                     }
                     ?>
-
-                    <input type="button" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
-
-                    <input type="button" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
-
-                </form>
+                </select>
             </div>
 
+            <details id="search_details">
+                <summary>
+                    <span>Search</span>
+                </summary>
 
-        </details>
+                <div id="search">
+                    <form id="SearchForm" name="SearchForm">
+                        <?php
 
-        <script type="text/javascript">
+                        for($counter=1;$counter<6;$counter++) {
 
-            // περνάει στην javascript τα options των αντίστοιχων select
-            var liveOptions = <?php echo json_encode([__('tag_live_official'),__('tag_live_live')]); ?>;
+                        ?>
+                        <div id="searchRow<?php echo $counter; ?>">
+                            <label for="search_field<?php echo $counter; ?>">
+                                <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
+                                    <?php
+                                    foreach ($fields as $field) {
+                                        ?>
+                                        <option value="<?php echo $field; ?>">
+                                            <?php echo $field; ?>
+                                        </option>
 
-            var ratingOptions = <?php echo json_encode([0,1,2,3,4,5]); ?>;
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </label>
 
-        </script>
+                            <select class="search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
+
+                                <option value="equal">
+                                    Equal
+                                </option>
+
+                                <option value="greater">
+                                    Greater
+                                </option>
+
+                                <option value="less">
+                                    Less
+                                </option>
+
+
+                            </select>
+
+                            <label for="search_text<?php echo $counter; ?>">
+                                <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
+                            </label>
+
+                            <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
+
+                                    <option value="OR">
+                                        OR
+                                    </option>
+
+                                    <option value="AND">
+                                        AND
+                                    </option>
+
+                            </select>
+                        </div>
+
+                        <?php
+                        }
+                        ?>
+
+                        <input type="button" class="myButton" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
+
+                        <input type="button" class="myButton" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+
+                    </form>
+                </div>
+
+
+            </details>
+
+            <script type="text/javascript">
+
+                // περνάει στην javascript τα options των αντίστοιχων select
+                var liveOptions = <?php echo json_encode([__('tag_live_official'),__('tag_live_live')]); ?>;
+
+                var ratingOptions = <?php echo json_encode([0,1,2,3,4,5]); ?>;
+
+            </script>
+
+            <?php
+
+            // Εμφάνιση των edit buttons
+            $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+            if($UserGroupID==1) {
+                ?>
+                <div id="editButtons">
+                    <input type="button" class="delete_button playlist_button_img"
+                           title="<?php echo __('delete_file'); ?>"
+                           onclick="deleteFile(0);">
+                    <input type="button" class="edit_button playlist_button_img"
+                           title="<?php echo __('edit_file'); ?>"
+                           onclick="openMassiveTagsWindow();" >
+                </div>
+
+                <?php
+            }
+            ?>
+
+        </div>
 
         <div id="playlist_container">
 
@@ -407,14 +433,9 @@ class OWMP
                         <div id="playlistTable"></div>
                     <?php
                 }
+
             ?>
-
-
         </div>
-
-
-
-
 
         <?php
 
@@ -449,7 +470,7 @@ class OWMP
 
                                                     maxlength="255" required type="<?php if($option['encrypt']==0) echo 'text'; else echo 'password'; ?>" name="option_value" value="<?php if($option['encrypt']==0) echo $option['option_value']; ?>"></span>
 
-                        <input type="button" class="update_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
+                        <input type="button" class="pdate_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
 
                         <input type="button" class="message" id="messageOptionID<?php echo $option['option_id']; ?>">
                     </form>
@@ -582,7 +603,7 @@ class OWMP
         if($UserGroupID==1) {  // Αν είναι admin ο user εμφάνισε κουμπί για προσθήκη νέου user
             ?>
 
-            <input type="button" class="insert_row" name="insert_user" onclick="insertUser();" value="<?php echo __('insert_row'); ?>">
+            <input type="button" class="myButton insert_row" name="insert_user" onclick="insertUser();" value="<?php echo __('insert_row'); ?>">
             <?php
         }
         ?>
@@ -663,7 +684,7 @@ class OWMP
             ?>
 
         </div>
-        <input type="button" class="insert_row" name="insert_path" onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
+        <input type="button" class="myButton insert_row" name="insert_path" onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
 
         <?php
     }
@@ -753,16 +774,16 @@ class OWMP
                     ?>
                 </select>
 
-                <input type="button" id="startSync" name="startSync" onclick="startSync('sync');"
+                <input type="button" class="myButton" id="startSync" name="startSync" onclick="startSync('sync');"
                        value="<?php echo __('Synchronize'); ?>">
     
-                <input type="button" id="startClear" name="startClear" onclick="startSync('clear');"
+                <input type="button" class="myButton" id="startClear" name="startClear" onclick="startSync('clear');"
                        value="Clear">
 
-                <input type="button" id="startHash" name="startHash" onclick="startSync('hash');"
+                <input type="button" class="myButton" id="startHash" name="startHash" onclick="startSync('hash');"
                        value="Hash">
 
-                <input type="button" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
+                <input type="button" class="myButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
                        value="Metadata">
 
 
@@ -774,7 +795,7 @@ class OWMP
                         ?>
                         <p>
                             <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
-                            <input type="button" id="downloadYouTube" name="downloadYouTube"
+                            <input type="button" class="myButton" id="downloadYouTube" name="downloadYouTube"
                                    onclick="downloadYouTube();"
                                    value="Download YouTube" >
                         </p>
@@ -1013,10 +1034,66 @@ class OWMP
 
         $counter=0;
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+        if($duplicates==null) {
+            ?>
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="previous"
+                       onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="next"
+                       onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            </div>
+            <?php
+        } else {
+            ?>
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="previous"
+                       onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="next"
+                       onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            </div>
+            <?php
+        }
+
         ?>
 
         <div id="playlistTable">
+
+
+            <div class="tag delete_file">
+                <input type="checkbox" id="checkAll" name="checkAll" onchange="changeCheckAll('checkAll', 'check_item[]');">
+            </div>
+
+            <div class="tag song_name playlistTittle">
+                <?php echo 'Title'; ?>
+            </div>
+            <div class="tag artist playlistTittle">
+                <?php echo 'Artist'; ?>
+            </div>
+            <div class="tag album playlistTittle">
+                <?php echo 'Album'; ?>
+            </div>
+            <div class="tag genre playlistTittle">
+                <?php echo 'Genre'; ?>
+            </div>
+            <div class="tag song_year playlistTittle">
+                <?php echo 'Year'; ?>
+            </div>
+            <div class="tag play_count playlistTittle">
+                <?php echo 'Playcount'; ?>
+            </div>
+            <div class="tag rating playlistTittle">
+                <?php echo 'Rating'; ?>
+            </div>
+            <div class="tag date_added playlistTittle">
+                <?php echo 'Date Added'; ?>
+            </div>
+
+
+
             <?php
+
+
 
             foreach ($playlist as $track) {
                 ?>
@@ -1048,25 +1125,28 @@ class OWMP
                         }
                     ?>
 
-                    <div class="tag song_name">
+                    <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
                         <?php echo $track['song_name']; ?>
                     </div>
-                    <div class="tag artist">
+                    <div class="tag artist" title="<?php echo $track['artist']; ?>">
                         <?php echo $track['artist']; ?>
                     </div>
-                    <div class="tag genre">
+                    <div class="tag album" title="<?php echo $track['album']; ?>">
+                        <?php echo $track['album']; ?>
+                    </div>
+                    <div class="tag genre" title="<?php echo $track['genre']; ?>">
                         <?php echo $track['genre']; ?>
                     </div>
-                    <div class="tag song_year">
+                    <div class="tag song_year" title="<?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>">
                         <?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>
                     </div>
-                    <div class="tag play_count">
+                    <div class="tag play_count" title="<?php echo $track['play_count']; ?>">
                         <?php echo $track['play_count']; ?>
                     </div>
-                    <div class="tag rating">
+                    <div class="tag rating" title="<?php echo ( ($track['rating']/20) ); ?>">
                         <?php echo ( ($track['rating']/20) ); ?>
                     </div>
-                    <div class="tag date_added">
+                    <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
                         <?php echo $track['date_added']; ?>
                     </div>
                 </div>
@@ -1085,33 +1165,25 @@ class OWMP
         <?php
         if($duplicates==null) {
             ?>
-            <input id="previous" type="button" value="previous"
-                   onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-            <input id="next" type="button" value="next"
-                   onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="previous"
+                       onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="next"
+                       onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            </div>
             <?php
         } else {
             ?>
-            <input id="previous" type="button" value="previous"
-                   onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-            <input id="next" type="button" value="next"
-                   onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="previous"
+                       onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="next"
+                       onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+            </div>
             <?php
         }
-            ?>
-            
-        <?php
-            if($UserGroupID==1) {
-                ?>
-                <input type="button" class="delete_button playlist_button_img"
-                       title="<?php echo __('delete_file'); ?>"
-                       onclick="deleteFile(0);">
-                <input type="button" class="edit_button playlist_button_img"
-                       title="<?php echo __('delete_file'); ?>"
-                       onclick="openMassiveTagsWindow();" value="edit">
-                
-                <?php
-            }
+
+
                
         if($_SESSION['PlaylistCounter']==0) {
             ?>

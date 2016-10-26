@@ -543,6 +543,22 @@ function ratingToStars(rating,elem) {
 }
 
 
+// Αλλάζει όλα τα checkItems checkboxes με την τιμή του checkAll
+function changeCheckAll(checkAll, checkItems) {
+    // Η τιμή του checkAll checkbox
+    var currentCheckAllValue = document.querySelector('input[name="'+checkAll+'"]').checked;
+
+    // Όλα τα elements που θέλουμε να αλλάξουμε
+    var all_checkboxes = document.querySelectorAll('input[name="'+checkItems+'"]');
+
+    for(var i = 0; i < all_checkboxes.length; i++) {
+        // Αλλαγή της τιμής όλων των checkbox elements με την currentCheckAllValue
+        all_checkboxes[i].checked = currentCheckAllValue;
+    }
+
+}
+
+
 
 // TODO συμβατότητα με safari και firefox. Ο Firefox δεν εμφανίζει τον div. Ο safari δεν δέχεται κάποια keys όταν είναι σε fullscreen
 // βάζει/βγάζει το video σε fullscren

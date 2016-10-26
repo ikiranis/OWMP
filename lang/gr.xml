@@ -93,6 +93,7 @@
 
     <page name="plalist">
         <phrase name="delete_file">Διαγραφή αρχείου</phrase>
+        <phrase name="edit_file">Επεξεργασία αρχείου</phrase>
         <phrase name="play_file">Αναπαραγωγή</phrase>
         <phrase name="add_to_playlist">Προσθήκη σε λίστα</phrase>
     </page>

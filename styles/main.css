@@ -1,3 +1,6 @@
+/*Color Pallettes*/
+/* https://material.google.com/style/color.html#color-color-palette */
+
 html, body {
     height:100%;
     width: 99%;
@@ -60,7 +63,7 @@ article {
     padding-bottom: 1em;
     height: 95%;
     display: block;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 article h2 {
@@ -500,6 +503,11 @@ footer span {
     background-repeat: no-repeat;
 }
 
+.edit_button {
+    background-image: url( '../img/edit.png' );
+    background-repeat: no-repeat;
+}
+
 .button_img {
     background-size: 1.5em;
     background-color: transparent;
@@ -925,12 +933,80 @@ input {
     display: none;
 }
 
+/*Buttons*/
+#editButtons {
+    position: absolute;
+    display: block;
+    text-align: right;
+    width: 10em;
+    right: 0;
+    top: 0;
+}
+
+#browseButtons {
+    width:100%;
+    display: block;
+    text-align: right;
+    padding: 0.3em 0 0.3em 0;
+}
+
+.myButton {
+    margin-top:0.5em;
+    background-color: black;
+    color: white;
+    width: auto;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.6em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition:all 0.5s;
+    margin-left: 0.5em;
+}
+
+
+
+
+.myButton:hover {
+    transform: scale(1.05);
+}
+
+
+/*Search*/
+#ChooseMediaKind {
+    position: absolute;
+    display: block;
+    width: auto;
+    left: 20%;
+    top:0;
+
+}
+
+#ChooseMediaKind #mediakind {
+    font-size: 0.7em;
+}
 
 
 /*Playlist*/
+
+.playlistTittle {
+    font-weight: bold;
+}
+
+#playlistBar {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+#playlist_container {
+    overflow-y: scroll;
+    height:90%;
+}
+
 #playlistTable {
     display: table;
     width: 100%;
+    height: 100%;
     font-size: 0.7em;
     border-collapse: collapse;
 }
@@ -958,7 +1034,6 @@ input {
 
 
 
-
 .tag {
     display: table-cell;
     white-space: nowrap;
@@ -978,6 +1053,10 @@ input {
 
 .artist {
     max-width: 5em;
+}
+
+.album {
+    max-width: 2em;
 }
 
 .genre {
