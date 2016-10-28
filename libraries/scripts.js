@@ -18,7 +18,7 @@ var myVideo;
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
 var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
 
-var PlaylistContainerHTML='';   // τα περιεχόμενα του div playlist_containter
+var PlaylistContainerHTML=null;   // τα περιεχόμενα του div playlist_containter
 
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
@@ -372,15 +372,20 @@ function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
     callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step;
 
-    if(page!==1)
-        PlaylistContainerHTML=$('#playlistTable').html();
+
+
+    if(page!==1) {
+        if(!$('#playlist_content').length==0)
+            PlaylistContainerHTML = $('#playlist_content').html();
+
+    }
 
 
     $('section article').load(callFile, function() {
 
         if(page==1) {
 
-            $('#playlistTable').html(PlaylistContainerHTML);
+            $('#playlist_content').html(PlaylistContainerHTML);
         }
 
 
@@ -939,6 +944,7 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
     $('#playlist_container').load(callFile, function() {
         // console.log('load is done');
         $('#progress').hide();
+        $('#search').hide();
     });
 
 }
@@ -1167,6 +1173,11 @@ function cancelEdit() {
     $('#editTag').hide();
 }
 
+// Κλείνει το παράθυρο για search
+function cancelTheSearch() {
+    $('#search').hide();
+}
+
 function readImage(files) {
     var selectedFile = document.getElementById('uploadFile').files[0];
 
@@ -1347,11 +1358,21 @@ function controlTrack() {
     myVideo.currentTime=PercentToTrackSeconds;
 }
 
+
+// Εμφανίζει το τρέχον cover image, όπου είναι ο κέρσορας
 function displayCoverImage(elem) {
     $('.coverImage').hide();
     $('#'+elem).find('img').show();
 }
 
+function hideCoverImage() {
+    $('.coverImage').hide();
+}
+
+// Εμφανίζει το παράθυρο για αναζήτηση
+function displaySearchWindow() {
+    $('#search').show();
+}
 
 
 

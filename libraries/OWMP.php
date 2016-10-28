@@ -30,6 +30,7 @@ class OWMP
                 'required' => 'no',
                 'maxlength' => '255',
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => null),
             array('name' => 'artist',
                 'fieldtext' => __('tag_artist'),
@@ -37,6 +38,7 @@ class OWMP
                 'required' => 'no',
                 'maxlength' => '255',
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => null),
             array('name' => 'album',
                 'fieldtext' => __('tag_album'),
@@ -44,6 +46,7 @@ class OWMP
                 'required' => 'no',
                 'maxlength' => '255',
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => null),
             array('name' => 'genre',
                 'fieldtext' => __('tag_genre'),
@@ -51,12 +54,14 @@ class OWMP
                 'required' => 'no',
                 'maxlength' => '20',
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => null),
             array('name' => 'year',
                 'fieldtext' => __('tag_year'),
                 'type' => 'number',
                 'required' => 'no',
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => null),
             array('name' => 'live',
                 'fieldtext' => __('tag_live'),
@@ -68,6 +73,7 @@ class OWMP
                 'required' => 'no',
                 'maxlength' => '1',
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => null),
             array('name' => 'rating',
                 'fieldtext' => __('tag_rating'),
@@ -79,6 +85,7 @@ class OWMP
                 'step' => '1',
                 'ticks' => array(0,1,2,3,4,5),
                 'disabled' => $disabled,
+                'readonly' => 'no',
                 'value' => '0'),
 
             
@@ -87,28 +94,32 @@ class OWMP
                 'fieldtext' => __('tag_play_count'),
                 'type' => 'number',
                 'required' => 'no',
-                'disabled' => 'yes',
+                'disabled' => 'no',
+                'readonly' => 'yes',
                 'value' => null),
             array('name' => 'track_time',
                 'fieldtext' => __('tag_track_time'),
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '10',
-                'disabled' => 'yes',
+                'disabled' => 'no',
+                'readonly' => 'yes',
                 'value' => null),
             array('name' => 'date_added',
                 'fieldtext' => __('tag_date_added'),
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '20',
-                'disabled' => 'yes',
+                'disabled' => 'no',
+                'readonly' => 'yes',
                 'value' => null),
             array('name' => 'date_played',
                 'fieldtext' => __('tag_date_played'),
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '20',
-                'disabled' => 'yes',
+                'disabled' => 'no',
+                'readonly' => 'yes',
                 'value' => null),
 
             array('name' => 'path_filename',
@@ -116,7 +127,8 @@ class OWMP
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '255',
-                'disabled' => 'yes',
+                'disabled' => 'no',
+                'readonly' => 'yes',
                 'value' => null)
 
         );
@@ -290,6 +302,8 @@ class OWMP
                            value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
                 
                     <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
+
+                    <input type="button" class="myButton" name="clearEdit" id="clearEdit" value="Clear" onclick="clearEdit();">
                 </div>
 
         </div>
@@ -313,81 +327,82 @@ class OWMP
                 </select>
             </div>
 
-            <details id="search_details">
-                <summary>
-                    <span>Search</span>
-                </summary>
+            <input type="button" id="searchClick" onclick="displaySearchWindow();">
 
-                <div id="search">
-                    <form id="SearchForm" name="SearchForm">
-                        <?php
+            <div id="search">
+                <form id="SearchForm" name="SearchForm">
+                    <?php
 
-                        for($counter=1;$counter<6;$counter++) {
+                    for($counter=1;$counter<6;$counter++) {
 
-                        ?>
-                        <div id="searchRow<?php echo $counter; ?>">
-                            <label for="search_field<?php echo $counter; ?>">
-                                <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
-                                    <?php
-                                    foreach ($fields as $field) {
-                                        ?>
-                                        <option value="<?php echo $field; ?>">
-                                            <?php echo $field; ?>
-                                        </option>
-
-                                        <?php
-                                    }
+                    ?>
+                    <div id="searchRow<?php echo $counter; ?>">
+                        <label for="search_field<?php echo $counter; ?>">
+                            <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
+                                <?php
+                                foreach ($fields as $field) {
                                     ?>
-                                </select>
-                            </label>
-
-                            <select class="search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
-
-                                <option value="equal">
-                                    Equal
-                                </option>
-
-                                <option value="greater">
-                                    Greater
-                                </option>
-
-                                <option value="less">
-                                    Less
-                                </option>
-
-
-                            </select>
-
-                            <label for="search_text<?php echo $counter; ?>">
-                                <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
-                            </label>
-
-                            <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
-
-                                    <option value="OR">
-                                        OR
+                                    <option value="<?php echo $field; ?>">
+                                        <?php echo $field; ?>
                                     </option>
 
-                                    <option value="AND">
-                                        AND
-                                    </option>
-
+                                    <?php
+                                }
+                                ?>
                             </select>
-                        </div>
+                        </label>
 
-                        <?php
-                        }
-                        ?>
+                        <select class="search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
 
+                            <option value="equal">
+                                Equal
+                            </option>
+
+                            <option value="greater">
+                                Greater
+                            </option>
+
+                            <option value="less">
+                                Less
+                            </option>
+
+
+                        </select>
+
+                        <label for="search_text<?php echo $counter; ?>">
+                            <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
+                        </label>
+
+                        <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
+
+                                <option value="OR">
+                                    OR
+                                </option>
+
+                                <option value="AND">
+                                    AND
+                                </option>
+
+                        </select>
+                    </div>
+
+                    <?php
+                    }
+                    ?>
+
+                    <div id="searchButtons">
                         <input type="button" class="myButton" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, 5);">
-
+    
                         <input type="button" class="myButton" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+    
+                        <input type="button" class="myButton" name="clearSearch" id="clearSearch" value="Clear" onclick="clearSearch();">
+                        
+                        <input type="button" class="myButton" name="cancelSearch" id="cancelSearch" value="Cancel" onclick="cancelTheSearch();" >
+                    </div>
+                </form>
+            </div>
 
-                    </form>
-                </div>
 
-
-            </details>
 
             <script type="text/javascript">
 
@@ -429,7 +444,7 @@ class OWMP
                 }
                 else {
                     ?>
-                        <div id="playlistTable"></div>
+                        <div id="playlist_content"></div>
                     <?php
                 }
 
@@ -439,6 +454,328 @@ class OWMP
         <?php
 
 
+
+    }
+
+    // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null) {
+        $conn = new RoceanDB();
+
+        $condition='';
+        $arrayParams=array();
+
+        if($fieldsArray)
+            foreach ($fieldsArray as $field) {
+
+                if($field['search_text']==='0')  // Βάζει ένα κενό όταν μηδέν, αλλιώς το νομίζει null
+                    $searchText = ' '.$field['search_text'];
+                else
+                    $searchText = $field['search_text'];
+
+
+
+                if( (!$field==null) && (!$searchText==null) ) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
+
+                    $fieldType=RoceanDB::getTableFieldType('music_tags',$field['search_field']);  // παίρνει το type του field
+//                    trigger_error($fieldType);
+                    if ( $fieldType=='int(11)' || $fieldType=='tinyint(4)' || $fieldType=='datetime' ) {   // αν το type είναι νούμερο
+                        if ($fieldType == 'datetime')
+                            $searchText = $field['search_text'];
+                        else {
+                            if ($field['search_field'] == 'rating')
+                                $searchText = intval($field['search_text']) * 20;
+                            else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
+                        }
+
+                        $equality=$field['search_equality'];
+                        switch ($equality) {
+                            case 'equal': $equality_sign='='; break;
+                            case 'greater': $equality_sign='>'; break;
+                            case 'less': $equality_sign='<'; break;
+                        }
+
+                        $condition = $condition . $field['search_field'] . $equality_sign.'? ' . $field['search_operator'] . ' ';
+                        $arrayParams[]=$searchText;
+                    }
+                    else {   // αν είναι string
+                        $searchText=ClearString($field['search_text']);
+                        $condition = $condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
+                        $arrayParams[]='%'.$searchText.'%';
+                    }
+
+
+
+
+                }
+            }
+
+        if (!$condition=='') {
+            $condition = page::cutLastString($condition, 'OR ');
+//            $condition = page::cutLastString($condition, 'AND ');
+
+            $_SESSION['condition']=$condition;  // Το κρατάει σε session για μελοντική χρήση
+            $_SESSION['arrayParams']=$arrayParams;
+        }
+        else $condition=null;
+
+
+
+        if(isset($_SESSION['condition']))
+            $condition=$_SESSION['condition'];
+
+        if(isset($_SESSION['arrayParams']))
+            $arrayParams=$_SESSION['arrayParams'];
+
+        // Επιλογές για join ώστε να πάρουμε το media kind από το files
+        if(isset($mediaKind)) {
+            if (!$condition=='')
+                $condition = '(' . $condition . ')' . ' AND files.kind=? ';
+            else $condition.=  ' files.kind=? ';
+
+            $arrayParams[]=$mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
+        }
+
+//        trigger_error('CONDITION   '.$condition);
+
+        if(!isset($_SESSION['PlaylistCounter'])){
+            $_SESSION['PlaylistCounter']=0;
+            $_SESSION['condition']=null;
+            $_SESSION['arrayParams']=null;
+        }
+
+
+        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
+
+        if($duplicates==null) {   // κανονική λίστα
+            if ($_SESSION['PlaylistCounter'] == 0) {
+                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
+                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+            }
+
+            $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);  // Η λίστα προς εμφάνιση
+
+        }
+        else {  // εμφάνιση διπλών εγγραφών
+            if ($_SESSION['PlaylistCounter'] == 0) {
+                $playlistToPlay = OWMP::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
+                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+            }
+
+            $playlist = OWMP::getFilesDuplicates($offset,$step);
+        }
+
+        // αντιγραφή του playlist σε αντίστοιχο table ώστε ο player να παίζει από εκεί
+//        $arrayToCopy=self::makePlaylistArrayToCopy($playlistToPlay);
+//        RoceanDB::copyArrayToTable($arrayToCopy, 'current_playlist');
+
+        $counter=0;
+        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+        ?>
+
+        <div id="playlist_content">
+
+            <?php
+
+            if($duplicates==null) {
+                ?>
+                <div id="browseButtons">
+                    <input id="previous" class="myButton" type="button" value="previous"
+                           onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                    <input id="next" class="myButton" type="button" value="next"
+                           onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                </div>
+                <?php
+            } else {
+                ?>
+                <div id="browseButtons">
+                    <input id="previous" class="myButton" type="button" value="previous"
+                           onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                    <input id="next" class="myButton" type="button" value="next"
+                           onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                </div>
+                <?php
+            }
+
+            ?>
+
+            <div id="playlistTable">
+
+
+                <div class="tag kind"></div>
+
+                <div class="tag delete_file">
+                    <input type="checkbox" id="checkAll" name="checkAll" onchange="changeCheckAll('checkAll', 'check_item[]');">
+                </div>
+
+
+
+                <div class="tag song_name playlistTittle" title="<?php echo __('tag_title'); ?>">
+                    <?php echo __('tag_title'); ?>
+                </div>
+                <div class="tag artist playlistTittle" title="<?php echo __('tag_artist'); ?>">
+                    <?php echo __('tag_artist'); ?>
+                </div>
+                <div class="tag album playlistTittle" title="<?php echo __('tag_album'); ?>">
+                    <?php echo __('tag_album'); ?>
+                </div>
+                <div class="tag genre playlistTittle" title="<?php echo __('tag_genre'); ?>">
+                    <?php echo __('tag_genre'); ?>
+                </div>
+                <div class="tag song_year playlistTittle" title="<?php echo __('tag_year'); ?>">
+                    <?php echo __('tag_year'); ?>
+                </div>
+                <div class="tag play_count playlistTittle" title="<?php echo __('tag_play_count'); ?>">
+                    <?php echo __('tag_play_count'); ?>
+                </div>
+                <div class="tag rating playlistTittle" title="<?php echo __('tag_rating'); ?>">
+                    <?php echo __('tag_rating'); ?>
+                </div>
+                <div class="tag date_added playlistTittle" title="<?php echo __('tag_date_added'); ?>">
+                    <?php echo __('tag_date_added'); ?>
+                </div>
+
+
+
+                <?php
+
+
+
+                foreach ($playlist as $track) {
+                    ?>
+                    <div id="fileID<?php echo $track['id']; ?>" class="track" onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
+                         onmouseout="hideCoverImage();">
+
+
+                        <div class="tag kind <?php if ($track['kind']=='Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
+                             title="<?php if ($track['kind']=='Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
+
+
+                        <?php
+
+
+
+                        if($UserGroupID==1) {
+                            ?>
+                            <div class="tag delete_file">
+
+                                <?php
+
+                                $coverImagePath=self::getAlbumImagePath($track['album_artwork_id']);
+
+                                if ($track['kind']=='Music' && $coverImagePath)
+                                {
+
+                                    ?>
+                                    <img class="coverImage" src="<?php echo ALBUM_COVERS_DIR.$coverImagePath; ?>">
+                                    <?php
+                                }
+                                ?>
+
+                                <input type="checkbox" id="check_item[]" name="check_item[]" value="<?php echo $track['id']; ?>">
+
+                                <input type="button" class="play_button playlist_button_img"
+                                       title="<?php echo __('play_file'); ?>"
+                                       onclick="loadNextVideo(<?php echo $track['id']; ?>);"">
+
+                                <input type="button" class="playlist_add_button playlist_button_img"
+                                       title="<?php echo __('add_to_playlist'); ?>"
+                                       onclick="addToPlaylist(<?php echo $track['id']; ?>);"">
+
+                                <input type="button" class="delete_button playlist_button_img"
+                                       title="<?php echo __('delete_file'); ?>"
+                                       onclick="deleteFile(<?php echo $track['id']; ?>);"">
+                            </div>
+
+                            <?php
+                        }
+                        ?>
+
+
+
+                        <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
+                            <?php echo $track['song_name']; ?>
+                        </div>
+                        <div class="tag artist" title="<?php echo $track['artist']; ?>">
+                            <?php echo $track['artist']; ?>
+                        </div>
+                        <div class="tag album" title="<?php echo $track['album']; ?>">
+                            <?php echo $track['album']; ?>
+                        </div>
+                        <div class="tag genre" title="<?php echo $track['genre']; ?>">
+                            <?php echo $track['genre']; ?>
+                        </div>
+                        <div class="tag song_year" title="<?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>">
+                            <?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>
+                        </div>
+                        <div class="tag play_count" title="<?php echo $track['play_count']; ?>">
+                            <?php echo $track['play_count']; ?>
+                        </div>
+                        <div class="tag rating" title="<?php echo ( ($track['rating']/20) ); ?>">
+                            <?php echo ( ($track['rating']/20) ); ?>
+                        </div>
+                        <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
+                            <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
+                        </div>
+                    </div>
+
+                    <?php
+                    $counter++;
+                }
+
+                $offset=intval($offset);
+                $step=intval($step);
+                ?>
+
+
+            </div>
+
+            <?php
+            if($duplicates==null) {
+                ?>
+                <div id="browseButtons">
+                    <input id="previous" class="myButton" type="button" value="previous"
+                           onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                    <input id="next" class="myButton" type="button" value="next"
+                           onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                </div>
+                <?php
+            } else {
+                ?>
+                <div id="browseButtons">
+                    <input id="previous" class="myButton" type="button" value="previous"
+                           onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                    <input id="next" class="myButton" type="button" value="next"
+                           onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                </div>
+                <?php
+            }
+
+        ?>
+
+        </div>
+
+        <?php
+
+
+
+        if($_SESSION['PlaylistCounter']==0) {
+            ?>
+
+            <script type="text/javascript">
+
+                var files = <?php echo json_encode($playlistToPlay); ?>;
+
+
+
+                init();
+
+            </script>
+
+            <?php
+        }
+
+        $_SESSION['PlaylistCounter']++;
 
     }
 
@@ -920,310 +1257,7 @@ class OWMP
         return $newArray;
     }
 
-    // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null) {
-        $conn = new RoceanDB();
 
-        $condition='';
-        $arrayParams=array();
-
-        if($fieldsArray)
-            foreach ($fieldsArray as $field) {
-
-                if($field['search_text']==='0')  // Βάζει ένα κενό όταν μηδέν, αλλιώς το νομίζει null
-                    $searchText = ' '.$field['search_text'];
-                else
-                    $searchText = $field['search_text'];
-
-
-
-                if( (!$field==null) && (!$searchText==null) ) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
-
-                    $fieldType=RoceanDB::getTableFieldType('music_tags',$field['search_field']);  // παίρνει το type του field
-//                    trigger_error($fieldType);
-                    if ( $fieldType=='int(11)' || $fieldType=='tinyint(4)' || $fieldType=='datetime' ) {   // αν το type είναι νούμερο
-                        if ($fieldType == 'datetime')
-                            $searchText = $field['search_text'];
-                        else {
-                            if ($field['search_field'] == 'rating')
-                                $searchText = intval($field['search_text']) * 20;
-                            else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
-                        }
-
-                        $equality=$field['search_equality'];
-                        switch ($equality) {
-                            case 'equal': $equality_sign='='; break;
-                            case 'greater': $equality_sign='>'; break;
-                            case 'less': $equality_sign='<'; break;
-                        }
-
-                        $condition = $condition . $field['search_field'] . $equality_sign.'? ' . $field['search_operator'] . ' ';
-                        $arrayParams[]=$searchText;
-                    }
-                    else {   // αν είναι string
-                        $searchText=ClearString($field['search_text']);
-                        $condition = $condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
-                        $arrayParams[]='%'.$searchText.'%';
-                    }
-                    
-                    
-
-
-                }
-            }
-
-        if (!$condition=='') {
-            $condition = page::cutLastString($condition, 'OR ');
-//            $condition = page::cutLastString($condition, 'AND ');
-
-            $_SESSION['condition']=$condition;  // Το κρατάει σε session για μελοντική χρήση
-            $_SESSION['arrayParams']=$arrayParams;
-        }
-        else $condition=null;
-
-
-
-        if(isset($_SESSION['condition']))
-            $condition=$_SESSION['condition'];
-        
-        if(isset($_SESSION['arrayParams']))
-            $arrayParams=$_SESSION['arrayParams'];
-
-        // Επιλογές για join ώστε να πάρουμε το media kind από το files
-        if(isset($mediaKind)) {
-            if (!$condition=='')
-                $condition = '(' . $condition . ')' . ' AND files.kind=? ';
-            else $condition.=  ' files.kind=? ';
-            
-            $arrayParams[]=$mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
-        }
-
-//        trigger_error('CONDITION   '.$condition);
-
-        if(!isset($_SESSION['PlaylistCounter'])){
-            $_SESSION['PlaylistCounter']=0;
-            $_SESSION['condition']=null;
-            $_SESSION['arrayParams']=null;
-        }
-            
-
-        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
-
-        if($duplicates==null) {   // κανονική λίστα
-            if ($_SESSION['PlaylistCounter'] == 0) {
-                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
-                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
-            }
-
-            $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);  // Η λίστα προς εμφάνιση
-
-        }
-        else {  // εμφάνιση διπλών εγγραφών
-            if ($_SESSION['PlaylistCounter'] == 0) {
-                $playlistToPlay = OWMP::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
-                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
-            }
-
-            $playlist = OWMP::getFilesDuplicates($offset,$step);
-        }
-
-        // αντιγραφή του playlist σε αντίστοιχο table ώστε ο player να παίζει από εκεί
-//        $arrayToCopy=self::makePlaylistArrayToCopy($playlistToPlay);
-//        RoceanDB::copyArrayToTable($arrayToCopy, 'current_playlist');
-
-        $counter=0;
-        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
-
-        if($duplicates==null) {
-            ?>
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="previous"
-                       onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                <input id="next" class="myButton" type="button" value="next"
-                       onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
-            </div>
-            <?php
-        } else {
-            ?>
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="previous"
-                       onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                <input id="next" class="myButton" type="button" value="next"
-                       onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
-            </div>
-            <?php
-        }
-
-        ?>
-
-        <div id="playlistTable">
-
-
-            <div class="tag kind"></div>
-
-            <div class="tag delete_file">
-                <input type="checkbox" id="checkAll" name="checkAll" onchange="changeCheckAll('checkAll', 'check_item[]');">
-            </div>
-
-
-
-            <div class="tag song_name playlistTittle" title="<?php echo __('tag_title'); ?>">
-                <?php echo __('tag_title'); ?>
-            </div>
-            <div class="tag artist playlistTittle" title="<?php echo __('tag_artist'); ?>">
-                <?php echo __('tag_artist'); ?>
-            </div>
-            <div class="tag album playlistTittle" title="<?php echo __('tag_album'); ?>">
-                <?php echo __('tag_album'); ?>
-            </div>
-            <div class="tag genre playlistTittle" title="<?php echo __('tag_genre'); ?>">
-                <?php echo __('tag_genre'); ?>
-            </div>
-            <div class="tag song_year playlistTittle" title="<?php echo __('tag_year'); ?>">
-                <?php echo __('tag_year'); ?>
-            </div>
-            <div class="tag play_count playlistTittle" title="<?php echo __('tag_play_count'); ?>">
-                <?php echo __('tag_play_count'); ?>
-            </div>
-            <div class="tag rating playlistTittle" title="<?php echo __('tag_rating'); ?>">
-                <?php echo __('tag_rating'); ?>
-            </div>
-            <div class="tag date_added playlistTittle" title="<?php echo __('tag_date_added'); ?>">
-                <?php echo __('tag_date_added'); ?>
-            </div>
-
-
-
-            <?php
-
-
-
-            foreach ($playlist as $track) {
-                ?>
-                <div id="fileID<?php echo $track['id']; ?>" class="track" onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');">
-
-
-                    <div class="tag kind <?php if ($track['kind']=='Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
-                         title="<?php if ($track['kind']=='Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
-                     
-
-                    <?php
-
-
-
-                        if($UserGroupID==1) {
-                            ?>
-                            <div class="tag delete_file">
-
-                                <?php
-                                    if ($track['kind']=='Music')
-                                    {
-                                    ?>
-                                        <img class="coverImage" src="<?php echo ALBUM_COVERS_DIR.self::getAlbumImagePath($track['album_artwork_id']); ?>">
-                                    <?php
-                                    }
-                                ?>
-
-                                <input type="checkbox" id="check_item[]" name="check_item[]" value="<?php echo $track['id']; ?>">
-
-                                <input type="button" class="play_button playlist_button_img"
-                                       title="<?php echo __('play_file'); ?>"
-                                       onclick="loadNextVideo(<?php echo $track['id']; ?>);"">
-
-                                <input type="button" class="playlist_add_button playlist_button_img"
-                                       title="<?php echo __('add_to_playlist'); ?>"
-                                       onclick="addToPlaylist(<?php echo $track['id']; ?>);"">
-                                
-                                <input type="button" class="delete_button playlist_button_img"
-                                       title="<?php echo __('delete_file'); ?>"
-                                       onclick="deleteFile(<?php echo $track['id']; ?>);"">
-                            </div>
-
-                            <?php
-                        }
-                    ?>
-
-
-
-                    <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
-                        <?php echo $track['song_name']; ?>
-                    </div>
-                    <div class="tag artist" title="<?php echo $track['artist']; ?>">
-                        <?php echo $track['artist']; ?>
-                    </div>
-                    <div class="tag album" title="<?php echo $track['album']; ?>">
-                        <?php echo $track['album']; ?>
-                    </div>
-                    <div class="tag genre" title="<?php echo $track['genre']; ?>">
-                        <?php echo $track['genre']; ?>
-                    </div>
-                    <div class="tag song_year" title="<?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>">
-                        <?php if($track['song_year']=='0') echo ''; else echo $track['song_year']; ?>
-                    </div>
-                    <div class="tag play_count" title="<?php echo $track['play_count']; ?>">
-                        <?php echo $track['play_count']; ?>
-                    </div>
-                    <div class="tag rating" title="<?php echo ( ($track['rating']/20) ); ?>">
-                        <?php echo ( ($track['rating']/20) ); ?>
-                    </div>
-                    <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
-                        <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
-                    </div>
-                </div>
-
-                <?php
-                $counter++;
-            }
-
-            $offset=intval($offset);
-            $step=intval($step);
-            ?>
-
-
-        </div>
-    
-        <?php
-        if($duplicates==null) {
-            ?>
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="previous"
-                       onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                <input id="next" class="myButton" type="button" value="next"
-                       onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
-            </div>
-            <?php
-        } else {
-            ?>
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="previous"
-                       onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                <input id="next" class="myButton" type="button" value="next"
-                       onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
-            </div>
-            <?php
-        }
-
-
-               
-        if($_SESSION['PlaylistCounter']==0) {
-            ?>
-
-            <script type="text/javascript">
-
-                var files = <?php echo json_encode($playlistToPlay); ?>;
-
-                
-
-                init();
-
-            </script>
-
-            <?php
-        }
-
-        $_SESSION['PlaylistCounter']++;
-
-    }
     
     
     // Σβήνει μόνο το αρχείο στον δίσκο

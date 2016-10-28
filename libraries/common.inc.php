@@ -8,6 +8,7 @@
  * Αρχικές ρυθμίσεις εφαρμογής
  */
 
+define ('APP_VERSION', '0.1.100');
 
 require_once ('config.inc.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');

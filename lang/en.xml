@@ -19,7 +19,8 @@
     </page>
 
     <page name="footer">
-        <phrase name="footer_text">Developed by Rocean</phrase>
+        <phrase name="footer_text">Developed by apps4net.eu</phrase>
+        <phrase name="app_version">App Version</phrase>
     </page>
 
     <page name="nav">

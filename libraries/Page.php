@@ -98,6 +98,7 @@ class Page
 
         <footer>
             <span><?php echo __('footer_text'); ?></span>
+            <span id="AppVersion"><?php echo __('app_version').': '.APP_VERSION; ?></span>
         </footer>
 
         </BODY>
@@ -122,9 +123,11 @@ class Page
         <form class="validate-form" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
             <?php
             foreach ($form_elements as $item) {
-
+                if(!isset($item['readonly']))
+                    $item['readonly']='no';
+            
                 if( $splitToDetails==true && $splitted==false )
-                    if($item['disabled']=='yes') {
+                    if($item['disabled']=='yes' || $item['readonly']=='yes') {
                          $splitted=true;
                     ?>
                         <details>
@@ -174,8 +177,9 @@ class Page
                             <?php if (isset($item['maxlength'])) echo 'maxlength=' . $item['maxlength']; ?>
                             <?php if (isset($item['pattern'])) echo 'pattern=' . $item['pattern']; ?>
                             <?php if (isset($item['title'])) echo 'title="' . $item['title'] . '"'; ?>
-                            <?php if ($item['required'] == 'yes') echo ' required '; ?>
-                            <?php if ($item['disabled'] == 'yes') echo ' disabled '; ?>
+                            <?php if (isset($item['required']) && $item['required'] == 'yes') echo ' required '; ?>
+                            <?php if (isset($item['disabled']) && $item['disabled'] == 'yes') echo ' disabled '; ?>
+                            <?php if (isset($item['readonly']) && $item['readonly'] == 'yes') echo ' readonly '; ?>
                             <?php if (isset($item['max'])) echo 'max="' . $item['max'] . '"'; ?>
                             <?php if (isset($item['min'])) echo 'min="' . $item['min'] . '"'; ?>
                             <?php if (isset($item['step'])) echo 'step="' . $item['step'] . '"'; ?>

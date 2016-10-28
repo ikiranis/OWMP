@@ -2,11 +2,12 @@
 /* https://material.google.com/style/color.html#color-color-palette */
 
 html, body {
-    height:100%;
+    height:99%;
     width: 99%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 20px;
     background-color: #CFD8DC;
+    overflow: auto;
 }
 
 
@@ -398,6 +399,11 @@ footer span {
     display: inline-flex;
 }
 
+#AppVersion {
+    position: absolute;
+    right: 2em;
+}
+
 
 /*Στοιχεία εμφάνισης στα logs*/
 #logs {
@@ -606,12 +612,14 @@ input {
 
 
 
-#FormTags input:disabled {
+#FormTags input:disabled, #FormTags input:read-only {
     background-color: #CFD8DC;
     color: grey;
     width: 100%;
 
 }
+
+
 
 #FormTags #title {
     font-size: 1em;
@@ -715,11 +723,13 @@ input {
 #editTag {
     position: absolute;
     display: none;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     background-color: white;
-    right: 0;
+    right: 1em;
+    top: 1.3em;
     width: 50%;
     height: auto;
-    border: solid 1px black;
+    /*border: solid 1px black;*/
     padding: 1em;
     z-index:10;
 }
@@ -1036,16 +1046,49 @@ input {
 
 /*Search*/
 #ChooseMediaKind {
-    position: absolute;
-    display: block;
+    display: inline-block;
     width: auto;
-    left: 20%;
     top:0;
 
 }
 
 #ChooseMediaKind #mediakind {
     font-size: 0.7em;
+}
+
+#searchClick {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    width: 1.7em;
+    background-color: transparent;
+    background-image: url( '../img/search.png' );
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 2em;
+}
+
+#searchClick:hover {
+    transform: scale(1.15);
+}
+
+#search {
+    position: absolute;
+    display: none;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    background-color: white;
+    right: 1em;
+    width: 50%;
+    height: auto;
+    /*border: solid 1px black;*/
+    padding: 1em;
+    z-index:10;
+}
+
+#search #searchButtons {
+    display: block;
+    width: 100%;
+    text-align: center;
 }
 
 
@@ -1058,13 +1101,13 @@ input {
 
 #playlist_container {
     overflow-y: scroll;
-    height:95%;
+    height:96%;
 }
 
 #playlistTable {
     display: table;
     width: 100%;
-    height: 100%;
+    height: auto;
     font-size: 0.7em;
     border-collapse: collapse;
 }
@@ -1181,11 +1224,10 @@ input {
 .coverImage {
     display: none;
     position: fixed;
-    left: 0%;
-    top:50%;
-    width: 15em;
-    height: 15em;
-    padding-left:1em;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    left: 1em;
+    bottom:20%;
+    width: 10%;
     z-index:10;
 }
 

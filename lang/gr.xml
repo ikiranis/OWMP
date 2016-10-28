@@ -19,7 +19,8 @@
     </page>
 
     <page name="footer">
-        <phrase name="footer_text">Ανάπτυξη εφαρμογής: Rocean</phrase>
+        <phrase name="footer_text">Ανάπτυξη εφαρμογής apps4net.eu</phrase>
+        <phrase name="app_version">Έκδοση εφαρμογής</phrase>
     </page>
 
     <page name="nav">
