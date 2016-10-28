@@ -29,39 +29,39 @@ class OWMP
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '255',
-                'disabled' => $disabled,
-                'readonly' => 'no',
+                'readonly' => $disabled,
+                'allwaysview' => 'yes',
                 'value' => null),
             array('name' => 'artist',
                 'fieldtext' => __('tag_artist'),
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '255',
-                'disabled' => $disabled,
-                'readonly' => 'no',
+                'readonly' => $disabled,
+                'allwaysview' => 'yes',
                 'value' => null),
             array('name' => 'album',
                 'fieldtext' => __('tag_album'),
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '255',
-                'disabled' => $disabled,
-                'readonly' => 'no',
+                'readonly' => $disabled,
+                'allwaysview' => 'yes',
                 'value' => null),
             array('name' => 'genre',
                 'fieldtext' => __('tag_genre'),
                 'type' => 'text',
                 'required' => 'no',
                 'maxlength' => '20',
-                'disabled' => $disabled,
-                'readonly' => 'no',
+                'readonly' => $disabled,
+                'allwaysview' => 'yes',
                 'value' => null),
             array('name' => 'year',
                 'fieldtext' => __('tag_year'),
                 'type' => 'number',
                 'required' => 'no',
-                'disabled' => $disabled,
-                'readonly' => 'no',
+                'readonly' => $disabled,
+                'allwaysview' => 'yes',
                 'value' => null),
             array('name' => 'live',
                 'fieldtext' => __('tag_live'),
@@ -72,8 +72,9 @@ class OWMP
                 ),
                 'required' => 'no',
                 'maxlength' => '1',
+                'readonly' => $disabled,
                 'disabled' => $disabled,
-                'readonly' => 'no',
+                'allwaysview' => 'yes',
                 'value' => null),
             array('name' => 'rating',
                 'fieldtext' => __('tag_rating'),
@@ -85,7 +86,7 @@ class OWMP
                 'step' => '1',
                 'ticks' => array(0,1,2,3,4,5),
                 'disabled' => $disabled,
-                'readonly' => 'no',
+                'allwaysview' => 'yes',
                 'value' => '0'),
 
             
@@ -96,6 +97,7 @@ class OWMP
                 'required' => 'no',
                 'disabled' => 'no',
                 'readonly' => 'yes',
+                'allwaysview' => 'no',
                 'value' => null),
             array('name' => 'track_time',
                 'fieldtext' => __('tag_track_time'),
@@ -104,6 +106,7 @@ class OWMP
                 'maxlength' => '10',
                 'disabled' => 'no',
                 'readonly' => 'yes',
+                'allwaysview' => 'no',
                 'value' => null),
             array('name' => 'date_added',
                 'fieldtext' => __('tag_date_added'),
@@ -112,6 +115,7 @@ class OWMP
                 'maxlength' => '20',
                 'disabled' => 'no',
                 'readonly' => 'yes',
+                'allwaysview' => 'no',
                 'value' => null),
             array('name' => 'date_played',
                 'fieldtext' => __('tag_date_played'),
@@ -120,6 +124,7 @@ class OWMP
                 'maxlength' => '20',
                 'disabled' => 'no',
                 'readonly' => 'yes',
+                'allwaysview' => 'no',
                 'value' => null),
 
             array('name' => 'path_filename',
@@ -129,6 +134,7 @@ class OWMP
                 'maxlength' => '255',
                 'disabled' => 'no',
                 'readonly' => 'yes',
+                'allwaysview' => 'no',
                 'value' => null)
 
         );
@@ -651,12 +657,7 @@ class OWMP
                              title="<?php if ($track['kind']=='Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
 
 
-                        <?php
 
-
-
-                        if($UserGroupID==1) {
-                            ?>
                             <div class="tag delete_file">
 
                                 <?php
@@ -682,14 +683,16 @@ class OWMP
                                        title="<?php echo __('add_to_playlist'); ?>"
                                        onclick="addToPlaylist(<?php echo $track['id']; ?>);"">
 
-                                <input type="button" class="delete_button playlist_button_img"
-                                       title="<?php echo __('delete_file'); ?>"
-                                       onclick="deleteFile(<?php echo $track['id']; ?>);"">
+                                <?php
+                                if($UserGroupID==1) {
+                                    ?>
+                                    <input type="button" class="delete_button playlist_button_img"
+                                           title="<?php echo __('delete_file'); ?>"
+                                           onclick="deleteFile(<?php echo $track['id']; ?>);"">
+                                    <?php
+                                }
+                                ?>
                             </div>
-
-                            <?php
-                        }
-                        ?>
 
 
 

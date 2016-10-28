@@ -666,6 +666,11 @@ input {
     display: inline-block;
 }
 
+#FormTags select:disabled {
+    background-color: #CFD8DC;
+    color: grey;
+}
+
 #rating_div {
     display: block;
     width:100%;

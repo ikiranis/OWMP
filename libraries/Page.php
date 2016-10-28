@@ -126,7 +126,7 @@ class Page
                 if(!isset($item['readonly']))
                     $item['readonly']='no';
             
-                if( $splitToDetails==true && $splitted==false )
+                if( (isset($item['allwaysview']) && $item['allwaysview']=='no') && ($splitToDetails==true && $splitted==false) )
                     if($item['disabled']=='yes' || $item['readonly']=='yes') {
                          $splitted=true;
                     ?>
@@ -148,14 +148,16 @@ class Page
                             ?>
                                 <select <?php if (!$item['name'] == '') echo 'id=' . $item['name']; ?>
                                         <?php if (!$item['name'] == '') echo 'name=' . $item['name']; ?>
-                            
+                                    <?php if (isset($item['disabled']) && $item['disabled'] == 'yes') echo ' disabled '; ?>
+                                    <?php if (isset($item['readonly']) && $item['readonly'] == 'yes') echo ' readonly '; ?>
+
                                 >
                                     <?php 
                                         if (isset($item['options']))
                                             foreach ($item['options'] as $option)
                                             {
                                                 ?>
-                                                    <option value="<?php echo $option['value']; ?>">
+                                                    <option value="<?php echo $option['value']; ?>" >
                                                         <?php echo $option['name']; ?>
                                                     </option>
                                                 <?php
