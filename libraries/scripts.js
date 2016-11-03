@@ -18,7 +18,11 @@ var myVideo;
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
 var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
 
-var PlaylistContainerHTML=null;   // τα περιεχόμενα του div playlist_containter
+var PlaylistContainerHTML=null;   // τα περιεχόμενα του div playlist_content
+var SearchHTML=null; // τα περιεχόμενα του div search
+var MediaKindChosen=null;
+var GlobalSearchArray=[]; //  τα values στην αναζήτηση
+var SearchRows=5; // Σύνολο των search rows
 
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
@@ -366,7 +370,28 @@ function getTime(name) {
     $(name).text(curTime);
 }
 
-// TODO να το υλοποιήσω αλλιώς. Κάθε σελίδα να είναι σε ξεχωριστό div και να κάνει hide/show όποιο έχεις επιλέξει
+// Διαβάζει τις τιμές των search fields και τις αποθηκεύει στο GlobalSearchArray
+function readSearchFields(numberOfFields) {
+    for(var i=1;i<=numberOfFields;i++){
+        GlobalSearchArray[i]= {
+            'search_field': $('#search_field' + i).val(),
+            'search_text': $('#search_text' + i).val(),
+            'search_operator': $('#search_operator' + i).val(),
+            'search_equality': $('#search_equality' + i).val()
+        }
+    }
+}
+
+// Γράφει στην φόρμα τις τιμές των search fields που ήταν αποθηκευμένες στο GlobalSearchArray
+function writeSearchFields(numberOfFields) {
+    for(var i=1;i<=numberOfFields;i++){
+        $('#search_field' + i).val(GlobalSearchArray[i]['search_field']);
+        $('#search_text' + i).val(GlobalSearchArray[i]['search_text']);
+        $('#search_operator' + i).val(GlobalSearchArray[i]['search_operator']);
+        $('#search_equality' + i).val(GlobalSearchArray[i]['search_equality']);
+    }
+}
+
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
@@ -374,18 +399,45 @@ function DisplayWindow(page, offset, step) {
 
 
 
+    // Αν target σελίδα δεν είναι η 1
     if(page!==1) {
+
+        // Αν το #search δεν είναι κενό, άρα είμασταν πριν στην 1
+        if(!$('#search').length==0) {
+
+            // διαβάζουμε τις τιμές των search fields
+            readSearchFields(SearchRows);
+
+            // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #search, στην μεταβλητή SearchHTML
+            SearchHTML = $('#search').html();
+        }
+
+        // Αν το #ChooseMediaKind δεν είναι κενό, άρα είμασταν πριν στην 1
+        if(!$('#ChooseMediaKind').length==0) {
+            MediaKindChosen=document.querySelector('#ChooseMediaKind select[name=mediakind]').value;
+        }
+
+        // Αν το #playlist_content δεν είναι κενό, άρα είμασταν πριν στην 1
         if(!$('#playlist_content').length==0)
+        // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #playlist_content, στην μεταβλητή PlaylistContainerHTML
             PlaylistContainerHTML = $('#playlist_content').html();
 
     }
 
 
+    // όταν ανοίγει το section article
     $('section article').load(callFile, function() {
 
+        // Αν εμφανίζουμε την σελίδα 1
         if(page==1) {
 
+            // εμφανίζουμε τις μεταβλητές που έχουμε σώσειστα αντίστοιχα divs
+            $('#search').html(SearchHTML);
+            writeSearchFields(SearchRows);
+            document.querySelector('#ChooseMediaKind select[name=mediakind]').value=MediaKindChosen;
             $('#playlist_content').html(PlaylistContainerHTML);
+            checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
+
         }
 
 
@@ -919,11 +971,11 @@ function findDuplicates(offset, step, firstTime) {
 }
 
 // αναζήτηση στην playlist
-function searchPlaylist(offset, step, firstTime, numberOfQueries) {
+function searchPlaylist(offset, step, firstTime) {
     $('#progress').show();
     
     var searchArray=[];
-    for(var i=1;i<=numberOfQueries;i++){
+    for(var i=1;i<=SearchRows;i++){
         searchArray[i]= {
             'search_field': $('#search_field' + i).val(),
             'search_text': $('#search_text' + i).val(),
@@ -936,15 +988,24 @@ function searchPlaylist(offset, step, firstTime, numberOfQueries) {
 
     jsonArray=JSON.stringify(searchArray);
 
+    // console.log(jsonArray);
+
 
     callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind);
 
 
-    
-    $('#playlist_container').load(callFile, function() {
-        // console.log('load is done');
-        $('#progress').hide();
-        $('#search').hide();
+    $.get(callFile, function(data) {
+        console.log(data);
+        if (data) {
+            $('#playlist_container').html(data);
+            $('#progress').hide();
+            $('#search').hide();
+        }
+        else {
+            $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
+            $('#progress').hide();
+            $('#search').hide();
+        }
     });
 
 }
@@ -961,11 +1022,15 @@ function startSync(operation) {
         localStorage.syncPressed=false;
 
 
+    // TODO όταν κάνεις συγχρονισμό μετά από έναν άλλον αμέσως δεν σβήνει ακριβώς αυτά που έχει εμφανίσει πριν και δεν εμφανίζει το gif
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed=true;
 
         $('#progress').show();
-        
+        $('#logprogress').show();
+        document.querySelector('#theProgressBar').value=0;
+        $("#theProgressNumber" ).html('');
+
         $('#syncButtons').find('input').prop('disabled', true);
 
         progressCallFile = AJAX_path + "getProgress.php";
@@ -974,7 +1039,8 @@ function startSync(operation) {
 
             $.get(progressCallFile, function (progressData) {
                 if (progressData.success == true) {
-                    $("#logprogress" ).html(progressData.progressInPercent+'%');
+                    $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                    document.querySelector('#theProgressBar').value=progressData.progressInPercent;
                 }
             }, "json");
 
@@ -984,6 +1050,7 @@ function startSync(operation) {
 
         // console.log('load is done');
             $('#progress').hide();
+            $('#logprogress').hide();
             localStorage.syncPressed=false;
             $('#syncButtons').find('input').prop('disabled', false);
         });
@@ -1375,6 +1442,42 @@ function displaySearchWindow() {
 }
 
 
+// Έλεγχος για όταν γίνονται αλλαγές στα search fields
+function checkSearchFieldChanges() {
+    // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
+    $('.search_field').change(function() {
+        changedElement=$(this).attr('id');  // το id του αλλαγμένου selected
+        valueOfChangedElement=$(this).val();  // η τιμή του αλλαγμένου selected
+
+        elementID=parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
+        searchStringElement=document.querySelector('#search_text'+elementID);
+
+        // αν το πεδίο που θέλουμε να αλλάξουμε δεν είναι κάποιο από αυτά
+        if( valueOfChangedElement!='rating' &&  valueOfChangedElement!='live' )
+            if (searchStringElement.type=='select-one')  // Ελέγχουμε αν το υπάρχον είναι select
+                changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
+
+        switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
+            case 'date_added': searchStringElement.type='date'; break;
+            case 'date_last_played': searchStringElement.type='date'; break;
+            case 'play_count': searchStringElement.type='number'; break;
+            case 'rating': changeToSelect(searchStringElement, elementID, ratingOptions); break;
+            case 'video_width': searchStringElement.type='number'; break;
+            case 'video_height': searchStringElement.type='number'; break;
+            case 'filesize': searchStringElement.type='number'; break;
+            case 'track_time': searchStringElement.type='number'; break;
+            case 'song_year': searchStringElement.type='number'; break;
+            case 'live': changeToSelect(searchStringElement, elementID, liveOptions); break;
+            case 'song_name':  searchStringElement.type='text'; break;
+            case 'artist': searchStringElement.type='text'; break;
+            case 'genre': searchStringElement.type='text'; break;
+            case 'album': searchStringElement.type='text'; break;
+        }
+
+
+    });
+}
+
 
 // ************************************
 // On load
@@ -1644,38 +1747,7 @@ $(function(){
         });
 
 
-    // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
-    $('.search_field').change(function() {
-        changedElement=$(this).attr('id');  // το id του αλλαγμένου selected
-        valueOfChangedElement=$(this).val();  // η τιμή του αλλαγμένου selected
-
-        elementID=parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
-        searchStringElement=document.querySelector('#search_text'+elementID);
-
-        // αν το πεδίο που θέλουμε να αλλάξουμε δεν είναι κάποιο από αυτά
-        if( valueOfChangedElement!='rating' &&  valueOfChangedElement!='live' )
-            if (searchStringElement.type=='select-one')  // Ελέγχουμε αν το υπάρχον είναι select
-                changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
-
-        switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
-            case 'date_added': searchStringElement.type='date'; break;
-            case 'date_last_played': searchStringElement.type='date'; break;
-            case 'play_count': searchStringElement.type='number'; break;
-            case 'rating': changeToSelect(searchStringElement, elementID, ratingOptions); break;
-            case 'video_width': searchStringElement.type='number'; break;
-            case 'video_height': searchStringElement.type='number'; break;
-            case 'filesize': searchStringElement.type='number'; break;
-            case 'track_time': searchStringElement.type='number'; break;
-            case 'song_year': searchStringElement.type='number'; break;
-            case 'live': changeToSelect(searchStringElement, elementID, liveOptions); break;
-            case 'song_name':  searchStringElement.type='text'; break;
-            case 'artist': searchStringElement.type='text'; break;
-            case 'genre': searchStringElement.type='text'; break;
-            case 'album': searchStringElement.type='text'; break;
-        }
-
-
-    });
+    checkSearchFieldChanges();
 
 
 
