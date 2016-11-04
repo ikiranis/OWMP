@@ -98,7 +98,10 @@ class Page
 
         <footer>
             <span><?php echo __('footer_text'); ?></span>
-            <span id="AppVersion"><?php echo __('app_version').': '.APP_VERSION; ?></span>
+            <span id="AppVersionContainer">
+                <span id="AppVersion"><?php echo __('app_version').': '.APP_VERSION; ?></span>
+                <span id="checkCurrentVersion"></span>
+            </span>
         </footer>
 
         </BODY>
@@ -429,6 +432,29 @@ class Page
         $result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue');
         
         return $result;
+    }
+
+    //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
+//    static function getCurrentVersion() {
+//        $data   = file_get_contents(README_FILE);
+//        $data   = explode("\n", $data);
+//
+//        $CurVersion = substr($data[0], strpos($data[0], ":") + 2);
+//
+//        return $CurVersion;
+//    }
+
+
+    //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
+    static function getCurrentVersion() {
+        $html = PARROT_VERSION_FILE;
+        $response = file_get_contents($html);
+        $decoded = json_decode($response, true);
+
+        if($decoded) {
+            $result = $decoded['app_version'];
+            return $result;
+        } else return false;
     }
 
 }

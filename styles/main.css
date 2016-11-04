@@ -399,11 +399,18 @@ footer span {
     display: inline-flex;
 }
 
-#AppVersion {
+#AppVersionContainer {
     position: absolute;
     right: 2em;
+    padding: 0;
+    margin: 0;
 }
 
+#checkCurrentVersion {
+    margin-left: 1em;
+    color: red;
+    font-weight: bold;
+}
 
 /*Στοιχεία εμφάνισης στα logs*/
 #logs {

@@ -407,6 +407,25 @@ class RoceanDB
         return $result;
     }
 
+    // Δημιουργεί και επιστρέφει το query (string) με βάση τις συγκεκριμένες παραμέτρους
+    static function createQuery ($table, $fields, $condition, $ParamsArray, $orderBy, $joinTable, $joinFields) {
+
+        if(!isset($fields)) $sql = 'SELECT * FROM '.$table;
+        else $sql = 'SELECT '.$fields.' FROM '.$table;
+
+        if(isset($joinTable))
+            $sql=$sql.' JOIN '.$joinTable.' on '.$table.'.'.$joinFields['firstField'].'='.$joinTable.'.'.$joinFields['secondField'];
+
+        if(isset($condition))
+            $sql=$sql.' WHERE '.$condition;
+
+        if(isset($orderBy))
+            $sql=$sql.' ORDER BY '.$orderBy;
+        
+
+        return $sql;
+    }
+
 
     // Δέχεται το username και επιστρέφει το user group του. Αλλιώς false
     public function getUserGroup($username) {
@@ -968,6 +987,30 @@ class RoceanDB
     }
 
 
+    // Αντιγράφει τα $fields σε νέο $table, με βάση του select $query και τα $arrayParams
+    static function copyFieldsToOtherTable($fields, $table, $query, $arrayParams) {
+        self::CreateConnection();
+
+        $sql = 'INSERT INTO '.$table.' ('.$fields.') '.$query;
+        $stmt = self::$conn->prepare($sql);
+        
+//        trigger_error($sql);
+
+        if(self::deleteTable($table)) { // πρώτα σβήνει τα τρέχοντα περιεχόμενα του $table
+        
+            if($stmt->execute($arrayParams))
+
+                $result=true;
+
+            else $result=false;
+
+            $stmt->closeCursor();
+            $stmt = null;
+
+            return $result;
+        }
+
+    }
 
     
 

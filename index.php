@@ -34,7 +34,7 @@ if (isset($_GET['logout'])) {
 }
 
 // Τίτλος της σελίδας
-$MainPage->tittle = PAGE_TITTLE;
+$MainPage->tittle = APP_NAME;
 
 $scripts=array ('src=libraries/jquery.min.js',   // jquery
     'src=libraries/scripts.js',    // my scripts
@@ -59,6 +59,8 @@ $logged_in=false;
         var DIR_PREFIX="<?php echo DIR_PREFIX; ?>";
         var Album_covers_path="<?php echo ALBUM_COVERS_DIR; ?>";
         var WebFolderPath="<?php echo WEB_FOLDER_PATH; ?>";
+        var ParrotVersionFile="<?php echo PARROT_VERSION_FILE; ?>";
+        var AppVersion="<?php echo APP_VERSION; ?>";
 
     </script>
 

@@ -538,7 +538,11 @@ class OWMP
             $_SESSION['condition']=$condition;  // Το κρατάει σε session για μελοντική χρήση
             $_SESSION['arrayParams']=$arrayParams;
         }
-        else $condition=null;
+        else {
+            $condition=null;
+            $_SESSION['condition']=null;  // Το κρατάει σε session για μελοντική χρήση
+            $_SESSION['arrayParams']=null;
+        }
 
 
 
@@ -557,7 +561,6 @@ class OWMP
             $arrayParams[]=$mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
         }
 
-//        trigger_error('CONDITION   '.$condition);
 
         if(!isset($_SESSION['PlaylistCounter'])){
             $_SESSION['PlaylistCounter']=0;
@@ -570,10 +573,12 @@ class OWMP
         $playlistToPlay=null;
         $playlist=null;
 
+
         if($duplicates==null) {   // κανονική λίστα
             if ($_SESSION['PlaylistCounter'] == 0) {
                 $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
-
+                $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray);
+                
                 $_SESSION['$countThePlaylist'] = count($playlistToPlay);
             }
 
@@ -591,6 +596,8 @@ class OWMP
         }
 
         // αντιγραφή του playlist σε αντίστοιχο table ώστε ο player να παίζει από εκεί
+        RoceanDB::copyFieldsToOtherTable('file_id', 'current_playlist', $myQuery, $arrayParams);
+
 //        $arrayToCopy=self::makePlaylistArrayToCopy($playlistToPlay);
 //        RoceanDB::copyArrayToTable($arrayToCopy, 'current_playlist');
 
@@ -1546,19 +1553,19 @@ class OWMP
         // Παίρνει τον τίτλο του βίντεο και τον μετατρέπει σε greeklish αν χρειάζεται
         $title=self::getYoutubeTitle($url);
 
-        trigger_error($title);
+//        trigger_error($title);
 
         $title=str_replace("/",'',$title);
         $title=self::GrCyr2Latin(ClearString($title));
 
-        trigger_error($title);
+//        trigger_error($title);
 
         // το όνομα του αρχείου που θα κατεβάσει με το full path
         $outputfilename = shell_exec('youtube-dl --get-filename -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
         // κατεβάζει το βίντεο
         $result=shell_exec('youtube-dl -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$uploadDir.$title.'.%(ext)s" '.$url);
 
-        trigger_error($result);
+//        trigger_error($result);
 
         $outputfilename=str_replace("\n",'',$outputfilename);
 

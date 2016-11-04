@@ -8,7 +8,8 @@
  * Αρχικές ρυθμίσεις εφαρμογής
  */
 
-define ('APP_VERSION', '0.1.102');
+define ('APP_VERSION', '0.1.103');
+define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
@@ -116,7 +117,7 @@ else {
 define ('YOUTUBE_API', 'AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q'); // βάζεις το δικό σου αν θες
 define ('GIPHY_API', 'dc6zaTOxFJmzC'); // default
 
-
+define ('PARROT_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php');
 
 
 

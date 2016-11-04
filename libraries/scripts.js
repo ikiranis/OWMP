@@ -23,6 +23,7 @@ var SearchHTML=null; // τα περιεχόμενα του div search
 var MediaKindChosen=null;
 var GlobalSearchArray=[]; //  τα values στην αναζήτηση
 var SearchRows=5; // Σύνολο των search rows
+var CurrentPage=1;
 
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται
 // var OverlayAllwaysOn=false;  // Κρατάει το αν αν έχει πατηθεί κουμπί για να παραμένει το overlay συνέχεια on
@@ -425,27 +426,31 @@ function DisplayWindow(page, offset, step) {
     }
 
 
-    // όταν ανοίγει το section article
-    $('section article').load(callFile, function() {
+    if(page!==CurrentPage) {
+        // όταν ανοίγει το section article
+        $('section article').load(callFile, function () {
 
-        // Αν εμφανίζουμε την σελίδα 1
-        if(page==1) {
+            // Αν εμφανίζουμε την σελίδα 1
+            if (page == 1) {
 
-            // εμφανίζουμε τις μεταβλητές που έχουμε σώσειστα αντίστοιχα divs
-            $('#search').html(SearchHTML);
-            writeSearchFields(SearchRows);
-            document.querySelector('#ChooseMediaKind select[name=mediakind]').value=MediaKindChosen;
-            $('#playlist_content').html(PlaylistContainerHTML);
-            checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
+                // εμφανίζουμε τις μεταβλητές που έχουμε σώσειστα αντίστοιχα divs
+                $('#search').html(SearchHTML);
+                writeSearchFields(SearchRows);
+                document.querySelector('#ChooseMediaKind select[name=mediakind]').value = MediaKindChosen;
+                $('#playlist_content').html(PlaylistContainerHTML);
+                checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
 
-        }
+            }
+
+            CurrentPage=page;
 
 
-        for(var i=1;i<=NavLength;i++)   // Κάνει όλα τα nav πεδία inactive
-            $('#navID'+i).removeClass('active');
-        
-        $('#navID'+page).addClass('active');   // κάνει το page active
-    });
+            for (var i = 1; i <= NavLength; i++)   // Κάνει όλα τα nav πεδία inactive
+                $('#navID' + i).removeClass('active');
+
+            $('#navID' + page).addClass('active');   // κάνει το page active
+        });
+    }
 }
 
 
@@ -973,7 +978,7 @@ function findDuplicates(offset, step, firstTime) {
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime) {
     $('#progress').show();
-    
+
     var searchArray=[];
     for(var i=1;i<=SearchRows;i++){
         searchArray[i]= {
@@ -988,14 +993,13 @@ function searchPlaylist(offset, step, firstTime) {
 
     jsonArray=JSON.stringify(searchArray);
 
-    // console.log(jsonArray);
+    console.log(jsonArray);
 
 
     callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind);
 
 
     $.get(callFile, function(data) {
-        console.log(data);
         if (data) {
             $('#playlist_container').html(data);
             $('#progress').hide();
@@ -1478,6 +1482,17 @@ function checkSearchFieldChanges() {
     });
 }
 
+// Κάνει έλεγχο της τρέχουσας έκδοσης της εφαρμογής
+function checkCurrentVersion() {
+    callFile = ParrotVersionFile;
+
+    $.get(callFile, function (data) {
+        // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
+        if(AppVersion!==data.app_version)
+            $("#checkCurrentVersion").html('Need to Update. Latest App Version: '+data.app_version);
+    }, "json");
+}
+
 
 // ************************************
 // On load
@@ -1749,7 +1764,7 @@ $(function(){
 
     checkSearchFieldChanges();
 
-
+    checkCurrentVersion();
 
     //Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
     // navigator.mediaDevices.enumerateDevices()
