@@ -76,8 +76,9 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
     }
     else $albumCoverPath=null;
 
-
-
+    $tempUserPlaylist=$conn->getSession('username').CUR_PLAYLIST_STRING;
+    $playlistID=RoceanDB::getTableFieldValue($tempUserPlaylist, 'file_id=?', $id, 'id');
+    
     $jsonArray = array('success' => true,
         'artist' => htmlspecialchars_decode($metadata[0]['artist']),
         'title' => htmlspecialchars_decode($metadata[0]['song_name']),
@@ -92,7 +93,9 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         'rating' => $rating,
         'albumCoverPath'=>$albumCoverPath,
         'fromAPI'=>$fromAPI,
-        'apiSource'=>$apiSource);
+        'apiSource'=>$apiSource,
+        'playlist_id' => $playlistID,
+        'playlist_count' => $_SESSION['$countThePlaylist']);
 
 
 

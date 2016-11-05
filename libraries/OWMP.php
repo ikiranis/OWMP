@@ -573,13 +573,25 @@ class OWMP
         $playlistToPlay=null;
         $playlist=null;
 
-
         if($duplicates==null) {   // κανονική λίστα
             if ($_SESSION['PlaylistCounter'] == 0) {
-                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
+//                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
+
                 $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray);
-                
-                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+
+                // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
+                $tempUserPlaylist=$conn->getSession('username').CUR_PLAYLIST_STRING;
+
+                // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
+                if(!RoceanDB::checkIfTableExist($tempUserPlaylist))
+                    self::createPlaylistTempTable($tempUserPlaylist);
+
+                // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
+                RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
+
+                $tableCount = RoceanDB::countTable($tempUserPlaylist);
+
+                $_SESSION['$countThePlaylist'] = $tableCount;
             }
 
             $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);  // Η λίστα προς εμφάνιση
@@ -588,18 +600,14 @@ class OWMP
         }
         else {  // εμφάνιση διπλών εγγραφών
             if ($_SESSION['PlaylistCounter'] == 0) {
+                // TODO να κάνω και το duplicates με την αντιγραφή πινάκων
                 $playlistToPlay = OWMP::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
                 $_SESSION['$countThePlaylist'] = count($playlistToPlay);
             }
 
             $playlist = OWMP::getFilesDuplicates($offset,$step);
         }
-
-        // αντιγραφή του playlist σε αντίστοιχο table ώστε ο player να παίζει από εκεί
-        RoceanDB::copyFieldsToOtherTable('file_id', 'current_playlist', $myQuery, $arrayParams);
-
-//        $arrayToCopy=self::makePlaylistArrayToCopy($playlistToPlay);
-//        RoceanDB::copyArrayToTable($arrayToCopy, 'current_playlist');
+        
 
         $counter=0;
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
@@ -791,13 +799,13 @@ class OWMP
 
 
 
-        if($playlistToPlay) {
+
             if ($_SESSION['PlaylistCounter'] == 0) {
                 ?>
 
                 <script type="text/javascript">
 
-                    var files = <?php echo json_encode($playlistToPlay); ?>;
+//                    var files = <?php //echo json_encode($playlistToPlay); ?>//;
 
 
                     init();
@@ -808,7 +816,6 @@ class OWMP
             }
 
             $_SESSION['PlaylistCounter']++;
-        }
 
     }
 
@@ -1653,6 +1660,56 @@ class OWMP
             $conn->createOption('date_format', 'Y-m-d', 1, 0);
         
         
+    }
+    
+    
+    // Δημιουργεί έναν νέο πίνακα για temporary playlist με το όνομα $table
+    static function createPlaylistTempTable($table) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql = 'CREATE TABLE '.$table.' (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `file_id` int(11) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;';
+        
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+
+        if($stmt->execute()) 
+
+            $result = true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+
+    static function getRandomPlaylistID($table, $tableCount) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql='SELECT * FROM '.$table.' LIMIT '.$tableCount.',1';
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $result=array('playlist_id' => $item['id'], 'file_id' => $item['file_id']);
+        }
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
     }
     
     

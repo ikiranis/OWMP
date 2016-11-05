@@ -11,7 +11,8 @@ var PathKeyPressed=false;
 
 var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
-var currentID; // Το τρέχον βίντεο
+var currentID; // Το τρέχον file id που παίζει
+localStorage.currentPlaylistID='1';  // Το τρέχον id στην playlist
 
 var myVideo;
 
@@ -35,6 +36,7 @@ var myMime='';  // Ο τύπος του cover art
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
+if(localStorage.PlayMode==null) localStorage.PlayMode='continue';
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
@@ -694,22 +696,49 @@ function showFullScreenVideoTags(toggle) {
 
 }
 
+function getNextVideoID(id) {
+    $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+        url: AJAX_path + "getNextVideo.php",
+        type: 'GET',
+        async: true,
+        data: {
+            playMode: localStorage.PlayMode,
+            currentPlaylistID: localStorage.currentPlaylistID
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success == true) {
+                currentID=data.file_id;
+                localStorage.currentPlaylistID=data.playlist_id;
+                loadNextVideo(id);
+            }
+        }
+    });
+}
+
 
 // Set the src of the video to the next URL in the playlist
 // If at the end we start again from beginning (the modulo
 // source.length does that)
 function loadNextVideo(id) {
 
+
+
     if(id==0) {
-        files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
-        callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
-        currentID=files[files_index][0];
+        // files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
+        // callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
+        // currentID=files[files_index][0];
+
+
+        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID;
+
     }
 
     else {
-        files_index=id;
-        callFile = AJAX_path+"getVideoMetadata.php?id="+id;
+        // files_index=id;
         currentID=id;
+
+        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID;
     }
 
     TimeUpdated=false;
@@ -756,6 +785,9 @@ function loadNextVideo(id) {
             }
             else document.querySelector('#overlay_poster_source').innerHTML='';
 
+
+            localStorage.currentPlaylistID=data.tags.playlist_id;
+
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
             timeInMinutesAndSeconds=seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
 
@@ -796,7 +828,7 @@ function loadNextVideo(id) {
             $('#title').val(filename);
         }
 
-        $("#TotalNumberInPlaylist").text(files.length);  // εμφανίζει το σύνολο των κομματιών στην playlist
+        $("#TotalNumberInPlaylist").text(data.tags.playlist_count);  // εμφανίζει το σύνολο των κομματιών στην playlist
 
     }, "json");
 
@@ -808,7 +840,9 @@ function loadNextVideo(id) {
 
 // callback that loads and plays the next video
 function loadAndplayNextVideo() {
-    loadNextVideo(0);
+    localStorage.currentPlaylistID++;
+    getNextVideoID(0);
+
     // myVideo.play();
 
 }
@@ -825,9 +859,10 @@ function init(){
 
     myVideo.volume=parseFloat(localStorage.volume);   // Θέτει το volume με βάση την τιμή του localStorage.volume
 
+    localStorage.PlayMode='shuffle';
 
     // Load the first video when the page is loaded.
-    loadNextVideo(0);
+    getNextVideoID(0);
 
 }
 
@@ -993,7 +1028,9 @@ function searchPlaylist(offset, step, firstTime) {
 
     jsonArray=JSON.stringify(searchArray);
 
-    console.log(jsonArray);
+    // console.log(jsonArray);
+
+    localStorage.currentPlaylistID='1';
 
 
     callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind);
@@ -1010,6 +1047,7 @@ function searchPlaylist(offset, step, firstTime) {
             $('#progress').hide();
             $('#search').hide();
         }
+
     });
 
 }

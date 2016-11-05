@@ -8,7 +8,7 @@
  * Αρχικές ρυθμίσεις εφαρμογής
  */
 
-define ('APP_VERSION', '0.1.103');
+define ('APP_VERSION', '0.1.104');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -95,10 +95,10 @@ define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κ�
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 define ('DATE_FORMAT',$conn->getOption('date_format'));  // To format των ημερομηνιών που εμφανίζονται στο site
 
-// Paths που χρησιμοποιεί η εφαρμογή
+// το path που μετατρέπει τα ALAC
 define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'ConvertedMusic/');
 
-
+define ('CUR_PLAYLIST_STRING', '_curPlaylist'); // Το string που προσθέτει στο όνομα temp playlist
 
 
 // Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη

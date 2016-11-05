@@ -611,7 +611,7 @@ class RoceanDB
     }
 
     // μετράει τα rows ενός πίνακα
-    public function countTable($table) {
+    static function countTable($table) {
         self::CreateConnection();
 
         $sql = 'SELECT * FROM '.$table;
@@ -970,7 +970,7 @@ class RoceanDB
     static function deleteTable($table) {
         self::CreateConnection();
 
-        $sql = 'DELETE FROM '.$table;
+        $sql = 'TRUNCATE '.$table;
         $stmt = self::$conn->prepare($sql);
 
 
@@ -994,8 +994,6 @@ class RoceanDB
         $sql = 'INSERT INTO '.$table.' ('.$fields.') '.$query;
         $stmt = self::$conn->prepare($sql);
         
-//        trigger_error($sql);
-
         if(self::deleteTable($table)) { // πρώτα σβήνει τα τρέχοντα περιεχόμενα του $table
         
             if($stmt->execute($arrayParams))
@@ -1010,6 +1008,27 @@ class RoceanDB
             return $result;
         }
 
+    }
+
+
+    // Ελέγχει αν ο πίνακας $table υπάρχει και επιστρέφει true or false
+    static function checkIfTableExist($table) {
+        self::CreateConnection();
+
+        $sql = 'DESCRIBE '.$table;
+        $stmt = self::$conn->prepare($sql);
+
+
+        if($stmt->execute()) 
+
+            $result = true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
     }
 
     
