@@ -386,7 +386,13 @@ class SyncFiles
             if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                Page::updatePercentProgress($progressPercent);
+                Page::updatePercentProgress($progressPercent); // Το ποσοστό του progress
+                Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
+                if(Page::getKillCommand()=='1') { // Αν killCommand είναι 1 τότε σταματούμε την εκτέλεση του script
+                    Page::setKillCommand('0');  // Το επαναφέρουμε πρώτα σε 0 για το μέλλον
+                    exit();
+                }
 
                 $progressCounter=0;
             }
@@ -566,6 +572,8 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
+        Page::setLastMomentAlive(false);
+        
         $this->writeTracks($mediakind, SYNC_ITUNES, true);
     }
 

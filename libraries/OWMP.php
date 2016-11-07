@@ -1150,16 +1150,16 @@ class OWMP
                     ?>
                 </select>
 
-                <input type="button" class="myButton" id="startSync" name="startSync" onclick="startSync('sync');"
+                <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startSync('sync');"
                        value="<?php echo __('Synchronize'); ?>">
     
-                <input type="button" class="myButton" id="startClear" name="startClear" onclick="startSync('clear');"
+                <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
                        value="Clear">
 
-                <input type="button" class="myButton" id="startHash" name="startHash" onclick="startSync('hash');"
+                <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
                        value="Hash">
 
-                <input type="button" class="myButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
+                <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
                        value="Metadata">
 
 
@@ -1171,7 +1171,7 @@ class OWMP
                         ?>
                         <p>
                             <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
-                            <input type="button" class="myButton" id="downloadYouTube" name="downloadYouTube"
+                            <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
                                    onclick="downloadYouTube();"
                                    value="Download YouTube" >
                         </p>
@@ -1194,10 +1194,21 @@ class OWMP
             </div>
 
             <div id="logprogress">
+                <input type="button" id="killCommand_img" class="button_img"
+                       title="<?php echo __('kill_process'); ?>"
+                       onclick="sendKillCommand();"">
                 <progress id="theProgressBar" name="theProgressBar" max="100" value="0">
                 </progress>
                 <span id="theProgressNumber"></span>
             </div>
+
+            <script type="text/javascript">
+
+                checkProcessAlive();
+
+            </script>
+
+
             <?php
         }
         else echo '<p>Περιοχή μόνο για τον admin</p>';
@@ -1617,7 +1628,7 @@ class OWMP
     }
 
     
-    // Εισάγει τις αρχικές τιμές στον πίνακα Options
+    // Εισάγει τις αρχικές τιμές στον πίνακα Options και στον progress
     static function startBasicOptions()
     {
 
@@ -1641,6 +1652,7 @@ class OWMP
 //        if(!$conn->getOption('mail_from_name'))
 //            $conn->createOption('mail_from_name', 'name', 1, 0);
         
+        // Οι αρχικές τιμές στον πίνακα options
         if(!$conn->getOption('convert_alac_files'))
             $conn->createOption('convert_alac_files', 'false', 1, 0);
         
@@ -1658,6 +1670,22 @@ class OWMP
 
         if(!$conn->getOption('date_format'))
             $conn->createOption('date_format', 'Y-m-d', 1, 0);
+
+        
+        // Οι αρχικές τιμές στον πίνακα progress
+        if(!Page::checkIfProgressNameExists('progressInPercent'))
+            Page::createProgressName('progressInPercent');
+
+        if(!Page::checkIfProgressNameExists('progressMessage'))
+            Page::createProgressName('progressMessage');
+
+        if(!Page::checkIfProgressNameExists('killCommand'))
+            Page::createProgressName('killCommand');
+
+        if(!Page::checkIfProgressNameExists('lastMomentAlive'))
+            Page::createProgressName('lastMomentAlive');
+
+
         
         
     }

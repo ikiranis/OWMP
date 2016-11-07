@@ -1092,6 +1092,13 @@ input {
     display: inline-block;
 }
 
+#killCommand_img {
+    background-image: url( '../img/killCommand.png' );
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center center;
+}
+
 
 /*Buttons*/
 #editButtons {
@@ -1123,12 +1130,19 @@ input {
     margin: 0.1em 0.5em 0.1em 0.5em;
 }
 
+.syncButton:disabled {
+    background-color: red;
+}
+
 
 
 
 .myButton:hover {
     transform: scale(1.05);
 }
+
+
+
 
 
 /*Search*/

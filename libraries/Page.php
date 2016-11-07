@@ -420,18 +420,93 @@ class Page
         return $timeArray;
     }
 
+
+    // Ελέγχει αν υπάρχει το $progressName στον πίνακα progress
+    static function checkIfProgressNameExists($progressName) {
+        $conn = new RoceanDB();
+        $conn::CreateConnection();
+
+        $sql = 'SELECT progressName FROM progress WHERE progressName=?';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute(array($progressName));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $result=true;
+        }
+
+        else $result=false;
+
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+    
+    // Δημιουργεί ένα $progressName στον πίνακα progress
+    static function createProgressName($progressName) {
+        $conn = new RoceanDB();
+        $conn::CreateConnection();
+
+        $sql = 'INSERT INTO progress (progressName) VALUES(?)';
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+
+        if($stmt->execute(array($progressName)))
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
     // Καταχωρεί το ποσοστό εξέλιξης progress
     static function updatePercentProgress($progress) {
         $progressUpdateArray=array ($progress, 'progressInPercent');
         RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     }
+
+    // Ενημερώνει με 1 (true) ή 0 (false) το killCommand του πίνακa progress
+    static function setKillCommand($theCommand) {
+        $progressUpdateArray=array ($theCommand, 'killCommand');
+        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+    }
+
+    // Δίνει timespamp τιμή στο lastMomentAlive του πίνακa progress
+    static function setLastMomentAlive($operation) {
+        if($operation==true)
+            $theTimestamp = time();
+        else $theTimestamp='';
+        
+        $progressUpdateArray=array ($theTimestamp, 'lastMomentAlive');
+        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+    }
     
+    // Επιστρέφει το killCommand από τον πίνακα progress
+    static function getKillCommand() {
+        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'killCommand', 'progressValue'))
+            return $result;
+        else return false;
+    }
+
+    // Επιστρέφει το lastMomentAlive από τον πίνακα progress
+    static function getLastMomentAlive() {
+        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'lastMomentAlive', 'progressValue'))
+            return $result;
+        else return false;
+    }
     
     // Επιστρέφει το ποσοστό εξέλιξης progress
     static function getPercentProgress() {
-        $result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue');
-        
-        return $result;
+        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue'))
+            return $result;
+        else return false;
     }
 
     //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής

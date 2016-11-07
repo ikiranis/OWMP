@@ -633,7 +633,7 @@ class RoceanDB
 
     // Ενημερώνει fields σε ένα table
     // $table ο πίνακας, $condition σε μορφή 'id=?'
-    // $fields και $values σε array. To $id το βάζουμε στο τέλος του $values
+    // $fields και $values σε array. To $fieldsText value το βάζουμε στο τέλος του $values
     static function updateTableFields ($table, $condition, $fields, $values)
     {
         self::CreateConnection();

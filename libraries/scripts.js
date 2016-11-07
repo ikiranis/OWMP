@@ -1059,11 +1059,6 @@ function startSync(operation) {
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
 
-    // TODO να κάνω έλεγχο του php id process για να βλέπω αν τρέχει διεργασία αντί για το localstorage
-    // if(!localStorage.syncPressed)  // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
-        localStorage.syncPressed=false;
-
-
     // TODO όταν κάνεις συγχρονισμό μετά από έναν άλλον αμέσως δεν σβήνει ακριβώς αυτά που έχει εμφανίσει πριν και δεν εμφανίζει το gif
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed=true;
@@ -1073,7 +1068,7 @@ function startSync(operation) {
         document.querySelector('#theProgressBar').value=0;
         $("#theProgressNumber" ).html('');
 
-        $('#syncButtons').find('input').prop('disabled', true);
+        $('.syncButton').prop('disabled', true);
 
         progressCallFile = AJAX_path + "getProgress.php";
 
@@ -1086,7 +1081,7 @@ function startSync(operation) {
                 }
             }, "json");
 
-        }, 5000);
+        }, 1000);
 
         $('#SyncDetails').load(callFile, function() {
 
@@ -1094,14 +1089,44 @@ function startSync(operation) {
             $('#progress').hide();
             $('#logprogress').hide();
             localStorage.syncPressed=false;
-            $('#syncButtons').find('input').prop('disabled', false);
+            $('.syncButton').prop('disabled', false);
         });
     }
     else alert ('Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη');
-    // TODO υπάρχει περίπτωση να κλείσει ο browser πριν να τελειώσει η διεργασία και άρα το localStorage να μην πάρει
-    // την τιμή false.  Έτσι δεν θα μπορούμε να ξανατρέξουμε την διεργασία. Να το διορθώσω με κάποιον έλεγχο ή να
-    // μπορείς από τα options να το κάνεις reset.
 
+
+}
+
+
+// Έλεγχος αν η process τρέχει
+function checkProcessAlive() {
+    // TODO να τεστάρω τι γίνεται την στιγμή που διαβάζει αρχεία και δεν στέλνει σημείο ζωής
+    CallFile = AJAX_path + "checkLastMomentAlive.php";
+
+    // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
+    if(!localStorage.syncPressed) localStorage.syncPressed='';
+
+    if (localStorage.syncPressed == true) { // αν η process τρέχει
+        $('.syncButton').prop('disabled', true);
+    }
+    else {
+        $('.syncButton').prop('disabled', false);
+    }
+        
+    setInterval(function(){
+        $.get(CallFile, function (data) {
+            if (data.success == true) { // αν η process τρέχει
+                localStorage.syncPressed=true;
+                $('.syncButton').prop('disabled', true);
+            }
+            else {
+                localStorage.syncPressed=false;
+                $('.syncButton').prop('disabled', false);
+            }
+            
+        }, "json");
+
+    }, 1000);
 }
 
 
@@ -1529,6 +1554,19 @@ function checkCurrentVersion() {
         if(AppVersion!==data.app_version)
             $("#checkCurrentVersion").html('Need to Update. Latest App Version: '+data.app_version);
     }, "json");
+}
+
+// Στέλνει kill command στην βάση για να σταματήσει το php script που τρέχει
+function sendKillCommand() {
+    callFile = AJAX_path + "sendKillCommand.php";
+
+    $("#killCommand_img").hide();
+
+    $.get(callFile, function (data) {
+        if(data.success)
+            console.log('Killed');
+    }, "json");
+
 }
 
 

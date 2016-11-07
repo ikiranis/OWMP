@@ -90,6 +90,7 @@
 
     <page name="sync">
         <phrase name="Synchronize">Synchronization</phrase>
+        <phrase name="kill_process">Kill Process</phrase>
     </page>
 
     <page name="plalist">

@@ -90,6 +90,7 @@
 
     <page name="sync">
         <phrase name="Synchronize">Συγχρονισμός</phrase>
+        <phrase name="kill_process">Τερματισμός διεργασίας</phrase>
     </page>
 
     <page name="plalist">
