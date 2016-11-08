@@ -18,6 +18,8 @@ $lastMomentAlive=Page::getLastMomentAlive();  // παίρνει την τιμή 
 if(!$lastMomentAlive=='') { // Αν η τιμή δεν είναι κενό την υπολογίζουμε
     $TimeDifference = time() - $lastMomentAlive;
 
+    trigger_error($TimeDifference);
+    
     if ($TimeDifference > 5) // Αν έχει να δώσει σημία ζωής πάνω από 5 δευτερόλεπτα, τότε ο συγχρονισμός έχει λήξει
         $jsonArray = array('success' => false);
     else $jsonArray = array('success' => true);

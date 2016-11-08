@@ -1061,7 +1061,7 @@ function startSync(operation) {
 
     // TODO όταν κάνεις συγχρονισμό μετά από έναν άλλον αμέσως δεν σβήνει ακριβώς αυτά που έχει εμφανίσει πριν και δεν εμφανίζει το gif
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
-        localStorage.syncPressed=true;
+        localStorage.syncPressed='true';
 
         $('#progress').show();
         $('#logprogress').show();
@@ -1072,10 +1072,15 @@ function startSync(operation) {
 
         progressCallFile = AJAX_path + "getProgress.php";
 
-        setInterval(function(){
+        var syncInterval=setInterval(function(){
 
             $.get(progressCallFile, function (progressData) {
                 if (progressData.success == true) {
+                    if(progressData.progressInPercent>98 && localStorage.syncPressed=='true')
+                        DisplayWindow(3, null, null);
+                    if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true')
+                        $('#progress').show();
+                    else $('#progress').hide();
                     $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
                     document.querySelector('#theProgressBar').value=progressData.progressInPercent;
                 }
@@ -1083,14 +1088,18 @@ function startSync(operation) {
 
         }, 1000);
 
-        $('#SyncDetails').load(callFile, function() {
-
-        // console.log('load is done');
+        $.get(callFile, function(data) {
+            // DisplayWindow(3, null, null);
+            $('#SyncDetails').append(data);
             $('#progress').hide();
             $('#logprogress').hide();
-            localStorage.syncPressed=false;
+            localStorage.syncPressed='false';
             $('.syncButton').prop('disabled', false);
+            clearInterval(syncInterval);
+            // TODO να δω γιατί δεν σκοτώνεται το interval
         });
+
+
     }
     else alert ('Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη');
 
@@ -1106,7 +1115,7 @@ function checkProcessAlive() {
     // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
     if(!localStorage.syncPressed) localStorage.syncPressed='';
 
-    if (localStorage.syncPressed == true) { // αν η process τρέχει
+    if (localStorage.syncPressed == 'true') { // αν η process τρέχει
         $('.syncButton').prop('disabled', true);
     }
     else {
@@ -1116,11 +1125,11 @@ function checkProcessAlive() {
     setInterval(function(){
         $.get(CallFile, function (data) {
             if (data.success == true) { // αν η process τρέχει
-                localStorage.syncPressed=true;
+                localStorage.syncPressed='true';
                 $('.syncButton').prop('disabled', true);
             }
             else {
-                localStorage.syncPressed=false;
+                localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
             }
             

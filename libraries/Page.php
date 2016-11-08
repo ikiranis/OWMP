@@ -246,6 +246,15 @@ class Page
                     <?php echo $leftSideText; ?>
                 </div>
             </div>
+
+            <div id="logprogress">
+                <input type="button" id="killCommand_img" class="button_img"
+                       title="<?php echo __('kill_process'); ?>"
+                       onclick="sendKillCommand();"">
+                <progress id="theProgressBar" name="theProgressBar" max="100" value="0">
+                </progress>
+                <span id="theProgressNumber"></span>
+            </div>
             
             <div id="RightSide" >
                 <div class="mainbarcontent">

@@ -70,7 +70,7 @@ $logged_in=false;
 if(!$conn->CheckCookiesForLoggedUser()) {
     if (isset($_SESSION["username"]))
     {
-        $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$conn->getSession('username').'</span>';
+        $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$conn->getSession('username').'</span>';
 //        session_regenerate_id(true);
 
         $logged_in=true;
@@ -78,7 +78,7 @@ if(!$conn->CheckCookiesForLoggedUser()) {
     }
 }
 else {
-    $LoginNameText= '<img id=account_image src=img/account.png> <span id=account_name>'.$_COOKIE["username"].'</span>';
+    $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$_COOKIE["username"].'</span>';
     $logged_in=true;
     
     if (!isset($_SESSION["username"]))
