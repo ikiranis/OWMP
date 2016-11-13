@@ -15,7 +15,6 @@ session_start();
 require_once ('login.php');
 require_once ('MainPage.php');
 
-
 $MainPage = new Page();
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
@@ -50,6 +49,12 @@ $MainPage->showHeader();
 
 $logged_in=false;
 
+define('TAB_ID', rand(100000,999999));
+
+?>
+<input name='tabID' id='tabID' type='hidden' value='<?php echo TAB_ID; ?>'>
+
+<?php
 // Περνάει βασικές μεταβλητές στην javascript
 ?>
 
@@ -62,9 +67,13 @@ $logged_in=false;
         var ParrotVersionFile="<?php echo PARROT_VERSION_FILE; ?>";
         var AppVersion="<?php echo APP_VERSION; ?>";
 
+        var tabID=document.querySelector('#tabID').value;
+
     </script>
 
 <?php
+
+
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
@@ -73,6 +82,8 @@ if(!$conn->CheckCookiesForLoggedUser()) {
         $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$conn->getSession('username').'</span>';
 //        session_regenerate_id(true);
 
+            $userName=$conn->getSession('username');
+        
         $logged_in=true;
 
     }
@@ -80,6 +91,8 @@ if(!$conn->CheckCookiesForLoggedUser()) {
 else {
     $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$_COOKIE["username"].'</span>';
     $logged_in=true;
+
+    $userName=$_COOKIE['username'];
     
     if (!isset($_SESSION["username"]))
         $conn->setSession('username', $_COOKIE["username"]);
@@ -93,6 +106,14 @@ $timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></
 
 if($logged_in) {
     $MainPage->showMainBar($timediv, $LoginNameText);
+
+//    $curPlaylistText = CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $_COOKIE['tabID'];
+
+
+
+//        setcookie('curPlaylist', $curPlaylistText, time() + $CookieTime, PROJECT_PATH);
+
+//    trigger_error($curPlaylistText);
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
     if(Page::checkNewPageRunning()) {

@@ -14,7 +14,13 @@ session_start();
 
 $conn = new RoceanDB();
 
-
+// TODO να επιβεβαιώσω ότι όντως ενημερώνει το session
+// Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
+if (!isset($_SESSION["username"])) {
+    if ($conn->CheckCookiesForLoggedUser()) {
+        $conn->setSession('username', $_COOKIE["username"]);
+    }
+}
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
@@ -22,6 +28,9 @@ if(isset($_GET['id']))
 if(isset($_GET['onlyGiphy']))
     $onlyGiphy=ClearString($_GET['onlyGiphy']);
 else $onlyGiphy=null;
+
+if(isset($_GET['tabID']))
+    $tabID=ClearString($_GET['tabID']);
 
 
 $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
@@ -76,7 +85,7 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
     }
     else $albumCoverPath=null;
 
-    $tempUserPlaylist=$conn->getSession('username').CUR_PLAYLIST_STRING;
+    $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
     $playlistID=RoceanDB::getTableFieldValue($tempUserPlaylist, 'file_id=?', $id, 'id');
     
     $jsonArray = array('success' => true,

@@ -32,6 +32,9 @@ var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζε�
 var myImage='';   // Το cover art που κάνουμε upload
 var myMime='';  // Ο τύπος του cover art
 
+var tabID;
+
+
 
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
@@ -395,10 +398,24 @@ function writeSearchFields(numberOfFields) {
     }
 }
 
+
+// Δημιουργεί ένα cookie
+function createCookie(name, value, minutes) {
+    var expires;
+    if (minutes) {
+        var date = new Date();
+        date.setTime(date.getTime() + (minutes));
+        expires = minutes;
+    } else {
+        expires = "";
+    }
+    document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+}
+
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
-    callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step;
+    callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
 
 
 
@@ -703,7 +720,8 @@ function getNextVideoID(id) {
         async: true,
         data: {
             playMode: localStorage.PlayMode,
-            currentPlaylistID: localStorage.currentPlaylistID
+            currentPlaylistID: localStorage.currentPlaylistID,
+            tabID: tabID
         },
         dataType: "json",
         success: function (data) {
@@ -730,7 +748,8 @@ function loadNextVideo(id) {
         // currentID=files[files_index][0];
 
 
-        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID;
+
+        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
 
     }
 
@@ -738,7 +757,7 @@ function loadNextVideo(id) {
         // files_index=id;
         currentID=id;
 
-        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID;
+        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
     }
 
     TimeUpdated=false;
@@ -1033,7 +1052,8 @@ function searchPlaylist(offset, step, firstTime) {
     localStorage.currentPlaylistID='1';
 
 
-    callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step+"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind);
+    callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step
+        +"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind)+'&tabID='+tabID;
 
 
     $.get(callFile, function(data) {
@@ -1059,7 +1079,6 @@ function startSync(operation) {
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
 
-    // TODO όταν κάνεις συγχρονισμό μετά από έναν άλλον αμέσως δεν σβήνει ακριβώς αυτά που έχει εμφανίσει πριν και δεν εμφανίζει το gif
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
 
@@ -1072,11 +1091,12 @@ function startSync(operation) {
 
         progressCallFile = AJAX_path + "getProgress.php";
 
+
         var syncInterval=setInterval(function(){
 
             $.get(progressCallFile, function (progressData) {
                 if (progressData.success == true) {
-                    if(progressData.progressInPercent>98 && localStorage.syncPressed=='true')
+                    if(progressData.progressInPercent>97 && localStorage.syncPressed=='true')
                         DisplayWindow(3, null, null);
                     if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true')
                         $('#progress').show();
@@ -1095,6 +1115,7 @@ function startSync(operation) {
             $('#logprogress').hide();
             localStorage.syncPressed='false';
             $('.syncButton').prop('disabled', false);
+            console.log('SKOTWNW TO INTERVAL');
             clearInterval(syncInterval);
             // TODO να δω γιατί δεν σκοτώνεται το interval
         });
@@ -1121,8 +1142,8 @@ function checkProcessAlive() {
     else {
         $('.syncButton').prop('disabled', false);
     }
-        
-    setInterval(function(){
+
+    syncInterval=setInterval(function(){
         $.get(CallFile, function (data) {
             if (data.success == true) { // αν η process τρέχει
                 localStorage.syncPressed='true';
@@ -1132,6 +1153,9 @@ function checkProcessAlive() {
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
             }
+
+            if($('.syncButton').length==0)
+                clearInterval(syncInterval);
             
         }, "json");
 
@@ -1583,7 +1607,7 @@ function sendKillCommand() {
 // On load
 $(function(){
 
-
+    
 
     $('#LoginForm').validate({ // initialize the plugin
         errorElement: 'div'

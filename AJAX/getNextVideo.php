@@ -15,7 +15,9 @@ session_start();
 
 $conn = new RoceanDB();
 
-$tempUserPlaylist=$conn->getSession('username').CUR_PLAYLIST_STRING;
+
+
+//trigger_error(TAB_ID);
 
 if(isset($_GET['currentPlaylistID']))
     $currentPlaylistID=intval($_GET['currentPlaylistID']);
@@ -23,6 +25,10 @@ if(isset($_GET['currentPlaylistID']))
 if(isset($_GET['playMode']))
     $playMode=ClearString($_GET['playMode']);
 
+if(isset($_GET['tabID']))
+    $tabID=ClearString($_GET['tabID']);
+
+$tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
 
 
 if($playMode=='shuffle') {

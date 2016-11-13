@@ -142,7 +142,7 @@ class OWMP
 
         ?>
 
-        <video id="myVideo" width="100%" autoplay onerror="failed(event)"></video>
+        <video id="myVideo" width="100%" autoplay preload="none" onerror="failed(event)"></video>
 
         <div id="overlay_volume">
             <span id="overlay_volume_text">
@@ -480,7 +480,7 @@ class OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null) {
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null) {
         $conn = new RoceanDB();
 
         $condition='';
@@ -579,8 +579,14 @@ class OWMP
 
                 $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray);
 
+
+                if(!$tabID)
+                    $tabID=TAB_ID;
+                
                 // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-                $tempUserPlaylist=$conn->getSession('username').CUR_PLAYLIST_STRING;
+                $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $tabID;
+
+                trigger_error($tempUserPlaylist);
 
                 // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
                 if(!RoceanDB::checkIfTableExist($tempUserPlaylist))
