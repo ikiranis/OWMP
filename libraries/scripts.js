@@ -1602,6 +1602,19 @@ function sendKillCommand() {
 
 }
 
+// Ψάχνει και καθαρίζει την βάση από προσωρινά tables που δεν χρησιμοποιούνται πλέον
+function garbageCollection() {
+    callFile=AJAX_path+"garbageCollection.php?tabID="+tabID;
+
+
+    $.get(callFile, function (data) {
+        // if (data.success == true) {
+        //
+        //
+        // }
+    }, "json");
+}
+
 
 // ************************************
 // On load
@@ -1874,6 +1887,12 @@ $(function(){
     checkSearchFieldChanges();
 
     checkCurrentVersion();
+
+
+    // Έλεγχος για garbage collection
+    setInterval(garbageCollection, 600000);
+
+
 
     //Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
     // navigator.mediaDevices.enumerateDevices()

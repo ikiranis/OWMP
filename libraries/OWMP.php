@@ -580,17 +580,25 @@ class OWMP
                 $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray);
 
 
-                if(!$tabID)
-                    $tabID=TAB_ID;
+                if(!$tabID)  // Αν δεν έρχεται από function
+                    $tabID=TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
                 
                 // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
                 $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $tabID;
 
                 trigger_error($tempUserPlaylist);
 
+
+
                 // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
-                if(!RoceanDB::checkIfTableExist($tempUserPlaylist))
-                    self::createPlaylistTempTable($tempUserPlaylist);
+                if(!RoceanDB::checkIfTableExist($tempUserPlaylist)) {
+                    self::createPlaylistTempTable($tempUserPlaylist); // Δημιουργούμε το table
+
+                    // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
+                    $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
+                    $playlistTableArray = array($tempUserPlaylist, date('Y-m-d H:i:s'));
+                    $conn->ExecuteSQL($sql, $playlistTableArray);
+                }
 
                 // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
                 RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);

@@ -31,6 +31,10 @@ if(isset($_GET['tabID']))
 $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
 
 
+// Ενημερώνει τον playlist_tables για το table $tempUserPlaylist με την ώρα που έγινε το access
+$theDate = date('Y-m-d H:i:s');
+RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
+
 if($playMode=='shuffle') {
     $tableCount = RoceanDB::countTable($tempUserPlaylist);
     $randomRow = rand(1,$tableCount);

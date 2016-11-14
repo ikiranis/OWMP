@@ -373,6 +373,7 @@ class RoceanDB
     
     // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields.
     // Επίσης δέχεται $condition (π.χ. id=?) για το WHERE μαζί με τις παραμέτρους σε array για το execute
+    // π.χ $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
     static function getTableArray ($table, $fields, $condition, $ParamsArray, $orderBy, $joinTable, $joinFields) {
         //SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id
         self::CreateConnection();
@@ -634,6 +635,7 @@ class RoceanDB
     // Ενημερώνει fields σε ένα table
     // $table ο πίνακας, $condition σε μορφή 'id=?'
     // $fields και $values σε array. To $fieldsText value το βάζουμε στο τέλος του $values
+    // π.χ. updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     static function updateTableFields ($table, $condition, $fields, $values)
     {
         self::CreateConnection();
@@ -971,6 +973,26 @@ class RoceanDB
         self::CreateConnection();
 
         $sql = 'TRUNCATE '.$table;
+        $stmt = self::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result=true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+    // Σβήνει τελείως ένα $table
+    static function dropTable($table) {
+        self::CreateConnection();
+
+        $sql = 'drop table '.$table;
         $stmt = self::$conn->prepare($sql);
 
 
