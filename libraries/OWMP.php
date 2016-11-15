@@ -1384,7 +1384,6 @@ class OWMP
         return $result;
     }
 
-    // TODO να τσεκάρω αν αυτό αργεί πολύ αλλιώς να κάνω άλλη υλοποίηση
     // πραγματικός έλεγχος αν ένα αρχείο υπάρχει, γιατί παίζει μερικές φορές λόγω cashe να επιστρέφει λάθος αποτέλεσμα η file_exists
     static function fileExists($path){
         return (@fopen($path,"r")==true);
@@ -1567,6 +1566,8 @@ class OWMP
 
     // Κατεβάζει ένα βίντεο από το Youtube
     static function downloadYoutube($url) {
+        Page::setLastMomentAlive(false);
+        
         $myYear = date('Y');
         $myMonth = date('m');
         $fileDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
@@ -1593,6 +1594,8 @@ class OWMP
 
         $outputfilename=str_replace("\n",'',$outputfilename);
 
+        Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+        
         // έλεγχος αν έχει κατέβει το βίντεο
         if(OWMP::fileExists($outputfilename))
             return $outputfilename;

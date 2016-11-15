@@ -34,7 +34,7 @@ var myMime='';  // Ο τύπος του cover art
 
 var tabID;
 
-
+var runningYoutubeDownload=false; // Κρατάει το αν τρέχει το download του youtube
 
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
@@ -1084,6 +1084,7 @@ function startSync(operation) {
 
         $('#progress').show();
         $('#logprogress').show();
+        $("#killCommand_img").show();
         document.querySelector('#theProgressBar').value=0;
         $("#theProgressNumber" ).html('');
 
@@ -1115,9 +1116,7 @@ function startSync(operation) {
             $('#logprogress').hide();
             localStorage.syncPressed='false';
             $('.syncButton').prop('disabled', false);
-            console.log('SKOTWNW TO INTERVAL');
             clearInterval(syncInterval);
-            // TODO να δω γιατί δεν σκοτώνεται το interval
         });
 
 
@@ -1164,7 +1163,7 @@ function checkProcessAlive() {
 
 
 // Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
-function callGetYouTube(url) {
+function callGetYouTube(url,counter,total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "getYouTube.php",
         type: 'GET',
@@ -1174,11 +1173,21 @@ function callGetYouTube(url) {
         },
         dataType: "json",
         beforeSend: function (xhr) {
-            $("#logprogress").append('<p>Κατεβάζω το ' + url + '</p>');
+            if(runningYoutubeDownload) {
+                $("#SyncDetails").append('<p>Κατεβάζω το ' + url + '</p>');
+
+                progressPercent = parseInt(((counter + 1) / total) * 100);
+
+                $("#theProgressNumber").html(progressPercent + '%');
+                document.querySelector('#theProgressBar').value = progressPercent;
+            }
+            else xhr.abort();
+
         },
         success: function (data) {
             if (data.success == true) {
-                $("#logprogress").append('<p>To video κατέβηκε στο path: ' + data.result + '</p>');
+                $("#SyncDetails").append('<p>To video κατέβηκε στο path: ' + data.result + '</p>');
+
             }
         }
     });
@@ -1191,18 +1200,32 @@ function downloadYouTube() {
     urls=urls.split(',');  // Παίρνουμε το string σε array
     
     $('#progress').show();
+    $('#logprogress').show();
+    $("#killCommand_img").show();
+
+    runningYoutubeDownload=true;
+
+    document.querySelector('#theProgressBar').value=0;
+    $("#theProgressNumber" ).html('');
 
     for (var i = 0; i < urls.length; i++) {
 
-        callGetYouTube(urls[i]);
+        callGetYouTube(urls[i], i, urls.length);
 
     }
 
 
     $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-        $("#progress").hide();
-        $("#logprogress").append('<p>Αρχίζω τον συγχρονισμό</p>');
-        startSync('sync');
+        var syncInterval=setInterval(function() {
+            clearInterval(syncInterval);
+            $("#progress").hide();
+            $('#logprogress').hide();
+            document.querySelector('#theProgressBar').value=0;
+            $("#theProgressNumber" ).html('');
+            $("#SyncDetails").append('<p>Αρχίζω τον συγχρονισμό</p>');
+            runningYoutubeDownlod=false;
+            startSync('sync');
+        },6000);
         // return;
     });
 
@@ -1436,6 +1459,8 @@ function editFiles() {
                                 $("#fileID"+data.id).find('.artist').text(artist);
                             if(genre!='')
                                 $("#fileID"+data.id).find('.genre').text(genre);
+                            if(album!='')
+                                $("#fileID"+data.id).find('.album').text(album);
                             if(song_year!='')
                                 $("#fileID"+data.id).find('.song_year').text(song_year);
                             if(rating!=0)
@@ -1591,14 +1616,21 @@ function checkCurrentVersion() {
 
 // Στέλνει kill command στην βάση για να σταματήσει το php script που τρέχει
 function sendKillCommand() {
-    callFile = AJAX_path + "sendKillCommand.php";
+    if(!runningYoutubeDownlod) {
+        callFile = AJAX_path + "sendKillCommand.php";
 
-    $("#killCommand_img").hide();
+        $("#killCommand_img").hide();
 
-    $.get(callFile, function (data) {
-        if(data.success)
-            console.log('Killed');
-    }, "json");
+        $.get(callFile, function (data) {
+            if (data.success)
+                console.log('Killed');
+        }, "json");
+    }
+    else {
+        $("#killCommand_img").hide();
+        runningYoutubeDownload=false;
+
+    }
 
 }
 

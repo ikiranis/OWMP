@@ -247,12 +247,15 @@ sudo git pull
 
 Δηλαδή οι εντολές που θα τρέξετε στην mysql είναι:
 
-DELETE FROM OWMP.music_tags;
-DELETE FROM OWMP.files;
+DELETE FROM music_tags;
+DELETE FROM files;
 
 
 CHANGE LOG
 
+16-11-2016: 0.1.201
+    Διόρθωση του progress στο κατέβασμα από youtube και τερματισμός του download
+    Διόρθωση της εμφάνισης του album στην λίστα, μετά από μαζικό editing
 14-11-2016: 0.1.200
     Καθαρίζει την βάση από προσωρινούς πίνακες που δεν χρησιμοποιούνται άλλο
 13-11-2016: 0.1.107

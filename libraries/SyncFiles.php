@@ -292,6 +292,7 @@ class SyncFiles
 
             if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {  // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
 
+                Page::setLastMomentAlive(false);
 
                 $this->startingValues($filename); // Αρχικοποίηση τιμών
 
@@ -386,13 +387,7 @@ class SyncFiles
             if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                Page::updatePercentProgress($progressPercent); // Το ποσοστό του progress
-                Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
-
-                if(Page::getKillCommand()=='1') { // Αν killCommand είναι 1 τότε σταματούμε την εκτέλεση του script
-                    Page::setKillCommand('0');  // Το επαναφέρουμε πρώτα σε 0 για το μέλλον
-                    exit();
-                }
+                self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                 $progressCounter=0;
             }
@@ -459,10 +454,22 @@ class SyncFiles
 
         RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
 
+        Page::updatePercentProgress(0);   // Μηδενίζει το progress
 
 
     }
 
+    // Κάνει τους έλεγχους του progress και του τερματισμού
+    static function setProgress($progressPercent) {
+        Page::updatePercentProgress($progressPercent); // Το ποσοστό του progress
+        Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
+        if(Page::getKillCommand()=='1') { // Αν killCommand είναι 1 τότε σταματούμε την εκτέλεση του script
+            Page::setKillCommand('0');  // Το επαναφέρουμε πρώτα σε 0 για το μέλλον
+            exit();
+        }
+    
+    }
     
 
     // Επιστρέφει true αν το string είναι UTF-8

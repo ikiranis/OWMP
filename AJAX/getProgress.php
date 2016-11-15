@@ -12,7 +12,6 @@
 require_once('../libraries/common.inc.php');
 
 
-
 if($progressInPercent=Page::getPercentProgress()) {
     $jsonArray = array('success' => true, 'progressInPercent' => $progressInPercent);
 }

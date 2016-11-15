@@ -12,7 +12,7 @@
 
 require_once ('../libraries/common.inc.php');
 
-
+//Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 $lastMomentAlive=Page::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive
 
 if(!$lastMomentAlive=='') { // Αν η τιμή δεν είναι κενό την υπολογίζουμε
