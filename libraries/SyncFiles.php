@@ -484,6 +484,8 @@ class SyncFiles
     // Επιστρέφει τα ID tags ενός media αρχείου
     public function getMediaFileTags ($FullFileName) {
 
+        Page::setLastMomentAlive(true);
+
         if(!self::$getID3)
             self::$getID3=new getID3();
 
@@ -597,6 +599,11 @@ class SyncFiles
 
         if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
+            $progressCounter=0;
+            $general_counter=0;
+
+            $totalFiles = count($filesOnDB);
+
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
                 if(!OWMP::fileExists($full_path)) {
@@ -606,8 +613,21 @@ class SyncFiles
                 }
 
 
+                if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
+                    $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+
+                    $progressCounter=0;
+                }
+                else $progressCounter++;
+
+                $general_counter++;
+
             }
 
+            self::setProgress(0);
+            
             echo '<p>Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν</p>';
 
             RoceanDB::insertLog('Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν'); // Προσθήκη της κίνησης στα logs
@@ -626,6 +646,8 @@ class SyncFiles
         // TODO έλεγχος αν επιστρέφει τιμή το filesize γιατί σε κάποιες περιπτώσεις επιστρέφει error
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
         if(OWMP::fileExists($full_path)) {
+            Page::setLastMomentAlive(true);
+
             $start=filesize($full_path)/2;
             $size=1024;
 
@@ -662,6 +684,8 @@ class SyncFiles
     static function hashTheFiles() {
         set_time_limit(0);
 
+        self::setProgress(0);
+
         $script_start = microtime(true);
 
         $conn = new RoceanDB();
@@ -670,6 +694,12 @@ class SyncFiles
 
         if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
+            $progressCounter=0;
+            $general_counter=0;
+
+            $totalFiles = count($filesOnDB);
+
+
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
                 if(OWMP::fileExists($full_path)) {
@@ -691,10 +721,23 @@ class SyncFiles
                             else echo 'Πρόβλημα με το αρχειο '.$full_path;
                 }
 
+                if($progressCounter>10) { // ανα 100 items ενημερώνει το progress
+                    $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+
+                    $progressCounter=0;
+                }
+                else $progressCounter++;
+
+                $general_counter++;
+
 
             }
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            self::setProgress(0);
 
             echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash</p>';
             echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
@@ -753,6 +796,8 @@ class SyncFiles
     public function filesMetadata() {
         set_time_limit(0);
 
+        self::setProgress(0);
+
         $script_start = microtime(true);
 
         $conn = new RoceanDB();
@@ -761,6 +806,12 @@ class SyncFiles
 
         if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
+
+            $progressCounter=0;
+            $general_counter=0;
+
+            $totalFiles = count($filesOnDB);
+
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
                 if(OWMP::fileExists($full_path)) {
@@ -779,9 +830,23 @@ class SyncFiles
                 }
 
 
+                if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
+                    $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+
+                    $progressCounter=0;
+                }
+                else $progressCounter++;
+
+                $general_counter++;
+
+
             }
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            self::setProgress(0);
 
             echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata</p>';
             echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
@@ -793,7 +858,7 @@ class SyncFiles
 
     // Μετατρέπει ένα ALAC αρχείο σε mp3. Το δημιουργεί σε νέα τοποθεσία την οποία επιστρέφει
     public function convertALACtoMP3($fullPath, $filename, $path) {
-
+        Page::setLastMomentAlive(true);
 
         // TODO να βρω τρόπο να ελέγχω αν είναι εγκατεστημένα τα ffmpeg και lame
         // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους

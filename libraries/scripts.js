@@ -641,8 +641,10 @@ function changeCheckAll(checkAll, checkItems) {
 
 
 
-// TODO συμβατότητα με safari και firefox. Ο Firefox δεν εμφανίζει τον div. Ο safari δεν δέχεται κάποια keys όταν είναι σε fullscreen
-// βάζει/βγάζει το video σε fullscren
+// TODO συμβατότητα με safari και firefox. Ο Firefox δεν εμφανίζει το div. Ο safari δεν δέχεται κάποια keys όταν είναι σε fullscreen
+// βάζει/βγάζει το video σε fullscreen
+// Ο safari δεν υποστηρίζει keyboard shortcuts όταν είναι σε fullscreen για λόγους ασφαλείας
+// Ο firefox δεν εμφανίζει το overlay σε fullscreen
 function toggleFullscreen() {
     elem = myVideo;
     if (!document.fullscreenElement && !document.mozFullScreenElement &&
@@ -655,6 +657,7 @@ function toggleFullscreen() {
             elem.mozRequestFullScreen();
         } else if (elem.webkitRequestFullscreen) {
             elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            // getShortcuts(elem);
         }
     } else {
         if (document.exitFullscreen) {
@@ -778,6 +781,7 @@ function loadNextVideo(id) {
             file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
             myVideo.src = file_path;
+            myVideo.controls=false;
             console.log(myVideo.src);
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
@@ -1616,7 +1620,9 @@ function checkCurrentVersion() {
 
 // Στέλνει kill command στην βάση για να σταματήσει το php script που τρέχει
 function sendKillCommand() {
-    if(!runningYoutubeDownlod) {
+    console.log(runningYoutubeDownload);
+
+    if(!runningYoutubeDownload) {
         callFile = AJAX_path + "sendKillCommand.php";
 
         $("#killCommand_img").hide();
@@ -1648,120 +1654,10 @@ function garbageCollection() {
 }
 
 
-// ************************************
-// On load
-$(function(){
+// Έλεγχος shorcuts
+function getShortcuts(elem) {
 
-    
-
-    $('#LoginForm').validate({ // initialize the plugin
-        errorElement: 'div'
-    });
-
-    $('#RegisterForm').validate({ // initialize the plugin
-        errorElement: 'div',
-        rules : {
-            repeat_password: {
-                equalTo : '[name="password"]'
-            }
-        }
-    });
-
-
-    $('.users_form').each(function() {  // attach to all form elements on page
-        $(this).validate({       // initialize plugin on each form
-            errorElement: 'div'
-        });
-    });
-
-
-
-    $('.options_form').each(function() {  // attach to all form elements on page
-        $(this).validate({       // initialize plugin on each form
-            errorElement: 'div'
-        });
-    });
-
-
-
-
-    getTime('#timetext'); // Εμφανίζει την ώρα
-
-
-    // Εμφανίζει συνεχώς την ώρα
-    setInterval(function(){
-        getTime('#timetext');
-        if(checkFullscreen()) getTime('#overlay_time');
-
-    }, 1000);
-
-
-    // Έλεγχος αν το repeat password  συμφωνεί με το password
-    $('.UsersList').find('input[name=repeat_password]').keyup(function () {
-        curEl=eval($(document.activeElement).prop('id'));
-
-        // console.log($('#password'+curEl).val());
-
-        if ($('#password'+curEl).val() === $(this).val()) {
-            $(this)[0].setCustomValidity('');
-
-        } else {
-            $(this)[0].setCustomValidity('Passwords must match');
-        }
-
-    });
-
-
-    $('#RegisterForm').find('input[name=repeat_password]').keyup(function () {
-        // curEl=eval($(document.activeElement).prop('id'));
-        //
-        // console.log($(this).val());
-
-        if ($('input[name=password]').val() === $(this).val()) {
-            $(this)[0].setCustomValidity('');
-
-        } else {
-            $(this)[0].setCustomValidity('Passwords must match');
-        }
-
-    });
-    // $("#FormMassiveTags input")
-    // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
-    $("#FormTags input, #FormMassiveTags input, #SearchForm input").click(function() {
-        FocusOnForm=true;
-    });
-
-    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focus(function() {
-        FocusOnForm=true;
-    });
-
-    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focusout(function() {
-        FocusOnForm=false;
-    });
-
-
-    // έλεγχος του focus στην SearchForm
-    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").click(function() {
-        FocusOnForm=true;
-    });
-
-    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focus(function() {
-        FocusOnForm=true;
-    });
-
-    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focusout(function() {
-        FocusOnForm=false;
-    });
-
-
-
-    // TODO συμβατότητα με άλλους browsers
-    document.addEventListener("webkitfullscreenchange", function() {
-        showFullScreenVideoTags();
-    });
-
-    // Έλεγχος πατήματος πλήκτρων
-    window.addEventListener('keydown', function(event) {
+    elem.addEventListener('keydown', function(event) {
 
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
@@ -1891,6 +1787,124 @@ $(function(){
         // console.log(event.keyCode);
 
     }, false);
+}
+
+
+// ************************************
+// On load
+$(function(){
+
+    
+
+    $('#LoginForm').validate({ // initialize the plugin
+        errorElement: 'div'
+    });
+
+    $('#RegisterForm').validate({ // initialize the plugin
+        errorElement: 'div',
+        rules : {
+            repeat_password: {
+                equalTo : '[name="password"]'
+            }
+        }
+    });
+
+
+    $('.users_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        });
+    });
+
+
+
+    $('.options_form').each(function() {  // attach to all form elements on page
+        $(this).validate({       // initialize plugin on each form
+            errorElement: 'div'
+        });
+    });
+
+
+
+
+    getTime('#timetext'); // Εμφανίζει την ώρα
+
+
+    // Εμφανίζει συνεχώς την ώρα
+    setInterval(function(){
+        getTime('#timetext');
+        if(checkFullscreen()) getTime('#overlay_time');
+
+    }, 1000);
+
+
+    // Έλεγχος αν το repeat password  συμφωνεί με το password
+    $('.UsersList').find('input[name=repeat_password]').keyup(function () {
+        curEl=eval($(document.activeElement).prop('id'));
+
+        // console.log($('#password'+curEl).val());
+
+        if ($('#password'+curEl).val() === $(this).val()) {
+            $(this)[0].setCustomValidity('');
+
+        } else {
+            $(this)[0].setCustomValidity('Passwords must match');
+        }
+
+    });
+
+
+    $('#RegisterForm').find('input[name=repeat_password]').keyup(function () {
+        // curEl=eval($(document.activeElement).prop('id'));
+        //
+        // console.log($(this).val());
+
+        if ($('input[name=password]').val() === $(this).val()) {
+            $(this)[0].setCustomValidity('');
+
+        } else {
+            $(this)[0].setCustomValidity('Passwords must match');
+        }
+
+    });
+    // $("#FormMassiveTags input")
+    // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
+    $("#FormTags input, #FormMassiveTags input, #SearchForm input").click(function() {
+        FocusOnForm=true;
+    });
+
+    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focus(function() {
+        FocusOnForm=true;
+    });
+
+    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focusout(function() {
+        FocusOnForm=false;
+    });
+
+
+    // έλεγχος του focus στην SearchForm
+    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").click(function() {
+        FocusOnForm=true;
+    });
+
+    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focus(function() {
+        FocusOnForm=true;
+    });
+
+    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focusout(function() {
+        FocusOnForm=false;
+    });
+
+
+
+    // TODO συμβατότητα με άλλους browsers
+    document.addEventListener("webkitfullscreenchange", function() {
+        showFullScreenVideoTags();
+    });
+
+    // Έλεγχος πατήματος πλήκτρων
+    getShortcuts(document);
+
 
 
 

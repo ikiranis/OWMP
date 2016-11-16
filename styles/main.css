@@ -972,8 +972,17 @@ input {
     height: 40%;
 }
 
-#myVideo::-webkit-media-controls {
-    display:none !important;
+#myVideo::-webkit-media-controls-panel {
+    display:none;
+}
+
+#myVideo:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+}
+#myVideo:-moz-full-screen {
+    width: 100%;
+    height: 100%;
 }
 
 

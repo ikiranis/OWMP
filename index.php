@@ -15,6 +15,8 @@ session_start();
 require_once ('login.php');
 require_once ('MainPage.php');
 
+RoceanDB::checkMySqlTables();
+
 $MainPage = new Page();
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
@@ -49,14 +51,15 @@ $MainPage->showHeader();
 
 $logged_in=false;
 
+
+
+// δημιουργεί έναν μοναδικό αριθμό που χρησιμοποιείται στην υπόλοιπη εφαρμογή σαν tab id
 define('TAB_ID', rand(100000,999999));
 
-?>
-<input name='tabID' id='tabID' type='hidden' value='<?php echo TAB_ID; ?>'>
-
-<?php
 // Περνάει βασικές μεταβλητές στην javascript
 ?>
+
+    <input name='tabID' id='tabID' type='hidden' value='<?php echo TAB_ID; ?>'>
 
     <script type="text/javascript">
 
@@ -99,21 +102,11 @@ else {
 }
 
 
-if($logged_in)
-    $LoginNameText.=' <span id=logout><a href=?logout=true title='.__('logout').'><img src=img/exit.png></a></span>';
-
-$timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
-
+// Αν είναι login κάποιος χρήστης
 if($logged_in) {
+    $LoginNameText .= ' <span id=logout><a href=?logout=true title=' . __('logout') . '><img src=img/exit.png></a></span>';
+
     $MainPage->showMainBar($timediv, $LoginNameText);
-
-//    $curPlaylistText = CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $_COOKIE['tabID'];
-
-
-
-//        setcookie('curPlaylist', $curPlaylistText, time() + $CookieTime, PROJECT_PATH);
-
-//    trigger_error($curPlaylistText);
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
     if(Page::checkNewPageRunning()) {
@@ -121,23 +114,22 @@ if($logged_in) {
             RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
         }
     }
+
+
+    DisplayMainPage();
+
+    $MainPage->showFooter();
+
 }
 
-
-
+// Αν δεν είναι login κάποιος χρήστης
 if(!$logged_in) {
     if ($conn->CheckIfThereIsUsers())
         showLoginWindow();
     else ShowRegisterUser();
 }
 
-
-if($logged_in) DisplayMainPage();
-
-
-if($logged_in)
-    $MainPage->showFooter();
-
+$timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
 
 
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα

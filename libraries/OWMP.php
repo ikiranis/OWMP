@@ -142,7 +142,7 @@ class OWMP
 
         ?>
 
-        <video id="myVideo" width="100%" autoplay preload="none" onerror="failed(event)"></video>
+        <video id="myVideo" width="100%" autoplay preload="auto" onerror="failed(event)"></video>
 
         <div id="overlay_volume">
             <span id="overlay_volume_text">
@@ -1390,6 +1390,7 @@ class OWMP
     }
 
 
+    // TODO να δημιουργεί και thumbnail
     // upload ενός image κι εισαγωγή στην βάση
     static function uploadAlbumImage($image, $mime) {
         $conn = new RoceanDB();

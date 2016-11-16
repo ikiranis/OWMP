@@ -1053,6 +1053,39 @@ class RoceanDB
         return $result;
     }
 
+    // Δημιουργεί ένα table με βάση το $sql script
+    static function createTable($sql) {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result = true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
+
+
+    // Ελέγχει αν υπάρχουν τα tables της βάσης και ότι δεν υπάρχει το δημιουργεί
+    static function checkMySqlTables () {
+        global $mySqlTables;  // To table με τα tables και τα creation strings
+
+        foreach ($mySqlTables as $item) {  // Ελέγχει κάθε ένα table αν υπάρχει
+            if(!self::checkIfTableExist($item['table'])) {
+                self::createTable($item['sql']); // αν δεν υπάρχει το δημιουργεί
+            }
+
+        }
+
+    }
     
 
 }
