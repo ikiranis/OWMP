@@ -1689,11 +1689,15 @@ class OWMP
         if(!Page::checkIfProgressNameExists('progressMessage'))
             Page::createProgressName('progressMessage');
 
-        if(!Page::checkIfProgressNameExists('killCommand'))
+        if(!Page::checkIfProgressNameExists('killCommand')) {
             Page::createProgressName('killCommand');
+            Page::setKillCommand('0');
+        }
 
-        if(!Page::checkIfProgressNameExists('lastMomentAlive'))
+        if(!Page::checkIfProgressNameExists('lastMomentAlive')) {
             Page::createProgressName('lastMomentAlive');
+            Page::setLastMomentAlive(true);
+        }
 
 
         
