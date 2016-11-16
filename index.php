@@ -106,6 +106,8 @@ else {
 if($logged_in) {
     $LoginNameText .= ' <span id=logout><a href=?logout=true title=' . __('logout') . '><img src=img/exit.png></a></span>';
 
+    $timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
+    
     $MainPage->showMainBar($timediv, $LoginNameText);
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
@@ -129,7 +131,7 @@ if(!$logged_in) {
     else ShowRegisterUser();
 }
 
-$timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
+
 
 
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
