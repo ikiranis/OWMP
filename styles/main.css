@@ -521,6 +521,11 @@ footer span {
     background-repeat: no-repeat;
 }
 
+.export_button {
+    background-image: url( '../img/copy.png' );
+    background-repeat: no-repeat;
+}
+
 .button_img {
     background-size: 1.5em;
     background-color: transparent;

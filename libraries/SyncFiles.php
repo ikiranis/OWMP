@@ -387,6 +387,8 @@ class SyncFiles
             if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
+                Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
                 self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                 $progressCounter=0;
@@ -462,7 +464,7 @@ class SyncFiles
     // Κάνει τους έλεγχους του progress και του τερματισμού
     static function setProgress($progressPercent) {
         Page::updatePercentProgress($progressPercent); // Το ποσοστό του progress
-        Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
 
         if(Page::getKillCommand()=='1') { // Αν killCommand είναι 1 τότε σταματούμε την εκτέλεση του script
             Page::setKillCommand('0');  // Το επαναφέρουμε πρώτα σε 0 για το μέλλον
@@ -616,6 +618,8 @@ class SyncFiles
                 if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
+                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    
                     self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                     $progressCounter=0;
@@ -646,7 +650,7 @@ class SyncFiles
         // TODO έλεγχος αν επιστρέφει τιμή το filesize γιατί σε κάποιες περιπτώσεις επιστρέφει error
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
         if(OWMP::fileExists($full_path)) {
-            Page::setLastMomentAlive(true);
+            Page::setLastMomentAlive(false);
 
             $start=filesize($full_path)/2;
             $size=1024;
@@ -658,6 +662,8 @@ class SyncFiles
 
             // Παράγουμε το md5 από το συγκεκριμένο string του αρχείου
             $result = md5($contents);
+
+            Page::setLastMomentAlive(true);
         }
         else $result=false;
 
@@ -723,6 +729,8 @@ class SyncFiles
 
                 if($progressCounter>10) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
                     self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
@@ -832,6 +840,8 @@ class SyncFiles
 
                 if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
                     self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 

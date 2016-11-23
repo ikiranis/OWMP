@@ -375,14 +375,35 @@ class RoceanDB
     // Επίσης δέχεται $condition (π.χ. id=?) για το WHERE μαζί με τις παραμέτρους σε array για το execute
     // π.χ $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
     static function getTableArray ($table, $fields, $condition, $ParamsArray, $orderBy, $joinTable, $joinFields) {
-        //SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id
         self::CreateConnection();
 
-        if(!isset($fields)) $sql = 'SELECT * FROM '.$table;
-        else $sql = 'SELECT '.$fields.' FROM '.$table;
+        if(is_array($table))
+            $MainTable=$table[0];
+        else $MainTable=$table;
 
-        if(isset($joinTable))
-            $sql=$sql.' JOIN '.$joinTable.' on '.$table.'.'.$joinFields['firstField'].'='.$joinTable.'.'.$joinFields['secondField'];
+        if(!isset($fields)) $sql = 'SELECT * FROM '.$MainTable;
+        else $sql = 'SELECT '.$fields.' FROM '.$MainTable;
+
+        if(isset($joinTable)) {
+            if(!is_array($table))
+                $sql = $sql . ' JOIN ' . $joinTable . ' on ' . $MainTable . '.' . $joinFields['firstField'] . '=' . $joinTable . '.' . $joinFields['secondField'];
+            else { // Όταν είναι πολλαπλά tables για join
+                $counter=0;
+
+                foreach ($table as $item) {
+                    if($counter==0) {
+                        $TableToJoin=$joinTable;
+                    }
+                    else {
+                        $TableToJoin=$item;
+                    }
+
+                    $sql = $sql . ' JOIN ' . $TableToJoin . ' on ' . $item . '.' . $joinFields['firstField'] . '=' . $joinTable . '.' . $joinFields['secondField'];
+                    $counter++;
+                }
+            }
+        }
+        
 
         if(isset($condition))
             $sql=$sql.' WHERE '.$condition;
@@ -409,7 +430,7 @@ class RoceanDB
     }
 
     // Δημιουργεί και επιστρέφει το query (string) με βάση τις συγκεκριμένες παραμέτρους
-    static function createQuery ($table, $fields, $condition, $ParamsArray, $orderBy, $joinTable, $joinFields) {
+    static function createQuery ($table, $fields, $condition, $orderBy, $joinTable, $joinFields) {
 
         if(!isset($fields)) $sql = 'SELECT * FROM '.$table;
         else $sql = 'SELECT '.$fields.' FROM '.$table;

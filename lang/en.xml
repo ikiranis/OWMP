@@ -98,6 +98,7 @@
         <phrase name="edit_file">Edit File</phrase>
         <phrase name="play_file">Play</phrase>
         <phrase name="add_to_playlist">Add to playlist</phrase>
+        <phrase name="export_playlist">Export playlist</phrase>
     </page>
 
 

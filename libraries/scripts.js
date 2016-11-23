@@ -1114,7 +1114,6 @@ function startSync(operation) {
         }, 1000);
 
         $.get(callFile, function(data) {
-            // DisplayWindow(3, null, null);
             $('#SyncDetails').append(data);
             $('#progress').hide();
             $('#logprogress').hide();
@@ -1146,7 +1145,7 @@ function checkProcessAlive() {
         $('.syncButton').prop('disabled', false);
     }
 
-    syncInterval=setInterval(function(){
+    TheSyncInterval=setInterval(function(){
         $.get(CallFile, function (data) {
             if (data.success == true) { // αν η process τρέχει
                 localStorage.syncPressed='true';
@@ -1158,7 +1157,7 @@ function checkProcessAlive() {
             }
 
             if($('.syncButton').length==0)
-                clearInterval(syncInterval);
+                clearInterval(TheSyncInterval);
             
         }, "json");
 
@@ -1787,6 +1786,50 @@ function getShortcuts(elem) {
         // console.log(event.keyCode);
 
     }, false);
+}
+
+
+// Κάνει export την τρέχουσα playlist
+function exportPlaylist() {
+    var confirmAnswer=confirm('Are You Sure?');
+
+    if (confirmAnswer==true) {
+        callFile=AJAX_path+"exportPlaylist.php?tabID="+tabID;
+
+
+        if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
+            localStorage.syncPressed='true';
+
+            $('#progress').show();
+            $('#logprogress').show();
+            $("#killCommand_img").show();
+            document.querySelector('#theProgressBar').value=0;
+            $("#theProgressNumber" ).html('');
+
+            progressCallFile = AJAX_path + "getProgress.php";
+
+            var exportInterval=setInterval(function(){
+
+                $.get(progressCallFile, function (progressData) {
+                    if (progressData.success == true) {
+                        $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                        document.querySelector('#theProgressBar').value=progressData.progressInPercent;
+                    }
+                }, "json");
+
+            }, 1000);
+
+            $.get(callFile, function(data) {
+                $('#progress').hide();
+                $('#logprogress').hide();
+                localStorage.syncPressed='false';
+                clearInterval(exportInterval);
+            });
+
+
+        }
+        else alert ('Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη');
+    }
 }
 
 

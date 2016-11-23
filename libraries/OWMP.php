@@ -447,6 +447,9 @@ class OWMP
                     <input type="button" class="edit_button playlist_button_img"
                            title="<?php echo __('edit_file'); ?>"
                            onclick="openMassiveTagsWindow();" >
+                    <input type="button" class="export_button playlist_button_img"
+                           title="<?php echo __('export_playlist'); ?>"
+                           onclick="exportPlaylist();" >
                 </div>
 
                 <?php
@@ -577,7 +580,7 @@ class OWMP
             if ($_SESSION['PlaylistCounter'] == 0) {
 //                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
 
-                $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray);
+                $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
 
 
                 if(!$tabID)  // Αν δεν έρχεται από function
@@ -1752,6 +1755,22 @@ class OWMP
         $stmt = null;
 
         return $result;
+    }
+    
+    
+    // Κάνει export ένα αρχείο json με τα data της $tempUserPlaylist 
+    static function exportPlaylistJsonFile($tempUserPlaylist) {
+
+        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
+        $mainTables= array('music_tags', 'files');
+
+        $exportTable = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+            null, null, null, $tempUserPlaylist, $joinFieldsArray);
+
+        $jsonTable=json_encode($exportTable, JSON_UNESCAPED_UNICODE);
+
+        $libraryFile=OUTPUT_FOLDER.'library.json';
+        file_put_contents($libraryFile, $jsonTable);
     }
     
     
