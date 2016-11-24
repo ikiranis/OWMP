@@ -33,3 +33,6 @@ if($operation=='hash')
 
 if($operation=='metadata')
     $sync->filesMetadata();
+
+if($operation=='json_import')
+    $sync->importPlaylistToDB();

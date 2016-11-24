@@ -1179,6 +1179,9 @@ class OWMP
                 <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
                        value="Metadata">
 
+                <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
+                       value="JSON import">
+
 
                 <?php
                 if(FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
@@ -1758,20 +1761,7 @@ class OWMP
     }
     
     
-    // Κάνει export ένα αρχείο json με τα data της $tempUserPlaylist 
-    static function exportPlaylistJsonFile($tempUserPlaylist) {
-
-        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
-        $mainTables= array('music_tags', 'files');
-
-        $exportTable = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-            null, null, null, $tempUserPlaylist, $joinFieldsArray);
-
-        $jsonTable=json_encode($exportTable, JSON_UNESCAPED_UNICODE);
-
-        $libraryFile=OUTPUT_FOLDER.'library.json';
-        file_put_contents($libraryFile, $jsonTable);
-    }
+    
     
     
 }

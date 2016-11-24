@@ -23,6 +23,7 @@ class SyncFiles
     static $files = array();
     static $tracks = array();
     static $tags = array();
+    static $jsonTable = array();
     static $getID3;
 
     public $name = '';
@@ -51,7 +52,7 @@ class SyncFiles
         {
 
             $parser = new plistParser();
-            $plist = $parser->parseFile($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. "Library.xml");
+            $plist = $parser->parseFile(ITUNES_LIBRARY_FILE);
 
             self::$tracks = $plist['Tracks'];
             self::$tags = $plist['Tracks'];
@@ -87,25 +88,40 @@ class SyncFiles
         $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null, null, null); // Παίρνει τα paths
         $dirs=$conn->clearArray($dirs);
 
+        foreach ($dirs as $dir) {  // Έλεγχος αν υπάρχουν οι φάκελοι
+
+            if(is_dir($dir)) {
+                $dirs[]=$dir;
+                trigger_error($dir);
+            }
+            else {
+//                trigger_error($dir);
+                echo 'Δεν υπάρχει ο κατάλογος '.$dir;
+            }
+        }
+
         switch ($mediakind) {
             case 'Music Video': $extensions = array('mp4', 'm4v'); break;
             case 'Music': $extensions = array('mp3', 'm4a'); break;
         }
 
-        self::$files = scanDir::scan($dirs, $extensions, true);   // παίρνει το σύνολο των αρχείων με $extensions από τους φάκελους $dirs
+        if($dirs) {
+            self::$files = scanDir::scan($dirs, $extensions, true);   // παίρνει το σύνολο των αρχείων με $extensions από τους φάκελους $dirs
 
-        self::$files = array_unique(self::$files);
-        $trimFiles = array();
+            self::$files = array_unique(self::$files);
+            $trimFiles = array();
 
-        foreach (self::$files as $file) {
-            if (strpos($file, '._') == false) {
-                if(DIR_PREFIX!='/')
-                    $trimFiles[] = urldecode(str_replace(DIR_PREFIX, '', $file));
-                else $trimFiles[] =  urldecode(substr($file,1));
+            foreach (self::$files as $file) {
+                if (strpos($file, '._') == false) {
+                    if (DIR_PREFIX != '/')
+                        $trimFiles[] = urldecode(str_replace(DIR_PREFIX, '', $file));
+                    else $trimFiles[] = urldecode(substr($file, 1));
+                }
             }
+
+            self::$files = $trimFiles;
         }
 
-        self::$files = $trimFiles;
 
 
     }
@@ -402,6 +418,8 @@ class SyncFiles
 
 
         // μετά την ολοκλήρωση τους σκανιαρίσματος των αρχείων
+
+        Page::setLastMomentAlive(true);
 
         echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
 
@@ -894,6 +912,147 @@ class SyncFiles
 
         return $result;
     }
-    
 
+
+    // Κάνει export ένα αρχείο json με τα data της $tempUserPlaylist 
+    static function exportPlaylistJsonFile($tempUserPlaylist) {
+
+        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
+        $mainTables= array('music_tags', 'files');
+
+        $exportTable = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+            null, null, null, $tempUserPlaylist, $joinFieldsArray);
+
+        $jsonTable=json_encode($exportTable, JSON_UNESCAPED_UNICODE);
+
+        $libraryFile=OUTPUT_FOLDER.'library.json';
+        file_put_contents($libraryFile, $jsonTable);
+    }
+
+
+
+    // Παίρνει το αρχείο JSON_PLAYLIST_FILE και το μετατρέπει σε table self::$jsonTable
+    public function getJsonFileToTable() {
+
+        if(!OWMP::fileExists(JSON_PLAYLIST_FILE))
+            exit('Δεν υπάρχει το αρχείο '.JSON_PLAYLIST_FILE.' για να γίνει import');
+
+        $handle   = fopen(JSON_PLAYLIST_FILE, "rb");
+        $contents = fread($handle, filesize(JSON_PLAYLIST_FILE));
+        fclose($handle);
+
+        self::$jsonTable = json_decode($contents, true);
+
+    }
+
+
+    // Εισάγει μια playlist από json αρχείο στην database
+    public function importPlaylistToDB() {
+        set_time_limit(0);
+
+        $script_start = microtime(true);
+
+        $this->getJsonFileToTable();
+
+
+        if(self::$jsonTable) // Ολόκληρη η λίστα
+        {
+
+            $conn = new RoceanDB();
+
+            $conn->CreateConnection();
+
+            $sql_insert_file = 'INSERT INTO files (path, filename, hash, kind) VALUES (?,?,?,?)';
+
+            $sql_insert_tags = 'INSERT INTO music_tags (id, song_name, artist, genre, date_added, play_count, 
+                          date_last_played, rating, album, album_artwork_id, video_width, video_height, filesize, track_time, song_year, live) 
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+
+            $stmt_file = RoceanDB::$conn->prepare($sql_insert_file);
+            $stmt_tags = RoceanDB::$conn->prepare($sql_insert_tags);
+
+            $added_video=0;
+            $progressCounter=0;
+            $general_counter=0;
+
+            $totalFiles = count(self::$jsonTable);
+
+            foreach (self::$jsonTable as $file) {
+
+
+                // Εγγραφή στο files
+                $sqlParamsFile = array($file['path'], $file['filename'], $file['hash'], $file['kind']);
+
+                if ($stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
+                    $inserted_id = RoceanDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
+                } else {
+                    $inserted_id = 0;
+                }
+
+                $this->name = $file['song_name'];
+                $this->artist = $file['artist'];
+                $this->genre = $file['genre'];
+                $this->date_added = $file['date_added'];
+                $this->track_time = $file['track_time'];
+                $this->video_width = $file['video_width'];
+                $this->video_height = $file['video_height'];
+                $this->size = $file['filesize'];
+
+                $this->play_date = $file['date_last_played'];
+                $this->album = $file['album'];
+                $this->play_count = $file['play_count'];
+                $this->rating = $file['rating'];
+                $this->album_artwork_id = 1;
+                $this->year = $file['song_year'];
+                $this->live = $file['live'];
+
+
+                // Εγγραφή στο music_tags
+                $sqlParamsTags = array($inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
+                    $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
+                    $this->size, $this->track_time, $this->year, $this->live
+
+                );
+
+
+
+                if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
+                    echo 'added... ' . $general_counter . ' ' . $this->name . '<br>';
+                    $added_video++;
+                } else {
+                    echo 'not added... ' . $general_counter . ' ' . $this->name . '<br>';
+                    trigger_error($general_counter . ' PROBLEM!!!!!!!      $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
+                        '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
+                        '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+                }
+
+
+                if($progressCounter>1) {
+                    $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
+                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+
+                    $progressCounter=0;
+                }
+                else $progressCounter++;
+
+                $general_counter++;
+
+            }
+
+            self::setProgress(0);
+
+            echo '<p>Προστέθηκαν '.$added_video. ' νέες εγγραφές στην βάση</p>';
+
+            RoceanDB::insertLog('Προστέθηκαν '.$added_video. ' νέες εγγραφές στην βάση'); // Προσθήκη της κίνησης στα logs
+
+            $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
+        }
+    }
+    
+    
 }

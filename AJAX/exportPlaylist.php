@@ -30,7 +30,7 @@ $playlistTable=RoceanDB::getTableArray($tempUserPlaylist, 'file_id', null, null,
 
 OWMP::createDirectory(OUTPUT_FOLDER);
 
-OWMP::exportPlaylistJsonFile($tempUserPlaylist);
+SyncFiles::exportPlaylistJsonFile($tempUserPlaylist);
 
 SyncFiles::setProgress(0);
 $general_counter=0;
