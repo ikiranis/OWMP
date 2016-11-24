@@ -82,6 +82,10 @@
         <phrase name="tag_rating">Βαθμολογία</phrase>
         <phrase name="tag_track_time">Χρόνος</phrase>
         <phrase name="tag_live">Live</phrase>
+        <phrase name="tag_video_height">Ύψος video</phrase>
+        <phrase name="tag_video_width">Μήκος video</phrase>
+        <phrase name="tag_filesize">Μέγεθος αρχείου</phrase>
+        <phrase name="tag_album_artwork_id">Artwork ID</phrase>
         <phrase name="tag_path_filename">Διαδρομή αρχείου</phrase>
         <phrase name="tag_form_submit">Ενημέρωση</phrase>
         <phrase name="tag_live_official">Επίσημο</phrase>
@@ -91,6 +95,11 @@
     <page name="sync">
         <phrase name="Synchronize">Συγχρονισμός</phrase>
         <phrase name="kill_process">Τερματισμός διεργασίας</phrase>
+        <phrase name="sync_clear">Καθαρισμός βάσης</phrase>
+        <phrase name="sync_hash">Παραγωγή hash</phrase>
+        <phrase name="sync_metadata">Αναζήτηση metadata</phrase>
+        <phrase name="sync_json">Εισαγωγή JSON αρχείου</phrase>
+        <phrase name="sync_youtube">Κατέβασμα από youTube</phrase>
     </page>
 
     <page name="plalist">
@@ -101,5 +110,36 @@
         <phrase name="export_playlist">Εξαγωγή λίστας</phrase>
     </page>
 
+    <page name="search">
+        <phrase name="search_equal">Ίσο με</phrase>
+        <phrase name="search_greater">Μεγαλύτερο από</phrase>
+        <phrase name="search_less">Μικρότερο από</phrase>
+        <phrase name="search_or">ή</phrase>
+        <phrase name="search_and">και</phrase>
+        <phrase name="search_text_search">Αναζήτηση</phrase>
+        <phrase name="search_text_duplicates">Αναζήτηση διπλοεγγραφών</phrase>
+        <phrase name="search_text_clear">Καθαρισμός</phrase>
+        <phrase name="search_text_cancel">Ακύρωση</phrase>
+        <phrase name="search_previous">Προηγούμενη</phrase>
+        <phrase name="search_next">Επόμενη</phrase>
+    </page>
+
+    <page name="logs">
+        <phrase name="logs_id">ID</phrase>
+        <phrase name="logs_message">Μήνυμα</phrase>
+        <phrase name="logs_ip">IP</phrase>
+        <phrase name="logs_user">Χρήστης</phrase>
+        <phrase name="logs_date">Ημ/νια</phrase>
+        <phrase name="logs_browser">Πρόγραμμα</phrase>
+    </page>
+
+    <page name="messages">
+        <phrase name="youtube_error">Δεν έχει οριστεί Music Video path, για να μπορώ να κατεβάσω από Youtube</phrase>
+        <phrase name="only_for_admin">Περιοχή μόνο για τον admin</phrase>
+        <phrase name="cant_write_to_path">Δεν μπορώ να γράψω στο path</phrase>
+        <phrase name="give_permissions">Δώσε δικαιώματα 777</phrase>
+        <phrase name="cant_create_path">Δεν μπορώ να δημιουργήσω το path</phrase>
+        <phrase name="create_the_path">Δημιούργησε το εσύ με 777 δικαιώματα</phrase>
+    </page>
 
 </language>

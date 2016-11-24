@@ -354,7 +354,25 @@ class OWMP
                                     foreach ($fields as $field) {
                                         ?>
                                         <option value="<?php echo $field; ?>">
-                                            <?php echo $field; ?>
+                                            <?php
+                                                switch ($field) {
+                                                    case 'song_name': echo __('tag_title'); break;
+                                                    case 'artist': echo __('tag_artist'); break;
+                                                    case 'genre': echo __('tag_genre'); break;
+                                                    case 'date_added': echo __('tag_date_added'); break;
+                                                    case 'play_count': echo __('tag_play_count'); break;
+                                                    case 'date_last_played': echo __('tag_date_played'); break;
+                                                    case 'rating': echo __('tag_rating'); break;
+                                                    case 'album': echo __('tag_album'); break;
+                                                    case 'video_height': echo __('tag_video_height'); break;
+                                                    case 'filesize': echo __('tag_filesize'); break;
+                                                    case 'video_width': echo __('tag_video_width'); break;
+                                                    case 'track_time': echo __('tag_track_time'); break;
+                                                    case 'song_year': echo __('tag_year'); break;
+                                                    case 'live': echo __('tag_live'); break;
+                                                    case 'album_artwork_id': echo __('tag_album_artwork_id'); break;
+                                                }
+                                            ?>
                                         </option>
 
                                         <?php
@@ -366,15 +384,15 @@ class OWMP
                             <select class="search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
 
                                 <option value="equal">
-                                    Equal
+                                    <?php echo __('search_equal'); ?>
                                 </option>
 
                                 <option value="greater">
-                                    Greater
+                                    <?php echo __('search_greater'); ?>
                                 </option>
 
                                 <option value="less">
-                                    Less
+                                    <?php echo __('search_less'); ?>
                                 </option>
 
 
@@ -387,11 +405,11 @@ class OWMP
                             <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
 
                                     <option value="OR">
-                                        OR
+                                        <?php echo __('search_or'); ?>
                                     </option>
 
                                     <option value="AND">
-                                        AND
+                                        <?php echo __('search_and'); ?>
                                     </option>
 
                             </select>
@@ -402,13 +420,13 @@ class OWMP
                         ?>
 
                         <div id="searchButtons">
-                            <input type="button" class="myButton" name="searching" id="searching" value="Search" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                            <input type="button" class="myButton" name="searching" id="searching" value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                            <input type="button" class="myButton" name="duplicates" id="duplicates" value="Find Duplicates" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                            <input type="button" class="myButton" name="duplicates" id="duplicates" value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                            <input type="button" class="myButton" name="clearSearch" id="clearSearch" value="Clear" onclick="clearSearch();">
+                            <input type="button" class="myButton" name="clearSearch" id="clearSearch" value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
 
-                            <input type="button" class="myButton" name="cancelSearch" id="cancelSearch" value="Cancel" onclick="cancelTheSearch();" >
+                            <input type="button" class="myButton" name="cancelSearch" id="cancelSearch" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
                         </div>
                     </form>
                 </div>
@@ -639,18 +657,18 @@ class OWMP
                 if ($duplicates == null) {
                     ?>
                     <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="previous"
+                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                                onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="next"
+                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
                                onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
                 } else {
                     ?>
                     <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="previous"
+                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                                onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="next"
+                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
                                onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
@@ -790,18 +808,18 @@ class OWMP
                 if ($duplicates == null) {
                     ?>
                     <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="previous"
+                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                                onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="next"
+                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
                                onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
                 } else {
                     ?>
                     <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="previous"
+                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                                onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="next"
+                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
                                onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
@@ -1171,16 +1189,16 @@ class OWMP
                        value="<?php echo __('Synchronize'); ?>">
     
                 <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
-                       value="Clear">
+                       value="<?php echo __('sync_clear'); ?>">
 
                 <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
-                       value="Hash">
+                       value="<?php echo __('sync_hash'); ?>">
 
                 <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
-                       value="Metadata">
+                       value="<?php echo __('sync_metadata'); ?>">
 
                 <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
-                       value="JSON import">
+                       value="<?php echo __('sync_json'); ?>">
 
 
                 <?php
@@ -1193,14 +1211,14 @@ class OWMP
                             <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
                             <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
                                    onclick="downloadYouTube();"
-                                   value="Download YouTube" >
+                                   value="<?php echo __('sync_youtube'); ?>" >
                         </p>
 
                         <?php
                     }
 
                 }
-                else echo '<p>Δεν έχει οριστεί Music Video path, για να μπορώ να κατεβάσω από Youtube</p>';
+                else echo '<p>'.__('youtube_error').'</p>';
                 ?>
 
 
@@ -1223,7 +1241,7 @@ class OWMP
 
             <?php
         }
-        else echo '<p>Περιοχή μόνο για τον admin</p>';
+        else echo '<p>'.__('only_for_admin').'</p>';
     }
 
     // Εμφάνιση των logs
@@ -1245,12 +1263,12 @@ class OWMP
         echo '<div id=logs>';
 
         echo '<div class=row>';
-        echo '<span class="col logs_id basic">id</span>';
-        echo '<span class="col logs_message basic">message</span>';
-        echo '<span class="col logs_ip basic">ip</span>';
-        echo '<span class="col logs_user basic">user</span>';
-        echo '<span class="col logs_date basic">date</span>';
-        echo '<span class="col logs_browser basic">browser</span>';
+        echo '<span class="col logs_id basic">'.__('logs_id').'</span>';
+        echo '<span class="col logs_message basic">'.__('logs_message').'</span>';
+        echo '<span class="col logs_ip basic">'.__('logs_ip').'</span>';
+        echo '<span class="col logs_user basic">'.__('logs_user').'</span>';
+        echo '<span class="col logs_date basic">'.__('logs_date').'</span>';
+        echo '<span class="col logs_browser basic">'.__('logs_browser').'</span>';
         echo '</div>';
 
 
@@ -1480,11 +1498,11 @@ class OWMP
         if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
             if (mkdir($dir, 0777, true)) {
                 if (!is_writable($dir))
-                    exit('<p>Δεν μπορώ να γράψω στο path ' . $dir . '. Δώσε δικαιώματα 777</p>');
+                    exit('<p>'.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
             }
-            else exit('<p>Δεν μπορώ να δημιουργήσω το path ' . $dir.'. Δημιούργησε το εσύ με 777 δικαιώματα</p>');
+            else exit('<p>'.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
         } else if(!is_writable($dir))
-            exit('<p>Δεν μπορώ να γράψω στο path ' . $dir . '. Δώσε δικαιώματα 777</p>');
+            exit('<p>'.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
         
         return true;
     }

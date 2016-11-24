@@ -82,6 +82,10 @@
         <phrase name="tag_rating">Rating</phrase>
         <phrase name="tag_track_time">Track Time</phrase>
         <phrase name="tag_live">Live</phrase>
+        <phrase name="tag_video_height">Video height</phrase>
+        <phrase name="tag_video_width">Video width</phrase>
+        <phrase name="tag_filesize">File size</phrase>
+        <phrase name="tag_album_artwork_id">Artwork ID</phrase>
         <phrase name="tag_path_filename">Path</phrase>
         <phrase name="tag_form_submit">Update</phrase>
         <phrase name="tag_live_official">Official</phrase>
@@ -91,6 +95,11 @@
     <page name="sync">
         <phrase name="Synchronize">Synchronization</phrase>
         <phrase name="kill_process">Kill Process</phrase>
+        <phrase name="sync_clear">Database clear</phrase>
+        <phrase name="sync_hash">Create hash</phrase>
+        <phrase name="sync_metadata">Metadata</phrase>
+        <phrase name="sync_json">JSON import</phrase>
+        <phrase name="sync_youtube">Download from youTube</phrase>
     </page>
 
     <page name="plalist">
@@ -101,6 +110,36 @@
         <phrase name="export_playlist">Export playlist</phrase>
     </page>
 
+    <page name="search">
+        <phrase name="search_equal">Equal</phrase>
+        <phrase name="search_greater">Greater</phrase>
+        <phrase name="search_less">Less</phrase>
+        <phrase name="search_or">or</phrase>
+        <phrase name="search_and">and</phrase>
+        <phrase name="search_text_search">Search</phrase>
+        <phrase name="search_text_duplicates">Search duplicates</phrase>
+        <phrase name="search_text_clear">Clear</phrase>
+        <phrase name="search_text_cancel">Cancel</phrase>
+        <phrase name="search_previous">Previous</phrase>
+        <phrase name="search_next">Next</phrase>
+    </page>
 
+    <page name="logs">
+        <phrase name="logs_id">ID</phrase>
+        <phrase name="logs_message">Message</phrase>
+        <phrase name="logs_ip">IP</phrase>
+        <phrase name="logs_user">User</phrase>
+        <phrase name="logs_date">Date</phrase>
+        <phrase name="logs_browser">Browser</phrase>
+    </page>
+
+    <page name="messages">
+        <phrase name="youtube_error">There is no Music Video path at settings. I can't download from Youtube</phrase>
+        <phrase name="only_for_admin">Only for admin area</phrase>
+        <phrase name="cant_write_to_path">Can't write to path</phrase>
+        <phrase name="give_permissions">Give 777 permissions</phrase>
+        <phrase name="cant_create_path">Can't create the path</phrase>
+        <phrase name="create_the_path">You have to create it with 777 permissions</phrase>
+    </page>
 
 </language>
