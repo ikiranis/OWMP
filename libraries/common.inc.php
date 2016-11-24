@@ -205,8 +205,9 @@ if ($conn->getOption('syncItunes')=='true')
 else define ('SYNC_ITUNES', false);
 
 
-define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. 'Library.xml');  // Το αρχείο του itunes library
-define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. 'library.json');  // To json file της playlist για import
+define ('JSON_FILENAME', 'playlist.json');
+define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FILENAME);  // Το αρχείο του itunes library
+define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. 'playlist.json');  // To json file της playlist για import
 define ('WEB_FOLDER_PATH',$conn->getOption('web_folder_path'));  // To path του web folder
 define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα

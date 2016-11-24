@@ -925,7 +925,7 @@ class SyncFiles
 
         $jsonTable=json_encode($exportTable, JSON_UNESCAPED_UNICODE);
 
-        $libraryFile=OUTPUT_FOLDER.'library.json';
+        $libraryFile=OUTPUT_FOLDER.JSON_FILENAME;
         file_put_contents($libraryFile, $jsonTable);
     }
 
