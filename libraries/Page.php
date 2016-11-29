@@ -243,7 +243,7 @@ class Page
         <?php
     }
     
-    
+    // TODO να βγάλω το logprogress εκτός να το προσθέτει δυναμικά
     public function showMainBar ($leftSideText,$rightSideText) {
     ?>
         <header>

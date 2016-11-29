@@ -96,7 +96,7 @@ class SyncFiles
             }
             else {
 //                trigger_error($dir);
-                echo 'Δεν υπάρχει ο κατάλογος '.$dir;
+                echo __('path_does_not_exist').' '.$dir;
             }
         }
 
@@ -300,7 +300,7 @@ class SyncFiles
                     }
                 }
                 else {
-                    echo 'Υπάρχει πρόβλημα με το αρχείο '.$full_path.' Πιθανά κάποιος ειδικός χαρακτήρας υπάρχει στο path. <br>';
+                    echo '<p>'.__('there_is_a_problem_with_file').' '.$full_path.'. '.__('special_char_in_path').'</p>';
                     $problemInFilePath=true;
                 }
 
@@ -325,7 +325,7 @@ class SyncFiles
                             }
                             else {
                                 $dontDoRecord = true;
-                                echo 'Πρόβλημα με την μετατροπή του ALAC. Πιθανά κάποιος ειδικός χαρακτήρας υπάρχει στο path. '.$full_path.'<br>';
+                                echo '<p>'.__('there_is_a_problem_with_alac').'. '.__('special_char_in_path').' '.$full_path.'</p';
                             }
                         } else $dontDoRecord = true;  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
                     }
@@ -379,10 +379,10 @@ class SyncFiles
 
 
                     if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
-                        echo 'added... ' . $general_counter . ' ' . $this->name . '<br>';
+                        echo __('file_added').' ' . $this->name . '<br>';
                         $added_video++;
                     } else {
-                        echo 'not added... ' . $general_counter . ' ' . $this->name . '<br>';
+                        echo __('file_not_added').' ' . $this->name . '<br>';
                         trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
                             '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
                             '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
@@ -421,12 +421,12 @@ class SyncFiles
 
         Page::setLastMomentAlive(true);
 
-        echo '<p>Προστέθηκαν ' . $added_video . " βίντεο. </p>";
+        echo '<p>' . __('files_added') . ' '. $added_video . ' ' . __('added_files'). '</p>';
 
 
         // Διαγραφή αρχείων αν χρειάζονται
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
-            echo '<p>Αρχεία προς διαγραφή: </p>';
+            echo '<p>'.__('files_to_delete').':</p>';
 
             foreach (self::$filesForDelete as $item) {  // Εμφανίζει τα αρχεία προς διαγράφη
                 ?>
@@ -440,7 +440,7 @@ class SyncFiles
 
             ?>
 
-            <br><input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="Διαγραφή αρχείων"
+            <br><input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="<?php echo __('delete_files'); ?>"
                    onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
 
             <?php
@@ -448,7 +448,7 @@ class SyncFiles
 
         // Ενημέρωση της βάσης με τα νέα path και filename των αρχείων που έχουν αλλάξει θέση
         if(self::$filesForUpdate) {  // Αν υπάρχουν αρχεία προς ενημέρωση
-            echo '<p>Αρχεία προς Ενημέρωση που αλλάξανε θέση: </p>';
+            echo '<p>'.__('files_to_update').': </p>';
 
             foreach (self::$filesForUpdate as $item) {  // Εμφανίζει τα αρχεία προς ενημέρωση
                 ?>
@@ -462,7 +462,7 @@ class SyncFiles
 
             ?>
 
-            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="Ενημέρωση αρχείων"
+            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="<?php echo __('update_files'); ?>"
                    onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
 
             <?php
@@ -470,9 +470,9 @@ class SyncFiles
 
         $script_time_elapsed_secs = microtime(true) - $script_start;
 
-        echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
+        echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-        RoceanDB::insertLog('Προστέθηκαν ' . $added_video . ' βίντεο.'); // Προσθήκη της κίνησης στα logs
+        RoceanDB::insertLog('Added ' . $added_video . ' files.'); // Προσθήκη της κίνησης στα logs
 
         Page::updatePercentProgress(0);   // Μηδενίζει το progress
 
@@ -650,13 +650,13 @@ class SyncFiles
 
             self::setProgress(0);
             
-            echo '<p>Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν</p>';
+            echo '<p>'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</p>';
 
-            RoceanDB::insertLog('Βρέθηκαν '.$counter. ' προβληματικά αρχεία και διαγράφτηκαν'); // Προσθήκη της κίνησης στα logs
+            RoceanDB::insertLog('Were found '.$counter. ' problematic files and were erased'); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
+            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
         }
 
 
@@ -742,7 +742,7 @@ class SyncFiles
                                 echo 'fullpath: ' . $full_path . '  hash: ' . $hash . ' time: ' . $time_elapsed_secs . '<br>';
                                 $counter++;
                             }
-                            else echo 'Πρόβλημα με το αρχειο '.$full_path;
+                            else echo __('problem_with_file').' '.$full_path.'<br>';
                 }
 
                 if($progressCounter>10) { // ανα 100 items ενημερώνει το progress
@@ -765,10 +765,10 @@ class SyncFiles
 
             self::setProgress(0);
 
-            echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash</p>';
-            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
+            echo '<p>'.$counter. ' '.__('files_to_hash').'</p>';
+            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-            RoceanDB::insertLog($counter. ' αρχεία ελέγχθηκαν και παράχτηκαν hash'); // Προσθήκη της κίνησης στα logs
+            RoceanDB::insertLog($counter. ' files produced hash'); // Προσθήκη της κίνησης στα logs
         }
 
     }
@@ -852,7 +852,7 @@ class SyncFiles
                     if ($update) {
                         $counter++;
                     }
-                    else echo 'Πρόβλημα με το αρχειο '.$full_path;
+                    else echo __('problem_with_file').' '.$full_path.'<br>';
                 }
 
 
@@ -876,10 +876,10 @@ class SyncFiles
 
             self::setProgress(0);
 
-            echo '<p>'.$counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata</p>';
-            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
+            echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
+            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-            RoceanDB::insertLog($counter. ' αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata'); // Προσθήκη της κίνησης στα logs
+            RoceanDB::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
     }
 
@@ -935,7 +935,7 @@ class SyncFiles
     public function getJsonFileToTable() {
 
         if(!OWMP::fileExists(JSON_PLAYLIST_FILE))
-            exit('Δεν υπάρχει το αρχείο '.JSON_PLAYLIST_FILE.' για να γίνει import');
+            exit(__('there_is_no_file').' '.JSON_PLAYLIST_FILE);
 
         $handle   = fopen(JSON_PLAYLIST_FILE, "rb");
         $contents = fread($handle, filesize(JSON_PLAYLIST_FILE));
@@ -998,10 +998,13 @@ class SyncFiles
                 $this->video_height = $file['video_height'];
                 $this->size = $file['filesize'];
 
-                $this->play_date = $file['date_last_played'];
+//                $this->play_date = $file['date_last_played'];
+                $this->play_date = '';
                 $this->album = $file['album'];
-                $this->play_count = $file['play_count'];
-                $this->rating = $file['rating'];
+//                $this->play_count = $file['play_count'];
+                $this->play_count = 0;
+//                $this->rating = $file['rating'];
+                $this->rating = 0;
                 $this->album_artwork_id = 1;
                 $this->year = $file['song_year'];
                 $this->live = $file['live'];
@@ -1017,10 +1020,10 @@ class SyncFiles
 
 
                 if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
-                    echo 'added... ' . $general_counter . ' ' . $this->name . '<br>';
+                    echo __('file_added').' ' . $this->name . '<br>';
                     $added_video++;
                 } else {
-                    echo 'not added... ' . $general_counter . ' ' . $this->name . '<br>';
+                    echo __('file_not_added').' ' . $this->name . '<br>';
                     trigger_error($general_counter . ' PROBLEM!!!!!!!      $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
                         '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
                         '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
@@ -1044,13 +1047,13 @@ class SyncFiles
 
             self::setProgress(0);
 
-            echo '<p>Προστέθηκαν '.$added_video. ' νέες εγγραφές στην βάση</p>';
+            echo '<p>'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</p>';
 
-            RoceanDB::insertLog('Προστέθηκαν '.$added_video. ' νέες εγγραφές στην βάση'); // Προσθήκη της κίνησης στα logs
+            RoceanDB::insertLog(__('files_added').' '.$added_video. ' '.__('new_records_to_database')); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<p>Συνολικός χρόνος: '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs);
+            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
         }
     }
     

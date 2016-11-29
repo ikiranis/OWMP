@@ -28,7 +28,7 @@ $update = RoceanDB::updateTableFields('files', 'id=?',
     array($path, $filename, $id));
 
 if($update) {
-    echo '<p>Το αρχείο ' . $filename . ' άλλαξε θέση</p>';
+    echo '<p>'.__('the_file').' '. $filename . ' '.__('changed_path').'</p>';
 
     $jsonArray = array('success' => true, 'id' => $id);
 

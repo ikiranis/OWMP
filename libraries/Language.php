@@ -44,6 +44,11 @@ class Language
 
         self::$phrases=$phrases;
     }
+    
+    // Επιστρέφει τις φράσεις σε table
+    public function getPhrasesTable() {
+        return self::$phrases;
+    }
 
     public function lang_id() {
         //determine page language

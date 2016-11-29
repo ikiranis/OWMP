@@ -70,11 +70,16 @@ define('TAB_ID', rand(100000,999999));
         var ParrotVersionFile="<?php echo PARROT_VERSION_FILE; ?>";
         var AppVersion="<?php echo APP_VERSION; ?>";
 
+        // Τα κείμενα του site παιρνούνται στην javascript
+        var phrases=<?php echo json_encode($lang->getPhrasesTable()); ?>;
+
+        // Το id του τρέχοντος tab
         var tabID=document.querySelector('#tabID').value;
 
     </script>
 
 <?php
+
 
 
 

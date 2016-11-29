@@ -41,6 +41,8 @@ if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // με
 
 if(localStorage.PlayMode==null) localStorage.PlayMode='continue';
 
+
+
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
 // Προσθέτει μια class και την αφερεί μετά από λίγο
 $.fn.addClassDelay = function(className,delay) {
@@ -1083,6 +1085,8 @@ function startSync(operation) {
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
 
+    console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
+
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
 
@@ -1124,7 +1128,7 @@ function startSync(operation) {
 
 
     }
-    else alert ('Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη');
+    else alert (phrases['running_process']);
 
 
 }
@@ -1177,7 +1181,7 @@ function callGetYouTube(url,counter,total) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $("#SyncDetails").append('<p>Κατεβάζω το ' + url + '</p>');
+                $("#SyncDetails").append('<p>'+phrases['youtube_downloading']+' ' + url + '</p>');
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
@@ -1189,7 +1193,7 @@ function callGetYouTube(url,counter,total) {
         },
         success: function (data) {
             if (data.success == true) {
-                $("#SyncDetails").append('<p>To video κατέβηκε στο path: ' + data.result + '</p>');
+                $("#SyncDetails").append('<p>'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
             }
         }
@@ -1225,7 +1229,7 @@ function downloadYouTube() {
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');
-            $("#SyncDetails").append('<p>Αρχίζω τον συγχρονισμό</p>');
+            $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
             runningYoutubeDownlod=false;
             startSync('sync');
         },6000);
@@ -1304,7 +1308,7 @@ function deleteFile(id) {
     }
 
 
-    var confirmAnswer=confirm('Are You Sure?');
+    var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
         if(id!=0) { // Αν δεν είναι 0 τότε σβήνει μοναδική εγγραφή
@@ -1336,7 +1340,7 @@ function deleteFile(id) {
 
 // Σβήνει μια λίστα (array) αρχείων
 function deleteFiles(filesArray) {
-    var confirmAnswer=confirm('Are You Sure?');
+    var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
         for (var i = 0; i < filesArray.length; i++) {
@@ -1403,7 +1407,7 @@ function readImage(files) {
 // Κάνει μαζικό edit των στοιχείων μιας λίστας (array) αρχείων
 function editFiles() {
 
-    var confirmAnswer=confirm('Are You Sure?');
+    var confirmAnswer=confirm(phrases['sure_to_update_files']);
 
     if (confirmAnswer==true) {
         var all_checkboxes = document.querySelectorAll('input[name="check_item[]"]:checked');
@@ -1484,7 +1488,7 @@ function editFiles() {
 
 // Ενημερώνει μια λίστα (array) αρχείων που έχουν αλλάξει filepath και filename
 function updateFiles(filesArray) {
-    var confirmAnswer=confirm('Are You Sure?');
+    var confirmAnswer=confirm(phrases['sure_to_update_files']);
 
     if (confirmAnswer==true) {
         for (var i = 0; i < filesArray.length; i++) {
@@ -1504,7 +1508,7 @@ function updateFiles(filesArray) {
 
 // Προσθέτει ένα αρχείο σε playlist
 function addToPlaylist(id) {
-    alert('Δεν είναι έτοιμο ακόμη');
+    alert('Not ready yet');
 }
 
 // Εμφανίζει το volume
@@ -1613,7 +1617,7 @@ function checkCurrentVersion() {
     $.get(callFile, function (data) {
         // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
         if(AppVersion!==data.app_version)
-            $("#checkCurrentVersion").html('Need to Update. Latest App Version: '+data.app_version);
+            $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version);
     }, "json");
 }
 
@@ -1791,7 +1795,7 @@ function getShortcuts(elem) {
 
 // Κάνει export την τρέχουσα playlist
 function exportPlaylist() {
-    var confirmAnswer=confirm('Are You Sure?');
+    var confirmAnswer=confirm(phrases['sure_to_export_playlist']);
 
     if (confirmAnswer==true) {
         callFile=AJAX_path+"exportPlaylist.php?tabID="+tabID;
@@ -1828,7 +1832,7 @@ function exportPlaylist() {
 
 
         }
-        else alert ('Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη');
+        else alert (phrases['running_process']);
     }
 }
 
@@ -1891,7 +1895,7 @@ $(function(){
             $(this)[0].setCustomValidity('');
 
         } else {
-            $(this)[0].setCustomValidity('Passwords must match');
+            $(this)[0].setCustomValidity(phrases['valid_passwords_must_match']);
         }
 
     });
@@ -1906,7 +1910,7 @@ $(function(){
             $(this)[0].setCustomValidity('');
 
         } else {
-            $(this)[0].setCustomValidity('Passwords must match');
+            $(this)[0].setCustomValidity(phrases['valid_passwords_must_match']);
         }
 
     });
@@ -1991,8 +1995,7 @@ $(function(){
     //
     // attachSinkId(myVideo, '8e2bf9f13b6253c686d45db2c3a7a38154f2ca4cb08243e32f8baa4171999958');
     //
-
-
+    
 
 
 });

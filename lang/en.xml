@@ -68,6 +68,7 @@
         <phrase name="valid_option">Required</phrase>
         <phrase name="user_error1">The user</phrase>
         <phrase name="user_error2">already exists</phrase>
+        <phrase name="valid_passwords_must_match">Passwords must match</phrase>
     </page>
 
     <page mame="tags">
@@ -102,7 +103,7 @@
         <phrase name="sync_youtube">Download from youTube</phrase>
     </page>
 
-    <page name="plalist">
+    <page name="playlist">
         <phrase name="delete_file">Delete File</phrase>
         <phrase name="edit_file">Edit File</phrase>
         <phrase name="play_file">Play</phrase>
@@ -140,6 +141,36 @@
         <phrase name="give_permissions">Give 777 permissions</phrase>
         <phrase name="cant_create_path">Can't create the path</phrase>
         <phrase name="create_the_path">You have to create it with 777 permissions</phrase>
+        <phrase name="the_file">The file</phrase>
+        <phrase name="changed_path">changed path</phrase>
+        <phrase name="path_does_not_exist">Path doesn't exist</phrase>
+        <phrase name="there_is_a_problem_with_file">There is a problem with file</phrase>
+        <phrase name="special_char_in_path">Probably there is a special character in path.</phrase>
+        <phrase name="there_is_a_problem_with_alac">There is a problem with ALAC</phrase>
+        <phrase name="file_added">File added</phrase>
+        <phrase name="file_not_added">File not added</phrase>
+        <phrase name="files_added">Added</phrase>
+        <phrase name="added_files">files</phrase>
+        <phrase name="files_to_delete">Files to delete</phrase>
+        <phrase name="delete_files">Delete files</phrase>
+        <phrase name="files_to_update">File to update that changed path</phrase>
+        <phrase name="update_files">Update files</phrase>
+        <phrase name="total_time">Total time</phrase>
+        <phrase name="files_founded">Were found</phrase>
+        <phrase name="founded_and_deleted">problematic files and were erased</phrase>
+        <phrase name="problem_with_file">Problem with file</phrase>
+        <phrase name="files_to_hash">files produced hash</phrase>
+        <phrase name="files_to_metadata">files produced metadata</phrase>
+        <phrase name="there_is_no_file">There is no file</phrase>
+        <phrase name="new_records_to_database">new records to database</phrase>
+        <phrase name="running_process">Process already running</phrase>
+        <phrase name="youtube_downloaded_to_path">Video downloaded to path</phrase>
+        <phrase name="youtube_downloading">Downloading</phrase>
+        <phrase name="starting_sync">Starting synchronisation</phrase>
+        <phrase name="sure_to_delete_files">You will delete the files. Are you sure?</phrase>
+        <phrase name="sure_to_update_files">You will update the files. Are you sure?</phrase>
+        <phrase name="need_update">The application should be updated. Current version</phrase>
+        <phrase name="sure_to_export_playlist">You will export the playlist. Are you sure?</phrase>
     </page>
 
 </language>

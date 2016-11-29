@@ -68,6 +68,7 @@
         <phrase name="valid_option">Απαιτείται</phrase>
         <phrase name="user_error1">Ο χρήστης</phrase>
         <phrase name="user_error2">υπάρχει ήδη</phrase>
+        <phrase name="valid_passwords_must_match">Τα συνθηματικά πρέπει να είναι ίδια</phrase>
     </page>
 
     <page mame="tags">
@@ -102,7 +103,7 @@
         <phrase name="sync_youtube">Κατέβασμα από youTube</phrase>
     </page>
 
-    <page name="plalist">
+    <page name="playlist">
         <phrase name="delete_file">Διαγραφή αρχείου</phrase>
         <phrase name="edit_file">Επεξεργασία αρχείου</phrase>
         <phrase name="play_file">Αναπαραγωγή</phrase>
@@ -140,6 +141,36 @@
         <phrase name="give_permissions">Δώσε δικαιώματα 777</phrase>
         <phrase name="cant_create_path">Δεν μπορώ να δημιουργήσω το path</phrase>
         <phrase name="create_the_path">Δημιούργησε το εσύ με 777 δικαιώματα</phrase>
+        <phrase name="the_file">Το αρχείο</phrase>
+        <phrase name="changed_path">άλλαξε θέση</phrase>
+        <phrase name="path_does_not_exist">Δεν υπάρχει ο κατάλογος</phrase>
+        <phrase name="there_is_a_problem_with_file">Υπάρχει πρόβλημα με το αρχείο</phrase>
+        <phrase name="special_char_in_path">Μάλλον κάποιος ειδικός χαρακτήρας υπάρχει στο path.</phrase>
+        <phrase name="there_is_a_problem_with_alac">Πρόβλημα με τη μετατροπή του ALAC</phrase>
+        <phrase name="file_added">Προστέθηκε</phrase>
+        <phrase name="file_not_added">Δεν προστέθηκε</phrase>
+        <phrase name="files_added">Προστέθηκαν</phrase>
+        <phrase name="added_files">αρχεία</phrase>
+        <phrase name="files_to_delete">Αρχεία προς διαγραφή</phrase>
+        <phrase name="delete_files">Διαγραφή αρχείων</phrase>
+        <phrase name="files_to_update">Αρχεία προς ενημέρωση που αλλάξανε θέση</phrase>
+        <phrase name="update_files">Ενημέρωση αρχείων</phrase>
+        <phrase name="total_time">Συνολικός χρόνος</phrase>
+        <phrase name="files_founded">Βρέθηκαν</phrase>
+        <phrase name="founded_and_deleted">προβληματικά αρχεία και διαγράφτηκαν</phrase>
+        <phrase name="problem_with_file">Πρόβλημα με το αρχειο</phrase>
+        <phrase name="files_to_hash">αρχεία παρήγαγαν hash</phrase>
+        <phrase name="files_to_metadata">αρχεία ελέγχθηκαν και ενημερώθηκαν τα metadata</phrase>
+        <phrase name="there_is_no_file">Δεν υπάρχει το αρχείο</phrase>
+        <phrase name="new_records_to_database">νέες εγγραφές στη βάση</phrase>
+        <phrase name="running_process">Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη</phrase>
+        <phrase name="youtube_downloaded_to_path">To video κατέβηκε στο path</phrase>
+        <phrase name="youtube_downloading">Κατεβάζω το</phrase>
+        <phrase name="starting_sync">Αρχίζω τον συγχρονισμό</phrase>
+        <phrase name="sure_to_delete_files">Είσαι σίγουρος ότι θέλεις να σβήσεις τα αρχεία;</phrase>
+        <phrase name="sure_to_update_files">Είσαι σίγουρος ότι θέλεις να αλλάξεις τα αρχεία;</phrase>
+        <phrase name="need_update">Η εφαρμογή πρέπει να ενημερωθεί. Τρέχουσα έκδοση</phrase>
+        <phrase name="sure_to_export_playlist">Είσαι σίγουρος ότι θέλεις να κάνεις εξαγωγή της playlist;</phrase>
     </page>
 
 </language>
