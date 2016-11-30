@@ -109,6 +109,9 @@
         <phrase name="play_file">Play</phrase>
         <phrase name="add_to_playlist">Add to playlist</phrase>
         <phrase name="export_playlist">Export playlist</phrase>
+        <phrase name="create_playlist">Create playlist</phrase>
+        <phrase name="choose_playlist">Choose playlist</phrase>
+        <phrase name="delete_playlist">Delete playlist</phrase>
     </page>
 
     <page name="search">

@@ -1573,6 +1573,17 @@ function displaySearchWindow() {
     $('#search').show();
 }
 
+// Εμφανίζει το παράθυρο για εισαγωγή playlist
+function displayInsertPlaylistWindow() {
+    $('#insertPlaylistWindow').show();
+}
+
+
+// Κλείνει το παράθυρο για εισαγωγή playlist
+function cancelCreatePlaylist() {
+    $('#insertPlaylistWindow').hide();
+}
+
 
 // Έλεγχος για όταν γίνονται αλλαγές στα search fields
 function checkSearchFieldChanges() {
@@ -1623,7 +1634,7 @@ function checkCurrentVersion() {
 
 // Στέλνει kill command στην βάση για να σταματήσει το php script που τρέχει
 function sendKillCommand() {
-    console.log(runningYoutubeDownload);
+    // console.log(runningYoutubeDownload);
 
     if(!runningYoutubeDownload) {
         callFile = AJAX_path + "sendKillCommand.php";
@@ -1834,6 +1845,19 @@ function exportPlaylist() {
         }
         else alert (phrases['running_process']);
     }
+}
+
+function createPlaylist() {
+    var playlistName=document.querySelector('#playlistName').value;
+
+    callFile=AJAX_path+"createPlaylist.php?playlistName="+playlistName;
+
+
+    $.get(callFile, function (data) {
+        if (data.success == true) {
+            $('#insertPlaylistWindow').hide();
+        }
+    }, "json");
 }
 
 

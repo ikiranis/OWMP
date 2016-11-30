@@ -109,6 +109,9 @@
         <phrase name="play_file">Αναπαραγωγή</phrase>
         <phrase name="add_to_playlist">Προσθήκη σε λίστα</phrase>
         <phrase name="export_playlist">Εξαγωγή λίστας</phrase>
+        <phrase name="create_playlist">Δημιουργία λίστας</phrase>
+        <phrase name="choose_playlist">Επιλογή λίστας</phrase>
+        <phrase name="delete_playlist">Διαγραφή λίστας</phrase>
     </page>
 
     <page name="search">

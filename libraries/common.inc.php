@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.206');
+define ('APP_VERSION', '0.1.207');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -158,7 +158,16 @@ $mySqlTables = array (
                                               KEY `fk_music_tags_album_arts1_idx` (`album_artwork_id`),
                                               CONSTRAINT `fk_music_tags_album_arts1` FOREIGN KEY (`album_artwork_id`) REFERENCES `album_arts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
                                               CONSTRAINT `fk_music_tags_files1` FOREIGN KEY (`id`) REFERENCES `files` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-                                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;')
+                                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;'),
+    array ('table' => 'manual_playlists', 'sql' => 'CREATE TABLE `manual_playlists` (
+                                          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                          `table_name` varchar(20) DEFAULT NULL,
+                                          `playlist_name` varchar(50) DEFAULT NULL,
+                                          `user_id` int(11) NOT NULL,
+                                          PRIMARY KEY (`id`,`user_id`),
+                                          KEY `fk_manual_playlists_user1_idx` (`user_id`),
+                                          CONSTRAINT `fk_manual_playlists_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+                                        ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;')
 );
 
 
@@ -219,7 +228,7 @@ define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'Convert
 
 
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist
-
+define ('MANUAL_PLAYLIST_STRING', 'mnPl_');  // To string που προσθέτει στο όνομα ενός manual playlist
 
 
 // Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη

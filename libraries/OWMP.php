@@ -307,9 +307,9 @@ class OWMP
                     <input type="button" class="myButton" name="submit" id="submit"
                            value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
                 
-                    <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="cancel" onclick="cancelEdit();">
+                    <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelEdit();">
 
-                    <input type="button" class="myButton" name="clearEdit" id="clearEdit" value="Clear" onclick="clearEdit();">
+                    <input type="button" class="myButton" name="clearEdit" id="clearEdit" value="<?php echo __('search_text_clear'); ?>" onclick="clearEdit();">
                 </div>
 
         </div>
@@ -333,8 +333,42 @@ class OWMP
                 </select>
             </div>
 
-            <input type="button" id="searchClick" onclick="displaySearchWindow();">
+            <input type="button" id="searchClick" onclick="displaySearchWindow();" title="<?php echo __('search_text_search'); ?>" >
 
+            <div id="ChoosePlaylist">
+                <select name="playlist" id="playlist" >
+                    <option value="">
+                        <?php echo __('choose_playlist'); ?>
+                    </option>
+                    <?php
+
+                    $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+                    // H λίστα με τις manual playlists
+                    $manualPlaylists = RoceanDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
+
+                    foreach ($manualPlaylists as $playlist) {
+                        ?>
+                        <option value="<?php echo $playlist['id']; ?>">
+                            <?php echo  $playlist['playlist_name']; ?>
+                        </option>
+
+                        <?php
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <input type="button" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
+            <input type="button" id="deletePlaylistClick" onclick="alert('not ready yet');" title="<?php echo __('delete_playlist'); ?>">
+        
+            <div id="insertPlaylistWindow">
+                <form id="insertPlaylist" name="insertPlaylist">
+                    <input type="text" id="playlistName" name="playlistName">
+                    <input type="button" class="myButton PlaylistButton" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
+                           value="<?php echo __('create_playlist'); ?>">
+                    <input type="button" class="myButton" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
+                </form>
+            </div>
 
             <?php
                 if($_SESSION['PlaylistCounter']==0) {
