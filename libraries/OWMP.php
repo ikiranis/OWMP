@@ -169,6 +169,10 @@ class OWMP
                 <span id="overlay_album"></span>
             </div>
 
+            <div id="error_overlay">
+            
+            </div>
+
             <div id="bottom_right_overlay">
                 <span id="overlay_poster_source"></span>
                 <span id="overlay_live"></span>
@@ -360,7 +364,7 @@ class OWMP
 
             <input type="button" id="playPlaylist" onclick="playPlaylist();" title="<?php echo __('play_file'); ?>">
             <input type="button" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
-            <input type="button" id="deletePlaylistClick" onclick="alert('not ready yet');" title="<?php echo __('delete_playlist'); ?>">
+            <input type="button" id="deletePlaylistClick" onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
         
             <div id="insertPlaylistWindow">
                 <form id="insertPlaylist" name="insertPlaylist">
@@ -527,9 +531,7 @@ class OWMP
 
             ?>
 
-            <div id="error_container">
-                <div id="alert_error"></div>
-            </div>
+
 
         </div>
 
@@ -807,9 +809,20 @@ class OWMP
                                        title="<?php echo __('play_file'); ?>"
                                        onclick="loadNextVideo(<?php echo $track['id']; ?>);">
 
-                                <input type="button" class="playlist_add_button playlist_button_img"
-                                       title="<?php echo __('add_to_playlist'); ?>"
-                                       onclick="addToPlaylist(<?php echo $track['id']; ?>);">
+                                <?php
+                                    if(!$loadPlaylist) { ?>
+                                        <input type="button" class="playlist_add_button playlist_button_img"
+                                               title="<?php echo __('add_to_playlist'); ?>"
+                                               onclick="addToPlaylist(<?php echo $track['id']; ?>);">
+                                        <?php
+                                    }
+                                    else {?>
+                                        <input type="button" class="playlist_remove_button playlist_button_img"
+                                               title="<?php echo __('remove_from_playlist'); ?>"
+                                               onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
+                                        <?php
+                                    }
+                                    ?>
 
                                 <?php
                                 if ($UserGroupID == 1) {
@@ -885,6 +898,10 @@ class OWMP
 
                 ?>
 
+                <div id="error_container">
+                    <div id="alert_error"></div>
+                </div>
+
             </div>
 
             <?php
@@ -947,6 +964,7 @@ class OWMP
                 <?php
             }
             ?>
+
 
 
         </div>

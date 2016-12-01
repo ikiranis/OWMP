@@ -108,6 +108,7 @@
         <phrase name="edit_file">Edit File</phrase>
         <phrase name="play_file">Play</phrase>
         <phrase name="add_to_playlist">Add to playlist</phrase>
+        <phrase name="remove_from_playlist">Remove from playlist</phrase>
         <phrase name="export_playlist">Export playlist</phrase>
         <phrase name="create_playlist">Create playlist</phrase>
         <phrase name="choose_playlist">Choose playlist</phrase>
@@ -178,6 +179,13 @@
         <phrase name="song_added_to">Added song</phrase>
         <phrase name="_to_playlist">to playlist</phrase>
         <phrase name="song_exist_to">Song exist</phrase>
+        <phrase name="playlist_deleted">Playlist deleted</phrase>
+        <phrase name="playlist_not_deleted">Problem to delete playlist</phrase>
+        <phrase name="playlist_created">Playlist created</phrase>
+        <phrase name="playlist_not_created">Problem to create playlist</phrase>
+        <phrase name="song_deleted_from">Removed song </phrase>
+        <phrase name="_from_playlist">from the playlist</phrase>
+        <phrase name="song_not_deleted">Problem with removal of</phrase>
     </page>
 
 </language>

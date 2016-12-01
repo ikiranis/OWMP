@@ -108,6 +108,7 @@
         <phrase name="edit_file">Επεξεργασία αρχείου</phrase>
         <phrase name="play_file">Αναπαραγωγή</phrase>
         <phrase name="add_to_playlist">Προσθήκη σε λίστα</phrase>
+        <phrase name="remove_from_playlist">Αφαίρεση από την λίστα</phrase>
         <phrase name="export_playlist">Εξαγωγή λίστας</phrase>
         <phrase name="create_playlist">Δημιουργία λίστας</phrase>
         <phrase name="choose_playlist">Επιλογή λίστας</phrase>
@@ -178,6 +179,13 @@
         <phrase name="song_added_to">Έγινε η προσθήκη του</phrase>
         <phrase name="_to_playlist">στην playlist</phrase>
         <phrase name="song_exist_to">Υπάρχει ήδη το τραγούδι</phrase>
+        <phrase name="playlist_deleted">Διαγράφτηκε η playlist</phrase>
+        <phrase name="playlist_not_deleted">Πρόβλημα στην διαγραφή της playlist</phrase>
+        <phrase name="playlist_created">Δημιουργήθηκε η playlist</phrase>
+        <phrase name="playlist_not_created">Πρόβλημα στην δημιουργία της playlist</phrase>
+        <phrase name="song_deleted_from">Αφαιρέθηκε το τραγούδι</phrase>
+        <phrase name="_from_playlist">από στην playlist</phrase>
+        <phrase name="song_not_deleted">Πρόβλημα με την αφαίρεση του</phrase>
     </page>
 
 </language>

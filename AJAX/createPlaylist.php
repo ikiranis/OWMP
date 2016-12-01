@@ -26,16 +26,16 @@ if(OWMP::createPlaylistTempTable($playlistTableName)) {  // Αν δημιουρ�
     $sql = 'INSERT INTO manual_playlists (table_name, playlist_name, user_id) VALUES(?,?,?)';   // Εισάγει στον πίνακα manual_playlists
     $playlistArray = array($playlistTableName, $playlistName, $userID);
 
-    if($conn->ExecuteSQL($sql, $playlistArray)) {  // Αν γίνει κανονικά η εισαγωγή στην manual_playlists
-        $jsonArray = array('success' => true);
+    if($playlistID=$conn->ExecuteSQL($sql, $playlistArray)) {  // Αν γίνει κανονικά η εισαγωγή στην manual_playlists
+        $jsonArray = array('success' => true, 'playlistID' => $playlistID, 'playlistName' => $playlistName);
 
     }
     else {
-        $jsonArray = array('success' => false);
+        $jsonArray = array('success' => false, 'playlistName' => $playlistName);
     }
 }
 else {
-    $jsonArray = array('success' => false);
+    $jsonArray = array('success' => false, 'playlistName' => $playlistName);
 }
 
 

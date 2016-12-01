@@ -24,7 +24,6 @@ if(isset($_GET['tabID']))
 
 $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
 
-trigger_error($tempUserPlaylist);
 
 // Παίρνει το όνομα του table για την συγκεκριμένο playlistID
 $playlistTableName = RoceanDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
