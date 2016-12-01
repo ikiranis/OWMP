@@ -358,6 +358,7 @@ class OWMP
                 </select>
             </div>
 
+            <input type="button" id="playPlaylist" onclick="playPlaylist();" title="<?php echo __('play_file'); ?>">
             <input type="button" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
             <input type="button" id="deletePlaylistClick" onclick="alert('not ready yet');" title="<?php echo __('delete_playlist'); ?>">
         
@@ -475,7 +476,6 @@ class OWMP
             ?>
 
 
-
             <script type="text/javascript">
 
                 // περνάει στην javascript τα options των αντίστοιχων select
@@ -526,6 +526,11 @@ class OWMP
                 }
 
             ?>
+
+            <div id="error_container">
+                <div id="alert_error"></div>
+            </div>
+
         </div>
 
         <?php
@@ -535,27 +540,26 @@ class OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null) {
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null, $loadPlaylist=null) {
         $conn = new RoceanDB();
 
         $condition='';
         $arrayParams=array();
 
-        if($fieldsArray)
+        if($fieldsArray) {
             foreach ($fieldsArray as $field) {
 
-                if($field['search_text']==='0')  // Βάζει ένα κενό όταν μηδέν, αλλιώς το νομίζει null
-                    $searchText = ' '.$field['search_text'];
+                if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν μηδέν, αλλιώς το νομίζει null
+                    $searchText = ' ' . $field['search_text'];
                 else
                     $searchText = $field['search_text'];
 
 
+                if ((!$field == null) && (!$searchText == null)) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
 
-                if( (!$field==null) && (!$searchText==null) ) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
-
-                    $fieldType=RoceanDB::getTableFieldType('music_tags',$field['search_field']);  // παίρνει το type του field
+                    $fieldType = RoceanDB::getTableFieldType('music_tags', $field['search_field']);  // παίρνει το type του field
 //                    trigger_error($fieldType);
-                    if ( $fieldType=='int(11)' || $fieldType=='tinyint(4)' || $fieldType=='datetime' ) {   // αν το type είναι νούμερο
+                    if ($fieldType == 'int(11)' || $fieldType == 'tinyint(4)' || $fieldType == 'datetime') {   // αν το type είναι νούμερο
                         if ($fieldType == 'datetime')
                             $searchText = $field['search_text'];
                         else {
@@ -564,27 +568,31 @@ class OWMP
                             else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
                         }
 
-                        $equality=$field['search_equality'];
+                        $equality = $field['search_equality'];
                         switch ($equality) {
-                            case 'equal': $equality_sign='='; break;
-                            case 'greater': $equality_sign='>'; break;
-                            case 'less': $equality_sign='<'; break;
+                            case 'equal':
+                                $equality_sign = '=';
+                                break;
+                            case 'greater':
+                                $equality_sign = '>';
+                                break;
+                            case 'less':
+                                $equality_sign = '<';
+                                break;
                         }
 
-                        $condition = $condition . $field['search_field'] . $equality_sign.'? ' . $field['search_operator'] . ' ';
-                        $arrayParams[]=$searchText;
-                    }
-                    else {   // αν είναι string
-                        $searchText=ClearString($field['search_text']);
+                        $condition = $condition . $field['search_field'] . $equality_sign . '? ' . $field['search_operator'] . ' ';
+                        $arrayParams[] = $searchText;
+                    } else {   // αν είναι string
+                        $searchText = ClearString($field['search_text']);
                         $condition = $condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
-                        $arrayParams[]='%'.$searchText.'%';
+                        $arrayParams[] = '%' . $searchText . '%';
                     }
-
-
 
 
                 }
             }
+        }
 
         if (!$condition=='') {
             $condition = page::cutLastString($condition, 'OR ');
@@ -623,8 +631,10 @@ class OWMP
             $_SESSION['arrayParams']=null;
         }
 
+        if(!$loadPlaylist)
+            $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
+        else $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
 
-        $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
         $playlistToPlay=null;
         $playlist=null;
 
@@ -632,39 +642,53 @@ class OWMP
             if ($_SESSION['PlaylistCounter'] == 0) {
 //                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
 
-                $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
-
-
                 if(!$tabID)  // Αν δεν έρχεται από function
                     $tabID=TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
-                
+
                 // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
                 $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $tabID;
 
-                trigger_error($tempUserPlaylist);
+                // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
+                // από την manual playlist
+                if(!$loadPlaylist) {
+                    $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
 
+                    // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
+                    if (!RoceanDB::checkIfTableExist($tempUserPlaylist)) {
+                        self::createPlaylistTempTable($tempUserPlaylist); // Δημιουργούμε το table
 
+                        // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
+                        $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
+                        $playlistTableArray = array($tempUserPlaylist, date('Y-m-d H:i:s'));
+                        $conn->ExecuteSQL($sql, $playlistTableArray);
+                    }
 
-                // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
-                if(!RoceanDB::checkIfTableExist($tempUserPlaylist)) {
-                    self::createPlaylistTempTable($tempUserPlaylist); // Δημιουργούμε το table
-
-                    // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
-                    $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
-                    $playlistTableArray = array($tempUserPlaylist, date('Y-m-d H:i:s'));
-                    $conn->ExecuteSQL($sql, $playlistTableArray);
+                    // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
+                    RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
                 }
-
-                // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
-                RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
 
                 $tableCount = RoceanDB::countTable($tempUserPlaylist);
 
                 $_SESSION['$countThePlaylist'] = $tableCount;
             }
 
-            $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);  // Η λίστα προς εμφάνιση
+            // Η λίστα προς εμφάνιση
+            if(!$loadPlaylist) {  // Αν το $loadPlaylist είναι false
+                $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams,
+                    'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
+            }
+            else { // αλλιώς κάνει join με τον $tempUserPlaylist
+                $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
+                $mainTables = array('music_tags', 'files');
 
+                $playlist = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+                    null, null, null, $tempUserPlaylist, $joinFieldsArray);
+            }
+
+
+            // TODO για τις manual playlists
+            // να εμφανίζει progress gif
+            // να πατάς κάτι και να ξαναγυρνάει στην κανονική playlist
 
         }
         else {  // εμφάνιση διπλών εγγραφών
@@ -781,18 +805,18 @@ class OWMP
 
                                 <input type="button" class="play_button playlist_button_img"
                                        title="<?php echo __('play_file'); ?>"
-                                       onclick="loadNextVideo(<?php echo $track['id']; ?>);"">
+                                       onclick="loadNextVideo(<?php echo $track['id']; ?>);">
 
                                 <input type="button" class="playlist_add_button playlist_button_img"
                                        title="<?php echo __('add_to_playlist'); ?>"
-                                       onclick="addToPlaylist(<?php echo $track['id']; ?>);"">
+                                       onclick="addToPlaylist(<?php echo $track['id']; ?>);">
 
                                 <?php
                                 if ($UserGroupID == 1) {
                                     ?>
                                     <input type="button" class="delete_button playlist_button_img"
                                            title="<?php echo __('delete_file'); ?>"
-                                           onclick="deleteFile(<?php echo $track['id']; ?>);"">
+                                           onclick="deleteFile(<?php echo $track['id']; ?>);">
                                     <?php
                                 }
                                 ?>

@@ -1107,6 +1107,27 @@ class RoceanDB
         }
 
     }
+
+
+    // Αντιγράφει έναν πίνακα σε έναν άλλο πίνακα με το ίδιο structure
+    static function copyTable($sourceTable, $destinationTable) {
+        self::CreateConnection();
+
+        $sql = 'INSERT INTO '.$destinationTable.' SELECT * FROM '.$sourceTable;
+        $stmt = self::$conn->prepare($sql);
+
+
+        if($stmt->execute())
+
+            $result = true;
+
+        else $result=false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+    }
     
 
 }

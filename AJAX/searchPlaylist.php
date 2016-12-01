@@ -41,6 +41,10 @@ if(isset($_GET['duplicates']))
     $duplicates=true;
 else $duplicates=false;
 
+if(isset($_GET['loadPlaylist']))
+    $loadPlaylist=true;
+else $loadPlaylist=null;
+
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
 
@@ -49,7 +53,12 @@ if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
 
+
 if($duplicates==false)
-    OWMP::getPlaylist($jsonArray,$offset,$step,null,$mediaKind,$tabID);
-else OWMP::getPlaylist($jsonArray,$offset,$step,$duplicates,$mediaKind,$tabID);
+    OWMP::getPlaylist($jsonArray,$offset,$step,null,$mediaKind,$tabID,$loadPlaylist);
+else if($loadPlaylist==true)
+    OWMP::getPlaylist($jsonArray,$offset,$step,$duplicates,$mediaKind,$tabID,null); 
+
+
+
 

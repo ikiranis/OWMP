@@ -105,7 +105,7 @@ $.fn.addClassDelay = function(className,delay) {
 
 function DisplayMessage (element, error) {
     $(element).text(error);
-    $(element).show('slow').delay(5000).hide('fast');
+    $(element).stop().show('slow').delay(5000).hide('fast');
 }
 
 
@@ -1507,8 +1507,31 @@ function updateFiles(filesArray) {
 }
 
 // Προσθέτει ένα αρχείο σε playlist
-function addToPlaylist(id) {
-    alert('Not ready yet');
+function addToPlaylist(fileID) {
+    var playlistID=document.querySelector('#playlist').value;
+    
+    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+        DisplayMessage('#alert_error', phrases['you_have_to_choose_playlist']);
+        return;
+    }
+
+    callFile=AJAX_path+"addToPlaylist.php?playlistID="+playlistID+'&fileID='+fileID;
+
+
+    $.get(callFile, function (data) {
+        var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
+
+        if (data.success == true) {
+            DisplayMessage('#alert_error', phrases['song_added_to']+' '+ data.song_name
+                + ' ' + phrases['_to_playlist'] + ' ' + playlistName);
+        }
+        else {
+            if(data.errorID==2) {
+                DisplayMessage('#alert_error', phrases['song_exist_to']+' '+ data.song_name
+                    + ' ' + phrases['_to_playlist'] + ' ' + playlistName);
+            }
+        }
+    }, "json");
 }
 
 // Εμφανίζει το volume
@@ -1860,6 +1883,48 @@ function createPlaylist() {
     }, "json");
 }
 
+function playPlaylist() {
+    var playlistID=document.querySelector('#playlist').value;
+
+    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+        DisplayMessage('#alert_error', phrases['you_have_to_choose_playlist']);
+        return;
+    }
+
+    callFile=AJAX_path+"loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
+
+
+    $.get(callFile, function (data) {
+        var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
+
+        if (data.success == true) {
+            DisplayMessage('#alert_error', 'Έγινε η αντιγραφή της λίστας');
+
+            // callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step
+            //     +"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind)+'&tabID='+tabID;
+            
+            callFile=AJAX_path+'searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
+
+            $.get(callFile, function(data) {
+                if (data) {
+                    $('#playlist_container').html(data);
+                    $('#progress').hide();
+                }
+                else {
+                    $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
+                    $('#progress').hide();
+                }
+
+            });
+        }
+        else {
+            if(data.errorID==1) {
+                DisplayMessage('#alert_error', 'Δεν έγινε η αντιγραφή');
+            }
+        }
+    }, "json");
+
+}
 
 // ************************************
 // On load

@@ -27,19 +27,16 @@ $lastMinutes = strtotime('-10 minutes');
 $theDate = date('Y-m-d H:i:s', $lastMinutes);
 $playlistTablesToDelete = RoceanDB::getTableArray('playlist_tables', 'table_name', 'last_alive<?', array($theDate), null, null, null);
 
-trigger_error('RUNNING '.$theDate);
+//trigger_error('RUNNING '.$theDate);
 
 foreach ($playlistTablesToDelete as $item) {
     if(RoceanDB::checkIfTableExist($item['table_name'])) // Αν υπάρχει το σβήνουμε
         if(RoceanDB::dropTable($item['table_name'])) {
             if($conn->deleteRowFromTable ('playlist_tables','table_name',$item['table_name']))
-                trigger_error('SBHSIMO TOY: '.$item['table_name']);
-            // TODO να επιστρέφει κάτι σε json για να ξέρει ότι έχει περάσει με επιτυχία
+//                trigger_error('SBHSIMO TOY: '.$item['table_name']);
+                $jsonArray = array('success' => true);
         }
 }
-
-//$jsonArray = array('success' => true, 'id' => $id);
-
 
 
 

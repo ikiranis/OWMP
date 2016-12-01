@@ -1400,6 +1400,18 @@ input {
     background-size: 2em;
 }
 
+#playPlaylist {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    width: 1.7em;
+    background-color: transparent;
+    background-image: url( '../img/play.png' );
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 2em;
+}
+
 #searchClick:hover {
     transform: scale(1.15);
 }
