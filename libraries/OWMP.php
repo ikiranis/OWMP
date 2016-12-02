@@ -365,6 +365,8 @@ class OWMP
             <input type="button" id="playPlaylist" onclick="playPlaylist();" title="<?php echo __('play_file'); ?>">
             <input type="button" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
             <input type="button" id="deletePlaylistClick" onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
+
+            <?php Page::getHelp('help_manual_playlists'); ?>
         
             <div id="insertPlaylistWindow">
                 <form id="insertPlaylist" name="insertPlaylist">
@@ -506,6 +508,8 @@ class OWMP
                     <input type="button" class="export_button playlist_button_img"
                            title="<?php echo __('export_playlist'); ?>"
                            onclick="exportPlaylist();" >
+
+                    <?php Page::getHelp('help_playlist_export'); ?>
                 </div>
 
                 <?php
@@ -1191,7 +1195,7 @@ class OWMP
         if($UserGroup==1) {  // Αν ο χρήστης είναι admin
             ?>
             <details>
-                <summary><?php echo __('settings_options'); ?></summary>
+                <summary><?php echo __('settings_options'); Page::getHelp('help_options')?></summary>
                 <?php self::getOptionsInFormFields() ?>
             </details>
 
@@ -1228,10 +1232,9 @@ class OWMP
 
     // εμφάνιση των επιλογών συγχρονισμού
     static function showSynchronization () {
-
         ?>
             <details>
-                <summary><?php echo __('settings_paths'); ?></summary>
+                <summary> <?php echo __('settings_paths'); Page::getHelp('help_paths'); ?> </summary>
                 <?php self::getPathsInFormFields(); ?>
             </details>
 
@@ -1261,20 +1264,32 @@ class OWMP
                     ?>
                 </select>
 
-                <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startSync('sync');"
+
+                <p>
+                    <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startSync('sync');"
                        value="<?php echo __('Synchronize'); ?>">
-    
-                <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
-                       value="<?php echo __('sync_clear'); ?>">
+                    <?php Page::getHelp('help_sync'); ?>
+                </p>
 
-                <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
-                       value="<?php echo __('sync_hash'); ?>">
+                <p>
+                    <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
+                           value="<?php echo __('sync_clear'); ?>">
+                </p>
 
-                <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
+                <p>
+                    <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
+                           value="<?php echo __('sync_hash'); ?>">
+                </p>
+
+                <p>
+                    <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
                        value="<?php echo __('sync_metadata'); ?>">
+                </p>
 
-                <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
-                       value="<?php echo __('sync_json'); ?>">
+                <p>
+                    <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
+                           value="<?php echo __('sync_json'); ?>">
+                </p>
 
 
                 <?php
@@ -1288,6 +1303,7 @@ class OWMP
                             <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
                                    onclick="downloadYouTube();"
                                    value="<?php echo __('sync_youtube'); ?>" >
+                            <?php Page::getHelp('help_youtube'); ?>
                         </p>
 
                         <?php

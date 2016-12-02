@@ -474,6 +474,17 @@ function DisplayWindow(page, offset, step) {
     }
 }
 
+function closeHelp() {
+    $('#helpContainer').hide();
+};
+
+// Eμφανίζει box με text το helpText
+function getHelp(helpText) {
+    document.querySelector('#helpText').innerHTML = phrases[helpText];
+
+    $('#helpContainer').show();
+}
+
 
 // *******************************************************************
 // functions για έλεγχο των audio output devices. Παίζουν μόνο σε https

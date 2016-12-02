@@ -37,7 +37,7 @@ RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive
 
 if($playMode=='shuffle') {
     $tableCount = RoceanDB::countTable($tempUserPlaylist);
-    $randomRow = rand(1,$tableCount);
+    $randomRow = rand(0,$tableCount);
     $return = OWMP::getRandomPlaylistID($tempUserPlaylist, $randomRow);
     $playlistID = $return['playlist_id'];
     $fileID = $return['file_id'];

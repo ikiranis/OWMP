@@ -138,7 +138,6 @@ if(!$logged_in) {
 
 
 
-
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
 //$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
 //RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');

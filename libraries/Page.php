@@ -547,4 +547,16 @@ class Page
         } else return false;
     }
 
+
+    // Εμφανίζει εικονίδιο βοήθειας και αν πατηθεί εμφανίζει box με text το $helpText
+    static function getHelp($helpText) {
+        ?>
+        
+            <input type="button" class="help_button app_icon"
+                   title="<?php echo __('help_text_icon'); ?>"
+                   onclick="getHelp('<?php echo $helpText;  ?>');">
+        
+        <?php
+    }
+
 }
