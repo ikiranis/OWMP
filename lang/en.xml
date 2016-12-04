@@ -221,9 +221,13 @@
             <p>Αφού τα σετάρουμε όλα επιλέγουμε το media kind που θέλουμε και πατάμε Συγχρονισμός. Ο συγχρονισμός μπορεί να πάρει από μερικά λεπτά μέχρι πάρα πολλές ώρες. Αναλόγως πόσο μεγάλη είναι η συλλογή μας. Φυσικά για τα βιντεοκλιπς πολύ περισσότερο από τα mp3, γιατί πρέπει να διαβάσει μεγαλύτερα αρχεία.</p>
         ]]></phrase>
         <phrase name="help_youtube"><![CDATA[
-            <p>Στην συλλογή, στο text area που έχει, αντιγράφουμε τα youtube links που θέλουμε να κατεβάσουμε χωρισμένα από με ','. Πατάμε Download Youtube και περιμένουμε να κατέβουν. Μετά το κατέβασμα γίνεται αυτόματα συγχρονισμός και περνιούνται στην database. Κοίτα στις απαιτήσεις για κατέβασμα από youtube.</p>
+            <p>Στην συλλογή, στο text area που έχει, αντιγράφουμε τα youtube links που θέλουμε να κατεβάσουμε χωρισμένα με ','. Πατάμε Download Youtube και περιμένουμε να κατέβουν. Μετά το κατέβασμα γίνεται αυτόματα συγχρονισμός και περνιούνται στην database. Κοίτα στις απαιτήσεις για κατέβασμα από youtube.</p>
 
             <p><strong>ΠΡΟΣΟΧΗ:</strong> Για να κατεβάσει από youtube πρέπει να έχουμε σετάρει music video path (με main) στην Συλλογή/Διαδρομές αρχείων και να έχει write δικαιώματα εκεί ο www-data.</p>
+            <p>Για κατέβασμα από youTube πρέπει να εγκαταστήσουμε το youtube-dl (https://rg3.github.io/youtube-dl/download.html)</p>
+            <p>π.χ.
+            <pre>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl</pre>
+            <pre>sudo chmod a+rx /usr/local/bin/youtube-dl</pre></p>
         ]]></phrase>
         <phrase name="help_manual_playlists"><![CDATA[
             <p>Δημιουργούμε μια <strong>playlist</strong> πατώντας στην σχετική επιλογή στην κορυφή της σελίδας. Αφού την δημιουργήσουμε την <strong>επιλέγουμε μετά στο drop down menu</strong>.</p>
@@ -252,6 +256,90 @@
 
             <p><strong>ΣΗΜΕΙΩΣΗ:</strong> Η δυνατότητα εξαγωγής/εισαγωγής, προς το παρόν, <strong>δεν μεταφέρει</strong> και τα <strong>album covers</strong> για την μουσική.</p>
         ]]></phrase>
+        <phrase name="help_clear_db"><![CDATA[
+            <p>Ψάχνει για εγγραφές στην βάση που δεν αντιστοιχούν σε φυσικά αρχεία. Αν βρει καθαρίζει την βάση από αυτές.</p>
+        ]]></phrase>
+        <phrase name="help_hash"><![CDATA[
+            <p>Σαρώνει την βάση και παράγει από την αρχή hash strings για κάθε αρχείο.</p>
+            <p><strong>ΠΡΟΣΟΧΗ:</strong> Μπορεί να πάρει πολλές ώρες η διαδικασία, αναλόγως το μέγεθος της συλλογής</p>
+        ]]></phrase>
+        <phrase name="help_metadata"><![CDATA[
+            <p>Σαρώνει την βάση και ψάχνει για τα metadata για όλα τα αρχεία.</p>
+            <p><strong>ΠΡΟΣΟΧΗ:</strong> Μπορεί να πάρει πολλές ώρες η διαδικασία, αναλόγως το μέγεθος της συλλογής</p>
+        ]]></phrase>
+        <phrase name="help_samba_sharing_title">
+            Μοίρασμα δίσκων με Samba αν οι δίσκοι δεν είναι στο ίδιο μηχάνημα με τον web server
+        </phrase>
+        <phrase name="help_samba_sharing"><![CDATA[
+            <p>Μοιράζουμε τον δίσκο με samba (είτε από linux, είτε από windows, είτε από Mac OS) και κάνουμε τον δίσκο mount στο μηχάνημα που είναι ο web server. π.χ. μπορεί να τρέχει σε virtualbox</p>
+
+            <p>Για μόνιμα βάζουμε την απαραίτητη γραμμή στο αρχείο /etc/fstab</p>
+
+            <p>π.χ.
+            <pre>sudo nano /etc/fstab</pre>
+            και προσθέτουμε κάτι σαν αυτό
+            <pre>//192.168.1.150/diskname /media/diskname cifs credentials=/home/user/.creds,iocharset=utf8,sec=ntlm,noperm,rw</pre>
+            και στην συνέχεια restart ή
+            <pre>sudo mount -a</pre>
+            στο /home/user/.creds βάζουμε τα samba username, password σε γραμμές τύπου
+            <pre>username=user</pre>
+            <pre>password=pass</pre></p>
+        ]]></phrase>
+        <phrase name="help_itunes_sync_title">
+            Συγχρονισμός με iTunes
+        </phrase>
+        <phrase name="help_itunes_sync"><![CDATA[
+            <p>Για να κάνουμε συγχρονισμό με itunes (δηλαδή να πάρει όλα τα metadata για κάθε αρχείο μας που είχαμε βάλει στο itunes) κάνουμε export της playlist μας στο itunes, σε xml. Παίρνουμε το xml, το ονομάζουμε 'Library.xml' (οπωσδήποτε) και το βάζουμε στο root directory όπου είναι η εφαρμογή μας στον web server.</p>
+
+            <p>Για να γίνει ο συγχρονισμός ελέγχονται τα paths που βάζει το itunes στο xml με τα paths που έχουμε τα αρχεία. π.χ. στο mac το path στο itunes έχει την μορφή file://localhost/Volumes/disk...... Ενώ σε linux έχει την μορφή /media/disk......</p>
+
+            <p>Επειδή αυτό που σώζει το itunes (το αρχικό μέρος) είναι διαφορετικής μορφής από το path που έχουμε στο linux, η εφαρμογή κόβει το αρχικό κομμάτι, ώστε να γίνεται σωστός έλεγχος.</p>
+
+            <p>Αυτός είναι και ο λόγος που υπάρχει το dir_prefix στα options. Αν το path μας στο linux είναι στο /media/disk/directory.... τότε βάζουμε για dir_prefix το '/media/' (με τις 2 καθέτους).</p>
+
+            <p>Αν το path μας είναι /disk/directory.... τότε το αφήνουμε '/'</p>
+
+            <p>Στην συνέχεια βάζουμε true στο syncItunes στα options και κάνουμε τον συγχρονισμό στην Συλλογή όπως παραπάνω.</p>
+
+            <p>Από το itunes τραβάει τα metadata artist, tittle, album, genre, year, date added, play count, date last played, rating.</p>
+        ]]></phrase>
+        <phrase name="help_alac_title">
+            Μετατροπή των ALAC
+        </phrase>
+        <phrase name="help_alac"><![CDATA[
+            <p>Αν έχουμε επιλέξει να γίνεται μετατροπή των ALAC, μετατρέπει τα αρχεία σε ειδικό φάκελο (Converted στo main μουσικό path), περνάει αυτά στην database και τα original τα μετονομάζει σε file.m4a.converted. Η μετονομασία γίνεται, γιατί αλλιώς κάθε φορά που γίνεται συγχρονισμός θα κοιτάει και γι'αυτά πάλι. Κάποια στιγμή θα υπάρξει σκριπτάκι αν θέλουμε να τα μετονομάσουμε όλα αυτά μαζικά πάλι στο original τους.</p>
+            <p>Για μετατροπή ALAC πρέπει να εγκαταστήσουμε
+
+            <p>ffmpeg</p>
+            <p>lame</p>
+
+            <p>π.χ. για ubuntu
+            <pre>sudo apt-get install ffmpeg</pre>
+            <pre>sudo apt-get install lame</pre></p>
+        ]]></phrase>
+        <phrase name="help_apache_title">
+            Ενημέρωση του virtualhost στον Apache με τα paths των αρχείων μας
+        </phrase>
+        <phrase name="help_apache"><![CDATA[
+            <p>Για να μπορούμε να έχουμε πρόσβαση στα αρχεία μουσικής μας από το web πρέπει να βάλουμε τα paths και στο virtualhost του apache, σαν alias.</p>
+
+            <p>Κάνουμε edit το αρχείο</p>
+            <pre>sudo nano /etc/apache2/sites-enabled/000-default.conf</pre>
+            <p>Αν υποθέσουμε ότι το path των αρχείων μας είναι στο /media/myDisk/myDirectory</p>
+
+            <p>Κάπου ανάμεσα στα &lt;virtualhost&gt;</p>
+
+            <p>βάζουμε τις παρακάτω γραμμές, για κάθε ξεχωριστό path</p>
+            <p><pre>Alias /media/myDisk/myDirectory "/media/myDisk/myDirectory"
+            &lt;Directory "/media/myDisk/myDirectory"&gt;
+                Order allow,deny
+                Allow from all
+                Require all granted
+            &lt;/Directory&gt;</pre>
+            <p>κάνουμε restart τον Apache</p>
+            <pre>sudo service apache2 restart</pre>
+        ]]></phrase>
+
     </page>
 
 </language>

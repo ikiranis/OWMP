@@ -509,7 +509,6 @@ class OWMP
                            title="<?php echo __('export_playlist'); ?>"
                            onclick="exportPlaylist();" >
 
-                    <?php Page::getHelp('help_playlist_export'); ?>
                 </div>
 
                 <?php
@@ -1274,21 +1273,25 @@ class OWMP
                 <p>
                     <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
                            value="<?php echo __('sync_clear'); ?>">
+                    <?php Page::getHelp('help_clear_db'); ?>
                 </p>
 
                 <p>
                     <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
                            value="<?php echo __('sync_hash'); ?>">
+                    <?php Page::getHelp('help_hash'); ?>
                 </p>
 
                 <p>
                     <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
                        value="<?php echo __('sync_metadata'); ?>">
+                    <?php Page::getHelp('help_metadata'); ?>
                 </p>
 
                 <p>
                     <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
                            value="<?php echo __('sync_json'); ?>">
+                    <?php Page::getHelp('help_playlist_export'); ?>
                 </p>
 
 
@@ -1313,7 +1316,10 @@ class OWMP
                 else echo '<p>'.__('youtube_error').'</p>';
                 ?>
 
-
+                <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
+                <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
+                <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
+                <li> <?php echo __('help_alac_title'); Page::getHelp('help_alac'); ?> </li>
                    
             </div>
 
