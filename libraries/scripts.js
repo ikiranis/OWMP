@@ -15,6 +15,7 @@ var currentID; // Το τρέχον file id που παίζει
 localStorage.currentPlaylistID='1';  // Το τρέχον id στην playlist
 
 var myVideo;
+var FullscreenON=false; // κρατάει το αν είναι σε fullscreen ή όχι
 
 var TimeUpdated=false; // Κρατάει το αν έχει ήδη ενημερωθεί ο played time του βίντεο για να μην το ξανακάνει
 var FocusOnForm=false; // Κρατάει το αν είμαστε στην φόρμα
@@ -652,13 +653,24 @@ function changeCheckAll(checkAll, checkItems) {
 
 }
 
+// βάζει/βγάζει το video σε fullscreen
+function toggleFullscreen() {
+    elem = myVideo;
+    if (!checkFullscreen()) {
+            $(elem).addClass('fullscreenvideo');
+            FullscreenON=true;
+            showFullScreenVideoTags();
+    } else {
+        $(elem).removeClass('fullscreenvideo');
+        FullscreenON=false;
+        showFullScreenVideoTags();
+    }
+}
 
-
-// TODO συμβατότητα με safari και firefox. Ο Firefox δεν εμφανίζει το div. Ο safari δεν δέχεται κάποια keys όταν είναι σε fullscreen
 // βάζει/βγάζει το video σε fullscreen
 // Ο safari δεν υποστηρίζει keyboard shortcuts όταν είναι σε fullscreen για λόγους ασφαλείας
 // Ο firefox δεν εμφανίζει το overlay σε fullscreen
-function toggleFullscreen() {
+function OldtoggleFullscreen() {
     elem = myVideo;
     if (!document.fullscreenElement && !document.mozFullScreenElement &&
         !document.webkitFullscreenElement && !document.msFullscreenElement) {
@@ -669,7 +681,11 @@ function toggleFullscreen() {
         } else if (elem.mozRequestFullScreen) {
             elem.mozRequestFullScreen();
         } else if (elem.webkitRequestFullscreen) {
-            elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            // elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+
+            $(elem).addClass('fullscreenvideo');
+
+            window.addEventListener("load", function() { window. scrollTo(0, 0); });
             // getShortcuts(elem);
         }
     } else {
@@ -688,9 +704,17 @@ function toggleFullscreen() {
 
 // Ελέγχει αν βρίσκεται σε fullscreen
 function checkFullscreen () {
-    if (document.fullscreenElement || document.mozFullScreenElement ||
-        document.webkitFullscreenElement || document.msFullscreenElement)
+    if (FullscreenON) {
         return true;
+    }
+    else return false;
+}
+
+function oldcheckFullscreen () {
+    if (document.fullscreenElement || document.mozFullScreenElement ||
+        document.webkitFullscreenElement || document.msFullscreenElement) {
+        return true;
+    }
     else return false;
 }
 

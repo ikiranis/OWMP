@@ -885,6 +885,9 @@ input {
     width: 100%;
     height: 100%;
     z-index: 2147483647;
+    top:0;
+    left: 0;
+    position: fixed;
     display: none;
 }
 
@@ -1038,10 +1041,19 @@ input {
 }
 
 
+.fullscreenvideo {
+    position: fixed; right: 0; bottom: 0;
+    min-width: 100%; min-height: 100%;
+    width: 100%; height: auto; z-index: -100;
+    background-color: black;
+}
 
+.paok {
+    width: 100px;
+}
 
 #myVideo {
-    z-index: -100;
+    z-index: 10;
     height: 40%;
 }
 
@@ -1049,14 +1061,14 @@ input {
     display:none;
 }
 
-#myVideo:-webkit-full-screen {
-    width: 100%;
-    height: 100%;
-}
-#myVideo:-moz-full-screen {
-    width: 100%;
-    height: 100%;
-}
+/*#myVideo:-webkit-full-screen {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
+/*#myVideo:-moz-full-screen {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
 
 
 #overlay_artist { font-weight: bold; display: block; }
