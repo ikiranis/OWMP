@@ -461,11 +461,10 @@ function DisplayWindow(page, offset, step) {
                 document.querySelector('#ChooseMediaKind select[name=mediakind]').value = MediaKindChosen;
                 $('#playlist_content').html(PlaylistContainerHTML);
                 checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
-
+                checkFormsFocus();
             }
 
             CurrentPage=page;
-
 
             for (var i = 1; i <= NavLength; i++)   // Κάνει όλα τα nav πεδία inactive
                 $('#navID' + i).removeClass('active');
@@ -657,11 +656,11 @@ function changeCheckAll(checkAll, checkItems) {
 function toggleFullscreen() {
     elem = myVideo;
     if (!checkFullscreen()) {
-            $(elem).addClass('fullscreenvideo');
+            $(elem).addClass('full_screen_video');
             FullscreenON=true;
             showFullScreenVideoTags();
     } else {
-        $(elem).removeClass('fullscreenvideo');
+        $(elem).removeClass('full_screen_video');
         FullscreenON=false;
         showFullScreenVideoTags();
     }
@@ -1405,9 +1404,14 @@ function cancelEdit() {
     $('#editTag').hide();
 }
 
+
 // Κλείνει το παράθυρο για search
 function cancelTheSearch() {
+
     $('#search').hide();
+
+    console.log('HIDE');
+
 }
 
 function readImage(files) {
@@ -1785,8 +1789,8 @@ function garbageCollection() {
 // Έλεγχος shorcuts
 function getShortcuts(elem) {
 
-    elem.addEventListener('keydown', function(event) {
 
+    elem.addEventListener('keydown', function(event) {
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
                 loadAndplayNextVideo();
@@ -2060,6 +2064,77 @@ function playPlaylist() {
 
 }
 
+
+// Ελέγχει το focus μιας φόρμας
+// source code from http://help.dottoro.com/ljmusasd.php
+function checkTheFocus(theForm) {
+    var form = document.getElementById (theForm);
+    if ("onfocusin" in form) {  // Internet Explorer
+        // the attachEvent method can also be used in IE9,
+        // but we want to use the cross-browser addEventListener method if possible
+        if (form.addEventListener) {    // IE from version 9
+            form.addEventListener ("focusin", OnFocusInForm, false);
+            form.addEventListener ("focusout", OnFocusOutForm, false);
+        }
+        else {
+            if (form.attachEvent) {     // IE before version 9
+                form.attachEvent ("onfocusin", OnFocusInForm);
+                form.attachEvent ("onfocusout", OnFocusOutForm);
+            }
+        }
+    }
+    else {
+        if (form.addEventListener) {    // Firefox, Opera, Google Chrome and Safari
+            // since Firefox does not support the DOMFocusIn/Out events
+            // and we do not want browser detection
+            // the focus and blur events are used in all browsers excluding IE
+            // capturing listeners, because focus and blur events do not bubble up
+            form.addEventListener ("focus", OnFocusInForm, true);
+            form.addEventListener ("blur", OnFocusOutForm, true);
+        }
+    }
+}
+
+// όταν η φόρμα είναι focused
+function OnFocusInForm (event) {
+    var target = event.target ? event.target : event.srcElement;
+    if (target) {
+        FocusOnForm=true;
+    }
+}
+
+// όταν η φόρμα δεν είναι focused
+function OnFocusOutForm (event) {
+    var target = event.target ? event.target : event.srcElement;
+    if (target) {
+        FocusOnForm=false;
+    }
+}
+
+// Ελέγχει αν είναι focus οι φόρμες
+function checkFormsFocus() {
+    // $("#FormMassiveTags input")
+    // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
+    // $("#FormTags input, #FormMassiveTags input, #SearchForm input").click(function() {
+    //     FocusOnForm=true;
+    // });
+    //
+    // $("#FormTags input, #FormMassiveTags input, #SearchForm input").focus(function() {
+    //     FocusOnForm=true;
+    // });
+    //
+    // $("#FormTags input, #FormMassiveTags input, #SearchForm input").focusout(function() {
+    //     FocusOnForm=false;
+    // });
+
+    checkTheFocus('FormTags');
+    checkTheFocus('FormMassiveTags');
+    checkTheFocus('SearchForm');
+    checkTheFocus('insertPlaylist');
+
+
+}
+
 // ************************************
 // On load
 $(function(){
@@ -2137,44 +2212,11 @@ $(function(){
         }
 
     });
-    // $("#FormMassiveTags input")
-    // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
-    $("#FormTags input, #FormMassiveTags input, #SearchForm input").click(function() {
-        FocusOnForm=true;
-    });
-
-    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focus(function() {
-        FocusOnForm=true;
-    });
-
-    $("#FormTags input, #FormMassiveTags input, #SearchForm input").focusout(function() {
-        FocusOnForm=false;
-    });
 
 
-    // έλεγχος του focus στην SearchForm
-    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").click(function() {
-        FocusOnForm=true;
-    });
-
-    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focus(function() {
-        FocusOnForm=true;
-    });
-
-    $("#SearchForm input, #FormMassiveTags input, #SearchForm input").focusout(function() {
-        FocusOnForm=false;
-    });
-
-
-
-    // TODO συμβατότητα με άλλους browsers
-    document.addEventListener("webkitfullscreenchange", function() {
-        showFullScreenVideoTags();
-    });
-
-    // Έλεγχος πατήματος πλήκτρων
-    getShortcuts(document);
-
+    // document.addEventListener("webkitfullscreenchange", function() {
+    //     showFullScreenVideoTags();
+    // });
 
 
 
@@ -2199,6 +2241,12 @@ $(function(){
 
         });
 
+
+    // Ελέγχει αν είναι focus οι φόρμες
+    checkFormsFocus();
+
+    // Έλεγχος πατήματος πλήκτρων
+    getShortcuts(window);
 
     checkSearchFieldChanges();
 

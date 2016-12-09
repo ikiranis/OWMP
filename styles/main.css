@@ -955,8 +955,8 @@ input {
 }
 
 #overlay_volume {
-    position: absolute;
-    top: 35%;
+    position: fixed;
+    top: 30%;
     left: 0;
     color: #FFF;
     width: 100%;
@@ -1026,7 +1026,7 @@ input {
 
 #error_overlay {
     position: absolute;
-    bottom: 20%;
+    bottom: 30%;
     left: 40%;
     color: #FFFFFF;
     width: 20%;
@@ -1041,15 +1041,11 @@ input {
 }
 
 
-.fullscreenvideo {
+.full_screen_video {
     position: fixed; right: 0; bottom: 0;
     min-width: 100%; min-height: 100%;
     width: 100%; height: auto; z-index: -100;
     background-color: black;
-}
-
-.paok {
-    width: 100px;
 }
 
 #myVideo {

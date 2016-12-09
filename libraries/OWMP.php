@@ -1250,73 +1250,75 @@ class OWMP
         if($UserGroupID==1) {
             ?>
             <div id="syncButtons">
-
-                <select name="mediakind" id="mediakind">
+                <form id="syncForm" name="syncForm">
+                    <select name="mediakind" id="mediakind">
+                        <?php
+                        foreach ($mediaKinds as $kind) {
+                            ?>
+                            <option value="<?php echo $kind; ?>">
+                                <?php echo $kind; ?>
+                            </option>
+    
+                            <?php
+                        }
+                        ?>
+                    </select>
+    
+    
+                    <p>
+                        <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startSync('sync');"
+                           value="<?php echo __('Synchronize'); ?>">
+                        <?php Page::getHelp('help_sync'); ?>
+                    </p>
+    
+                    <p>
+                        <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
+                               value="<?php echo __('sync_clear'); ?>">
+                        <?php Page::getHelp('help_clear_db'); ?>
+                    </p>
+    
+                    <p>
+                        <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
+                               value="<?php echo __('sync_hash'); ?>">
+                        <?php Page::getHelp('help_hash'); ?>
+                    </p>
+    
+                    <p>
+                        <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
+                           value="<?php echo __('sync_metadata'); ?>">
+                        <?php Page::getHelp('help_metadata'); ?>
+                    </p>
+    
+                    <p>
+                        <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
+                               value="<?php echo __('sync_json'); ?>">
+                        <?php Page::getHelp('help_playlist_export'); ?>
+                    </p>
+    
+    
                     <?php
-                    foreach ($mediaKinds as $kind) {
-                        ?>
-                        <option value="<?php echo $kind; ?>">
-                            <?php echo $kind; ?>
-                        </option>
-
-                        <?php
+                    if(FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+    
+                        if(self::createDirectory(FILE_UPLOAD)) {
+    
+                            ?>
+                            <p>
+                                <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
+                                <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
+                                       onclick="downloadYouTube();"
+                                       value="<?php echo __('sync_youtube'); ?>" >
+                                <?php Page::getHelp('help_youtube'); ?>
+                            </p>
+    
+                            <?php
+                        }
+    
                     }
+                    else echo '<p>'.__('youtube_error').'</p>';
                     ?>
-                </select>
 
-
-                <p>
-                    <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startSync('sync');"
-                       value="<?php echo __('Synchronize'); ?>">
-                    <?php Page::getHelp('help_sync'); ?>
-                </p>
-
-                <p>
-                    <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
-                           value="<?php echo __('sync_clear'); ?>">
-                    <?php Page::getHelp('help_clear_db'); ?>
-                </p>
-
-                <p>
-                    <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
-                           value="<?php echo __('sync_hash'); ?>">
-                    <?php Page::getHelp('help_hash'); ?>
-                </p>
-
-                <p>
-                    <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
-                       value="<?php echo __('sync_metadata'); ?>">
-                    <?php Page::getHelp('help_metadata'); ?>
-                </p>
-
-                <p>
-                    <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
-                           value="<?php echo __('sync_json'); ?>">
-                    <?php Page::getHelp('help_playlist_export'); ?>
-                </p>
-
-
-                <?php
-                if(FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
-
-                    if(self::createDirectory(FILE_UPLOAD)) {
-
-                        ?>
-                        <p>
-                            <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
-                            <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
-                                   onclick="downloadYouTube();"
-                                   value="<?php echo __('sync_youtube'); ?>" >
-                            <?php Page::getHelp('help_youtube'); ?>
-                        </p>
-
-                        <?php
-                    }
-
-                }
-                else echo '<p>'.__('youtube_error').'</p>';
-                ?>
-
+                </form>
+                
                 <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
                 <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
                 <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
@@ -1334,6 +1336,7 @@ class OWMP
             <script type="text/javascript">
 
                 checkProcessAlive();
+                checkTheFocus('syncForm');
 
             </script>
 
