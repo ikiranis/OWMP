@@ -1305,7 +1305,7 @@ class OWMP
                             <p>
                                 <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
                                 <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
-                                       onclick="downloadYouTube();"
+                                       onclick="downloadTheYouTube();"
                                        value="<?php echo __('sync_youtube'); ?>" >
                                 <?php Page::getHelp('help_youtube'); ?>
                             </p>

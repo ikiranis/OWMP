@@ -1235,7 +1235,7 @@ function callGetYouTube(url,counter,total) {
 }
 
 // Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
-function downloadYouTube() {
+function downloadTheYouTube() {
     var urls=document.querySelector('#youTubeUrl').value;
 
     urls=urls.split(',');  // Παίρνουμε το string σε array
@@ -1273,7 +1273,7 @@ function downloadYouTube() {
 
 }
 
-
+// TODO πρόβλημα συμβατότητας με τον safari. Δεν δουλεύουν τουλάχιστον οι ημερομηνίες
 // Αλλάζει ένα text input σε select. Elem είναι το input field που θα αλλάξουμε. ID το id του row
 function changeToSelect(elem, elementID, optionsArray) {
 
