@@ -1113,7 +1113,7 @@ function searchPlaylist(offset, step, firstTime) {
 }
 
 // Κάνει τον συγχρονισμό των αρχείων
-function startSync(operation) {
+function startTheSync(operation) {
     var mediaKind=document.querySelector('#mediakind').value;
     
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
@@ -1265,7 +1265,7 @@ function downloadTheYouTube() {
             $("#theProgressNumber" ).html('');
             $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
             runningYoutubeDownlod=false;
-            startSync('sync');
+            startTheSync('sync');
         },6000);
         // return;
     });

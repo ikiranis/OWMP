@@ -1266,31 +1266,31 @@ class OWMP
     
     
                     <p>
-                        <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startSync('sync');"
+                        <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startTheSync('sync');"
                            value="<?php echo __('Synchronize'); ?>">
                         <?php Page::getHelp('help_sync'); ?>
                     </p>
     
                     <p>
-                        <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startSync('clear');"
+                        <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startTheSync('clear');"
                                value="<?php echo __('sync_clear'); ?>">
                         <?php Page::getHelp('help_clear_db'); ?>
                     </p>
     
                     <p>
-                        <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startSync('hash');"
+                        <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startTheSync('hash');"
                                value="<?php echo __('sync_hash'); ?>">
                         <?php Page::getHelp('help_hash'); ?>
                     </p>
     
                     <p>
-                        <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startSync('metadata');"
+                        <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
                            value="<?php echo __('sync_metadata'); ?>">
                         <?php Page::getHelp('help_metadata'); ?>
                     </p>
     
                     <p>
-                        <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startSync('json_import');"
+                        <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
                                value="<?php echo __('sync_json'); ?>">
                         <?php Page::getHelp('help_playlist_export'); ?>
                     </p>
