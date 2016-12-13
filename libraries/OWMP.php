@@ -1135,7 +1135,7 @@ class OWMP
                                                         placeholder="<?php echo __('paths_file_path'); ?>"
                                                         maxlength="255" required type="text" name="file_path" value="<?php echo $path['file_path']; ?>"></span>
                         <span class="ListColumn">
-                            <select class="input_field" name="kind" >
+                            <select class="input_field" name="kind" id="kind" >
                                 <?php
                                 foreach ($mediaKinds as $mediaKind) {
                                     ?>
@@ -1151,7 +1151,7 @@ class OWMP
                         </span>
 
                         <span class="ListColumn">
-                            <select class="input_field" name="main" >
+                            <select class="input_field" name="main" id="main" onchange="checkMainSelected('<?php echo $path['id']; ?>');">
                                 <option value="0" <?php if($path['main']==0) echo 'selected=selected'; ?> >
                                     not main
                                 </option>
@@ -1801,9 +1801,6 @@ class OWMP
         if(!$conn->getOption('syncItunes'))
             $conn->createOption('syncItunes', 'false', 1, 0);
 
-        if(!$conn->getOption('web_folder_path'))
-            $conn->createOption('web_folder_path', 'var/www/html/', 1, 0);
-
         if(!$conn->getOption('date_format'))
             $conn->createOption('date_format', 'Y-m-d', 1, 0);
 
@@ -1825,8 +1822,10 @@ class OWMP
             Page::setLastMomentAlive(true);
         }
 
-
         
+        // Σβήσιμο της εγγραφής που έχει μπει από παλιότερες εκδόσεις
+        if($conn->getOption('web_folder_path'))
+            $conn->deleteRowFromTable('options', 'option_name', 'web_folder_path');
         
     }
     

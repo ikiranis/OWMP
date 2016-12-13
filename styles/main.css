@@ -65,7 +65,7 @@ aside {
     background-color: #ECEFF1;
     margin-bottom: 1em;
     color: #455A64;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 article {
@@ -683,6 +683,15 @@ input {
 
 }
 
+/* Για τον mozilla */
+#FormTags input:-moz-read-only {
+  background-color: #CFD8DC;
+  color: grey;
+  width: 100%;
+
+}
+
+
 
 
 #FormTags #title {
@@ -749,13 +758,19 @@ input {
     width: 90%;
     height:10px;
     border-radius: 8px;
-    box-shadow: inset 0 0 5px #333;
-    background-image:linear-gradient(to right, white, black 100%);
-
-    transition: background 450ms;
+    box-shadow: 0 0 5px #333;
+    background-image:linear-gradient(to right, white, black);
 }
 
-
+/* Για mozilla */
+#FormTags #rating::-moz-range-track {
+    -webkit-appearance: none;
+    width: 100%;
+    height:10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #333;
+    background-image:linear-gradient(to right, white, black);
+}
 
 #FormTags #rating_output {
     border: 1px solid black;
@@ -771,7 +786,7 @@ input {
     margin-top:0.5em;
     background-color: black;
     color: white;
-    width: 100%;
+    width: 97%;
     border-radius: 6px;
     border: none;
     font-size: 1em;
@@ -852,10 +867,17 @@ input {
     width: 90%;
     height:10px;
     border-radius: 8px;
-    box-shadow: inset 0 0 5px #333;
+    box-shadow: 0 0 5px #333;
     background-image:linear-gradient(to right, white, black 100%);
+}
 
-    transition: background 450ms;
+#editTag #rating::-moz-range-track {
+    -webkit-appearance: none;
+    width: 100%;
+    height:10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #333;
+    background-image:linear-gradient(to right, white, black 100%);
 }
 
 
@@ -913,9 +935,16 @@ input {
     height:1.2em;
     border-radius: 8px;
     box-shadow: inset 0 0 5px #333;
-    background-image:linear-gradient(to right, white, black 100%);
+    background-image:linear-gradient(to right, white, black);
+}
 
-    transition: background 450ms;
+#overlay_track_range::-moz-range-track {
+    -webkit-appearance: none;
+    width: 100%;
+    height:1.2em;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px #333;
+    background-image:linear-gradient(to right, white, black);
 }
 
 #overlay_track_range::-webkit-slider-thumb {
@@ -926,6 +955,16 @@ input {
     /*border-radius: 50%;*/
     background: white;
 }
+
+#overlay_track_range::-moz-range-thumb  {
+    -webkit-appearance: none;
+    border: black solid 1px;
+    height: 2em;
+    width: 1.2em;
+    /*border-radius: 50%;*/
+    background: white;
+}
+
 
 #overlay_rating {
     position: absolute;
@@ -1057,15 +1096,6 @@ input {
     display:none;
 }
 
-/*#myVideo:-webkit-full-screen {*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-/*}*/
-/*#myVideo:-moz-full-screen {*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-/*}*/
-
 
 #overlay_artist { font-weight: bold; display: block; }
 #overlay_song_name { display: block; font-size: 0.7em; }
@@ -1088,13 +1118,6 @@ input {
 
 #overlay_live { display: block; font-size: 1em;}
 #overlay_time { display: block; font-size: 1.4em; }
-
-
-
-
-
-/*Dashboard*/
-
 
 /*Progress*/
 #progress {
@@ -1275,7 +1298,7 @@ input {
     height: auto;
     /*border: solid 1px black;*/
     padding: 1em;
-    z-index:10;
+    z-index:1;
 }
 
 #search #searchButtons {
@@ -1499,6 +1522,11 @@ input {
 
 
 /*Συγχρονισμός */
+
+#youTubeUrl {
+    width: 90%;
+    height: 10em;
+}
 
 .updateRows, .deleteRows {
     display: block;

@@ -1410,8 +1410,6 @@ function cancelTheSearch() {
 
     $('#search').hide();
 
-    console.log('HIDE');
-
 }
 
 function readImage(files) {
@@ -2051,14 +2049,14 @@ function playPlaylist() {
                     $('#progress').hide();
                 }
                 else {
-                    $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
+                    $('#playlist_container').html(phrases['records_not_founded']);
                     $('#progress').hide();
                 }
 
             });
         }
         else {
-            DisplayMessage('#alert_error', 'Δεν έγινε η αντιγραφή');
+            DisplayMessage('#alert_error', phrases['playlist_loading_problem']);
         }
     }, "json");
 
@@ -2113,32 +2111,58 @@ function OnFocusOutForm (event) {
 
 // Ελέγχει αν είναι focus οι φόρμες
 function checkFormsFocus() {
-    // $("#FormMassiveTags input")
-    // έλεγχος του focus στην FormTags. Αν είναι focus να μην δέχεται keys
-    // $("#FormTags input, #FormMassiveTags input, #SearchForm input").click(function() {
-    //     FocusOnForm=true;
-    // });
-    //
-    // $("#FormTags input, #FormMassiveTags input, #SearchForm input").focus(function() {
-    //     FocusOnForm=true;
-    // });
-    //
-    // $("#FormTags input, #FormMassiveTags input, #SearchForm input").focusout(function() {
-    //     FocusOnForm=false;
-    // });
-
     checkTheFocus('FormTags');
     checkTheFocus('FormMassiveTags');
     checkTheFocus('SearchForm');
     checkTheFocus('insertPlaylist');
+}
 
+
+// Καθαρίζει όλες τις τιμές main (τις κάνεις not main) και αφήνει μόνο την μία για το συγκεκριμένο media kind
+function checkMainSelected(formID) {
+    var currentMediaKind = document.querySelector('#paths_formID'+formID+' #kind').value;
+
+    var counter=1;
+    var founded=0;  // μετράει αν υπάρχει έστω κι ένα main
+
+    do {
+
+        var mediaKindSelector=document.querySelector('#paths_formID'+counter+' #kind');
+
+        if(mediaKindSelector) {  // αν υπάρχει το συγκεκριμένο πεδίο στην φόρμα
+            var checkedMediaKind = document.querySelector('#paths_formID' + counter + ' #kind').value;
+            var checkedMediaStatus = document.querySelector('#paths_formID' + counter + ' #main').value;
+
+            if(checkedMediaKind==currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
+                if(checkedMediaStatus=='1') {  // αν είναι main το status
+                    founded++;
+                }
+
+                if(counter!=formID) {  // Αλλάζει όλα σε not main, εκτός από το τρέχον που αλλάξαμε εμείς
+                    document.querySelector('#paths_formID' + counter + ' #main').selectedIndex='0';
+                }
+            }
+
+        }
+
+        counter++;
+
+    }
+    while (mediaKindSelector) // Αν φτάσει στο τέλος και δεν έχει άλλα πεδία η φόρμα σταματάει
+
+    if (founded==0) {  // Αν δεν υπάρχει ούτε ένα main, τότε κάνει main το αλλαγμένο
+        document.querySelector('#paths_formID' + formID + ' #main').selectedIndex='1';
+    }
+
+    // TODO να το κάνω να σώζει και όλα τα rows με τα συγκεκριμένα status
 
 }
+
+
 
 // ************************************
 // On load
 $(function(){
-
     
 
     $('#LoginForm').validate({ // initialize the plugin
@@ -2266,7 +2290,7 @@ $(function(){
     //
     // attachSinkId(myVideo, '8e2bf9f13b6253c686d45db2c3a7a38154f2ca4cb08243e32f8baa4171999958');
     //
-    
+
 
 
 });

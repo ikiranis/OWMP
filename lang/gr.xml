@@ -187,6 +187,8 @@
         <phrase name="song_deleted_from">Αφαιρέθηκε το τραγούδι</phrase>
         <phrase name="_from_playlist">από στην playlist</phrase>
         <phrase name="song_not_deleted">Πρόβλημα με την αφαίρεση του</phrase>
+        <phrase name="records_not_founded">Δεν βρέθηκαν εγγραφές</phrase>
+        <phrase name="playlist_loading_problem">Πρόβλημα στο άνοιγμα της playlist</phrase>
     </page>
 
     <page name="help">
@@ -202,7 +204,7 @@
 
                 <p><strong>ΠΡΟΣΟΧΗ:</strong> Αν το path που θα βάλουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)</p>
 
-                <p>Αν το path είναι μέσα στο web folder (π.χ /var/www/html/) τότε για path (για videos π.χ.) βάζουμε κάτι σαν αυτό /var/www/html/myVideos και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost. Για να παίξει σωστά όμως πρέπει να πειράξετε πιθανά την τιμή του web_folder_path στα options. By default έχει την τιμή var/www/html/ Οπότε αν αυτό είναι το web folder σας, τότε δεν χρειάζεται να πειράξετε κάτι. Αλλιώς βάζετε το δικό σας. Προσοχή να μην έχει κάθετο '/' στην αρχή. Μόνο στο τέλος.</p>
+                <p>Αν το path είναι μέσα στο web folder (π.χ /var/www/html/) τότε για path (για videos π.χ.) βάζουμε κάτι σαν αυτό /var/www/html/myVideos και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost.</p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
             <p>Στο <strong>convert_alac_files</strong> βάζουμε true αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Αλλιώς η εφαρμογή αδιαφορεί για τα ALAC.</p>
@@ -212,8 +214,6 @@
             <p>Στο <strong>dir_prefix</strong> βάζουμε το αρχικό κομμάτι του path των αρχείων μας. Αυτό κυρίως όταν θέλουμε να γίνει συγχρονισμός με itunes. Διάβασε παρακάτω πιο αναλυτικά γι' αυτό. Για default έχει το '/'. Δεν το πειράζουμε αν δεν μας ενδιαφέρει ο συγχρονισμός με itunes.</p>
 
             <p>Στο <strong>syncItunes</strong> βάζουμε true αν θέλουμε να γίνεται συγχρονισμός με itunes. Το έχουμε σε true για να κάνουμε τον συγχρονισμό. Αφού κάνουμε τον συγχρονισμό το βάζουμε πάλι σε false, αλλιώς θα αργεί μετά στον συγχρονισμό, χωρίς λόγο.</p>
-
-            <p>Στο <strong>web_folder_path</strong> βάζουμε το web folder του server. By default /var/www/html/</p>
 
             <p>Στο <strong>date_format</strong> έχει το format με βάση το οποίο θα εμφανίζονται οι ημερομηνίες. π.χ. d-m-Y για να εμφανίζονται στην μορφή 14-12-2010.</p>
         ]]></phrase>

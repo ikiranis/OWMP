@@ -49,6 +49,7 @@ class Page
 
             <title><?php echo $this->tittle; ?></title>
 
+
             <?php
             //  Καθορισμός των meta. Ζητάει το string μετά το "<meta "
             if (isset($this->meta))

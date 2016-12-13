@@ -39,8 +39,9 @@ $MainPage->tittle = APP_NAME;
 
 $scripts=array ('src=libraries/jquery.min.js',   // jquery
     'src=libraries/scripts.js',    // my scripts
-    'src=libraries/details.js',    // polyfile για το summary/details
+    'src=libraries/details.js',    // polyfill για το summary/details
     'src=libraries/jquery.validate.min.js',      // extension του jquery για form validation
+    'src=libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src=libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
 $MainPage->setScript($scripts);
