@@ -399,7 +399,6 @@ class SyncFiles
             }
 
 
-            // TODO να το κάνω να ενημερώνει με βάση τον χρόνο
             if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
@@ -665,7 +664,6 @@ class SyncFiles
     // Επιστρέφει το hash για το αρχείο $full_path
     static function hashFile($full_path) {
 
-        // TODO έλεγχος αν επιστρέφει τιμή το filesize γιατί σε κάποιες περιπτώσεις επιστρέφει error
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
         if(OWMP::fileExists($full_path)) {
             Page::setLastMomentAlive(false);

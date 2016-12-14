@@ -14,7 +14,6 @@ session_start();
 
 $conn = new RoceanDB();
 
-// TODO να επιβεβαιώσω ότι όντως ενημερώνει το session
 // Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
 if (!isset($_SESSION["username"])) {
     if ($conn->CheckCookiesForLoggedUser()) {

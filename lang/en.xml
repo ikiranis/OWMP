@@ -196,8 +196,6 @@
         <phrase name="help_paths"><![CDATA[
                 <p>Προσθέτουμε το πλήρες linux path (ένα ή περισσότερα) των φακέλων που βρίσκεται η μουσική μας. Διαλέγουμε αν είναι Music (mp3, m4a) ή Music Video (mp4, m4v).</p>
 
-                <p><strong>ΠΡΟΣΟΧΗ</strong> (επειδή ακόμη δεν γίνεται έλεγχος από την εφαρμογή): Επιλέγουμε ότι είναι main όταν βάζουμε μόνο ένα path για κάθε media kind. Αν βάζουμε παραπάνω από ένα path σε καποιο media kind τότε βάζουμε main σε αυτό που θέλουμε να είναι το βασικό και στα υπόλοιπα not main.</p>
-
                 <p>Το path που είναι main χρησιμοποιείται από την εφαρμογή για download (π.χ. youtube download) ή για σώσιμο των cover artworks των mp3.</p>
 
                 <p>Για κάθε media kind (Music/Music Video) σετάρουμε δηλαδή κι ένα main path.</p>

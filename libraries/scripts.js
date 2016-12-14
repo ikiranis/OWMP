@@ -537,35 +537,81 @@ function attachSinkId(element, sinkId) {
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table paths, ή εισάγει νέα εγγραφή
 function updatePath(id) {
-    file_path=$("#PathID"+id).find('input[name="file_path"]').val();
-    kind=$("#PathID"+id).find('select[name="kind"]').val();
-    main=$("#PathID"+id).find('select[name="main"]').val();
+    var currentMediaKind = document.querySelector('#paths_formID'+id+' #kind').value;
 
-    callFile=AJAX_path+"updatePath.php?id="+id+"&file_path="+file_path+"&kind="+kind+"&main="+main;
+    // /media/Therion/videoclips
 
-    if ($('#paths_formID'+id).valid()) {
-        $.get(callFile, function (data) {
-            if (data.success == true) {
-                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
-                    PathKeyPressed = false;
-                    LastInserted = data.lastInserted;
-                    $("#PathID0").prop('id', 'PathID' + LastInserted);
-                    $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
-                    $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
-                    $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
-                    $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
-                    $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
-                }
-                else $("#messagePathID" + id).addClassDelay("success", 3000);
-            }
-            else $("#messagePathID" + id).addClassDelay("failure", 3000);
-        }, "json");
+
+
+    // Παίρνουμε όλα τα form id's που έχουν class paths_form
+    var allForms = document.querySelectorAll('.paths_form');
+    var FormIDs = [];
+
+    for(var i = 0; i < allForms.length;  i++)
+    {
+        FormIDs.push(allForms[i].id);
     }
+
+    for(var i = 0; i<FormIDs.length; i++) {
+
+        var curID = eval(FormIDs[i].replace('paths_formID',''));  // Παίρνει μόνο το id
+
+        var checkedMediaKind = document.querySelector('#' + FormIDs[i] + ' #kind').value;
+
+        if(checkedMediaKind==currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
+
+            var file_path=$("#PathID"+curID).find('input[name="file_path"]').val();
+            var kind=$("#PathID"+curID).find('select[name="kind"]').val();
+            var main=$("#PathID"+curID).find('select[name="main"]').val();
+
+            callFile=AJAX_path+"updatePath.php?id="+curID+"&file_path="+file_path+"&kind="+kind+"&main="+main;
+
+
+            if ($('#' + FormIDs[i]).valid()) {
+                $.get(callFile, function (data) {
+                    updatedID=data.id;
+
+                    if (data.success == true) {
+                        if (updatedID == '0') {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                            PathKeyPressed = false;
+                            LastInserted = data.lastInserted;
+                            $("#PathID0").prop('id', 'PathID' + LastInserted);
+                            $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
+                            $("#PathID" + LastInserted).find('select[name="main"]').attr("onchange", "checkMainSelected(" + LastInserted + ", false)");
+                            $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
+                            $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
+                            $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
+                            $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
+
+                            var checkedMediaStatus = document.querySelector('#paths_formID' + LastInserted + ' #main').value;
+
+                            if(checkedMediaStatus=='1') {
+                                checkMainSelected(LastInserted, false);
+                            }
+                        }
+                        else {
+                            $("#messagePathID" + updatedID).addClassDelay("success", 3000);
+                        }
+                    }
+                    else $("#messagePathID" + updatedID).addClassDelay("failure", 3000);
+                }, "json");
+            }
+        }
+
+    }
+
+
 }
 
 // Σβήνει την εγγραφή στο paths
 function deletePath(id) {
     callFile=AJAX_path+"deletePath.php?id="+id;
+
+    var checkedMediaStatus = document.querySelector('#paths_formID' + id + ' #main').value;
+
+    if(checkedMediaStatus=="1") {
+        var updatedID=checkMainSelected(id, true);
+    }
 
     $.get( callFile, function( data ) {
         if(data.success==true) {
@@ -575,14 +621,20 @@ function deletePath(id) {
 
             myClasses= $("#PathID"+id).find('input[name=delete_path]').classes();   // Παίρνει τις κλάσεις του delete_path
 
-            if(!myClasses[2])   // Αν δεν έχει κλάση dontdelete σβήνει το div
-                $("#PathID"+id).remove();
+            if(!myClasses[2]) {   // Αν δεν έχει κλάση dontdelete σβήνει το div
+                $("#PathID" + id).remove();
+
+                if(checkedMediaStatus=="1") {
+                    updatePath(updatedID);
+                }
+            }
             else {   // αλλιώς καθαρίζει μόνο τα πεδία
                 $("#PathID"+id).find('input').val('');   // clear field values
                 $("#PathID"+id).prop('id','PathID0');
                 $("#PathID0").find('form').prop('id','paths_formID0');
                 $("#PathID0").find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
                 // αλλάζει την function στο button
+                $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
                 $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
                 $("#PathID0").find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
 
@@ -607,6 +659,8 @@ function insertPath() {
         $("#PathID0").find('form').prop('id','paths_formID0');
         $("#PathID0").find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
         // αλλάζει την function στο button
+        $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
+        $("#PathID0").find('select[name="main"]').val(0);
         $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
         $("#PathID0").find('input[name="delete_path"]').attr("onclick", "deletePath(0)");
         PathKeyPressed=true;
@@ -1273,7 +1327,6 @@ function downloadTheYouTube() {
 
 }
 
-// TODO πρόβλημα συμβατότητας με τον safari. Δεν δουλεύουν τουλάχιστον οι ημερομηνίες
 // Αλλάζει ένα text input σε select. Elem είναι το input field που θα αλλάξουμε. ID το id του row
 function changeToSelect(elem, elementID, optionsArray) {
 
@@ -2115,46 +2168,60 @@ function checkFormsFocus() {
     checkTheFocus('FormMassiveTags');
     checkTheFocus('SearchForm');
     checkTheFocus('insertPlaylist');
+    // checkTheFocus('paths_form');
 }
 
 
 // Καθαρίζει όλες τις τιμές main (τις κάνεις not main) και αφήνει μόνο την μία για το συγκεκριμένο media kind
-function checkMainSelected(formID) {
+function checkMainSelected(formID, checkAll) {
     var currentMediaKind = document.querySelector('#paths_formID'+formID+' #kind').value;
 
-    var counter=1;
     var founded=0;  // μετράει αν υπάρχει έστω κι ένα main
+    var firstFindedMediaKind=null;
 
-    do {
+    // Παίρνουμε όλα τα form id's που έχουν class paths_form
+    var allForms = document.querySelectorAll('.paths_form');
 
-        var mediaKindSelector=document.querySelector('#paths_formID'+counter+' #kind');
+    var FormIDs = [];
 
-        if(mediaKindSelector) {  // αν υπάρχει το συγκεκριμένο πεδίο στην φόρμα
-            var checkedMediaKind = document.querySelector('#paths_formID' + counter + ' #kind').value;
-            var checkedMediaStatus = document.querySelector('#paths_formID' + counter + ' #main').value;
+    for(var i = 0; i < allForms.length;  i++)
+    {
+        FormIDs.push(allForms[i].id);
+    }
 
-            if(checkedMediaKind==currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
-                if(checkedMediaStatus=='1') {  // αν είναι main το status
-                    founded++;
-                }
+    for(var i = 0; i<FormIDs.length; i++) {
 
-                if(counter!=formID) {  // Αλλάζει όλα σε not main, εκτός από το τρέχον που αλλάξαμε εμείς
-                    document.querySelector('#paths_formID' + counter + ' #main').selectedIndex='0';
-                }
+        var curID = eval(FormIDs[i].replace('paths_formID',''));  // Παίρνει μόνο το id
+
+        var checkedMediaKind = document.querySelector('#paths_formID' + curID + ' #kind').value;
+        var checkedMediaStatus = document.querySelector('#paths_formID' + curID + ' #main').value;
+
+        if(checkedMediaKind==currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
+            if(!firstFindedMediaKind) {
+                firstFindedMediaKind = curID;
             }
 
+            if(checkedMediaStatus=='1') {  // αν είναι main το status
+                founded++;
+            }
+
+            if(curID!=formID) {  // Αλλάζει όλα σε not main, εκτός από το τρέχον που αλλάξαμε εμείς
+                document.querySelector('#paths_formID' + curID + ' #main').selectedIndex='0';
+            }
         }
 
-        counter++;
-
-    }
-    while (mediaKindSelector) // Αν φτάσει στο τέλος και δεν έχει άλλα πεδία η φόρμα σταματάει
-
-    if (founded==0) {  // Αν δεν υπάρχει ούτε ένα main, τότε κάνει main το αλλαγμένο
-        document.querySelector('#paths_formID' + formID + ' #main').selectedIndex='1';
     }
 
-    // TODO να το κάνω να σώζει και όλα τα rows με τα συγκεκριμένα status
+    if(checkAll==false) {
+        if(founded==0) {
+            document.querySelector('#paths_formID' + formID + ' #main').selectedIndex = '1';
+        }
+    }
+    else {
+        document.querySelector('#paths_formID' + firstFindedMediaKind + ' #main').selectedIndex = '1';
+        return firstFindedMediaKind;
+    }
+
 
 }
 

@@ -1124,7 +1124,6 @@ class OWMP
 
             <?php
 
-            // TODO όταν επιλέγεις main να κάνει main μόνο το συγκεκριμένο του mediakind και not main τα υπόλοιπα
             foreach($paths as $path)
             {
                 ?>
@@ -1133,7 +1132,7 @@ class OWMP
 
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('paths_file_path'); ?>"
-                                                        maxlength="255" required type="text" name="file_path" value="<?php echo $path['file_path']; ?>"></span>
+                                                        maxlength="255" required type="text" name="file_path" id="file_path" value="<?php echo $path['file_path']; ?>"></span>
                         <span class="ListColumn">
                             <select class="input_field" name="kind" id="kind" >
                                 <?php
@@ -1151,7 +1150,7 @@ class OWMP
                         </span>
 
                         <span class="ListColumn">
-                            <select class="input_field" name="main" id="main" onchange="checkMainSelected('<?php echo $path['id']; ?>');">
+                            <select class="input_field" name="main" id="main" onchange="checkMainSelected('<?php echo $path['id']; ?>', false);">
                                 <option value="0" <?php if($path['main']==0) echo 'selected=selected'; ?> >
                                     not main
                                 </option>

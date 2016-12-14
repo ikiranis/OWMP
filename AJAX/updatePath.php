@@ -44,18 +44,18 @@ $stmt = RoceanDB::$conn->prepare($sql);
 if($stmt->execute($SQLparams)) {
     if($id==0) {
         $inserted_id=RoceanDB::$conn->lastInsertId();
-        $jsonArray=array( 'success'=>true, 'lastInserted'=>$inserted_id);
+        $jsonArray=array( 'success'=>true, 'lastInserted'=>$inserted_id, 'id'=>$id);
 
         RoceanDB::insertLog('Insert of new Path: '.$file_path); // Προσθήκη της κίνησης στα logs
     }
     else  {
-        $jsonArray=array( 'success'=>true);
+        $jsonArray=array( 'success'=>true, 'id'=>$id);
 
         RoceanDB::insertLog('Path updated with id '.$id); // Προσθήκη της κίνησης στα logs
     }
 
 }
-else $jsonArray=array( 'success'=>false);
+else $jsonArray=array( 'success'=>false, 'id'=>$id);
 
 echo json_encode($jsonArray);
 
