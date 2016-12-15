@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.215');
+define ('APP_VERSION', '0.1.216');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -31,7 +31,6 @@ define ('AJAX_PATH', 'AJAX/');
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');
 
-// TODO να το αλλάξω. να μην χρειάζεται με χρήση foreach
 define ('NAV_LIST_ITEMS', '5'); // Ο αριθμός των επιλογών στo Nav Menu
 
 $adminNavItems = array(3,4);  // Οι αριθμοί των items που είναι μόνο για τον admin

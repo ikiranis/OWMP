@@ -19,6 +19,8 @@ RoceanDB::checkMySqlTables();
 
 $MainPage = new Page();
 
+// TODO Πρόβλημα με την εναλλαγή γλωσσών
+
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
     $targetPage='Location:index.php';
@@ -33,26 +35,6 @@ if (isset($_GET['logout'])) {
     logout();
 
 }
-
-// Τίτλος της σελίδας
-$MainPage->tittle = APP_NAME;
-
-$scripts=array ('src=libraries/jquery.min.js',   // jquery
-    'src=libraries/scripts.js',    // my scripts
-    'src=libraries/details.js',    // polyfill για το summary/details
-    'src=libraries/jquery.validate.min.js',      // extension του jquery για form validation
-    'src=libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
-    'src=libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
-
-$MainPage->setScript($scripts);
-
-$MainPage->showHeader();
-
-//$languages_text=$lang->print_languages('lang_id',' ',true,false);
-
-$logged_in=false;
-
-
 
 // δημιουργεί έναν μοναδικό αριθμό που χρησιμοποιείται στην υπόλοιπη εφαρμογή σαν tab id
 define('TAB_ID', rand(100000,999999));
@@ -81,8 +63,23 @@ define('TAB_ID', rand(100000,999999));
 
 <?php
 
+// Τίτλος της σελίδας
+$MainPage->tittle = APP_NAME;
 
+$scripts=array ('src=libraries/jquery.min.js',   // jquery
+    'src=libraries/scripts.js',    // my scripts
+    'src=libraries/details.js',    // polyfill για το summary/details
+    'src=libraries/jquery.validate.min.js',      // extension του jquery για form validation
+    'src=libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
+    'src=libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
+$MainPage->setScript($scripts);
+
+$MainPage->showHeader();
+
+//$languages_text=$lang->print_languages('lang_id',' ',true,false);
+
+$logged_in=false;
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {

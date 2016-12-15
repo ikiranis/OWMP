@@ -37,6 +37,8 @@ var tabID;
 
 var runningYoutubeDownload=false; // Κρατάει το αν τρέχει το download του youtube
 
+var currentPathFormID;
+
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
@@ -578,6 +580,7 @@ function updatePath(id) {
                             $("#PathID0").prop('id', 'PathID' + LastInserted);
                             $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
                             $("#PathID" + LastInserted).find('select[name="main"]').attr("onchange", "checkMainSelected(" + LastInserted + ", false)");
+                            $("#PathID" + LastInserted).find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
                             $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
                             $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
                             $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
@@ -635,6 +638,7 @@ function deletePath(id) {
                 $("#PathID0").find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
                 // αλλάζει την function στο button
                 $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
+                $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(0)");
                 $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
                 $("#PathID0").find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
 
@@ -660,6 +664,7 @@ function insertPath() {
         $("#PathID0").find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
         // αλλάζει την function στο button
         $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
+        $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(0)");
         $("#PathID0").find('select[name="main"]').val(0);
         $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
         $("#PathID0").find('input[name="delete_path"]').attr("onclick", "deletePath(0)");
@@ -2057,23 +2062,29 @@ function deletePlaylist() {
         return;
     }
 
-    callFile=AJAX_path+"deletePlaylist.php?playlistID="+playlistID;
+    var confirmAnswer=confirm(phrases['sure_to_delete_playlist']);
+
+    if (confirmAnswer==true) {
+
+        callFile = AJAX_path + "deletePlaylist.php?playlistID=" + playlistID;
 
 
-    $.get(callFile, function (data) {
-        var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
+        $.get(callFile, function (data) {
+            var playlistName = document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
-        if (data.success == true) {
-            DisplayMessage('#alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
+            if (data.success == true) {
+                DisplayMessage('#alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
 
-            // Σβήνει το συγκεκριμένο option από το select #playlist
-            document.querySelector("#playlist option:checked").remove();
+                // Σβήνει το συγκεκριμένο option από το select #playlist
+                document.querySelector("#playlist option:checked").remove();
 
-        }
-        else {
-            DisplayMessage('#alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
-        }
-    }, "json");
+            }
+            else {
+                DisplayMessage('#alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+            }
+        }, "json");
+
+    }
 }
 
 
@@ -2223,6 +2234,58 @@ function checkMainSelected(formID, checkAll) {
     }
 
 
+}
+
+
+// Παίρνει τα paths που είναι μέσα σε συγκεκριμένο directory
+function getPaths(path) {
+
+    document.querySelector('#displayPaths').innerHTML='';
+
+    document.querySelector('#chosenPathText').innerText=path;
+
+    callFile = AJAX_path + "getPaths.php?path=" +path;
+
+    $.get(callFile, function (data) {
+        for(var i = 1; i<data.length; i ++) {
+            // Προσθέτει κάθε directory σαν span
+            var newSpan = document.createElement('span');
+            newSpan.className = 'thePaths';
+            newSpan.innerText = data[i];
+
+            if(data[i]=='..') {  // Αν είναι '..' κόβει το τελευταίο directory από το string
+                var newPath = path.replace(/\/[^\/]+\/?$/, '')+'/';
+            }
+            else {
+                var newPath = path + data[i] + '/';
+            }
+
+            newSpan.setAttribute('onclick', 'getPaths("'+newPath+'")' );
+
+
+            document.querySelector('#displayPaths').append(newSpan);
+        }
+
+    }, "json");
+}
+
+// Εμφάνιση παράθυρου αναζήτησης διαδρομής
+function displayBrowsePath(formID) {
+    currentPathFormID=formID;
+    getPaths('/');
+    $('#browsePathWindow').show();
+}
+
+// Κλείσιμο παράθυρου αναζήτησης διαδρομής
+function cancelTheBrowse() {
+    $('#browsePathWindow').hide();
+}
+
+// Εισαγωγή διαδρομής στο σχετικό text input field
+function importPath() {
+    var chosenPath = document.querySelector('#chosenPathText').innerText.slice(0, -1);  // Κόβει το τελευταίο '/'
+    document.querySelector('#paths_formID'+currentPathFormID+' #file_path').value=chosenPath;
+    $('#browsePathWindow').hide();
 }
 
 

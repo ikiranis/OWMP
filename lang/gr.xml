@@ -46,6 +46,7 @@
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>
         <phrase name="insert_row">Εισαγωγή</phrase>
+        <phrase name="browse_path">Αναζήτηση διαδρομής</phrase>
         <phrase name="users_username">Χρήστης</phrase>
         <phrase name="users_email">Email</phrase>
         <phrase name="users_password">Συνθηματικό</phrase>
@@ -91,6 +92,7 @@
         <phrase name="tag_form_submit">Ενημέρωση</phrase>
         <phrase name="tag_live_official">Επίσημο</phrase>
         <phrase name="tag_live_live">Ζωντανό</phrase>
+        <phrase name="tag_details">Λεπτομέρειες</phrase>
     </page>
 
     <page name="sync">
@@ -101,6 +103,7 @@
         <phrase name="sync_metadata">Αναζήτηση metadata</phrase>
         <phrase name="sync_json">Εισαγωγή JSON αρχείου</phrase>
         <phrase name="sync_youtube">Κατέβασμα από youTube</phrase>
+        <phrase name="import_path">Προσθήκη διαδρομής</phrase>
     </page>
 
     <page name="playlist">
@@ -189,20 +192,21 @@
         <phrase name="song_not_deleted">Πρόβλημα με την αφαίρεση του</phrase>
         <phrase name="records_not_founded">Δεν βρέθηκαν εγγραφές</phrase>
         <phrase name="playlist_loading_problem">Πρόβλημα στο άνοιγμα της playlist</phrase>
+        <phrase name="sure_to_delete_playlist">Είσαι σίγουρος ότι θέλεις να σβήσεις την λίστα;</phrase>
     </page>
 
     <page name="help">
         <phrase name="help_text_icon">Βοήθεια</phrase>
         <phrase name="help_paths"><![CDATA[
-                <p>Προσθέτουμε το πλήρες linux path (ένα ή περισσότερα) των φακέλων που βρίσκεται η μουσική μας. Διαλέγουμε αν είναι Music (mp3, m4a) ή Music Video (mp4, m4v).</p>
+                <p>Επιλέγουμε (με την βοήθεια μενού πλοήγησης στους καταλόγους) τα linux path των φακέλων που βρίσκεται η μουσική μας. Διαλέγουμε αν είναι Music (mp3, m4a) ή Music Video (mp4, m4v).</p>
 
                 <p>Το path που είναι main χρησιμοποιείται από την εφαρμογή για download (π.χ. youtube download) ή για σώσιμο των cover artworks των mp3.</p>
 
-                <p>Για κάθε media kind (Music/Music Video) σετάρουμε δηλαδή κι ένα main path.</p>
+                <p>Για κάθε media kind (Music ή Music Video) πρέπει να έχει κι από ένα main path.</p>
 
-                <p><strong>ΠΡΟΣΟΧΗ:</strong> Αν το path που θα βάλουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)</p>
+                <p><strong>ΠΡΟΣΟΧΗ:</strong> Αν το path που θα επιλέξουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)</p>
 
-                <p>Αν το path είναι μέσα στο web folder (π.χ /var/www/html/) τότε για path (για videos π.χ.) βάζουμε κάτι σαν αυτό /var/www/html/myVideos και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost.</p>
+                <p>Αν το path είναι μέσα στο web folder (π.χ <strong>/var/www/html/</strong>) τότε για path (για videos π.χ.) επιλέγουμε κάτι σαν αυτό <strong>/var/www/html/myVideos</strong> και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost.</p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
             <p>Στο <strong>convert_alac_files</strong> βάζουμε true αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Αλλιώς η εφαρμογή αδιαφορεί για τα ALAC.</p>

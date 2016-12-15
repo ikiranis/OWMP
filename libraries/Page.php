@@ -146,7 +146,7 @@ class Page
                     ?>
                         <details>
                             <summary>
-                                Λεπτομέρειες
+                                <?php echo __('tag_details'); ?>
                             </summary>
 
 

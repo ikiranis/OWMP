@@ -92,7 +92,6 @@ class SyncFiles
 
             if(is_dir($dir)) {
                 $dirs[]=$dir;
-                trigger_error($dir);
             }
             else {
 //                trigger_error($dir);
