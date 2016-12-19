@@ -1036,7 +1036,7 @@ class RoceanDB
 
         $sql = 'INSERT INTO '.$table.' ('.$fields.') '.$query;
         $stmt = self::$conn->prepare($sql);
-        
+
         if(self::deleteTable($table)) { // πρώτα σβήνει τα τρέχοντα περιεχόμενα του $table
         
             if($stmt->execute($arrayParams))

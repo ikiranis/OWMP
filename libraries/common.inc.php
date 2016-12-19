@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.216');
+define ('APP_VERSION', '0.1.217');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -27,6 +27,9 @@ define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // �
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
 
 define ('AJAX_PATH', 'AJAX/');
+
+define ('WEB_PAGE_URL', 'http://apps4net.eu');
+define ('CHANGE_LOG_URL', 'http://apps4net.eu/?page_id=41');
 
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');

@@ -19,7 +19,6 @@ RoceanDB::checkMySqlTables();
 
 $MainPage = new Page();
 
-// TODO Πρόβλημα με την εναλλαγή γλωσσών
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
@@ -52,6 +51,7 @@ define('TAB_ID', rand(100000,999999));
         var WebFolderPath="<?php echo WEB_FOLDER_PATH; ?>";
         var ParrotVersionFile="<?php echo PARROT_VERSION_FILE; ?>";
         var AppVersion="<?php echo APP_VERSION; ?>";
+        var changeLogUrl="<?php echo CHANGE_LOG_URL; ?>";
 
         // Τα κείμενα του site παιρνούνται στην javascript
         var phrases=<?php echo json_encode($lang->getPhrasesTable()); ?>;

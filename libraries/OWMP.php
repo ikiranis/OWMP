@@ -698,13 +698,37 @@ class OWMP
 
         }
         else {  // εμφάνιση διπλών εγγραφών
+//                $playlistToPlay = self::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
+
+            if (!$tabID)  // Αν δεν έρχεται από function
+                $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
+
+            // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
+            $tempUserPlaylist = CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $tabID;
+
+            // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
             if ($_SESSION['PlaylistCounter'] == 0) {
-                // TODO να κάνω και το duplicates με την αντιγραφή πινάκων
-                $playlistToPlay = OWMP::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
-                $_SESSION['$countThePlaylist'] = count($playlistToPlay);
+
+                $myQuery = 'SELECT files.id as file_id
+                            FROM files JOIN music_tags on files.id=music_tags.id 
+                            WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
+
+                // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
+                RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, null);
+
+                $tableCount = RoceanDB::countTable($tempUserPlaylist);
+
+                $_SESSION['$countThePlaylist'] = $tableCount;
             }
 
-            $playlist = OWMP::getFilesDuplicates($offset,$step);
+
+            // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
+            $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
+            $mainTables = array('music_tags', 'files');
+
+            $playlist = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+                null, null, 'files.hash DESC LIMIT ' . $offset . ',' . $step, $tempUserPlaylist, $joinFieldsArray);
+
         }
         
 
@@ -717,23 +741,24 @@ class OWMP
             <div id="playlist_content">
 
                 <?php
-
+                // TODO να τα εμφανίζω με function να μην επαναλαμβάνονται
+                
                 if ($duplicates == null) {
                     ?>
                     <div id="browseButtons">
                         <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                               onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
                         <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                               onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset;?>,<?php echo $step; ?>);">
                     </div>
                     <?php
                 } else {
                     ?>
                     <div id="browseButtons">
                         <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                               onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
                         <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                               onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
                 }
@@ -884,18 +909,18 @@ class OWMP
                     ?>
                     <div id="browseButtons">
                         <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                               onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
                         <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                               onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
                 } else {
                     ?>
                     <div id="browseButtons">
                         <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; ?>,<?php echo $step; ?>);">
+                               onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
                         <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; ?>,<?php echo $step; ?>);">
+                               onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
                     </div>
                     <?php
                 }

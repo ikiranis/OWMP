@@ -108,7 +108,7 @@ class Page
         ?>
 
         <footer>
-            <span><?php echo __('footer_text'); ?></span>
+            <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
             <span id="AppVersionContainer">
                 <span id="AppVersion"><?php echo __('app_version').': '.APP_VERSION; ?></span>
                 <span id="checkCurrentVersion"></span>

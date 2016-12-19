@@ -1120,11 +1120,21 @@ function updateVideoPlayed() {
 
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function findDuplicates(offset, step, firstTime) {
-    callFile=AJAX_path+"searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step;
+    callFile=AJAX_path+"searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
+    $('#progress').show();
 
+    $.get(callFile, function(data) {
+        if (data) {
+            $('#playlist_container').html(data);
+            $('#progress').hide();
+            $('#search').hide();
+        }
+        else {
+            $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
+            $('#progress').hide();
+            $('#search').hide();
+        }
 
-    $('#playlist_container').load(callFile, function() {
-        // console.log('load is done');
     });
 }
 
@@ -1802,7 +1812,7 @@ function checkCurrentVersion() {
     $.get(callFile, function (data) {
         // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
         if(AppVersion!==data.app_version)
-            $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version);
+            $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version+'&nbsp;<a href='+changeLogUrl+'>('+phrases['change_log']+')</a>');
     }, "json");
 }
 

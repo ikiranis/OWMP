@@ -21,6 +21,7 @@
     <page name="footer">
         <phrase name="footer_text">Ανάπτυξη εφαρμογής apps4net.eu</phrase>
         <phrase name="app_version">Έκδοση εφαρμογής</phrase>
+        <phrase name="change_log">Ημερολόγιο αλλαγών</phrase>
     </page>
 
     <page name="nav">
@@ -207,6 +208,8 @@
                 <p><strong>ΠΡΟΣΟΧΗ:</strong> Αν το path που θα επιλέξουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)</p>
 
                 <p>Αν το path είναι μέσα στο web folder (π.χ <strong>/var/www/html/</strong>) τότε για path (για videos π.χ.) επιλέγουμε κάτι σαν αυτό <strong>/var/www/html/myVideos</strong> και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost.</p>
+
+                <p>Προσοχή πρέπει να δοθεί στα δικαιώματα των paths ώστε η εφαρμογή να μπορεί να δημιουργήσει φακέλους για κατέβασμα, αλλά και να σβήσει αρχεία όταν επιλέγουμε να σβήσουμε μέσα από την εφαρμογή. Πρέπει να έχει δικαιώματα read/write.</p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
             <p>Στο <strong>convert_alac_files</strong> βάζουμε true αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Αλλιώς η εφαρμογή αδιαφορεί για τα ALAC.</p>
