@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.217');
+define ('APP_VERSION', '0.1.218');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -52,6 +52,8 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
         'group_name' => 'user')
 );
 
+
+// Οι πίνακες της βάσης
 $mySqlTables = array (
     array ('table' => 'album_arts', 'sql' => 'CREATE TABLE `album_arts` (
                                               `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -168,7 +170,7 @@ $mySqlTables = array (
                                           PRIMARY KEY (`id`,`user_id`),
                                           KEY `fk_manual_playlists_user1_idx` (`user_id`),
                                           CONSTRAINT `fk_manual_playlists_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-                                        ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;')
+                                        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;')
 );
 
 
@@ -228,7 +230,7 @@ define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'Convert
 
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist
 define ('MANUAL_PLAYLIST_STRING', 'mnPl_');  // To string που προσθέτει στο όνομα ενός manual playlist
-
+define ('PLAYED_QUEUE_PLAYLIST_STRING', 'pqPl_');  // To string που προσθέτει στο όνομα ενός played queue playlist
 
 // Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη
 $defaultArtwork=RoceanDB::getTableFieldValue('album_arts', 'filename=?', 'default.gif', 'id');

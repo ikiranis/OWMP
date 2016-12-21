@@ -35,27 +35,7 @@ pre {
 
 }
 
-a {
-    color: white;
-    text-decoration: none;
-}
 
-a:visited {
-    color: white;
-    text-decoration: none;
-}
-
-/* mouse over link */
-a:hover {
-    color: white;
-    text-decoration: underline;
-}
-
-/* selected link */
-a:active {
-    color: white;
-    text-decoration: underline;
-}
 
 
 
@@ -486,6 +466,28 @@ footer span {
     font-weight: bold;
 }
 
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+/* mouse over link */
+footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* selected link */
+footer a:active {
+    color: white;
+    text-decoration: underline;
+}
+
 /*Στοιχεία εμφάνισης στα logs*/
 #logs {
     display: table;
@@ -707,14 +709,16 @@ input {
     background-color: #CFD8DC;
     color: grey;
     width: 100%;
+    margin-bottom: 0.2em;
 
 }
 
 /* Για τον mozilla */
 #FormTags input:-moz-read-only {
-  background-color: #CFD8DC;
-  color: grey;
-  width: 100%;
+    background-color: #CFD8DC;
+    color: grey;
+    width: 100%;
+    margin-bottom: 0.2em;
 
 }
 

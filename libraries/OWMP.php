@@ -311,10 +311,10 @@ class OWMP
                 <div id="editTagButtons">
                     <input type="button" class="myButton" name="submit" id="submit"
                            value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
-                
-                    <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelEdit();">
 
-                    <input type="button" class="myButton" name="clearEdit" id="clearEdit" value="<?php echo __('search_text_clear'); ?>" onclick="clearEdit();">
+                    <input type="button" class="myButton" name="clearEdit" id="clearEdit" value="<?php echo __('search_text_clear'); ?>" onclick="resetFormMassiveTags();">
+                
+                    <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheEdit();">
                 </div>
 
         </div>
@@ -341,26 +341,28 @@ class OWMP
             <input type="button" id="searchClick" onclick="displaySearchWindow();" title="<?php echo __('search_text_search'); ?>" >
 
             <div id="ChoosePlaylist">
-                <select name="playlist" id="playlist" >
-                    <option value="">
-                        <?php echo __('choose_playlist'); ?>
-                    </option>
-                    <?php
-
-                    $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
-                    // H λίστα με τις manual playlists
-                    $manualPlaylists = RoceanDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
-
-                    foreach ($manualPlaylists as $playlist) {
-                        ?>
-                        <option value="<?php echo $playlist['id']; ?>">
-                            <?php echo  $playlist['playlist_name']; ?>
+                <form id="formChoosePlaylist">
+                    <select name="playlist" id="playlist" >
+                        <option value="">
+                            <?php echo __('choose_playlist'); ?>
                         </option>
-
                         <?php
-                    }
-                    ?>
-                </select>
+    
+                        $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+                        // H λίστα με τις manual playlists
+                        $manualPlaylists = RoceanDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
+    
+                        foreach ($manualPlaylists as $playlist) {
+                            ?>
+                            <option value="<?php echo $playlist['id']; ?>">
+                                <?php echo  $playlist['playlist_name']; ?>
+                            </option>
+    
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </form>
             </div>
 
             <input type="button" id="playPlaylist" onclick="playPlaylist();" title="<?php echo __('play_file'); ?>">
@@ -462,13 +464,20 @@ class OWMP
                         ?>
 
                         <div id="searchButtons">
-                            <input type="button" class="myButton" name="searching" id="searching" value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                            <input type="button" class="myButton" name="searching" id="searching" 
+                                   value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                            <input type="button" class="myButton" name="duplicates" id="duplicates" value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                            <input type="button" class="myButton" name="duplicates" id="duplicates" 
+                                   value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                            <input type="button" class="myButton" name="clearSearch" id="clearSearch" value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
+                            <input type="button" class="myButton" name="playedQueue" id="playedQueue" 
+                                   value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
 
-                            <input type="button" class="myButton" name="cancelSearch" id="cancelSearch" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
+                            <input type="button" class="myButton" name="clearSearch" id="clearSearch" 
+                                   value="<?php echo __('search_text_clear'); ?>" onclick="reset();">
+
+                            <input type="button" class="myButton" name="cancelSearch" id="cancelSearch" 
+                                   value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
                         </div>
                     </form>
                 </div>
@@ -523,7 +532,7 @@ class OWMP
                 if($_SESSION['PlaylistCounter']==0) {
                     $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                     $_SESSION['arrayParams']=null;
-                    self::getPlaylist(null,$offset,$step,null,null);
+                    self::getPlaylist(null,$offset,$step,null,null,null);
                 }
                 else {
                     ?>
@@ -546,7 +555,7 @@ class OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null, $loadPlaylist=null) {
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null, $loadPlaylist=null, $playedQueue=null) {
         $conn = new RoceanDB();
 
         $condition='';
@@ -652,22 +661,21 @@ class OWMP
                     $tabID=TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
 
                 // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-                $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $tabID;
+                $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
+
+                $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 
                 // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
                 // από την manual playlist
                 if(!$loadPlaylist) {
                     $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
 
-                    // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
-                    if (!RoceanDB::checkIfTableExist($tempUserPlaylist)) {
-                        self::createPlaylistTempTable($tempUserPlaylist); // Δημιουργούμε το table
 
-                        // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
-                        $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
-                        $playlistTableArray = array($tempUserPlaylist, date('Y-m-d H:i:s'));
-                        $conn->ExecuteSQL($sql, $playlistTableArray);
-                    }
+                    // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
+                    self::checkTempPlaylist($tempUserPlaylist);
+
+                    // Δημιουργία και ενός played queue playlist
+                    self::checkTempPlaylist($tempPlayedQueuePlaylist);
 
                     // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
                     RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
@@ -704,7 +712,7 @@ class OWMP
                 $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
 
             // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-            $tempUserPlaylist = CUR_PLAYLIST_STRING . $conn->getSession('username') . '_' . $tabID;
+            $tempUserPlaylist = CUR_PLAYLIST_STRING . $tabID;
 
             // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
             if ($_SESSION['PlaylistCounter'] == 0) {
@@ -1875,7 +1883,8 @@ class OWMP
             Page::setLastMomentAlive(true);
         }
 
-        
+
+        // TODO να σβηστεί μετά από καιρό αυτό
         // Σβήσιμο της εγγραφής που έχει μπει από παλιότερες εκδόσεις
         if($conn->getOption('web_folder_path'))
             $conn->deleteRowFromTable('options', 'option_name', 'web_folder_path');
@@ -1909,7 +1918,23 @@ class OWMP
         return $result;
     }
 
+    // Ελέγχει αν υπάρχει ένα $tempPlaylist και αν δεν υπάρχει το δημιουργεί και κάνει σχετική εγγραφή στο playlist_tables
+    static function checkTempPlaylist($tempPlaylist) {
+        $conn = new RoceanDB();
 
+        // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
+        if (!RoceanDB::checkIfTableExist($tempPlaylist)) {
+            self::createPlaylistTempTable($tempPlaylist); // Δημιουργούμε το table
+
+            // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
+            $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
+            $playlistTableArray = array($tempPlaylist, date('Y-m-d H:i:s'));
+            $conn->ExecuteSQL($sql, $playlistTableArray);
+        }
+    }
+
+
+    // Επιστρέφει μία τυχαία εγγραφή από τον $table
     static function getRandomPlaylistID($table, $tableCount) {
         $conn = new RoceanDB();
         $conn->CreateConnection();
@@ -1932,8 +1957,21 @@ class OWMP
         return $result;
     }
     
-    
-    
+
+    // Εισάγει ένα $fileID στο $tempPlaylist
+    static function insertIntoTempPlaylist($tempPlaylist, $fileID) {
+        $conn = new RoceanDB();
+
+        $sql = 'INSERT INTO '.$tempPlaylist.' (file_id) VALUES(?)';
+        
+        if($conn->ExecuteSQL($sql, array($fileID))) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
     
     
 }

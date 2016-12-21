@@ -1468,7 +1468,7 @@ function openMassiveTagsWindow() {
 }
 
 // Κλείνει το παράθυρο για edit των tags
-function cancelEdit() {
+function cancelTheEdit() {
     $('#editTag').hide();
 }
 
@@ -1682,8 +1682,15 @@ function removeFromPlaylist(fileID) {
         var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
         if (data.success == true) {
-            DisplayMessage('#alert_error', phrases['song_deleted_from'] + ' ' + data.song_name
-                + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
+
+            if(!checkFullscreen()) { // αν δεν είναι σε full screen
+                DisplayMessage('#alert_error', phrases['song_deleted_from'] + ' ' + data.song_name
+                    + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
+            }
+            else { // αν είναι σε full screen
+                DisplayMessage('#error_overlay', phrases['song_deleted_from'] + ' ' + data.song_name
+                    + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
+            }
 
             // Σβήσιμο της σχετικής γραμμής στην λίστα
             document.querySelector('#fileID'+data.fileID).remove();
@@ -1979,6 +1986,10 @@ function getShortcuts(elem) {
                 addToPlaylist(currentID);  // Προσθήκη κομματιού στην playlist
             }
 
+            if (event.keyCode === 68) {   // D
+                removeFromPlaylist(currentID);  // Αφαίρεση κομματιού στην playlist
+            }
+
             if (event.keyCode === 70) {   // F
                 toggleFullscreen();  // μπαινοβγαίνει σε fullscreen
                 FocusOnForm=false;
@@ -2054,6 +2065,8 @@ function createPlaylist() {
             document.querySelector('#playlist').appendChild(option); // προσθέτει το νέο option
 
             DisplayMessage('#alert_error', phrases['playlist_created'] + ' ' + data.playlistName);
+
+            document.querySelector('#insertPlaylist').reset();
         }
         else {
             DisplayMessage('#alert_error', phrases['playlist_not_created'] + ' ' + data.playlistName);
@@ -2107,6 +2120,8 @@ function playPlaylist() {
         return;
     }
 
+    $('#progress').show();
+
     callFile=AJAX_path+"loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
 
 
@@ -2132,6 +2147,40 @@ function playPlaylist() {
         else {
             DisplayMessage('#alert_error', phrases['playlist_loading_problem']);
         }
+    }, "json");
+
+}
+
+// Φορτώνει και ξεκινάει την αναπαραγωγή μιας manual playlist
+function loadPlayedQueuePlaylist() {
+    $('#progress').show();
+    $('#search').hide();
+    
+    callFile=AJAX_path+'loadPlayedQueue.php?tabID='+tabID;
+
+
+    $.get(callFile, function (data) {
+
+        if (data.success == true) {
+
+            callFile=AJAX_path+'searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
+
+            $.get(callFile, function(data) {
+                if (data) {
+                    $('#playlist_container').html(data);
+                    $('#progress').hide();
+                }
+                else {
+                    $('#playlist_container').html(phrases['records_not_founded']);
+                    $('#progress').hide();
+                }
+
+            });
+        }
+        else {
+            DisplayMessage('#alert_error', phrases['playlist_loading_problem']);
+        }
+
     }, "json");
 
 }
@@ -2296,6 +2345,12 @@ function importPath() {
     var chosenPath = document.querySelector('#chosenPathText').innerText.slice(0, -1);  // Κόβει το τελευταίο '/'
     document.querySelector('#paths_formID'+currentPathFormID+' #file_path').value=chosenPath;
     $('#browsePathWindow').hide();
+}
+
+function resetFormMassiveTags() {
+    document.querySelector('#FormMassiveTags').reset();
+    document.querySelector('#myImage').innerHTML='';
+    document.querySelector('#uploadFile').value='';
 }
 
 

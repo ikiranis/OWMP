@@ -22,7 +22,7 @@ if(isset($_GET['tabID']))
 
 Page::setLastMomentAlive(false);
 
-$tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
+$tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
 $playlistTable=RoceanDB::getTableArray($tempUserPlaylist, 'file_id', null, null, null, null, null);
 

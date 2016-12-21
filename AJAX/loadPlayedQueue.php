@@ -1,12 +1,11 @@
 <?php
 /**
- * File: loadPlaylist.php
+ * File: loadPlayedQueue.php
  * Created by rocean
- * Date: 01/12/16
- * Time: 02:18
+ * Date: 21/12/16
+ * Time: 01:54
  *
- * Αντιγραφή της manual playlist στην current playlist
- *
+ * Φορτώνει την λίστα με τα τραγούδια που παίξανε
  */
 
 
@@ -14,28 +13,21 @@
 
 require_once ('../libraries/common.inc.php');
 
-session_start();
-
-if(isset($_GET['playlistID']))
-    $playlistID=ClearString($_GET['playlistID']);
 
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
 
 $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
+$tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 
 
-// Παίρνει το όνομα του table για την συγκεκριμένο playlistID
-$playlistTableName = RoceanDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
-
-
-if($playlistTableName) {  // Αν υπάρχει το συγκεκριμένο $playlistTableName
+if($tempPlayedQueuePlaylist) {  // Αν υπάρχει το συγκεκριμένο $tempPlayedQueuePlaylist
 
     // Σβήνει πρώτα τα περιεχόμενα του $tempUserPlaylist
     if(RoceanDB::deleteTable($tempUserPlaylist)) {
 
-        // Αντιγράφει τον $playlistTableName στον $tempUserPlaylist
-        if (RoceanDB::copyTable($playlistTableName, $tempUserPlaylist)) {
+        // Αντιγράφει τον $tempPlayedQueuePlaylist στον $tempUserPlaylist
+        if (RoceanDB::copyTable($tempPlayedQueuePlaylist, $tempUserPlaylist)) {
             $jsonArray = array('success' => true);
         } else $jsonArray = array('success' => false, 'errorID' => 1); // Δεν έγινε η αντιγραφή
 

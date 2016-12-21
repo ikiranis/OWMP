@@ -28,7 +28,7 @@ if(isset($_GET['playMode']))
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
 
-$tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
+$tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
 
 // Ενημερώνει τον playlist_tables για το table $tempUserPlaylist με την ώρα που έγινε το access

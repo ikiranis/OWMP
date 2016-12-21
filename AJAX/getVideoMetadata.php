@@ -84,7 +84,12 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
     }
     else $albumCoverPath=null;
 
-    $tempUserPlaylist=CUR_PLAYLIST_STRING . $conn->getSession('username') . '_'.$tabID;
+    $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
+    $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
+
+    // Εισάγει το συγκεκριμένο τραγούδι που παίζει στο Played Queue Playlist
+    OWMP::insertIntoTempPlaylist($tempPlayedQueuePlaylist, $id);
+
     $playlistID=RoceanDB::getTableFieldValue($tempUserPlaylist, 'file_id=?', $id, 'id');
     
     $jsonArray = array('success' => true,
@@ -104,6 +109,7 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         'apiSource'=>$apiSource,
         'playlist_id' => $playlistID,
         'playlist_count' => $_SESSION['$countThePlaylist']);
+
 
 
 
