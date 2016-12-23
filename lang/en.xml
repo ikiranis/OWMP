@@ -132,7 +132,7 @@
         <phrase name="search_previous">Previous</phrase>
         <phrase name="search_next">Next</phrase>
         <phrase name="close_text">Close</phrase>
-        <phrase name="search_text_played_queue">Queue</phrase>
+        <phrase name="search_text_played_queue">History</phrase>
     </page>
 
     <page name="logs">

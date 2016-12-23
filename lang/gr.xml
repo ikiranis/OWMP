@@ -132,7 +132,7 @@
         <phrase name="search_previous">Προηγούμενη</phrase>
         <phrase name="search_next">Επόμενη</phrase>
         <phrase name="close_text">Κλείσιμο</phrase>
-        <phrase name="search_text_played_queue">Ουρά</phrase>
+        <phrase name="search_text_played_queue">Ιστορικό</phrase>
     </page>
 
     <page name="logs">
