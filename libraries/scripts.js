@@ -820,8 +820,6 @@ function getNextVideoID(id, operation) {
         var theCurrentPlaylistID=currentQueuePlaylistID;
     }
 
-    console.log(currentQueuePlaylistID);
-
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "getNextVideo.php",
         type: 'GET',
@@ -975,13 +973,14 @@ function loadNextVideo(id) {
 }
 
 // callback that loads and plays the next video
-function loadAndplayNextVideo(operation) {
-    if(operation=='next') {
+function loadAndplayNextVideo(oper) {
+
+    if(oper=='next') {
         currentPlaylistID++;
         getNextVideoID(0, 'next');
     }
 
-    if(operation=='prev') {
+    if(oper=='prev') {
         // currentPlaylistID++;
         getNextVideoID(0, 'prev');
     }
@@ -995,7 +994,7 @@ function init(){
     // get the video element using the DOM api
     myVideo = document.querySelector("#myVideo");
     // Define a callback function called each time a video ends
-    myVideo.addEventListener('ended', loadAndplayNextVideo('next'), false);
+    myVideo.addEventListener('ended', function () { loadAndplayNextVideo('next') }, false);
 
     if(!localStorage.volume)  // Αν δεν υπάρχει το localStorage.volume θέτει αρχική τιμή
         localStorage.volume='1';
