@@ -995,7 +995,7 @@ function init(){
     // get the video element using the DOM api
     myVideo = document.querySelector("#myVideo");
     // Define a callback function called each time a video ends
-    myVideo.addEventListener('ended', loadAndplayNextVideo, false);
+    myVideo.addEventListener('ended', loadAndplayNextVideo('next'), false);
 
     if(!localStorage.volume)  // Αν δεν υπάρχει το localStorage.volume θέτει αρχική τιμή
         localStorage.volume='1';
@@ -1030,7 +1030,7 @@ function failed(e) {
             break;
     }
 
-    loadAndplayNextVideo();
+    loadAndplayNextVideo('next');
 }
 
 // Κάνει active το τρέχον row στην playlist
