@@ -700,9 +700,6 @@ class OWMP
             }
 
 
-            // TODO για τις manual playlists
-            // να εμφανίζει progress gif
-            // να πατάς κάτι και να ξαναγυρνάει στην κανονική playlist
 
         }
         else {  // εμφάνιση διπλών εγγραφών
@@ -750,6 +747,7 @@ class OWMP
 
                 <?php
                 // TODO να τα εμφανίζω με function να μην επαναλαμβάνονται
+                // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
                 
                 if ($duplicates == null) {
                     ?>
@@ -1884,7 +1882,7 @@ class OWMP
         }
 
 
-        // TODO να σβηστεί μετά από καιρό αυτό
+        // TODO να σβηστεί μετά από καιρό αυτό. Γράφτηκε Δεκέμβριο 2016
         // Σβήσιμο της εγγραφής που έχει μπει από παλιότερες εκδόσεις
         if($conn->getOption('web_folder_path'))
             $conn->deleteRowFromTable('options', 'option_name', 'web_folder_path');
@@ -1960,15 +1958,18 @@ class OWMP
 
     // Εισάγει ένα $fileID στο $tempPlaylist
     static function insertIntoTempPlaylist($tempPlaylist, $fileID) {
-        $conn = new RoceanDB();
 
-        $sql = 'INSERT INTO '.$tempPlaylist.' (file_id) VALUES(?)';
-        
-        if($conn->ExecuteSQL($sql, array($fileID))) {
-            return true;
-        }
-        else {
-            return false;
+        // αν δεν υπάρχει η συγκεκριμένη εγγραφή ήδη, τότε μπορεί να γίνει η εισαγωγή
+        if(!RoceanDB::getTableFieldValue($tempPlaylist, 'file_id=?', array($fileID), 'id')) {
+            $conn = new RoceanDB();
+
+            $sql = 'INSERT INTO ' . $tempPlaylist . ' (file_id) VALUES(?)';
+
+            if ($conn->ExecuteSQL($sql, array($fileID))) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
     }

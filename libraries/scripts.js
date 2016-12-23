@@ -12,7 +12,8 @@ var PathKeyPressed=false;
 var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
 
 var currentID; // Το τρέχον file id που παίζει
-localStorage.currentPlaylistID='1';  // Το τρέχον id στην playlist
+var currentPlaylistID='1';  // Το τρέχον id στην playlist
+var currentQueuePlaylistID=0;  // Το τρέχον id στην queue playlist
 
 var myVideo;
 var FullscreenON=false; // κρατάει το αν είναι σε fullscreen ή όχι
@@ -811,21 +812,38 @@ function showFullScreenVideoTags(toggle) {
 
 }
 
-function getNextVideoID(id) {
+function getNextVideoID(id, operation) {
+    if(operation=='next') {
+        var theCurrentPlaylistID=currentPlaylistID;
+    }
+    if(operation=='prev') {
+        var theCurrentPlaylistID=currentQueuePlaylistID;
+    }
+
+    console.log(currentQueuePlaylistID);
+
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "getNextVideo.php",
         type: 'GET',
         async: true,
         data: {
             playMode: localStorage.PlayMode,
-            currentPlaylistID: localStorage.currentPlaylistID,
-            tabID: tabID
+            currentPlaylistID: theCurrentPlaylistID,
+            tabID: tabID,
+            operation: operation
         },
         dataType: "json",
         success: function (data) {
             if (data.success == true) {
                 currentID=data.file_id;
-                localStorage.currentPlaylistID=data.playlist_id;
+
+                if(data.operation=='next') {
+                    currentPlaylistID = data.playlist_id;
+                    currentQueuePlaylistID = 0;
+                }
+                if(data.operation=='prev') {
+                    currentQueuePlaylistID = data.playlist_id;
+                }
                 loadNextVideo(id);
             }
         }
@@ -904,7 +922,7 @@ function loadNextVideo(id) {
             else document.querySelector('#overlay_poster_source').innerHTML='';
 
 
-            localStorage.currentPlaylistID=data.tags.playlist_id;
+            currentPlaylistID=data.tags.playlist_id;
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
             timeInMinutesAndSeconds=seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
@@ -957,9 +975,16 @@ function loadNextVideo(id) {
 }
 
 // callback that loads and plays the next video
-function loadAndplayNextVideo() {
-    localStorage.currentPlaylistID++;
-    getNextVideoID(0);
+function loadAndplayNextVideo(operation) {
+    if(operation=='next') {
+        currentPlaylistID++;
+        getNextVideoID(0, 'next');
+    }
+
+    if(operation=='prev') {
+        // currentPlaylistID++;
+        getNextVideoID(0, 'prev');
+    }
 
     // myVideo.play();
 
@@ -980,7 +1005,7 @@ function init(){
     localStorage.PlayMode='shuffle';
 
     // Load the first video when the page is loaded.
-    getNextVideoID(0);
+    getNextVideoID(0, 'next');
 
 }
 
@@ -1158,7 +1183,7 @@ function searchPlaylist(offset, step, firstTime) {
 
     // console.log(jsonArray);
 
-    localStorage.currentPlaylistID='1';
+    currentPlaylistID='1';
 
 
     callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step
@@ -1866,7 +1891,11 @@ function getShortcuts(elem) {
     elem.addEventListener('keydown', function(event) {
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
-                loadAndplayNextVideo();
+                loadAndplayNextVideo('next');
+            }
+
+            if (event.keyCode === 80) {  // P
+                loadAndplayNextVideo('prev');
             }
 
             if (event.keyCode === 39) {  // δεξί βελάκι
