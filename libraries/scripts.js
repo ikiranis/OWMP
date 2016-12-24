@@ -36,6 +36,8 @@ var myMime='';  // Ο τύπος του cover art
 
 var tabID;
 
+var initEventListenerHadler = false; // κρατάει το αν έχει ενεργοποιηθεί το event listener στο init()
+
 var runningYoutubeDownload=false; // Κρατάει το αν τρέχει το download του youtube
 
 var currentPathFormID;
@@ -854,21 +856,11 @@ function getNextVideoID(id, operation) {
 // source.length does that)
 function loadNextVideo(id) {
 
-
-
     if(id==0) {
-        // files_index=Math.floor(Math.random()*files.length);    // Παίρνει τυχαίο index
-        // callFile = AJAX_path+"getVideoMetadata.php?id="+files[files_index][0];
-        // currentID=files[files_index][0];
-
-
-
         callFile = AJAX_path+"getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
-
     }
 
     else {
-        // files_index=id;
         currentID=id;
 
         callFile = AJAX_path+"getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
@@ -882,11 +874,10 @@ function loadNextVideo(id) {
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
 
-
-
         filename=data.file.filename; // σκέτο το filename
 
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
+
             var thePath=data.file.path;
             thePath=thePath.replace(WebFolderPath,'');
             file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
@@ -964,23 +955,24 @@ function loadNextVideo(id) {
 
         $("#TotalNumberInPlaylist").text(data.tags.playlist_count);  // εμφανίζει το σύνολο των κομματιών στην playlist
 
+        myVideo.load();
+
     }, "json");
-
-    myVideo.load();
-
-
 
 }
 
 // callback that loads and plays the next video
-function loadAndplayNextVideo(oper) {
+function loadAndplayNextVideo(operation) {
 
-    if(oper=='next') {
+    myVideo.pause();
+    myVideo.poster='';
+
+    if(operation=='next') {
         currentPlaylistID++;
         getNextVideoID(0, 'next');
     }
 
-    if(oper=='prev') {
+    if(operation=='prev') {
         // currentPlaylistID++;
         getNextVideoID(0, 'prev');
     }
@@ -991,17 +983,24 @@ function loadAndplayNextVideo(oper) {
 
 // Called when the page is loaded
 function init(){
-    // get the video element using the DOM api
-    myVideo = document.querySelector("#myVideo");
-    // Define a callback function called each time a video ends
-    myVideo.addEventListener('ended', function () { loadAndplayNextVideo('next') }, false);
 
-    if(!localStorage.volume)  // Αν δεν υπάρχει το localStorage.volume θέτει αρχική τιμή
-        localStorage.volume='1';
+    if(!initEventListenerHadler) {  // Αν δεν έχει ξανατρέξει
+        // get the video element using the DOM api
+        myVideo = document.querySelector("#myVideo");
+        // Define a callback function called each time a video ends
+        myVideo.addEventListener('ended', function () {
+            loadAndplayNextVideo('next');
+        }, false);
 
-    myVideo.volume=parseFloat(localStorage.volume);   // Θέτει το volume με βάση την τιμή του localStorage.volume
+        if(!localStorage.volume)  // Αν δεν υπάρχει το localStorage.volume θέτει αρχική τιμή
+            localStorage.volume='1';
 
-    localStorage.PlayMode='shuffle';
+        myVideo.volume=parseFloat(localStorage.volume);   // Θέτει το volume με βάση την τιμή του localStorage.volume
+
+        localStorage.PlayMode='shuffle';
+
+        initEventListenerHadler = true;
+    }
 
     // Load the first video when the page is loaded.
     getNextVideoID(0, 'next');

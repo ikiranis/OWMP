@@ -952,7 +952,6 @@ class OWMP
 
 //                    var files = <?php //echo json_encode($playlistToPlay); ?>//;
 
-
                     init();
 
                 </script>
