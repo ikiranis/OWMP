@@ -964,8 +964,8 @@ function loadNextVideo(id) {
 // callback that loads and plays the next video
 function loadAndplayNextVideo(operation) {
 
-    myVideo.pause();
-    myVideo.poster='';
+    // myVideo.pause();
+    // myVideo.poster='';
 
     if(operation=='next') {
         currentPlaylistID++;
