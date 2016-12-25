@@ -883,7 +883,7 @@ function loadNextVideo(id) {
             file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
             myVideo.src = file_path;
-            myVideo.controls=false;
+            // myVideo.controls=false;
             console.log(myVideo.src);
 
             myVideo.load();
@@ -911,7 +911,10 @@ function loadNextVideo(id) {
                 }
 
             }
-            else document.querySelector('#overlay_poster_source').innerHTML='';
+            else {
+                document.querySelector('#overlay_poster_source').innerHTML='';
+                myVideo.poster=null;
+            }
 
 
             currentPlaylistID=data.tags.playlist_id;
@@ -968,8 +971,8 @@ function loadNextVideo(id) {
 // callback that loads and plays the next video
 function loadAndplayNextVideo(operation) {
 
-    myVideo.pause();
-    myVideo.poster='';
+    // myVideo.pause();
+    // myVideo.poster='';
 
     if(operation=='next') {
         currentPlaylistID++;
