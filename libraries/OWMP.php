@@ -380,6 +380,12 @@ class OWMP
                 </form>
             </div>
 
+
+            <div id="someTools">
+                <input type="button" class="myButton" name="sendToJukebox" id="sendToJukebox"
+                       value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();" >
+            </div>
+
             <?php
                 if($_SESSION['PlaylistCounter']==0) {
             ?>
@@ -843,6 +849,10 @@ class OWMP
                                 <input type="button" class="play_button playlist_button_img"
                                        title="<?php echo __('play_file'); ?>"
                                        onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+
+                                <input type="button" class="vote_button playlist_button_img"
+                                       title="<?php echo __('vote_song'); ?>"
+                                       onclick="voteSong(<?php echo $track['id']; ?>);">
 
                                 <?php
                                     if(!$loadPlaylist) { ?>
@@ -1971,6 +1981,43 @@ class OWMP
             }
         }
 
+    }
+
+
+    // Προσθέτει μία ψήφο στο table votes
+    static function voteSong($fileID) {
+        
+        // TODO να μην δέχεται πάνω από μία ψήφο από κάθε χρήστη
+        $userIP=$_SERVER['REMOTE_ADDR'];  // H ip του χρήστη
+        $conn = new RoceanDB();
+
+        $sql = 'INSERT INTO votes (file_id,voter_ip) VALUES(?,?)';
+
+        if ($conn->ExecuteSQL($sql, array($fileID,$userIP))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    
+    // Επιστρέφει το σύνολο ψήφων για κάθε file_id
+    static function getVotes() {
+        $conn = new RoceanDB();
+        $conn->CreateConnection();
+
+        $sql='SELECT file_id, count(*) as numberOfVotes FROM votes GROUP BY file_id';
+
+        $stmt = RoceanDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        $result=$stmt->fetchAll();
+       
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
     }
     
     

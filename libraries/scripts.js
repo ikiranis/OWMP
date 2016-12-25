@@ -2378,11 +2378,59 @@ function importPath() {
     $('#browsePathWindow').hide();
 }
 
+
+// Σβήνει όλα τα περιεχόμενα της φόρμας
 function resetFormMassiveTags() {
     document.querySelector('#FormMassiveTags').reset();
     document.querySelector('#myImage').innerHTML='';
     document.querySelector('#uploadFile').value='';
 }
+
+
+// Στέλνει την τρέχουσα playlist στην jukebox list
+function sendToJukeboxList() {
+    $('#progress').show();
+
+    callFile=AJAX_path+'sendToJukeBox.php?tabID='+tabID;
+
+
+    $.get(callFile, function (data) {
+
+        if (data.success == true) {
+
+            DisplayMessage('#alert_error', phrases['playlist_loaded_to_jukebox']);
+            $('#progress').hide();
+
+        }
+        else {
+            DisplayMessage('#alert_error', phrases['problem_to_copy_to_jukebox']);
+            $('#progress').hide();
+        }
+
+    }, "json");
+}
+
+
+// Προσθέτει μία ψήφο στο τραγούδι
+function voteSong(id) {
+
+    callFile=AJAX_path+'voteSong.php?id='+id;
+
+    $.get(callFile, function (data) {
+
+        if (data.success == true) {
+
+            DisplayMessage('#alert_error', phrases['vote_accepted']);
+
+        }
+        else {
+            DisplayMessage('#alert_error', phrases['vote_not_accepted']);
+        }
+
+    }, "json");
+}
+
+
 
 
 

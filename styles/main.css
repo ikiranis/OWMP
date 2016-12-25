@@ -1451,6 +1451,11 @@ input {
     background-repeat: no-repeat;
 }
 
+.vote_button {
+    background-image: url( '../img/favorite.png' );
+    background-repeat: no-repeat;
+}
+
 .playlist_add_button {
     background-image: url( '../img/playlist_add.png' );
     background-repeat: no-repeat;
@@ -1621,4 +1626,13 @@ input {
 
 .thePaths:nth-child(even) {
     background-color: #ECEFF1;
+}
+
+
+/* Some Tools */
+#someTools {
+    display: inline-block;
+    width: auto;
+    top:0;
+    margin-left: 3em;
 }

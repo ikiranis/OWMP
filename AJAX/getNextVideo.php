@@ -7,6 +7,27 @@
  * Επιστρέφει το επόμενο τραγούδι για να παίξει. Το file id του
  */
 
+// Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη κι επιστρέφει πίνακα με τις τιμές της πρώτης στήλης που έχουν την μέγιστη τιμή
+function getArrayMax($myArray) {
+    $myMax=0;
+
+    // Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη
+    foreach ($myArray as $row) {
+        if($row[1]>$myMax) {
+            $myMax=$row[1];
+        }
+    }
+
+    // Επιστρέφει τις τιμές της πρώτης στήλης που έχουν την μεγαλύτερη τιμή
+    foreach ($myArray as $row) {
+        if($row[1]==$myMax) {
+            $newArray[]=$row[0];
+        }
+    }
+
+    return $newArray;
+
+}
 
 
 require_once ('../libraries/common.inc.php');
@@ -14,7 +35,6 @@ require_once ('../libraries/common.inc.php');
 session_start();
 
 $conn = new RoceanDB();
-
 
 
 //trigger_error(TAB_ID);
@@ -40,15 +60,43 @@ $theDate = date('Y-m-d H:i:s');
 RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
 
 if($operation=='next') { // όταν θέλουμε να παίξει το επόμενο
-    if ($playMode == 'shuffle') {
-        $tableCount = RoceanDB::countTable($tempUserPlaylist);
-        $randomRow = rand(0, $tableCount);
-        $return = OWMP::getRandomPlaylistID($tempUserPlaylist, $randomRow);
-        $playlistID = $return['playlist_id'];
-        $fileID = $return['file_id'];
-    } else {
+
+    if(!RoceanDB::countTable('votes')) {  // Αν δεν υπάρχουν ψήφοι στο votes
+        if ($playMode == 'shuffle') {
+            $tableCount = RoceanDB::countTable($tempUserPlaylist);
+            $randomRow = rand(0, $tableCount);
+            $return = OWMP::getRandomPlaylistID($tempUserPlaylist, $randomRow);
+            $playlistID = $return['playlist_id'];
+            $fileID = $return['file_id'];
+        } else {
+            $playlistID = $currentPlaylistID;
+            $fileID = RoceanDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
+        }
+    } else {  // αλλιώς παίρνει το επόμενο τραγούδι από την καταμέτρηση των ψήφων
+
+        // Ο δισδιάστατος πίνακας με τις ψήφους. Στην 1η στήλη είναι το fileID, στην 2η ο αριθμός των ψήφων
+        $votesArray = OWMP::getVotes();
+
+        // Παίρνει τα fileID που έχουν τις περισσότερες ψήφους
+        $fileIDsWithMaxVotes=getArrayMax($votesArray);
+
+        // Αν υπάρχει ισοψηφία τότε παίρνει κάποιο random
+        if(count($fileIDsWithMaxVotes)>1) {
+            $getFileID=$fileIDsWithMaxVotes[rand(0,count($fileIDsWithMaxVotes))];
+        } else {  // Αλλιώς το μοναδικό που έχει τις περισσότερες ψήφους
+            $getFileID=$fileIDsWithMaxVotes[0];
+        }
+
+        trigger_error($getFileID);
+
+        // Επιστρέφει τις τιμές για να παίξουν στον player
         $playlistID = $currentPlaylistID;
-        $fileID = RoceanDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
+        $fileID = $getFileID;
+
+        // Σβήνει όλες τις ψήφους για να αρχίσει η ψηφοφορία από την αρχή
+        RoceanDB::deleteTable('votes');
+
+
     }
     
 }

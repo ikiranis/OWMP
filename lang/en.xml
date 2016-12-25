@@ -117,6 +117,8 @@
         <phrase name="create_playlist">Create playlist</phrase>
         <phrase name="choose_playlist">Choose playlist</phrase>
         <phrase name="delete_playlist">Delete playlist</phrase>
+        <phrase name="send_to_jukebox">Jukebox List</phrase>
+        <phrase name="vote_song">Vote the song</phrase>
     </page>
 
     <page name="search">
@@ -195,6 +197,10 @@
         <phrase name="records_not_founded">Records not founded</phrase>
         <phrase name="playlist_loading_problem">Problem on loading the playlist</phrase>
         <phrase name="sure_to_delete_playlist">You will delete the playlist. Are you sure?</phrase>
+        <phrase name="playlist_loaded_to_jukebox">Playlist loaded to jukebox list</phrase>
+        <phrase name="problem_to_copy_to_jukebox">Problem with jukebox list</phrase>
+        <phrase name="vote_accepted">Vote accepted</phrase>
+        <phrase name="vote_not_accepted">Vote note accepted</phrase>
     </page>
 
     <page name="help">

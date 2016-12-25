@@ -117,6 +117,8 @@
         <phrase name="create_playlist">Δημιουργία λίστας</phrase>
         <phrase name="choose_playlist">Επιλογή λίστας</phrase>
         <phrase name="delete_playlist">Διαγραφή λίστας</phrase>
+        <phrase name="send_to_jukebox">Jukebox List</phrase>
+        <phrase name="vote_song">Ψήφος για το τραγούδι</phrase>
     </page>
 
     <page name="search">
@@ -195,6 +197,10 @@
         <phrase name="records_not_founded">Δεν βρέθηκαν εγγραφές</phrase>
         <phrase name="playlist_loading_problem">Πρόβλημα στο άνοιγμα της playlist</phrase>
         <phrase name="sure_to_delete_playlist">Είσαι σίγουρος ότι θέλεις να σβήσεις την λίστα;</phrase>
+        <phrase name="playlist_loaded_to_jukebox">Η λίστα φορτώθηκε στην jukebox list</phrase>
+        <phrase name="problem_to_copy_to_jukebox">Πρόβλημα στην αντιγραφή της λίστας στην jukebox list</phrase>
+        <phrase name="vote_accepted">Η ψήφος σου έγινε δεχτή</phrase>
+        <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεχτή</phrase>
     </page>
 
     <page name="help">
