@@ -882,15 +882,8 @@ function loadNextVideo(id) {
             thePath=thePath.replace(WebFolderPath,'');
             file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
-            myVideo.src = file_path;
-            // myVideo.controls=false;
-            console.log(myVideo.src);
-
-            myVideo.load();
-
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
-
 
                 var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
                 document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
@@ -910,12 +903,27 @@ function loadNextVideo(id) {
                     else myVideo.poster = albumCoverPath;
                 }
 
+
+                // Τρικ για να εμφανίζει το poster σε fullscreen όταν πηγαίνει από βίντεο σε mp3
+                // TODO να βρω καλύτερο τρόπο
+                toggleFullscreen();
+                toggleFullscreen();
+                toggleFullscreen();
+                toggleFullscreen();
+
+
             }
             else {
                 document.querySelector('#overlay_poster_source').innerHTML='';
                 myVideo.poster=null;
             }
 
+
+            myVideo.src = file_path;
+            // myVideo.controls=false;
+            console.log(myVideo.src);
+
+            myVideo.load();
 
             currentPlaylistID=data.tags.playlist_id;
 
@@ -974,13 +982,13 @@ function loadAndplayNextVideo(operation) {
     // myVideo.pause();
     // myVideo.poster='';
 
+
     if(operation=='next') {
         currentPlaylistID++;
         getNextVideoID(0, 'next');
     }
 
     if(operation=='prev') {
-        // currentPlaylistID++;
         getNextVideoID(0, 'prev');
     }
 
