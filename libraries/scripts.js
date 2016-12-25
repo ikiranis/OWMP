@@ -874,8 +874,8 @@ function loadNextVideo(id) {
 
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
 
-        filename=data.file.filename; // σκέτο το filename
-
+        var filename=data.file.filename; // σκέτο το filename
+        
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
 
             var thePath=data.file.path;
@@ -886,11 +886,14 @@ function loadNextVideo(id) {
             myVideo.controls=false;
             console.log(myVideo.src);
 
+            myVideo.load();
+
+
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
 
-                    var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
-                    document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
+                var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
+                document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
 
                 if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
                     if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
@@ -947,6 +950,7 @@ function loadNextVideo(id) {
             makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist
 
 
+
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
 
             $('#FormTags').find('input').not('[type="button"]').val('');
@@ -955,7 +959,7 @@ function loadNextVideo(id) {
 
         $("#TotalNumberInPlaylist").text(data.tags.playlist_count);  // εμφανίζει το σύνολο των κομματιών στην playlist
 
-        myVideo.load();
+
 
     }, "json");
 
@@ -964,8 +968,8 @@ function loadNextVideo(id) {
 // callback that loads and plays the next video
 function loadAndplayNextVideo(operation) {
 
-    // myVideo.pause();
-    // myVideo.poster='';
+    myVideo.pause();
+    myVideo.poster='';
 
     if(operation=='next') {
         currentPlaylistID++;
