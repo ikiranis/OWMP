@@ -199,8 +199,8 @@
         <phrase name="sure_to_delete_playlist">Είσαι σίγουρος ότι θέλεις να σβήσεις την λίστα;</phrase>
         <phrase name="playlist_loaded_to_jukebox">Η λίστα φορτώθηκε στην jukebox list</phrase>
         <phrase name="problem_to_copy_to_jukebox">Πρόβλημα στην αντιγραφή της λίστας στην jukebox list</phrase>
-        <phrase name="vote_accepted">Η ψήφος σου έγινε δεχτή</phrase>
-        <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεχτή</phrase>
+        <phrase name="vote_accepted">Η ψήφος σου έγινε δεκτή</phrase>
+        <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεκτή</phrase>
     </page>
 
     <page name="help">

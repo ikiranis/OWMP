@@ -111,7 +111,7 @@ $.fn.addClassDelay = function(className,delay) {
 
 function DisplayMessage (element, error) {
     $(element).text(error);
-    $(element).stop().show('slow').delay(5000).hide('fast');
+    $(element).stop().show('fast').delay(5000).hide('fast');
 }
 
 
@@ -925,7 +925,14 @@ function loadNextVideo(id) {
 
             myVideo.load();
 
+            if (myVideo.paused)
+                myVideo.play();
+            else myVideo.pause();
+
             currentPlaylistID=data.tags.playlist_id;
+
+            // Αλλαγή του τίτλου του site με το τρέχον τραγούδι
+            document.title=data.tags.title+' : '+data.tags.artist;
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
             timeInMinutesAndSeconds=seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];

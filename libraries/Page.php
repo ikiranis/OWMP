@@ -14,6 +14,7 @@ class Page
     private $tittle;
     private $meta = array();
     private $script = array();
+    private $css = array();
 
     private static $nav_list = array();
 
@@ -34,22 +35,23 @@ class Page
 
             <meta name="mobile-web-app-capable" content="yes">
             
-            <meta http-equiv="cache-control" content="max-age=0" />
-            <meta http-equiv="cache-control" content="no-cache" />
-            <meta http-equiv="expires" content="0" />
-            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-            <meta http-equiv="pragma" content="no-cache" />
-
-
-
-
-
-            <link rel="stylesheet" href="styles/main.css">
-            
+<!--            <meta http-equiv="cache-control" content="max-age=0" />-->
+<!--            <meta http-equiv="cache-control" content="no-cache" />-->
+<!--            <meta http-equiv="expires" content="0" />-->
+<!--            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />-->
+<!--            <meta http-equiv="pragma" content="no-cache" />-->
 
             <title><?php echo $this->tittle; ?></title>
+            
+            <?php
+            //  Καθορισμός των css αρχείων.
+            if (isset($this->css))
+                foreach ($this->css as $a) {
+                    echo '<link rel="stylesheet" href="'.$a.'">';
+                }
 
-
+            ?>
+        
             <?php
             //  Καθορισμός των meta. Ζητάει το string μετά το "<meta "
             if (isset($this->meta))
@@ -63,15 +65,10 @@ class Page
             //  Καθορισμός των scripts αρχείων. Ζητάει το string μετά το "<script "
             if (isset($this->script))
                 foreach ($this->script as $a) {
-                    echo '<script ' . $a . '></script>';
+                    echo '<script src=' . $a . '></script>';
                 }
 
             ?>
-
-
-
-
-            
 
         </head>
 
@@ -82,7 +79,7 @@ class Page
         
     }
 
-// Δέχεται array από strings ή σκέτο string
+    // Δέχεται array από strings ή σκέτο string
     function setMeta($meta)
     {
 
@@ -93,7 +90,7 @@ class Page
         } else $this->meta[] = $meta;
     }
 
-// Δέχεται array από strings ή σκέτο string
+    // Δέχεται array από strings ή σκέτο string
     function setScript($script)
     {
         if (is_array($script)) {
@@ -101,6 +98,16 @@ class Page
                 $this->script[] = $item;
             }
         } else $this->script[] = $script;
+    }
+        
+    // Δέχεται array από strings ή σκέτο string
+    function setCSS($css)
+    {
+        if (is_array($css)) {
+            foreach ($css as $item) {
+                $this->css[] = $item;
+            }
+        } else $this->css[] = $css;
     }
 
     function showFooter()

@@ -49,6 +49,11 @@ if(isset($_GET['loadPlaylist']))
     $loadPlaylist=true;
 else $loadPlaylist=null;
 
+if(isset($_GET['votePlaylist']))
+    $votePlaylist=true;
+else $votePlaylist=null;
+
+
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
 
@@ -57,19 +62,23 @@ if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
 
-if($duplicates==false && $playedQueue==false && $loadPlaylist==false) {
-    OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, null);
+if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
+    OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
 
 }
 else {
     if ($loadPlaylist == true) {
-        OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, $loadPlaylist, null);
+        OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, $loadPlaylist, false);
     }
     if($duplicates==true) {
-        OWMP::getPlaylist($jsonArray, $offset, $step, $duplicates, $mediaKind, $tabID, null, null);
+        OWMP::getPlaylist($jsonArray, $offset, $step, $duplicates, $mediaKind, $tabID, null, false);
+    }
+    if($votePlaylist==true) {
+        OWMP::getPlaylist(null, $offset, $step, null, null, null, true, true);
+
     }
     if($playedQueue==true) {
-        OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, $playedQueue);
+        OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
     }
 }
 

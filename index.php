@@ -66,14 +66,18 @@ define('TAB_ID', date('YmdHis'));
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array ('src=libraries/jquery.min.js',   // jquery
-    'src=libraries/scripts.js',    // my scripts
-    'src=libraries/details.js',    // polyfill για το summary/details
-    'src=libraries/jquery.validate.min.js',      // extension του jquery για form validation
-    'src=libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
-    'src=libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
+$scripts=array ('libraries/jquery.min.js',   // jquery
+                'libraries/scripts.js',    // my scripts
+    // TODO να φύγει το polyfill κάποια στιγμή που θα το υποστηρίζουν κανονικά όλοι οι browsers
+                'libraries/details.js',    // polyfill για το summary/details
+                'libraries/jquery.validate.min.js',      // extension του jquery για form validation
+                'libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
+                'libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
+
+$css='styles/main.css';
 
 $MainPage->setScript($scripts);
+$MainPage->setCSS($css);
 
 $MainPage->showHeader();
 

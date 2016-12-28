@@ -87,8 +87,6 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
             $getFileID=$fileIDsWithMaxVotes[0];
         }
 
-        trigger_error($getFileID);
-
         // Επιστρέφει τις τιμές για να παίξουν στον player
         $playlistID = $currentPlaylistID;
         $fileID = $getFileID;

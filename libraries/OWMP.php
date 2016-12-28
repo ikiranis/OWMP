@@ -142,7 +142,7 @@ class OWMP
 
         ?>
 
-        <video id="myVideo" width="100%" autoplay preload="auto" onerror="failed(event)"></video>
+        <video id="myVideo" width="100%" autoplay onerror="failed(event)"></video>
         
         
         <div id="overlay_volume">
@@ -538,7 +538,7 @@ class OWMP
                 if($_SESSION['PlaylistCounter']==0) {
                     $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                     $_SESSION['arrayParams']=null;
-                    self::getPlaylist(null,$offset,$step,null,null,null);
+                    self::getPlaylist(null,$offset,$step,null,null,null,null,false);
                 }
                 else {
                     ?>
@@ -560,8 +560,53 @@ class OWMP
 
     }
 
+    static function getBrowseButtons($operation, $offset, $step) {
+
+        if($operation=='search') {
+            ?>
+
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
+                       onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
+                       onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
+            </div>
+
+            <?php
+        }
+
+        if($operation=='duplicates') {
+            ?>
+
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
+                       onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
+                       onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
+            </div>
+
+            <?php
+        }
+
+        if($operation=='votePlaylist') {
+            ?>
+
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
+                       onclick="getVotePlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
+                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
+                       onclick="getVotePlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
+            </div>
+
+            <?php
+        }
+
+
+    }
+
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null, $loadPlaylist=null, $playedQueue=null) {
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null,
+                                $loadPlaylist=null, $votePlaylist) {
         $conn = new RoceanDB();
 
         $condition='';
@@ -659,17 +704,27 @@ class OWMP
         $playlistToPlay=null;
         $playlist=null;
 
+        if(!$votePlaylist) {
+            if (!$tabID)  // Αν δεν έρχεται από function
+                $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
+        }
+
+
+
+        // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
+        if($votePlaylist) {
+            $tempUserPlaylist = JUKEBOX_LIST_NAME;
+        } else {
+            $tempUserPlaylist = CUR_PLAYLIST_STRING . $tabID;
+        }
+
+        $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
+
+
         if($duplicates==null) {   // κανονική λίστα
             if ($_SESSION['PlaylistCounter'] == 0) {
 //                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
 
-                if(!$tabID)  // Αν δεν έρχεται από function
-                    $tabID=TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
-
-                // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-                $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
-
-                $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 
                 // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
                 // από την manual playlist
@@ -702,7 +757,7 @@ class OWMP
                 $mainTables = array('music_tags', 'files');
 
                 $playlist = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-                    null, null, null, $tempUserPlaylist, $joinFieldsArray);
+                    null, null, 'date_added DESC LIMIT ' . $offset . ',' . $step, $tempUserPlaylist, $joinFieldsArray);
             }
 
 
@@ -746,6 +801,8 @@ class OWMP
         $counter=0;
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
+
+        // Αρχίζει η εμφάνιση της playlist
         if($playlist) {
             ?>
 
@@ -754,114 +811,112 @@ class OWMP
                 <?php
                 // TODO να τα εμφανίζω με function να μην επαναλαμβάνονται
                 // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
-                
-                if ($duplicates == null) {
-                    ?>
-                    <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset;?>,<?php echo $step; ?>);">
-                    </div>
-                    <?php
+
+                if (!$duplicates && !$votePlaylist) {
+                    self::getBrowseButtons('search', $offset, $step);
                 } else {
-                    ?>
-                    <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
-                    </div>
-                    <?php
+                    if($duplicates) {
+                        self::getBrowseButtons('duplicates', $offset, $step);
+                    }
+
+                    if($votePlaylist) {
+                        self::getBrowseButtons('votePlaylist', $offset, $step);
+                    }
                 }
+
+
+
 
                 ?>
 
                 <div id="playlistTable">
+                <?php
+                    if(!$votePlaylist) {  // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
+                ?>
+                        <div class="tag kind"></div>
+
+                        <div class="tag delete_file">
+                            <input type="checkbox" id="checkAll" name="checkAll"
+                                   onchange="changeCheckAll('checkAll', 'check_item[]');">
+                        </div>
 
 
-                    <div class="tag kind"></div>
-
-                    <div class="tag delete_file">
-                        <input type="checkbox" id="checkAll" name="checkAll"
-                               onchange="changeCheckAll('checkAll', 'check_item[]');">
-                    </div>
-
-
-                    <div class="tag song_name playlistTittle" title="<?php echo __('tag_title'); ?>">
-                        <?php echo __('tag_title'); ?>
-                    </div>
-                    <div class="tag artist playlistTittle" title="<?php echo __('tag_artist'); ?>">
-                        <?php echo __('tag_artist'); ?>
-                    </div>
-                    <div class="tag album playlistTittle" title="<?php echo __('tag_album'); ?>">
-                        <?php echo __('tag_album'); ?>
-                    </div>
-                    <div class="tag genre playlistTittle" title="<?php echo __('tag_genre'); ?>">
-                        <?php echo __('tag_genre'); ?>
-                    </div>
-                    <div class="tag song_year playlistTittle" title="<?php echo __('tag_year'); ?>">
-                        <?php echo __('tag_year'); ?>
-                    </div>
-                    <div class="tag play_count playlistTittle" title="<?php echo __('tag_play_count'); ?>">
-                        <?php echo __('tag_play_count'); ?>
-                    </div>
-                    <div class="tag rating playlistTittle" title="<?php echo __('tag_rating'); ?>">
-                        <?php echo __('tag_rating'); ?>
-                    </div>
-                    <div class="tag date_added playlistTittle" title="<?php echo __('tag_date_added'); ?>">
-                        <?php echo __('tag_date_added'); ?>
-                    </div>
+                        <div class="tag song_name playlistTittle" title="<?php echo __('tag_title'); ?>">
+                            <?php echo __('tag_title'); ?>
+                        </div>
+                        <div class="tag artist playlistTittle" title="<?php echo __('tag_artist'); ?>">
+                            <?php echo __('tag_artist'); ?>
+                        </div>
+                        <div class="tag album playlistTittle" title="<?php echo __('tag_album'); ?>">
+                            <?php echo __('tag_album'); ?>
+                        </div>
+                        <div class="tag genre playlistTittle" title="<?php echo __('tag_genre'); ?>">
+                            <?php echo __('tag_genre'); ?>
+                        </div>
+                        <div class="tag song_year playlistTittle" title="<?php echo __('tag_year'); ?>">
+                            <?php echo __('tag_year'); ?>
+                        </div>
+                        <div class="tag play_count playlistTittle" title="<?php echo __('tag_play_count'); ?>">
+                            <?php echo __('tag_play_count'); ?>
+                        </div>
+                        <div class="tag rating playlistTittle" title="<?php echo __('tag_rating'); ?>">
+                            <?php echo __('tag_rating'); ?>
+                        </div>
+                        <div class="tag date_added playlistTittle" title="<?php echo __('tag_date_added'); ?>">
+                            <?php echo __('tag_date_added'); ?>
+                        </div>
 
 
-                    <?php
+                        <?php
+                    }
 
 
                     foreach ($playlist as $track) {
-                        ?>
-                        <div id="fileID<?php echo $track['id']; ?>" class="track"
-                             onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
-                             onmouseout="hideCoverImage();">
+
+                        if(!$votePlaylist) { // Αν δεν είναι η σελίδα vote
+                            ?>
+                            <div id="fileID<?php echo $track['id']; ?>" class="track"
+                                 onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
+                                 onmouseout="hideCoverImage();">
 
 
-                            <div
-                                class="tag kind <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
-                                title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
+                                <div
+                                    class="tag kind <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
+                                    title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
 
 
-                            <div class="tag delete_file">
+                                <div class="tag delete_file">
 
-                                <?php
-
-                                $coverImagePath = self::getAlbumImagePath($track['album_artwork_id']);
-
-                                if ($track['kind'] == 'Music' && $coverImagePath) {
-
-                                    ?>
-                                    <img class="coverImage" src="<?php echo ALBUM_COVERS_DIR . $coverImagePath; ?>">
                                     <?php
-                                }
-                                ?>
 
-                                <input type="checkbox" id="check_item[]" name="check_item[]"
-                                       value="<?php echo $track['id']; ?>">
+                                    $coverImagePath = self::getAlbumImagePath($track['album_artwork_id']);
 
-                                <input type="button" class="play_button playlist_button_img"
-                                       title="<?php echo __('play_file'); ?>"
-                                       onclick="loadNextVideo(<?php echo $track['id']; ?>);">
+                                    if ($track['kind'] == 'Music' && $coverImagePath) {
 
-                                <input type="button" class="vote_button playlist_button_img"
-                                       title="<?php echo __('vote_song'); ?>"
-                                       onclick="voteSong(<?php echo $track['id']; ?>);">
+                                        ?>
+                                        <img class="coverImage" src="<?php echo ALBUM_COVERS_DIR . $coverImagePath; ?>">
+                                        <?php
+                                    }
+                                    ?>
 
-                                <?php
-                                    if(!$loadPlaylist) { ?>
+                                    <input type="checkbox" id="check_item[]" name="check_item[]"
+                                           value="<?php echo $track['id']; ?>">
+
+                                    <input type="button" class="play_button playlist_button_img"
+                                           title="<?php echo __('play_file'); ?>"
+                                           onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play()">
+
+                                    <input type="button" class="vote_button playlist_button_img"
+                                           title="<?php echo __('vote_song'); ?>"
+                                           onclick="voteSong(<?php echo $track['id']; ?>);">
+
+                                    <?php
+                                    if (!$loadPlaylist) { ?>
                                         <input type="button" class="playlist_add_button playlist_button_img"
                                                title="<?php echo __('add_to_playlist'); ?>"
                                                onclick="addToPlaylist(<?php echo $track['id']; ?>);">
                                         <?php
-                                    }
-                                    else {?>
+                                    } else { ?>
                                         <input type="button" class="playlist_remove_button playlist_button_img"
                                                title="<?php echo __('remove_from_playlist'); ?>"
                                                onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
@@ -869,46 +924,68 @@ class OWMP
                                     }
                                     ?>
 
-                                <?php
-                                if ($UserGroupID == 1) {
-                                    ?>
-                                    <input type="button" class="delete_button playlist_button_img"
-                                           title="<?php echo __('delete_file'); ?>"
-                                           onclick="deleteFile(<?php echo $track['id']; ?>);">
                                     <?php
-                                }
-                                ?>
-                            </div>
+                                    if ($UserGroupID == 1) {
+                                        ?>
+                                        <input type="button" class="delete_button playlist_button_img"
+                                               title="<?php echo __('delete_file'); ?>"
+                                               onclick="deleteFile(<?php echo $track['id']; ?>);">
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
 
 
-                            <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
-                                <?php echo $track['song_name']; ?>
+                                <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
+                                    <?php echo $track['song_name']; ?>
+                                </div>
+                                <div class="tag artist" title="<?php echo $track['artist']; ?>">
+                                    <?php echo $track['artist']; ?>
+                                </div>
+                                <div class="tag album" title="<?php echo $track['album']; ?>">
+                                    <?php echo $track['album']; ?>
+                                </div>
+                                <div class="tag genre" title="<?php echo $track['genre']; ?>">
+                                    <?php echo $track['genre']; ?>
+                                </div>
+                                <div class="tag song_year"
+                                     title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
+                                    <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
+                                </div>
+                                <div class="tag play_count" title="<?php echo $track['play_count']; ?>">
+                                    <?php echo $track['play_count']; ?>
+                                </div>
+                                <div class="tag rating" title="<?php echo(($track['rating'] / 20)); ?>">
+                                    <?php echo(($track['rating'] / 20)); ?>
+                                </div>
+                                <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
+                                    <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
+                                </div>
                             </div>
-                            <div class="tag artist" title="<?php echo $track['artist']; ?>">
-                                <?php echo $track['artist']; ?>
-                            </div>
-                            <div class="tag album" title="<?php echo $track['album']; ?>">
-                                <?php echo $track['album']; ?>
-                            </div>
-                            <div class="tag genre" title="<?php echo $track['genre']; ?>">
-                                <?php echo $track['genre']; ?>
-                            </div>
-                            <div class="tag song_year"
-                                 title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
-                                <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
-                            </div>
-                            <div class="tag play_count" title="<?php echo $track['play_count']; ?>">
-                                <?php echo $track['play_count']; ?>
-                            </div>
-                            <div class="tag rating" title="<?php echo(($track['rating'] / 20)); ?>">
-                                <?php echo(($track['rating'] / 20)); ?>
-                            </div>
-                            <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
-                                <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
-                            </div>
-                        </div>
 
-                        <?php
+                            <?php
+                        } else { // Αν είναι η σελίδα vote
+                            ?>
+
+                                <div id="fileID<?php echo $track['id']; ?>" class="track">
+
+                                    <div class="tag delete_file">
+                                        <input type="button" class="vote_button playlist_button_img"
+                                           title="<?php echo __('vote_song'); ?>"
+                                           onclick="voteSong(<?php echo $track['id']; ?>);">
+                                    </div>
+
+                                    <div class="tag song_name">
+                                        <span class="the_song_name"><?php echo $track['song_name']; ?></span>
+                                        <span class="the_song_artist"><?php echo $track['artist']; ?></span>
+                                    </div>
+
+                                </div>
+
+                            <?php
+
+                        }
+
                         $counter++;
                     }
 
@@ -921,27 +998,24 @@ class OWMP
                 </div>
 
                 <?php
-                if ($duplicates == null) {
-                    ?>
-                    <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
-                    </div>
-                    <?php
+
+
+                if (!$duplicates && !$votePlaylist) {
+                    self::getBrowseButtons('search', $offset, $step);
                 } else {
-                    ?>
-                    <div id="browseButtons">
-                        <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                               onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
-                        <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                               onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
-                    </div>
-                    <?php
+                    if($duplicates) {
+                        self::getBrowseButtons('duplicates', $offset, $step);
+                    }
+
+                    if($votePlaylist) {
+                        self::getBrowseButtons('votePlaylist', $offset, $step);
+                    }
                 }
 
+
+
                 ?>
+
 
                 <div id="error_container">
                     <div id="alert_error"></div>
@@ -955,7 +1029,7 @@ class OWMP
 
 
 
-            if ($_SESSION['PlaylistCounter'] == 0) {
+            if ($_SESSION['PlaylistCounter'] == 0 && !$votePlaylist) {
                 ?>
 
                 <script type="text/javascript">
