@@ -9,10 +9,21 @@
  *
  */
 
-//set_time_limit(0);
-//ini_set('memory_limit','1024M');
 
 require_once ('libraries/common.inc.php');
+
+$lang = new Language();
+
+$languages_text=$lang->print_languages('lang_id',' ',true,false);
+
+// έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
+if (isset($_GET['ChangeLang'])) {
+    $targetPage='Location:vote.php';
+
+    $lang->change_lang($_GET['ChangeLang']);
+
+    header($targetPage);
+}
 
 session_start();
 
@@ -31,6 +42,8 @@ session_start();
 
 $MainPage = new Page();
 
+
+
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
@@ -44,6 +57,10 @@ $MainPage->setCSS($css);
 $MainPage->showHeader();
 
 ?>
+
+<div id="languages">
+    <?php echo $languages_text; ?>
+</div>
 
 <section>
     <article>
@@ -77,4 +94,4 @@ $MainPage->showHeader();
 
 <?php
 
-$MainPage->showFooter();
+$MainPage->showFooter(true, false);

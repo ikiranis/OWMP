@@ -382,8 +382,14 @@ class OWMP
 
 
             <div id="someTools">
-                <input type="button" class="myButton" name="sendToJukebox" id="sendToJukebox"
-                       value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();" >
+                <?php
+                if ($UserGroup==1) {
+                    ?>
+                    <input type="button" class="myButton" name="sendToJukebox" id="sendToJukebox"
+                           value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
+                    <?php
+                }
+                ?>
             </div>
 
             <?php
@@ -509,9 +515,8 @@ class OWMP
 
             <?php
 
-            // Εμφάνιση των edit buttons
-            $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
-
+            $UserGroupID = $conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+           
             if($UserGroupID==1) {
                 ?>
                 <div id="editButtons">
@@ -799,7 +804,10 @@ class OWMP
         
 
         $counter=0;
-        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        
+        if(!$votePlaylist) {
+            $UserGroupID = $conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        }
 
 
         // Αρχίζει η εμφάνιση της playlist
@@ -809,7 +817,6 @@ class OWMP
             <div id="playlist_content">
 
                 <?php
-                // TODO να τα εμφανίζω με function να μην επαναλαμβάνονται
                 // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
 
                 if (!$duplicates && !$votePlaylist) {
@@ -831,7 +838,7 @@ class OWMP
 
                 <div id="playlistTable">
                 <?php
-                    if(!$votePlaylist) {  // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
+                    if(!$votePlaylist && !isset($_GET['mobile'])) {  // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
                 ?>
                         <div class="tag kind"></div>
 
@@ -873,7 +880,7 @@ class OWMP
 
                     foreach ($playlist as $track) {
 
-                        if(!$votePlaylist) { // Αν δεν είναι η σελίδα vote
+                        if(!$votePlaylist && !isset($_GET['mobile'])) { // Αν δεν είναι η σελίδα vote
                             ?>
                             <div id="fileID<?php echo $track['id']; ?>" class="track"
                                  onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
@@ -2061,17 +2068,25 @@ class OWMP
     // Προσθέτει μία ψήφο στο table votes
     static function voteSong($fileID) {
         
-        // TODO να μην δέχεται πάνω από μία ψήφο από κάθε χρήστη
         $userIP=$_SERVER['REMOTE_ADDR'];  // H ip του χρήστη
+
         $conn = new RoceanDB();
 
-        $sql = 'INSERT INTO votes (file_id,voter_ip) VALUES(?,?)';
+        if(!RoceanDB::getTableFieldValue('votes', 'voter_ip=?', $userIP, 'id')) {
+            $sql = 'INSERT INTO votes (file_id,voter_ip) VALUES(?,?)';
 
-        if ($conn->ExecuteSQL($sql, array($fileID,$userIP))) {
-            return true;
+            trigger_error('User vote '.$userIP);
+
+            if ($conn->ExecuteSQL($sql, array($fileID,$userIP))) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+
+
     }
 
     

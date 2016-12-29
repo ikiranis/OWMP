@@ -9,6 +9,14 @@
 
 require_once ('libraries/common.inc.php');
 
+// έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
+if (isset($_GET['ChangeLang'])) {
+    $targetPage='Location:index.php';
+
+    $lang->change_lang($_GET['ChangeLang']);
+
+    header($targetPage);
+}
 
 session_start();
 
@@ -20,14 +28,7 @@ RoceanDB::checkMySqlTables();
 $MainPage = new Page();
 
 
-// έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
-if (isset($_GET['ChangeLang'])) {
-    $targetPage='Location:index.php';
 
-    $lang->change_lang($_GET['ChangeLang']);
-
-    header($targetPage);
-}
 
 if (isset($_GET['logout'])) {
     RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
@@ -74,7 +75,13 @@ $scripts=array ('libraries/jquery.min.js',   // jquery
                 'libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
                 'libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
-$css='styles/main.css';
+
+
+if (!isset($_GET['mobile'])) {
+    $css = array('styles/basic.css', 'styles/main.css');
+} else {
+    $css = array('styles/mobile.css', 'styles/main.css');
+}
 
 $MainPage->setScript($scripts);
 $MainPage->setCSS($css);
@@ -127,7 +134,7 @@ if($logged_in) {
 
     DisplayMainPage();
 
-    $MainPage->showFooter();
+    $MainPage->showFooter(true,true);
 
 }
 

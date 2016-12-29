@@ -59,9 +59,19 @@ $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 $theDate = date('Y-m-d H:i:s');
 RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
 
+$UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+
+// Αν δεν είναι admin γίνεται true το $cantPlayVotes και δεν μπορεί να παίξει votes
+if($UserGroup!=='1') {
+    $cantPlayVotes = true;
+} else {
+    $cantPlayVotes = false;
+}
+
 if($operation=='next') { // όταν θέλουμε να παίξει το επόμενο
 
-    if(!RoceanDB::countTable('votes')) {  // Αν δεν υπάρχουν ψήφοι στο votes
+    if(!RoceanDB::countTable('votes') || $cantPlayVotes) {  // Αν δεν υπάρχουν ψήφοι στο votes
         if ($playMode == 'shuffle') {
             $tableCount = RoceanDB::countTable($tempUserPlaylist);
             $randomRow = rand(0, $tableCount);
@@ -79,13 +89,17 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
 
         // Παίρνει τα fileID που έχουν τις περισσότερες ψήφους
         $fileIDsWithMaxVotes=getArrayMax($votesArray);
-
+        
+        $VotesCounter=count($fileIDsWithMaxVotes);
+        
         // Αν υπάρχει ισοψηφία τότε παίρνει κάποιο random
-        if(count($fileIDsWithMaxVotes)>1) {
-            $getFileID=$fileIDsWithMaxVotes[rand(0,count($fileIDsWithMaxVotes))];
+        if($VotesCounter>1) {
+            $RandomVote=rand(0,$VotesCounter-1);
+            $getFileID=$fileIDsWithMaxVotes[$RandomVote];
         } else {  // Αλλιώς το μοναδικό που έχει τις περισσότερες ψήφους
             $getFileID=$fileIDsWithMaxVotes[0];
         }
+
 
         // Επιστρέφει τις τιμές για να παίξουν στον player
         $playlistID = $currentPlaylistID;

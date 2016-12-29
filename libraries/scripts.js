@@ -111,7 +111,7 @@ $.fn.addClassDelay = function(className,delay) {
 
 function DisplayMessage (element, error) {
     $(element).text(error);
-    $(element).stop().show('fast').delay(5000).hide('fast');
+    $(element).stop().show(0).delay(5000).hide(0);
 }
 
 

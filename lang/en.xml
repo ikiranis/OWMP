@@ -200,7 +200,7 @@
         <phrase name="playlist_loaded_to_jukebox">Playlist loaded to jukebox list</phrase>
         <phrase name="problem_to_copy_to_jukebox">Problem with jukebox list</phrase>
         <phrase name="vote_accepted">Vote accepted</phrase>
-        <phrase name="vote_not_accepted">Vote note accepted</phrase>
+        <phrase name="vote_not_accepted">Vote not accepted. You can vote only once. Wait for the next song</phrase>
     </page>
 
     <page name="help">

@@ -33,7 +33,10 @@ class Page
         <head>
             <meta charset="utf-8">
 
+<!--            Για να μπορεί να πηγαίνει σε fullscreen σε mobile συσκευές-->
             <meta name="mobile-web-app-capable" content="yes">
+<!--            Για να κάνουν scale τα pixels στις mobile συσκευές-->
+            <meta name=viewport content="width=device-width, initial-scale=1">
             
 <!--            <meta http-equiv="cache-control" content="max-age=0" />-->
 <!--            <meta http-equiv="cache-control" content="no-cache" />-->
@@ -41,7 +44,7 @@ class Page
 <!--            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />-->
 <!--            <meta http-equiv="pragma" content="no-cache" />-->
 
-            <title><?php echo $this->tittle; ?></title>
+
             
             <?php
             //  Καθορισμός των css αρχείων.
@@ -69,6 +72,8 @@ class Page
                 }
 
             ?>
+
+            <title><?php echo $this->tittle; ?></title>
 
         </head>
 
@@ -110,17 +115,29 @@ class Page
         } else $this->css[] = $css;
     }
 
-    function showFooter()
+    function showFooter($showAppName,$showAppVersion)
     {
         ?>
 
         <footer>
-            <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
-            <span id="AppVersionContainer">
-                <span id="AppVersion"><?php echo __('app_version').': '.APP_VERSION; ?></span>
-                <span id="checkCurrentVersion"></span>
-            </span>
+            <?php
+                if($showAppName) {
+            ?>
+                    <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
+            <?php
+                }
+            
+                if($showAppVersion) {
+                    ?>
+                    <span id="AppVersionContainer">
+                        <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
+                        <span id="checkCurrentVersion"></span>
+                    </span>
+                    <?php
+                }
+            ?>
         </footer>
+
 
         </BODY>
         </HTML>
@@ -324,21 +341,24 @@ class Page
                             else $displayOK = false;
                         }  else $displayOK=true;
                         
-                        
-                        if($targetPage=='page') {
-                ?>
-                        <li><a <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
-                                href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
-                
-                <?php
-                        }
+                        if($displayOK) {
+                            if ($targetPage == 'page') {
+                                ?>
+                                <li><a <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
+                                        href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
 
-                        if($targetPage=='window') {
-                            ?>
-                            <li><a id="navID<?php echo $counter; ?>" <?php if($counter==$NavActiveItem) echo 'class=active'; ?>
-                                    onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a></li>
+                                <?php
+                            }
 
-                            <?php
+                            if ($targetPage == 'window') {
+                                ?>
+                                <li>
+                                    <a id="navID<?php echo $counter; ?>" <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
+                                       onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a>
+                                </li>
+
+                                <?php
+                            }
                         }
 
                         $counter++;

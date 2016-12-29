@@ -52,7 +52,7 @@ class Language
 
     public function lang_id() {
         //determine page language
-        $lang_id= isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'gr';
+        $lang_id= isset($_COOKIE['lang']) ? $_COOKIE['lang'] : DEFAULT_LANG;
 
         //set the language cookie and update cookie expiration date
         if(!isset($_COOKIE['lang'])) {

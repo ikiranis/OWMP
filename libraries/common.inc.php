@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.222');
+define ('APP_VERSION', '0.1.223');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -44,6 +44,8 @@ $languages = array (    // Οι γλώσσες που υποστηρίζοντα
     array ('language' => 'English',
         'lang_id' => 'en')
 );
+
+define('DEFAULT_LANG', 'en');
 
 $UserGroups = array (     // Τα user groups που υπάρχουν
     array ('id' => '1',

@@ -200,7 +200,7 @@
         <phrase name="playlist_loaded_to_jukebox">Η λίστα φορτώθηκε στην jukebox list</phrase>
         <phrase name="problem_to_copy_to_jukebox">Πρόβλημα στην αντιγραφή της λίστας στην jukebox list</phrase>
         <phrase name="vote_accepted">Η ψήφος σου έγινε δεκτή</phrase>
-        <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεκτή</phrase>
+        <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεκτή. Μπορείς να ψηφίσεις μόνο μία φορά. Ξανα προσπάθησε στο επόμενο τραγούδι</phrase>
     </page>
 
     <page name="help">
