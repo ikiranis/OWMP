@@ -19,7 +19,7 @@ article {
     padding-bottom: 1em;
     height: 99%;
     display: block;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 article h2 {

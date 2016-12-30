@@ -202,6 +202,7 @@
         <phrase name="problem_to_copy_to_jukebox">Problem with jukebox list</phrase>
         <phrase name="vote_accepted">Vote accepted</phrase>
         <phrase name="vote_not_accepted">Vote not accepted. You can vote only once. Wait for the next song</phrase>
+        <phrase name="service_disabled">Service is disabled. Come back later</phrase>
     </page>
 
     <page name="help">

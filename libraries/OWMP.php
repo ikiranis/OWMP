@@ -1805,13 +1805,14 @@ class OWMP
     static function getYoutubeTitle($url){
         $youtubeID=self::getYoutubeID($url);
 
-        trigger_error($youtubeID);
+//        trigger_error($youtubeID);
             
         $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key='.YOUTUBE_API.'&part=snippet';
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
         foreach ($decoded['items'] as $items) {
-            $title= $items['snippet']['title'];
+            $uploadDate = substr($items['snippet']['publishedAt'],0,10);
+            $title= $items['snippet']['title'].' ('.$uploadDate.')';
             return $title;
         }
     }
@@ -1952,6 +1953,32 @@ class OWMP
 
         if(!$conn->getOption('date_format'))
             $conn->createOption('date_format', 'Y-m-d', 1, 0);
+
+        if(!$conn->getOption('icecast_server'))
+            $conn->createOption('icecast_server', '0.0.0.0:8000', 1, 0);
+
+        if(!$conn->getOption('icecast_mount'))
+            $conn->createOption('icecast_mount', 'listen', 1, 0);
+
+        if(!$conn->getOption('icecast_user'))
+            $conn->createOption('icecast_user', 'user', 1, 0);
+
+        if(!$conn->getOption('icecast_pass'))
+            $conn->createOption('icecast_pass', 'pass', 1, 1);
+
+        if(!$conn->getOption('icecast_enable'))
+            $conn->createOption('icecast_enable', 'false', 1, 0);
+
+        if(!$conn->getOption('jukebox_enable'))
+            $conn->createOption('jukebox_enable', 'false', 1, 0);
+
+        if(!$conn->getOption('default_language'))
+            $conn->createOption('default_language', 'en', 1, 0);
+
+        if(!$conn->getOption('youtube_api'))
+            $conn->createOption('youtube_api', 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 1, 0);
+
+
 
         
         // Οι αρχικές τιμές στον πίνακα progress
@@ -2133,6 +2160,23 @@ class OWMP
             return false;
         }
         
+    }
+
+
+    // Στέλνει τα στοιχεία του τραγουδιού στον icecast server
+    static function sendToIcecast ($songInfo) {
+
+            $html = 'http://'.ICECAST_USER.':'.ICECAST_PASS.'@'.ICECAST_SERVER.'/admin/metadata?mount=/'.
+                ICECAST_MOUNT.'&mode=updinfo&song='.urlencode($songInfo);
+
+            $response = file_get_contents($html);
+            $decoded = json_decode($response, true);
+
+
+            if($decoded) {
+                return true;
+            } else return false;
+
     }
     
     

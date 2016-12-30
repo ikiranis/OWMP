@@ -12,6 +12,11 @@
 
 require_once ('libraries/common.inc.php');
 
+//  Αν είναι απενεργοποιημένο το jukebox τότε σταματάει την εκτέλεση της σελίδας
+if(!JUKEBOX_ENABLE) {
+    die(__('service_disabled'));
+}
+
 $lang = new Language();
 
 $languages_text=$lang->print_languages('lang_id',' ',true,false);

@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.224');
+define ('APP_VERSION', '0.1.225');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής 
 
 require_once ('config.inc.php');
@@ -22,6 +22,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php')
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/OWMP.php');
 
+$conn = new RoceanDB();
 
 define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
 define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
@@ -45,7 +46,12 @@ $languages = array (    // Οι γλώσσες που υποστηρίζοντα
         'lang_id' => 'en')
 );
 
-define('DEFAULT_LANG', 'en');
+// ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
+OWMP::startBasicOptions();
+
+define('DEFAULT_LANG', $conn->getOption('default_language'));  // Η default γλώσσα της εφαρμογής
+
+$lang = new Language();
 
 $UserGroups = array (     // Τα user groups που υπάρχουν
     array ('id' => '1',
@@ -188,13 +194,8 @@ $mySqlTables = array (
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
-// ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
-OWMP::startBasicOptions();
-
-$conn = new RoceanDB();
-$lang = new Language();
-
 // Τραβάει τιμές από την βάση
+
 $MusicMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
 if($MusicMainDir) {
     define ('ALBUM_COVERS_DIR', $MusicMainDir.'/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
@@ -225,6 +226,7 @@ if ($conn->getOption('syncItunes')=='true')
 else define ('SYNC_ITUNES', false);
 
 
+
 define ('JSON_FILENAME', 'playlist.json');
 define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FILENAME);  // Το αρχείο του itunes library
 define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. 'playlist.json');  // To json file της playlist για import
@@ -253,11 +255,28 @@ else {
         define('DEFAULT_ARTWORK', $coverID);
 }
 
+if ($conn->getOption('jukebox_enable')=='true')
+    define ('JUKEBOX_ENABLE', true); // true για το αν θα εμφανίζεται η σελίδα για ψηφοφορίες
+else define ('JUKEBOX_ENABLE', false);
+
+// Τα settings του icecast server
+if ($conn->getOption('icecast_enable')=='true')
+    define ('ICECAST_ENABLE', true); // true για το αν θα στέλνει τα songs info στον icecast server
+else define ('ICECAST_ENABLE', false);
+
+define ('ICECAST_SERVER', $conn->getOption('icecast_server'));
+define ('ICECAST_MOUNT', $conn->getOption('icecast_mount'));
+define ('ICECAST_USER', $conn->getOption('icecast_user'));
+define ('ICECAST_PASS', $conn->getOption('icecast_pass'));
+
+
 // API keys
 
-define ('YOUTUBE_API', 'AIzaSyB0EhRlptkV7rZXkgi_WsMf-7x8E0EfJ4Q'); // βάζεις το δικό σου αν θες
+define ('YOUTUBE_API', $conn->getOption('youtube_api'));
 define ('GIPHY_API', 'dc6zaTOxFJmzC'); // default
 
+
+// Από εδώ τραβάει την τρέχουσα έκδοση της εφαρμογής
 define ('PARROT_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php');
 
 

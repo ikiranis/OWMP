@@ -150,6 +150,12 @@ if ($playlistID && $fileID) {
     
     // Σετάρει στο currentSong στην βάση, πιο ειναι το τρέχον τραγούδι
     Page::setCurrentSong($fileID);
+
+    // Στέλνει στον icecast server
+    if(ICECAST_ENABLE) {
+        $songInfo = OWMP::getSongInfo($fileID);
+        OWMP::sendToIcecast($songInfo[0]['song_name'] . ' : ' . $songInfo[0]['artist']);
+    }
 }
 else $jsonArray = array('success' => false);
 

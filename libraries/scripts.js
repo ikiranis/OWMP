@@ -986,7 +986,7 @@ function loadNextVideo(id) {
 // callback that loads and plays the next video
 function loadAndplayNextVideo(operation) {
 
-    // myVideo.pause();
+    myVideo.pause(); 
     // myVideo.poster='';
 
 
@@ -1060,8 +1060,8 @@ function makePlaylistItemActive(id) {
     if($("#fileID"+id).length) { // Αν υπάρχει στην λίστα το συγκεκριμένο row το κάνει active
         $("#fileID" + id).addClass('ItemActive');
 
-        if (!checkFullscreen ()) // Αν δεν είναι σε fullscreen, αλλιώς λειτουργεί περιέργως
-            document.querySelector("#fileID"+id).scrollIntoView();  // κάνει scrolling στο συγκεκριμένο row
+        // if (!checkFullscreen ()) // Αν δεν είναι σε fullscreen, αλλιώς λειτουργεί περιέργως
+        //     document.querySelector("#fileID"+id).scrollIntoView();  // κάνει scrolling στο συγκεκριμένο row
     }
 
 }
@@ -1377,9 +1377,9 @@ function downloadTheYouTube() {
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');
-            $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
+            // $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
             runningYoutubeDownlod=false;
-            startTheSync('sync');
+            // startTheSync('sync');
         },6000);
         // return;
     });
