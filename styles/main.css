@@ -17,9 +17,9 @@ pre {
 article {
     position: inherit;
     padding-bottom: 1em;
-    height: 199%;
+    height: 99%;
     display: block;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 article h2 {
