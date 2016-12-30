@@ -100,13 +100,15 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
             $getFileID=$fileIDsWithMaxVotes[0];
         }
 
-
         // Επιστρέφει τις τιμές για να παίξουν στον player
         $playlistID = $currentPlaylistID;
         $fileID = $getFileID;
 
         // Σβήνει όλες τις ψήφους για να αρχίσει η ψηφοφορία από την αρχή
         RoceanDB::deleteTable('votes');
+
+        // Σβήνει την εγγραφή από την jukebox playlist
+        $conn->deleteRowFromTable(JUKEBOX_LIST_NAME, 'file_id', $fileID);
 
 
     }
@@ -140,11 +142,15 @@ if($operation=='prev') {  // όταν θέλουμε να παίξει το πρ
 }
 
 
-if ($playlistID && $fileID)
+if ($playlistID && $fileID) {
     $jsonArray = array('success' => true,
         'playlist_id' => $playlistID,
         'file_id' => $fileID,
         'operation' => $operation);
+    
+    // Σετάρει στο currentSong στην βάση, πιο ειναι το τρέχον τραγούδι
+    Page::setCurrentSong($fileID);
+}
 else $jsonArray = array('success' => false);
 
 

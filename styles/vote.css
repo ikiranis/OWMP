@@ -1,54 +1,47 @@
 html, body {
-    height:99%;
-    width: 99%;
+    height:100%;
+    width: 98%;
+    padding: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height:1.2;
     background-color: #CFD8DC;
-    overflow: auto;
+    overflow: hidden;
 }
 
 
 header, footer {
     font-size: 120%;
-    margin: 5px;
     border-radius: 6px;
+    width: auto;
+    margin: 0.5em;
+    margin-top: 1em;
     padding: 1em 1em;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
-    display:block;
-}
-
-main {
-    font-size: 120%;
-    display:flex;
-    height:  80%;
-    width: 100%;
-    align-items: center;
+    /*display:block;*/
 }
 
 /*Κεντρικό box*/
 section {
     font-size: 120%;
-    margin: 5px;
-    padding: 1em 1em;
+    margin: 0.5em;
+    padding: 0;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     position: relative;
     display: block;
-    width: 100%;
-    height: 75%;
-    float: right;
+    width: auto;
+    height: 73%;
     background-color: #ECEFF1;
-    margin-bottom: 1em;
     color: #455A64;
 }
 
 article {
     position: inherit;
-    padding-bottom: 1em;
     height: 100%;
     width: 100%;
     display: block;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 article h2 {
@@ -91,8 +84,9 @@ article h3 {
 
 
 #languages {
-    margin-top: 1em;
-    width: 100%;
+    margin: 1em;
+    width: auto;
+    height: 3%;
     display:block;
     text-align: center;
 }
@@ -101,8 +95,9 @@ article h3 {
 
 /*To footer της σελίδας*/
 footer {
-    clear: both;
+    /*clear: both;*/
     position: relative;
+    bottom:0;
     background-color: #90A4AE;
     height: 3%;
     font-size: 0.8em;
@@ -161,7 +156,9 @@ footer a:active {
 
 #playlist_container {
     overflow-y: scroll;
+    overflow-x: hidden;
     height:100%;
+    padding-right: 1em;
 }
 
 #playlistTable {
@@ -177,6 +174,7 @@ footer a:active {
 
 .track {
     display: table-row;
+    padding-right: 2em;
     /*cursor: pointer;*/
 }
 
@@ -203,6 +201,7 @@ footer a:active {
     white-space: nowrap;
     overflow: hidden;
     padding-left: 0.5em;
+
 }
 
 
@@ -229,6 +228,7 @@ footer a:active {
 .vote_button {
     background-image: url( '../img/favorite.png' );
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 
@@ -242,6 +242,11 @@ footer a:active {
     position: relative;
     display: inline-block;
     background-position: center center;
+}
+
+.blackRow{
+    color:white;
+    font-weight: bold;
 }
 
 
@@ -266,4 +271,51 @@ footer a:active {
     transition:all 0.5s;
     margin: 0.1em 0.5em 0.1em 0.5em;
 }
+
+
+
+/* Current Song*/
+#currentSong {
+    display: block;
+    width: auto;
+    text-align: center;
+}
+
+#currentSongArtist {
+    font-weight: bold;
+}
+
+
+/*Votes List*/
+
+
+#votesList {
+    font-size: 120%;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    margin: 1em;
+    width: 90%;
+    left:2%;
+    background-color: #ECEFF1;
+    color: #455A64;
+    display: none;
+    height: auto;
+
+    position: absolute;
+    bottom: 0;
+
+}
+
+#votesListText {
+    width: 100%;
+    height: 95%;
+    padding-right: 1em;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+ul {
+    list-style-type: none;
+}
+
+
 

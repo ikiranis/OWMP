@@ -119,6 +119,7 @@
         <phrase name="delete_playlist">Διαγραφή λίστας</phrase>
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Ψήφος για το τραγούδι</phrase>
+        <phrase name="current_song">Παίζει τώρα</phrase>
     </page>
 
     <page name="search">

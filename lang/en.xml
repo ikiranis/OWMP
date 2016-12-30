@@ -119,6 +119,7 @@
         <phrase name="delete_playlist">Delete playlist</phrase>
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Vote the song</phrase>
+        <phrase name="current_song">Playing now</phrase>
     </page>
 
     <page name="search">

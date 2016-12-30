@@ -1971,6 +1971,10 @@ class OWMP
             Page::setLastMomentAlive(true);
         }
 
+        if(!Page::checkIfProgressNameExists('currentSong')) {
+            Page::createProgressName('currentSong');
+        }
+
 
         // TODO να σβηστεί μετά από καιρό αυτό. Γράφτηκε Δεκέμβριο 2016
         // Σβήσιμο της εγγραφής που έχει μπει από παλιότερες εκδόσεις
@@ -2107,6 +2111,28 @@ class OWMP
         $stmt = null;
 
         return $result;
+    }
+    
+    // Επιστρέφει σε πίνακα (song_name, artist) τα στοιχεία του τρέχοντος τραγουδιού
+    static function getSongInfo($id) {
+        
+        if(isset($id)) {
+            $currentSongID = $id;
+        } else {
+            $currentSongID = Page::getCurrentSong();
+        }
+        
+        if($currentSongID) { // Το id του τραγουδιού
+            if($currentSong = RoceanDB::getTableArray('music_tags', 'song_name, artist, id',
+                'id=?', array($currentSongID), 'id DESC LIMIT 1', null, null)) { // Τα στοιχεία του τραγουδιού
+                return $currentSong;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
     }
     
     

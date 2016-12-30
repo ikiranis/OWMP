@@ -7,6 +7,15 @@
 // Javascript functions for vote page
 //
 
+// extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
+// Προσθέτει μια class και την αφερεί μετά από λίγο
+$.fn.addClassDelay = function(className,delay) {
+    var $addClassDelayElement = $(this), $addClassName = className;
+    $addClassDelayElement.addClass($addClassName);
+    setTimeout(function(){
+        $addClassDelayElement.removeClass($addClassName);
+    },delay);
+};
 
 function DisplayMessage (element, error) {
     $(element).text(error);
@@ -54,3 +63,56 @@ function getVotePlaylist(offset, step, firstTime) {
 
     });
 }
+
+// Τραβάει τα song info του τρέχοντος τραγουδιού
+function getSongInfo() {
+    callFile=AJAX_path+"getSongInfo.php";
+
+    $.get(callFile, function (data) {
+        if(data.success) {
+            document.querySelector('#currentSongName').innerHTML = data.songName;
+            document.querySelector('#currentSongArtist').innerHTML = data.artist;
+
+            document.title = data.songName+' : '+data.artist;
+
+            // Αν υπάρχει το συγκεκριμένο row τότε το σβήνει
+            if($('#fileID'+data.fileID).length!==0) {
+                $('#fileID' + data.fileID).addClass("blackRow");
+                setTimeout(function() {
+                    $('#fileID' + data.fileID).remove();
+                }, 1000);
+            }
+        }
+    }, "json");
+}
+
+
+function closeVotesWindow() {
+    $('#votesList').hide();
+}
+
+function getSongVotes() {
+    callFile=AJAX_path+"getSongVotes.php";
+
+    $.get(callFile, function(data) {
+        if (data) {
+            $('#votesList').show();
+            $('#votesListText').html(data);
+        }
+        else {
+            $('#votesListText').html('Δεν βρέθηκαν εγγραφές');
+        }
+
+    });
+}
+
+// On load
+$(function(){
+
+    // Ψάχνει και εμφανίζει το τρέχον τραγούδι κάθε 10 δευτερόλεπτα
+    getSongInfo();
+    setInterval(function(){
+        getSongInfo();
+    }, 10000);
+
+});

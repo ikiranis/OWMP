@@ -525,6 +525,12 @@ class Page
         RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     }
 
+    // Θέτει τιμή στο currentSong
+    static function setCurrentSong($theSong) {
+        $progressUpdateArray=array ($theSong, 'currentSong');
+        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+    }
+
     // Δίνει timespamp τιμή στο lastMomentAlive του πίνακa progress
     static function setLastMomentAlive($operation) {
         if($operation==true)
@@ -538,6 +544,14 @@ class Page
     // Επιστρέφει το killCommand από τον πίνακα progress
     static function getKillCommand() {
         if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'killCommand', 'progressValue'))
+            return $result;
+        else return false;
+    }
+
+
+    // Επιστρέφει το currentSong από τον πίνακα progress
+    static function getCurrentSong() {
+        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'currentSong', 'progressValue'))
             return $result;
         else return false;
     }

@@ -62,6 +62,14 @@ $MainPage->showHeader();
     <?php echo $languages_text; ?>
 </div>
 
+
+
+<div id="currentSong">
+    <span id="playing_now"><?php echo __('current_song').': '; ?></span>
+    <span id="currentSongName"></span>
+    <span id="currentSongArtist"></span>
+</div>
+
 <section>
     <article>
         <div id="playlist_container">
@@ -91,7 +99,21 @@ $MainPage->showHeader();
 </section>
 
 
-
 <?php
 
+
 $MainPage->showFooter(true, false);
+
+?>
+
+<input type="button" class="myButton" name="getVotes" id="getVotes"
+       value="get Votes" onclick="getSongVotes();">
+
+    <div id="votesList">
+        <div id="votesListText"></div>
+        <div id="browseButtons">
+            <input type="button" id="closeVotes" name="closeVotes" class="myButton" value="<?php echo __('close_text'); ?>" onclick="closeVotesWindow();" >
+        </div>
+    </div>
+
+<span id="playlistCount"><?php echo $_SESSION['$countThePlaylist'].' items'; ?> </span>
