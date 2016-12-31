@@ -10,6 +10,8 @@
 
 require_once('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 session_start();
 
 set_time_limit(0);
@@ -23,7 +25,7 @@ if(isset($_GET['url']))
 if($result=OWMP::downloadYoutube($url)) {
     $jsonArray = array('success' => true, 'result' => $result);
 }
-else $jsonArray=array( 'success'=> false);
+else $jsonArray=array( 'success'=> false, 'theUrl' => $url);
 
 
 

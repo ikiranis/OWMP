@@ -12,6 +12,8 @@
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 //Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 $lastMomentAlive=Page::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive
 

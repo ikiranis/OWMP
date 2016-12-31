@@ -1329,7 +1329,7 @@ function callGetYouTube(url,counter,total) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $("#SyncDetails").append('<p>'+phrases['youtube_downloading']+' ' + url + '</p>');
+                $("#SyncDetails").append('<p> :: '+phrases['youtube_downloading']+' ' + url + '</p>');
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
@@ -1341,8 +1341,10 @@ function callGetYouTube(url,counter,total) {
         },
         success: function (data) {
             if (data.success == true) {
-                $("#SyncDetails").append('<p>'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+                $("#SyncDetails").append('<p class="youtube_success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
+            } else {
+                $("#SyncDetails").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });

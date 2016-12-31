@@ -178,6 +178,7 @@
         <phrase name="new_records_to_database">new records to database</phrase>
         <phrase name="running_process">Process already running</phrase>
         <phrase name="youtube_downloaded_to_path">Video downloaded to path</phrase>
+        <phrase name="youtube_problem">Problem with video</phrase>
         <phrase name="youtube_downloading">Downloading</phrase>
         <phrase name="starting_sync">Starting synchronisation</phrase>
         <phrase name="sure_to_delete_files">You will delete the files. Are you sure?</phrase>

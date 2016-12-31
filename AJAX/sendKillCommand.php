@@ -9,6 +9,8 @@
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 if(Page::setKillCommand('1'))
     $jsonArray = array('success' => true);
 else $jsonArray = array('success' => false);

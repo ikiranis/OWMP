@@ -1,3 +1,5 @@
+/* Desktop layout */
+
 html, body {
     height:99%;
     width: 99%;
@@ -18,13 +20,13 @@ header, footer {
     display:block;
 }
 
-main {
-    font-size: 120%;
-    display:flex;
-    height:  80%;
-    width: 100%;
-    align-items: center;
-}
+/*main {*/
+    /*font-size: 120%;*/
+    /*display:flex;*/
+    /*height:  80%;*/
+    /*width: 100%;*/
+    /*align-items: center;*/
+/*}*/
 
 /*Κεντρικό box*/
 section {
@@ -61,7 +63,7 @@ aside {
 /*Nav menu*/
 nav {
     position: relative;
-    width: 9%;
+    width: 7%;
     height: 75%;
     float: left;
     padding-top: 1em;

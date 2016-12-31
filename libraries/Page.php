@@ -605,4 +605,36 @@ class Page
         <?php
     }
 
+    
+    // Έλεγχος αν το ajax request γίνεται από το ίδιο το site και όχι εξωτερικά
+    static function checkValidAjaxRequest() {
+
+        $requestAJAXValid = false;
+        
+        $appHost='http://'.$_SERVER["HTTP_HOST"] .PROJECT_PATH;
+
+        if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && isset($_SERVER['HTTP_REFERER'])) {
+            if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
+                $requestAJAXValid = true;
+            } else {
+                $requestAJAXValid = false;
+            }
+            
+            if($_SERVER['HTTP_REFERER']==$appHost) {
+                $requestAJAXValid = true;
+            } else {
+                $requestAJAXValid = false;
+            }
+
+        } else {
+            $requestAJAXValid = false;
+        }
+        
+        if(!$requestAJAXValid) {
+            trigger_error('Invalid AJAX request from '.$_SERVER['REMOTE_ADDR']);
+            die('Invalid AJAX request');
+        }
+
+    }
+
 }

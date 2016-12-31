@@ -32,6 +32,8 @@ function getArrayMax($myArray) {
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 session_start();
 
 $conn = new RoceanDB();

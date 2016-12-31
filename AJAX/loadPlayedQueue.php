@@ -14,6 +14,8 @@
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);

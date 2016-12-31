@@ -12,6 +12,8 @@
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 if($currentSong = OWMP::getSongInfo(null)) { // Τα στοιχεία του τραγουδιού
     $jsonArray = array('success' => true,
         'songName' => $currentSong[0]['song_name'],

@@ -15,6 +15,8 @@ set_time_limit(0);
 require_once ('../libraries/common.inc.php');
 require_once ('../libraries/SyncFiles.php');
 
+Page::checkValidAjaxRequest();
+
 session_start();
 
 if(isset($_GET['tabID']))

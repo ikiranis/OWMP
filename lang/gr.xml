@@ -178,6 +178,7 @@
         <phrase name="new_records_to_database">νέες εγγραφές στη βάση</phrase>
         <phrase name="running_process">Τρέχει ο συγχρονισμός σε άλλη διεργασία ήδη</phrase>
         <phrase name="youtube_downloaded_to_path">To video κατέβηκε στο path</phrase>
+        <phrase name="youtube_problem">Πρόβλημα με το video</phrase>
         <phrase name="youtube_downloading">Κατεβάζω το</phrase>
         <phrase name="starting_sync">Αρχίζω τον συγχρονισμό</phrase>
         <phrase name="sure_to_delete_files">Είσαι σίγουρος ότι θέλεις να σβήσεις τα αρχεία;</phrase>

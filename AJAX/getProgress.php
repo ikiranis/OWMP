@@ -11,6 +11,8 @@
 
 require_once('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 
 if($progressInPercent=Page::getPercentProgress()) {
     $jsonArray = array('success' => true, 'progressInPercent' => $progressInPercent);

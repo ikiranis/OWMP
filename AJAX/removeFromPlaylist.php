@@ -11,6 +11,8 @@
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 if(isset($_GET['playlistID']))
     $playlistID=ClearString($_GET['playlistID']);
 

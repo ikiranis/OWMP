@@ -12,6 +12,8 @@
 
 require_once ('../libraries/common.inc.php');
 
+Page::checkValidAjaxRequest();
+
 if(isset($_GET['path']))
     $path=ClearString($_GET['path']);
 
