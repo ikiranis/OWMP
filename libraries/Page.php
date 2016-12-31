@@ -611,20 +611,14 @@ class Page
 
         $requestAJAXValid = false;
         
-        $appHost='http://'.$_SERVER["HTTP_HOST"] .PROJECT_PATH;
 
-        if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && isset($_SERVER['HTTP_REFERER'])) {
+        if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
                 $requestAJAXValid = true;
             } else {
                 $requestAJAXValid = false;
             }
             
-            if($_SERVER['HTTP_REFERER']==$appHost) {
-                $requestAJAXValid = true;
-            } else {
-                $requestAJAXValid = false;
-            }
 
         } else {
             $requestAJAXValid = false;
