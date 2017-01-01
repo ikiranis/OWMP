@@ -22,6 +22,8 @@
         <phrase name="footer_text">Ανάπτυξη εφαρμογής apps4net.eu</phrase>
         <phrase name="app_version">Έκδοση εφαρμογής</phrase>
         <phrase name="change_log">Ημερολόγιο αλλαγών</phrase>
+        <phrase name="mobile_version">Έκδοση για κινητά</phrase>
+        <phrase name="desktop_version">Έκδοση για Desktop</phrase>
     </page>
 
     <page name="nav">
@@ -120,6 +122,9 @@
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Ψήφος για το τραγούδι</phrase>
         <phrase name="current_song">Παίζει τώρα</phrase>
+        <phrase name="next_song">Επόμενο</phrase>
+        <phrase name="previous_song">Προηγούμενο</phrase>
+        <phrase name="toggle_fullscreen">Μεγιστοποίηση</phrase>
     </page>
 
     <page name="search">

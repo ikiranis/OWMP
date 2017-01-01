@@ -9,6 +9,10 @@
 
 require_once ('libraries/common.inc.php');
 
+$lang=new Language();
+
+$phrasesForJavascript=json_encode($lang->getPhrasesTable());
+
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
     $targetPage='Location:index.php';
@@ -55,7 +59,7 @@ define('TAB_ID', date('YmdHis'));
         var changeLogUrl="<?php echo CHANGE_LOG_URL; ?>";
 
         // Τα κείμενα του site παιρνούνται στην javascript
-        var phrases=<?php echo json_encode($lang->getPhrasesTable()); ?>;
+        var phrases=<?php echo $phrasesForJavascript; ?>;
 
         // Το id του τρέχοντος tab
         var tabID=document.querySelector('#tabID').value;
@@ -87,8 +91,6 @@ $MainPage->setScript($scripts);
 $MainPage->setCSS($css);
 
 $MainPage->showHeader();
-
-//$languages_text=$lang->print_languages('lang_id',' ',true,false);
 
 $logged_in=false;
 
@@ -134,7 +136,7 @@ if($logged_in) {
 
     DisplayMainPage();
 
-    $MainPage->showFooter(true,true);
+    $MainPage->showFooter(true,true,true);
 
 }
 

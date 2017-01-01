@@ -40,6 +40,8 @@ var initEventListenerHadler = false; // κρατάει το αν έχει ενε
 
 var runningYoutubeDownload=false; // Κρατάει το αν τρέχει το download του youtube
 
+var displayingMediaControls=false; // Κρατάει το αν εμφανίζονται τα media controls σε fullscreen
+
 var currentPathFormID;
 
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
@@ -925,9 +927,17 @@ function loadNextVideo(id) {
 
             myVideo.load();
 
-            if (myVideo.paused)
+            // if (myVideo.paused)
+            //     myVideo.play();
+            // else myVideo.pause();
+
+            myVideo.pause();
+
+            // Αρχίζει το play όταν μπορεί να παίξει χωρίς buffering
+            myVideo.addEventListener("canplaythrough", function() {
                 myVideo.play();
-            else myVideo.pause();
+            });
+
 
             currentPlaylistID=data.tags.playlist_id;
 
@@ -961,7 +971,8 @@ function loadNextVideo(id) {
             // $('#overlay_rating').html(stars);
             ratingToStars(data.tags.rating,'#overlay_rating');
             $('#overlay_play_count').html(data.tags.play_count);
-            $('#overlay_total_track_time').html(timeInMinutesAndSeconds);
+            $('#overlay_total_track_time').html(timeInMinutesAndSeconds); // σε full screen
+            $('#total_track_time').html(timeInMinutesAndSeconds); //  εκτός  full screen
             $('#overlay_live').html(liveOptions[data.tags.live]);
             showFullScreenVideoTags();
 
@@ -1787,7 +1798,12 @@ function displayVolume(operation) {
 
 // Αλλάζει τον χρόνο που βρίσκεται το track αναλόγως την θέση στον slider
 function controlTrack() {
-    var curTime=document.querySelector('#overlay_track_range').value;  // ο τρέχον track time σε ποσοστό
+    if(checkFullscreen()) { // Όταν είναι σε full screen
+        var curTime = document.querySelector('#overlay_track_range').value;  // ο τρέχον track time σε ποσοστό
+    } else { // όταν δεν είναι σε full screen
+        var curTime = document.querySelector('#track_range').value;  // ο τρέχον track time σε ποσοστό
+    }
+    
     var duration=myVideo.duration;  // ο συνολικός track time
 
     var PercentToTrackSeconds=parseInt( (curTime/100)*duration );  // μετατροπή του ποσοστού χρόνου σε πραγματικά δευτερόλεπτα
@@ -1905,6 +1921,116 @@ function garbageCollection() {
     }, "json");
 }
 
+// Functions για τα controls
+function nextSong() {
+    loadAndplayNextVideo('next');
+}
+
+function prevSong() {
+    loadAndplayNextVideo('prev');
+}
+
+function fwSong() {
+    myVideo.currentTime+=60;
+}
+
+function rwSong() {
+    myVideo.currentTime-=60;
+}
+
+function playSong() {
+    if (myVideo.paused)
+        myVideo.play();
+    else myVideo.pause();
+    showFullScreenVideoTags();
+}
+
+function interfaceToggle() {
+    if(localStorage.OverlayAllwaysOn=='true')
+        showFullScreenVideoTags('off');
+    else
+        showFullScreenVideoTags('on');
+}
+
+function giphyToggle() {
+    if(localStorage.AllwaysGiphy=='true') {
+        localStorage.AllwaysGiphy = 'false';
+        displayVolume('giphyOFF');
+    }
+    else {
+        localStorage.AllwaysGiphy = 'true';
+        displayVolume('giphyON');
+    }
+}
+
+function volumeUp() {
+    myVideo.volume += 0.01;
+    localStorage.volume=myVideo.volume;
+    displayVolume('up');
+}
+
+function volumeDown() {
+    myVideo.volume -= 0.01;
+    localStorage.volume=myVideo.volume;
+    displayVolume('down');
+}
+
+function volumeMute() {
+    if(localStorage.mute==null) localStorage.mute='false';
+
+    if (localStorage.mute=='false') {
+        localStorage.oldVolume = localStorage.volume;
+        localStorage.mute = 'true';
+        myVideo.volume = 0;
+        localStorage.volume = myVideo.volume;
+        displayVolume('mute');
+    } else {
+        localStorage.mute = 'false';
+        myVideo.volume = localStorage.oldVolume;
+        localStorage.volume = myVideo.volume;
+        displayVolume('up');
+    }
+}
+
+function increasePlaybackRate() {
+    myVideo.playbackRate += 1;
+}
+
+function decreasePlaybackRate() {
+    myVideo.playbackRate -= 1;
+}
+
+function resetPlaybackRate() {
+    myVideo.playbackRate = 1;
+}
+
+function changeLive() {
+    live=$('#live').val(); // Η τρέχουσα τιμή του live
+
+    if (live==0) $('#live').val('1'); // Αν είναι 0 το κάνει 1
+    else $('#live').val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
+
+    update_tags();  // ενημερώνει τα tags
+}
+
+
+// Εμφανίζει τα media controls σε fullscreen
+function displayFullscreenControls() {
+
+    if(checkFullscreen()) { // αν είναι σε full screen
+        if (!displayingMediaControls) {   // αν δεν εμφανίζονται ήδη
+
+            $('#overlay_media_controls').show();  // τα εμφανίζει
+
+            displayingMediaControls = true;
+
+            setTimeout(function () {  // Μετά από 5 δευτερόλεπτα τα κρύβει
+                $('#overlay_media_controls').hide();
+                displayingMediaControls = false;
+            }, 5000)
+        }
+    }
+}
 
 // Έλεγχος shorcuts
 function getShortcuts(elem) {
@@ -1913,85 +2039,51 @@ function getShortcuts(elem) {
     elem.addEventListener('keydown', function(event) {
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
-                loadAndplayNextVideo('next');
+                nextSong();
             }
 
             if (event.keyCode === 80) {  // P
-                loadAndplayNextVideo('prev');
+                prevSong();
             }
 
             if (event.keyCode === 39) {  // δεξί βελάκι
-                myVideo.currentTime+=60;
+                fwSong();
             }
 
             if (event.keyCode === 37) {  // αριστερό βελάκι
-                myVideo.currentTime-=60;
+                rwSong();
             }
 
             if (event.keyCode === 32) {   // space
-                if (myVideo.paused)
-                    myVideo.play();
-                else myVideo.pause();
-                showFullScreenVideoTags();
+                playSong();
             }
 
             if (event.keyCode === 73) {   // I
-
-                if(localStorage.OverlayAllwaysOn=='true')
-                    showFullScreenVideoTags('off');
-                else
-                    showFullScreenVideoTags('on');
-
+                interfaceToggle();
             }
 
             if (event.keyCode === 71) {   // G
-
-                if(localStorage.AllwaysGiphy=='true') {
-                    localStorage.AllwaysGiphy = 'false';
-                    displayVolume('giphyOFF');
-                }
-                else {
-                    localStorage.AllwaysGiphy = 'true';
-                    displayVolume('giphyON');
-                }
-
+                giphyToggle();
             }
 
             if (event.keyCode === 38) {   // πάνω βελάκι
-                myVideo.volume += 0.01;
-                localStorage.volume=myVideo.volume;
-                displayVolume('up');
+                volumeUp();
             }
 
             if (event.keyCode === 40) {   // κάτω βελάκι
-                myVideo.volume -= 0.01;
-                localStorage.volume=myVideo.volume;
-                displayVolume('down');
+                volumeDown();
             }
 
             if (event.keyCode === 77) {   // M Mute
-                if(localStorage.mute==null) localStorage.mute='false';
-
-                if (localStorage.mute=='false') {
-                    localStorage.oldVolume = localStorage.volume;
-                    localStorage.mute = 'true';
-                    myVideo.volume = 0;
-                    localStorage.volume = myVideo.volume;
-                    displayVolume('mute');
-                } else {
-                    localStorage.mute = 'false';
-                    myVideo.volume = localStorage.oldVolume;
-                    localStorage.volume = myVideo.volume;
-                    displayVolume('up');
-                }
+                volumeMute();
             }
 
             if (event.keyCode === 190) {   // >
-                myVideo.playbackRate += 1;
+                increasePlaybackRate();
             }
 
             if (event.keyCode === 188) {   // <
-                myVideo.playbackRate -= 1;
+                decreasePlaybackRate();
             }
 
             // if (event.keyCode === 187) {   // +
@@ -2001,16 +2093,11 @@ function getShortcuts(elem) {
             // }
 
             if (event.keyCode === 191) {   // /
-                myVideo.playbackRate = 1;
+                resetPlaybackRate();
             }
 
             if (event.keyCode === 76) {   // L Αλλαγή live
-                live=$('#live').val(); // Η τρέχουσα τιμή του live
-
-                if (live==0) $('#live').val('1'); // Αν είναι 0 το κάνει 1
-                else $('#live').val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
-
-                update_tags();  // ενημερώνει τα tags
+                changeLive()
             }
 
             if (event.keyCode === 49) {   // 1
@@ -2553,9 +2640,14 @@ $(function(){
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
             timeInMinutesAndSeconds=seconds2MinutesAndSeconds(this.currentTime)['minutes']+' : '+seconds2MinutesAndSeconds(this.currentTime)['seconds'];
 
-            // Εμφάνιση του τρεχόντα track time
-            $('#overlay_current_track_time').html(timeInMinutesAndSeconds);
-            $('#overlay_track_range').val(curTimePercent);
+            // Εμφάνιση του τρέχοντα track time
+            if(checkFullscreen()) { // όταν είναι σε full screen
+                $('#overlay_current_track_time').html(timeInMinutesAndSeconds);
+                $('#overlay_track_range').val(curTimePercent);
+            } else {   // όταν δεν είναι σε full screen
+                $('#current_track_time').html(timeInMinutesAndSeconds);
+                $('#track_range').val(curTimePercent);
+            }
 
         });
 
@@ -2575,6 +2667,8 @@ $(function(){
     setInterval(garbageCollection, 600000);
 
 
+    document.addEventListener('touchmove', displayFullscreenControls, false);
+    
 
     //Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
     // navigator.mediaDevices.enumerateDevices()

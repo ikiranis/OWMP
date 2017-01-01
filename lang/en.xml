@@ -22,6 +22,8 @@
         <phrase name="footer_text">Developed by apps4net.eu</phrase>
         <phrase name="app_version">App Version</phrase>
         <phrase name="change_log">Change Log</phrase>
+        <phrase name="mobile_version">Mobile version</phrase>
+        <phrase name="desktop_version">Desktop version</phrase>
     </page>
 
     <page name="nav">
@@ -120,6 +122,9 @@
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Vote the song</phrase>
         <phrase name="current_song">Playing now</phrase>
+        <phrase name="next_song">Next</phrase>
+        <phrase name="previous_song">Previous</phrase>
+        <phrase name="toggle_fullscreen">Full screen</phrase>
     </page>
 
     <page name="search">

@@ -19,6 +19,8 @@ if(!JUKEBOX_ENABLE) {
 
 $lang = new Language();
 
+$phrasesForJavascript=json_encode($lang->getPhrasesTable());
+
 $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
@@ -39,7 +41,7 @@ session_start();
         var AJAX_path="<?php echo AJAX_PATH; ?>";  // ο κατάλογος των AJAX files
 
         // Τα κείμενα του site παιρνούνται στην javascript
-        var phrases=<?php echo json_encode($lang->getPhrasesTable()); ?>;
+        var phrases=<?php echo $phrasesForJavascript; ?>;
     
     </script>
     
@@ -107,7 +109,7 @@ $MainPage->showHeader();
 <?php
 
 
-$MainPage->showFooter(true, false);
+$MainPage->showFooter(true, false, false);
 
 ?>
 

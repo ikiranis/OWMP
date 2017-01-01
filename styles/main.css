@@ -425,6 +425,21 @@ footer a:active {
     text-decoration: underline;
 }
 
+#mobileVersion {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 0.5%;
+}
+
+#mobileVersionText {
+    font-size:70%;
+}
+
+
+
+
+
 /*Στοιχεία εμφάνισης στα logs*/
 #logs {
     display: table;
@@ -1055,6 +1070,8 @@ input {
     background-color: black;
 }
 
+
+
 #myVideo {
     z-index: 10;
     height: 40%;
@@ -1086,6 +1103,8 @@ input {
 
 #overlay_live { display: block; font-size: 1em;}
 #overlay_time { display: block; font-size: 1.4em; }
+
+
 
 /*Progress*/
 #progress {
@@ -1388,6 +1407,12 @@ input {
     background-repeat: no-repeat;
 }
 
+.play_button_white {
+    background-image: url( '../img/play_white.png' );
+    background-repeat: no-repeat;
+    background-size: 200%;
+}
+
 .vote_button {
     background-image: url( '../img/favorite.png' );
     background-repeat: no-repeat;
@@ -1403,6 +1428,37 @@ input {
     background-repeat: no-repeat;
 }
 
+.next_button_black {
+    background-image: url( '../img/next_black.png' );
+    background-repeat: no-repeat;
+}
+.next_button_white {
+    background-image: url( '../img/next_white.png' );
+    background-repeat: no-repeat;
+}
+
+.prev_button_black {
+    background-image: url( '../img/previous_black.png' );
+    background-repeat: no-repeat;
+}
+
+.prev_button_white {
+    background-image: url( '../img/previous_white.png' );
+    background-repeat: no-repeat;
+    background-size: 200%;
+}
+
+.fullscreen_button_maximize {
+    background-image: url( '../img/fullscreen_black.png' );
+    background-repeat: no-repeat;
+}
+
+.fullscreen_button_minimize {
+    background-image: url( '../img/fullscreen_white.png' );
+    background-repeat: no-repeat;
+    background-size: 200%;
+}
+
 .playlist_button_img {
     background-size: 1.5em;
     width: 1.5em;
@@ -1413,6 +1469,83 @@ input {
     position: relative;
     display: inline-block;
     background-position: center center;
+}
+
+.fullscreen_button_img {
+    background-size: 7em;
+    width: 7em;
+    height: 7em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: center center;
+}
+
+.video_controls_button_img {
+    background-size: 3em;
+    width: 3em;
+    height: 3em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: center center;
+}
+
+
+/* Η μπάρα με την χρονική στιγμή στο τραγούδι (εκτός full screen)*/
+
+#track_range {
+    -webkit-appearance: none;
+    width: 98%;
+    height:0.5em;
+    border-radius: 8px;
+    /*box-shadow: inset 0 0 5px #333;*/
+    background-color: transparent;
+    /*background-image:linear-gradient(to right, white, black);*/
+    margin: 1em;
+}
+
+#track_range::-moz-range-track {
+    -webkit-appearance: none;
+    width: 98%;
+    height:0.5em;
+    border-radius: 8px;
+    /*box-shadow: inset 0 0 5px #333;*/
+    background-color: transparent;
+    /*background-image:linear-gradient(to right, white, black);*/
+    margin: 1em;
+}
+
+#track_range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: black solid 1px;
+    height: 1em;
+    width: 0.3em;
+    /*border-radius: 50%;*/
+    background: white;
+}
+
+#track_range::-moz-range-thumb  {
+    -webkit-appearance: none;
+    border: black solid 1px;
+    height: 1em;
+    width: 0.3em;
+    /*border-radius: 50%;*/
+    background: white;
+}
+
+
+#the_time_track {
+    font-size:70%;
+    text-align: center;
+    width: 100%;
+    display: block;
 }
 
 
@@ -1581,4 +1714,28 @@ input {
     width: auto;
     top:0;
     margin-left: 3em;
+}
+
+
+/* Media Controls */
+#mediaControls {
+    width:100%;
+    display: block;
+    text-align: center;
+}
+
+#overlay_media_controls {
+    position: absolute;
+    top: 46.5%;
+    left: 0;
+    color: #FFFFFF;
+    width: 100%;
+    height: 7%;
+    text-align: center;
+    font-size: 1em;
+    box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.7);
+    background-color: rgba(221, 221, 221, 0.3);
+    padding: 0.5em 1em;
+    z-index: 2147483647;
+    display: none;
 }

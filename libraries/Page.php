@@ -36,7 +36,7 @@ class Page
 <!--            Για να μπορεί να πηγαίνει σε fullscreen σε mobile συσκευές-->
             <meta name="mobile-web-app-capable" content="yes">
 <!--            Για να κάνουν scale τα pixels στις mobile συσκευές-->
-            <meta name=viewport content="width=device-width, initial-scale=1">
+            <meta name=viewport content="width=device-width, initial-scale=0.6">
             
 <!--            <meta http-equiv="cache-control" content="max-age=0" />-->
 <!--            <meta http-equiv="cache-control" content="no-cache" />-->
@@ -115,7 +115,7 @@ class Page
         } else $this->css[] = $css;
     }
 
-    function showFooter($showAppName,$showAppVersion)
+    function showFooter($showAppName,$showAppVersion,$showMobileVersion)
     {
         ?>
 
@@ -137,6 +137,24 @@ class Page
                 }
             ?>
         </footer>
+        
+        <?php 
+            if($showMobileVersion) {
+                ?>
+                <div id="mobileVersion">
+                    <span id="mobileVersionText">
+                        <?php
+                        if(!isset($_GET['mobile'])) {
+                            echo '<a href="?mobile=true">'.__('mobile_version').'</a>';
+                        } else {
+                            echo '<a href="'.HTTP_TEXT.$_SERVER["HTTP_HOST"].PROJECT_PATH.'">'.__('desktop_version').'</a>';
+                        }
+                        ?>
+                    </span>
+                </div>
+        <?php
+            }
+        ?>
 
 
         </BODY>

@@ -11,6 +11,31 @@
 class OWMP
 {
 
+    static function displayControls($element, $fullscreen) {
+        ?>
+
+        <div id="<?php echo $element; ?>">
+
+            <input type="button" class="<?php if($fullscreen) echo 'prev_button_white fullscreen_button_img'; else echo 'prev_button_black video_controls_button_img'; ?>"
+                   title="<?php echo __('previous_song'); ?>"
+                   onclick="prevSong();">
+
+            <input type="button" class="<?php if($fullscreen) echo 'play_button_white fullscreen_button_img'; else echo 'play_button video_controls_button_img'; ?>"
+                   title="<?php echo __('play_file'); ?>"
+                   onclick="playSong();">
+
+            <input type="button" class="<?php if($fullscreen) echo 'next_button_white fullscreen_button_img'; else echo 'next_button_black video_controls_button_img'; ?>"
+                   title="<?php echo __('next_song'); ?>"
+                   onclick="nextSong();">
+
+            <input type="button" class="<?php if($fullscreen) echo 'fullscreen_button_minimize fullscreen_button_img'; else echo 'fullscreen_button_maximize video_controls_button_img'; ?>"
+                   title="<?php echo __('toggle_fullscreen'); ?>"
+                   onclick="toggleFullscreen();">
+        </div>
+        
+        <?php
+    }
+    
     static function showVideo () {
 
         
@@ -139,10 +164,22 @@ class OWMP
 
         );
 
-
+        
         ?>
 
-        <video id="myVideo" width="100%" autoplay onerror="failed(event)"></video>
+        <div id="track_time">
+            <input type=range id="track_range" name="track_range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
+        </div>
+
+        <video id="myVideo" width="100%" preload="auto" autoplay onerror="failed(event)" ondblclick="displayFullscreenControls();"></video>
+
+        <?php self::displayControls('mediaControls', false); ?>
+        
+        <div id="the_time_track">
+            <span id="current_track_time">00:00</span> /
+            <span id="total_track_time">00:00</span>
+        </div>
+
         
         
         <div id="overlay_volume">
@@ -152,7 +189,7 @@ class OWMP
         </div>
 
         <!--        Fullscreen overlay elements-->
-        <div id="overlay">
+        <div id="overlay" ondblclick="displayFullscreenControls();">
             <div id="overlay_rating"></div>
             <div id="overlay_play_count"></div>
             <div id="overlay_track_time">
@@ -161,6 +198,8 @@ class OWMP
                 <span id="overlay_total_track_time">00:00</span>
             </div>
 
+
+            <?php self::displayControls('overlay_media_controls', true); ?>
 
 
             <div id="bottom_overlay">

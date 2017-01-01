@@ -73,6 +73,7 @@ function DisplayMainPage() {
             <div id="helpText"></div>
             <input type="button" id="closeHelp" name="closeHelp" class="myButton" value="<?php echo __('close_text'); ?>" onclick="closeHelp();" >
         </div>
+
  
     
     <?php
