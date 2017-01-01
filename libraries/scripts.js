@@ -1039,6 +1039,12 @@ function init(){
     // Load the first video when the page is loaded.
     getNextVideoID(0, 'next');
 
+    if(checkFullscreen()) {
+        $(".pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
+    } else {
+        $(".pause_play_button").removeClass('play_button').addClass('pause_button_black');
+    }
+
 }
 
 // Όταν δεν βρει ένα video να παίξει
@@ -1940,9 +1946,22 @@ function rwSong() {
 }
 
 function playSong() {
-    if (myVideo.paused)
+    if (myVideo.paused) {
         myVideo.play();
-    else myVideo.pause();
+        if(checkFullscreen()) {
+            $(".pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
+        } else {
+            $(".pause_play_button").removeClass('play_button').addClass('pause_button_black');
+        }
+    }
+    else {
+        myVideo.pause();
+        if(checkFullscreen()) {
+            $(".pause_play_button").removeClass('pause_button_white').addClass('play_button_white');
+        } else {
+            $(".pause_play_button").removeClass('pause_button_black').addClass('play_button');
+        }
+    }
     showFullScreenVideoTags();
 }
 

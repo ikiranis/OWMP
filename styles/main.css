@@ -1412,6 +1412,17 @@ input {
     background-repeat: no-repeat;
 }
 
+.pause_button_black {
+    background-image: url( '../img/pause_black.png' );
+    background-repeat: no-repeat;
+}
+
+.pause_button_white {
+    background-image: url( '../img/pause_white.png' );
+    background-repeat: no-repeat;
+}
+
+
 .vote_button {
     background-image: url( '../img/favorite.png' );
     background-repeat: no-repeat;

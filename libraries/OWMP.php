@@ -20,7 +20,7 @@ class OWMP
                    title="<?php echo __('previous_song'); ?>"
                    onclick="prevSong();">
 
-            <input type="button" class="<?php if($fullscreen) echo 'play_button_white fullscreen_button_img'; else echo 'play_button video_controls_button_img'; ?>"
+            <input type="button" class="pause_play_button <?php if($fullscreen) echo 'play_button_white fullscreen_button_img'; else echo 'play_button video_controls_button_img'; ?>"
                    title="<?php echo __('play_file'); ?>"
                    onclick="playSong();">
 
