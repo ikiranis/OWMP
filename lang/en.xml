@@ -125,6 +125,8 @@
         <phrase name="next_song">Next</phrase>
         <phrase name="previous_song">Previous</phrase>
         <phrase name="toggle_fullscreen">Full screen</phrase>
+        <phrase name="toggle_giphy">Toggle Giphy</phrase>
+        <phrase name="toggle_overlay">Overlay</phrase>
     </page>
 
     <page name="search">

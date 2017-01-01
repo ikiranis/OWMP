@@ -125,6 +125,8 @@
         <phrase name="next_song">Επόμενο</phrase>
         <phrase name="previous_song">Προηγούμενο</phrase>
         <phrase name="toggle_fullscreen">Μεγιστοποίηση</phrase>
+        <phrase name="toggle_giphy">Giphy</phrase>
+        <phrase name="toggle_overlay">Overlay</phrase>
     </page>
 
     <page name="search">

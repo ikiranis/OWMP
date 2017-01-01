@@ -74,7 +74,8 @@ function DisplayMainPage() {
             <input type="button" id="closeHelp" name="closeHelp" class="myButton" value="<?php echo __('close_text'); ?>" onclick="closeHelp();" >
         </div>
 
- 
+
+        <?php OWMP::displayControls('overlay_media_controls', true); ?>
     
     <?php
     

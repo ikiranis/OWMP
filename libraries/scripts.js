@@ -719,13 +719,14 @@ function changeCheckAll(checkAll, checkItems) {
 // βάζει/βγάζει το video σε fullscreen
 function toggleFullscreen() {
     elem = myVideo;
-    if (!checkFullscreen()) {
+    if (!checkFullscreen()) { // μπαίνει σε full screen
             $(elem).addClass('full_screen_video');
             FullscreenON=true;
             showFullScreenVideoTags();
-    } else {
+    } else {  // βγαίνει από full screen
         $(elem).removeClass('full_screen_video');
         FullscreenON=false;
+        $('#overlay_media_controls').hide();
         showFullScreenVideoTags();
     }
 }
@@ -800,7 +801,7 @@ function showFullScreenVideoTags(toggle) {
             if (localStorage.OverlayAllwaysOn=='false') {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
                 if (!OverlayON) {  // αν δεν είναι on ήδη
                     OverlayON = true;
-                    $('#overlay').show().delay(5000).hide('fast');
+                    $('#overlay').show().delay(5000).hide(0);
                     OverlayON = false;
                 }
 

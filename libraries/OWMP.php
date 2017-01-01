@@ -31,6 +31,23 @@ class OWMP
             <input type="button" class="<?php if($fullscreen) echo 'fullscreen_button_minimize fullscreen_button_img'; else echo 'fullscreen_button_maximize video_controls_button_img'; ?>"
                    title="<?php echo __('toggle_fullscreen'); ?>"
                    onclick="toggleFullscreen();">
+
+            <?php
+            if($fullscreen) {
+                ?>
+                <input type="button"
+                       class="<?php if ($fullscreen) echo 'giphy_button fullscreen_button_img'; else echo 'giphy_button video_controls_button_img'; ?>"
+                       title="<?php echo __('toggle_giphy'); ?>"
+                       onclick="giphyToggle();">
+
+                <input type="button"
+                       class="<?php if ($fullscreen) echo 'giphy_button fullscreen_button_img'; else echo 'giphy_button video_controls_button_img'; ?>"
+                       title="<?php echo __('toggle_overlay'); ?>"
+                       onclick="interfaceToggle();">
+
+                <?php
+            }
+            ?>
         </div>
         
         <?php
@@ -181,6 +198,8 @@ class OWMP
         </div>
 
         
+
+        
         
         <div id="overlay_volume">
             <span id="overlay_volume_text">
@@ -198,8 +217,6 @@ class OWMP
                 <span id="overlay_total_track_time">00:00</span>
             </div>
 
-
-            <?php self::displayControls('overlay_media_controls', true); ?>
 
 
             <div id="bottom_overlay">

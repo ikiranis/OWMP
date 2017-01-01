@@ -1410,7 +1410,6 @@ input {
 .play_button_white {
     background-image: url( '../img/play_white.png' );
     background-repeat: no-repeat;
-    background-size: 200%;
 }
 
 .vote_button {
@@ -1445,7 +1444,6 @@ input {
 .prev_button_white {
     background-image: url( '../img/previous_white.png' );
     background-repeat: no-repeat;
-    background-size: 200%;
 }
 
 .fullscreen_button_maximize {
@@ -1456,7 +1454,11 @@ input {
 .fullscreen_button_minimize {
     background-image: url( '../img/fullscreen_white.png' );
     background-repeat: no-repeat;
-    background-size: 200%;
+}
+
+.giphy_button {
+    background-image: url( '../img/giphy_logo.png' );
+    background-repeat: no-repeat;
 }
 
 .playlist_button_img {
@@ -1738,4 +1740,5 @@ input {
     padding: 0.5em 1em;
     z-index: 2147483647;
     display: none;
+    padding: 1em 0;
 }
