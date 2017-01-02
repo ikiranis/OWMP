@@ -184,9 +184,7 @@ class OWMP
         
         ?>
 
-        <div id="track_time">
-            <input type=range id="track_range" name="track_range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
-        </div>
+
 
         <video id="myVideo" width="100%" preload="auto" autoplay onerror="failed(event)" ondblclick="displayFullscreenControls();"></video>
 
@@ -197,9 +195,10 @@ class OWMP
             <span id="total_track_time">00:00</span>
         </div>
 
-        
+        <div id="track_time">
+            <input type=range id="track_range" name="track_range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
+        </div>
 
-        
         
         <div id="overlay_volume">
             <span id="overlay_volume_text">

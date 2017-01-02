@@ -16,6 +16,7 @@ Page::checkValidAjaxRequest();
 
 // Ο δισδιάστατος πίνακας με τις ψήφους. Στην 1η στήλη είναι το fileID, στην 2η ο αριθμός των ψήφων
 $votesArray = OWMP::getVotes();
+
 ?>
 
     <ul>
@@ -27,8 +28,11 @@ $votesArray = OWMP::getVotes();
             ?>
             
             <li>
+                <input type="button" class="vote_button playlist_button_img"
+                       title="<?php echo __('vote_song'); ?>"
+                       onclick="voteSong(<?php echo $vote['file_id']; ?>);">
                 <span id="currentSongName"><?php echo $songInfo[0]['song_name']; ?></span>
-                <span id="currentSongArtist"><?php echo $songInfo[0]['artist']; ?></span>
+                <span id="currentSongArtist"><?php echo $songInfo[0]['artist']; ?></span> ::
                 <span id="numberOfVotes"><?php echo $vote['numberOfVotes']; ?></span>
             </li>
         
