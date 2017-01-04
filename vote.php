@@ -49,6 +49,10 @@ session_start();
 
 $MainPage = new Page();
 
+// Αποθηκεύει την IP σε session για τις περιπτώσεις που αλλάζει συνέχεια η IP του χρήστη (π.χ. σε 3g network)
+if(!isset($_SESSION['user_IP'])) {
+    $_SESSION['user_IP'] = $_SERVER['REMOTE_ADDR'];
+}
 
 
 // Τίτλος της σελίδας

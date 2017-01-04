@@ -65,7 +65,7 @@ function DisplayMainPage() {
                 <?php echo $languages_text; ?>
             </div>
 
-            <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"></span> <?php echo __('items_in_playlist'); ?></div>
+            <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"><?php echo $_SESSION['$countThePlaylist']; ?></span> <?php echo __('items_in_playlist'); ?></div>
         </nav>
 
 

@@ -13,16 +13,16 @@
 require_once('../libraries/common.inc.php');
 require_once ('../libraries/SyncFiles.php');
 
-Page::checkValidAjaxRequest();
-
 session_start();
+
+Page::checkValidAjaxRequest(true);
 
 $conn = new RoceanDB();
 
 // Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
 if (!isset($_SESSION["username"])) {
     if ($conn->CheckCookiesForLoggedUser()) {
-        $conn->setSession('username', $_COOKIE["username"]);
+        $conn->setSession('username', RoceanDB::getACookie('username') );
         $UserGroup = $conn->getUserGroup($conn->getSession('username'));
     }
 }

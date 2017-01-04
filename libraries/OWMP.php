@@ -36,12 +36,12 @@ class OWMP
             if($fullscreen) {
                 ?>
                 <input type="button"
-                       class="<?php if ($fullscreen) echo 'giphy_button fullscreen_button_img'; else echo 'giphy_button video_controls_button_img'; ?>"
+                       class="<?php if ($fullscreen) echo 'gif_button fullscreen_button_img'; else echo 'gif_button video_controls_button_img'; ?>"
                        title="<?php echo __('toggle_giphy'); ?>"
                        onclick="giphyToggle();">
 
                 <input type="button"
-                       class="<?php if ($fullscreen) echo 'giphy_button fullscreen_button_img'; else echo 'giphy_button video_controls_button_img'; ?>"
+                       class="<?php if ($fullscreen) echo 'fullscreen_button_info fullscreen_button_img'; else echo 'fullscreen_button_info video_controls_button_img'; ?>"
                        title="<?php echo __('toggle_overlay'); ?>"
                        onclick="interfaceToggle();">
 
@@ -184,9 +184,7 @@ class OWMP
         
         ?>
 
-
-
-        <video id="myVideo" width="100%" preload="auto" autoplay onerror="failed(event)" ondblclick="displayFullscreenControls();"></video>
+        <video id="myVideo" width="100%" onerror="failed(event);" ondblclick="displayFullscreenControls();"></video>
 
         <?php self::displayControls('mediaControls', false); ?>
         
@@ -1085,6 +1083,12 @@ class OWMP
 
             </div>
 
+            <script type="text/javascript">
+                var playlistCount = <?php echo $_SESSION['$countThePlaylist']; ?>;
+            </script>
+            
+
+
             <?php
         }
 
@@ -1095,15 +1099,15 @@ class OWMP
                 ?>
 
                 <script type="text/javascript">
-
-//                    var files = <?php //echo json_encode($playlistToPlay); ?>//;
-
                     init();
-
                 </script>
 
                 <?php
             }
+
+
+
+
 
             $_SESSION['PlaylistCounter']++;
 
@@ -2154,7 +2158,7 @@ class OWMP
     // Προσθέτει μία ψήφο στο table votes
     static function voteSong($fileID) {
         
-        $userIP=$_SERVER['REMOTE_ADDR'];  // H ip του χρήστη
+        $userIP=$_SESSION['user_IP'];  // H ip του χρήστη
 
         $conn = new RoceanDB();
 

@@ -10,9 +10,9 @@
 
 require_once('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
-
 session_start();
+
+Page::checkValidAjaxRequest(true);
 
 set_time_limit(0);
 

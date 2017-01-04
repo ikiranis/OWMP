@@ -11,9 +11,11 @@
 
 require_once ('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
-
 session_start();
+
+Page::checkValidAjaxRequest(true);
+
+
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);

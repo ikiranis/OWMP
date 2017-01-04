@@ -12,7 +12,9 @@
 
 require_once ('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
+session_start();
+
+Page::checkValidAjaxRequest(true);
 
 //Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 $lastMomentAlive=Page::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive

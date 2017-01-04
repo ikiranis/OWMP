@@ -12,9 +12,9 @@
 
 require_once('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
-
 session_start();
+
+Page::checkValidAjaxRequest(false);
 
 
 if(isset($_GET['offset']))
@@ -83,6 +83,8 @@ else {
         OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
     }
 }
+
+
 
 
 

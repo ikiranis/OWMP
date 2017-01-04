@@ -12,7 +12,9 @@
 
 require_once ('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
+session_start();
+
+Page::checkValidAjaxRequest(false);
 
 if($currentSong = OWMP::getSongInfo(null)) { // Τα στοιχεία του τραγουδιού
     $jsonArray = array('success' => true,

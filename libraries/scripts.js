@@ -36,6 +36,8 @@ var myMime='';  // Ο τύπος του cover art
 
 var tabID;
 
+var PlayTime=0; // Κρατάει πόσα τραγούδια παίξανε
+
 var initEventListenerHadler = false; // κρατάει το αν έχει ενεργοποιηθεί το event listener στο init()
 
 var runningYoutubeDownload=false; // Κρατάει το αν τρέχει το download του youtube
@@ -878,12 +880,16 @@ function loadNextVideo(id) {
     $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
 
         var filename=data.file.filename; // σκέτο το filename
-        
+
         if (data.tags.success == true) { // τυπώνει τα data που τραβάει
 
             var thePath=data.file.path;
             thePath=thePath.replace(WebFolderPath,'');
             file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
+
+            myVideo.src = file_path;
+            // myVideo.controls=false;
+            // console.log(myVideo.src);
 
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
@@ -918,13 +924,11 @@ function loadNextVideo(id) {
             }
             else {
                 document.querySelector('#overlay_poster_source').innerHTML='';
-                myVideo.poster=null;
+                myVideo.poster='';
             }
 
 
-            myVideo.src = file_path;
-            // myVideo.controls=false;
-            console.log(myVideo.src);
+
 
             myVideo.load();
 
@@ -932,12 +936,22 @@ function loadNextVideo(id) {
             //     myVideo.play();
             // else myVideo.pause();
 
-            myVideo.pause();
+            if (PlayTime > 0) {
+                myVideo.play();
+            } else {
+                myVideo.pause();
+            }
+
+            console.log(PlayTime);
 
             // Αρχίζει το play όταν μπορεί να παίξει χωρίς buffering
-            myVideo.addEventListener("canplaythrough", function() {
-                myVideo.play();
-            });
+            // myVideo.addEventListener("canplaythrough", function() {
+            //     if (PlayTime > 0) {
+            //         myVideo.play();
+            //     } else {
+            //         myVideo.pause();
+            //     }
+            // });
 
 
             currentPlaylistID=data.tags.playlist_id;
@@ -979,7 +993,7 @@ function loadNextVideo(id) {
 
             makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist
 
-
+            PlayTime++;
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
 
@@ -987,7 +1001,7 @@ function loadNextVideo(id) {
             $('#title').val(filename);
         }
 
-        $("#TotalNumberInPlaylist").text(data.tags.playlist_count);  // εμφανίζει το σύνολο των κομματιών στην playlist
+        
 
 
 
@@ -1034,21 +1048,26 @@ function init(){
         localStorage.PlayMode='shuffle';
 
         initEventListenerHadler = true;
+
+        // Load the first video when the page is loaded.
+        getNextVideoID(0, 'next');
+
+        // if (Playtime > 0) {
+        //     $("#overlay_media_controls .pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
+        //     $("#mediaControls .pause_play_button").removeClass('play_button').addClass('pause_button_black');
+        // }
     }
 
-    // Load the first video when the page is loaded.
-    getNextVideoID(0, 'next');
-
-    if(checkFullscreen()) {
-        $(".pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
-    } else {
-        $(".pause_play_button").removeClass('play_button').addClass('pause_button_black');
+    if($("#TotalNumberInPlaylist").length>0) {
+        document.querySelector("#TotalNumberInPlaylist").innerHTML = playlistCount;  // εμφανίζει το σύνολο των κομματιών στην playlist
     }
 
 }
 
 // Όταν δεν βρει ένα video να παίξει
 function failed(e) {
+    console.log(myVideo.src);
+
     // video playback failed - show a message saying why
     switch (e.target.error.code) {
         case e.target.error.MEDIA_ERR_ABORTED:
@@ -1948,19 +1967,15 @@ function rwSong() {
 function playSong() {
     if (myVideo.paused) {
         myVideo.play();
-        if(checkFullscreen()) {
-            $(".pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
-        } else {
-            $(".pause_play_button").removeClass('play_button').addClass('pause_button_black');
-        }
+
+        $("#overlay_media_controls .pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
+        $("#mediaControls .pause_play_button").removeClass('play_button').addClass('pause_button_black');
     }
     else {
         myVideo.pause();
-        if(checkFullscreen()) {
-            $(".pause_play_button").removeClass('pause_button_white').addClass('play_button_white');
-        } else {
-            $(".pause_play_button").removeClass('pause_button_black').addClass('play_button');
-        }
+
+        $("#overlay_media_controls .pause_play_button").removeClass('pause_button_white').addClass('play_button_white');
+        $("#mediaControls .pause_play_button").removeClass('pause_button_black').addClass('play_button');
     }
     showFullScreenVideoTags();
 }
@@ -1984,15 +1999,19 @@ function giphyToggle() {
 }
 
 function volumeUp() {
-    myVideo.volume += 0.01;
-    localStorage.volume=myVideo.volume;
-    displayVolume('up');
+    if(myVideo.volume<1) {
+        myVideo.volume += 0.01;
+        localStorage.volume = myVideo.volume;
+        displayVolume('up');
+    }
 }
 
 function volumeDown() {
-    myVideo.volume -= 0.01;
-    localStorage.volume=myVideo.volume;
-    displayVolume('down');
+    if(myVideo.volume>0) {
+        myVideo.volume -= 0.01;
+        localStorage.volume = myVideo.volume;
+        displayVolume('down');
+    }
 }
 
 function volumeMute() {

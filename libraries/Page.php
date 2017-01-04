@@ -625,8 +625,16 @@ class Page
 
     
     // Έλεγχος αν το ajax request γίνεται από το ίδιο το site και όχι εξωτερικά
-    static function checkValidAjaxRequest() {
+    static function checkValidAjaxRequest($checkLogin) {
 
+
+        // Έλεγχος αν είναι login. Αν δεν είναι τερματίζει την εκτέλεση
+        if($checkLogin) {
+            if( !RoceanDB::checkIfUserIsLegit() ) {
+                die('Invalid AJAX request');
+            }
+        }
+        
         $requestAJAXValid = false;
         
 
@@ -636,12 +644,12 @@ class Page
             } else {
                 $requestAJAXValid = false;
             }
-            
+
 
         } else {
             $requestAJAXValid = false;
         }
-        
+
         if(!$requestAJAXValid) {
             trigger_error('Invalid AJAX request from '.$_SERVER['REMOTE_ADDR']);
             die('Invalid AJAX request');

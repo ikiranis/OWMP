@@ -31,7 +31,10 @@ RoceanDB::checkMySqlTables();
 
 $MainPage = new Page();
 
-
+// Αποθηκεύει την IP σε session για τις περιπτώσεις που αλλάζει συνέχεια η IP του χρήστη (π.χ. σε 3g network)
+if(!isset($_SESSION['user_IP'])) {
+    $_SESSION['user_IP'] = $_SERVER['REMOTE_ADDR'];
+}
 
 
 if (isset($_GET['logout'])) {
@@ -96,25 +99,28 @@ $logged_in=false;
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
-    if (isset($_SESSION["username"]))
+    if (RoceanDB::checkIfUserIsLegit())
     {
-        $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$conn->getSession('username').'</span>';
+        $userName=$conn->getSession('username');
+        
+        $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$userName.'</span>';
 //        session_regenerate_id(true);
-
-            $userName=$conn->getSession('username');
         
         $logged_in=true;
 
     }
 }
 else {
-    $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$_COOKIE["username"].'</span>';
-    $logged_in=true;
+    $userName = RoceanDB::getACookie('username');
 
-    $userName=$_COOKIE['username'];
-    
+    $LoginNameText = '<img id="account_image" src="img/account.png"> <span id="account_name">' . $userName . '</span>';
+    $logged_in = true;
+
+//    $userName=$_COOKIE['username'];
+
+
     if (!isset($_SESSION["username"]))
-        $conn->setSession('username', $_COOKIE["username"]);
+        $conn->setSession('username', $userName);
 }
 
 

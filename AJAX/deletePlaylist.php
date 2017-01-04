@@ -12,9 +12,10 @@
 
 require_once ('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
-
 session_start();
+
+Page::checkValidAjaxRequest(true);
+
 
 $conn = new RoceanDB();
 

@@ -64,6 +64,63 @@ class RoceanDB
         $stmt = null;
 
     }
+    
+    
+    // Ελέγχει αν υπάρχει logged in user και είναι σωστός
+    static function checkIfUserIsLegit() {
+
+        if(isset($_SESSION['username']) && isset($_SESSION['salt'])) {
+            $userName = self::getSession('username');
+            $userID = self::getUserID($userName);
+            $userSalt = self::getSession('salt');
+            $userSaltInDB = self::getSaltForUser($userID);
+
+            if ($userSalt == $userSaltInDB) {
+                return true;
+            } else {
+                trigger_error('USER NOT LEGIT');
+                return false;
+            }
+        } else {
+            trigger_error('USER NOT LEGIT');
+            return false;
+        }
+        
+    }
+
+    // Ψάχνει αν admin user στην βάση. Επιστρέφει true or false.
+    static function CheckIfThereIsAdminUser () {
+
+        self::CreateConnection();
+
+        $sql='SELECT user_id FROM user WHERE user_group=?';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute(array('1'));
+
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+            return true;
+        else return false;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+
+
+    // Σετάρει ένα cookie και το σώζει κωδικοποιημένο
+    static function setACookie($cookieName, $value) {
+        $crypt = new Crypto();
+        setcookie($cookieName, $crypt->EncryptText($value), time()+self::$CookieTime, PROJECT_PATH);
+    }
+
+    // Διαβάζει ένα cookie και το επιστρέφει αποκωδικοποιημένο
+    static function getACookie($cookieName) {
+        $crypt = new Crypto();
+
+        return $crypt->DecryptText($_COOKIE[$cookieName]);
+    }
 
     // Ελέγχει αν ο χρήστης υπάρχει στην βάση και είναι σωστά τα username, password που έχει δώσει
     function CheckLogin($username, $password, $SavePassword) {
@@ -81,7 +138,6 @@ class RoceanDB
         // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
         {
-            $crypto = new Crypto();
 
             // Προσθέτει το string στο password που έδωσε ο πιθανός χρήστης
             $HashThePassword=$password.Crypto::$KeyForPasswords;
@@ -110,8 +166,10 @@ class RoceanDB
 
                     // Χρησιμοποιούμε 2 cookies. Στο ένα έχουμε το username και στο άλλο το salt του χρήστη
                     // Τα Cookies θα μείνουν ανοιχτά για self::$CookieTime χρόνο
-                    setcookie('username', $item['username'], time()+self::$CookieTime, PROJECT_PATH);
-                    setcookie('salt', $user_salt, time()+self::$CookieTime, PROJECT_PATH);
+//                    setcookie('username', $item['username'], time()+self::$CookieTime, PROJECT_PATH);
+                    self::setACookie('username', $item['username']);
+                    self::setACookie('salt', $user_salt);
+//                    setcookie('salt', $user_salt, time()+self::$CookieTime, PROJECT_PATH);
 
                 }
                 else {
@@ -126,6 +184,9 @@ class RoceanDB
                 }
 
                 self::setSession('username',$item['username']);
+                self::setSession('salt',$user_salt);
+
+                trigger_error(self::getSession('username'));
 
                 self::insertLog('User Login'); // Προσθήκη της κίνησης στα logs
 
@@ -255,6 +316,27 @@ class RoceanDB
 
     }
 
+    // Επιστρέφει το salt για τον $userID
+    static function getSaltForUser($userID) {
+        self::CreateConnection();
+
+        $sql='SELECT salt FROM salts WHERE user_id=?';
+        $salt = self::$conn->prepare($sql);
+        $salt->execute(array($userID));
+
+        // Παίρνουμε το salt και το συγκρίνουμε με αυτό που έχει το σχετικό cookie
+        if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
+            return $result = $salt_item['salt'];
+        }
+        else return $result=false;
+
+        return $result;
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+    }
+
     // Έλεγχος αν ο χρήστης είναι logged id, αν υπάρχουν cookies. Η function επιστρέφει true or false
     function CheckCookiesForLoggedUser() {
 
@@ -267,22 +349,19 @@ class RoceanDB
 
             $stmt = self::$conn->prepare($sql);
 
-            $stmt->execute(array($_COOKIE['username']));
+            $stmt->execute( array ( self::getACookie('username') ) );
 
             // Αν βρεθεί το id του user ψάχνουμε τα salt του
             if($item=$stmt->fetch(PDO::FETCH_ASSOC))
             {
 
-                $sql='SELECT salt FROM salts WHERE user_id=?';
-                $salt = self::$conn->prepare($sql);
-                $salt->execute(array($item['user_id']));
+                $userSalt=self::getSaltForUser($item['user_id']);
 
                 // Παίρνουμε το salt και το συγκρίνουμε με αυτό που έχει το σχετικό cookie
-                if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
-                    if($salt_item['salt']==$_COOKIE['salt']) {
-//                        $crypto= new Crypto();
-                        self::setSession('username',$_COOKIE['username']);  // Ανοίγει το session για τον συγκεκριμένο χρήστη
-//                        $_SESSION['username']=$crypto->EncryptText($_COOKIE['username']);
+                if($userSalt) {
+                    if($userSalt==self::getACookie('salt') ) {
+                        self::setSession( 'username', self::getACookie('username') );  // Ανοίγει το session για τον συγκεκριμένο χρήστη
+                        self::setSession( 'salt', $userSalt );
                         return true;
                     }
                     else return false;

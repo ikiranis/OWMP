@@ -10,9 +10,10 @@
 
 require_once('../libraries/common.inc.php');
 
-Page::checkValidAjaxRequest();
-
 session_start();
+
+Page::checkValidAjaxRequest(false);
+
 
 if(isset($_GET['username']))
     $username=ClearString($_GET['username']);
