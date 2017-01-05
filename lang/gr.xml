@@ -171,7 +171,7 @@
         <phrase name="file_not_added">Δεν προστέθηκε</phrase>
         <phrase name="files_added">Προστέθηκαν</phrase>
         <phrase name="added_files">αρχεία</phrase>
-        <phrase name="files_to_delete">Αρχεία προς διαγραφή</phrase>
+        <phrase name="files_to_delete">Τα αρχεία υπάρχουν ήδη. Διαγραφή των νέων</phrase>
         <phrase name="delete_files">Διαγραφή αρχείων</phrase>
         <phrase name="files_to_update">Αρχεία προς ενημέρωση που αλλάξανε θέση</phrase>
         <phrase name="update_files">Ενημέρωση αρχείων</phrase>
