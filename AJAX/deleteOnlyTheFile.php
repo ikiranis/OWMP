@@ -4,10 +4,10 @@
  * Created by rocean
  * Date: 01/09/16
  * Time: 00:50
+ * 
  * Σβήνει μόνο το αρχείο στον δίσκο και όχι και εγγραφή στην βάση
+ * 
  */
-
-
 
 
 require_once('../libraries/common.inc.php');
@@ -18,10 +18,10 @@ Page::checkValidAjaxRequest(true);
 
 
 if(isset($_GET['filename']))
-    $filename=ClearString($_GET['filename']);
+    $filename=$_GET['filename'];
 
 if(isset($_GET['fullpath']))
-    $fullpath=urldecode($_GET['fullpath']);
+    $fullpath=$_GET['fullpath'];
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);

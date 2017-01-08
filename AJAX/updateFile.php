@@ -14,10 +14,10 @@ session_start();
 Page::checkValidAjaxRequest(true);
 
 if(isset($_GET['filename']))
-    $filename=ClearString($_GET['filename']);
+    $filename=$_GET['filename'];
 
 if(isset($_GET['path']))
-    $path=ClearString($_GET['path']);
+    $path=$_GET['path'];
 
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
@@ -33,6 +33,8 @@ if($update) {
     echo '<p>'.__('the_file').' '. $filename . ' '.__('changed_path').'</p>';
 
     $jsonArray = array('success' => true, 'id' => $id);
+
+    trigger_error($id.'  File ' . $filename . ' change path.');
 
     RoceanDB::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
 }

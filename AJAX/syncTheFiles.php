@@ -32,7 +32,7 @@ if($operation=='clear')
     $sync->clearTheFiles();
 
 if($operation=='hash')
-    $sync->hashTheFiles();
+    $sync->hashTheFiles($mediaKind);
 
 if($operation=='metadata')
     $sync->filesMetadata();

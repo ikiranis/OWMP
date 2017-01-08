@@ -265,6 +265,8 @@ class SyncFiles
 
             $problemInFilePath=false;
 
+//            $inserted_id=0;
+
             if(!$fileAlreadySynced) { // Έλεγχος στα νέα αρχεία αν το hash υπάρχει ήδη στην βάση
 
                 if(OWMP::fileExists($full_path)) { // Αν το αρχείο υπάρχει
@@ -343,6 +345,7 @@ class SyncFiles
                         $inserted_id = 0;
                         trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
                     }
+
 
 
                     $status = 'not founded';
@@ -424,7 +427,7 @@ class SyncFiles
 
         // Διαγραφή αρχείων αν χρειάζονται
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
-            echo '<p>'.__('files_to_delete').':</p>';
+            echo '<p>'.__('files_to_delete').': '.count(self::$filesForDelete).' </p>';
 
             foreach (self::$filesForDelete as $item) {  // Εμφανίζει τα αρχεία προς διαγράφη
                 ?>
@@ -446,7 +449,7 @@ class SyncFiles
 
         // Ενημέρωση της βάσης με τα νέα path και filename των αρχείων που έχουν αλλάξει θέση
         if(self::$filesForUpdate) {  // Αν υπάρχουν αρχεία προς ενημέρωση
-            echo '<p>'.__('files_to_update').': </p>';
+            echo '<p>'.__('files_to_update').': '.count(self::$filesForUpdate).' </p>';
 
             foreach (self::$filesForUpdate as $item) {  // Εμφανίζει τα αρχεία προς ενημέρωση
                 ?>
@@ -678,6 +681,8 @@ class SyncFiles
             // Παράγουμε το md5 από το συγκεκριμένο string του αρχείου
             $result = md5($contents);
 
+//            trigger_error(filesize($full_path).'   '.$result.'   '.$full_path);
+
             Page::setLastMomentAlive(true);
         }
         else $result=false;
@@ -702,7 +707,7 @@ class SyncFiles
     }
 
     // Παράγει hash για κάθε αρχείο και ενημερώνει την βάση
-    static function hashTheFiles() {
+    static function hashTheFiles($mediaKind) {
         set_time_limit(0);
 
         self::setProgress(0);
@@ -713,7 +718,7 @@ class SyncFiles
 
         $counter=0;
 
-        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
+        if($filesOnDB = $conn->getTableArray('files', 'id, path, filename', 'kind=?', array($mediaKind), null, null, null)) // Ολόκληρη η λίστα
         {
             $progressCounter=0;
             $general_counter=0;

@@ -41,6 +41,7 @@ var PlayTime=0; // Κρατάει πόσα τραγούδια παίξανε
 var initEventListenerHadler = false; // κρατάει το αν έχει ενεργοποιηθεί το event listener στο init()
 
 var runningYoutubeDownload=false; // Κρατάει το αν τρέχει το download του youtube
+var runningUpdateFiles=false;  // Κρατάει το αν τρέχει το μαζικό update αρχείων
 
 var displayingMediaControls=false; // Κρατάει το αν εμφανίζονται τα media controls σε fullscreen
 
@@ -1274,7 +1275,7 @@ function startTheSync(operation) {
     callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
 
 
-    console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
+    // console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
 
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
@@ -1389,6 +1390,71 @@ function callGetYouTube(url,counter,total) {
             }
         }
     });
+}
+
+
+// Καλεί το ajax σε queue για να κάνει το μαζικό update αρχείων
+function callUpdateTheFile(path, filename, id, counter, total) {
+    $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+        url: AJAX_path + "updateFile.php",
+        type: 'GET',
+        async: true,
+        data: {
+            path: path,
+            filename: filename,
+            id: id
+        },
+        dataType: "json",
+        beforeSend: function (xhr) {
+            if(runningUpdateFiles) {
+                progressPercent = parseInt(((counter + 1) / total) * 100);
+
+                $("#theProgressNumber").html(progressPercent + '%');
+                document.querySelector('#theProgressBar').value = progressPercent;
+            }
+            else xhr.abort();
+
+        },
+        success: function (data) {
+            if (data.success) {
+                $("#updateRow" + data.id).remove();
+            }
+        }
+    });
+
+}
+
+
+// Καλεί το ajax σε queue για να κάνει το μαζικό delete αρχείων
+function callDeleteTheFile(fullpath, filename, id, counter, total) {
+    $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+        url: AJAX_path + "deleteOnlyTheFile.php",
+        type: 'GET',
+        async: true,
+        data: {
+            fullpath: fullpath,
+            filename: filename,
+            id: id
+        },
+        dataType: "json",
+        beforeSend: function (xhr) {
+            if(runningUpdateFiles) {
+                progressPercent = parseInt(((counter + 1) / total) * 100);
+
+                $("#theProgressNumber").html(progressPercent + '%');
+                document.querySelector('#theProgressBar').value = progressPercent;
+            }
+            else xhr.abort();
+
+        },
+        success: function (data) {
+            if (data.success) {
+                $("#deleteRow" + data.id).remove();
+                // TODO να τσεκάρω αν δουλεύει σωστά η διαγραφή κι αν σβήνονται τα row. Το ίδιο και στο update
+            }
+        }
+    });
+
 }
 
 // Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
@@ -1533,19 +1599,27 @@ function deleteFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
-        for (var i = 0; i < filesArray.length; i++) {
-            callFile = AJAX_path + "deleteOnlyTheFile.php?fullpath=" + encodeURIComponent(filesArray[i]['fullpath']) +
-                            "&filename=" + encodeURIComponent(filesArray[i]['filename']) +
-                            "&id=" + filesArray[i]['id'];
-
-
-            $.get(callFile, function (data) {
-                if (data.success == true) {
-                    $("#deleteRow" + data.id).remove();
-                }
-            }, "json");
-        }
+        $('#progress').show();
+        $('#logprogress').show();
         $("#AgreeToDeleteFiles").remove();
+
+        $("#killCommand_img").show();
+        document.querySelector('#theProgressBar').value=0;
+        $("#theProgressNumber" ).html('');
+
+        runningUpdateFiles = true;
+        
+        for (var i = 0; i < filesArray.length; i++) {
+            callDeleteTheFile(filesArray[i]['fullpath'], filesArray[i]['filename'], filesArray[i]['id'], i, filesArray.length);
+        }
+
+        $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+            $("#progress").hide();
+            $('#logprogress').hide();
+            document.querySelector('#theProgressBar').value=0;
+            $("#theProgressNumber" ).html('');
+            runningUpdateFiles = false;
+        });
     }
 }
 
@@ -1684,18 +1758,32 @@ function updateFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_update_files']);
 
     if (confirmAnswer==true) {
-        for (var i = 0; i < filesArray.length; i++) {
-            callFile = AJAX_path + "updateFile.php?path=" + encodeURIComponent(filesArray[i]['path']) +
-                "&filename=" + encodeURIComponent(filesArray[i]['filename']) +
-                "&id=" + filesArray[i]['id'];
-
-            $.get(callFile, function (data) {
-                if (data.success == true) {
-                    $("#updateRow" + data.id).remove();
-                }
-            }, "json");
-        }
+        $('#progress').show();
+        $('#logprogress').show();
         $("#AgreeToUpdateFiles").remove();
+
+        $("#killCommand_img").show();
+        document.querySelector('#theProgressBar').value=0;
+        $("#theProgressNumber" ).html('');
+
+        console.log ('Files to update: '+filesArray.length);
+
+        runningUpdateFiles = true;
+
+
+        for (var i = 0; i < filesArray.length; i++) {
+            callUpdateTheFile(filesArray[i]['path'], filesArray[i]['filename'], filesArray[i]['id'], i, filesArray.length);
+        }
+
+        $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+            $("#progress").hide();
+            $('#logprogress').hide();
+            document.querySelector('#theProgressBar').value=0;
+            $("#theProgressNumber" ).html('');
+            // $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
+            runningUpdateFiles = false;
+        });
+
     }
 }
 
