@@ -1754,7 +1754,6 @@ class OWMP
     }
 
 
-    // TODO να δημιουργεί και thumbnail
     // upload ενός image κι εισαγωγή στην βάση
     static function uploadAlbumImage($image, $mime) {
         $conn = new RoceanDB();
@@ -1797,6 +1796,13 @@ class OWMP
                 $artsArray = array($imageDir, $timestampFilename.$imageExtension, $hash);
 
                 $coverID=$conn->ExecuteSQL($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
+
+                // GD install http://php.net/manual/en/image.installation.php
+                if(function_exists('gd_info')) {  // Αν είναι εγκατεστημένη η GD library στην PHP
+                    // Δημιουργεί thumbnail και small image
+                    self::createSmallerImage($file, 'thumb');
+                    self::createSmallerImage($file, 'small');
+                }
             }
 
         }
@@ -1805,6 +1811,75 @@ class OWMP
 
         return $coverID;
 
+
+    }
+
+
+    // Αναλόγως το extension επιστρέφει την εικόνα στο $image
+    static function openImage($myImage) {
+        $extension = pathinfo($myImage, PATHINFO_EXTENSION);
+        switch ($extension) {
+            case 'jpg':
+            case 'jpeg':
+                $image = imagecreatefromjpeg($myImage);
+                break;
+            case 'gif':
+                $image = imagecreatefromgif($myImage);
+                break;
+            case 'png':
+                $image = imagecreatefrompng($myImage);
+                break;
+            default:
+                $image=false;
+                break;
+        }
+
+        return $image;
+    }
+
+    // Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
+    static function createSmallerImage($fullpath, $imageSize) {
+//        ini_set('memory_limit', '100M'); // Για χειρισμό μεγάλων εικόνων
+
+        $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
+        $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
+
+        // Ανοίγει το image και το βάζει στο $image
+        if (!$image = self::openImage($fullpath)) { return false; }
+
+        // Οι διαστάσεις του αρχικού image
+        $oldImageWidth = imagesx($image);
+        $oldImageHeight = imagesy($image);
+
+        
+        // Οι νέες διαστάσεις αναλόγως τι έχουμε επιλέξει να κάνει
+        switch($imageSize) {
+            case 'thumb':
+                $newWidth = 50;
+                $newHeight = 50;
+                $newFilename = 'thumb_'.$imageFilename;
+                break;
+            case 'small':
+                $newWidth = 250;
+                $newHeight = 250;
+                $newFilename = 'small_'.$imageFilename;
+                break;
+        }
+
+        // Δημιουργεί το image με νέες διαστάσεις
+        $newImage = ImageCreateTrueColor($newWidth, $newHeight);
+        imagecopyResampled ($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
+
+        // Σώζει το image
+        if(imagejpeg($newImage,$imagePath.'/'.$newFilename)) {
+            $result = true;
+        } else {
+            $result = false;
+        }
+
+        imagedestroy($image); //  clean up image storage
+
+        return $result;
 
     }
 
