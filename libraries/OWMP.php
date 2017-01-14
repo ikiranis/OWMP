@@ -1838,7 +1838,7 @@ class OWMP
     }
 
 
-    // TODO να δημιουργεί και favicon
+    //  TODO να δημιουργεί και favicon
     // Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
     static function createSmallerImage($fullpath, $imageSize) {
 //        ini_set('memory_limit', '100M'); // Για χειρισμό μεγάλων εικόνων
