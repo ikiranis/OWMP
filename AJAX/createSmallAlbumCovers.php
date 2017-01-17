@@ -11,20 +11,43 @@
 
 // TODO να γραφεί ο κώδικας
 
-require_once('libraries/common.inc.php');
+require_once('../libraries/common.inc.php');
 
-$id=252725;
-
-$file=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, null, null);
-
-$myImage = OWMP::getAlbumImagePath($file[0]['album_artwork_id']);
-
-
-// GD install http://php.net/manual/en/image.installation.php
-if(function_exists('gd_info')) {
-    trigger_error('GD EXIST');
-} else {
-    trigger_error('GD NOT EXIST');
+function exception_handler($exception) {
+    echo "Uncaught exception: " ;
 }
 
-OWMP::createSmallerImage(ALBUM_COVERS_DIR.$myImage,'thumb');
+set_exception_handler('exception_handler');
+
+
+$myImage='/media/Spartacus/Music/album_covers/2016/09/20160918235156.jpg';
+
+
+try {
+
+
+
+    $imageString = file_get_contents($myImage);
+//    $imageString = base64_decode($imageString);
+
+    echo $imageString;
+
+    $image = imagecreatefromstring($imageString);
+
+
+
+    header('Content-Type: image/jpeg');
+    imagejpeg($image);
+    throw new Exception('Uncaught Exception');
+
+}
+catch (Exception $e) {
+    echo $e->getMessage();
+    
+    
+    
+    
+    
+}
+
+echo 'ante kai gamisou';

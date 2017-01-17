@@ -8,6 +8,12 @@
  * Βασική class του OWMP
  */
 
+
+function customError($errno, $errstr) {
+    trigger_error('Custom Error'. ' '. $errno. ' '. $errstr);
+    return false;
+}
+
 class OWMP
 {
 
@@ -726,7 +732,9 @@ class OWMP
 
                 <?php
 
-                $coverImagePath = self::getAlbumImagePath($track['album_artwork_id']);
+                $coverImage = self::getAlbumImagePath($track['album_artwork_id']);
+
+                $coverImagePath = $coverImage['path'] . 'small_' . $coverImage['filename'];
 
                 if ($track['kind'] == 'Music' && $coverImagePath) {
 
@@ -1532,6 +1540,12 @@ class OWMP
                                value="<?php echo __('sync_json'); ?>">
                         <?php Page::getHelp('help_playlist_export'); ?>
                     </p>
+
+                    <p>
+                        <input type="button" class="myButton syncButton" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
+                               value="<?php echo __('cover_convert'); ?>">
+                        <?php Page::getHelp('help_convert_covers'); ?>
+                    </p>
     
     
                     <?php
@@ -1815,9 +1829,29 @@ class OWMP
     }
 
 
+    // Ελέγχει αν ένα image είναι valid
+    static function checkValidImage($myImage){
+
+        $html = VALID_IMAGE_SCRIPT_ADDRESS.'?imagePath='.$myImage;
+        $response = file_get_contents($html);
+        $decoded = json_decode($response, true);
+
+        if($decoded) {
+            foreach ($decoded as $items) {
+                $result = $items;
+                return $result;
+            }
+        } else return false;
+    }
+
+
     // Αναλόγως το extension επιστρέφει την εικόνα στο $image
     static function openImage($myImage) {
         $extension = pathinfo($myImage, PATHINFO_EXTENSION);
+//        error_reporting(E_ALL);
+
+//        set_error_handler("customError");
+
         switch ($extension) {
             case 'jpg':
             case 'jpeg':
@@ -1830,8 +1864,13 @@ class OWMP
                 $image = imagecreatefrompng($myImage);
                 break;
             default:
-                $image=false;
+                return false;
                 break;
+        }
+
+        if (!$image) {
+            trigger_error('ERROR!');
+            return false;
         }
 
         return $image;
@@ -1841,13 +1880,13 @@ class OWMP
     //  TODO να δημιουργεί και favicon
     // Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
     static function createSmallerImage($fullpath, $imageSize) {
-//        ini_set('memory_limit', '100M'); // Για χειρισμό μεγάλων εικόνων
-
         $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
 
-        // Ανοίγει το image και το βάζει στο $image
-        if (!$image = self::openImage($fullpath)) { return false; }
+        // Aνοίγει το image και το βάζει στο $image
+        if (!$image = self::openImage($fullpath)) {
+            return false;
+        }
 
         // Οι διαστάσεις του αρχικού image
         $oldImageWidth = imagesx($image);
@@ -1880,6 +1919,7 @@ class OWMP
         }
 
         imagedestroy($image); //  clean up image storage
+        imagedestroy($newImage);
 
         return $result;
 
@@ -1900,7 +1940,7 @@ class OWMP
 
         if($item=$stmt->fetch(PDO::FETCH_ASSOC))
 
-            $result=$item['path'] . $item['filename'];
+            $result=array('path' => $item['path'], 'filename' => $item['filename']);
 
         else $result=false;
 

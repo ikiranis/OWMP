@@ -9,9 +9,8 @@
  */
 
 
-define ('APP_VERSION', '0.1.301');
+define ('APP_VERSION', '0.1.302');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
-
 
 require_once ('config.inc.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
@@ -33,8 +32,18 @@ define ('AJAX_PATH', 'AJAX/');
 define ('WEB_PAGE_URL', 'http://apps4net.eu');
 define ('CHANGE_LOG_URL', 'http://apps4net.eu/?page_id=41');
 
+
+
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');
+
+// Παίρνει ολόκληρο το url του project με την εσωτερική ip του server
+define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].PROJECT_PATH);
+
+// Η διεύθυνση του checkValidImage script. Πρέπει να είναι ολόκληρο το url της εσωτερικής ip του server που τρέχει η εφαρμογή
+// π.χ. http://192.168.1.19:9999/arduino
+// αν το script τρέχει στον σερβερ της εφαρμογής, αφήνουμε αυτή την γραμμή όπως είναι, αλλιώς χρησιμοποιούμε τα παρακάτω παραδείγματα
+define ('VALID_IMAGE_SCRIPT_ADDRESS', LOCAL_SERVER_IP_WITH_PORT.AJAX_PATH.'checkValidImage.php');
 
 define ('NAV_LIST_ITEMS', '5'); // Ο αριθμός των επιλογών στo Nav Menu
 
@@ -292,6 +301,8 @@ function ClearString($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
+
 
 
 

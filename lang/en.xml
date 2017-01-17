@@ -107,6 +107,7 @@
         <phrase name="sync_json">JSON import</phrase>
         <phrase name="sync_youtube">Download from youTube</phrase>
         <phrase name="import_path">Import path</phrase>
+        <phrase name="cover_convert">Create small album covers</phrase>
     </page>
 
     <page name="playlist">
@@ -361,6 +362,9 @@
             <p>κάνουμε restart τον Apache</p>
             <pre>sudo service apache2 restart</pre>
         ]]></phrase>
+        <phrase name="help_convert_covers">
+            Δημιουργεί μικρότερες εκδόσεις και thumbnails των album covers, για όλη την συλλογή
+        </phrase>
 
     </page>
 

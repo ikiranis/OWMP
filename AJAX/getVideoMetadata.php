@@ -58,7 +58,9 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
     $apiSource='';
 
     if($file[0]['kind']=='Music') {
-        $albumCoverPath = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
+        // το Album cover
+        $coverImage = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
+        $albumCoverPath = $coverImage['path'] . $coverImage['filename'];
 
         // Χρησιμοποιεί το itunes ή giphy api για να πάρει artwork όταν δεν υπάρχει artwork στο τραγούδι
         if($metadata[0]['album_artwork_id']==DEFAULT_ARTWORK_ID) {

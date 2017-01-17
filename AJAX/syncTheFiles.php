@@ -39,3 +39,6 @@ if($operation=='metadata')
 
 if($operation=='json_import')
     $sync->importPlaylistToDB();
+
+if($operation=='coverConvert')
+    $sync->convertCovers();

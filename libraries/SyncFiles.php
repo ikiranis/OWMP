@@ -886,6 +886,106 @@ class SyncFiles
     }
 
 
+    // TODO να κάνει ταυτόχρονα και έλεγχο για τα ορφανά αρχεία
+    // Δημιουργεί μαζικά μικρότερες εκδόσεις των cover albums
+    public function convertCovers() {
+        set_time_limit(0);
+        ini_set('memory_limit', '100M'); // Για χειρισμό μεγάλων εικόνων
+
+        self::setProgress(0);
+
+        $script_start = microtime(true);
+
+        $conn = new RoceanDB();
+
+        $counter=0;
+
+        if($artsArray = $conn->getTableArray('album_arts', '*', null, null, null, null, null)) // Ολόκληρη η λίστα
+        {
+
+            $progressCounter=0;
+            $general_counter=0;
+
+            $totalFiles = count($artsArray);
+
+
+            foreach ($artsArray as $item) {
+                $myImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
+
+                $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_'.$item['filename'];
+                $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_'.$item['filename'];
+
+                if(file_exists($thumbnailImage)) {
+                    $thumbExist = true;
+                } else {
+                    $thumbExist = false;
+                }
+
+                if(file_exists($smallImage)) {
+                    $smallExist = true;
+                } else {
+                    $smallExist = false;
+                }
+
+                // Αν δεν υπάρχουν ήδη τα small images
+                if(!$thumbExist && !$smallExist) {
+                    trigger_error($myImage );
+                    // Ελέγχει πρώτα αν είναι valid το Image
+                    if (OWMP::checkValidImage($myImage)) {
+                        if (!$thumbExist) {
+                            if (OWMP::createSmallerImage($myImage, 'thumb')) {
+                                trigger_error($thumbnailImage . ' CREATED');
+                            } else {
+                                trigger_error($myImage . ' CORRUPTED');
+                            }
+                        } else {
+                            trigger_error('Thumb Image FOUND');
+                        }
+
+                        if (!$smallExist) {
+                            if (OWMP::createSmallerImage($myImage, 'small')) {
+                                trigger_error($smallImage . ' CREATED');
+                            } else {
+                                trigger_error($myImage . ' CORRUPTED');
+                            }
+                        } else {
+                            trigger_error('Small Image FOUND');
+                        }
+                    } else {
+                        trigger_error($myImage . '   CORRUPTED IMAGE');
+                    }
+                }
+
+
+                if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
+                    $progressPercent = intval(($general_counter / $totalFiles) * 100);
+
+                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
+                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+
+                    $progressCounter=0;
+                }
+                else $progressCounter++;
+
+                $general_counter++;
+
+
+
+            }
+
+            $script_time_elapsed_secs = microtime(true) - $script_start;
+
+            self::setProgress(0);
+
+            echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
+            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+
+            RoceanDB::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
+        }
+    }
+
+
     // Μετατρέπει ένα ALAC αρχείο σε mp3. Το δημιουργεί σε νέα τοποθεσία την οποία επιστρέφει
     public function convertALACtoMP3($fullPath, $filename, $path) {
         Page::setLastMomentAlive(true);
