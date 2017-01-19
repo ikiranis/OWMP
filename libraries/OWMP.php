@@ -1809,9 +1809,10 @@ class OWMP
 
                 // Αν είναι εγκατεστημένη η GD library στην PHP και αν το image είναι valid
                 if(function_exists('gd_info') && self::checkValidImage($file)) {
-                    // Δημιουργεί thumbnail και small image
+                    // Δημιουργεί thumbnail, small image και ico
                     self::createSmallerImage($file, 'thumb');
                     self::createSmallerImage($file, 'small');
+                    self::createSmallerImage($file, 'ico');
                 }
             }
 

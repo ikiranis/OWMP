@@ -31,6 +31,32 @@ RoceanDB::checkMySqlTables();
 
 $MainPage = new Page();
 
+// Τίτλος της σελίδας
+$MainPage->tittle = APP_NAME;
+
+$scripts=array ('libraries/jquery.min.js',   // jquery
+    'libraries/scripts.js',    // my scripts
+    // TODO να φύγει το polyfill κάποια στιγμή που θα το υποστηρίζουν κανονικά όλοι οι browsers
+    'libraries/details.js',    // polyfill για το summary/details
+    'libraries/jquery.validate.min.js',      // extension του jquery για form validation
+    'libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
+    'libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
+
+
+
+if (!isset($_GET['mobile'])) {
+    $css = array('styles/basic.css', 'styles/main.css');
+    $_SESSION['mobile']=false;
+} else {
+    $css = array('styles/mobile.css', 'styles/main.css');
+    $_SESSION['mobile']=true;
+}
+
+$MainPage->setScript($scripts);
+$MainPage->setCSS($css);
+
+$MainPage->showHeader();
+
 // Αποθηκεύει την IP σε session για τις περιπτώσεις που αλλάζει συνέχεια η IP του χρήστη (π.χ. σε 3g network)
 if(!isset($_SESSION['user_IP'])) {
     $_SESSION['user_IP'] = $_SERVER['REMOTE_ADDR'];
@@ -71,31 +97,6 @@ define('TAB_ID', date('YmdHis'));
 
 <?php
 
-// Τίτλος της σελίδας
-$MainPage->tittle = APP_NAME;
-
-$scripts=array ('libraries/jquery.min.js',   // jquery
-                'libraries/scripts.js',    // my scripts
-    // TODO να φύγει το polyfill κάποια στιγμή που θα το υποστηρίζουν κανονικά όλοι οι browsers
-                'libraries/details.js',    // polyfill για το summary/details
-                'libraries/jquery.validate.min.js',      // extension του jquery για form validation
-                'libraries/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
-                'libraries/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
-
-
-
-if (!isset($_GET['mobile'])) {
-    $css = array('styles/basic.css', 'styles/main.css');
-    $_SESSION['mobile']=false;
-} else {
-    $css = array('styles/mobile.css', 'styles/main.css');
-    $_SESSION['mobile']=true;
-}
-
-$MainPage->setScript($scripts);
-$MainPage->setCSS($css);
-
-$MainPage->showHeader();
 
 $logged_in=false;
 

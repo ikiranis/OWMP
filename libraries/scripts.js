@@ -925,8 +925,11 @@ function loadNextVideo(id) {
                 console.log(iconImagePath);
                 
                 document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
+
+                // Αν υπάρχει icon το εμφανίζει σαν favicon
                 if(iconImagePath) {
-                    document.querySelector("link[rel='shortcut icon']").href = iconImagePath;
+                    // document.querySelector("link[rel='shortcut icon']").href = iconImagePath;
+                    document.querySelector(".theFavIcon").href = iconImagePath;
                 }
 
                 if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
@@ -935,7 +938,8 @@ function loadNextVideo(id) {
                     }
                     else myVideo.poster = albumCoverPath;
                 } else {   // όταν δεν θέλουμε μόνο από giphy
-                    if (albumCoverPath == Album_covers_path + 'default.gif') {  // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
+                    // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
+                    if (albumCoverPath == Album_covers_path + 'default.gif' || albumCoverPath == Album_covers_path + 'small_default.gif') {
                         if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                             myVideo.poster = data.tags.fromAPI;
                         }

@@ -961,14 +961,14 @@ class SyncFiles
 
                             if (!$icoExist) {
                                 if (OWMP::createSmallerImage($myImage, 'ico')) {
-                                    trigger_error($icoImage . ' CREATED');
+                                    echo $icoImage . ' CREATED<br>';
                                 } else {
-                                    trigger_error($myImage . ' CORRUPTED');
+                                    echo $myImage . ' CORRUPTED<br>';
                                 }
                             } 
 
                         } else {
-                            trigger_error($myImage . '   CORRUPTED IMAGE');
+                            echo $myImage . ' CORRUPTED IMAGE<br>';
                         }
                     }
                 }

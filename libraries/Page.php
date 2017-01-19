@@ -31,8 +31,9 @@ class Page
         <!DOCTYPE html>
     <HTML xmlns="http://www.w3.org/1999/html">
         <head>
-            <link rel="shortcut icon" href="data:;base64,iVBORw0KGgo=">
 
+<!--            <link class="theFavIcon" rel="shortcut icon" type="image/x-icon" href="">-->
+            <link class="theFavIcon" rel="icon" type="image/x-icon" href="">
 
             <meta charset="utf-8">
 
