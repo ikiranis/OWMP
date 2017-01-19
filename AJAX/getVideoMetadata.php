@@ -59,8 +59,11 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
 
     if($file[0]['kind']=='Music') {
         // το Album cover
-        $coverImage = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id']);
-        $albumCoverPath = $coverImage['path'] . $coverImage['filename'];
+        $albumCoverPath = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');
+
+        if(!$iconImagePath = OWMP::getAlbumImagePath($metadata[0]['album_artwork_id'], 'ico')) {
+            $iconImagePath=null;
+        }
 
         // Χρησιμοποιεί το itunes ή giphy api για να πάρει artwork όταν δεν υπάρχει artwork στο τραγούδι
         if($metadata[0]['album_artwork_id']==DEFAULT_ARTWORK_ID) {
@@ -87,7 +90,10 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         }
                 
     }
-    else $albumCoverPath=null;
+    else {
+        $albumCoverPath=null;
+        $iconImagePath=null;
+    }
 
     $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
     $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
@@ -110,6 +116,7 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
         'live' => $metadata[0]['live'],
         'rating' => $rating,
         'albumCoverPath'=>$albumCoverPath,
+        'iconImagePath' => $iconImagePath,
         'fromAPI'=>$fromAPI,
         'apiSource'=>$apiSource,
         'playlist_id' => $playlistID,

@@ -8,12 +8,6 @@
  * Βασική class του OWMP
  */
 
-
-function customError($errno, $errstr) {
-    trigger_error('Custom Error'. ' '. $errno. ' '. $errstr);
-    return false;
-}
-
 class OWMP
 {
 
@@ -700,6 +694,8 @@ class OWMP
         <?php
     }
 
+    
+    // Επιστρέφει $searchArray για ένα πεδίο και την τιμή του
     static function getSearchArray($field, $value) {
         $searchArray []= array ('search_field' => $field, 'search_text' => $value,
             'search_operator'=> 'OR', 'search_equality' => 'equal');
@@ -732,14 +728,12 @@ class OWMP
 
                 <?php
 
-                $coverImage = self::getAlbumImagePath($track['album_artwork_id']);
-
-                $coverImagePath = $coverImage['path'] . 'small_' . $coverImage['filename'];
+                $coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small');
 
                 if ($track['kind'] == 'Music' && $coverImagePath) {
 
                     ?>
-                    <img class="coverImage" src="<?php echo ALBUM_COVERS_DIR . $coverImagePath; ?>">
+                    <img class="coverImage" src="<?php echo $coverImagePath; ?>">
                     <?php
                 }
                 ?>
@@ -782,32 +776,32 @@ class OWMP
 
 
             <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
-                <span onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                <span class="searchableItem" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
                     <?php echo $track['song_name']; ?>
                 </span>
             </div>
             <div class="tag artist" title="<?php echo $track['artist']; ?>">
-                <span onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('artist', $track['artist']))); ?>);">
                     <?php echo $track['artist']; ?>
                 </span>
             </div>
             <div class="tag album" title="<?php echo $track['album']; ?>">
-                <span onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('album', $track['album']))); ?>);">
                     <?php echo $track['album']; ?>
                 </span>
             </div>
             <div class="tag genre" title="<?php echo $track['genre']; ?>">
-                <span onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('genre', $track['genre']))); ?>);">
                     <?php echo $track['genre']; ?>
                 </span>
             </div>
             <div class="tag song_year"
                  title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
-                <span onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('song_year', $track['song_year']))); ?>);">
                     <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
                 </span>
@@ -1080,14 +1074,14 @@ class OWMP
                 <?php
 
                     // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
-                    if(!$votePlaylist && !isset($_GET['mobile'])) {
+                    if(!$votePlaylist && !$_SESSION['mobile']) {
                         self::displayPlaylistTitle();
                     }
 
 
                     foreach ($playlist as $track) {
 
-                        if(!$votePlaylist && !isset($_GET['mobile'])) { // Αν δεν είναι η σελίδα vote ή mobile
+                        if(!$votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
                             // Εμφανίζει την λίστα με τα πλήρη στοιχεία
                             self::displayFullPlaylist($track,$loadPlaylist,$votePlaylist);
                         } else { // Αν είναι η σελίδα vote
@@ -1812,7 +1806,9 @@ class OWMP
                 $coverID=$conn->ExecuteSQL($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
 
                 // GD install http://php.net/manual/en/image.installation.php
-                if(function_exists('gd_info')) {  // Αν είναι εγκατεστημένη η GD library στην PHP
+
+                // Αν είναι εγκατεστημένη η GD library στην PHP και αν το image είναι valid
+                if(function_exists('gd_info') && self::checkValidImage($file)) {
                     // Δημιουργεί thumbnail και small image
                     self::createSmallerImage($file, 'thumb');
                     self::createSmallerImage($file, 'small');
@@ -1848,9 +1844,6 @@ class OWMP
     // Αναλόγως το extension επιστρέφει την εικόνα στο $image
     static function openImage($myImage) {
         $extension = pathinfo($myImage, PATHINFO_EXTENSION);
-//        error_reporting(E_ALL);
-
-//        set_error_handler("customError");
 
         switch ($extension) {
             case 'jpg':
@@ -1877,14 +1870,20 @@ class OWMP
     }
 
 
-    //  TODO να δημιουργεί και favicon
     // Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
     static function createSmallerImage($fullpath, $imageSize) {
         $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
+        $extension = pathinfo($fullpath, PATHINFO_EXTENSION);
 
-        // Aνοίγει το image και το βάζει στο $image
-        if (!$image = self::openImage($fullpath)) {
+
+
+        // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
+        if(OWMP::fileExists($fullpath)) {
+            if (!$image = self::openImage($fullpath)) {
+                return false;
+            }
+        } else {
             return false;
         }
 
@@ -1905,6 +1904,11 @@ class OWMP
                 $newHeight = 250;
                 $newFilename = 'small_'.$imageFilename;
                 break;
+            case 'ico':
+                $newWidth = 32;
+                $newHeight = 32;
+                $newFilename = str_replace('.'.$extension, '.ico', $imageFilename);
+                break;
         }
 
         // Δημιουργεί το image με νέες διαστάσεις
@@ -1912,10 +1916,20 @@ class OWMP
         imagecopyResampled ($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
 
         // Σώζει το image
-        if(imagejpeg($newImage,$imagePath.'/'.$newFilename)) {
-            $result = true;
+        if($imageSize!=='ico') {
+            if (imagejpeg($newImage, $imagePath . '/' . $newFilename)) {
+                $result = true;
+            } else {
+                $result = false;
+            }
         } else {
-            $result = false;
+//            trigger_error($imagePath . '/' . $newFilename);
+            if (imagepng($newImage, $imagePath . '/' . $newFilename)) {
+
+                $result = true;
+            } else {
+                $result = false;
+            }
         }
 
         imagedestroy($image); //  clean up image storage
@@ -1927,7 +1941,7 @@ class OWMP
 
 
     // Επιστρέφει το fullpath του album cover για το $id
-    static function getAlbumImagePath($id) {
+    static function getAlbumImagePath($id, $imageSize) {
         $conn = new RoceanDB();
 
         $conn->createConnection();
@@ -1938,11 +1952,63 @@ class OWMP
 
         $stmt->execute(array($id));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            $result=array('path' => $item['path'], 'filename' => $item['filename']);
+            $bigImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
 
-        else $result=false;
+            $extension = pathinfo($bigImage, PATHINFO_EXTENSION);
+
+            if(self::fileExists($bigImage)) {
+                $result = $bigImage;
+            }
+
+            if(function_exists('gd_info')) {
+                $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
+                $thumbImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
+                $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
+                
+                if(self::fileExists($smallImage)) {
+                    $smallExist = true;
+                } else {
+                    $smallExist = false;
+                }
+
+                if(self::fileExists($thumbImage)) {
+                    $thumbExist = true;
+                } else {
+                    $thumbExist = false;
+                }
+
+                if(self::fileExists($icoImage)) {
+                    $icoExist = true;
+                } else {
+                    $icoExist = false;
+                }
+                
+                switch ($imageSize) {
+                    case 'small': if($smallExist) {
+                        $result = $smallImage;
+                    } break;
+                    case 'thumb': if($thumbExist) {
+                        $result = $thumbImage;
+                    } break;
+                    case 'ico': if($icoExist) {
+                        $result = $icoImage;
+                    } break;
+                }
+                
+                if($imageSize=='big' && $_SESSION['mobile'] && $smallExist) {
+                    $result = $smallImage;
+                }
+            } else {
+                if($imageSize=='ico') {
+                    $result = false;
+                }
+            }
+
+        } else {
+            $result=false;
+        }
 
         $stmt->closeCursor();
         $stmt = null;

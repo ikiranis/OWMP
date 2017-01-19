@@ -186,8 +186,6 @@ class RoceanDB
                 self::setSession('username',$item['username']);
                 self::setSession('salt',$user_salt);
 
-                trigger_error(self::getSession('username'));
-
                 self::insertLog('User Login'); // Προσθήκη της κίνησης στα logs
 
 //                $_SESSION["username"]=$crypto->EncryptText($item['username']);

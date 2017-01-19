@@ -86,8 +86,10 @@ $scripts=array ('libraries/jquery.min.js',   // jquery
 
 if (!isset($_GET['mobile'])) {
     $css = array('styles/basic.css', 'styles/main.css');
+    $_SESSION['mobile']=false;
 } else {
     $css = array('styles/mobile.css', 'styles/main.css');
+    $_SESSION['mobile']=true;
 }
 
 $MainPage->setScript($scripts);

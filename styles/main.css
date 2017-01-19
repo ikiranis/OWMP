@@ -1422,6 +1422,12 @@ input {
     background-repeat: no-repeat;
 }
 
+.searchableItem:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 
 .vote_button {
     background-image: url( '../img/favorite.png' );

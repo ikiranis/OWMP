@@ -911,48 +911,65 @@ class SyncFiles
 
             foreach ($artsArray as $item) {
                 $myImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
+                
+                if(OWMP::fileExists($myImage)) {
+                    $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
-                $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_'.$item['filename'];
-                $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_'.$item['filename'];
+                    $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
+                    $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
+                    $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
 
-                if(file_exists($thumbnailImage)) {
-                    $thumbExist = true;
-                } else {
-                    $thumbExist = false;
-                }
 
-                if(file_exists($smallImage)) {
-                    $smallExist = true;
-                } else {
-                    $smallExist = false;
-                }
-
-                // Αν δεν υπάρχουν ήδη τα small images
-                if(!$thumbExist && !$smallExist) {
-                    trigger_error($myImage );
-                    // Ελέγχει πρώτα αν είναι valid το Image
-                    if (OWMP::checkValidImage($myImage)) {
-                        if (!$thumbExist) {
-                            if (OWMP::createSmallerImage($myImage, 'thumb')) {
-                                trigger_error($thumbnailImage . ' CREATED');
-                            } else {
-                                trigger_error($myImage . ' CORRUPTED');
-                            }
-                        } else {
-                            trigger_error('Thumb Image FOUND');
-                        }
-
-                        if (!$smallExist) {
-                            if (OWMP::createSmallerImage($myImage, 'small')) {
-                                trigger_error($smallImage . ' CREATED');
-                            } else {
-                                trigger_error($myImage . ' CORRUPTED');
-                            }
-                        } else {
-                            trigger_error('Small Image FOUND');
-                        }
+                    if (file_exists($thumbnailImage)) {
+                        $thumbExist = true;
                     } else {
-                        trigger_error($myImage . '   CORRUPTED IMAGE');
+                        $thumbExist = false;
+                    }
+
+                    if (file_exists($smallImage)) {
+                        $smallExist = true;
+                    } else {
+                        $smallExist = false;
+                    }
+
+                    if (file_exists($icoImage)) {
+                        $icoExist = true;
+                    } else {
+                        $icoExist = false;
+                    }
+
+                    // Αν δεν υπάρχουν ήδη τα small images
+                    if (!$thumbExist || !$smallExist || !$icoExist) {
+//                        trigger_error($myImage);
+                        // Ελέγχει πρώτα αν είναι valid το Image
+                        if (OWMP::checkValidImage($myImage)) {
+                            if (!$thumbExist) {
+                                if (OWMP::createSmallerImage($myImage, 'thumb')) {
+                                    echo $thumbnailImage . ' CREATED<br>';
+                                } else {
+                                    echo $myImage . ' CORRUPTED<br>';
+                                }
+                            }
+
+                            if (!$smallExist) {
+                                if (OWMP::createSmallerImage($myImage, 'small')) {
+                                    echo $smallImage . ' CREATED<br>';
+                                } else {
+                                    echo $myImage . ' CORRUPTED<br>';
+                                }
+                            }
+
+                            if (!$icoExist) {
+                                if (OWMP::createSmallerImage($myImage, 'ico')) {
+                                    trigger_error($icoImage . ' CREATED');
+                                } else {
+                                    trigger_error($myImage . ' CORRUPTED');
+                                }
+                            } 
+
+                        } else {
+                            trigger_error($myImage . '   CORRUPTED IMAGE');
+                        }
                     }
                 }
 

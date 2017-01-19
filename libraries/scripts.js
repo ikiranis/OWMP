@@ -919,8 +919,15 @@ function loadNextVideo(id) {
 
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
-                var albumCoverPath = Album_covers_path + data.tags.albumCoverPath;
+                var albumCoverPath = data.tags.albumCoverPath;
+                var iconImagePath = data.tags.iconImagePath;
+
+                console.log(iconImagePath);
+                
                 document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
+                if(iconImagePath) {
+                    document.querySelector("link[rel='shortcut icon']").href = iconImagePath;
+                }
 
                 if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
                     if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API

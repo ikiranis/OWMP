@@ -31,6 +31,9 @@ class Page
         <!DOCTYPE html>
     <HTML xmlns="http://www.w3.org/1999/html">
         <head>
+            <link rel="shortcut icon" href="data:;base64,iVBORw0KGgo=">
+
+
             <meta charset="utf-8">
 
 <!--            Για να μπορεί να πηγαίνει σε fullscreen σε mobile συσκευές-->
@@ -38,11 +41,11 @@ class Page
 <!--            Για να κάνουν scale τα pixels στις mobile συσκευές-->
             <meta name=viewport content="width=device-width, initial-scale=0.6">
             
-<!--            <meta http-equiv="cache-control" content="max-age=0" />-->
-<!--            <meta http-equiv="cache-control" content="no-cache" />-->
-<!--            <meta http-equiv="expires" content="0" />-->
-<!--            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />-->
-<!--            <meta http-equiv="pragma" content="no-cache" />-->
+            <meta http-equiv="cache-control" content="max-age=0" />
+            <meta http-equiv="cache-control" content="no-cache" />
+            <meta http-equiv="expires" content="0" />
+            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+            <meta http-equiv="pragma" content="no-cache" />
 
 
             
@@ -74,6 +77,7 @@ class Page
             ?>
 
             <title><?php echo $this->tittle; ?></title>
+
 
         </head>
 

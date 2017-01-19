@@ -13,41 +13,12 @@
 
 require_once('../libraries/common.inc.php');
 
-function exception_handler($exception) {
-    echo "Uncaught exception: " ;
-}
 
-set_exception_handler('exception_handler');
+$myImage='/media/Spartacus/Music/album_covers/2017/01/20170118235555.jpeg';
 
-
-$myImage='/media/Spartacus/Music/album_covers/2016/09/20160918235156.jpg';
-
-
-try {
+OWMP::createSmallerImage($myImage, 'ico');
 
 
 
-    $imageString = file_get_contents($myImage);
-//    $imageString = base64_decode($imageString);
-
-    echo $imageString;
-
-    $image = imagecreatefromstring($imageString);
 
 
-
-    header('Content-Type: image/jpeg');
-    imagejpeg($image);
-    throw new Exception('Uncaught Exception');
-
-}
-catch (Exception $e) {
-    echo $e->getMessage();
-    
-    
-    
-    
-    
-}
-
-echo 'ante kai gamisou';
