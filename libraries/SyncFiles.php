@@ -943,7 +943,7 @@ class SyncFiles
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
                         if (OWMP::checkValidImage($myImage)) {
-                            if ($thumbExist) {
+                            if (!$thumbExist) {
                                 if (OWMP::createSmallerImage($myImage, 'thumb')) {
                                     echo $thumbnailImage . ' CREATED<br>';
                                 } else {
