@@ -32,13 +32,15 @@ class Page
     <HTML xmlns="http://www.w3.org/1999/html">
         <head>
 
-<!--            <link class="theFavIcon" rel="shortcut icon" type="image/x-icon" href="">-->
-            <link class="theFavIcon" rel="icon" type="image/x-icon" href="">
+<!--            <link id="appIcon" rel="apple-touch-icon" type="image/png" href="">-->
+<!--            <link id="theFavIcon" rel="shortcut icon" type="image/png" href="">-->
+            <link id="theFavIcon" rel="icon" type="image/png" href="">
 
             <meta charset="utf-8">
 
 <!--            Για να μπορεί να πηγαίνει σε fullscreen σε mobile συσκευές-->
             <meta name="mobile-web-app-capable" content="yes">
+
 <!--            Για να κάνουν scale τα pixels στις mobile συσκευές-->
             <meta name=viewport content="width=device-width, initial-scale=0.6">
             

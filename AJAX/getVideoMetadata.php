@@ -65,6 +65,7 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
             $iconImagePath=null;
         }
 
+
         // Χρησιμοποιεί το itunes ή giphy api για να πάρει artwork όταν δεν υπάρχει artwork στο τραγούδι
         if($metadata[0]['album_artwork_id']==DEFAULT_ARTWORK_ID) {
             

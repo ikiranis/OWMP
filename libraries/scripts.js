@@ -922,15 +922,21 @@ function loadNextVideo(id) {
                 var albumCoverPath = data.tags.albumCoverPath;
                 var iconImagePath = data.tags.iconImagePath;
 
-                console.log(iconImagePath);
-                
+                console.log(albumCoverPath);
+
+                // alert('paok5');
+
                 document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
 
                 // Αν υπάρχει icon το εμφανίζει σαν favicon
                 if(iconImagePath) {
                     // document.querySelector("link[rel='shortcut icon']").href = iconImagePath;
-                    document.querySelector(".theFavIcon").href = iconImagePath;
+                    document.querySelector("#theFavIcon").href = albumCoverPath;
+                    // document.querySelector("#theFavIcon").href = iconImagePath;
+                    // document.querySelector("#appIcon").href = albumCoverPath;
+
                 }
+
 
                 if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
                     if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API

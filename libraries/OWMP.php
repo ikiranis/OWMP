@@ -1917,7 +1917,7 @@ class OWMP
         imagecopyResampled ($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
 
         // Σώζει το image
-        if($imageSize!=='ico') {
+        if($imageSize!=='ico' || $imageSize!=='thumb') {
             if (imagejpeg($newImage, $imagePath . '/' . $newFilename)) {
                 $result = true;
             } else {

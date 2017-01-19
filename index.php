@@ -9,6 +9,8 @@
 
 require_once ('libraries/common.inc.php');
 
+session_start();
+
 $lang=new Language();
 
 $phrasesForJavascript=json_encode($lang->getPhrasesTable());
@@ -22,7 +24,6 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
-session_start();
 
 require_once ('login.php');
 require_once ('MainPage.php');
@@ -118,8 +119,6 @@ else {
 
     $LoginNameText = '<img id="account_image" src="img/account.png"> <span id="account_name">' . $userName . '</span>';
     $logged_in = true;
-
-//    $userName=$_COOKIE['username'];
 
 
     if (!isset($_SESSION["username"]))
