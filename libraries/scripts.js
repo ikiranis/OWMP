@@ -53,7 +53,7 @@ if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // με
 if(localStorage.PlayMode==null) localStorage.PlayMode='continue';
 
 // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
-if(localStorage.syncPressed=null) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
+if(localStorage.syncPressed==null) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
 
 
 
