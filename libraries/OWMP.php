@@ -728,13 +728,14 @@ class OWMP
 
                 <?php
 
-                $coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small');
 
-                if ($track['kind'] == 'Music' && $coverImagePath) {
+                if ($track['kind'] == 'Music') {
+                    if($coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small')) {
 
-                    ?>
-                    <img class="coverImage" src="<?php echo $coverImagePath; ?>">
-                    <?php
+                        ?>
+                        <img class="coverImage" src="<?php echo $coverImagePath; ?>">
+                        <?php
+                    }
                 }
                 ?>
 
@@ -1541,8 +1542,9 @@ class OWMP
                         <?php Page::getHelp('help_convert_covers'); ?>
                     </p>
     
-    
+
                     <?php
+                    // TODO υπάρχει πρόβλημα εδώ όταν δεν έχει δικαιώματα... Δεν εμφανίζει και τα παρακάτω από το youtube
                     if(FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
     
                         if(self::createDirectory(FILE_UPLOAD)) {
