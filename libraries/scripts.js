@@ -1347,7 +1347,7 @@ function checkProcessAlive() {
     CallFile = AJAX_path + "checkLastMomentAlive.php";
 
     // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
-    if(!localStorage.syncPressed) localStorage.syncPressed=false;
+    if(!localStorage.syncPressed) localStorage.syncPressed='false';
 
     if (localStorage.syncPressed == 'true') { // αν η process τρέχει
         $('.syncButton').prop('disabled', true);
