@@ -52,6 +52,9 @@ if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // με
 
 if(localStorage.PlayMode==null) localStorage.PlayMode='continue';
 
+// Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
+if(localStorage.syncPressed=null) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
+
 
 
 // extension στην jquery. Προσθέτει την addClassDelay. π.χ. $('div').addClassDelay('somedivclass',3000)
@@ -1346,8 +1349,7 @@ function checkProcessAlive() {
     // TODO να τεστάρω τι γίνεται την στιγμή που διαβάζει αρχεία και δεν στέλνει σημείο ζωής
     CallFile = AJAX_path + "checkLastMomentAlive.php";
 
-    // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
-    if(!localStorage.syncPressed) localStorage.syncPressed='false';
+
 
     if (localStorage.syncPressed == 'true') { // αν η process τρέχει
         $('.syncButton').prop('disabled', true);
