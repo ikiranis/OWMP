@@ -728,7 +728,6 @@ class OWMP
 
                 <?php
 
-
                 if ($track['kind'] == 'Music') {
                     if($coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small')) {
 
@@ -1550,19 +1549,21 @@ class OWMP
                         if(self::createDirectory(FILE_UPLOAD)) {
     
                             ?>
-                            <p>
+                            <div>
                                 <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
                                 <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
                                        onclick="downloadTheYouTube();"
                                        value="<?php echo __('sync_youtube'); ?>" >
                                 <?php Page::getHelp('help_youtube'); ?>
-                            </p>
+                            </div>
     
                             <?php
                         }
     
                     }
-                    else echo '<p>'.__('youtube_error').'</p>';
+                    else {
+                        echo '<p>'.__('youtube_error').'</p>';
+                    }
                     ?>
 
                 </form>
@@ -2024,12 +2025,12 @@ class OWMP
         if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
             if (mkdir($dir, 0777, true)) {
                 if (!is_writable($dir))
-                    exit('<p>'.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
+                    exit('<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
             }
-            else exit('<p>'.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
+            else exit('<p class="general_fail">ERROR! '.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
         } else if(!is_writable($dir))
-            exit('<p>'.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
-        
+            exit('<p class="general_fail>ERROR! '.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
+
         return true;
     }
 
@@ -2164,9 +2165,16 @@ class OWMP
         $decoded = json_decode($response, true);
 
         if($decoded) {
+            // Αν είναι mobile παίρνει την μικρή έκδοση.
+            if(!$_SESSION['mobile']) {
+                $coverSize = '1400x1400';
+            } else {
+                $coverSize = '250x250';
+            }
+
             foreach ($decoded['results'] as $items) {
                 $artwork = $items['artworkUrl100'];
-                $artwork = str_replace('100x100', '1400x1400', $artwork);
+                $artwork = str_replace('100x100', $coverSize, $artwork);
                 return $artwork;
             }
         } else return false;

@@ -597,6 +597,11 @@ footer a:active {
     margin: 0;
 }
 
+.general_fail {
+    color: darkred;
+    font-weight: bold;
+}
+
 
 details div.error {
     position: relative;
