@@ -468,7 +468,7 @@ function DisplayWindow(page, offset, step) {
             // Αν εμφανίζουμε την σελίδα 1
             if (page == 1) {
 
-                // εμφανίζουμε τις μεταβλητές που έχουμε σώσειστα αντίστοιχα divs
+                // εμφανίζουμε τις μεταβλητές που έχουμε σώσει στα αντίστοιχα divs
                 $('#search').html(SearchHTML);
                 writeSearchFields(SearchRows);
                 document.querySelector('#ChooseMediaKind select[name=mediakind]').value = MediaKindChosen;
@@ -1379,13 +1379,14 @@ function checkProcessAlive() {
 
 
 // Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
-function callGetYouTube(url,counter,total) {
+function callGetYouTube(url,counter,total, mediaKind) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "getYouTube.php",
         type: 'GET',
         async: true,
         data: {
-            url: url
+            url: url,
+            mediaKind: mediaKind
         },
         dataType: "json",
         beforeSend: function (xhr) {
@@ -1479,6 +1480,7 @@ function callDeleteTheFile(fullpath, filename, id, counter, total) {
 // Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
 function downloadTheYouTube() {
     var urls=document.querySelector('#youTubeUrl').value;
+    var mediaKind=document.querySelector('#youtubeMediaKind').value;
 
     urls=urls.split(',');  // Παίρνουμε το string σε array
     
@@ -1493,7 +1495,7 @@ function downloadTheYouTube() {
 
     for (var i = 0; i < urls.length; i++) {
 
-        callGetYouTube(urls[i], i, urls.length);
+        callGetYouTube(urls[i], i, urls.length, mediaKind);
 
     }
 

@@ -9,6 +9,7 @@
  */
 
 require_once('../libraries/common.inc.php');
+require_once ('../libraries/videoDownload.php');
 
 session_start();
 
@@ -21,8 +22,15 @@ set_time_limit(0);
 if(isset($_GET['url']))
     $url=ClearString($_GET['url']);
 
+if(isset($_GET['mediaKind']))
+    $mediaKind=ClearString($_GET['mediaKind']);
 
-if($result=OWMP::downloadYoutube($url)) {
+$youtubeDL = new videoDownload();
+
+$youtubeDL->videoURL = $url;
+$youtubeDL->mediaKind = $mediaKind;
+
+if($result=$youtubeDL->downloadVideo()) {
     $jsonArray = array('success' => true, 'result' => $result);
 }
 else $jsonArray=array( 'success'=> false, 'theUrl' => $url);

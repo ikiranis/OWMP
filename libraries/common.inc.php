@@ -9,7 +9,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.304');
+define ('APP_VERSION', '0.1.305');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 require_once ('config.inc.php');
@@ -218,12 +218,20 @@ else {
 
 $MusicVideoMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music Video'), 'file_path');
 if($MusicVideoMainDir) {
-    define ('FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
+    define ('VIDEO_FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
     define ('OUTPUT_FOLDER', $MusicVideoMainDir.'/output/');
 }
 else  {
-    define ('FILE_UPLOAD', null);
+    define ('VIDEO_FILE_UPLOAD', null);
     define ('OUTPUT_FOLDER', null);
+}
+
+$MusicMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
+if($MusicVideoMainDir) {
+    define ('MUSIC_FILE_UPLOAD', $MusicMainDir.'/Download/');
+}
+else  {
+    define ('MUSIC_FILE_UPLOAD', null);
 }
 
 $convertALACOption= $conn->getOption('convert_alac_files');
