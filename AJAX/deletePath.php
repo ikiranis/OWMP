@@ -22,14 +22,9 @@ if(isset($_GET['id']))
 
 
 $conn = new RoceanDB();
-$conn->CreateConnection();
 
 
-$sql = 'DELETE FROM paths WHERE id=?';
-
-$stmt = RoceanDB::$conn->prepare($sql);
-
-if($stmt->execute(array($id))) {
+if($conn->deleteRowFromTable('paths','id',$id)) {
     $jsonArray=array( 'success'=>true);
 
     RoceanDB::insertLog('Path deleted with id '. $id); // Προσθήκη της κίνησης στα logs 
@@ -39,7 +34,5 @@ else $jsonArray=array( 'success'=>false);
 
 echo json_encode($jsonArray);
 
-$stmt->closeCursor();
-$stmt = null;
 
 ?>

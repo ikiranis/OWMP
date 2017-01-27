@@ -15,21 +15,21 @@ $lang = new Language();
 
 
 
-if (isset($_POST['register'])) {
-    
-    $conn = new RoceanDB();
-
-    // Έλεγχος αν συμφωνούν τα 2 passwords
-    if($_POST['password']==$_POST['repeat_password']) {
-        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) { // Δημιουργεί τον χρήστη
-            echo '<p>' . __('register_with_success') . '</p>';
-        }
-    }
-    else echo '<p>'.__('not_the_same_password').'</p>';
-    
-
-
-}
+//if (isset($_POST['register'])) {
+//
+//    $conn = new RoceanDB();
+//
+//    // Έλεγχος αν συμφωνούν τα 2 passwords
+//    if($_POST['password']==$_POST['repeat_password']) {
+//        if($conn->CreateUser(ClearString($_POST['username']), ClearString($_POST['email']), ClearString($_POST['password']), 'local')) { // Δημιουργεί τον χρήστη
+//            echo '<p>' . __('register_with_success') . '</p>';
+//        }
+//    }
+//    else echo '<p>'.__('not_the_same_password').'</p>';
+//
+//
+//
+//}
 
 
 function logout() {

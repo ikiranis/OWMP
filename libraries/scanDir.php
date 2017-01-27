@@ -79,8 +79,8 @@ class scanDir
             }
             if(self::$recursive){
 
-                foreach(self::find_contents($dir.DIRECTORY_SEPARATOR.$value) as $value) {
-                        self::$files[] = $result[] = $value;
+                foreach(self::find_contents($dir.DIRECTORY_SEPARATOR.$value) as $item) {
+                        self::$files[] = $result[] = $item;
                 }
             }
         }

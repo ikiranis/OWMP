@@ -311,7 +311,7 @@ class Page
                 <input type="button" id="killCommand_img" class="button_img"
                        title="<?php echo __('kill_process'); ?>"
                        onclick="sendKillCommand();"">
-                <progress id="theProgressBar" name="theProgressBar" max="100" value="0">
+                <progress id="theProgressBar" max="100" value="0">
                 </progress>
                 <span id="theProgressNumber"></span>
             </div>
@@ -398,6 +398,8 @@ class Page
         </script>
 
         <?php
+
+        return true;
     }
     
     static function getNavActiveItem() {
@@ -496,7 +498,7 @@ class Page
     // Ελέγχει αν υπάρχει το $progressName στον πίνακα progress
     static function checkIfProgressNameExists($progressName) {
         $conn = new RoceanDB();
-        $conn::CreateConnection();
+        $conn->CreateConnection();
 
         $sql = 'SELECT progressName FROM progress WHERE progressName=?';
         $stmt = RoceanDB::$conn->prepare($sql);
@@ -520,7 +522,7 @@ class Page
     // Δημιουργεί ένα $progressName στον πίνακα progress
     static function createProgressName($progressName) {
         $conn = new RoceanDB();
-        $conn::CreateConnection();
+        $conn->CreateConnection();
 
         $sql = 'INSERT INTO progress (progressName) VALUES(?)';
         $stmt = RoceanDB::$conn->prepare($sql);
@@ -548,6 +550,8 @@ class Page
     static function setKillCommand($theCommand) {
         $progressUpdateArray=array ($theCommand, 'killCommand');
         RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+
+        return true;
     }
 
     // Θέτει τιμή στο currentSong

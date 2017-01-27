@@ -16,7 +16,7 @@ $UsersPage = new Page();
 $lang = new Language();
 
 // Τίτλος της σελίδας
-$UsersPage->tittle = PAGE_TITTLE." | Users Page";
+$UsersPage->tittle = APP_NAME." | Users Page";
 
 
 $UsersPage->showHeader();
@@ -44,4 +44,4 @@ else {
 
 <?php
 
-$UsersPage->showFooter();
+$UsersPage->showFooter(true,true,true);

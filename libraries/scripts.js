@@ -47,6 +47,8 @@ var displayingMediaControls=false; // Κρατάει το αν εμφανίζο�
 
 var currentPathFormID;
 
+var videoItems=[];
+
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
@@ -203,9 +205,9 @@ function updateUser(id) {
     // console.log(id+' '+username+' '+email+' '+password+' '+repeat_password+' '+usergroup+' '+fname+' '+lname+ ' '+changepass);
 
     if(changepass)
-        callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
+        var callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
             "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
-    else callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+
+    else var callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
 
@@ -251,7 +253,7 @@ function updateOption(id) {
     option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
 
 
-    callFile=AJAX_path+"updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
+    var callFile=AJAX_path+"updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
 
 
     // console.log(callFile);
@@ -272,7 +274,7 @@ function updateOption(id) {
 
 // Σβήνει την εγγραφή στο user, user_details, salts
 function deleteUser(id) {
-    callFile=AJAX_path+"deleteUser.php?id="+id;
+    var callFile=AJAX_path+"deleteUser.php?id="+id;
 
     $.get( callFile, function( data ) {
         console.log(data.success);
@@ -1379,19 +1381,19 @@ function checkProcessAlive() {
 
 
 // Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
-function callGetYouTube(url,counter,total, mediaKind) {
+function callGetYouTube(id,counter,total, mediaKind) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "getYouTube.php",
         type: 'GET',
         async: true,
         data: {
-            url: url,
+            id: id,
             mediaKind: mediaKind
         },
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $("#SyncDetails").append('<p> :: '+phrases['youtube_downloading']+' ' + url + '</p>');
+                $("#SyncDetails").append('<p> :: '+phrases['youtube_downloading']+' ' + id + '</p>');
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
@@ -1404,6 +1406,34 @@ function callGetYouTube(url,counter,total, mediaKind) {
         success: function (data) {
             if (data.success == true) {
                 $("#SyncDetails").append('<p class="youtube_success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+
+            } else {
+                $("#SyncDetails").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+            }
+        }
+    });
+}
+
+// Ελέγχει αν είναι video ή playlist και επιστρέφει τα id σε σχετικό πίνακα videoItems[]
+function checkVideoUrl(url,counter,total) {
+    $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+        url: AJAX_path + "checkVideoURL.php",
+        type: 'GET',
+        async: true,
+        data: {
+            url: url
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success == true) {
+                if(data.videoKind=='video') {
+                    videoItems.push(data.videoID);
+                } else {
+                    var videoIDs = data.playlistItems;
+                    for (var i = 0; i < videoIDs.length; i++) {
+                        videoItems.push(videoIDs[i]);
+                    }
+                }
 
             } else {
                 $("#SyncDetails").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
@@ -1493,25 +1523,41 @@ function downloadTheYouTube() {
     document.querySelector('#theProgressBar').value=0;
     $("#theProgressNumber" ).html('');
 
+    videoItems=[]; // καθαρίζει το array
+
+    // έλεγχος των url και προσθήκη σε πίνακα με τα video ID
     for (var i = 0; i < urls.length; i++) {
 
-        callGetYouTube(urls[i], i, urls.length, mediaKind);
+        checkVideoUrl(urls[i], i, urls.length);
 
     }
 
 
-    $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-        var syncInterval=setInterval(function() {
-            clearInterval(syncInterval);
-            $("#progress").hide();
-            $('#logprogress').hide();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
-            // $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
-            runningYoutubeDownlod=false;
-            // startTheSync('sync');
-        },6000);
-        // return;
+    // αφου τελειώσουν οι έλεγχοι
+    $( document ).one("ajaxStop", function() {
+
+        // κατέβασμα των video
+        for (var i = 0; i < videoItems.length; i++) {
+            // console.log(videoItems[i]);
+            callGetYouTube(videoItems[i], i, videoItems.length, mediaKind);
+
+        }
+
+
+        // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+        $( document ).one("ajaxStop", function() {
+            var syncInterval=setInterval(function() {
+                clearInterval(syncInterval);
+                $("#progress").hide();
+                $('#logprogress').hide();
+                document.querySelector('#theProgressBar').value=0;
+                $("#theProgressNumber" ).html('');
+                runningYoutubeDownlod=false;
+                // startTheSync('sync');
+            },6000);
+            // return;
+        });
+
     });
 
 

@@ -19,22 +19,29 @@ set_time_limit(0);
 
 
 
-if(isset($_GET['url']))
-    $url=ClearString($_GET['url']);
+if(isset($_GET['id']))
+    $id=ClearString($_GET['id']);
 
 if(isset($_GET['mediaKind']))
     $mediaKind=ClearString($_GET['mediaKind']);
 
 $youtubeDL = new videoDownload();
 
-$youtubeDL->videoURL = $url;
+$youtubeDL->videoID = $id;
 $youtubeDL->mediaKind = $mediaKind;
+
+//trigger_error($youtubeDL->checkURLkind());
+
+//if($result=$youtubeDL->getYoutubePlaylistItems()) {
+//    var_dump($result);
+//    $jsonArray = array('success' => true, 'result' => $result);
+//}
+//else $jsonArray=array( 'success'=> false, 'theUrl' => $url);
 
 if($result=$youtubeDL->downloadVideo()) {
     $jsonArray = array('success' => true, 'result' => $result);
 }
-else $jsonArray=array( 'success'=> false, 'theUrl' => $url);
-
+else $jsonArray=array( 'success'=> false, 'theUrl' => $id);
 
 
 echo json_encode($jsonArray);

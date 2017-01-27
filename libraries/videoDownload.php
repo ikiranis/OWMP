@@ -14,6 +14,7 @@ class videoDownload
 {
 
     public $videoURL;
+    public $videoID;
     public $mediaKind;
 
     // Επιστρέφει το id ενός youtube video από το url του
@@ -50,14 +51,59 @@ class videoDownload
         return $video_id;
     }
 
+    // Επιστρέφει το playlist ID από ένα youtube url
+    public function getYoutubePlaylistID(){
+        $url = parse_url($this->videoURL);
+        parse_str($url['query'],$q);
+        $playlistID = $q['list'];
+
+        if($playlistID) {
+            return $playlistID;
+        } else {
+            return false;
+        }
+    }
+
+    // Ελέγχει αν είναι video ή playlist
+    public function checkURLkind() {
+        if($this->getYoutubeID()) {
+            $result = 'video';
+        } else {
+            if($this->getYoutubePlaylistID()) {
+                $result = 'playlist';
+            } else {
+                return false;
+            }
+        }
+
+        return $result;
+    }
+
+
+    // Επιστρέφει την λίστα με τα items μιας playlist, σε array
+    public function getYoutubePlaylistItems(){
+        $playlistID=$this->getYoutubePlaylistID();
+
+        $html = 'https://www.googleapis.com/youtube/v3/playlistItems?playlistId='.$playlistID.'&key='.YOUTUBE_API.'&part=snippet&maxResults=50';
+        $response = file_get_contents($html);
+        $decoded = json_decode($response, true);
+        $playlistItems=array();
+        foreach ($decoded['items'] as $items) {
+            $videoID= $items['snippet']['resourceId']['videoId'];
+            $playlistItems[] = $videoID;
+        }
+
+        return $playlistItems;
+    }
+
     // Επιστρέφει τον τίτλο του βίντεο μέσω του Youtube API
     // Details @ https://developers.google.com/youtube/v3/getting-started
     public function getYoutubeTitle(){
-        $youtubeID=$this->getYoutubeID();
+//        $youtubeID=$this->getYoutubeID();
 
 //        trigger_error($youtubeID);
 
-        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$youtubeID.'&key='.YOUTUBE_API.'&part=snippet';
+        $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$this->videoID.'&key='.YOUTUBE_API.'&part=snippet';
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
         foreach ($decoded['items'] as $items) {
@@ -95,10 +141,10 @@ class videoDownload
 
         if($this->mediaKind=='Music Video') {
             // Κατέβασμα βίντεο
-            $downloadString = '"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" '.$this->videoURL;
+            $downloadString = '"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" '.$this->videoID;
         } else {
             // Κατέβασμα audio
-            $downloadString = '"bestaudio[ext=m4a]/best[ext=mp3]/best" -o "'.$videoFullPath.'.%(ext)s" '.$this->videoURL;
+            $downloadString = '"bestaudio[ext=m4a]/best[ext=mp3]/best" -o "'.$videoFullPath.'.%(ext)s" '.$this->videoID;
         }
 
         // το όνομα του αρχείου που θα κατεβάσει με το full path
