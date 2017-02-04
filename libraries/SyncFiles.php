@@ -199,14 +199,27 @@ class SyncFiles
 
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
         if($mediaKind=='Music') {
-            OWMP::createDirectory(ALBUM_COVERS_DIR); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+
+            // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+            $checkAlbumCoversDir=OWMP::createDirectory(ALBUM_COVERS_DIR);
+            if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                exit($checkAlbumCoversDir['message']);
+            }
+
             if(!is_dir(ALBUM_COVERS_DIR . 'default.gif'))   // Αν δεν υπάρχει το default.gif το αντιγράφουμε
                 copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif');
 
             if(CONVERT_ALAC_FILES) {
                 // Έλεγχοι φακέλων που χρειάζονται
-                OWMP::createDirectory(INTERNAL_CONVERT_PATH);
-                OWMP::createDirectory(MUSIC_UPLOAD);
+                $ckeckInternalConvertPath = OWMP::createDirectory(INTERNAL_CONVERT_PATH);
+                if(!$ckeckInternalConvertPath['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                    exit($ckeckInternalConvertPath['message']);
+                }
+
+                $checkMusicUpload = OWMP::createDirectory(MUSIC_UPLOAD);
+                if(!$checkMusicUpload['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                    exit($checkMusicUpload['message']);
+                }
             }
         }
 

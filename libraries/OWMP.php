@@ -1548,9 +1548,20 @@ class OWMP
     
 
                     <?php
-                    if(VIDEO_FILE_UPLOAD && MUSIC_FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
-    
-                        if(self::createDirectory(VIDEO_FILE_UPLOAD) && self::createDirectory(MUSIC_FILE_UPLOAD)) {
+                    if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+
+                        $checkVideoFileUpload = self::createDirectory(VIDEO_FILE_UPLOAD);
+                        $checkAudioFileUpload = self::createDirectory(MUSIC_FILE_UPLOAD);
+
+                        if(!$checkVideoFileUpload['result']) {
+                            echo $checkVideoFileUpload['message'];
+                        }
+
+                        if(!$checkAudioFileUpload['result']) {
+                            echo $checkAudioFileUpload['message'];
+                        }
+
+                        if( $checkVideoFileUpload['result'] || $checkAudioFileUpload['result'] ) {
     
                             ?>
                             <div>
@@ -1809,7 +1820,10 @@ class OWMP
             $imageDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
             $timestampFilename = date('YmdHis'); // Το όνομα του αρχείου
 
-            self::createDirectory(ALBUM_COVERS_DIR . $imageDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+            $checkAlbumCoversDir = self::createDirectory(ALBUM_COVERS_DIR . $imageDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+            if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                exit($checkAlbumCoversDir['message']);
+            }
 
             $file = ALBUM_COVERS_DIR . $imageDir . $timestampFilename . $imageExtension;  // Το πλήρες path που θα γραφτεί το αρχείο
 
@@ -2037,17 +2051,26 @@ class OWMP
 
     // Ελέγχει την ύπαρξη ενός directory και αν μπορεί το δημιουργεί, όταν δεν υπάρχει
     static function createDirectory($dir) {
+        $result=array('result' => true);
+
         if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
             if (mkdir($dir, 0777, true)) {
-                if (!is_writable($dir))
-                    exit('<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
+                if (!is_writable($dir)) {
+                    $result=array('result' => false, 'message'=> '<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
+                }
             }
-            else exit('<p class="general_fail">ERROR! '.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
-        } else if(!is_writable($dir))
-            exit('<p class="general_fail>ERROR! '.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
+            else {
+                $result=array('result' => false, 'message'=> '<p class="general_fail">ERROR! '.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
+            }
+        } else {
+            if(!is_writable($dir)) {
+                $result=array('result' => false, 'message'=> '<p class="general_fail>ERROR! '.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
+            }
+        }
 
-        return true;
+        return $result;
     }
+
 
 
     // Εκτελεί την linux εντολή για μετατροπή ενός ALAC σε mp3

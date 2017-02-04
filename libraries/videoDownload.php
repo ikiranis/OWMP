@@ -172,7 +172,10 @@ class videoDownload
             $uploadDir=MUSIC_FILE_UPLOAD . $fileDir;
         }
 
-        OWMP::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+        $checkUploadDir = OWMP::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+        if(!$checkUploadDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+            exit($checkUploadDir['message']);
+        }
 
         // Παίρνει τον τίτλο του βίντεο και τον μετατρέπει σε greeklish αν χρειάζεται
         $title=$this->getYoutubeTitle();

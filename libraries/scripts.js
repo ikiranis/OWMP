@@ -1393,7 +1393,9 @@ function callGetYouTube(id,counter,total, mediaKind) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $("#SyncDetails").append('<p> :: '+phrases['youtube_downloading']+' ' + id + '</p>');
+                $("#SyncDetails").append('<p> :: '+phrases['youtube_downloading']+
+                    ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
+                    'https://www.youtube.com/watch?v=' + id + '</a></p>');
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
@@ -1939,8 +1941,13 @@ function removeFromPlaylist(fileID) {
             document.querySelector('#fileID'+data.fileID).remove();
         }
         else {
-            DisplayMessage('#alert_error', phrases['song_not_deleted'] + ' ' + data.song_name
-                + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
+            if(!checkFullscreen()) { // αν δεν είναι σε full screen
+                DisplayMessage('#alert_error', phrases['song_not_deleted'] + ' ' + data.song_name
+                    + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
+            } else {
+                DisplayMessage('#error_overlay', phrases['song_not_deleted'] + ' ' + data.song_name
+                    + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
+            }
         }
     }, "json");
 }

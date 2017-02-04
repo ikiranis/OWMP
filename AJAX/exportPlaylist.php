@@ -32,7 +32,10 @@ $playlistTable=RoceanDB::getTableArray($tempUserPlaylist, 'file_id', null, null,
 
 //trigger_error(OUTPUT_FOLDER);
 
-OWMP::createDirectory(OUTPUT_FOLDER);
+$checkOutputFolder = OWMP::createDirectory(OUTPUT_FOLDER);
+if(!$checkOutputFolder['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+    exit($checkOutputFolder['message']);
+}
 
 SyncFiles::exportPlaylistJsonFile($tempUserPlaylist);
 
