@@ -1,7 +1,8 @@
 <?php
 /**
  * File: checkLastMomentAlive.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 07/11/16
  * Time: 01:55
  * Ελέγχει την ώρα που πέρασε από το τελευταίο timestamp που καταχωρήθηκε

@@ -2,7 +2,8 @@
 
 /**
  * File: SyncFiles.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 28/06/16
  * Time: 19:01
  * Κλαση συγχρονισμού αρχείων

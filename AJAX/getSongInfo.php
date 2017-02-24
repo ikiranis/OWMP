@@ -1,7 +1,8 @@
 <?php
 /**
  * File: getSongInfo.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eun
  * Date: 30/12/16
  * Time: 00:01
  * 

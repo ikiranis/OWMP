@@ -1,7 +1,8 @@
 <?php
 /**
  * File: checkLogin.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 05/06/16
  * Time: 19:09
  * Έλεγχος αν έχει γίνει σωστά το login

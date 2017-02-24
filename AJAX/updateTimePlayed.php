@@ -1,7 +1,8 @@
 <?php
 /**
  * File: updateTimePlayed.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 01/07/16
  * Time: 21:39
  * Ενημερώνει τo date_last_played και το play_count ενός βίντεο

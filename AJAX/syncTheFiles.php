@@ -1,7 +1,8 @@
 <?php
 /**
  * File: syncTheFiles.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 13/07/16
  * Time: 23:32
  * Κάνει τον συγχρονισμό των αρχείων

@@ -1,7 +1,8 @@
 <?php
 /**
  * File: checkValidImage.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 17/01/17
  * Time: 19:36
  * 

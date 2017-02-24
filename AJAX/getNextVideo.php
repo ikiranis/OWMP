@@ -1,7 +1,8 @@
 <?php
 /**
  * File: getNextVideo.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 05/11/16
  * Time: 01:30
  * Επιστρέφει το επόμενο τραγούδι για να παίξει. Το file id του

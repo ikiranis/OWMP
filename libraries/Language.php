@@ -2,7 +2,8 @@
 
 /**
  * File: Language.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 13/05/16
  * Time: 22:10
  * Class for multilanguage support

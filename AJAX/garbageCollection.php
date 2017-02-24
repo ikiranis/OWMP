@@ -1,7 +1,8 @@
 <?php
 /**
  * File: garbageCollection.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 14/11/16
  * Time: 01:33
  * Καθαρίζει την βάση από προσωρινούς πίνακες που δεν χρησιμοποιούνται άλλο

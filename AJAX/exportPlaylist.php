@@ -1,7 +1,8 @@
 <?php
 /**
  * File: exportPlaylist.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 23/11/16
  * Time: 00:03
  *

@@ -1,7 +1,8 @@
 <?php
 /**
  * File: displayWindow.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 24/06/16
  * Time: 22:36
  * Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου

@@ -1,7 +1,8 @@
 <?php
 /**
  * File: updateUser.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 03/06/16
  * Time: 18:25
  * Ενημερώνει μια εγγραφή στους users ή κάνει νέα εγγραφή

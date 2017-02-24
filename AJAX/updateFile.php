@@ -1,7 +1,8 @@
 <?php
 /**
  * File: updateFile.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 02/09/16
  * Time: 00:02
  * Ενημερώνει την βάση με τα νέα filepath και filename

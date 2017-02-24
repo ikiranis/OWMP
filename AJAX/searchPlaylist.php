@@ -1,7 +1,8 @@
 <?php
 /**
  * File: searchPlaylist.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 04/07/16
  * Time: 01:06
  * Κάνει το search στην playlist

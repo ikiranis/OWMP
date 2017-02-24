@@ -1,7 +1,8 @@
 <?php
 /**
  * File: Session.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 21/04/16
  * Time: 20:14
  * Sessions handler class

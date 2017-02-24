@@ -1,7 +1,8 @@
 <?php
 /**
  * File: checkVideoURL.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 28/01/17
  * Time: 00:17
  *

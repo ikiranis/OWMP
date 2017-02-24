@@ -2,7 +2,8 @@
 
 /**
  * File: Crypto.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 04/05/16
  * Time: 23:04
  * Class for Crypto Methods

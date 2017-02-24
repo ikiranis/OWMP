@@ -2,7 +2,8 @@
 
 /**
  * File: videoDownload.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 26/01/17
  * Time: 22:16
  *

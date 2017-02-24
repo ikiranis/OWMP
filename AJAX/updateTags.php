@@ -1,7 +1,8 @@
 <?php
 /**
  * File: updateTags.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 01/07/16
  * Time: 19:22
  * Ενημέρωση των tags ενός βίντεο

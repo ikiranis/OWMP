@@ -1,7 +1,8 @@
 <?php
 /**
  * File: deleteFile.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 22/07/16
  * Time: 19:00
  * Σβήνει το αρχείο, μαζί με την αντίστοιχη εγγραφή στην βάση

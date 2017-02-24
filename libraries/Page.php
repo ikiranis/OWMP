@@ -2,9 +2,11 @@
 
 /**
  * File: page.php
- * Created by rocean
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
  * Date: 17/04/16
  * Time: 01:17
+ *
  * HTML Page Elements Class
  */
 
@@ -44,10 +46,10 @@ class Page
 <!--            Για να κάνουν scale τα pixels στις mobile συσκευές-->
             <meta name=viewport content="width=device-width, initial-scale=0.6">
             
-            <meta http-equiv="cache-control" content="max-age=0" />
+<!--            <meta http-equiv="cache-control" content="max-age=0" />-->
             <meta http-equiv="cache-control" content="no-cache" />
             <meta http-equiv="expires" content="0" />
-            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<!--            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />-->
             <meta http-equiv="pragma" content="no-cache" />
 
 
