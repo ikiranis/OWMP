@@ -230,7 +230,7 @@
                 <p>Προσοχή πρέπει να δοθεί στα δικαιώματα των paths ώστε η εφαρμογή να μπορεί να δημιουργήσει φακέλους για κατέβασμα, αλλά και να σβήσει αρχεία όταν επιλέγουμε να σβήσουμε μέσα από την εφαρμογή. Πρέπει να έχει δικαιώματα read/write.</p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
-            <p>Στο <strong>convert_alac_files</strong> βάζουμε true αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Αλλιώς η εφαρμογή αδιαφορεί για τα ALAC.</p>
+            <p>Στο <strong>convert_alac_files</strong> βάζουμε <strong>true</strong> αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Με <strong>false</strong> εφαρμογή αδιαφορεί για τα ALAC.</p>
 
             <p>Στο <strong>playlist_limit</strong> βάζουμε τον αριθμό των εγγραφών που θα εμφανίζονται σε κάθε σελίδα στην playlist. Για default έχει την τιμή 150. Προσοχή αν βάλουμε μεγάλο αριθμό, γιατί θα έχουμε πρόβλημα επιδόσεων της εφαρμογής</p>
 
@@ -238,19 +238,38 @@
 
             <p>Στο <strong>syncItunes</strong> βάζουμε true αν θέλουμε να γίνεται συγχρονισμός με itunes. Το έχουμε σε true για να κάνουμε τον συγχρονισμό. Αφού κάνουμε τον συγχρονισμό το βάζουμε πάλι σε false, αλλιώς θα αργεί μετά στον συγχρονισμό, χωρίς λόγο.</p>
 
-            <p>Στο <strong>date_format</strong> έχει το format με βάση το οποίο θα εμφανίζονται οι ημερομηνίες. π.χ. d-m-Y για να εμφανίζονται στην μορφή 14-12-2010.</p>
+            <p>Στο <strong>date_format</strong> έχει το format με βάση το οποίο θα εμφανίζονται οι ημερομηνίες. π.χ. <strong>d-m-Y</strong> για να εμφανίζονται στην μορφή 14-12-2010.</p>
+
+            <p>Στο <strong>icecast_server</strong> βάζουμε την διεύθυνση του icecast server (π.χ. <strong>myserver.com:8000</strong>)</p>
+
+            <p>Στο <strong>icecast_mount</strong> βάζουμε το mount του συγκεκριμένου stream (π.χ <strong>myradio</strong>)</p>
+
+            <p>Στο <strong>icecast_user</strong> βάζουμε τον user του icecast server</p>
+
+            <p>Στο <strong>icecast_pass</strong> βάζουμε τον password του icecast server</p>
+
+            <p>Στο <strong>icecast_enable</strong> βάζουμε <strong>true</strong> αν θέλουμε να ενεργοποιήσουμε την αποστολή του τρέχοντος τραγουδιού στον icecast server. Αλλιώς <strong>false</strong></p>
+
+            <p>Στο <strong>jukebox_enable</strong> βάζουμε <strong>true</strong> αν θέλουμε να ενεργοποιήσουμε την σελίδα <strong>vote.php</strong> για ψηφοφορίες. Αλλιώς <strong>false</strong></p>
+
+            <p>Στο <strong>default_language</strong> βάζουμε τον κωδικό της default γλώσσας. π.χ. <strong>gr</strong> ή <strong>en</strong> ή <strong>fr</strong> κοκ</p>
+
+            <p>Στο <strong>youtube_api</strong> έχει το youtube api key. Το αφήνουμε ως έχει αν δεν θέλουμε να βάλουμε το προσωπικό μας</p>
         ]]></phrase>
         <phrase name="help_sync"><![CDATA[
             <p>Αφού τα σετάρουμε όλα επιλέγουμε το media kind που θέλουμε και πατάμε Συγχρονισμός. Ο συγχρονισμός μπορεί να πάρει από μερικά λεπτά μέχρι πάρα πολλές ώρες. Αναλόγως πόσο μεγάλη είναι η συλλογή μας. Φυσικά για τα βιντεοκλιπς πολύ περισσότερο από τα mp3, γιατί πρέπει να διαβάσει μεγαλύτερα αρχεία.</p>
         ]]></phrase>
         <phrase name="help_youtube"><![CDATA[
-            <p>Στην συλλογή, στο text area που έχει, αντιγράφουμε τα youtube links που θέλουμε να κατεβάσουμε χωρισμένα με ','. Πατάμε Download Youtube και περιμένουμε να κατέβουν. Μετά το κατέβασμα γίνεται αυτόματα συγχρονισμός και περνιούνται στην database. Κοίτα στις απαιτήσεις για κατέβασμα από youtube.</p>
+            <p>Στην συλλογή, στο text area που έχει, αντιγράφουμε τα youtube links (ή τα youtube playlist links) που θέλουμε να κατεβάσουμε χωρισμένα με ','. Πατάμε Download Youtube και περιμένουμε να κατέβουν. Μετά το κατέβασμα γίνεται αυτόματα συγχρονισμός και περνιούνται στην database.</p>
 
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Για να κατεβάσει από youtube πρέπει να έχουμε σετάρει music video path (με main) στην Συλλογή/Διαδρομές αρχείων και να έχει write δικαιώματα εκεί ο www-data.</p>
+            <p><strong>ΠΡΟΣΟΧΗ:</strong> Για να κατεβάσει από youtube πρέπει να έχουμε σετάρει music video path (αν θέλουμε να κατεβάσουμε music video) ή music path (αν θέλουμε να κατεβάσουμε audio) (με main) στην Συλλογή/Διαδρομές αρχείων και να έχει write δικαιώματα εκεί ο www-data.</p>
             <p>Για κατέβασμα από youTube πρέπει να εγκαταστήσουμε το youtube-dl (https://rg3.github.io/youtube-dl/download.html)</p>
-            <p>π.χ.
+            <p>π.χ.</p>
             <pre>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl</pre>
-            <pre>sudo chmod a+rx /usr/local/bin/youtube-dl</pre></p>
+            <pre>sudo chmod a+rx /usr/local/bin/youtube-dl</pre>
+            <p>Σε περίπτωση που αποτύχει να κατεβάσει κάποιο video, θα ωφείλεται συνήθως σε αλλαγές που έχει κάνει το YouTube. Δοκιμάζουμε να κάνουμε update το youtube-dl τρέχοντας την παρακάτω εντολή και προσπαθούμε πάλι να κατεβάσουμε το video</p>
+            <pre>sudo youtube-dl -U</pre>
+            <p>Αν συνεχίσει να μην μπορεί να κατεβάσει, κάνουμε update ξανά το youtube-dl, μήπως έχει ενσωματώσει τις αλλαγές, τις επόμενες μέρες</p>
         ]]></phrase>
         <phrase name="help_manual_playlists"><![CDATA[
             <p>Δημιουργούμε μια <strong>playlist</strong> πατώντας στην σχετική επιλογή στην κορυφή της σελίδας. Αφού την δημιουργήσουμε την <strong>επιλέγουμε μετά στο drop down menu</strong>.</p>

@@ -228,7 +228,7 @@ else  {
 }
 
 $MusicMainDir=RoceanDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
-if($MusicVideoMainDir) {
+if($MusicMainDir) {
     define ('MUSIC_FILE_UPLOAD', $MusicMainDir.'/Download/');
 }
 else  {
