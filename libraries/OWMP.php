@@ -1551,17 +1551,29 @@ class OWMP
                     <?php
                     if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
 
-                        $checkVideoFileUpload = self::createDirectory(VIDEO_FILE_UPLOAD);
-                        $checkAudioFileUpload = self::createDirectory(MUSIC_FILE_UPLOAD);
+                        if(VIDEO_FILE_UPLOAD) {
+                            $checkVideoFileUpload = self::createDirectory(VIDEO_FILE_UPLOAD);
+
+                            if(!$checkVideoFileUpload['result']) {
+                                echo $checkVideoFileUpload['message'];
+                            }
+                        } else {
+                            echo '<p class="general_fail">'.'Δεν έχεις ορίσει main music video path'.'</p>';
+                        }
+
+                        if(MUSIC_FILE_UPLOAD) {
+                            $checkAudioFileUpload = self::createDirectory(MUSIC_FILE_UPLOAD);
+
+                            if(!$checkAudioFileUpload['result']) {
+                                echo $checkAudioFileUpload['message'];
+                            }
+                        } else {
+                            echo '<p class="general_fail">'.'Δεν έχεις ορίσει main music path'.'</p>';
+                        }
+
 
                         // TODO να γίνεται ο έλεγχος και όταν πάει να τρέξει το javascript αναλόγως αν έχει επιλέξει video ή audio
-                        if(!$checkVideoFileUpload['result']) {
-                            echo 'Music Video Directory -> '.$checkVideoFileUpload['message'];
-                        }
 
-                        if(!$checkAudioFileUpload['result']) {
-                            echo 'Audio Directory -> '.$checkAudioFileUpload['message'];
-                        }
 
                         if( $checkVideoFileUpload['result'] || $checkAudioFileUpload['result'] ) {
     
