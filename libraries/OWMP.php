@@ -1632,6 +1632,10 @@ class OWMP
             <div id="SyncDetails">
                 <div id="progress"></div>
             </div>
+
+            <div id="error_container">
+                <div id="alert_error"></div>
+            </div>
             
 
             <script type="text/javascript">
