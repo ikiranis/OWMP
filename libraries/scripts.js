@@ -1517,12 +1517,8 @@ function downloadTheYouTube() {
 
     var OKGo=false;
 
-    console.log(mediaKind);
-
     if(mediaKind=='Music Video') {
         var MusicVideoPathOK=document.querySelector('#MusicVideoPathOK').value;
-
-        console.log(MusicVideoPathOK);
 
         if(MusicVideoPathOK) {
             OKGo=true;
@@ -1532,7 +1528,6 @@ function downloadTheYouTube() {
     } else {
         var MusicPathOK=document.querySelector('#MusicPathOK').value;
 
-        console.log(MusicPathOK);
         if(MusicPathOK) {
             OKGo=true;
         } else {

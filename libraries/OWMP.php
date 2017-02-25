@@ -1498,9 +1498,6 @@ class OWMP
             }
 
 
-            // TODO να γίνεται ο έλεγχος και όταν πάει να τρέξει το javascript αναλόγως αν έχει επιλέξει video ή audio
-
-
             if( $checkVideoFileUpload['result'] || $checkAudioFileUpload['result'] ) {
 
                 ?>
