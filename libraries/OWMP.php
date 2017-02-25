@@ -1524,8 +1524,8 @@ class OWMP
                            onclick="downloadTheYouTube();"
                            value="<?php echo __('sync_youtube'); ?>" >
 
-                    <input type="hidden" id="MusicVideoPathOK" text="<?php echo $checkVideoFileUpload['result']; ?>">
-                    <input type="hidden" id="MusicPathOK" text="<?php echo $checkAudioFileUpload['result']; ?>">
+                    <input type="hidden" id="MusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $checkVideoFileUpload['result']; ?>">
+                    <input type="hidden" id="MusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $checkAudioFileUpload['result']; ?>">
 
                     <?php Page::getHelp('help_youtube'); ?>
                 </div>
