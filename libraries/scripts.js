@@ -1523,6 +1523,7 @@ function downloadTheYouTube() {
         var MusicVideoPathOK=document.querySelector('#MusicVideoPathOK').value;
 
         console.log(MusicVideoPathOK);
+        
         if(MusicVideoPathOK) {
             OKGo=true;
         } else {
