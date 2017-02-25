@@ -1523,7 +1523,7 @@ function downloadTheYouTube() {
         var MusicVideoPathOK=document.querySelector('#MusicVideoPathOK').value;
 
         console.log(MusicVideoPathOK);
-        if(MusicVideoPathOK=='true') {
+        if(MusicVideoPathOK) {
             OKGo=true;
         } else {
             DisplayMessage('#alert_error', phrases['no_main_music_video_path']);
@@ -1532,7 +1532,7 @@ function downloadTheYouTube() {
         var MusicPathOK=document.querySelector('#MusicPathOK').value;
 
         console.log(MusicPathOK);
-        if(MusicPathOK=='true') {
+        if(MusicPathOK) {
             OKGo=true;
         } else {
             DisplayMessage('#alert_error', phrases['no_main_music_path']);
