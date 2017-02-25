@@ -1471,6 +1471,75 @@ class OWMP
     }
 
 
+    // Εμφάνιση των στοιχείων για κατέβασμα από YouTube
+    static function displayYoutubeDownloadElements() {
+        global $mediaKinds;
+
+        if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+
+            if(VIDEO_FILE_UPLOAD) {
+                $checkVideoFileUpload = self::createDirectory(VIDEO_FILE_UPLOAD);
+
+                if(!$checkVideoFileUpload['result']) {
+                    echo $checkVideoFileUpload['message'];
+                }
+            } else {
+                echo '<p class="general_fail">'.__('no_main_music_video_path').'</p>';
+            }
+
+            if(MUSIC_FILE_UPLOAD) {
+                $checkAudioFileUpload = self::createDirectory(MUSIC_FILE_UPLOAD);
+
+                if(!$checkAudioFileUpload['result']) {
+                    echo $checkAudioFileUpload['message'];
+                }
+            } else {
+                echo '<p class="general_fail">'.__('no_main_music_path').'</p>';
+            }
+
+
+            // TODO να γίνεται ο έλεγχος και όταν πάει να τρέξει το javascript αναλόγως αν έχει επιλέξει video ή audio
+
+
+            if( $checkVideoFileUpload['result'] || $checkAudioFileUpload['result'] ) {
+
+                ?>
+                <div>
+                    <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
+
+                    <select name="youtubeMediaKind" id="youtubeMediaKind">
+                        <?php
+                        foreach ($mediaKinds as $kind) {
+                            ?>
+                            <option value="<?php echo $kind; ?>">
+                                <?php echo $kind; ?>
+                            </option>
+
+                            <?php
+                        }
+                        ?>
+                    </select>
+
+                    <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
+                           onclick="downloadTheYouTube();"
+                           value="<?php echo __('sync_youtube'); ?>" >
+
+                    <input type="hidden" id="MusicVideoPathOK" text="<?php echo $checkVideoFileUpload['result']; ?>">
+                    <input type="hidden" id="MusicPathOK" text="<?php echo $checkAudioFileUpload['result']; ?>">
+
+                    <?php Page::getHelp('help_youtube'); ?>
+                </div>
+
+                <?php
+            }
+
+        }
+        else {
+            echo '<p>'.__('youtube_error').'</p>';
+        }
+    }
+
+
     // εμφάνιση των επιλογών συγχρονισμού
     static function showSynchronization () {
         ?>
@@ -1549,64 +1618,7 @@ class OWMP
     
 
                     <?php
-                    if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
-
-                        if(VIDEO_FILE_UPLOAD) {
-                            $checkVideoFileUpload = self::createDirectory(VIDEO_FILE_UPLOAD);
-
-                            if(!$checkVideoFileUpload['result']) {
-                                echo $checkVideoFileUpload['message'];
-                            }
-                        } else {
-                            echo '<p class="general_fail">'.'Δεν έχεις ορίσει main music video path'.'</p>';
-                        }
-
-                        if(MUSIC_FILE_UPLOAD) {
-                            $checkAudioFileUpload = self::createDirectory(MUSIC_FILE_UPLOAD);
-
-                            if(!$checkAudioFileUpload['result']) {
-                                echo $checkAudioFileUpload['message'];
-                            }
-                        } else {
-                            echo '<p class="general_fail">'.'Δεν έχεις ορίσει main music path'.'</p>';
-                        }
-
-
-                        // TODO να γίνεται ο έλεγχος και όταν πάει να τρέξει το javascript αναλόγως αν έχει επιλέξει video ή audio
-
-
-                        if( $checkVideoFileUpload['result'] || $checkAudioFileUpload['result'] ) {
-    
-                            ?>
-                            <div>
-                                <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
-
-                                <select name="youtubeMediaKind" id="youtubeMediaKind">
-                                    <?php
-                                    foreach ($mediaKinds as $kind) {
-                                        ?>
-                                        <option value="<?php echo $kind; ?>">
-                                            <?php echo $kind; ?>
-                                        </option>
-
-                                        <?php
-                                    }
-                                    ?>
-                                </select>
-
-                                <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
-                                       onclick="downloadTheYouTube();"
-                                       value="<?php echo __('sync_youtube'); ?>" >
-                                <?php Page::getHelp('help_youtube'); ?>
-                            </div>
-    
-                            <?php
-                        }
-    
-                    }
-                    else {
-                        echo '<p>'.__('youtube_error').'</p>';
-                    }
+                        self::displayYoutubeDownloadElements();
                     ?>
 
                 </form>

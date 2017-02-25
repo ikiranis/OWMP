@@ -212,6 +212,8 @@
         <phrase name="vote_accepted">Η ψήφος σου έγινε δεκτή</phrase>
         <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεκτή. Μπορείς να ψηφίσεις μόνο μία φορά. Ξανα προσπάθησε στο επόμενο τραγούδι</phrase>
         <phrase name="service_disabled">Η υπηρεσία είναι απενεργοποιημένη. Δοκίμασε αργότερα</phrase>
+        <phrare name="no_main_music_path">Δεν έχεις ορίσει main music path</phrare>
+        <phrare name="no_main_music_video_path">Δεν έχεις ορίσει main music video path</phrare>
     </page>
 
     <page name="help">

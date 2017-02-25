@@ -1515,53 +1515,75 @@ function downloadTheYouTube() {
     var urls=document.querySelector('#youTubeUrl').value;
     var mediaKind=document.querySelector('#youtubeMediaKind').value;
 
-    urls=urls.split(',');  // Παίρνουμε το string σε array
-    
-    $('#progress').show();
-    $('#logprogress').show();
-    $("#killCommand_img").show();
+    var OKGo=false;
 
-    runningYoutubeDownload=true;
+    if(mediaKind=='Music Video') {
+        var MusicVideoPathOK=document.querySelector('#MusicVideoPathOK').value;
 
-    document.querySelector('#theProgressBar').value=0;
-    $("#theProgressNumber" ).html('');
+        if(MusicVideoPathOK=='true') {
+            OKGo=true;
+        } else {
+            DisplayMessage('#alert_error', phrases['no_main_music_video_path']);
+        }
+    } else {
+        var MusicPathOK=document.querySelector('#MusicPathOK').value;
 
-    videoItems=[]; // καθαρίζει το array
-
-    // έλεγχος των url και προσθήκη σε πίνακα με τα video ID
-    for (var i = 0; i < urls.length; i++) {
-
-        checkVideoUrl(urls[i], i, urls.length);
-
+        if(MusicPathOK=='true') {
+            OKGo=true;
+        } else {
+            DisplayMessage('#alert_error', phrases['no_main_music_path']);
+        }
     }
 
+    if(OKGo) {
+        urls = urls.split(',');  // Παίρνουμε το string σε array
 
-    // αφου τελειώσουν οι έλεγχοι
-    $( document ).one("ajaxStop", function() {
+        $('#progress').show();
+        $('#logprogress').show();
+        $("#killCommand_img").show();
 
-        // κατέβασμα των video
-        for (var i = 0; i < videoItems.length; i++) {
-            // console.log(videoItems[i]);
-            callGetYouTube(videoItems[i], i, videoItems.length, mediaKind);
+        runningYoutubeDownload = true;
+
+        document.querySelector('#theProgressBar').value = 0;
+        $("#theProgressNumber").html('');
+
+        videoItems = []; // καθαρίζει το array
+
+        // έλεγχος των url και προσθήκη σε πίνακα με τα video ID
+        for (var i = 0; i < urls.length; i++) {
+
+            checkVideoUrl(urls[i], i, urls.length);
 
         }
 
 
-        // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-        $( document ).one("ajaxStop", function() {
-            var syncInterval=setInterval(function() {
-                clearInterval(syncInterval);
-                $("#progress").hide();
-                $('#logprogress').hide();
-                document.querySelector('#theProgressBar').value=0;
-                $("#theProgressNumber" ).html('');
-                runningYoutubeDownlod=false;
-                // startTheSync('sync');
-            },6000);
-            // return;
-        });
+        // αφου τελειώσουν οι έλεγχοι
+        $(document).one("ajaxStop", function () {
 
-    });
+            // κατέβασμα των video
+            for (var i = 0; i < videoItems.length; i++) {
+                // console.log(videoItems[i]);
+                callGetYouTube(videoItems[i], i, videoItems.length, mediaKind);
+
+            }
+
+
+            // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+            $(document).one("ajaxStop", function () {
+                var syncInterval = setInterval(function () {
+                    clearInterval(syncInterval);
+                    $("#progress").hide();
+                    $('#logprogress').hide();
+                    document.querySelector('#theProgressBar').value = 0;
+                    $("#theProgressNumber").html('');
+                    runningYoutubeDownlod = false;
+                    // startTheSync('sync');
+                }, 6000);
+                // return;
+            });
+
+        });
+    }
 
 
 }
