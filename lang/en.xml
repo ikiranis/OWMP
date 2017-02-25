@@ -212,6 +212,8 @@
         <phrase name="vote_accepted">Vote accepted</phrase>
         <phrase name="vote_not_accepted">Vote not accepted. You can vote only once. Wait for the next song</phrase>
         <phrase name="service_disabled">Service is disabled. Come back later</phrase>
+        <phrare name="no_main_music_path">Didn't set a main music path</phrare>
+        <phrare name="no_main_music_video_path">Didn't set a main music video path</phrare>
     </page>
 
     <page name="help">
