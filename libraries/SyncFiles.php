@@ -6,13 +6,14 @@
  * http://www.apps4net.eu
  * Date: 28/06/16
  * Time: 19:01
+ *
  * Κλαση συγχρονισμού αρχείων
  */
 
 require_once ('scanDir.php');
 
 // @source https://github.com/jsjohnst/php_class_lib/tree/master
-require_once ('PlistParser.inc');
+require_once ('PlistParser.php');
 
 // @source https://github.com/JamesHeinrich/getID3/
 require_once('getid3/getid3.php');

@@ -1537,6 +1537,44 @@ class OWMP
     }
 
 
+    // Έλεγχος και εμφάνιση απαιτήσεων
+    static function checkRequirements() {
+        ?>
+
+            <p>ffmpeg:
+                <?php
+                    if (Utilities::checkIfLinuxProgramInstalled('ffmpeg')) {
+                        echo 'Installed';
+                    } else {
+                        echo 'Not Installed';
+                    }
+                ?>
+            </p>
+
+            <p>lame:
+                <?php
+                if (Utilities::checkIfLinuxProgramInstalled('lame')) {
+                    echo 'Installed';
+                } else {
+                    echo 'Not Installed';
+                }
+                ?>
+            </p>
+
+            <p>youtube-dl:
+                <?php
+                if (Utilities::checkIfLinuxProgramInstalled('youtube-dl')) {
+                    echo 'Installed';
+                } else {
+                    echo 'Not Installed';
+                }
+                ?>
+            </p>
+
+        <?php
+    }
+
+
     // εμφάνιση των επιλογών συγχρονισμού
     static function showSynchronization () {
         ?>
@@ -1619,7 +1657,11 @@ class OWMP
                     ?>
 
                 </form>
-                
+
+
+                <?php
+                    self::checkRequirements();
+                ?>
 
                    
             </div>

@@ -10,7 +10,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.308');
+define ('APP_VERSION', '0.1.309');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 require_once ('config.inc.php');
@@ -19,6 +19,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Page.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/RoceanDB.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Crypto.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Utilities.php');
 
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/OWMP.php');
