@@ -59,7 +59,7 @@ if(!isset($_SESSION['user_IP'])) {
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array ('libraries/jquery.min.js', 'libraries/vote.js');    // javascript
+$scripts=array ('libraries/javascript/framework/jquery.min.js', 'libraries/javascript/app/vote.js');    // javascript
 
 $css='styles/vote.css';   // css
 

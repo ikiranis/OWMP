@@ -13,12 +13,8 @@ require_once ('../libraries/common.inc.php');
 
 session_start();
 
-// Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
-if (!isset($_SESSION["username"])) {
-    if ($conn->CheckCookiesForLoggedUser()) {
-        $conn->setSession('username', RoceanDB::getACookie("username"));
-    }
-}
+// TODO να κάνω έναν worker και να κάνει update το session από εκεί
+Page::updateUserSession();
 
 Page::checkValidAjaxRequest(true);
 

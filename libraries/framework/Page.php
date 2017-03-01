@@ -670,4 +670,117 @@ class Page
 
     }
 
+
+    // Εισάγει τις αρχικές τιμές στον πίνακα Options και στον progress
+    static function startBasicOptions()
+    {
+
+        $conn = new RoceanDB();
+
+//        if(!$conn->getOption('interval_value'))
+//            $conn->createOption('interval_value', '5', 1, 0);
+
+//        if(!$conn->getOption('mail_host'))
+//            $conn->createOption('mail_host', 'smtp.gmail.com', 1, 0);
+//
+//        if(!$conn->getOption('mail_username'))
+//            $conn->createOption('mail_username', 'username', 1, 0);
+//
+//        if(!$conn->getOption('mail_password')) {
+//            $conn->createOption('mail_password', '12345678',1,1);
+//
+//        if(!$conn->getOption('mail_from'))
+//            $conn->createOption('mail_from', 'username@mail.com', 1, 0);
+//
+//        if(!$conn->getOption('mail_from_name'))
+//            $conn->createOption('mail_from_name', 'name', 1, 0);
+
+        // Οι αρχικές τιμές στον πίνακα options
+        if(!$conn->getOption('convert_alac_files'))
+            $conn->createOption('convert_alac_files', 'false', 1, 0);
+
+        if(!$conn->getOption('playlist_limit'))
+            $conn->createOption('playlist_limit', '150', 1, 0);
+
+        if(!$conn->getOption('dir_prefix'))
+            $conn->createOption('dir_prefix', '/', 1, 0);
+
+        if(!$conn->getOption('syncItunes'))
+            $conn->createOption('syncItunes', 'false', 1, 0);
+
+        if(!$conn->getOption('date_format'))
+            $conn->createOption('date_format', 'Y-m-d', 1, 0);
+
+        if(!$conn->getOption('icecast_server'))
+            $conn->createOption('icecast_server', '0.0.0.0:8000', 1, 0);
+
+        if(!$conn->getOption('icecast_mount'))
+            $conn->createOption('icecast_mount', 'listen', 1, 0);
+
+        if(!$conn->getOption('icecast_user'))
+            $conn->createOption('icecast_user', 'user', 1, 0);
+
+        if(!$conn->getOption('icecast_pass'))
+            $conn->createOption('icecast_pass', 'pass', 1, 1);
+
+        if(!$conn->getOption('icecast_enable'))
+            $conn->createOption('icecast_enable', 'false', 1, 0);
+
+        if(!$conn->getOption('jukebox_enable'))
+            $conn->createOption('jukebox_enable', 'false', 1, 0);
+
+        if(!$conn->getOption('default_language'))
+            $conn->createOption('default_language', 'en', 1, 0);
+
+        if(!$conn->getOption('youtube_api'))
+            $conn->createOption('youtube_api', 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 1, 0);
+
+        if(!$conn->getOption('play_percentage'))
+            $conn->createOption('play_percentage', '20', 1, 0);
+
+
+
+
+        // Οι αρχικές τιμές στον πίνακα progress
+        if(!Page::checkIfProgressNameExists('progressInPercent'))
+            Page::createProgressName('progressInPercent');
+
+        if(!Page::checkIfProgressNameExists('progressMessage'))
+            Page::createProgressName('progressMessage');
+
+        if(!Page::checkIfProgressNameExists('killCommand')) {
+            Page::createProgressName('killCommand');
+            Page::setKillCommand('0');
+        }
+
+        if(!Page::checkIfProgressNameExists('lastMomentAlive')) {
+            Page::createProgressName('lastMomentAlive');
+            Page::setLastMomentAlive(true);
+        }
+
+        if(!Page::checkIfProgressNameExists('currentSong')) {
+            Page::createProgressName('currentSong');
+        }
+
+
+        // TODO να σβηστεί μετά από καιρό αυτό. Γράφτηκε Δεκέμβριο 2016
+        // Σβήσιμο της εγγραφής που έχει μπει από παλιότερες εκδόσεις
+        if($conn->getOption('web_folder_path'))
+            $conn->deleteRowFromTable('options', 'option_name', 'web_folder_path');
+
+    }
+
+
+    // Ξαναπαίρνει τιμή το session του username, για να γίνει update
+    static function updateUserSession() {
+        $conn = new RoceanDB();
+
+        // Αν υπάρχει session του user τότε ξαναπαίρνει την ίδια τιμή, ώστε να γίνει update
+        if (isset($_SESSION["username"])) {
+            $conn->setSession('username', $conn->getSession("username"));
+        }
+
+        // TODO αν έχει λήξει το session να κάνει redirect την σελίδα και να σε πετάει εκτός. Εκτός αν υπάρχει coockie, να ανανεώνεται από αυτό
+    }
+
 }

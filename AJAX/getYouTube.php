@@ -10,7 +10,7 @@
  */
 
 require_once('../libraries/common.inc.php');
-require_once ('../libraries/videoDownload.php');
+require_once('../libraries/framework/videoDownload.php');
 
 session_start();
 

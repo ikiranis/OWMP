@@ -44,7 +44,7 @@ if(!$conn->CheckIfThereIsAdminUser()) {
 
 
     // ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
-    OWMP::startBasicOptions();
+    Page::startBasicOptions();
 
     // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
     $eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';

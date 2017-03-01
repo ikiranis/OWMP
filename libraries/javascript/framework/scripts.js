@@ -10,8 +10,6 @@
 var UserKeyPressed=false;
 var PathKeyPressed=false;
 
-var TimePercentTrigger=20; // το ποσοστό που ενημερώνει το κάθε βίντεο με το play_count
-
 var currentID; // Το τρέχον file id που παίζει
 var currentPlaylistID='1';  // Το τρέχον id στην playlist
 var currentQueuePlaylistID=0;  // Το τρέχον id στην queue playlist
@@ -144,7 +142,7 @@ function registerUser() {
             result = JSON.parse(data);
             if (result['success'] == true) {
 
-                window.location.href = "index.php";
+                window.location.href = "../../../index.php";
             }
             else  DisplayMessage('#alert_error',result['message']);
 
@@ -177,7 +175,7 @@ function login() {
             console.log(result['success']);
             if (result['success'] == true) {
 
-                window.location.href = "index.php";
+                window.location.href = "../../../index.php";
             }
             else  DisplayMessage('#alert_error',result['message']);
 

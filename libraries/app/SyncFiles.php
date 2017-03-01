@@ -10,13 +10,13 @@
  * Κλαση συγχρονισμού αρχείων
  */
 
-require_once ('scanDir.php');
+require_once('../libraries/external/scanDir.php');
 
 // @source https://github.com/jsjohnst/php_class_lib/tree/master
-require_once ('PlistParser.php');
+require_once('../libraries/external/PlistParser.php');
 
 // @source https://github.com/JamesHeinrich/getID3/
-require_once('getid3/getid3.php');
+require_once('../libraries/external/getid3/getid3.php');
 
 class SyncFiles
 {

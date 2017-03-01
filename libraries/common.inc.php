@@ -10,19 +10,22 @@
  */
 
 
-define ('APP_VERSION', '0.1.309');
+define ('APP_VERSION', '0.1.310');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 require_once ('config.inc.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Session.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Page.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/RoceanDB.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Crypto.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Language.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/Utilities.php');
 
+// Framework classes
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Session.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Page.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/RoceanDB.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Crypto.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Language.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Utilities.php');
+
+// App classes
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/OWMP.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/app/OWMP.php');
 
 $conn = new RoceanDB();
 
@@ -59,7 +62,7 @@ $languages = array (    // Οι γλώσσες που υποστηρίζοντα
 );
 
 // ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
-OWMP::startBasicOptions();
+Page::startBasicOptions();
 
 define('DEFAULT_LANG', $conn->getOption('default_language'));  // Η default γλώσσα της εφαρμογής
 
@@ -252,6 +255,7 @@ define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FI
 define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. 'playlist.json');  // To json file της playlist για import
 define ('WEB_FOLDER_PATH',$_SERVER['DOCUMENT_ROOT'].'/');  // To path του web folder
 define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
+define ('PLAY_PERCENTAGE',$conn->getOption('play_percentage'));   // Το ποσοστό που θεωρείται ότι ένα τραγούδι έχει παιχτεί
 define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 define ('DATE_FORMAT',$conn->getOption('date_format'));  // To format των ημερομηνιών που εμφανίζονται στο site
 
