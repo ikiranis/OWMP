@@ -142,7 +142,7 @@ function registerUser() {
             result = JSON.parse(data);
             if (result['success'] == true) {
 
-                window.location.href = "../../../index.php";
+                window.location.href = "";
             }
             else  DisplayMessage('#alert_error',result['message']);
 
@@ -172,10 +172,9 @@ function login() {
         $.get(callFile, function (data) {
 
             result = JSON.parse(data);
-            console.log(result['success']);
             if (result['success'] == true) {
 
-                window.location.href = "../../../index.php";
+                window.location.href = "";
             }
             else  DisplayMessage('#alert_error',result['message']);
 
@@ -2779,11 +2778,11 @@ $(function(){
     
 
     $('#LoginForm').validate({ // initialize the plugin
-        errorElement: 'div'
+        errorElement: 'span'
     });
 
     $('#RegisterForm').validate({ // initialize the plugin
-        errorElement: 'div',
+        errorElement: 'span',
         rules : {
             repeat_password: {
                 equalTo : '[name="password"]'
@@ -2794,7 +2793,7 @@ $(function(){
 
     $('.users_form').each(function() {  // attach to all form elements on page
         $(this).validate({       // initialize plugin on each form
-            errorElement: 'div'
+            errorElement: 'span'
         });
     });
 
@@ -2802,7 +2801,7 @@ $(function(){
 
     $('.options_form').each(function() {  // attach to all form elements on page
         $(this).validate({       // initialize plugin on each form
-            errorElement: 'div'
+            errorElement: 'span'
         });
     });
 

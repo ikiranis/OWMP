@@ -16,19 +16,14 @@ require_once('../libraries/app/SyncFiles.php');
 
 session_start();
 
+Page::updateUserSession();
+
 Page::checkValidAjaxRequest(true);
 
 $conn = new RoceanDB();
 
-// Έλεγχος αν έχει λήξει το session. Αλλιώς ψάχνει για coockie
-if (!isset($_SESSION["username"])) {
-    if ($conn->CheckCookiesForLoggedUser()) {
-        $conn->setSession('username', RoceanDB::getACookie('username') );
-        $UserGroup = $conn->getUserGroup($conn->getSession('username'));
-    }
-}
-else $UserGroup=$conn->getUserGroup($conn->getSession('username'));
 
+$UserGroup = $conn->getUserGroup($conn->getSession('username'));
 
 if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 

@@ -354,7 +354,7 @@ header {
 }
 
 /*Τα errors στο validation*/
-div.error {
+span.error {
     position: relative;
     display: block;
     color: black;

@@ -28,17 +28,15 @@ RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive
 
 $conn = new RoceanDB();
 
-$lastMinutes = strtotime('-10 minutes');
+$lastMinutes = strtotime('-12 hours');
 $theDate = date('Y-m-d H:i:s', $lastMinutes);
 $playlistTablesToDelete = RoceanDB::getTableArray('playlist_tables', 'table_name', 'last_alive<?', array($theDate), null, null, null);
 
-//trigger_error('RUNNING '.$theDate);
 
 foreach ($playlistTablesToDelete as $item) {
     if(RoceanDB::checkIfTableExist($item['table_name'])) // Αν υπάρχει το σβήνουμε
         if(RoceanDB::dropTable($item['table_name'])) {
             if($conn->deleteRowFromTable ('playlist_tables','table_name',$item['table_name']))
-//                trigger_error('SBHSIMO TOY: '.$item['table_name']);
                 $jsonArray = array('success' => true);
         }
 }

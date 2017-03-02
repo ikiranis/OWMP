@@ -640,6 +640,7 @@ class Page
     // Έλεγχος αν το ajax request γίνεται από το ίδιο το site και όχι εξωτερικά
     static function checkValidAjaxRequest($checkLogin) {
 
+        $requestAJAXValid = false;
 
         // Έλεγχος αν είναι login. Αν δεν είναι τερματίζει την εκτέλεση
         if($checkLogin) {
@@ -647,8 +648,6 @@ class Page
                 die('Invalid AJAX request');
             }
         }
-        
-        $requestAJAXValid = false;
         
 
         if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
@@ -777,10 +776,14 @@ class Page
 
         // Αν υπάρχει session του user τότε ξαναπαίρνει την ίδια τιμή, ώστε να γίνει update
         if (isset($_SESSION["username"])) {
-            $conn->setSession('username', $conn->getSession("username"));
+            $conn->setSession('username', $conn->getSession('username'));
+        } else {
+            if ($conn->CheckCookiesForLoggedUser()) { //  Έλεγχος αν υπάρχει cookie και παίρνει το username από εκεί
+                $conn->setSession('username', RoceanDB::getACookie('username') );
+            }
+
         }
 
-        // TODO αν έχει λήξει το session να κάνει redirect την σελίδα και να σε πετάει εκτός. Εκτός αν υπάρχει coockie, να ανανεώνεται από αυτό
     }
 
 }
