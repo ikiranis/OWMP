@@ -770,6 +770,7 @@ class Page
     }
 
 
+    // TODO δεν πρέπει να δουλεύει σωστά το update κάποιες φορές
     // Ξαναπαίρνει τιμή το session του username, για να γίνει update
     static function updateUserSession() {
         $conn = new RoceanDB();

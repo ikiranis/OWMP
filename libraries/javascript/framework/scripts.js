@@ -9,6 +9,7 @@
 
 var UserKeyPressed=false;
 var PathKeyPressed=false;
+var VideoLoaded=false;
 
 var currentID; // Το τρέχον file id που παίζει
 var currentPlaylistID='1';  // Το τρέχον id στην playlist
@@ -142,6 +143,8 @@ function registerUser() {
             result = JSON.parse(data);
             if (result['success'] == true) {
 
+                document.querySelector('#RegisterForm #register').style.backgroundColor='green';
+                $('#RegisterForm #register').prop('disabled', true);
                 window.location.href = "";
             }
             else  DisplayMessage('#alert_error',result['message']);
@@ -162,8 +165,6 @@ function login() {
         SavePassword = true;
     else SavePassword = false;
 
-    console.log(SavePassword);
-
     if ($('#LoginForm').valid()) {
 
 
@@ -173,7 +174,9 @@ function login() {
 
             result = JSON.parse(data);
             if (result['success'] == true) {
-
+                // TODO να αλλάζει χρώμα προσθέτοντας κλάση css καλύτερα
+                document.querySelector('#LoginForm #submit').style.backgroundColor='green';
+                $('#LoginForm #submit').prop('disabled', true);
                 window.location.href = "";
             }
             else  DisplayMessage('#alert_error',result['message']);
@@ -1121,7 +1124,6 @@ function makePlaylistItemActive(id) {
 
 }
 
-// TODO για κάποιον λόγο κάποιες φορές πρέπει να παίρνει λάθος currentID και κάνει update λάθος εγγραφή
 // Ενημερώνει τα tags του κομματιού
 function update_tags(key_rating) {
     song_name=$('#FormTags #title').val();
@@ -1442,7 +1444,7 @@ function checkVideoUrl(url,counter,total) {
     });
 }
 
-
+// TODO να τσεκάρω αν σβήνονται τα row στο update
 // Καλεί το ajax σε queue για να κάνει το μαζικό update αρχείων
 function callUpdateTheFile(path, filename, id, counter, total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
@@ -1500,7 +1502,6 @@ function callDeleteTheFile(fullpath, filename, id, counter, total) {
         success: function (data) {
             if (data.success) {
                 $("#deleteRow" + data.id).remove();
-                // TODO να τσεκάρω αν δουλεύει σωστά η διαγραφή κι αν σβήνονται τα row. Το ίδιο και στο update
             }
         }
     });
@@ -2191,7 +2192,7 @@ function giphyToggle() {
 }
 
 function volumeUp() {
-    if(myVideo.volume<1) {
+    if(myVideo.volume<0.99) {
         myVideo.volume += 0.01;
         localStorage.volume = myVideo.volume;
         displayVolume('up');
@@ -2260,6 +2261,18 @@ function displayFullscreenControls() {
                 displayingMediaControls = false;
             }, 5000)
         }
+    }
+}
+
+// Κάνει submit στην αντίστοιχη φόρμα που είναι ανοιχτή
+function pressEnterToForm() {
+
+    if(!$('#LoginForm').length==0) {
+        $('#LoginForm #submit').click();
+    }
+
+    if(!$('#RegisterForm').length==0) {
+        $('#RegisterForm #register').click();
     }
 }
 
@@ -2364,6 +2377,12 @@ function getShortcuts(elem) {
                 FocusOnForm=false;
             }
 
+
+        }
+
+        // Έλεγχος του enter στις φόρμες
+        if (event.keyCode === 13) {   // Enter
+            pressEnterToForm();
         }
 
         // console.log(event.keyCode);
@@ -2603,11 +2622,13 @@ function OnFocusOutForm (event) {
 
 // Ελέγχει αν είναι focus οι φόρμες
 function checkFormsFocus() {
-    checkTheFocus('FormTags');
-    checkTheFocus('FormMassiveTags');
-    checkTheFocus('SearchForm');
-    checkTheFocus('insertPlaylist');
-    // checkTheFocus('paths_form');
+    if(VideoLoaded) { // αν έχει φορτωθεί το βίντεο
+        checkTheFocus('FormTags');
+        checkTheFocus('FormMassiveTags');
+        checkTheFocus('SearchForm');
+        checkTheFocus('insertPlaylist');
+        // checkTheFocus('paths_form');
+    }
 }
 
 

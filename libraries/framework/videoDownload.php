@@ -158,7 +158,6 @@ class videoDownload
     }
 
 
-    // TODO να μπορεί να παίρνει το url μιας youtube playlist και να το σπάει
     // Κατεβάζει ένα βίντεο
     public function downloadVideo() {
         Page::setLastMomentAlive(false);

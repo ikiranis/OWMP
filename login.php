@@ -115,7 +115,6 @@ function showLoginWindow()
 
         $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
         
-        // TODO να το κάνω να στέλνει και όταν πατηθεί enter
         $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
         ?>
@@ -217,6 +216,7 @@ function ShowRegisterUser()
 
 
     </div>
+
 
     </main>
 

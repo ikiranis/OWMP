@@ -214,6 +214,7 @@
         <phrase name="service_disabled">Η υπηρεσία είναι απενεργοποιημένη. Δοκίμασε αργότερα</phrase>
         <phrase name="no_main_music_path">Δεν έχεις ορίσει main music path</phrase>
         <phrase name="no_main_music_video_path">Δεν έχεις ορίσει main music video path</phrase>
+        <phrase name="no_programs_exist_for_alac">Δεν έχουν εγκατασταθεί τα απαιτούμενα προγράμματα για την μετατροπή του ALAC</phrase>
     </page>
 
     <page name="help">

@@ -335,15 +335,24 @@ class SyncFiles
 
                     if ($this->codec == 'Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
                         if (CONVERT_ALAC_FILES) { // Αν θέλουμε να μετατραπεί
-                            if ($newPath = self::convertALACtoMP3($full_path, $filename, $path)) {  // Το μετατρέπουμε και το παίρνουμε
-                                $path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
-                                $hash = self::hashFile(DIR_PREFIX . $path . $filename);
-                            }
-                            else {
+
+                            //  Έλεγχος αν είναι εγκατεστημένες οι εφαρμογές ffmpeg και lame, που χρειάζονται
+                            if(Utilities::checkIfLinuxProgramInstalled('ffmpeg') && Utilities::checkIfLinuxProgramInstalled('lame')) {
+                                if ($newPath = self::convertALACtoMP3($full_path, $filename, $path)) {  // Το μετατρέπουμε και το παίρνουμε
+                                    $path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
+                                    $hash = self::hashFile(DIR_PREFIX . $path . $filename);
+                                } else {
+                                    $dontDoRecord = true;
+                                    echo '<p>' . __('there_is_a_problem_with_alac') . '. ' . __('special_char_in_path') . ' ' . $full_path . '</p>';
+                                }
+                            } else {
                                 $dontDoRecord = true;
-                                echo '<p>'.__('there_is_a_problem_with_alac').'. '.__('special_char_in_path').' '.$full_path.'</p';
+                                echo '<p>'. __('no_programs_exist_for_alac') . ' ' .  $full_path . '</p>';
                             }
-                        } else $dontDoRecord = true;  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
+
+                        } else {
+                            $dontDoRecord = true;
+                        }  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
                     }
 
                 }
@@ -1020,29 +1029,29 @@ class SyncFiles
 
     // Μετατρέπει ένα ALAC αρχείο σε mp3. Το δημιουργεί σε νέα τοποθεσία την οποία επιστρέφει
     public function convertALACtoMP3($fullPath, $filename, $path) {
+
         Page::setLastMomentAlive(true);
 
-        // TODO να βρω τρόπο να ελέγχω αν είναι εγκατεστημένα τα ffmpeg και lame
         // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους
 
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
-        OWMP::execConvertALAC($fullPath, INTERNAL_CONVERT_PATH.$filename, '320');
+        OWMP::execConvertALAC($fullPath, INTERNAL_CONVERT_PATH . $filename, '320');
 
 //        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -b 320 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
 
-        if(OWMP::fileExists(INTERNAL_CONVERT_PATH.$filename)) { // Αν η μετατροπή έχει γίνει
+        if (OWMP::fileExists(INTERNAL_CONVERT_PATH . $filename)) { // Αν η μετατροπή έχει γίνει
             // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί
-            if(rename(DIR_PREFIX.$path.$filename, DIR_PREFIX.$path.$filename.'.converted')){ // Αν μετονομαστεί με επιτυχία
+            if (rename(DIR_PREFIX . $path . $filename, DIR_PREFIX . $path . $filename . '.converted')) { // Αν μετονομαστεί με επιτυχία
                 // Το αντιγράφει στην τοποθεσία DIR_PREFIX.MUSIC_UPLOAD όπου βάζει όλα τα converted και πρέπει να έχει δικαιώματα
-                print shell_exec('cp "'.INTERNAL_CONVERT_PATH.$filename.'" "'.MUSIC_UPLOAD.$filename.'"');
-                unlink(INTERNAL_CONVERT_PATH.$filename); // Το σβήνει από την προσωρινή τοποθεσία INTERNAL_CONVERT_PATH
+                print shell_exec('cp "' . INTERNAL_CONVERT_PATH . $filename . '" "' . MUSIC_UPLOAD . $filename . '"');
+                unlink(INTERNAL_CONVERT_PATH . $filename); // Το σβήνει από την προσωρινή τοποθεσία INTERNAL_CONVERT_PATH
 
-                if(OWMP::fileExists(MUSIC_UPLOAD.$filename)) // Αν έχει γίνει σωστά η αντιγραφή
-                    $result=array('path' => MUSIC_UPLOAD); // Επιστρέφει το νέο path
-                else $result=false;
-            } else $result=false;
+                if (OWMP::fileExists(MUSIC_UPLOAD . $filename)) // Αν έχει γίνει σωστά η αντιγραφή
+                    $result = array('path' => MUSIC_UPLOAD); // Επιστρέφει το νέο path
+                else $result = false;
+            } else $result = false;
 
-        } else $result=false;
+        } else $result = false;
 
         return $result;
     }
