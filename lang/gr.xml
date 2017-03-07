@@ -125,9 +125,10 @@
         <phrase name="current_song">Παίζει τώρα</phrase>
         <phrase name="next_song">Επόμενο</phrase>
         <phrase name="previous_song">Προηγούμενο</phrase>
-        <phrase name="toggle_fullscreen">Μεγιστοποίηση</phrase>
+        <phrase name="toggle_fullscreen">Μεγιστοποίηση/Ελαχιστοποίηση</phrase>
         <phrase name="toggle_giphy">Giphy</phrase>
         <phrase name="toggle_overlay">Overlay</phrase>
+        <phrase name="toggle_shuffle">Ενεργοποίηση/Απενεργοποίηση της τυχαίας αναπαραγωγής</phrase>
     </page>
 
     <page name="search">

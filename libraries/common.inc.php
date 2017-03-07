@@ -10,7 +10,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.312');
+define ('APP_VERSION', '0.1.313');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 require_once ('config.inc.php');

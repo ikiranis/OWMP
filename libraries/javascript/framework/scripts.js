@@ -175,6 +175,7 @@ function login() {
             result = JSON.parse(data);
             if (result['success'] == true) {
                 // TODO να αλλάζει χρώμα προσθέτοντας κλάση css καλύτερα
+                // TODO δεν δουλεύει σε safari
                 document.querySelector('#LoginForm #submit').style.backgroundColor='green';
                 $('#LoginForm #submit').prop('disabled', true);
                 window.location.href = "";
@@ -1066,7 +1067,8 @@ function init(){
 
         myVideo.volume=parseFloat(localStorage.volume);   // Θέτει το volume με βάση την τιμή του localStorage.volume
 
-        localStorage.PlayMode='shuffle';
+        // Έλεγχος και αρχικοποίηση της κατάστασης του shuffle button
+        checkShuffleButton();
 
         initEventListenerHadler = true;
 
@@ -2245,6 +2247,26 @@ function changeLive() {
     update_tags();  // ενημερώνει τα tags
 }
 
+// Ενεργοποιεί/απενεργοποιεί το shuffle/continue
+function toggleShuffle() {
+    if(localStorage.PlayMode=='shuffle') {
+        localStorage.PlayMode='continue';
+        $('.shuffle_button').removeClass('shuffle_on').addClass('shuffle_off');
+    } else {
+        localStorage.PlayMode='shuffle';
+        $('.shuffle_button').removeClass('shuffle_off').addClass('shuffle_on');
+    }
+}
+
+// Έλεγχος και αρχικοποίηση της κατάστασης του shuffle button
+function checkShuffleButton() {
+    if(localStorage.PlayMode=='shuffle') {
+        $('.shuffle_button').addClass('shuffle_on');
+    } else {
+        $('.shuffle_button').addClass('shuffle_off');
+    }
+}
+
 
 // Εμφανίζει τα media controls σε fullscreen
 function displayFullscreenControls() {
@@ -2790,14 +2812,8 @@ function voteSong(id) {
 }
 
 
-
-
-
-// ************************************
-// On load
-$(function(){
-    
-
+// Τρέχει τα validates για τις διάφορες φόρμες
+function startValidates() {
     $('#LoginForm').validate({ // initialize the plugin
         errorElement: 'span'
     });
@@ -2812,6 +2828,7 @@ $(function(){
     });
 
 
+    // Validate της users form
     $('.users_form').each(function() {  // attach to all form elements on page
         $(this).validate({       // initialize plugin on each form
             errorElement: 'span'
@@ -2819,26 +2836,12 @@ $(function(){
     });
 
 
-
+    // Validate της options form
     $('.options_form').each(function() {  // attach to all form elements on page
         $(this).validate({       // initialize plugin on each form
             errorElement: 'span'
         });
     });
-
-
-
-
-    getTime('#timetext'); // Εμφανίζει την ώρα
-
-
-    // Εμφανίζει συνεχώς την ώρα
-    setInterval(function(){
-        getTime('#timetext');
-        if(checkFullscreen()) getTime('#overlay_time');
-
-    }, 1000);
-
 
     // Έλεγχος αν το repeat password  συμφωνεί με το password
     $('.UsersList').find('input[name=repeat_password]').keyup(function () {
@@ -2869,6 +2872,30 @@ $(function(){
         }
 
     });
+}
+
+
+
+// ************************************
+// On load
+$(function(){
+
+    // Έναρξη των validates
+    startValidates();
+
+
+
+    // Εμφανίζει την ώρα
+    getTime('#timetext');
+
+
+    // Εμφανίζει συνεχώς την ώρα
+    setInterval(function(){
+        getTime('#timetext');
+        if(checkFullscreen()) getTime('#overlay_time');
+
+    }, 1000);
+
 
 
     // document.addEventListener("webkitfullscreenchange", function() {
@@ -2910,13 +2937,15 @@ $(function(){
     // Έλεγχος πατήματος πλήκτρων
     getShortcuts(window);
 
+    // Έναρξη των ελέγχων για όταν γίνονται αλλαγές στα search fields
     checkSearchFieldChanges();
 
+    // Ελέγχει την τρέχουσα έκδοση
     checkCurrentVersion();
-
 
     // Έλεγχος για garbage collection
     setInterval(garbageCollection, 600000);
+
 
 
     document.addEventListener('touchmove', displayFullscreenControls, false);

@@ -12,6 +12,7 @@
 class OWMP
 {
 
+    // Εμφανίζει την μπάρα με τα controls
     static function displayControls($element, $fullscreen) {
         ?>
 
@@ -33,8 +34,10 @@ class OWMP
                    title="<?php echo __('toggle_fullscreen'); ?>"
                    onclick="toggleFullscreen();">
 
+
             <?php
-            if($fullscreen) {
+
+            if($fullscreen) { // Αν είναι σε fullscreen
                 ?>
                 <input type="button"
                        class="<?php if ($fullscreen) echo 'gif_button fullscreen_button_img'; else echo 'gif_button video_controls_button_img'; ?>"
@@ -47,7 +50,15 @@ class OWMP
                        onclick="interfaceToggle();">
 
                 <?php
+            } else { // Αν δεν είναι σε fullscreen
+                ?>
+                <input type="button" class="<?php echo 'shuffle_button video_controls_button_img'; ?>"
+                       title="<?php echo __('toggle_shuffle'); ?>"
+                       onclick="toggleShuffle();">
+
+                <?php
             }
+
             ?>
         </div>
         
