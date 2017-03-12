@@ -863,7 +863,7 @@ function getNextVideoID(id, operation) {
     });
 }
 
-
+// TODO όταν παίζει τραγούδια σε continues, αν παίξει κάποιο loved, τότε δεν συνεχίζει μετά από το τραγούδι που σταμάτησε
 // Set the src of the video to the next URL in the playlist
 // If at the end we start again from beginning (the modulo
 // source.length does that)
@@ -2874,6 +2874,46 @@ function startValidates() {
     });
 }
 
+function startTheUpdate() {
+    callFile=AJAX_path+'updateApp.php';
+
+    $.get(callFile, function (data) {
+
+        if (data.success == true) {
+
+            DisplayMessage('#alert_error', 'App Updated');
+
+        }
+        else {
+            DisplayMessage('#alert_error', 'App Not Updated');
+        }
+
+    }, "json");
+}
+
+
+//  Παίρνει backup της βάσης
+function startTheBackup() {
+    callFile=AJAX_path+'backupDatabase.php';
+
+    $('#progress').show();
+
+    $.get(callFile, function (data) {
+
+        if (data.success == true) {
+
+            $('#progress').hide();
+            DisplayMessage('#alert_error', 'Backup success');
+
+        }
+        else {
+
+            $('#progress').hide();
+            DisplayMessage('#alert_error', 'Backup fail');
+        }
+
+    }, "json");
+}
 
 
 // ************************************

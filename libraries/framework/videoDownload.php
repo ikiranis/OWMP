@@ -97,6 +97,7 @@ class videoDownload
         return $playlistItems;
     }
 
+
     // Επιστρέφει τον τίτλο του βίντεο μέσω του Youtube API
     // Details @ https://developers.google.com/youtube/v3/getting-started
     public function getYoutubeTitle(){
@@ -142,10 +143,10 @@ class videoDownload
 
         if($this->mediaKind=='Music Video') {
             // Κατέβασμα βίντεο
-            $downloadString = '"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" '.$this->videoID;
+            $downloadString = '"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" -- '.$this->videoID;
         } else {
             // Κατέβασμα audio
-            $downloadString = '"bestaudio[ext=m4a]/best[ext=mp3]/best" -o "'.$videoFullPath.'.%(ext)s" '.$this->videoID;
+            $downloadString = '"bestaudio[ext=m4a]/best[ext=mp3]/best" -o "'.$videoFullPath.'.%(ext)s" -- '.$this->videoID;
         }
 
         // το όνομα του αρχείου που θα κατεβάσει με το full path

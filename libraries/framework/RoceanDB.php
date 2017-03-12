@@ -21,12 +21,8 @@ class RoceanDB
 
     public static $conn = NULL;
 
-
-
-
     // 30 μέρες
     private static $CookieTime=60*60*24*30;
-    
 
 
     // Εκτελεί ένα sql query
@@ -774,7 +770,7 @@ class RoceanDB
         self::CreateConnection();
 
         $sql = 'SELECT '.$field.' FROM '.$table.' WHERE '.$condition;
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
 
         if(!is_array($condition_value))
             $stmt->execute(array($condition_value));
@@ -806,6 +802,10 @@ class RoceanDB
     static function getTableFields ($table, $exclude) {
 
         self::CreateConnection();
+
+        if(!isset($exclude)) {
+            $exclude = array();
+        }
 
         $sql = 'SHOW COLUMNS FROM '.$table;
 
@@ -1209,6 +1209,34 @@ class RoceanDB
 
         return $result;
     }
+
+
+    // Επιστρέφει τους πίνακες που έχει η βάση δεδομένων, σε array
+    static function getDatabaseTablesList() {
+        self::CreateConnection();
+
+        $sql = 'SHOW TABLES';
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        $result=$stmt->fetchAll();
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        if($result) {
+            // μετατροπή του array σε μονοδιάστατο
+            return self::clearArray($result);
+        } else {
+            return false;
+        }
+    }
+
+
+
+
     
 
 }

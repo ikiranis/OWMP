@@ -1657,6 +1657,16 @@ class OWMP
                         <?php Page::getHelp('help_convert_covers'); ?>
                     </p>
 
+<!--                    <p>-->
+<!--                        <input type="button" class="myButton syncButton" id="startUpdate" name="startUpdate" onclick="startTheUpdate();"-->
+<!--                               value="Update">-->
+<!--                    </p>-->
+
+                    <p>
+                        <input type="button" class="myButton syncButton" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
+                               value="Database Backup">
+                    </p>
+
                     <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
                     <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
                     <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>

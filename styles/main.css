@@ -451,13 +451,12 @@ footer a:active {
     display: table-row;
 }
 
-
 #logs .row:nth-child(odd) {
-    background-color: #DCEDC8;
+    background-color: #CFD8DC;
 }
 
 #logs .row:nth-child(even) {
-    background-color: #F1F8E9;
+    background-color: #ECEFF1;
 }
 
 #logs .col {

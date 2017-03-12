@@ -30,4 +30,16 @@ class Utilities
         }
     }
 
+    static function runGitUpdate($sudoPass) {
+        $crypt = new Crypto();
+
+        $shellScript = 'cd '.$_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.' && sudo -S \''.$crypt->DecryptText($sudoPass).'\' mkdir paok';
+
+        trigger_error($shellScript);
+
+        $output= shell_exec($shellScript);
+
+        trigger_error($output);
+    }
+
 }

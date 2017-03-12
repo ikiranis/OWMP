@@ -10,7 +10,7 @@
  */
 
 
-define ('APP_VERSION', '0.1.313');
+define ('APP_VERSION', '0.1.314');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 require_once ('config.inc.php');
@@ -22,6 +22,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Roce
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Crypto.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Language.php');
 require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Utilities.php');
+require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/FilesIO.php');
 
 // App classes
 // Κλάση ειδικά για την συγκεκριμένη εφαρμογή
@@ -251,8 +252,9 @@ else define ('SYNC_ITUNES', false);
 
 
 define ('JSON_FILENAME', 'playlist.json');
-define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FILENAME);  // Το αρχείο του itunes library
-define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. 'playlist.json');  // To json file της playlist για import
+define ('ITUNES_FILENAME', 'Library.xml');
+define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. ITUNES_FILENAME);  // Το αρχείο του itunes library
+define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FILENAME);  // To json file της playlist για import
 define ('WEB_FOLDER_PATH',$_SERVER['DOCUMENT_ROOT'].'/');  // To path του web folder
 define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
 define ('PLAY_PERCENTAGE',$conn->getOption('play_percentage'));   // Το ποσοστό που θεωρείται ότι ένα τραγούδι έχει παιχτεί
@@ -265,7 +267,7 @@ define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'Convert
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist
 define ('MANUAL_PLAYLIST_STRING', 'mnPl_');  // To string που προσθέτει στο όνομα ενός manual playlist
 define ('PLAYED_QUEUE_PLAYLIST_STRING', 'pqPl_');  // To string που προσθέτει στο όνομα ενός played queue playlist
-
+define ('BACKUP_FILE_PREFIX', 'backup_');
 define ('JUKEBOX_LIST_NAME', 'jukebox');  // Το όνομα του jukebox table 
 
 // Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη

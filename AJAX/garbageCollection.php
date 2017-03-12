@@ -28,8 +28,9 @@ RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive
 
 $conn = new RoceanDB();
 
-$lastMinutes = strtotime('-12 hours');
+$lastMinutes = strtotime('-30 minutes');
 $theDate = date('Y-m-d H:i:s', $lastMinutes);
+//trigger_error($theDate);
 $playlistTablesToDelete = RoceanDB::getTableArray('playlist_tables', 'table_name', 'last_alive<?', array($theDate), null, null, null);
 
 
