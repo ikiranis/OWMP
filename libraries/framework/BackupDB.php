@@ -69,15 +69,16 @@ class BackupDB
 
 
     // Παίρνει backup της βάσης
-    public function backupDatabase() {  /* backup the db OR just a table */
+    public function backupDatabase() {
         set_time_limit(0);
 
+        // Σύνδεση στην βάση
         $conn = new RoceanDB();
         $conn->CreateConnection();
 
 
         // Θέτει το αρχείο στο οποίο θα εξαχθεί το backup
-        $filename = BACKUP_FILE_PREFIX. date('YmdHis').'.sql';
+        $filename = BACKUP_FILE_PREFIX . date('YmdHis') . '.sql';
         $file = new FilesIO(OUTPUT_FOLDER, $filename);
 
         // Παίρνουμε την λίστα όλων των πινάκων στην βάση, αν δεν έχουμε δώσει μια συγκεκριμένη ήδη στο $this->tables

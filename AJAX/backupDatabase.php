@@ -21,11 +21,16 @@ session_start();
 
 Page::checkValidAjaxRequest(true);
 
+// H λίστα με τις manual playlists
+$manualPlaylists = RoceanDB::clearArray(RoceanDB::getTableArray('manual_playlists', 'table_name', null, null, null, null, null));
 
-// Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
-$backup = new BackupDB();
-$backup->tables = array('album_arts', 'options', 'files', 'logs', 'manual_playlists',
+// Τα επιλεγμένα tables
+$chozenTables = array('album_arts', 'options', 'files', 'logs', 'manual_playlists',
     'music_tags', 'paths', 'salts', 'user', 'user_details');
+
+// Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup. Ενώνει τα 2 παραπάνω arrays
+$backup = new BackupDB();
+$backup->tables = array_merge($chozenTables, $manualPlaylists);
 
 if ($backup->backupDatabase()) {
     $jsonArray = array('success' => true);
