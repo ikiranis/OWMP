@@ -11,10 +11,14 @@
  *
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
+use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\SyncFiles;
+
 set_time_limit(0);
 
 require_once ('../libraries/common.inc.php');
-require_once('../libraries/app/SyncFiles.php');
 
 session_start();
 

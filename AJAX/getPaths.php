@@ -10,6 +10,7 @@
  * 
  */
 
+use apps4net\framework\Page;
 
 require_once ('../libraries/common.inc.php');
 

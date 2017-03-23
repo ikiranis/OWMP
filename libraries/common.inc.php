@@ -9,29 +9,31 @@
  * Αρχικές ρυθμίσεις εφαρμογής
  */
 
+use apps4net\framework\Language;
+use apps4net\framework\RoceanDB;
+use apps4net\framework\Session;
+use apps4net\framework\Page;
 
-define ('APP_VERSION', '0.1.314');
+
+require_once ('autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
+require_once ('config.inc.php');  // Τα στοιχεία εισόδου στην βάση
+
+
+// Αρχικοποίηση του Session class
+ini_set('session.gc_maxlifetime',60);
+ini_set('session.gc_divisor',100);
+ini_set('session.gc_probability',100);
+$handler = new Session();
+session_set_save_handler($handler, true);
+
+
+define ('APP_VERSION', '0.2.1');
 define('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
-
-require_once ('config.inc.php');
-
-// Framework classes
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Session.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Page.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/RoceanDB.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Crypto.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Language.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/Utilities.php');
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/framework/FilesIO.php');
-
-// App classes
-// Κλάση ειδικά για την συγκεκριμένη εφαρμογή
-require_once ($_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'libraries/app/OWMP.php');
 
 $conn = new RoceanDB();
 
-define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
-define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"]  .PROJECT_PATH.'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
+define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
+define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
 
 define ('AJAX_PATH', 'AJAX/');
 
@@ -318,9 +320,9 @@ function ClearString($data) {
     return $data;
 }
 
+// shortcut του $lang->phrases[$text];    Using like: __('αυτό είναι ένα μήνυμα');
+function __($text){
 
+    return Language::$phrases[$text];
 
-
-
-
-
+}

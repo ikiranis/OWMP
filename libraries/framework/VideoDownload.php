@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File: videoDownload.php
+ * File: VideoDownload.php
  * Created by Yiannis Kiranis <rocean74@gmail.com>
  * http://www.apps4net.eu
  * Date: 26/01/17
@@ -11,7 +11,11 @@
  *
  */
 
-class videoDownload
+namespace apps4net\framework;
+
+use apps4net\parrot\app\OWMP;
+
+class VideoDownload
 {
 
     public $videoURL;

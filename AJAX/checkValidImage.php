@@ -10,6 +10,7 @@
  * 
  */
 
+use apps4net\parrot\app\OWMP;
 
 require_once('../libraries/common.inc.php');
 

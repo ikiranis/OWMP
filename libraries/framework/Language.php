@@ -11,6 +11,8 @@
  * Flags https://github.com/googlei18n/region-flags Διαστάσεις 128x64
  */
 
+namespace apps4net\framework;
+
 class Language
 {
     
@@ -18,7 +20,7 @@ class Language
     public static $phrases = array();
     
     public function load_phrases($lang_id) {
-        $xml = new DomDocument('1.0');
+        $xml = new \DomDocument('1.0');
         
         
         //path to language directory
@@ -98,13 +100,3 @@ class Language
         return $result;
     }
 }
-
-
-// shortcut του $lang->phrases[$text];    Using like: __('αυτό είναι ένα μήνυμα');
-function __($text){
-
-    return Language::$phrases[$text];
-    
-}
-
-

@@ -1,17 +1,20 @@
 <?php
 
 /**
- * File: scanDir.php
+ * File: ScanDir.php
  * Created by Yiannis Kiranis <rocean74@gmail.com>
  * http://www.apps4net.eu
  * Date: 20/06/16
  * Time: 00:22
+ *
  * Διαβάζει το tree με όλα τα αρχεία ενός directory
  * @source: http://php.net/manual/en/function.scandir.php
+ *
  */
 
+namespace apps4net\framework;
 
-class scanDir
+class ScanDir
 {
     static private $directories, $files, $ext_filter, $recursive;
 

@@ -6,8 +6,17 @@
  * http://www.apps4net.eu
  * Date: 19/06/16
  * Time: 23:18
- * Βασική class του OWMP
+ *
+ * Βασική class του Parrot Tunes
+ *
  */
+
+namespace apps4net\parrot\app;
+
+use apps4net\framework\Language;
+use apps4net\framework\RoceanDB;
+use apps4net\framework\Page;
+use apps4net\framework\Utilities;
 
 class OWMP
 {
@@ -1233,7 +1242,7 @@ class OWMP
             <?php
 
 
-            while($item=$stmt->fetch(PDO::FETCH_ASSOC))
+            while($item=$stmt->fetch(\PDO::FETCH_ASSOC))
             {
                 ?>
                 <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
@@ -1667,6 +1676,11 @@ class OWMP
                                value="Database Backup">
                     </p>
 
+<!--                    <p>-->
+<!--                        <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"-->
+<!--                               value="Database Restore">-->
+<!--                    </p>-->
+
                     <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
                     <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
                     <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
@@ -1740,7 +1754,7 @@ class OWMP
 
 
         // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
-        while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             echo '<div class=row>';
             echo '<span class="col logs_id">' . $item['id'] . '</span>';
             echo '<span class="col logs_message">' . $item['message'] . '</span>';
@@ -1863,7 +1877,7 @@ class OWMP
 
         $stmt->execute(array($id));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=$item['path'].urldecode($item['filename']);
 
@@ -2075,7 +2089,7 @@ class OWMP
 
         $stmt->execute(array($id));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
 
             $bigImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
 
@@ -2265,7 +2279,7 @@ class OWMP
 
         $stmt->execute();
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
             $result=array('playlist_id' => $item['id'], 'file_id' => $item['file_id']);
         }

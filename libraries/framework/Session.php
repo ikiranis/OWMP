@@ -5,12 +5,15 @@
  * http://www.apps4net.eu
  * Date: 21/04/16
  * Time: 20:14
+ *
  * Sessions handler class
  * Based on Source code and more info from http://php.net/manual/en/function.session-set-save-handler.php
+ *
  */
 
+namespace apps4net\framework;
 
-class SysSession implements SessionHandlerInterface
+class Session implements \SessionHandlerInterface
 {
 
  
@@ -45,7 +48,7 @@ class SysSession implements SessionHandlerInterface
 
         $stmt->execute(array($id,date('Y-m-d H:i:s')));
 
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        if($row = $stmt->fetch(\PDO::FETCH_ASSOC)){
             return $row['Session_Data'];
 
         }else{
@@ -146,13 +149,9 @@ class SysSession implements SessionHandlerInterface
  * Πιθανότητα για να τρέξει η gc()
  */
 
-ini_set('session.gc_maxlifetime',60);
-ini_set('session.gc_divisor',100);
-ini_set('session.gc_probability',100);
-
-$handler = new SysSession();
-session_set_save_handler($handler, true);
-
-
-
-
+//ini_set('session.gc_maxlifetime',60);
+//ini_set('session.gc_divisor',100);
+//ini_set('session.gc_probability',100);
+//
+//$handler = new Session();
+//session_set_save_handler($handler, true);

@@ -1296,8 +1296,8 @@ function searchPlaylist(offset, step, firstTime, search) {
 function startTheSync(operation) {
     var mediaKind=document.querySelector('#mediakind').value;
     
-    callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
-
+    // var callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
+    var callFile=AJAX_path+"syncTheFiles.php";
 
     // console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
 
@@ -1312,34 +1312,52 @@ function startTheSync(operation) {
 
         $('.syncButton').prop('disabled', true);
 
-        progressCallFile = AJAX_path + "getProgress.php";
+        var progressCallFile = AJAX_path + "getProgress.php";
 
 
-        var syncInterval=setInterval(function(){
-
-            $.get(progressCallFile, function (progressData) {
-                if (progressData.success == true) {
-                    if(progressData.progressInPercent>97 && localStorage.syncPressed=='true')
-                        DisplayWindow(3, null, null);
-                    if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true')
-                        $('#progress').show();
-                    else $('#progress').hide();
-                    $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
-                    document.querySelector('#theProgressBar').value=progressData.progressInPercent;
-                }
-            }, "json");
-
-        }, 1000);
-
-        $.get(callFile, function(data) {
-            $('#SyncDetails').append(data);
-            $('#progress').hide();
-            $('#logprogress').hide();
-            localStorage.syncPressed='false';
-            $('.syncButton').prop('disabled', false);
-            clearInterval(syncInterval);
+        // Τρέχει τον συγχρονισμό και περιμένει το αποτέλεσμα να το τυπώσει
+        $.ajax({
+            url: callFile,
+            type: 'GET',
+            data: {
+                operation: operation,
+                mediakind: mediaKind
+            },
+            success: function(data) {
+                $('#SyncDetails').append(data);
+                $('#progress').hide();
+                $('#logprogress').hide();
+                localStorage.syncPressed='false';
+                $('.syncButton').prop('disabled', false);
+                clearInterval(syncInterval);
+            }
         });
 
+
+        // Κοιτάει για το progress κάθε ένα λεπτό και το τυπώνει
+        var syncInterval=setInterval(function(){
+
+            $.ajax({
+                url: progressCallFile,
+                type: 'GET',
+                dataType: "json",
+                success: function(progressData) {
+                    if (progressData.success == true) {
+                        if(progressData.progressInPercent>97 && localStorage.syncPressed=='true') {
+                            DisplayWindow(3, null, null);
+                        }
+                        if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true') {
+                            $('#progress').show();
+                        } else {
+                            $('#progress').hide();
+                        }
+                        $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                        document.querySelector('#theProgressBar').value=progressData.progressInPercent;
+                    }
+                }
+            });
+
+        }, 1000);
 
     }
     else alert (phrases['running_process']);
@@ -2915,6 +2933,29 @@ function startTheBackup() {
     }, "json");
 }
 
+//  Κάνει restore της βάσης από ένα αρχείο backup
+function restoreTheBackup() {
+    callFile=AJAX_path+'restoreDatabase.php';
+
+    $('#progress').show();
+
+    $.get(callFile, function (data) {
+
+        if (data.success == true) {
+
+            $('#progress').hide();
+            DisplayMessage('#alert_error', 'Restore success');
+
+        }
+        else {
+
+            $('#progress').hide();
+            DisplayMessage('#alert_error', 'Restore fail');
+        }
+
+    }, "json");
+}
+
 
 // ************************************
 // On load
@@ -2935,12 +2976,6 @@ $(function(){
         if(checkFullscreen()) getTime('#overlay_time');
 
     }, 1000);
-
-
-
-    // document.addEventListener("webkitfullscreenchange", function() {
-    //     showFullScreenVideoTags();
-    // });
 
 
 
@@ -2987,19 +3022,8 @@ $(function(){
     setInterval(garbageCollection, 600000);
 
 
-
     document.addEventListener('touchmove', displayFullscreenControls, false);
     
-
-    //Λίστα των audio devices και επιλογή του. Παίζει μόνο σε https
-    // navigator.mediaDevices.enumerateDevices()
-    //     .then(gotDevices)
-    //     .catch (errorCallback);
-    //
-    //
-    // attachSinkId(myVideo, '8e2bf9f13b6253c686d45db2c3a7a38154f2ca4cb08243e32f8baa4171999958');
-    //
-
 
 
 });

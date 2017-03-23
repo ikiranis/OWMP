@@ -8,6 +8,8 @@
  * Καθαρίζει την βάση από προσωρινούς πίνακες που δεν χρησιμοποιούνται άλλο
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
 
 require_once('../libraries/common.inc.php');
 
@@ -46,6 +48,3 @@ foreach ($playlistTablesToDelete as $item) {
 
 
 //echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
-
-
-?>

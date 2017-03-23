@@ -8,6 +8,8 @@
  * Ελέγχει αν ο χρήστης υπάρχει στην βάση κι επιστρέφει true or false
  */
 
+use apps4net\framework\RoceanDB;
+use apps4net\framework\Page;
 
 require_once('../libraries/common.inc.php');
 
@@ -27,4 +29,3 @@ else $jsonArray=array( 'success'=>false);
 
 echo json_encode($jsonArray);
 
-?>

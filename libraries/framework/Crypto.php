@@ -11,6 +11,8 @@
  * Info για το openssl_encrypt http://blog.turret.io/the-missing-php-aes-encryption-example/
  */
 
+namespace apps4net\framework;
+
 class Crypto
 {
     public static $KeyForPasswords='ckY85^8nL%W4U5&38Zb0';

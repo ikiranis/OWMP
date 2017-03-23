@@ -13,9 +13,11 @@
  *
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
+use apps4net\framework\BackupDB;
 
 require_once ('../libraries/common.inc.php');
-require_once ('../libraries/framework/BackupDB.php');
 
 session_start();
 

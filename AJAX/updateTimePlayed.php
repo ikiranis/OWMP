@@ -8,6 +8,8 @@
  * Ενημερώνει τo date_last_played και το play_count ενός βίντεο
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
 
 require_once('../libraries/common.inc.php');
 

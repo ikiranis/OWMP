@@ -9,7 +9,7 @@
  * ώστε να ξέρει αν τρέχει ακόμη το script
  */
 
-
+use apps4net\framework\Page;
 
 require_once ('../libraries/common.inc.php');
 

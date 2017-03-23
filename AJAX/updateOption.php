@@ -8,7 +8,8 @@
  * Ενημερώνει μία εγγραφή στο options
  */
 
-
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
 
 require_once('../libraries/common.inc.php');
 
@@ -37,7 +38,3 @@ if($conn->changeOption($option_name, $option_value)) {
 else $jsonArray=array( 'success'=>'false');
 
 echo json_encode($jsonArray);
-
-
-
-?>

@@ -8,33 +8,14 @@
  * Επιστρέφει το επόμενο τραγούδι για να παίξει. Το file id του
  */
 
-// Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη κι επιστρέφει πίνακα με τις τιμές της πρώτης στήλης που έχουν την μέγιστη τιμή
-function getArrayMax($myArray) {
-    $myMax=0;
-
-    // Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη
-    foreach ($myArray as $row) {
-        if($row[1]>$myMax) {
-            $myMax=$row[1];
-        }
-    }
-
-    // Επιστρέφει τις τιμές της πρώτης στήλης που έχουν την μεγαλύτερη τιμή
-    foreach ($myArray as $row) {
-        if($row[1]==$myMax) {
-            $newArray[]=$row[0];
-        }
-    }
-
-    return $newArray;
-
-}
-
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
+use apps4net\framework\Utilities;
+use apps4net\parrot\app\OWMP;
 
 require_once ('../libraries/common.inc.php');
 
 session_start();
-
 Page::checkValidAjaxRequest(true);
 
 $conn = new RoceanDB();
@@ -91,7 +72,7 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
         $votesArray = OWMP::getVotes();
 
         // Παίρνει τα fileID που έχουν τις περισσότερες ψήφους
-        $fileIDsWithMaxVotes=getArrayMax($votesArray);
+        $fileIDsWithMaxVotes=Utilities::getArrayMax($votesArray);
         
         $VotesCounter=count($fileIDsWithMaxVotes);
         

@@ -8,6 +8,8 @@
  * Στέλνει kill command στο σχετικό πεδίο στην βάση
  */
 
+use apps4net\framework\Page;
+
 require_once ('../libraries/common.inc.php');
 
 session_start();

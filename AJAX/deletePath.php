@@ -9,6 +9,8 @@
  * Σβήνει μια εγγραφή από τον πίνακα paths
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
 
 require_once ('../libraries/common.inc.php');
 
@@ -34,6 +36,3 @@ if($conn->deleteRowFromTable('paths','id',$id)) {
 else $jsonArray=array( 'success'=>false);
 
 echo json_encode($jsonArray);
-
-
-?>

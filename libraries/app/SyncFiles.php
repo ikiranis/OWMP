@@ -8,9 +8,16 @@
  * Time: 19:01
  *
  * Κλαση συγχρονισμού αρχείων
+ *
  */
 
-require_once('../libraries/external/scanDir.php');
+
+namespace apps4net\parrot\app;
+
+use apps4net\framework\RoceanDB;
+use apps4net\framework\Page;
+use apps4net\framework\Utilities;
+use apps4net\framework\ScanDir;
 
 // @source https://github.com/jsjohnst/php_class_lib/tree/master
 require_once('../libraries/external/PlistParser.php');
@@ -53,7 +60,7 @@ class SyncFiles
         public function getItunesLibrary()
         {
 
-            $parser = new plistParser();
+            $parser = new \plistParser();
             $plist = $parser->parseFile(ITUNES_LIBRARY_FILE);
 
             self::$tracks = $plist['Tracks'];
@@ -107,7 +114,7 @@ class SyncFiles
         }
 
         if($dirs) {
-            self::$files = scanDir::scan($dirs, $extensions, true);   // παίρνει το σύνολο των αρχείων με $extensions από τους φάκελους $dirs
+            self::$files = ScanDir::scan($dirs, $extensions, true);   // παίρνει το σύνολο των αρχείων με $extensions από τους φάκελους $dirs
 
             self::$files = array_unique(self::$files);
             $trimFiles = array();
@@ -531,12 +538,14 @@ class SyncFiles
 
         Page::setLastMomentAlive(true);
 
-        if(!self::$getID3)
-            self::$getID3=new getID3();
+        if(!self::$getID3) {
+            self::$getID3=new \getID3();
+        }
+
 
         $ThisFileInfo = self::$getID3->analyze($FullFileName);
 
-        getid3_lib::CopyTagsToComments($ThisFileInfo);
+        \getid3_lib::CopyTagsToComments($ThisFileInfo);
 
 //                           echo'<pre>';
 //       print_r($ThisFileInfo);
@@ -809,7 +818,7 @@ class SyncFiles
 
         $stmt->execute(array($hash));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=$item['id'];
 
@@ -831,7 +840,7 @@ class SyncFiles
 
         $stmt->execute(array($hash));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=$item['id'];
 

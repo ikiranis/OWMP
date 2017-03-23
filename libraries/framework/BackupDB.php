@@ -17,9 +17,14 @@
  *
  */
 
+namespace apps4net\framework;
+
+
 class BackupDB
 {
     public $tables = array();  // Το array με τα tables της βάσης που θα κάνουμε backup
+    public $sqlFile; // Το αρχείο που βρίσκεται το backup της βάσης
+    private $query;   // To query που θα εκτελεστεί
 
     // Επιστρέφει το string που δημιουργεί τον πίνακα $table
     static function getTableCreateString($table) {
@@ -32,7 +37,7 @@ class BackupDB
 
         $stmt->execute();
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
             $result = $item['Create Table'];
         } else {
             $result = false;
@@ -117,7 +122,7 @@ class BackupDB
             $tableFields = RoceanDB::getTableFields($table, null);
 
             // Δημιουργία του insert string
-            while($tableRow=$stmt->fetch(PDO::FETCH_ASSOC)) {
+            while($tableRow=$stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $file->insertRow(self::getInsertStringForTableRow($table, $tableRow, $tableFields)."\n");
             }
 
@@ -130,4 +135,58 @@ class BackupDB
         trigger_error('END OF SCRIPT');
         return true;
     }
+
+
+    // Καθαρίζει το query από string που δεν χρειάζονται
+    public function cleanQuery() {
+        $this->query=str_replace("\n",'',$this->query); // αφαιρεί τα \n
+    }
+
+
+    // Εκτελεί το query $this->query
+    public function executeQuery() {
+        trigger_error($this->query);
+    }
+
+
+    // Κάνει restore την βάση όπως έχει αποθηκευτεί στο αρχείο $this->sqlFile, από την παραπάνω μέθοδο
+    public function restoreDatabase() {
+        set_time_limit(0);
+
+        $handle = fopen($this->sqlFile, "r"); // Άνοιγμα του αρχείου
+
+        if ($handle) {  // Αν υπάρχει το αρχείο
+            $this->query='';
+            $counter=0;
+
+            // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
+            while ( (($line = fgets($handle)) !== false) && $counter<200 ) {
+
+                // Αν δεν είναι κενή γραμμή ή σχόλιο
+                if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
+
+                    // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
+                    if (!preg_match('/;/', $line)) {
+                        $this->query.=$line;
+                    } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
+                        $this->query.=$line;
+                        $this->cleanQuery();
+                        $this->executeQuery();  //  Εκτελεί το query
+
+                        $this->query='';
+                    }
+                }
+
+                $counter++;
+            }
+
+
+            fclose($handle);
+        } else {
+            die('Problem with file');
+        }
+
+        return true;
+    }
+
 }

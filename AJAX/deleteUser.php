@@ -8,6 +8,8 @@
  * Σβήνει εγγραφή στο user, user_details, salts
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
 
 require_once('../libraries/common.inc.php');
 
@@ -42,6 +44,3 @@ if($deleteSalts==true && $deleteUserDetails==true && $deletePlaylists==true && $
 
 
 echo json_encode($jsonArray);
-
-
-?>

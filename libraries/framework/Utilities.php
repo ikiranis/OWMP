@@ -14,7 +14,7 @@
  *
  */
 
-
+namespace apps4net\framework;
 
 class Utilities
 {
@@ -40,6 +40,29 @@ class Utilities
         $output= shell_exec($shellScript);
 
         trigger_error($output);
+    }
+
+
+    // Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη κι επιστρέφει πίνακα με τις τιμές της πρώτης στήλης που έχουν την μέγιστη τιμή
+    static function getArrayMax($myArray) {
+        $myMax=0;
+
+        // Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη
+        foreach ($myArray as $row) {
+            if($row[1]>$myMax) {
+                $myMax=$row[1];
+            }
+        }
+
+        // Επιστρέφει τις τιμές της πρώτης στήλης που έχουν την μεγαλύτερη τιμή
+        foreach ($myArray as $row) {
+            if($row[1]==$myMax) {
+                $newArray[]=$row[0];
+            }
+        }
+
+        return $newArray;
+
     }
 
 }

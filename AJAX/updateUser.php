@@ -8,6 +8,8 @@
  * Ενημερώνει μια εγγραφή στους users ή κάνει νέα εγγραφή
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
 
 require_once('../libraries/common.inc.php');
 
@@ -66,7 +68,3 @@ else {   // αλλιώς κάνει update
 }
 
 echo json_encode($jsonArray);
-
-
-
-?>

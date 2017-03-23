@@ -8,6 +8,9 @@
  * Time: 01:17
  */
 
+use apps4net\framework\Language;
+use apps4net\framework\Page;
+
 require_once ('libraries/common.inc.php');
 
 

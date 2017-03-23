@@ -9,9 +9,10 @@
  * Ελέγχει αν ένα url είναι video ή playlist
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\VideoDownload;
 
 require_once('../libraries/common.inc.php');
-require_once('../libraries/framework/videoDownload.php');
 
 session_start();
 
@@ -20,7 +21,7 @@ Page::checkValidAjaxRequest(true);
 if(isset($_GET['url']))
     $url=ClearString($_GET['url']);
 
-$youtubeDL = new videoDownload();
+$youtubeDL = new VideoDownload();
 
 $youtubeDL->videoURL = $url;
 

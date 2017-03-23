@@ -9,8 +9,11 @@
  * Κατεβάζει ένα βίντεο από το YouTube
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\VideoDownload;
+
+
 require_once('../libraries/common.inc.php');
-require_once('../libraries/framework/videoDownload.php');
 
 session_start();
 
@@ -26,7 +29,7 @@ if(isset($_GET['id']))
 if(isset($_GET['mediaKind']))
     $mediaKind=ClearString($_GET['mediaKind']);
 
-$youtubeDL = new videoDownload();
+$youtubeDL = new VideoDownload();
 
 $youtubeDL->videoID = $id;
 $youtubeDL->mediaKind = $mediaKind;

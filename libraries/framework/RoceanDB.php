@@ -11,6 +11,7 @@
  *
  */
 
+namespace apps4net\framework;
 
 class RoceanDB
 {
@@ -55,7 +56,7 @@ class RoceanDB
 
         $stmt->execute();
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
             return true;
         else return false;
 
@@ -98,7 +99,7 @@ class RoceanDB
 
         $stmt->execute(array('1'));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
             return true;
         else return false;
 
@@ -135,7 +136,7 @@ class RoceanDB
 
 
         // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
 
             // Προσθέτει το string στο password που έδωσε ο πιθανός χρήστης
@@ -147,7 +148,7 @@ class RoceanDB
 
             // Φέρνει το salt από τον πίνακα salts για τον συγκεκριμένο χρήστη. Ενώνει τα 4 κομμάτια του hashed password
             // που είχαμε σπάσει στο αρχικό του ενιαίο
-            if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
+            if($salt_item=$salt->fetch(\PDO::FETCH_ASSOC)) {
                 $combined_password=$salt_item['algo'].$salt_item['cost'].$salt_item['salt'].$item['password'];
 
                 // Κρατάμε το salt για χρήση παρακάτω
@@ -322,10 +323,10 @@ class RoceanDB
         $salt->execute(array($userID));
 
         // Παίρνουμε το salt και το συγκρίνουμε με αυτό που έχει το σχετικό cookie
-        if($salt_item=$salt->fetch(PDO::FETCH_ASSOC)) {
-            return $result = $salt_item['salt'];
+        if($salt_item=$salt->fetch(\PDO::FETCH_ASSOC)) {
+            $result = $salt_item['salt'];
         }
-        else return $result=false;
+        else $result=false;
 
         return $result;
 
@@ -349,7 +350,7 @@ class RoceanDB
             $stmt->execute( array ( self::getACookie('username') ) );
 
             // Αν βρεθεί το id του user ψάχνουμε τα salt του
-            if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+            if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
             {
 
                 $userSalt=self::getSaltForUser($item['user_id']);
@@ -380,9 +381,9 @@ class RoceanDB
     function CreateConnection(){
         if (!self::$conn) {
             try {
-                self::$conn = new PDO(self::$connStr, self::$DBuser, self::$DBpass,
-                    array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-            } catch (PDOException $pe) {
+                self::$conn = new \PDO(self::$connStr, self::$DBuser, self::$DBpass,
+                    array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+            } catch (\PDOException $pe) {
                 die('Could not connect to the database because: ' .
                     $pe->getMessage());
             }
@@ -399,7 +400,7 @@ class RoceanDB
 
         $stmt->execute(array($username));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
             $result=$item['user_id'];
         }
@@ -421,7 +422,7 @@ class RoceanDB
 
         $stmt->execute(array($username));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
             $result=true;
         }
@@ -536,7 +537,7 @@ class RoceanDB
 
         $stmt->execute(array($username));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
             $result=$item['user_group'];
         }
@@ -558,7 +559,7 @@ class RoceanDB
 
         $stmt->execute(array($id));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
             $result=$item['fname'].' '.$item['lname'];
         }
@@ -647,7 +648,7 @@ class RoceanDB
 
         $stmt->execute(array($option));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
 
             $result = $item['option_value'];
             if($result && $item['encrypt']==1)
@@ -672,7 +673,7 @@ class RoceanDB
 
         $stmt->execute(array($option));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=$item['encrypt'];
 
@@ -776,7 +777,7 @@ class RoceanDB
             $stmt->execute(array($condition_value));
         else $stmt->execute($condition_value);
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=$item[$field];
 
@@ -838,7 +839,7 @@ class RoceanDB
 
         $stmt->execute(array($field));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=$item['Type'];
 
@@ -992,7 +993,7 @@ class RoceanDB
 
         $stmt->execute(array('event_scheduler'));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC))
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
             $result=true;
 
@@ -1240,4 +1241,3 @@ class RoceanDB
     
 
 }
-

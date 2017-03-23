@@ -10,6 +10,7 @@
  * HTML Page Elements Class
  */
 
+namespace apps4net\framework;
 
 class Page
 {
@@ -454,8 +455,8 @@ class Page
     //sec      = $diff->format('%s');
     // Επιστρέφει την διαφορά της $endDate με την $startDate και επιστρέφει τιμή αναλόγως το $returnedFormat
     static function dateDifference($startDate, $endDate, $returnedFormat) {
-        $d_start    = new DateTime($startDate);
-        $d_end      = new DateTime($endDate); // Τα παίρνουμε σε αντικείμενα
+        $d_start    = new \DateTime($startDate);
+        $d_end      = new \DateTime($endDate); // Τα παίρνουμε σε αντικείμενα
         $diff = $d_start->diff($d_end);   // Υπολογίζουμε την διαφορά
 
         $difference      = $diff->format($returnedFormat);    // στο format βάζουμε αναλόγως σε τι θέλουμε να πάρουμε την διαφορά
@@ -507,7 +508,7 @@ class Page
 
         $stmt->execute(array($progressName));
 
-        if($item=$stmt->fetch(PDO::FETCH_ASSOC)) {
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
 
             $result=true;
         }
@@ -600,17 +601,6 @@ class Page
             return $result;
         else return false;
     }
-
-    //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
-//    static function getCurrentVersion() {
-//        $data   = file_get_contents(README_FILE);
-//        $data   = explode("\n", $data);
-//
-//        $CurVersion = substr($data[0], strpos($data[0], ":") + 2);
-//
-//        return $CurVersion;
-//    }
-
 
     //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
     static function getCurrentVersion() {

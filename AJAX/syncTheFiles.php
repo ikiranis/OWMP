@@ -8,9 +8,10 @@
  * Κάνει τον συγχρονισμό των αρχείων
  */
 
+use apps4net\framework\Page;
+use apps4net\parrot\app\SyncFiles;
 
 require_once ('../libraries/common.inc.php');
-require_once('../libraries/app/SyncFiles.php');
 
 session_start();
 
@@ -25,6 +26,8 @@ if(isset($_GET['mediakind']))
 
 $sync = new SyncFiles();
 
+//$operation='sync';
+//$mediaKind='Music Video';
 
 if($operation=='sync')
     $sync->syncTheFiles($mediaKind);

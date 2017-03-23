@@ -10,6 +10,9 @@
  *
  */
 
+use apps4net\framework\Page;
+use apps4net\framework\RoceanDB;
+
 require_once ('../libraries/common.inc.php');
 
 session_start();

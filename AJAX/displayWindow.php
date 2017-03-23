@@ -8,6 +8,8 @@
  * Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου
  */
 
+use apps4net\framework\Page;
+use apps4net\parrot\app\OWMP;
 
 require_once('../libraries/common.inc.php');
 
@@ -38,7 +40,7 @@ if(isset($_GET['search_text']))
 //trigger_error('ON DISPLAYWINDOW '.$tabID);
 
 switch ($page) {
-    case 1: OWMP::showPlaylistWindow($offset,$step,null); break;
+    case 1: OWMP::showPlaylistWindow($offset,$step); break;
     case 2: OWMP::showConfiguration(); break;
     case 3: OWMP::showSynchronization(); break;
     case 4: OWMP::showLogs(); break;

@@ -7,7 +7,10 @@
  * Time: 18:31
  */
 
+require_once ('libraries/common.inc.php');
 
+use apps4net\parrot\app\OWMP;
+use apps4net\framework\Page;
 
 
 function DisplayMainPage() {

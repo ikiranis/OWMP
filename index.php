@@ -8,6 +8,10 @@
  * Time: 01:17
  */
 
+use apps4net\framework\Language;
+use apps4net\framework\RoceanDB;
+use apps4net\framework\Page;
+
 require_once ('libraries/common.inc.php');
 
 session_start();
@@ -29,7 +33,8 @@ if (isset($_GET['ChangeLang'])) {
 require_once ('login.php');
 require_once ('MainPage.php');
 
-RoceanDB::checkMySqlTables();
+
+RoceanDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
 
 $MainPage = new Page();
 
@@ -164,6 +169,3 @@ if(!$logged_in) {
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
 //$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
 //RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
-
-
-

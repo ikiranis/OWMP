@@ -9,18 +9,20 @@
  * Παίρνει την τιμή του progress
  */
 
+use apps4net\framework\Page;
 
-require_once('../libraries/common.inc.php');
+require_once ('../libraries/common.inc.php');
+
 
 session_start();
-
 Page::checkValidAjaxRequest(true);
-
 
 if($progressInPercent=Page::getPercentProgress()) {
     $jsonArray = array('success' => true, 'progressInPercent' => $progressInPercent);
 }
-else $jsonArray=array( 'success'=> false);
+else {
+    $jsonArray=array( 'success'=> false);
+}
 
 
 
