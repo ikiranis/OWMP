@@ -353,7 +353,7 @@ class Page
 
         global $adminNavItems;
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
 
@@ -500,11 +500,11 @@ class Page
 
     // Ελέγχει αν υπάρχει το $progressName στον πίνακα progress
     static function checkIfProgressNameExists($progressName) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'SELECT progressName FROM progress WHERE progressName=?';
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($progressName));
 
@@ -524,11 +524,11 @@ class Page
     
     // Δημιουργεί ένα $progressName στον πίνακα progress
     static function createProgressName($progressName) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'INSERT INTO progress (progressName) VALUES(?)';
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
 
         if($stmt->execute(array($progressName)))
@@ -546,13 +546,13 @@ class Page
     // Καταχωρεί το ποσοστό εξέλιξης progress
     static function updatePercentProgress($progress) {
         $progressUpdateArray=array ($progress, 'progressInPercent');
-        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     }
 
     // Ενημερώνει με 1 (true) ή 0 (false) το killCommand του πίνακa progress
     static function setKillCommand($theCommand) {
         $progressUpdateArray=array ($theCommand, 'killCommand');
-        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
 
         return true;
     }
@@ -560,7 +560,7 @@ class Page
     // Θέτει τιμή στο currentSong
     static function setCurrentSong($theSong) {
         $progressUpdateArray=array ($theSong, 'currentSong');
-        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     }
 
     // Δίνει timespamp τιμή στο lastMomentAlive του πίνακa progress
@@ -570,12 +570,12 @@ class Page
         else $theTimestamp='';
         
         $progressUpdateArray=array ($theTimestamp, 'lastMomentAlive');
-        RoceanDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
+        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     }
     
     // Επιστρέφει το killCommand από τον πίνακα progress
     static function getKillCommand() {
-        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'killCommand', 'progressValue'))
+        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'killCommand', 'progressValue'))
             return $result;
         else return false;
     }
@@ -583,28 +583,28 @@ class Page
 
     // Επιστρέφει το currentSong από τον πίνακα progress
     static function getCurrentSong() {
-        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'currentSong', 'progressValue'))
+        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'currentSong', 'progressValue'))
             return $result;
         else return false;
     }
 
     // Επιστρέφει το lastMomentAlive από τον πίνακα progress
     static function getLastMomentAlive() {
-        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'lastMomentAlive', 'progressValue'))
+        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'lastMomentAlive', 'progressValue'))
             return $result;
         else return false;
     }
     
     // Επιστρέφει το ποσοστό εξέλιξης progress
     static function getPercentProgress() {
-        if($result=RoceanDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue'))
+        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue'))
             return $result;
         else return false;
     }
 
     //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
     static function getCurrentVersion() {
-        $html = PARROT_VERSION_FILE;
+        $html = APP_VERSION_FILE;
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
 
@@ -634,7 +634,7 @@ class Page
 
         // Έλεγχος αν είναι login. Αν δεν είναι τερματίζει την εκτέλεση
         if($checkLogin) {
-            if( !RoceanDB::checkIfUserIsLegit() ) {
+            if( !MyDB::checkIfUserIsLegit() ) {
                 die('Invalid AJAX request');
             }
         }
@@ -664,7 +664,7 @@ class Page
     static function startBasicOptions()
     {
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
 //        if(!$conn->getOption('interval_value'))
 //            $conn->createOption('interval_value', '5', 1, 0);
@@ -763,14 +763,14 @@ class Page
     // TODO δεν πρέπει να δουλεύει σωστά το update κάποιες φορές
     // Ξαναπαίρνει τιμή το session του username, για να γίνει update
     static function updateUserSession() {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         // Αν υπάρχει session του user τότε ξαναπαίρνει την ίδια τιμή, ώστε να γίνει update
         if (isset($_SESSION["username"])) {
             $conn->setSession('username', $conn->getSession('username'));
         } else {
             if ($conn->CheckCookiesForLoggedUser()) { //  Έλεγχος αν υπάρχει cookie και παίρνει το username από εκεί
-                $conn->setSession('username', RoceanDB::getACookie('username') );
+                $conn->setSession('username', MyDB::getACookie('username') );
             }
 
         }

@@ -20,7 +20,7 @@ class Session implements \SessionHandlerInterface
     public function open($savePath, $sessionName)
     {
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         if($conn){
@@ -38,13 +38,13 @@ class Session implements \SessionHandlerInterface
 
     public function read($id)
     {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql='SELECT Session_Data FROM Session WHERE Session_Id = ? AND Session_Time > ?';
 
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($id,date('Y-m-d H:i:s')));
 
@@ -59,7 +59,7 @@ class Session implements \SessionHandlerInterface
 
     public function write($id, $data)
     {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $DateTime = date('Y-m-d H:i:s');
@@ -69,7 +69,7 @@ class Session implements \SessionHandlerInterface
 
             $sql='REPLACE INTO Session (Session_Id, Session_Time, Session_Data) VALUES (?,?,?)';
 
-            $stmt = RoceanDB::$conn->prepare($sql);
+            $stmt = MyDB::$conn->prepare($sql);
 
 
             $stmt->execute(array($id,$NewDateTime,$data));
@@ -88,13 +88,13 @@ class Session implements \SessionHandlerInterface
     public function destroy($id)
     {
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
 
         $sql='DELETE FROM Session WHERE Session_Id =?';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
 
         $stmt->execute(array($id));
@@ -113,12 +113,12 @@ class Session implements \SessionHandlerInterface
 
     public function gc($maxlifetime)
     {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql='DELETE FROM Session WHERE ((UNIX_TIMESTAMP(Session_Time)+?) < ?)';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($maxlifetime,time()));
 

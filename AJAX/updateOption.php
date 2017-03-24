@@ -9,9 +9,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -27,13 +28,11 @@ if(isset($_GET['option_value']))
     $option_value=ClearString($_GET['option_value']);
 
 
-$conn = new RoceanDB();
-
- 
+$conn = new MyDB();
 
 if($conn->changeOption($option_name, $option_value)) {
     $jsonArray=array( 'success'=>'true');
-    RoceanDB::insertLog('Option '.$option_name.'changed'); // Προσθήκη της κίνησης στα logs
+    Logs::insertLog('Option '.$option_name.'changed'); // Προσθήκη της κίνησης στα logs
 }
 else $jsonArray=array( 'success'=>'false');
 

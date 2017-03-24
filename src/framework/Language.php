@@ -78,7 +78,7 @@ class Language
     // Αν είναι true το $flag εμφανίζει και σημαία. Αν είναι true το $show_texts εμφανίζει και το κείμενο
     public function print_languages($name, $string, $show_flag, $show_texts) {
 
-        global $languages;  // παίρνει τα data από το array $languages που βρίσκεται στο common.inc.php
+        global $languages;  // παίρνει τα data από το array $languages που βρίσκεται στο boot.php
         
         $result='';
 

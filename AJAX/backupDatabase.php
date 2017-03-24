@@ -14,17 +14,18 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\BackupDB;
+use apps4net\framework\Logs;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
 Page::checkValidAjaxRequest(true);
 
 // H λίστα με τις manual playlists
-$manualPlaylists = RoceanDB::clearArray(RoceanDB::getTableArray('manual_playlists', 'table_name', null, null, null, null, null));
+$manualPlaylists = MyDB::clearArray(MyDB::getTableArray('manual_playlists', 'table_name', null, null, null, null, null));
 
 // Τα επιλεγμένα tables
 $chozenTables = array('album_arts', 'options', 'files', 'logs', 'manual_playlists',
@@ -36,7 +37,7 @@ $backup->tables = array_merge($chozenTables, $manualPlaylists);
 
 if ($backup->backupDatabase()) {
     $jsonArray = array('success' => true);
-    RoceanDB::insertLog('Backup of the database with success'); // Προσθήκη της κίνησης στα logs
+    Logs::insertLog('Backup of the database with success'); // Προσθήκη της κίνησης στα logs
 } else {
     $jsonArray = array('success' => false);
 }

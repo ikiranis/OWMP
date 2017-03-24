@@ -12,13 +12,13 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\parrot\app\OWMP;
 use apps4net\parrot\app\SyncFiles;
 
 set_time_limit(0);
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -33,7 +33,7 @@ Page::setLastMomentAlive(false);
 
 $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
-$playlistTable=RoceanDB::getTableArray($tempUserPlaylist, 'file_id', null, null, null, null, null);
+$playlistTable=MyDB::getTableArray($tempUserPlaylist, 'file_id', null, null, null, null, null);
 
 //trigger_error(OUTPUT_FOLDER);
 
@@ -52,7 +52,7 @@ $totalFiles = count($playlistTable);
 foreach ($playlistTable as $item) {
     Page::setLastMomentAlive(false);
 
-    $file=RoceanDB::getTableArray('files','*', 'id=?', array($item['file_id']),null, null, null);
+    $file=MyDB::getTableArray('files','*', 'id=?', array($item['file_id']),null, null, null);
     $sourceFile=DIR_PREFIX.$file[0]['path'].$file[0]['filename'];
     $destFile=OUTPUT_FOLDER.$file[0]['filename'];
     

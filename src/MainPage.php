@@ -7,7 +7,7 @@
  * Time: 18:31
  */
 
-require_once ('libraries/common.inc.php');
+require_once('src/boot.php');
 
 use apps4net\parrot\app\OWMP;
 use apps4net\framework\Page;

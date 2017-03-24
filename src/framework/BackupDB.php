@@ -20,7 +20,7 @@
 namespace apps4net\framework;
 
 
-class BackupDB
+class BackupDB extends MyDB
 {
     public $tables = array();  // Το array με τα tables της βάσης που θα κάνουμε backup
     public $sqlFile; // Το αρχείο που βρίσκεται το backup της βάσης
@@ -28,12 +28,12 @@ class BackupDB
 
     // Επιστρέφει το string που δημιουργεί τον πίνακα $table
     static function getTableCreateString($table) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'SHOW CREATE TABLE '.$table;
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = self::$conn->prepare($sql);
 
         $stmt->execute();
 
@@ -63,7 +63,7 @@ class BackupDB
 
         // Προσθήκη των values στο string
         foreach ($tableRow as $value) {
-            $insertString.= '\''.$value.'\',';
+            $insertString.= '\''.htmlentities($value, ENT_QUOTES, 'UTF-8').'\',';
         }
         $insertString = page::cutLastString($insertString,',');
         $insertString.= ');';
@@ -78,7 +78,7 @@ class BackupDB
         set_time_limit(0);
 
         // Σύνδεση στην βάση
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
 
@@ -88,7 +88,7 @@ class BackupDB
 
         // Παίρνουμε την λίστα όλων των πινάκων στην βάση, αν δεν έχουμε δώσει μια συγκεκριμένη ήδη στο $this->tables
         if(!isset($this->tables)) {
-            $this->tables=RoceanDB::getDatabaseTablesList();
+            $this->tables=self::getDatabaseTablesList();
         }
 
         $file->insertRow("# ****** CREATE QUERIES ******");
@@ -114,12 +114,12 @@ class BackupDB
 
             // Παίρνουμε τα περιεχόμενα του πίνακα
             $sql = 'SELECT * FROM '.$table;
-            $stmt = RoceanDB::$conn->prepare($sql);
+            $stmt = self::$conn->prepare($sql);
             $stmt->execute();
 
 
             // Τα πεδία του πίνακα
-            $tableFields = RoceanDB::getTableFields($table, null);
+            $tableFields = self::getTableFields($table, null);
 
             // Δημιουργία του insert string
             while($tableRow=$stmt->fetch(\PDO::FETCH_ASSOC)) {

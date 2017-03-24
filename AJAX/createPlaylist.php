@@ -10,10 +10,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\parrot\app\OWMP;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -24,7 +24,7 @@ Page::checkValidAjaxRequest(true);
 if(isset($_GET['playlistName']))
     $playlistName=ClearString($_GET['playlistName']);
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 
 $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
 

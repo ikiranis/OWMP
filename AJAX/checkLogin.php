@@ -9,18 +9,18 @@
  *
  */
 
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Page;
 use apps4net\framework\Language;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
 Page::checkValidAjaxRequest(false);
 
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 $lang = new Language();
 
 if(isset($_GET['username']))

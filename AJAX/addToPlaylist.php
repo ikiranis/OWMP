@@ -11,9 +11,9 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -26,14 +26,14 @@ if(isset($_GET['fileID']))
     $fileID=ClearString($_GET['fileID']);
 
 // Παίρνει το όνομα του table για την συγκεκριμένο playlistID
-$playlistTableName = RoceanDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
+$playlistTableName = MyDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
 
 if($playlistTableName) {  // Αν υπάρχει το συγκεκριμένο $playlistTableName
 
     // Ο τίτλος του τραγουδιού
-    $songName = RoceanDB::getTableFieldValue('music_tags', 'id=?', array($fileID), 'song_name');
+    $songName = MyDB::getTableFieldValue('music_tags', 'id=?', array($fileID), 'song_name');
 
-    if(!RoceanDB::getTableFieldValue($playlistTableName, 'file_id=?', array($fileID), 'id')) {
+    if(!MyDB::getTableFieldValue($playlistTableName, 'file_id=?', array($fileID), 'id')) {
         $sql = 'INSERT INTO ' . $playlistTableName . ' (file_id) VALUES(?)';   // Εισάγει στον πίνακα $playlistTableName
         $playlistArray = array($fileID);
 

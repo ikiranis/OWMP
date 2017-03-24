@@ -9,9 +9,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -21,26 +22,20 @@ Page::checkValidAjaxRequest(true);
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
-
-$conn = new RoceanDB();
-
+$conn = new MyDB();
 
 $deleteAlerts=$conn->deleteRowFromTable ('alerts','user_id',$id);
 $deleteSalts=$conn->deleteRowFromTable ('salts','user_id',$id);
 $deletePlaylists=$conn->deleteRowFromTable ('manual_playlists','user_id',$id);
 $deleteUserDetails=$conn->deleteRowFromTable ('user_details','user_id',$id);
 
-
 if($deleteSalts==true && $deleteUserDetails==true && $deletePlaylists==true && $deleteAlerts==true){
     if($conn->deleteRowFromTable ('user','user_id',$id)) {
         $jsonArray = array('success' => 'true');
 
-        RoceanDB::insertLog('User deleted with id '.$id); // Προσθήκη της κίνησης στα logs
+        Logs::insertLog('User deleted with id '.$id); // Προσθήκη της κίνησης στα logs
     }
     else $jsonArray=array( 'success'=>'false');
 } else $jsonArray=array( 'success'=>'false');
-
-
-
 
 echo json_encode($jsonArray);

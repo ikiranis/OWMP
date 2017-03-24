@@ -13,7 +13,7 @@ use apps4net\framework\Page;
 use apps4net\framework\VideoDownload;
 
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 

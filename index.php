@@ -9,10 +9,11 @@
  */
 
 use apps4net\framework\Language;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Page;
+use apps4net\framework\Logs;
 
-require_once ('libraries/common.inc.php');
+require_once('src/boot.php');
 
 session_start();
 
@@ -30,24 +31,24 @@ if (isset($_GET['ChangeLang'])) {
 }
 
 
-require_once ('login.php');
-require_once ('MainPage.php');
+require_once('src/login.php');
+require_once('src/MainPage.php');
 
 
-RoceanDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
+MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
 
 $MainPage = new Page();
 
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array ('libraries/javascript/framework/jquery.min.js',   // jquery
-    'libraries/javascript/framework/scripts.js',    // my scripts
+$scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
+    'src/javascript/framework/scripts.js',    // my scripts
     // TODO να φύγει το polyfill κάποια στιγμή που θα το υποστηρίζουν κανονικά όλοι οι browsers
-    'libraries/javascript/framework/details.js',    // polyfill για το summary/details
-    'libraries/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
-    'libraries/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
-    'libraries/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
+    'src/javascript/framework/details.js',    // polyfill για το summary/details
+    'src/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
+    'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
+    'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
 
 
@@ -71,7 +72,7 @@ if(!isset($_SESSION['user_IP'])) {
 
 
 if (isset($_GET['logout'])) {
-    RoceanDB::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
+    Logs::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
     logout();
 
     // TODO αν πας να κάνεις logout αμέσως μόλις μπεις, δεν κάνει
@@ -92,7 +93,7 @@ define('TAB_ID', date('YmdHis'));
         var DIR_PREFIX="<?php echo DIR_PREFIX; ?>";
         var Album_covers_path="<?php echo ALBUM_COVERS_DIR; ?>";
         var WebFolderPath="<?php echo WEB_FOLDER_PATH; ?>";
-        var ParrotVersionFile="<?php echo PARROT_VERSION_FILE; ?>";
+        var ParrotVersionFile="<?php echo APP_VERSION_FILE; ?>";
         var AppVersion="<?php echo APP_VERSION; ?>";
         var changeLogUrl="<?php echo CHANGE_LOG_URL; ?>";
         var TimePercentTrigger=parseInt(<?php echo PLAY_PERCENTAGE; ?>);
@@ -112,7 +113,7 @@ $logged_in=false;
 
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$conn->CheckCookiesForLoggedUser()) {
-    if (RoceanDB::checkIfUserIsLegit())
+    if (MyDB::checkIfUserIsLegit())
     {
         $userName=$conn->getSession('username');
         
@@ -124,7 +125,7 @@ if(!$conn->CheckCookiesForLoggedUser()) {
     }
 }
 else {
-    $userName = RoceanDB::getACookie('username');
+    $userName = MyDB::getACookie('username');
 
     $LoginNameText = '<img id="account_image" src="img/account.png"> <span id="account_name">' . $userName . '</span>';
     $logged_in = true;
@@ -145,8 +146,8 @@ if($logged_in) {
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
     if(Page::checkNewPageRunning()) {
-        if(!RoceanDB::checkMySQLEventScheduler()) {   // Αν δεν είναι ενεργοποιημένος ήδη ο event scheduler
-            RoceanDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
+        if(!MyDB::checkMySQLEventScheduler()) {   // Αν δεν είναι ενεργοποιημένος ήδη ο event scheduler
+            MyDB::enableMySQLEventScheduler();   // Ενεργοποιεί τα scheduler events στην mysql
         }
     }
 
@@ -168,4 +169,4 @@ if(!$logged_in) {
 
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
 //$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
-//RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
+//MyDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');

@@ -14,16 +14,17 @@
 
 namespace apps4net\parrot\app;
 
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Page;
+use apps4net\framework\Logs;
 use apps4net\framework\Utilities;
 use apps4net\framework\ScanDir;
 
 // @source https://github.com/jsjohnst/php_class_lib/tree/master
-require_once('../libraries/external/PlistParser.php');
+require_once('../src/external/PlistParser.php');
 
 // @source https://github.com/JamesHeinrich/getID3/
-require_once('../libraries/external/getid3/getid3.php');
+require_once('../src/external/getid3/getid3.php');
 
 class SyncFiles
 {
@@ -92,7 +93,7 @@ class SyncFiles
     // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
     public function scanFiles($mediakind)
     {
-        $conn= new RoceanDB();
+        $conn= new MyDB();
 
         $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null, null, null); // Παίρνει τα paths
         $dirs=$conn->clearArray($dirs);
@@ -238,7 +239,7 @@ class SyncFiles
         if($searchItunes)
             $this->getItunesLibrary();
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         // Παίρνουμε τις εγγραφές στο table files σε array
         if(!$filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
@@ -258,8 +259,8 @@ class SyncFiles
                           date_last_played, rating, album, album_artwork_id, video_width, video_height, filesize, track_time, song_year, live) 
                           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-        $stmt_file = RoceanDB::$conn->prepare($sql_insert_file);
-        $stmt_tags = RoceanDB::$conn->prepare($sql_insert_tags);
+        $stmt_file = MyDB::$conn->prepare($sql_insert_file);
+        $stmt_tags = MyDB::$conn->prepare($sql_insert_tags);
 
 
         $counter = 0;
@@ -371,7 +372,7 @@ class SyncFiles
                     $sqlParamsFile = array($path, $filename, $hash, $mediaKind);
 
                     if ($stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
-                        $inserted_id = RoceanDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
+                        $inserted_id = MyDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
                     } else {
                         $inserted_id = 0;
                         trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
@@ -504,7 +505,7 @@ class SyncFiles
 
         echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-        RoceanDB::insertLog('Added ' . $added_video . ' files.'); // Προσθήκη της κίνησης στα logs
+        Logs::insertLog('Added ' . $added_video . ' files.'); // Προσθήκη της κίνησης στα logs
 
         Page::updatePercentProgress(0);   // Μηδενίζει το progress
 
@@ -647,7 +648,7 @@ class SyncFiles
 
         $script_start = microtime(true);
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $counter=0;
 
@@ -686,7 +687,7 @@ class SyncFiles
             
             echo '<p>'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</p>';
 
-            RoceanDB::insertLog('Were found '.$counter. ' problematic files and were erased'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog('Were found '.$counter. ' problematic files and were erased'); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
@@ -747,7 +748,7 @@ class SyncFiles
 
         $script_start = microtime(true);
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $counter=0;
 
@@ -769,7 +770,7 @@ class SyncFiles
                             $time_elapsed_secs = microtime(true) - $start;
 
                             // Ενημερώνουμε την βάση με το επιστρεφόμενο hash
-                            $update = RoceanDB::updateTableFields('files', 'id=?',
+                            $update = MyDB::updateTableFields('files', 'id=?',
                                                                     array('hash'),
                                                                     array($hash, $file['id']));
 
@@ -803,18 +804,18 @@ class SyncFiles
             echo '<p>'.$counter. ' '.__('files_to_hash').'</p>';
             echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-            RoceanDB::insertLog($counter. ' files produced hash'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog($counter. ' files produced hash'); // Προσθήκη της κίνησης στα logs
         }
 
     }
 
     // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη στα τραγούδια
     static function searchForHash($hash) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'SELECT id FROM files WHERE hash=?';
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($hash));
 
@@ -832,11 +833,11 @@ class SyncFiles
 
     // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη στις εικόνες
     static function searchForImageHash($hash) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'SELECT id FROM album_arts WHERE hash=?';
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($hash));
 
@@ -861,7 +862,7 @@ class SyncFiles
 
         $script_start = microtime(true);
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $counter=0;
 
@@ -880,7 +881,7 @@ class SyncFiles
                     self::getMediaFileTags($full_path);  // Παίρνουμε τα metadata του αρχείου
 
                     // Ενημερώνουμε την βάση με τα αντίστοιχα metadata
-                    $update = RoceanDB::updateTableFields('music_tags', 'id=?',
+                    $update = MyDB::updateTableFields('music_tags', 'id=?',
                         array('track_time', 'video_width', 'video_height', 'filesize'),
                         array($this->track_time, $this->video_width, $this->video_height, $this->size, $file['id']));
 
@@ -914,7 +915,7 @@ class SyncFiles
             echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
             echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-            RoceanDB::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
     }
 
@@ -929,7 +930,7 @@ class SyncFiles
 
         $script_start = microtime(true);
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $counter=0;
 
@@ -1031,7 +1032,7 @@ class SyncFiles
             echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
             echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-            RoceanDB::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
     }
 
@@ -1072,7 +1073,7 @@ class SyncFiles
         $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
         $mainTables= array('music_tags', 'files');
 
-        $exportTable = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+        $exportTable = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
             null, null, null, $tempUserPlaylist, $joinFieldsArray);
 
         $jsonTable=json_encode($exportTable, JSON_UNESCAPED_UNICODE);
@@ -1110,7 +1111,7 @@ class SyncFiles
         if(self::$jsonTable) // Ολόκληρη η λίστα
         {
 
-            $conn = new RoceanDB();
+            $conn = new MyDB();
 
             $conn->CreateConnection();
 
@@ -1120,8 +1121,8 @@ class SyncFiles
                           date_last_played, rating, album, album_artwork_id, video_width, video_height, filesize, track_time, song_year, live) 
                           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-            $stmt_file = RoceanDB::$conn->prepare($sql_insert_file);
-            $stmt_tags = RoceanDB::$conn->prepare($sql_insert_tags);
+            $stmt_file = MyDB::$conn->prepare($sql_insert_file);
+            $stmt_tags = MyDB::$conn->prepare($sql_insert_tags);
 
             $added_video=0;
             $progressCounter=0;
@@ -1136,7 +1137,7 @@ class SyncFiles
                 $sqlParamsFile = array($file['path'], $file['filename'], $file['hash'], $file['kind']);
 
                 if ($stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
-                    $inserted_id = RoceanDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
+                    $inserted_id = MyDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
                 } else {
                     $inserted_id = 0;
                 }
@@ -1201,7 +1202,7 @@ class SyncFiles
 
             echo '<p>'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</p>';
 
-            RoceanDB::insertLog(__('files_added').' '.$added_video. ' '.__('new_records_to_database')); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog(__('files_added').' '.$added_video. ' '.__('new_records_to_database')); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 

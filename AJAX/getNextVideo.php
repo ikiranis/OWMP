@@ -9,16 +9,16 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Utilities;
 use apps4net\parrot\app\OWMP;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 Page::checkValidAjaxRequest(true);
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 
 
 //trigger_error(TAB_ID);
@@ -41,7 +41,7 @@ $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 
 // Ενημερώνει τον playlist_tables για το table $tempUserPlaylist με την ώρα που έγινε το access
 $theDate = date('Y-m-d H:i:s');
-RoceanDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
+MyDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
 
 $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
@@ -55,16 +55,16 @@ if($UserGroup!=='1') {
 
 if($operation=='next') { // όταν θέλουμε να παίξει το επόμενο
 
-    if(!RoceanDB::countTable('votes') || $cantPlayVotes) {  // Αν δεν υπάρχουν ψήφοι στο votes
+    if(!MyDB::countTable('votes') || $cantPlayVotes) {  // Αν δεν υπάρχουν ψήφοι στο votes
         if ($playMode == 'shuffle') {
-            $tableCount = RoceanDB::countTable($tempUserPlaylist);
+            $tableCount = MyDB::countTable($tempUserPlaylist);
             $randomRow = rand(0, $tableCount);
             $return = OWMP::getRandomPlaylistID($tempUserPlaylist, $randomRow);
             $playlistID = $return['playlist_id'];
             $fileID = $return['file_id'];
         } else {
             $playlistID = $currentPlaylistID;
-            $fileID = RoceanDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
+            $fileID = MyDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
         }
     } else {  // αλλιώς παίρνει το επόμενο τραγούδι από την καταμέτρηση των ψήφων
 
@@ -89,7 +89,7 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
         $fileID = $getFileID;
 
         // Σβήνει όλες τις ψήφους για να αρχίσει η ψηφοφορία από την αρχή
-        RoceanDB::deleteTable('votes');
+        MyDB::deleteTable('votes');
 
         // Σβήνει την εγγραφή από την jukebox playlist
         $conn->deleteRowFromTable(JUKEBOX_LIST_NAME, 'file_id', $fileID);
@@ -103,11 +103,11 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
 if($operation=='prev') {  // όταν θέλουμε να παίξει το προηγούμενο τραγούδι που θα πάρει από την queue playlist
     
     // Έλεγχος αν υπάρχουν τραγούδια στην playlist και του μεγέθους του table $tempPlayedQueuePlaylist
-    if($countQueuePlaylist=RoceanDB::countTable($tempPlayedQueuePlaylist)) {
+    if($countQueuePlaylist=MyDB::countTable($tempPlayedQueuePlaylist)) {
         
         if($currentPlaylistID==0) { // Αν δεν έχει οριστεί προηγούμενο playlist ID
             // στέλνει το προτελευταίο id της queue playlist, γιατί το τελευταίο id είναι το τραγούδι που παίζει
-            $fileID = RoceanDB::getTableFieldValue($tempPlayedQueuePlaylist, 'id=?', $countQueuePlaylist-1, 'file_id');
+            $fileID = MyDB::getTableFieldValue($tempPlayedQueuePlaylist, 'id=?', $countQueuePlaylist-1, 'file_id');
             $playlistID = $countQueuePlaylist;
         } else {  // Αν έχει οριστεί προηγούμενο playlist ID
             // στέλνει το προηγούμενο id από το $currentPlaylistID
@@ -117,7 +117,7 @@ if($operation=='prev') {  // όταν θέλουμε να παίξει το πρ
             if($previousPlaylistID==$countQueuePlaylist-1) {
                 $previousPlaylistID--;
             }
-            $fileID = RoceanDB::getTableFieldValue($tempPlayedQueuePlaylist, 'id=?', $previousPlaylistID, 'file_id');
+            $fileID = MyDB::getTableFieldValue($tempPlayedQueuePlaylist, 'id=?', $previousPlaylistID, 'file_id');
             $playlistID = $previousPlaylistID;
         }
 

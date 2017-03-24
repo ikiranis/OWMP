@@ -9,10 +9,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\parrot\app\OWMP;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -21,7 +21,7 @@ Page::updateUserSession();
 
 Page::checkValidAjaxRequest(true);
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 
 
 if(isset($_GET['id']))
@@ -35,14 +35,14 @@ if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
 
 
-$file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
+$file=MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
 
 
 $filesArray=array('path'=>$file[0]['path'],
                     'filename'=>$file[0]['filename'],
                     'kind'=>$file[0]['kind']);
 
-if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, null, null)) {
+if($metadata=MyDB::getTableArray('music_tags','*', 'id=?', array($id),null, null, null)) {
 
     if (isset($metadata[0]['rating'])) {
         $rating = ($metadata[0]['rating'] / 10) / 2;
@@ -102,7 +102,7 @@ if($metadata=RoceanDB::getTableArray('music_tags','*', 'id=?', array($id),null, 
     // Εισάγει το συγκεκριμένο τραγούδι που παίζει στο Played Queue Playlist
     OWMP::insertIntoTempPlaylist($tempPlayedQueuePlaylist, $id);
 
-    $playlistID=RoceanDB::getTableFieldValue($tempUserPlaylist, 'file_id=?', $id, 'id');
+    $playlistID=MyDB::getTableFieldValue($tempUserPlaylist, 'file_id=?', $id, 'id');
     
     $jsonArray = array('success' => true,
         'artist' => htmlspecialchars_decode($metadata[0]['artist']),

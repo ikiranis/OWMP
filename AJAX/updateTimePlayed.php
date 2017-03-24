@@ -9,9 +9,9 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -23,11 +23,11 @@ if(isset($_GET['id']))
 
 
 $date_last_played=date('Y-m-d H:i:s');
-$play_count=RoceanDB::getTableFieldValue('music_tags', 'id=?', $id, 'play_count');
+$play_count=MyDB::getTableFieldValue('music_tags', 'id=?', $id, 'play_count');
 
 $play_count++;
 
-$update=RoceanDB::updateTableFields('music_tags', 'id=?',
+$update=MyDB::updateTableFields('music_tags', 'id=?',
     array('date_last_played', 'play_count'),
     array($date_last_played, $play_count, $id));
 

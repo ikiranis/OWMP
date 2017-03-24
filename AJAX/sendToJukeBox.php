@@ -11,10 +11,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\parrot\app\OWMP;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -27,18 +27,18 @@ $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
 
 // Αν δεν υπάρχει ήδη το JUKEBOX_LIST_NAME το δημιουργούμε
-if(!RoceanDB::checkIfTableExist(JUKEBOX_LIST_NAME)) {
+if(!MyDB::checkIfTableExist(JUKEBOX_LIST_NAME)) {
     OWMP::createPlaylistTempTable(JUKEBOX_LIST_NAME);
 } 
 
 // Αντιγράφει τον $tempUserPlaylist στον JUKEBOX_LIST_NAME
-if(RoceanDB::checkIfTableExist(JUKEBOX_LIST_NAME)) {
+if(MyDB::checkIfTableExist(JUKEBOX_LIST_NAME)) {
     
     // Πρώτα σβήνει τα υπάρχοντα περιεχρόμενα του JUKEBOX_LIST_NAME
-    RoceanDB::deleteTable(JUKEBOX_LIST_NAME);
+    MyDB::deleteTable(JUKEBOX_LIST_NAME);
     
     // Κάνει την αντιγραφή
-    if (RoceanDB::copyTable($tempUserPlaylist, JUKEBOX_LIST_NAME)) {
+    if (MyDB::copyTable($tempUserPlaylist, JUKEBOX_LIST_NAME)) {
         $jsonArray = array('success' => true);
     } else $jsonArray = array('success' => false, 'errorID' => 1); // Δεν έγινε η αντιγραφή
 }

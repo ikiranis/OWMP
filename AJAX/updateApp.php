@@ -18,7 +18,7 @@ use apps4net\framework\Crypto;
 use apps4net\framework\Utilities;
 
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 

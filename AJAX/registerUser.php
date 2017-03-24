@@ -11,16 +11,17 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 use apps4net\framework\Language;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
 Page::checkValidAjaxRequest(false);
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 $lang = new Language();
 
 if(isset($_GET['username']))
@@ -38,7 +39,7 @@ if(!$conn->CheckIfThereIsAdminUser()) {
 
     if ($register['success']) {
         $jsonArray = array('success' => true);
-        RoceanDB::insertLog('User ' . $username . ' registered'); // Προσθήκη της κίνησης στα logs
+        Logs::insertLog('User ' . $username . ' registered'); // Προσθήκη της κίνησης στα logs
     } else {
         $jsonArray = array('success' => false);
     }
@@ -50,7 +51,7 @@ if(!$conn->CheckIfThereIsAdminUser()) {
 
     // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
     $eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
-    RoceanDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
+    MyDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');
 
     //Page::createCrontab(); // Προσθέτει τον demon στο crontab
 

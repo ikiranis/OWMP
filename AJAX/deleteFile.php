@@ -9,10 +9,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\Logs;
 use apps4net\parrot\app\OWMP;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -25,7 +25,7 @@ if(isset($_GET['id']))
 
 if(OWMP::deleteFile($id)==true) {
     $jsonArray = array('success' => true, 'id' => $id);
-    RoceanDB::insertLog('Deleted song with id: '.$id); // Προσθήκη της κίνησης στα logs
+    Logs::insertLog('Deleted song with id: '.$id); // Προσθήκη της κίνησης στα logs
 }
 else $jsonArray=array( 'success'=> false);
 

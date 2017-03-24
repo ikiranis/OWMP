@@ -9,9 +9,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -29,7 +30,7 @@ if(isset($_GET['id']))
 
 
 
-$update = RoceanDB::updateTableFields('files', 'id=?',
+$update = MyDB::updateTableFields('files', 'id=?',
     array('path', 'filename'),
     array($path, $filename, $id));
 
@@ -40,7 +41,7 @@ if($update) {
 
     trigger_error($id.'  File ' . $filename . ' change path.');
 
-    RoceanDB::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
+    Logs::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
 }
 else $jsonArray=array( 'success'=> false);
 

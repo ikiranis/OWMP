@@ -10,29 +10,29 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
 Page::checkValidAjaxRequest(true);
 
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 
 if(isset($_GET['playlistID']))
     $playlistID=ClearString($_GET['playlistID']);
 
 
 // Παίρνει το όνομα του table για την συγκεκριμένο playlistID
-$playlistTableName = RoceanDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
+$playlistTableName = MyDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
 
 
 if($playlistTableName) {  // Αν υπάρχει το συγκεκριμένο $playlistTableName
 
     // Σβήνει το table $playlistTableName
-    if(RoceanDB::dropTable($playlistTableName)) {
+    if(MyDB::dropTable($playlistTableName)) {
 
         // Σβήνει το συγκεκριμένο row της playlist από το manual_playlists
         if ($conn->deleteRowFromTable('manual_playlists', 'id', $playlistID) ) {

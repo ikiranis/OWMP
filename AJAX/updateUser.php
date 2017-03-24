@@ -9,9 +9,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -41,10 +42,8 @@ if(isset($_GET['lname']))
     $lname=ClearString($_GET['lname']);
 else $lname='';
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 $conn->CreateConnection();
-
-
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
 
@@ -53,7 +52,7 @@ if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
     if(!$IsUserExist){
         if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) { // Δημιουργεί τον χρήστη
             $jsonArray = array('success' => true, 'lastInserted' => $inserted_id);
-            RoceanDB::insertLog('User '.$username.' created'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog('User '.$username.' created'); // Προσθήκη της κίνησης στα logs
         }
         else $jsonArray=array( 'success'=>false);
     }

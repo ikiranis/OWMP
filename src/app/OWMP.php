@@ -14,7 +14,7 @@
 namespace apps4net\parrot\app;
 
 use apps4net\framework\Language;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Page;
 use apps4net\framework\Utilities;
 
@@ -78,7 +78,7 @@ class OWMP
 
         
         $tags = new Page();
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         if ($UserGroup==1)  // Αν ο χρήστης είναι admin
@@ -291,12 +291,12 @@ class OWMP
 
     static function showPlaylistWindow ($offset, $step) {
 
-        $fields=RoceanDB::getTableFields('music_tags',array('id'));
+        $fields=MyDB::getTableFields('music_tags',array('id'));
 
         global $mediaKinds;
 
         $tags = new Page();
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         if ($UserGroup==1)  // Αν ο χρήστης είναι admin
@@ -415,7 +415,7 @@ class OWMP
     
                         $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
                         // H λίστα με τις manual playlists
-                        $manualPlaylists = RoceanDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
+                        $manualPlaylists = MyDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
     
                         foreach ($manualPlaylists as $playlist) {
                             ?>
@@ -729,7 +729,7 @@ class OWMP
     static function displayFullPlaylist($track, $loadPlaylist=null, $votePlaylist=null) {
 
         if(!$votePlaylist) {
-            $conn = new RoceanDB();
+            $conn = new MyDB();
             $UserGroupID = $conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         }
 
@@ -886,7 +886,7 @@ class OWMP
 
                 if ((!$field == null) && (!$searchText == null)) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
 
-                    $fieldType = RoceanDB::getTableFieldType('music_tags', $field['search_field']);  // παίρνει το type του field
+                    $fieldType = MyDB::getTableFieldType('music_tags', $field['search_field']);  // παίρνει το type του field
 //                    trigger_error($fieldType);
                     if ($fieldType == 'int(11)' || $fieldType == 'tinyint(4)' || $fieldType == 'datetime') {   // αν το type είναι νούμερο
                         if ($fieldType == 'datetime')
@@ -986,13 +986,13 @@ class OWMP
 
         if($duplicates==null) {   // κανονική λίστα
             if ($_SESSION['PlaylistCounter'] == 0) {
-//                $playlistToPlay = RoceanDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
+//                $playlistToPlay = MyDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
 
 
                 // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
                 // από την manual playlist
                 if(!$loadPlaylist) {
-                    $myQuery = RoceanDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
+                    $myQuery = MyDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
 
 
                     // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
@@ -1002,24 +1002,24 @@ class OWMP
                     self::checkTempPlaylist($tempPlayedQueuePlaylist);
 
                     // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
-                    RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
+                    MyDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
                 }
 
-                $tableCount = RoceanDB::countTable($tempUserPlaylist);
+                $tableCount = MyDB::countTable($tempUserPlaylist);
 
                 $_SESSION['$countThePlaylist'] = $tableCount;
             }
 
             // Η λίστα προς εμφάνιση
             if(!$loadPlaylist) {  // Αν το $loadPlaylist είναι false
-                $playlist = RoceanDB::getTableArray('music_tags', null, $condition, $arrayParams,
+                $playlist = MyDB::getTableArray('music_tags', null, $condition, $arrayParams,
                     'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
             }
             else { // αλλιώς κάνει join με τον $tempUserPlaylist
                 $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
                 $mainTables = array('music_tags', 'files');
 
-                $playlist = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+                $playlist = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
                     null, null, 'date_added DESC LIMIT ' . $offset . ',' . $step, $tempUserPlaylist, $joinFieldsArray);
             }
 
@@ -1043,9 +1043,9 @@ class OWMP
                             WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
                 // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
-                RoceanDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, null);
+                MyDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, null);
 
-                $tableCount = RoceanDB::countTable($tempUserPlaylist);
+                $tableCount = MyDB::countTable($tempUserPlaylist);
 
                 $_SESSION['$countThePlaylist'] = $tableCount;
             }
@@ -1055,7 +1055,7 @@ class OWMP
             $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
             $mainTables = array('music_tags', 'files');
 
-            $playlist = RoceanDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+            $playlist = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
                 null, null, 'files.hash DESC LIMIT ' . $offset . ',' . $step, $tempUserPlaylist, $joinFieldsArray);
 
         }
@@ -1168,7 +1168,7 @@ class OWMP
 
     // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
     static function getOptionsInFormFields () {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $options=$conn->getTableArray('options', null, 'setting=?', array(1), null, null, null);  // Παίρνει τα δεδομένα του πίνακα options σε array
 
@@ -1213,7 +1213,7 @@ class OWMP
 
     // Εμφάνιση των εγγραφών των χρηστών σε μορφή form fields για editing
     static function getUsersInFormFields () {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
@@ -1225,7 +1225,7 @@ class OWMP
             $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id';
         else $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id WHERE user.user_id=?';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $counter=1;
 
@@ -1363,7 +1363,7 @@ class OWMP
     
     // Εμφανίζει τα input fields για τα paths
     static function getPathsInFormFields() {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         global $mediaKinds;
 
 
@@ -1444,7 +1444,7 @@ class OWMP
 
     static function showConfiguration () {
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         ?>
@@ -1605,7 +1605,7 @@ class OWMP
 
         <?php
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         global $mediaKinds;
@@ -1732,12 +1732,12 @@ class OWMP
         <h2><?php echo __('nav_item_4'); ?></h2>
         <?php
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'SELECT * FROM logs ORDER BY log_date DESC LIMIT 0,100';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
@@ -1790,7 +1790,7 @@ class OWMP
     // Επιστρέφει τις διπλές εγγραφές με βάση το hash
     static function getFilesDuplicates ($offset, $step) {
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $conn->createConnection();
 
@@ -1799,7 +1799,7 @@ class OWMP
         if(isset($offset))
             $sql=$sql.' LIMIT '.$offset.','.$step;
         
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
@@ -1838,9 +1838,9 @@ class OWMP
     
     // Σβήνει ένα αρχείο και την αντίστοιχη εγγραφή στην βάση
     static function deleteFile($id) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         
-        $file=RoceanDB::getTableArray('files','*', 'id=?', array($id),null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
+        $file=MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
 
         $filesArray=array('path'=>$file[0]['path'],
             'filename'=>$file[0]['filename']);
@@ -1867,13 +1867,13 @@ class OWMP
 
     // Επιστρέφει τo fullpath από τα files με $id
     static function getFullPathFromFileID($id) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $conn->createConnection();
 
         $sql='SELECT path, filename FROM files WHERE id=?';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($id));
 
@@ -1897,7 +1897,7 @@ class OWMP
 
     // upload ενός image κι εισαγωγή στην βάση
     static function uploadAlbumImage($image, $mime) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $hash=SyncFiles::hashString($image); // Δημιουργούμε hash της εικόνας
 
@@ -2079,13 +2079,13 @@ class OWMP
 
     // Επιστρέφει το fullpath του album cover για το $id
     static function getAlbumImagePath($id, $imageSize) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         $conn->createConnection();
 
         $sql='SELECT path, filename FROM album_arts WHERE id=?';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($id));
 
@@ -2228,7 +2228,7 @@ class OWMP
     
     // Δημιουργεί έναν νέο πίνακα για temporary playlist με το όνομα $table
     static function createPlaylistTempTable($table) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql = 'CREATE TABLE '.$table.' (
@@ -2237,7 +2237,7 @@ class OWMP
                 PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;';
         
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
 
         if($stmt->execute()) 
@@ -2254,10 +2254,10 @@ class OWMP
 
     // Ελέγχει αν υπάρχει ένα $tempPlaylist και αν δεν υπάρχει το δημιουργεί και κάνει σχετική εγγραφή στο playlist_tables
     static function checkTempPlaylist($tempPlaylist) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
         // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
-        if (!RoceanDB::checkIfTableExist($tempPlaylist)) {
+        if (!MyDB::checkIfTableExist($tempPlaylist)) {
             self::createPlaylistTempTable($tempPlaylist); // Δημιουργούμε το table
 
             // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
@@ -2270,12 +2270,12 @@ class OWMP
 
     // Επιστρέφει μία τυχαία εγγραφή από τον $table
     static function getRandomPlaylistID($table, $tableCount) {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql='SELECT * FROM '.$table.' LIMIT '.$tableCount.',1';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
@@ -2296,8 +2296,8 @@ class OWMP
     static function insertIntoTempPlaylist($tempPlaylist, $fileID) {
 
         // αν δεν υπάρχει η συγκεκριμένη εγγραφή ήδη, τότε μπορεί να γίνει η εισαγωγή
-        if(!RoceanDB::getTableFieldValue($tempPlaylist, 'file_id=?', array($fileID), 'id')) {
-            $conn = new RoceanDB();
+        if(!MyDB::getTableFieldValue($tempPlaylist, 'file_id=?', array($fileID), 'id')) {
+            $conn = new MyDB();
 
             $sql = 'INSERT INTO ' . $tempPlaylist . ' (file_id) VALUES(?)';
 
@@ -2316,9 +2316,9 @@ class OWMP
         
         $userIP=$_SESSION['user_IP'];  // H ip του χρήστη
 
-        $conn = new RoceanDB();
+        $conn = new MyDB();
 
-        if(!RoceanDB::getTableFieldValue('votes', 'voter_ip=?', $userIP, 'id')) {
+        if(!MyDB::getTableFieldValue('votes', 'voter_ip=?', $userIP, 'id')) {
             $sql = 'INSERT INTO votes (file_id,voter_ip) VALUES(?,?)';
 
             trigger_error('User vote '.$userIP);
@@ -2338,12 +2338,12 @@ class OWMP
     
     // Επιστρέφει το σύνολο ψήφων για κάθε file_id
     static function getVotes() {
-        $conn = new RoceanDB();
+        $conn = new MyDB();
         $conn->CreateConnection();
 
         $sql='SELECT file_id, count(*) as numberOfVotes FROM votes GROUP BY file_id';
 
-        $stmt = RoceanDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
@@ -2365,7 +2365,7 @@ class OWMP
         }
         
         if($currentSongID) { // Το id του τραγουδιού
-            if($currentSong = RoceanDB::getTableArray('music_tags', 'song_name, artist, id',
+            if($currentSong = MyDB::getTableArray('music_tags', 'song_name, artist, id',
                 'id=?', array($currentSongID), 'id DESC LIMIT 1', null, null)) { // Τα στοιχεία του τραγουδιού
                 return $currentSong;
             } else {

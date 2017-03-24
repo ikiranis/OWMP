@@ -11,12 +11,11 @@
  *
  */
 
-
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\Logs;
 use apps4net\framework\BackupDB;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -28,10 +27,9 @@ $backup->sqlFile=OUTPUT_FOLDER.'backup_20170318212030.sql';
 
 if ($backup->restoreDatabase()) {
     $jsonArray = array('success' => true);
-    RoceanDB::insertLog('Restore database from backup file with success'); // Προσθήκη της κίνησης στα logs
+    Logs::insertLog('Restore database from backup file with success'); // Προσθήκη της κίνησης στα logs
 } else {
     $jsonArray = array('success' => false);
 }
-
 
 echo json_encode($jsonArray);

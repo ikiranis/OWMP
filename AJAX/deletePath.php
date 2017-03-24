@@ -10,9 +10,10 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -24,13 +25,13 @@ if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 
 
 if($conn->deleteRowFromTable('paths','id',$id)) {
     $jsonArray=array( 'success'=>true);
 
-    RoceanDB::insertLog('Path deleted with id '. $id); // Προσθήκη της κίνησης στα logs 
+    Logs::insertLog('Path deleted with id '. $id); // Προσθήκη της κίνησης στα logs
 
 }
 else $jsonArray=array( 'success'=>false);

@@ -11,9 +11,9 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -29,16 +29,16 @@ $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
 
 // Παίρνει το όνομα του table για την συγκεκριμένο playlistID
-$playlistTableName = RoceanDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
+$playlistTableName = MyDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');
 
 
 if($playlistTableName) {  // Αν υπάρχει το συγκεκριμένο $playlistTableName
 
     // Σβήνει πρώτα τα περιεχόμενα του $tempUserPlaylist
-    if(RoceanDB::deleteTable($tempUserPlaylist)) {
+    if(MyDB::deleteTable($tempUserPlaylist)) {
 
         // Αντιγράφει τον $playlistTableName στον $tempUserPlaylist
-        if (RoceanDB::copyTable($playlistTableName, $tempUserPlaylist)) {
+        if (MyDB::copyTable($playlistTableName, $tempUserPlaylist)) {
             $jsonArray = array('success' => true);
         } else $jsonArray = array('success' => false, 'errorID' => 1); // Δεν έγινε η αντιγραφή
 

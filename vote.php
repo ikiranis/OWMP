@@ -14,7 +14,7 @@ use apps4net\framework\Language;
 use apps4net\framework\Page;
 use apps4net\parrot\app\OWMP;
 
-require_once ('libraries/common.inc.php');
+require_once('src/boot.php');
 
 //  Αν είναι απενεργοποιημένο το jukebox τότε σταματάει την εκτέλεση της σελίδας
 if(!JUKEBOX_ENABLE) {
@@ -62,7 +62,7 @@ if(!isset($_SESSION['user_IP'])) {
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array ('libraries/javascript/framework/jquery.min.js', 'libraries/javascript/app/vote.js');    // javascript
+$scripts=array ('src/javascript/framework/jquery.min.js', 'src/javascript/app/vote.js');    // javascript
 
 $css='styles/vote.css';   // css
 

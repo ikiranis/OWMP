@@ -8,10 +8,10 @@
  * Ελέγχει αν ο χρήστης υπάρχει στην βάση κι επιστρέφει true or false
  */
 
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Page;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -21,7 +21,7 @@ Page::checkValidAjaxRequest(false);
 if(isset($_GET['username']))
     $username=ClearString($_GET['username']);
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 if ($conn->checkIfUserExists($username))
     $jsonArray=array( 'success'=>true);
 else $jsonArray=array( 'success'=>false);

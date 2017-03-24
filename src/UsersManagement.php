@@ -8,13 +8,13 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 use apps4net\framework\Language;
 use apps4net\framework\Crypto;
 
 
-require_once ('libraries/common.inc.php');
-require_once ('login.php');
+require_once('src/boot.php');
+require_once('login.php');
 
 session_start();
 
@@ -36,7 +36,7 @@ if (isset($_SESSION["username"])) {
 if (isset($_GET['RegisterUser']))
     ShowRegisterUser();
 else {
-    $CheckDB = new RoceanDB();
+    $CheckDB = new MyDB();
     if($CheckDB->CheckIfThereIsUsers())
         DisplayUsers();
     else ShowRegisterUser();

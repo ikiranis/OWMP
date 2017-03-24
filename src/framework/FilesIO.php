@@ -39,6 +39,8 @@ class FilesIO
     }
 
     // Προσθέτει ένα string στο $this->filename
+    // @param string $fileRow: Το string που θα προστεθεί
+    // @return void
     public function insertRow($fileRow) {
         file_put_contents($this->filename, $fileRow, FILE_APPEND);
     }

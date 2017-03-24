@@ -9,12 +9,12 @@
  *
  */
 
-
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
+use apps4net\framework\Logs;
 use apps4net\parrot\app\OWMP;
 
-require_once('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -22,7 +22,7 @@ Page::updateUserSession();
 
 Page::checkValidAjaxRequest(true);
 
-$conn = new RoceanDB();
+$conn = new MyDB();
 
 
 $UserGroup = $conn->getUserGroup($conn->getSession('username'));
@@ -95,11 +95,11 @@ if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 
     $valuesArray[]=$id;
 
-    $update = RoceanDB::updateTableFields('music_tags', 'id=?', $fieldsArray, $valuesArray);
+    $update = MyDB::updateTableFields('music_tags', 'id=?', $fieldsArray, $valuesArray);
 
     if ($update) {
         $jsonArray = array('success' => true, 'id' => $id);
-        RoceanDB::insertLog('Changed tags for song id: '.$id); // Προσθήκη της κίνησης στα logs
+        Logs::insertLog('Changed tags for song id: '.$id); // Προσθήκη της κίνησης στα logs
     } else {
         $jsonArray = array('success' => false);
     }

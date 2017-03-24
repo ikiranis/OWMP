@@ -22,9 +22,9 @@ spl_autoload_register(function ($class) {
 
     $prefixes = array (
         array('prefix' => 'apps4net\\framework\\',
-            'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'libraries/framework/'),
+            'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/framework/'),
         array('prefix' => 'apps4net\\parrot\\app\\',
-            'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'libraries/app/')
+            'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/app/')
     );
 
     foreach ($prefixes as $prefix) {
@@ -59,7 +59,7 @@ spl_autoload_register(function ($class) {
 //    $prefix = 'apps4net\\framework\\';
 //
 //    // base directory for the namespace prefix
-//    $base_dir = $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'libraries/framework/';
+//    $base_dir = $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/framework/';
 //
 //    // does the class use the namespace prefix?
 //    $len = strlen($prefix);

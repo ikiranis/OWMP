@@ -11,7 +11,7 @@
 use apps4net\framework\Language;
 use apps4net\framework\Page;
 
-require_once ('libraries/common.inc.php');
+require_once('src/boot.php');
 
 
 $lang = new Language();
@@ -21,7 +21,7 @@ $lang = new Language();
 
 //if (isset($_POST['register'])) {
 //
-//    $conn = new RoceanDB();
+//    $conn = new MyDB();
 //
 //    // Έλεγχος αν συμφωνούν τα 2 passwords
 //    if($_POST['password']==$_POST['repeat_password']) {

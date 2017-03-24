@@ -12,9 +12,9 @@
 
 
 use apps4net\framework\Page;
-use apps4net\framework\RoceanDB;
+use apps4net\framework\MyDB;
 
-require_once ('../libraries/common.inc.php');
+require_once('../src/boot.php');
 
 session_start();
 
@@ -31,10 +31,10 @@ $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 if($tempPlayedQueuePlaylist) {  // Αν υπάρχει το συγκεκριμένο $tempPlayedQueuePlaylist
 
     // Σβήνει πρώτα τα περιεχόμενα του $tempUserPlaylist
-    if(RoceanDB::deleteTable($tempUserPlaylist)) {
+    if(MyDB::deleteTable($tempUserPlaylist)) {
 
         // Αντιγράφει τον $tempPlayedQueuePlaylist στον $tempUserPlaylist
-        if (RoceanDB::copyTable($tempPlayedQueuePlaylist, $tempUserPlaylist)) {
+        if (MyDB::copyTable($tempPlayedQueuePlaylist, $tempUserPlaylist)) {
             $jsonArray = array('success' => true);
         } else $jsonArray = array('success' => false, 'errorID' => 1); // Δεν έγινε η αντιγραφή
 
