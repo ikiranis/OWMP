@@ -24,7 +24,7 @@ class BackupDB extends MyDB
 {
     public $tables = array();  // Το array με τα tables της βάσης που θα κάνουμε backup
     public $sqlFile; // Το αρχείο που βρίσκεται το backup της βάσης
-    private $query;   // To query που θα εκτελεστεί
+    private $sql;   // To query που θα εκτελεστεί
 
     // Επιστρέφει το string που δημιουργεί τον πίνακα $table
     static function getTableCreateString($table)
@@ -143,18 +143,19 @@ class BackupDB extends MyDB
     // Καθαρίζει το query από string που δεν χρειάζονται
     public function cleanQuery()
     {
-        $this->query=str_replace("\n",'',$this->query); // αφαιρεί τα \n
+        $this->sql=str_replace("\n",'',$this->sql); // αφαιρεί τα \n
     }
 
 
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-        trigger_error($this->query);
+        trigger_error($this->sql);
 
 //        $stmt = self::$conn->prepare($sql);
 
-        $this->query($this->query);
+        $conn = new MyDB();
+        $conn->query($this->sql);
 
 //        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
 //            $result = true;
@@ -189,7 +190,7 @@ class BackupDB extends MyDB
 
 
         if ($handle) {  // Αν υπάρχει το αρχείο
-            $this->query='';
+            $this->sql='';
             $counter=0;
 
             // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
@@ -203,13 +204,13 @@ class BackupDB extends MyDB
 
                     // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
                     if (!preg_match('/;/', $line)) {
-                        $this->query.=$line;
+                        $this->sql.=$line;
                     } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
-                        $this->query.=$line;
+                        $this->sql.=$line;
                         $this->cleanQuery();
                         $this->executeQuery();  //  Εκτελεί το query
 
-                        $this->query='';
+                        $this->sql='';
                     }
                 }
 
