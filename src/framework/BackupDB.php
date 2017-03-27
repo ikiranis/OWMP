@@ -152,22 +152,20 @@ class BackupDB extends MyDB
     {
         trigger_error($this->query);
 
-        $sql = $this->query;
+//        $stmt = self::$conn->prepare($sql);
 
-        $stmt = self::$conn->prepare($sql);
+        \PDO::query($this->query);
 
-        $stmt->execute();
+//        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
+//            $result = true;
+//        } else {
+//            $result = false;
+//        }
 
-        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
-            $result = true;
-        } else {
-            $result = false;
-        }
+//        $stmt->closeCursor();
+//        $stmt = null;
 
-        $stmt->closeCursor();
-        $stmt = null;
-
-        return $result;
+//        return $result;
 
     }
 

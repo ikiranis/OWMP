@@ -22,8 +22,6 @@ session_start();
 
 Page::checkValidAjaxRequest(true);
 
-// H λίστα με τις manual playlists
-$manualPlaylists = MyDB::clearArray(MyDB::getTableArray('manual_playlists', 'table_name', null, null, null, null, null));
 
 // Τα επιλεγμένα tables
 $chozenTables = array('album_arts', 'options', 'files', 'logs', 'manual_playlists',
@@ -31,7 +29,7 @@ $chozenTables = array('album_arts', 'options', 'files', 'logs', 'manual_playlist
 
 // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup. Ενώνει τα 2 παραπάνω arrays
 $backup = new BackupDB();
-$backup->tables = array_merge($chozenTables, $manualPlaylists);
+$backup->tables = $chozenTables;
 $backup->sqlFile=OUTPUT_FOLDER.'backup_20170327232920.sql';
 
 if ($backup->restoreDatabase()) {
