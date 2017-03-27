@@ -24,8 +24,8 @@ Page::checkValidAjaxRequest(true);
 
 
 // Τα επιλεγμένα tables
-$chozenTables = array('album_arts', 'options', 'files', 'logs', 'manual_playlists',
-    'music_tags', 'paths', 'salts', 'user', 'user_details');
+$chozenTables = array('album_arts', 'files', 'logs', 'manual_playlists',
+    'music_tags');
 
 // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup. Ενώνει τα 2 παραπάνω arrays
 $backup = new BackupDB();
