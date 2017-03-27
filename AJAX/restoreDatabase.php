@@ -13,6 +13,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\Logs;
+use apps4net\framework\MyDB;
 use apps4net\framework\BackupDB;
 
 require_once('../src/boot.php');
