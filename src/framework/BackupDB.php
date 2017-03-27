@@ -150,7 +150,7 @@ class BackupDB extends MyDB
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-        trigger_error($this->sql);
+//        trigger_error($this->sql);
 
 //        $stmt = self::$conn->prepare($sql);
 

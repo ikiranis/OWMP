@@ -2912,25 +2912,29 @@ function startTheUpdate() {
 
 //  Παίρνει backup της βάσης
 function startTheBackup() {
-    callFile=AJAX_path+'backupDatabase.php';
+    var confirmAnswer=confirm('Are you sure to backup the database?');
 
-    $('#progress').show();
+    if (confirmAnswer==true) {
+        callFile = AJAX_path + 'backupDatabase.php';
 
-    $.get(callFile, function (data) {
+        $('#progress').show();
 
-        if (data.success == true) {
+        $.get(callFile, function (data) {
 
-            $('#progress').hide();
-            DisplayMessage('#alert_error', 'Backup success');
+            if (data.success == true) {
 
-        }
-        else {
+                $('#progress').hide();
+                DisplayMessage('#alert_error', 'Backup success');
 
-            $('#progress').hide();
-            DisplayMessage('#alert_error', 'Backup fail');
-        }
+            }
+            else {
 
-    }, "json");
+                $('#progress').hide();
+                DisplayMessage('#alert_error', 'Backup fail');
+            }
+
+        }, "json");
+    }
 }
 
 //  Κάνει restore της βάσης από ένα αρχείο backup
