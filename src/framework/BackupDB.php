@@ -154,7 +154,7 @@ class BackupDB extends MyDB
 
 //        $stmt = self::$conn->prepare($sql);
 
-        \PDO::query($this->query);
+        $this->query($this->query);
 
 //        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
 //            $result = true;
