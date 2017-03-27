@@ -1676,10 +1676,10 @@ class OWMP
                                value="Database Backup">
                     </p>
 
-<!--                    <p>-->
-<!--                        <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"-->
-<!--                               value="Database Restore">-->
-<!--                    </p>-->
+                    <p>
+                        <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
+                               value="Database Restore">
+                    </p>
 
                     <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
                     <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>

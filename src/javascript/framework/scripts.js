@@ -2935,25 +2935,29 @@ function startTheBackup() {
 
 //  Κάνει restore της βάσης από ένα αρχείο backup
 function restoreTheBackup() {
-    callFile=AJAX_path+'restoreDatabase.php';
+    var confirmAnswer=confirm('Are you sure to restore the database?');
 
-    $('#progress').show();
+    if (confirmAnswer==true) {
+        callFile = AJAX_path + 'restoreDatabase.php';
 
-    $.get(callFile, function (data) {
+        $('#progress').show();
 
-        if (data.success == true) {
+        $.get(callFile, function (data) {
 
-            $('#progress').hide();
-            DisplayMessage('#alert_error', 'Restore success');
+            if (data.success == true) {
 
-        }
-        else {
+                $('#progress').hide();
+                DisplayMessage('#alert_error', 'Restore success');
 
-            $('#progress').hide();
-            DisplayMessage('#alert_error', 'Restore fail');
-        }
+            }
+            else {
 
-    }, "json");
+                $('#progress').hide();
+                DisplayMessage('#alert_error', 'Restore fail');
+            }
+
+        }, "json");
+    }
 }
 
 

@@ -27,7 +27,8 @@ class BackupDB extends MyDB
     private $query;   // To query που θα εκτελεστεί
 
     // Επιστρέφει το string που δημιουργεί τον πίνακα $table
-    static function getTableCreateString($table) {
+    static function getTableCreateString($table)
+    {
         $conn = new MyDB();
         $conn->CreateConnection();
 
@@ -51,7 +52,8 @@ class BackupDB extends MyDB
 
 
     // Επιστρέφει το insert string για το $tableRow  του πίνακα $table, σύμφωνα και με τα $tableFields
-    static function getInsertStringForTableRow($table, $tableRow, $tableFields) {
+    static function getInsertStringForTableRow($table, $tableRow, $tableFields)
+    {
         $insertString='INSERT INTO '.$table.' (';
 
         // Προσθήκη των fields στο string
@@ -63,7 +65,7 @@ class BackupDB extends MyDB
 
         // Προσθήκη των values στο string
         foreach ($tableRow as $value) {
-            $insertString.= '\''.htmlentities($value, ENT_QUOTES, 'UTF-8').'\',';
+            $insertString.= '\''.addslashes($value).'\',';
         }
         $insertString = page::cutLastString($insertString,',');
         $insertString.= ');';
@@ -74,7 +76,8 @@ class BackupDB extends MyDB
 
 
     // Παίρνει backup της βάσης
-    public function backupDatabase() {
+    public function backupDatabase()
+    {
         set_time_limit(0);
 
         // Σύνδεση στην βάση
@@ -138,26 +141,61 @@ class BackupDB extends MyDB
 
 
     // Καθαρίζει το query από string που δεν χρειάζονται
-    public function cleanQuery() {
+    public function cleanQuery()
+    {
         $this->query=str_replace("\n",'',$this->query); // αφαιρεί τα \n
     }
 
 
     // Εκτελεί το query $this->query
-    public function executeQuery() {
+    public function executeQuery()
+    {
         trigger_error($this->query);
+
+        $sql = $this->query;
+
+        $stmt = self::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $result = true;
+        } else {
+            $result = false;
+        }
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result;
+
+    }
+
+    // Σβήνει όλα τα tables που έχουμε επιλέξει στο $this->tables
+    public function dropTables()
+    {
+        foreach ($this->tables as $table) {
+            if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το σβήνουμε
+                MyDB::dropTable($table);
+            }
+        }
     }
 
 
     // Κάνει restore την βάση όπως έχει αποθηκευτεί στο αρχείο $this->sqlFile, από την παραπάνω μέθοδο
-    public function restoreDatabase() {
+    public function restoreDatabase()
+    {
         set_time_limit(0);
 
         $handle = fopen($this->sqlFile, "r"); // Άνοιγμα του αρχείου
 
+
         if ($handle) {  // Αν υπάρχει το αρχείο
             $this->query='';
             $counter=0;
+
+            // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
+            $this->dropTables();
 
             // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
             while ( (($line = fgets($handle)) !== false) && $counter<200 ) {
