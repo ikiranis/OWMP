@@ -154,7 +154,7 @@ class BackupDB extends MyDB
 
 //        $stmt = self::$conn->prepare($sql);
 
-        
+
         self::$conn->query($this->sql);
 
 //        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -191,13 +191,13 @@ class BackupDB extends MyDB
 
         if ($handle) {  // Αν υπάρχει το αρχείο
             $this->sql='';
-            $counter=0;
+//            $counter=0;
 
             // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
             $this->dropTables();
 
             // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
-            while ( (($line = fgets($handle)) !== false) && $counter<200 ) {
+            while ( (($line = fgets($handle)) !== false) ) {
 
                 // Αν δεν είναι κενή γραμμή ή σχόλιο
                 if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
@@ -214,7 +214,7 @@ class BackupDB extends MyDB
                     }
                 }
 
-                $counter++;
+//                $counter++;
             }
 
 
