@@ -158,7 +158,6 @@ class BackupDB extends MyDB
 
         }
 
-        $file->closeTheFile();
         trigger_error('END OF SCRIPT');
         return true;
     }

@@ -30,7 +30,7 @@ $chozenTables = array('music_tags', 'files', 'album_arts', 'logs', 'manual_playl
 $backup = new BackupDB();
 $backup->tables = $chozenTables;
 $backup->sqlFilePath=OUTPUT_FOLDER;
-$backup->sqlFile='backup_20170328015807.sql';
+$backup->sqlFile='backup_20170328225741.sql';
 
 if ($backup->restoreDatabase()) {
     $jsonArray = array('success' => true);
