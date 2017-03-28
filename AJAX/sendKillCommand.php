@@ -9,6 +9,7 @@
  */
 
 use apps4net\framework\Page;
+use apps4net\framework\Progress;
 
 require_once('../src/boot.php');
 
@@ -16,7 +17,7 @@ session_start();
 
 Page::checkValidAjaxRequest(true);
 
-if(Page::setKillCommand('1'))
+if(Progress::setKillCommand('1'))
     $jsonArray = array('success' => true);
 else $jsonArray = array('success' => false);
 

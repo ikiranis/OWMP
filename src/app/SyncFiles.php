@@ -17,6 +17,7 @@ namespace apps4net\parrot\app;
 use apps4net\framework\MyDB;
 use apps4net\framework\Page;
 use apps4net\framework\Logs;
+use apps4net\framework\Progress;
 use apps4net\framework\Utilities;
 use apps4net\framework\ScanDir;
 
@@ -203,7 +204,7 @@ class SyncFiles
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
     {
-        Page::updatePercentProgress(0);   // Μηδενίζει το progress
+        Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
         $script_start = microtime(true);
 
@@ -332,7 +333,7 @@ class SyncFiles
 
             if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {  // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
 
-                Page::setLastMomentAlive(false);
+                Progress::setLastMomentAlive(false);
 
                 $this->startingValues($filename); // Αρχικοποίηση τιμών
 
@@ -436,9 +437,9 @@ class SyncFiles
             if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
-                self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                 $progressCounter=0;
             }
@@ -452,7 +453,7 @@ class SyncFiles
 
         // μετά την ολοκλήρωση τους σκανιαρίσματος των αρχείων
 
-        Page::setLastMomentAlive(true);
+        Progress::setLastMomentAlive(true);
 
         echo '<p>' . __('files_added') . ' '. $added_video . ' ' . __('added_files'). '</p>';
 
@@ -503,26 +504,15 @@ class SyncFiles
 
         $script_time_elapsed_secs = microtime(true) - $script_start;
 
-        echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+        echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
         Logs::insertLog('Added ' . $added_video . ' files.'); // Προσθήκη της κίνησης στα logs
 
-        Page::updatePercentProgress(0);   // Μηδενίζει το progress
+        Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
 
     }
 
-    // Κάνει τους έλεγχους του progress και του τερματισμού
-    static function setProgress($progressPercent) {
-        Page::updatePercentProgress($progressPercent); // Το ποσοστό του progress
-
-
-        if(Page::getKillCommand()=='1') { // Αν killCommand είναι 1 τότε σταματούμε την εκτέλεση του script
-            Page::setKillCommand('0');  // Το επαναφέρουμε πρώτα σε 0 για το μέλλον
-            exit();
-        }
-    
-    }
     
 
     // Επιστρέφει true αν το string είναι UTF-8
@@ -537,7 +527,7 @@ class SyncFiles
     // Επιστρέφει τα ID tags ενός media αρχείου
     public function getMediaFileTags ($FullFileName) {
 
-        Page::setLastMomentAlive(true);
+        Progress::setLastMomentAlive(true);
 
         if(!self::$getID3) {
             self::$getID3=new \getID3();
@@ -636,7 +626,7 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit','1024M');
 
-        Page::setLastMomentAlive(false);
+        Progress::setLastMomentAlive(false);
         
         $this->writeTracks($mediakind, SYNC_ITUNES, true);
     }
@@ -671,9 +661,9 @@ class SyncFiles
                 if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
                     
-                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                     $progressCounter=0;
                 }
@@ -683,7 +673,7 @@ class SyncFiles
 
             }
 
-            self::setProgress(0);
+            Progress::setProgress(0);
             
             echo '<p>'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</p>';
 
@@ -691,7 +681,7 @@ class SyncFiles
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
         }
 
 
@@ -702,7 +692,7 @@ class SyncFiles
 
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
         if(OWMP::fileExists($full_path)) {
-            Page::setLastMomentAlive(false);
+            Progress::setLastMomentAlive(false);
 
             $start=filesize($full_path)/2;
             $size=1024;
@@ -717,7 +707,7 @@ class SyncFiles
 
 //            trigger_error(filesize($full_path).'   '.$result.'   '.$full_path);
 
-            Page::setLastMomentAlive(true);
+            Progress::setLastMomentAlive(true);
         }
         else $result=false;
 
@@ -744,7 +734,7 @@ class SyncFiles
     static function hashTheFiles($mediaKind) {
         set_time_limit(0);
 
-        self::setProgress(0);
+        Progress::setProgress(0);
 
         $script_start = microtime(true);
 
@@ -784,9 +774,9 @@ class SyncFiles
                 if($progressCounter>10) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
-                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                     $progressCounter=0;
                 }
@@ -799,10 +789,10 @@ class SyncFiles
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            self::setProgress(0);
+            Progress::setProgress(0);
 
             echo '<p>'.$counter. ' '.__('files_to_hash').'</p>';
-            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
             Logs::insertLog($counter. ' files produced hash'); // Προσθήκη της κίνησης στα logs
         }
@@ -858,7 +848,7 @@ class SyncFiles
     public function filesMetadata() {
         set_time_limit(0);
 
-        self::setProgress(0);
+        Progress::setProgress(0);
 
         $script_start = microtime(true);
 
@@ -895,9 +885,9 @@ class SyncFiles
                 if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
-                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                     $progressCounter=0;
                 }
@@ -910,10 +900,10 @@ class SyncFiles
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            self::setProgress(0);
+            Progress::setProgress(0);
 
             echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
-            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
             Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
@@ -926,7 +916,7 @@ class SyncFiles
         set_time_limit(0);
         ini_set('memory_limit', '100M'); // Για χειρισμό μεγάλων εικόνων
 
-        self::setProgress(0);
+        Progress::setProgress(0);
 
         $script_start = microtime(true);
 
@@ -1011,9 +1001,9 @@ class SyncFiles
                 if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
-                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                     $progressCounter=0;
                 }
@@ -1027,10 +1017,10 @@ class SyncFiles
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            self::setProgress(0);
+            Progress::setProgress(0);
 
             echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
-            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
             Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
@@ -1040,7 +1030,7 @@ class SyncFiles
     // Μετατρέπει ένα ALAC αρχείο σε mp3. Το δημιουργεί σε νέα τοποθεσία την οποία επιστρέφει
     public function convertALACtoMP3($fullPath, $filename, $path) {
 
-        Page::setLastMomentAlive(true);
+        Progress::setLastMomentAlive(true);
 
         // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους
 
@@ -1186,19 +1176,21 @@ class SyncFiles
                 if($progressCounter>1) {
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-                    Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
-                    self::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                     $progressCounter=0;
                 }
-                else $progressCounter++;
+                else {
+                    $progressCounter++;
+                }
 
                 $general_counter++;
 
             }
 
-            self::setProgress(0);
+            Progress::setProgress(0);
 
             echo '<p>'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</p>';
 
@@ -1206,7 +1198,7 @@ class SyncFiles
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<p>'.__('total_time').': '.Page::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
         }
     }
     

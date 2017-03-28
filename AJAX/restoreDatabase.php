@@ -26,10 +26,11 @@ Page::checkValidAjaxRequest(true);
 // Τα επιλεγμένα tables
 $chozenTables = array('music_tags', 'files', 'album_arts', 'logs', 'manual_playlists');
 
-// Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup. Ενώνει τα 2 παραπάνω arrays
+// Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
 $backup = new BackupDB();
 $backup->tables = $chozenTables;
-$backup->sqlFile=OUTPUT_FOLDER.'backup_20170328015807.sql';
+$backup->sqlFilePath=OUTPUT_FOLDER;
+$backup->sqlFile='backup_20170328015807.sql';
 
 if ($backup->restoreDatabase()) {
     $jsonArray = array('success' => true);

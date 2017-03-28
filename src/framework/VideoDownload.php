@@ -165,7 +165,7 @@ class VideoDownload
 
     // Κατεβάζει ένα βίντεο
     public function downloadVideo() {
-        Page::setLastMomentAlive(false);
+        Progress::setLastMomentAlive(false);
 
         $myYear = date('Y');
         $myMonth = date('m');
@@ -199,7 +199,7 @@ class VideoDownload
         // καθαρίζει το επιστρεφόμενο path
         $outputfilename=str_replace("\n",'',$outputfilename);
 
-        Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+        Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
         // έλεγχος αν έχει κατέβει το βίντεο
         if(OWMP::fileExists($outputfilename))

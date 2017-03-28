@@ -95,7 +95,7 @@ class Language
 
 //        $result=substr($result,0,-strlen($string)); // κόβει το τελευταίο $string
 
-        $result=Page::cutLastString($result,$string); // κόβει το τελευταίο $string
+        $result=Utilities::cutLastString($result,$string); // κόβει το τελευταίο $string
 
         return $result;
     }

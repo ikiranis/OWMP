@@ -11,6 +11,7 @@
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
 use apps4net\framework\Utilities;
+use apps4net\framework\Progress;
 use apps4net\parrot\app\OWMP;
 
 require_once('../src/boot.php');
@@ -132,7 +133,7 @@ if ($playlistID && $fileID) {
         'operation' => $operation);
     
     // Σετάρει στο currentSong στην βάση, πιο ειναι το τρέχον τραγούδι
-    Page::setCurrentSong($fileID);
+    Progress::setCurrentSong($fileID);
 
     // Στέλνει στον icecast server
     if(ICECAST_ENABLE) {

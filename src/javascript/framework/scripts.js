@@ -1292,6 +1292,33 @@ function searchPlaylist(offset, step, firstTime, search) {
 
 }
 
+
+// Ελέγχει και εμφανίζει το progress
+function checkProgress()
+{
+    var progressCallFile = AJAX_path + "getProgress.php";
+
+    $.ajax({
+        url: progressCallFile,
+        type: 'GET',
+        dataType: "json",
+        success: function(progressData) {
+            if (progressData.success == true) {
+                if(progressData.progressInPercent>97 && localStorage.syncPressed=='true') {
+                    DisplayWindow(3, null, null);
+                }
+                if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true') {
+                    $('#progress').show();
+                } else {
+                    $('#progress').hide();
+                }
+                $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                document.querySelector('#theProgressBar').value=progressData.progressInPercent;
+            }
+        }
+    });
+}
+
 // Κάνει τον συγχρονισμό των αρχείων
 function startTheSync(operation) {
     var mediaKind=document.querySelector('#mediakind').value;
@@ -1312,8 +1339,10 @@ function startTheSync(operation) {
 
         $('.syncButton').prop('disabled', true);
 
-        var progressCallFile = AJAX_path + "getProgress.php";
-
+        // Κοιτάει για το progress κάθε ένα λεπτό και το τυπώνει
+        var syncInterval=setInterval(function(){
+            checkProgress();
+        }, 1000);
 
         // Τρέχει τον συγχρονισμό και περιμένει το αποτέλεσμα να το τυπώσει
         $.ajax({
@@ -1334,30 +1363,7 @@ function startTheSync(operation) {
         });
 
 
-        // Κοιτάει για το progress κάθε ένα λεπτό και το τυπώνει
-        var syncInterval=setInterval(function(){
 
-            $.ajax({
-                url: progressCallFile,
-                type: 'GET',
-                dataType: "json",
-                success: function(progressData) {
-                    if (progressData.success == true) {
-                        if(progressData.progressInPercent>97 && localStorage.syncPressed=='true') {
-                            DisplayWindow(3, null, null);
-                        }
-                        if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true') {
-                            $('#progress').show();
-                        } else {
-                            $('#progress').hide();
-                        }
-                        $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
-                        document.querySelector('#theProgressBar').value=progressData.progressInPercent;
-                    }
-                }
-            });
-
-        }, 1000);
 
     }
     else alert (phrases['running_process']);
@@ -2915,25 +2921,49 @@ function startTheBackup() {
     var confirmAnswer=confirm('Are you sure to backup the database?');
 
     if (confirmAnswer==true) {
-        callFile = AJAX_path + 'backupDatabase.php';
 
-        $('#progress').show();
+        if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
+            localStorage.syncPressed = 'true';
 
-        $.get(callFile, function (data) {
+            callFile = AJAX_path + 'backupDatabase.php';
 
-            if (data.success == true) {
+            $('#progress').show();
+            $('#logprogress').show();
+            $("#killCommand_img").show();
+            document.querySelector('#theProgressBar').value=0;
+            $("#theProgressNumber" ).html('');
 
-                $('#progress').hide();
-                DisplayMessage('#alert_error', 'Backup success');
+            // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
+            var syncInterval = setInterval(function () {
+                checkProgress();
+            }, 5000);
 
-            }
-            else {
+            $.get(callFile, function (data) {
 
-                $('#progress').hide();
-                DisplayMessage('#alert_error', 'Backup fail');
-            }
+                if (data.success == true) {
 
-        }, "json");
+                    DisplayMessage('#alert_error', 'Backup success');
+
+                    $('#progress').hide();
+                    $('#logprogress').hide();
+                    localStorage.syncPressed = 'false';
+                    $('.syncButton').prop('disabled', false);
+                    clearInterval(syncInterval);
+
+                }
+                else {
+
+                    DisplayMessage('#alert_error', 'Backup fail');
+
+                    $('#progress').hide();
+                    $('#logprogress').hide();
+                    localStorage.syncPressed = 'false';
+                    $('.syncButton').prop('disabled', false);
+                    clearInterval(syncInterval);
+                }
+
+            }, "json");
+        }
     }
 }
 
@@ -2942,25 +2972,49 @@ function restoreTheBackup() {
     var confirmAnswer=confirm('Are you sure to restore the database?');
 
     if (confirmAnswer==true) {
-        callFile = AJAX_path + 'restoreDatabase.php';
+        if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
+            localStorage.syncPressed = 'true';
 
-        $('#progress').show();
+            callFile = AJAX_path + 'restoreDatabase.php';
 
-        $.get(callFile, function (data) {
+            $('#progress').show();
+            $('#logprogress').show();
+            $("#killCommand_img").show();
+            document.querySelector('#theProgressBar').value=0;
+            $("#theProgressNumber" ).html('');
 
-            if (data.success == true) {
+            // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
+            var syncInterval = setInterval(function () {
+                checkProgress();
+            }, 5000);
 
-                $('#progress').hide();
-                DisplayMessage('#alert_error', 'Restore success');
 
-            }
-            else {
+            $.get(callFile, function (data) {
 
-                $('#progress').hide();
-                DisplayMessage('#alert_error', 'Restore fail');
-            }
+                if (data.success == true) {
 
-        }, "json");
+                    DisplayMessage('#alert_error', 'Restore success');
+
+                    $('#progress').hide();
+                    $('#logprogress').hide();
+                    localStorage.syncPressed = 'false';
+                    $('.syncButton').prop('disabled', false);
+                    clearInterval(syncInterval);
+
+                }
+                else {
+
+                    DisplayMessage('#alert_error', 'Restore fail');
+
+                    $('#progress').hide();
+                    $('#logprogress').hide();
+                    localStorage.syncPressed = 'false';
+                    $('.syncButton').prop('disabled', false);
+                    clearInterval(syncInterval);
+                }
+
+            }, "json");
+        }
     }
 }
 

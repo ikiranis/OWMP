@@ -23,6 +23,7 @@ namespace apps4net\framework;
 class BackupDB extends MyDB
 {
     public $tables = array();  // Το array με τα tables της βάσης που θα κάνουμε backup
+    public $sqlFilePath; // To path που βρίσκεται το backup της βάσης
     public $sqlFile; // Το αρχείο που βρίσκεται το backup της βάσης
     private $sql;   // To query που θα εκτελεστεί
 
@@ -60,14 +61,14 @@ class BackupDB extends MyDB
         foreach ($tableFields as $field) {
             $insertString.= $field.',';
         }
-        $insertString = page::cutLastString($insertString,',');
+        $insertString = Utilities::cutLastString($insertString,',');
         $insertString.= ') VALUES (';
 
         // Προσθήκη των values στο string
         foreach ($tableRow as $value) {
             $insertString.= '\''.addslashes($value).'\',';
         }
-        $insertString = page::cutLastString($insertString,',');
+        $insertString = Utilities::cutLastString($insertString,',');
         $insertString.= ');';
 
         return $insertString;
@@ -80,14 +81,15 @@ class BackupDB extends MyDB
     {
         set_time_limit(0);
 
+        Progress::setProgress(0); // Μηδενίζει το progress
+
         // Σύνδεση στην βάση
         $conn = new MyDB();
         $conn->CreateConnection();
 
-
         // Θέτει το αρχείο στο οποίο θα εξαχθεί το backup
         $filename = BACKUP_FILE_PREFIX . date('YmdHis') . '.sql';
-        $file = new FilesIO(OUTPUT_FOLDER, $filename);
+        $file = new FilesIO(OUTPUT_FOLDER, $filename, 'write');
 
         // Παίρνουμε την λίστα όλων των πινάκων στην βάση, αν δεν έχουμε δώσει μια συγκεκριμένη ήδη στο $this->tables
         if(!isset($this->tables)) {
@@ -96,17 +98,24 @@ class BackupDB extends MyDB
 
         $file->insertRow("# ****** CREATE QUERIES ******");
 
+        $totalInserts=0; // Τα συνολικά inserts που είναι να γίνουν
+
         // Δημιοργούμε τα create tabe strings και τα προσθέτουμε στο $data
         foreach ($this->tables as $table) {
             $createTableString = self::getTableCreateString($table);
 
             // Γράφει την σχετική εγγραφή στο αρχείο
             $file->insertRow("\n\n".$createTableString.";\n\n");
+
+            $totalInserts+=MyDB::countTable($table); // Προσθέτει το μέγεθος του πίνακα στα $totalInserts
         }
 
         $file->insertRow("\n\n\n\n");
 
         $file->insertRow("# ****** INSERT QUERIES ******\n\n");
+
+        $general_counter=0;  // Ο γενικός μετρητής για να υπολογίσουμε το ποσοστό του progress
+        $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
 
         // Διαβάζουμε τα περιεχόμενα κάθε table και δημιουργούμε τα inserts
         foreach ($this->tables as $table) {
@@ -127,14 +136,29 @@ class BackupDB extends MyDB
             // Δημιουργία του insert string
             while($tableRow=$stmt->fetch(\PDO::FETCH_ASSOC)) {
                 $file->insertRow(self::getInsertStringForTableRow($table, $tableRow, $tableFields)."\n");
+
+                // Υπολογίζουμε και στέλνουμε το progress
+                if($progressCounter>1000) { // ανα 100 items ενημερώνει το progress
+                    $progressPercent = intval(($general_counter / $totalInserts) * 100);
+                    Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                    $general_counter++;
+                    trigger_error($general_counter);
+                    $progressCounter=0;
+                } else {
+                    $progressCounter++;
+                    $general_counter++;
+                }
             }
 
             $file->insertRow("\n\n\n\n");
+
             $stmt->closeCursor();
             $stmt = null;
 
         }
 
+        $file->closeTheFile();
         trigger_error('END OF SCRIPT');
         return true;
     }
@@ -150,24 +174,7 @@ class BackupDB extends MyDB
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-//        trigger_error($this->sql);
-
-//        $stmt = self::$conn->prepare($sql);
-
-
         self::$conn->query($this->sql);
-
-//        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
-//            $result = true;
-//        } else {
-//            $result = false;
-//        }
-
-//        $stmt->closeCursor();
-//        $stmt = null;
-
-//        return $result;
-
     }
 
     // Σβήνει όλα τα tables που έχουμε επιλέξει στο $this->tables
@@ -186,42 +193,56 @@ class BackupDB extends MyDB
     {
         set_time_limit(0);
 
-        $handle = fopen($this->sqlFile, "r"); // Άνοιγμα του αρχείου
+        Progress::setProgress(0); // Μηδενίζει το progress
 
+        // Ανοίγουμε το αρχείο που περιέχει το backup, για ανάγνωση
+        $file = new FilesIO($this->sqlFilePath, $this->sqlFile, 'read');
 
-        if ($handle) {  // Αν υπάρχει το αρχείο
-            $this->sql='';
-//            $counter=0;
+        $this->sql='';
 
-            // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
-            $this->dropTables();
+        $general_counter=0;  // Ο γενικός μετρητής για να υπολογίσουμε το ποσοστό του progress
+        $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
 
-            // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
-            while ( (($line = fgets($handle)) !== false) ) {
+        // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
+        $this->dropTables();
 
-                // Αν δεν είναι κενή γραμμή ή σχόλιο
-                if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
+        $totalQueries = $file->getLines(); // Το σύνολο των γραμμών που υπάρχουν στο αρχείο
 
-                    // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
-                    if (!preg_match('/;/', $line)) {
-                        $this->sql.=$line;
-                    } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
-                        $this->sql.=$line;
-                        $this->cleanQuery();
-                        $this->executeQuery();  //  Εκτελεί το query
+        // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
+        while ( (($line = fgets($file->handle)) !== false) ) {
 
-                        $this->sql='';
-                    }
+            // Αν δεν είναι κενή γραμμή ή σχόλιο
+            if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
+
+                // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
+                if (!preg_match('/;/', $line)) {
+                    $this->sql.=$line;
+                } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
+                    $this->sql.=$line;
+                    $this->cleanQuery();
+                    $this->executeQuery();  //  Εκτελεί το query
+
+                    $this->sql='';
                 }
-
-//                $counter++;
             }
 
+            // Υπολογίζουμε και στέλνουμε το progress
+            if($progressCounter>1000) { // ανα 100 items ενημερώνει το progress
+                $progressPercent = intval(($general_counter / $totalQueries) * 100);
+                Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                $general_counter++;
+                trigger_error($general_counter);
+                $progressCounter=0;
+            } else {
+                $progressCounter++;
+                $general_counter++;
+            }
 
-            fclose($handle);
-        } else {
-            die('Problem with file');
         }
+
+
+        $file->closeTheFile();
 
         return true;
     }

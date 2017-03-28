@@ -16,6 +16,7 @@ namespace apps4net\parrot\app;
 use apps4net\framework\Language;
 use apps4net\framework\MyDB;
 use apps4net\framework\Page;
+use apps4net\framework\Progress;
 use apps4net\framework\Utilities;
 
 class OWMP
@@ -924,7 +925,7 @@ class OWMP
         }
 
         if (!$condition=='') {
-            $condition = page::cutLastString($condition, 'OR ');
+            $condition = Utilities::cutLastString($condition, 'OR ');
 //            $condition = page::cutLastString($condition, 'AND ');
 
             $_SESSION['condition']=$condition;  // Το κρατάει σε session για μελοντική χρήση
@@ -2361,7 +2362,7 @@ class OWMP
         if(isset($id)) {
             $currentSongID = $id;
         } else {
-            $currentSongID = Page::getCurrentSong();
+            $currentSongID = Progress::getCurrentSong();
         }
         
         if($currentSongID) { // Το id του τραγουδιού

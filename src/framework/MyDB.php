@@ -745,7 +745,7 @@ class MyDB
             $fieldsText = $fieldsText . $field . '=?, ';
         }
 
-        $fieldsText=page::cutLastString($fieldsText,', '); // Κόβει την τελευταία ','
+        $fieldsText=Utilities::cutLastString($fieldsText,', '); // Κόβει την τελευταία ','
 
 
 

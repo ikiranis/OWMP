@@ -13,6 +13,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
+use apps4net\framework\Progress;
 use apps4net\parrot\app\OWMP;
 use apps4net\parrot\app\SyncFiles;
 
@@ -29,7 +30,7 @@ Page::checkValidAjaxRequest(true);
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
 
-Page::setLastMomentAlive(false);
+Progress::setLastMomentAlive(false);
 
 $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
@@ -44,13 +45,13 @@ if(!$checkOutputFolder['result']) {  // Αν είναι false τερματίζο
 
 SyncFiles::exportPlaylistJsonFile($tempUserPlaylist);
 
-SyncFiles::setProgress(0);
+Progress::setProgress(0);
 $general_counter=0;
 
 $totalFiles = count($playlistTable);
 
 foreach ($playlistTable as $item) {
-    Page::setLastMomentAlive(false);
+    Progress::setLastMomentAlive(false);
 
     $file=MyDB::getTableArray('files','*', 'id=?', array($item['file_id']),null, null, null);
     $sourceFile=DIR_PREFIX.$file[0]['path'].$file[0]['filename'];
@@ -63,9 +64,9 @@ foreach ($playlistTable as $item) {
 
     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
-    Page::setLastMomentAlive(true);
+    Progress::setLastMomentAlive(true);
     
-    SyncFiles::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+    Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
     $general_counter++;
 

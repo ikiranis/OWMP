@@ -422,13 +422,6 @@ class Page
     }
 
 
-    // Κόβει το $cut_string που βρίσκεται στο τέλος του $main_string
-    static function cutLastString($main_string, $cut_string) {
-        $result=substr($main_string,0,-strlen($cut_string));
-
-        return $result;
-    }
-
     // Ελέγχει αν η σελίδα έχει τρέξει πρόσφατα. Επιστρέφει false αν η σελίδα έχει τρέξει το
     // τελευταίο μισάωρο (χρόνος ζωής του session). Αν όχι επιστρέφει true
     static function checkNewPageRunning() {
@@ -445,24 +438,6 @@ class Page
 
     }
 
-
-
-    //year    = $diff->format('%y');
-    //month    = $diff->format('%m');
-    //day      = $diff->format('%d');
-    //hour     = $diff->format('%h');
-    //min      = $diff->format('%i');
-    //sec      = $diff->format('%s');
-    // Επιστρέφει την διαφορά της $endDate με την $startDate και επιστρέφει τιμή αναλόγως το $returnedFormat
-    static function dateDifference($startDate, $endDate, $returnedFormat) {
-        $d_start    = new \DateTime($startDate);
-        $d_end      = new \DateTime($endDate); // Τα παίρνουμε σε αντικείμενα
-        $diff = $d_start->diff($d_end);   // Υπολογίζουμε την διαφορά
-
-        $difference      = $diff->format($returnedFormat);    // στο format βάζουμε αναλόγως σε τι θέλουμε να πάρουμε την διαφορά
-
-        return $difference;
-    }
 
     // Δημιουργεί εγγραφή στο crontab. Προσθέτει το demon.php
     static function createCrontab() {
@@ -483,124 +458,7 @@ class Page
 
         return $result;
     }
-    
-    // Επιστρέφει την μετατροπή των δευτερολέπτων σε λεπτά:δευτερόλεπτα
-    static function seconds2MinutesAndSeconds($timeInSeconds) {
-        $timeInMinutes=(int)($timeInSeconds/60);
-        $newTimeInSeconds=(int)($timeInSeconds%60);
 
-        if($timeInMinutes<10) $timeInMinutes='0'.$timeInMinutes;
-        if($newTimeInSeconds<10) $newTimeInSeconds='0'.$newTimeInSeconds;
-
-        $timeArray= $timeInMinutes.' : '.$newTimeInSeconds;
-
-        return $timeArray;
-    }
-
-
-    // Ελέγχει αν υπάρχει το $progressName στον πίνακα progress
-    static function checkIfProgressNameExists($progressName) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
-
-        $sql = 'SELECT progressName FROM progress WHERE progressName=?';
-        $stmt = MyDB::$conn->prepare($sql);
-
-        $stmt->execute(array($progressName));
-
-        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
-
-            $result=true;
-        }
-
-        else $result=false;
-
-
-        $stmt->closeCursor();
-        $stmt = null;
-
-        return $result;
-    }
-    
-    // Δημιουργεί ένα $progressName στον πίνακα progress
-    static function createProgressName($progressName) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
-
-        $sql = 'INSERT INTO progress (progressName) VALUES(?)';
-        $stmt = MyDB::$conn->prepare($sql);
-
-
-        if($stmt->execute(array($progressName)))
-
-            $result=true;
-
-        else $result=false;
-
-        $stmt->closeCursor();
-        $stmt = null;
-
-        return $result;
-    }
-
-    // Καταχωρεί το ποσοστό εξέλιξης progress
-    static function updatePercentProgress($progress) {
-        $progressUpdateArray=array ($progress, 'progressInPercent');
-        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
-    }
-
-    // Ενημερώνει με 1 (true) ή 0 (false) το killCommand του πίνακa progress
-    static function setKillCommand($theCommand) {
-        $progressUpdateArray=array ($theCommand, 'killCommand');
-        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
-
-        return true;
-    }
-
-    // Θέτει τιμή στο currentSong
-    static function setCurrentSong($theSong) {
-        $progressUpdateArray=array ($theSong, 'currentSong');
-        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
-    }
-
-    // Δίνει timespamp τιμή στο lastMomentAlive του πίνακa progress
-    static function setLastMomentAlive($operation) {
-        if($operation==true)
-            $theTimestamp = time();
-        else $theTimestamp='';
-        
-        $progressUpdateArray=array ($theTimestamp, 'lastMomentAlive');
-        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
-    }
-    
-    // Επιστρέφει το killCommand από τον πίνακα progress
-    static function getKillCommand() {
-        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'killCommand', 'progressValue'))
-            return $result;
-        else return false;
-    }
-
-
-    // Επιστρέφει το currentSong από τον πίνακα progress
-    static function getCurrentSong() {
-        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'currentSong', 'progressValue'))
-            return $result;
-        else return false;
-    }
-
-    // Επιστρέφει το lastMomentAlive από τον πίνακα progress
-    static function getLastMomentAlive() {
-        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'lastMomentAlive', 'progressValue'))
-            return $result;
-        else return false;
-    }
-    
-    // Επιστρέφει το ποσοστό εξέλιξης progress
-    static function getPercentProgress() {
-        if($result=MyDB::getTableFieldValue('progress', 'progressName=?', 'progressInPercent', 'progressValue'))
-            return $result;
-        else return false;
-    }
 
     //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
     static function getCurrentVersion() {
@@ -731,24 +589,24 @@ class Page
 
 
         // Οι αρχικές τιμές στον πίνακα progress
-        if(!Page::checkIfProgressNameExists('progressInPercent'))
-            Page::createProgressName('progressInPercent');
+        if(!Progress::checkIfProgressNameExists('progressInPercent'))
+            Progress::createProgressName('progressInPercent');
 
-        if(!Page::checkIfProgressNameExists('progressMessage'))
-            Page::createProgressName('progressMessage');
+        if(!Progress::checkIfProgressNameExists('progressMessage'))
+            Progress::createProgressName('progressMessage');
 
-        if(!Page::checkIfProgressNameExists('killCommand')) {
-            Page::createProgressName('killCommand');
-            Page::setKillCommand('0');
+        if(!Progress::checkIfProgressNameExists('killCommand')) {
+            Progress::createProgressName('killCommand');
+            Progress::setKillCommand('0');
         }
 
-        if(!Page::checkIfProgressNameExists('lastMomentAlive')) {
-            Page::createProgressName('lastMomentAlive');
-            Page::setLastMomentAlive(true);
+        if(!Progress::checkIfProgressNameExists('lastMomentAlive')) {
+            Progress::createProgressName('lastMomentAlive');
+            Progress::setLastMomentAlive(true);
         }
 
-        if(!Page::checkIfProgressNameExists('currentSong')) {
-            Page::createProgressName('currentSong');
+        if(!Progress::checkIfProgressNameExists('currentSong')) {
+            Progress::createProgressName('currentSong');
         }
 
 

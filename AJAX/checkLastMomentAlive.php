@@ -10,6 +10,7 @@
  */
 
 use apps4net\framework\Page;
+use apps4net\framework\Progress;
 
 require_once('../src/boot.php');
 
@@ -18,8 +19,8 @@ session_start();
 Page::checkValidAjaxRequest(true);
 
 //Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
-$lastMomentAlive=Page::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive
-$progressInPercent=Page::getPercentProgress(); // Το ποσοστό που βρίσκεται
+$lastMomentAlive=Progress::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive
+$progressInPercent=Progress::getPercentProgress(); // Το ποσοστό που βρίσκεται
 
 if(!$lastMomentAlive=='') { // Αν η τιμή δεν είναι κενό την υπολογίζουμε
     $TimeDifference = time() - $lastMomentAlive;

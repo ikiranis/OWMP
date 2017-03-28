@@ -1,3 +1,7 @@
+2017-3-28: 0.3.3
+Improvements on backup/restore
+Improvements on framework structure
+
 2017-3-28: 0.3.2
 
 Finishing of the restore database method (need more testing)

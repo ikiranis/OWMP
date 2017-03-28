@@ -152,4 +152,44 @@ class Utilities
         );
     }
 
+
+    // Επιστρέφει την μετατροπή των δευτερολέπτων σε λεπτά:δευτερόλεπτα
+    static function seconds2MinutesAndSeconds($timeInSeconds) {
+        $timeInMinutes=(int)($timeInSeconds/60);
+        $newTimeInSeconds=(int)($timeInSeconds%60);
+
+        if($timeInMinutes<10) $timeInMinutes='0'.$timeInMinutes;
+        if($newTimeInSeconds<10) $newTimeInSeconds='0'.$newTimeInSeconds;
+
+        $timeArray= $timeInMinutes.' : '.$newTimeInSeconds;
+
+        return $timeArray;
+    }
+
+
+    //year    = $diff->format('%y');
+    //month    = $diff->format('%m');
+    //day      = $diff->format('%d');
+    //hour     = $diff->format('%h');
+    //min      = $diff->format('%i');
+    //sec      = $diff->format('%s');
+    // Επιστρέφει την διαφορά της $endDate με την $startDate και επιστρέφει τιμή αναλόγως το $returnedFormat
+    static function dateDifference($startDate, $endDate, $returnedFormat) {
+        $d_start    = new \DateTime($startDate);
+        $d_end      = new \DateTime($endDate); // Τα παίρνουμε σε αντικείμενα
+        $diff = $d_start->diff($d_end);   // Υπολογίζουμε την διαφορά
+
+        $difference      = $diff->format($returnedFormat);    // στο format βάζουμε αναλόγως σε τι θέλουμε να πάρουμε την διαφορά
+
+        return $difference;
+    }
+
+
+    // Κόβει το $cut_string που βρίσκεται στο τέλος του $main_string
+    static function cutLastString($main_string, $cut_string) {
+        $result=substr($main_string,0,-strlen($cut_string));
+
+        return $result;
+    }
+
 }
