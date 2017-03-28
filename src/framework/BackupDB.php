@@ -227,7 +227,7 @@ class BackupDB extends MyDB
             }
 
             // Υπολογίζουμε και στέλνουμε το progress
-            if($progressCounter>1000) { // ανα 100 items ενημερώνει το progress
+            if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
                 $progressPercent = intval(($general_counter / $totalQueries) * 100);
                 Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
                 Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό

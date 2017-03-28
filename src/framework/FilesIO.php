@@ -72,6 +72,7 @@ class FilesIO
 
     // μετράει τις γραμμές που έχει ένα text αρχείο
     // @return: integer $lines = το σύνολο των γραμμών
+    // @source from http://stackoverflow.com/questions/2162497/efficiently-counting-the-number-of-lines-of-a-text-file-200mb
     public function getLines()
     {
         $file = fopen($this->filename, 'rb');
