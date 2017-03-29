@@ -27,7 +27,7 @@ $manualPlaylists = MyDB::clearArray(MyDB::getTableArray('manual_playlists', 'tab
 
 
 // Τα επιλεγμένα tables
-$chozenTables = array('album_arts', 'music_tags', 'files', 'options', 'logs',
+$chozenTables = array('files',  'music_tags', 'album_arts',  'options', 'logs',
     'paths', 'manual_playlists');
 
 // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
