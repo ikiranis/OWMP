@@ -173,15 +173,19 @@ class BackupDB extends MyDB
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-        self::$conn->query($this->sql);
+        try {
+            self::$conn->query($this->sql);
+        } catch (\PDOException $pe) {
+            trigger_error('PROBLEM WITH QUERY: ' . $pe->getMessage());
+        }
     }
 
-    // Σβήνει όλα τα tables που έχουμε επιλέξει στο $this->tables
-    public function dropTables()
+    // Καθαρίζει όλα τα tables που έχουμε επιλέξει στο $this->tables
+    public function clearTables()
     {
         foreach ($this->tables as $table) {
-            if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το σβήνουμε
-                MyDB::dropTable($table);
+            if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το καθαρίζουμε
+                MyDB::deleteTable($table);
             }
         }
     }
@@ -203,7 +207,7 @@ class BackupDB extends MyDB
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
 
         // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
-        $this->dropTables();
+        $this->clearTables();
 
         $totalQueries = $file->getLines(); // Το σύνολο των γραμμών που υπάρχουν στο αρχείο
 
