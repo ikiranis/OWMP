@@ -105,7 +105,7 @@ if($defaultArtwork)
 else {
     $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
     $artsArray = array('', 'default.gif', '');
-    if ($coverID = $conn->ExecuteSQL($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
+    if ($coverID = $conn->insertInto($sql, $artsArray)) // Παίρνουμε το id της εγγραφής που έγινε
         define('DEFAULT_ARTWORK', $coverID);
 }
 

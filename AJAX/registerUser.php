@@ -12,6 +12,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Logs;
 use apps4net\framework\Language;
 
@@ -21,7 +22,7 @@ session_start();
 
 Page::checkValidAjaxRequest(false);
 
-$conn = new MyDB();
+$user = new User();
 $lang = new Language();
 
 if(isset($_GET['username']))
@@ -33,9 +34,11 @@ if(isset($_GET['password']))
 if (isset($_GET['email']))
     $email=ClearString($_GET['email']);
 
+
+
 // Ελέγχει αν υπάρχει admin χρήστης ήδη.
-if(!$conn->CheckIfThereIsAdminUser()) {
-    $register = $conn->CreateUser($username, $email, $password, '1', 'local', null, null);
+if(!$user->CheckIfThereIsAdminUser()) {
+    $register = $user->CreateUser($username, $email, $password, '1', 'local', null, null);
 
     if ($register['success']) {
         $jsonArray = array('success' => true);

@@ -17,6 +17,7 @@ use apps4net\framework\Language;
 use apps4net\framework\MyDB;
 use apps4net\framework\Page;
 use apps4net\framework\Progress;
+use apps4net\framework\User;
 use apps4net\framework\Utilities;
 
 class OWMP
@@ -80,7 +81,9 @@ class OWMP
         
         $tags = new Page();
         $conn = new MyDB();
-        $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $user = new User();
+
+        $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         if ($UserGroup==1)  // Αν ο χρήστης είναι admin
             $disabled='no';
@@ -298,7 +301,9 @@ class OWMP
 
         $tags = new Page();
         $conn = new MyDB();
-        $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $user = new User();
+
+        $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         if ($UserGroup==1)  // Αν ο χρήστης είναι admin
             $disabled='no';
@@ -414,7 +419,7 @@ class OWMP
                         </option>
                         <?php
     
-                        $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+                        $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
                         // H λίστα με τις manual playlists
                         $manualPlaylists = MyDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
     
@@ -581,7 +586,7 @@ class OWMP
 
             <?php
 
-            $UserGroupID = $conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+            $UserGroupID = $user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
            
             if($UserGroupID==1) {
                 ?>
@@ -731,7 +736,9 @@ class OWMP
 
         if(!$votePlaylist) {
             $conn = new MyDB();
-            $UserGroupID = $conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+            $user = new User();
+
+            $UserGroupID = $user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         }
 
         ?>
@@ -1215,10 +1222,11 @@ class OWMP
     // Εμφάνιση των εγγραφών των χρηστών σε μορφή form fields για editing
     static function getUsersInFormFields () {
         $conn = new MyDB();
+        $user = new User();
         $conn->CreateConnection();
 
-        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
-        $userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+        $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
 
         global $UserGroups;
 
@@ -1446,7 +1454,9 @@ class OWMP
     static function showConfiguration () {
 
         $conn = new MyDB();
-        $UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $user = new User();
+
+        $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         ?>
         <h2><?php echo __('nav_item_2'); ?></h2>
@@ -1607,11 +1617,12 @@ class OWMP
         <?php
 
         $conn = new MyDB();
+        $user = new User();
         $conn->CreateConnection();
 
         global $mediaKinds;
 
-        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         if($UserGroupID==1) {
             ?>
@@ -1940,7 +1951,7 @@ class OWMP
 
                 $artsArray = array($imageDir, $timestampFilename.$imageExtension, $hash);
 
-                $coverID=$conn->ExecuteSQL($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
+                $coverID=$conn->insertInto($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
 
                 // GD install http://php.net/manual/en/image.installation.php
 
@@ -2264,7 +2275,7 @@ class OWMP
             // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
             $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
             $playlistTableArray = array($tempPlaylist, date('Y-m-d H:i:s'));
-            $conn->ExecuteSQL($sql, $playlistTableArray);
+            $conn->insertInto($sql, $playlistTableArray);
         }
     }
 
@@ -2302,7 +2313,7 @@ class OWMP
 
             $sql = 'INSERT INTO ' . $tempPlaylist . ' (file_id) VALUES(?)';
 
-            if ($conn->ExecuteSQL($sql, array($fileID))) {
+            if ($conn->insertInto($sql, array($fileID))) {
                 return true;
             } else {
                 return false;
@@ -2324,7 +2335,7 @@ class OWMP
 
             trigger_error('User vote '.$userIP);
 
-            if ($conn->ExecuteSQL($sql, array($fileID,$userIP))) {
+            if ($conn->insertInto($sql, array($fileID,$userIP))) {
                 return true;
             } else {
                 return false;

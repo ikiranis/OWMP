@@ -353,8 +353,10 @@ class Page
 
         global $adminNavItems;
 
+        $user = new User();
         $conn = new MyDB();
-        $UserGroupID=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+
+        $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
 
         ?>
@@ -492,7 +494,7 @@ class Page
 
         // Έλεγχος αν είναι login. Αν δεν είναι τερματίζει την εκτέλεση
         if($checkLogin) {
-            if( !MyDB::checkIfUserIsLegit() ) {
+            if( !User::checkIfUserIsLegit() ) {
                 die('Invalid AJAX request');
             }
         }
@@ -622,12 +624,13 @@ class Page
     // Ξαναπαίρνει τιμή το session του username, για να γίνει update
     static function updateUserSession() {
         $conn = new MyDB();
+        $user = new User();
 
         // Αν υπάρχει session του user τότε ξαναπαίρνει την ίδια τιμή, ώστε να γίνει update
         if (isset($_SESSION["username"])) {
             $conn->setSession('username', $conn->getSession('username'));
         } else {
-            if ($conn->CheckCookiesForLoggedUser()) { //  Έλεγχος αν υπάρχει cookie και παίρνει το username από εκεί
+            if ($user->CheckCookiesForLoggedUser()) { //  Έλεγχος αν υπάρχει cookie και παίρνει το username από εκεί
                 $conn->setSession('username', MyDB::getACookie('username') );
             }
 
