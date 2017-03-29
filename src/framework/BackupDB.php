@@ -185,7 +185,9 @@ class BackupDB extends MyDB
     {
         foreach ($this->tables as $table) {
             if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το καθαρίζουμε
-                MyDB::deleteTable($table);
+                if(!MyDB::deleteTable($table)) {
+                    trigger_error('PROBLEM WITH DELETE'.$table);
+                }
             }
         }
     }
