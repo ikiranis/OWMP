@@ -143,7 +143,6 @@ class BackupDB extends MyDB
                     Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
                     Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
                     $general_counter++;
-                    trigger_error($general_counter);
                     $progressCounter=0;
                 } else {
                     $progressCounter++;
@@ -235,7 +234,6 @@ class BackupDB extends MyDB
                 Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
                 Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
                 $general_counter++;
-                trigger_error($general_counter);
                 $progressCounter=0;
             } else {
                 $progressCounter++;
