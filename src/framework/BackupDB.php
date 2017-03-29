@@ -213,38 +213,38 @@ class BackupDB extends MyDB
 
         $totalQueries = $file->getLines(); // Το σύνολο των γραμμών που υπάρχουν στο αρχείο
 
-//        // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
-//        while ( (($line = fgets($file->handle)) !== false) ) {
-//
-//            // Αν δεν είναι κενή γραμμή ή σχόλιο
-//            if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
-//
-//                // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
-//                if (!preg_match('/;/', $line)) {
-//                    $this->sql.=$line;
-//                } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
-//                    $this->sql.=$line;
-//                    $this->cleanQuery();
-//                    $this->executeQuery();  //  Εκτελεί το query
-//
-//                    $this->sql='';
-//                }
-//            }
-//
-//            // Υπολογίζουμε και στέλνουμε το progress
-//            if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
-//                $progressPercent = intval(($general_counter / $totalQueries) * 100);
-//                Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
-//                Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
-//                $general_counter++;
-//                trigger_error($general_counter);
-//                $progressCounter=0;
-//            } else {
-//                $progressCounter++;
-//                $general_counter++;
-//            }
-//
-//        }
+        // Το διαβάζουμε γραμμή-γραμμή, όσο δεν έχει φτάσει στο τέλος του
+        while ( (($line = fgets($file->handle)) !== false) ) {
+
+            // Αν δεν είναι κενή γραμμή ή σχόλιο
+            if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
+
+                // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
+                if (!preg_match('/;/', $line)) {
+                    $this->sql.=$line;
+                } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
+                    $this->sql.=$line;
+                    $this->cleanQuery();
+                    $this->executeQuery();  //  Εκτελεί το query
+
+                    $this->sql='';
+                }
+            }
+
+            // Υπολογίζουμε και στέλνουμε το progress
+            if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
+                $progressPercent = intval(($general_counter / $totalQueries) * 100);
+                Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+                Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+                $general_counter++;
+                trigger_error($general_counter);
+                $progressCounter=0;
+            } else {
+                $progressCounter++;
+                $general_counter++;
+            }
+
+        }
 
 
         $file->closeTheFile();
