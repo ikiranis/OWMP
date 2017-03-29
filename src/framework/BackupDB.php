@@ -173,10 +173,8 @@ class BackupDB extends MyDB
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-        try {
-            self::$conn->query($this->sql);
-        } catch (\PDOException $pe) {
-            trigger_error('PROBLEM WITH QUERY: ' . $pe->getMessage());
+        if(!self::$conn->query($this->sql)) {
+            trigger_error('PROBLEM WITH QUERY: ' . $this->sql );
         }
     }
 
