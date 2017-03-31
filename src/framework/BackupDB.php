@@ -201,7 +201,7 @@ class BackupDB extends MyDB
     {
         set_time_limit(0);
 
-        self::$conn->setAttribute("PDO::ATTR_ERRMODE", PDO::ERRMODE_EXCEPTION);
+        self::$conn->setAttribute("PDO::ATTR_ERRMODE", \PDO::ERRMODE_EXCEPTION);
 
         Progress::setProgress(0); // Μηδενίζει το progress
 
