@@ -67,6 +67,9 @@ class BackupDB extends MyDB
         // Προσθήκη των values στο string
         foreach ($tableRow as $value) {
             $insertString.= '\''.addslashes($value).'\',';
+            if($value=='') {
+                $value=null;
+            }
         }
         $insertString = Utilities::cutLastString($insertString,',');
         $insertString.= ');';
@@ -201,8 +204,7 @@ class BackupDB extends MyDB
     {
         set_time_limit(0);
 
-        //δσδφ
-        self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+//        self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         Progress::setProgress(0); // Μηδενίζει το progress
 
