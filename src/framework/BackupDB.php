@@ -66,9 +66,10 @@ class BackupDB extends MyDB
 
         // Προσθήκη των values στο string
         foreach ($tableRow as $value) {
-            $insertString.= '\''.addslashes($value).'\',';
-            if($value=='') {
-                $value=null;
+            if(key($value)=='date_last_played') {
+                $insertString.= '\''.'0000-00-00 00:00:00'.'\',';
+            } else {
+                $insertString.= '\''.addslashes($value).'\',';
             }
         }
         $insertString = Utilities::cutLastString($insertString,',');
@@ -204,7 +205,8 @@ class BackupDB extends MyDB
     {
         set_time_limit(0);
 
-//        self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        // Θέτουμε το error mode ώστε να πετάει exception στα errors του PDO::query
+        self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         Progress::setProgress(0); // Μηδενίζει το progress
 
