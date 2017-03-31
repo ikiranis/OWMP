@@ -65,8 +65,8 @@ class BackupDB extends MyDB
         $insertString.= ') VALUES (';
 
         // Προσθήκη των values στο string
-        foreach ($tableRow as $key => $value) {
-            if($key=='date_last_played' && $value=='') {
+        foreach ($tableRow as $value) {
+            if($value=='') {  // Αν είναι κενό το αντικαθιστούμε με null για να μην χτυπάει το insert
                 $insertString.= 'null,';
             } else {
                 $insertString.= '\''.addslashes($value).'\',';
