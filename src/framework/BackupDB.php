@@ -181,10 +181,6 @@ class BackupDB extends MyDB
         } catch (\PDOException $pe) {
             trigger_error('PROBLEM WITH QUERY: ' . $this->sql. ' ----> '.$pe->getMessage() );
         }
-
-//        if(!self::$conn->query($this->sql)) {
-//            trigger_error('PROBLEM WITH QUERY: ' . $this->sql );
-//        }
     }
 
     // Καθαρίζει όλα τα tables που έχουμε επιλέξει στο $this->tables
@@ -227,6 +223,7 @@ class BackupDB extends MyDB
         while ( (($line = fgets($file->handle)) !== false) ) {
 
             // Αν δεν είναι κενή γραμμή ή σχόλιο
+            // TODO έχει πρόβλημα όταν έχει # και ; μέσα στο κείμενο. να τα κάνω encode κάπως
             if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
 
                 // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
