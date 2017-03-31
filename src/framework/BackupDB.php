@@ -172,9 +172,15 @@ class BackupDB extends MyDB
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-        if(!self::$conn->query($this->sql)) {
-            trigger_error('PROBLEM WITH QUERY: ' . $this->sql );
+        try {
+            self::$conn->query($this->sql);
+        } catch (\PDOException $pe) {
+            trigger_error('PROBLEM WITH QUERY: ' . $this->sql. ' ----> '.$pe->getMessage() );
         }
+
+//        if(!self::$conn->query($this->sql)) {
+//            trigger_error('PROBLEM WITH QUERY: ' . $this->sql );
+//        }
     }
 
     // Καθαρίζει όλα τα tables που έχουμε επιλέξει στο $this->tables
@@ -194,6 +200,8 @@ class BackupDB extends MyDB
     public function restoreDatabase()
     {
         set_time_limit(0);
+
+        self::$conn->setAttribute("PDO::ATTR_ERRMODE", PDO::ERRMODE_EXCEPTION);
 
         Progress::setProgress(0); // Μηδενίζει το progress
 

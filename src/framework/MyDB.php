@@ -26,6 +26,19 @@ class MyDB
     private static $CookieTime=60*60*24*30;
 
 
+    // Άνοιγμα της σύνδεσης στην βάση
+    function CreateConnection(){
+        if (!self::$conn) {
+            try {
+                self::$conn = new \PDO(self::$connStr, self::$DBuser, self::$DBpass,
+                    array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+            } catch (\PDOException $pe) {
+                die('Could not connect to the database because: ' .
+                    $pe->getMessage());
+            }
+        }
+    }
+
     // Εκτελεί ένα insert sql query
     function insertInto($sql, $sqlParams)
     {
@@ -45,10 +58,6 @@ class MyDB
 
     }
 
-    
-    
-
-
 
     // Σετάρει ένα cookie και το σώζει κωδικοποιημένο
     static function setACookie($cookieName, $value) {
@@ -65,18 +74,7 @@ class MyDB
 
 
 
-    // Άνοιγμα της σύνδεσης στην βάση
-    function CreateConnection(){
-        if (!self::$conn) {
-            try {
-                self::$conn = new \PDO(self::$connStr, self::$DBuser, self::$DBpass,
-                    array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-            } catch (\PDOException $pe) {
-                die('Could not connect to the database because: ' .
-                    $pe->getMessage());
-            }
-        }
-    }
+
     
     // Επιστρέφει το decrypted text του session $name
     public function getSession($name) {
