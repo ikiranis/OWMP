@@ -12,13 +12,15 @@
  *
  * Κλάση που περιέχει μεθόδους για backup και restore της βάσης
  *
- * TODO να φτιαχτεί η μέθοδος για restore
  * TODO να σου δίνει επιλογή να κατεβάσεις το αρχείο
+ *
+ * ΠΡΟΣΟΧΗ στην σειρά που δηλώνονται τα $this->tables για backup και για restore. Στο backup πρέπει να δηλώνονται πρώτα
+ * τα parent tables όταν υπάρχουν αλληλοεξαρτήσεις. Η αντίστροφη σειρά πρέπει να υπάρχει στο restore, γιατί πρέπει
+ * να σβήνει πρώτα τα child tables.
  *
  */
 
 namespace apps4net\framework;
-
 
 class BackupDB extends MyDB
 {
@@ -54,7 +56,8 @@ class BackupDB extends MyDB
     // Επιστρέφει το query για το drop του $table
     // @param: string $table = Ο πίνακας που θα σβηστεί
     // @return: string
-    static function getDropTableString($table) {
+    static function getDropTableString($table)
+    {
         return 'DROP TABLE IF EXISTS '.$table;
     }
 
@@ -233,7 +236,6 @@ class BackupDB extends MyDB
         while ( (($line = fgets($file->handle)) !== false) ) {
 
             // Αν δεν είναι κενή γραμμή ή σχόλιο
-            // TODO έχει πρόβλημα όταν έχει # και ; μέσα στο κείμενο. να τα κάνω encode κάπως
             if( ($line!=="\n") && (!preg_match('/##/', $line)) ) {
 
                 // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
