@@ -15,8 +15,8 @@ use apps4net\framework\Progress;
 require_once('../src/boot.php');
 
 
-session_start();
-Page::checkValidAjaxRequest(true);
+//session_start();
+//Page::checkValidAjaxRequest(true);
 
 if($progressInPercent=Progress::getPercentProgress()) {
     $jsonArray = array('success' => true, 'progressInPercent' => $progressInPercent);

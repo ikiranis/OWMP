@@ -14,8 +14,7 @@ use apps4net\framework\Progress;
 
 require_once('../src/boot.php');
 
-session_start();
-
+//session_start();
 //Page::checkValidAjaxRequest();
 
 //Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
