@@ -227,7 +227,7 @@ class BackupDB extends MyDB
             if( ($line!=="\n") && (!preg_match('/#*/', $line)) ) {
 
                 // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
-                if (!preg_match('/;\n/', $line)) {
+                if (!preg_match('/;/', $line)) {
                     $this->sql.=$line;
                 } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
                     $this->sql.=$line;
