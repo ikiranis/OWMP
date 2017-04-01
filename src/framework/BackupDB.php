@@ -225,7 +225,7 @@ class BackupDB extends MyDB
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
 
         // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
-//        $this->clearTables();
+        $this->clearTables();
 
         $totalQueries = $file->getLines(); // Το σύνολο των γραμμών που υπάρχουν στο αρχείο
 
