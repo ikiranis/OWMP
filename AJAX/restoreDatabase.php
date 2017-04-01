@@ -38,7 +38,7 @@ $backup = new BackupDB();
 //}
 
 $backup->sqlFilePath=OUTPUT_FOLDER;
-$backup->sqlFile='backup_20170402014204.sql';
+$backup->sqlFile='backup_20170402021450.sql';
 
 if ($backup->restoreDatabase()) {
     $jsonArray = array('success' => true);
