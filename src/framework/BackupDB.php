@@ -51,6 +51,13 @@ class BackupDB extends MyDB
         return $result;
     }
 
+    // Επιστρέφει το query για το drop του $table
+    // @param: string $table = Ο πίνακας που θα σβηστεί
+    // @return: string
+    static function getDropTableString($table) {
+        return 'DROP TABLE IF EXISTS '.$table;
+    }
+
 
     // Επιστρέφει το insert string για το $tableRow  του πίνακα $table, σύμφωνα και με τα $tableFields
     static function getInsertStringForTableRow($table, $tableRow, $tableFields)
@@ -104,12 +111,14 @@ class BackupDB extends MyDB
 
         $totalInserts=0; // Τα συνολικά inserts που είναι να γίνουν
 
-        // Δημιοργούμε τα create tabe strings και τα προσθέτουμε στο $data
+        // Δημιοργούμε τα drop και create table strings και τα προσθέτουμε στο $data
         foreach ($this->tables as $table) {
             $createTableString = self::getTableCreateString($table);
+            $dropTableString = self::getDropTableString($table);
 
-            // Γράφει την σχετική εγγραφή στο αρχείο
-            $file->insertRow("\n\n".$createTableString.";\n\n");
+            // Γράφει την σχετικές εγγραφές στο αρχείο. Πρώτο το drop, μετά το create
+            $file->insertRow("\n\n".$dropTableString.";\n");
+            $file->insertRow($createTableString.";\n\n");
 
             $totalInserts+=MyDB::countTable($table); // Προσθέτει το μέγεθος του πίνακα στα $totalInserts
         }
@@ -216,7 +225,7 @@ class BackupDB extends MyDB
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
 
         // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
-        $this->clearTables();
+//        $this->clearTables();
 
         $totalQueries = $file->getLines(); // Το σύνολο των γραμμών που υπάρχουν στο αρχείο
 

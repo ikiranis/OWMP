@@ -30,7 +30,7 @@ $chozenTables = array('music_tags', 'album_arts', 'files', 'options', 'paths', '
 
 // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
 $backup = new BackupDB();
-if(is_array($manualPlaylists)) {
+if($manualPlaylists) {
     $backup->tables = array_merge($chozenTables, $manualPlaylists);
 } else {
     $backup->tables = $chozenTables;
