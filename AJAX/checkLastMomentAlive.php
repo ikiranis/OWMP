@@ -16,7 +16,7 @@ require_once('../src/boot.php');
 
 session_start();
 
-Page::checkValidAjaxRequest();
+//Page::checkValidAjaxRequest();
 
 //Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 $lastMomentAlive=Progress::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive
