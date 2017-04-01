@@ -14,8 +14,8 @@ use apps4net\framework\Progress;
 
 require_once('../src/boot.php');
 
-//session_start();
-//Page::checkValidAjaxRequest();
+session_start();
+Page::checkValidAjaxRequest(false);
 
 //Page::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 $lastMomentAlive=Progress::getLastMomentAlive();  // παίρνει την τιμή του lastMomentAlive
