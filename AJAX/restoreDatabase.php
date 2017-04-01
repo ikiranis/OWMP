@@ -38,7 +38,7 @@ if($manualPlaylists) {
 }
 
 $backup->sqlFilePath=OUTPUT_FOLDER;
-$backup->sqlFile='backup_20170402012845.sql';
+$backup->sqlFile='backup_20170402014204.sql';
 
 if ($backup->restoreDatabase()) {
     $jsonArray = array('success' => true);
