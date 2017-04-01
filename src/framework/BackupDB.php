@@ -100,7 +100,7 @@ class BackupDB extends MyDB
             $this->tables=self::getDatabaseTablesList();
         }
 
-        $file->insertRow("#****** CREATE QUERIES ******");
+        $file->insertRow("## ****** CREATE QUERIES ******");
 
         $totalInserts=0; // Τα συνολικά inserts που είναι να γίνουν
 
@@ -116,7 +116,7 @@ class BackupDB extends MyDB
 
         $file->insertRow("\n\n\n\n");
 
-        $file->insertRow("#****** INSERT QUERIES ******\n\n");
+        $file->insertRow("## ****** INSERT QUERIES ******\n\n");
 
         $general_counter=0;  // Ο γενικός μετρητής για να υπολογίσουμε το ποσοστό του progress
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
@@ -126,7 +126,7 @@ class BackupDB extends MyDB
 
             trigger_error('PROCCESING '.$table);
 
-            $file->insertRow("#****** TABLE: ".$table." ******\n\n");
+            $file->insertRow("## ****** TABLE: ".$table." ******\n\n");
 
             // Παίρνουμε τα περιεχόμενα του πίνακα
             $sql = 'SELECT * FROM '.$table;
@@ -224,7 +224,7 @@ class BackupDB extends MyDB
 
             // Αν δεν είναι κενή γραμμή ή σχόλιο
             // TODO έχει πρόβλημα όταν έχει # και ; μέσα στο κείμενο. να τα κάνω encode κάπως
-            if( ($line!=="\n") && (!preg_match('/#*/', $line)) ) {
+            if( ($line!=="\n") && (!preg_match('/##/', $line)) ) {
 
                 // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
                 if (!preg_match('/;/', $line)) {
