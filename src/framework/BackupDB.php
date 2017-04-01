@@ -100,7 +100,7 @@ class BackupDB extends MyDB
             $this->tables=self::getDatabaseTablesList();
         }
 
-        $file->insertRow("# ****** CREATE QUERIES ******");
+        $file->insertRow("#****** CREATE QUERIES ******");
 
         $totalInserts=0; // Τα συνολικά inserts που είναι να γίνουν
 
@@ -116,7 +116,7 @@ class BackupDB extends MyDB
 
         $file->insertRow("\n\n\n\n");
 
-        $file->insertRow("# ****** INSERT QUERIES ******\n\n");
+        $file->insertRow("#****** INSERT QUERIES ******\n\n");
 
         $general_counter=0;  // Ο γενικός μετρητής για να υπολογίσουμε το ποσοστό του progress
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
