@@ -126,7 +126,7 @@ class BackupDB extends MyDB
 
             trigger_error('PROCCESING '.$table);
 
-            $file->insertRow("# ****** TABLE: ".$table." ******\n\n");
+            $file->insertRow("#****** TABLE: ".$table." ******\n\n");
 
             // Παίρνουμε τα περιεχόμενα του πίνακα
             $sql = 'SELECT * FROM '.$table;
@@ -224,10 +224,10 @@ class BackupDB extends MyDB
 
             // Αν δεν είναι κενή γραμμή ή σχόλιο
             // TODO έχει πρόβλημα όταν έχει # και ; μέσα στο κείμενο. να τα κάνω encode κάπως
-            if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
+            if( ($line!=="\n") && (!preg_match('/#*/', $line)) ) {
 
                 // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
-                if (!preg_match('/;/', $line)) {
+                if (!preg_match('/;\n/', $line)) {
                     $this->sql.=$line;
                 } else { // Αλλιώς κλείνουμε το query και το εκτελούμε
                     $this->sql.=$line;
