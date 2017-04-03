@@ -33,7 +33,7 @@ $mySqlTables = array (
                                           PRIMARY KEY (`id`)
                                         ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;'),
     array ('table' => 'options', 'sql' => 'CREATE TABLE `options` (
-                                          `option_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+                                          `option_id` int(11) NOT NULL AUTO_INCREMENT,
                                           `option_name` varchar(20) NOT NULL,
                                           `option_value` varchar(255) NOT NULL,
                                           `setting` tinyint(1) NOT NULL,

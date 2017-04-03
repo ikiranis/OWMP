@@ -15,9 +15,9 @@
 
 use apps4net\framework\MyDB;
 
-$conn = new MyDB();
-
 // ********* DEFINES
+
+
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 // Η διεύθυνση του checkValidImage script. Πρέπει να είναι ολόκληρο το url της εσωτερικής ip του server που τρέχει η εφαρμογή
@@ -31,11 +31,11 @@ define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. ITUNES_
 // To json file της playlist για import
 define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FILENAME);
 define ('WEB_FOLDER_PATH',$_SERVER['DOCUMENT_ROOT'].'/');  // To path του web folder
-define ('DIR_PREFIX',$conn->getOption('dir_prefix'));   // Το αρχικό κομμάτι του path.
+define ('DIR_PREFIX',$optionsArray['dir_prefix']);   // Το αρχικό κομμάτι του path.
 // Το ποσοστό που θεωρείται ότι ένα τραγούδι έχει παιχτεί
-define ('PLAY_PERCENTAGE',$conn->getOption('play_percentage'));
-define ('PLAYLIST_LIMIT',intval($conn->getOption('playlist_limit')));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
-define ('DATE_FORMAT',$conn->getOption('date_format'));  // To format των ημερομηνιών που εμφανίζονται στο site
+define ('PLAY_PERCENTAGE',$optionsArray['play_percentage']);
+define ('PLAYLIST_LIMIT',intval($optionsArray['playlist_limit']));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
+define ('DATE_FORMAT',$optionsArray['date_format']);  // To format των ημερομηνιών που εμφανίζονται στο site
 // το path που μετατρέπει τα ALAC
 define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'ConvertedMusic/');
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist
@@ -46,6 +46,8 @@ define ('JUKEBOX_LIST_NAME', 'jukebox');  // Το όνομα του jukebox tabl
 
 // *********  Τραβάει τιμές από την βάση για τα options
 
+
+// Τα paths των αρχείων
 $MusicMainDir=MyDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
 if($MusicMainDir) {
     define ('ALBUM_COVERS_DIR', $MusicMainDir.'/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
@@ -74,28 +76,31 @@ else  {
     define ('MUSIC_FILE_UPLOAD', null);
 }
 
-$convertALACOption= $conn->getOption('convert_alac_files');
+
+
+// Τα options
+$convertALACOption= $optionsArray['convert_alac_files'];
 if ($convertALACOption=='true')
     define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
 else define ('CONVERT_ALAC_FILES', false);
 
-if ($conn->getOption('syncItunes')=='true')
+if ($optionsArray['syncItunes']=='true')
     define ('SYNC_ITUNES', true); // true για να μετατρέπει συγχρονίζει με itunes
 else define ('SYNC_ITUNES', false);
 
-if ($conn->getOption('jukebox_enable')=='true')
+if ($optionsArray['jukebox_enable']=='true')
     define ('JUKEBOX_ENABLE', true); // true για το αν θα εμφανίζεται η σελίδα για ψηφοφορίες
 else define ('JUKEBOX_ENABLE', false);
 
 // Τα settings του icecast server
-if ($conn->getOption('icecast_enable')=='true')
+if ($optionsArray['icecast_enable']=='true')
     define ('ICECAST_ENABLE', true); // true για το αν θα στέλνει τα songs info στον icecast server
 else define ('ICECAST_ENABLE', false);
 
-define ('ICECAST_SERVER', $conn->getOption('icecast_server'));
-define ('ICECAST_MOUNT', $conn->getOption('icecast_mount'));
-define ('ICECAST_USER', $conn->getOption('icecast_user'));
-define ('ICECAST_PASS', $conn->getOption('icecast_pass'));
+define ('ICECAST_SERVER', $optionsArray['icecast_server']);
+define ('ICECAST_MOUNT', $optionsArray['icecast_mount']);
+define ('ICECAST_USER', $optionsArray['icecast_user']);
+define ('ICECAST_PASS', $optionsArray['icecast_pass']);
 
 
 // Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη
@@ -111,5 +116,5 @@ else {
 
 
 // ********* API keys
-define ('YOUTUBE_API', $conn->getOption('youtube_api'));
+define ('YOUTUBE_API', $optionsArray['youtube_api']);
 define ('GIPHY_API', 'dc6zaTOxFJmzC'); // default
