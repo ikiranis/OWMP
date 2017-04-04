@@ -141,6 +141,6 @@ $mySqlTables = array (
 );
 
 $mySqlChanges = array(
-                array('table' => 'options', 'field' => 'option_id', 'oldType' => 'TINYINT(4)',
+                array('table' => 'options', 'field' => 'option_id', 'oldType' => 'tinyint(4)',
                     'sql' => 'ALTER TABLE options MODIFY option_id int(11) AUTO_INCREMENT')
 );
