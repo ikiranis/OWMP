@@ -11,7 +11,6 @@
  */
 
 use apps4net\framework\Session;
-use apps4net\framework\Page;
 use apps4net\framework\MyDB;
 use apps4net\framework\Options;
 
@@ -26,10 +25,7 @@ ini_set('session.gc_probability',100);
 $handler = new Session();
 session_set_save_handler($handler, true);
 
-require_once('mySQLSchema.php'); // To schema της βάσης σε array
-
-// Ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
-//Page::startBasicOptions();
+require_once('mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
 
 $conn = new MyDB();
 $options = new Options();
@@ -48,14 +44,24 @@ $options->defaultOptions = array(
     array('option_name' => 'icecast_enable', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'default_language', 'option_value' => 'en', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'youtube_api', 'option_value' => 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 'setting' => 1, 'encrypt' => 0),
-    array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0)
+    array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'paok', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0)
 );
 
-//$options->startBasicOptions();
+$options->defaultProgress = array(
+    array('progressName' => 'progressInPercent', 'progressValue' => '0'),
+    array('progressName' => 'progressMessage', 'progressValue' => ''),
+    array('progressName' => 'killCommand', 'progressValue' => '0'),
+    array('progressName' => 'lastMomentAlive', 'progressValue' => time()),
+    array('progressName' => 'currentSong', 'progressValue' => '0'),
+    array('progressName' => 'restoreRunning', 'progressValue' => '0')
+);
+
+// Έλεγχος των progress fields και δημιουργία τους όταν δεν υπάρχουν
+$options->checkProgressFields();
 
 // Ο πίνακας με τα options
 $optionsArray = $options->getOptionsArray();
-
 
 require_once('frameworkVariables.php');  // Γενικές μεταβλητές και options του Framework
 require_once('appVariables.php');  // Γενικές μεταβλητές και options της εφαρμογής

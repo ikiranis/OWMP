@@ -44,15 +44,15 @@ class Progress
     }
 
     // Δημιουργεί ένα $progressName στον πίνακα progress
-    static function createProgressName($progressName) {
+    static function createProgressName($progressName, $progressValue) {
         $conn = new MyDB();
         $conn->CreateConnection();
 
-        $sql = 'INSERT INTO progress (progressName) VALUES(?)';
+        $sql = 'INSERT INTO progress (progressName, progressValue) VALUES(?,?)';
         $stmt = MyDB::$conn->prepare($sql);
 
 
-        if($stmt->execute(array($progressName)))
+        if($stmt->execute(array($progressName, $progressValue)))
 
             $result=true;
 
@@ -134,6 +134,12 @@ class Progress
             exit();
         }
 
+    }
+
+    // Καταχωρεί το ποσοστό εξέλιξης progress
+    static function updateRestoreRunning($value) {
+        $progressUpdateArray=array ($value, 'restoreRunning');
+        MyDB::updateTableFields('progress', 'progressName=?', array('progressValue'), $progressUpdateArray);
     }
 
 }

@@ -18,6 +18,7 @@ namespace apps4net\framework;
 class Options extends MyDB
 {
     public $defaultOptions = array(); // Τα defaultOptions που θα καταχωρηθούν στην βάση
+    public $defaultProgress = array(); // Τα progress fields που θα προστεθούν στον πίνακα progress
 
     // Αλλάζει το $value ενός $option
     public function changeOption ($option, $value)
@@ -165,124 +166,51 @@ class Options extends MyDB
 
         }
 
-        // Ελέγχουμε αν κάποιο option που βρήσκετε στο $this->defaultOptions δεν υπάρχει στην βάση
-        // Το δημιουργούμε αν δεν υπάρχει
-        foreach ($this->defaultOptions as $option) {
-            if(!isset($newArray[$option['option_name']])) {
+        // Παίρνει την τιμή του restoreRunning στο progress
+        $restoreRunning = MyDB::getTableFieldValue('progress', 'progressName=?', 'restoreRunning', 'progressValue');
 
-                if($this->createOption($option['option_name'], $option['option_value'],
-                    $option['setting'], $option['encrypt'])) {
-                    $newArray[$option['option_name']] = $option['option_value'];
+        if($restoreRunning=='0') { // Αν δεν τρέχει το restore
+            // Ελέγχουμε αν κάποιο option που βρήσκετε στο $this->defaultOptions δεν υπάρχει στην βάση
+            // Το δημιουργούμε αν δεν υπάρχει
+            foreach ($this->defaultOptions as $option) {
+                if (!isset($newArray[$option['option_name']])) {
+
+                    if ($this->createOption($option['option_name'], $option['option_value'],
+                        $option['setting'], $option['encrypt'])
+                    ) {
+                        $newArray[$option['option_name']] = $option['option_value'];
+                    }
+
                 }
 
             }
-
         }
-
-        // TODO να κάνω έλεγχο στην βάση αν χρειάζονται alter στα tables, όπως χρειάζεται στο options
 
         return $newArray;
     }
 
 
-    // ΈΧΕΙ ΒΓΕΙ ΕΚΤΟΣ
-    // Εισάγει τις αρχικές τιμές στον πίνακα Options και στον progress
-    public function startBasicOptions()
+    // Ελέγχει αν υπάρχουν όλα τα progress fields κι αν δεν υπάρχουν τα δημιουργεί
+    public function checkProgressFields()
     {
+        // Παίρνουμε τα αποτελέσματα του progress σε array
+        $progressArray = self::getTableArray('progress', null, null, null, null, null, null);
+        $newArray = array();
 
-        $options = new Options();
-        $conn = new MyDB();
-
-//        if(!$conn->getOption('interval_value'))
-//            $conn->createOption('interval_value', '5', 1, 0);
-
-//        if(!$conn->getOption('mail_host'))
-//            $conn->createOption('mail_host', 'smtp.gmail.com', 1, 0);
-//
-//        if(!$conn->getOption('mail_username'))
-//            $conn->createOption('mail_username', 'username', 1, 0);
-//
-//        if(!$conn->getOption('mail_password')) {
-//            $conn->createOption('mail_password', '12345678',1,1);
-//
-//        if(!$conn->getOption('mail_from'))
-//            $conn->createOption('mail_from', 'username@mail.com', 1, 0);
-//
-//        if(!$conn->getOption('mail_from_name'))
-//            $conn->createOption('mail_from_name', 'name', 1, 0);
-
-
-        // Οι αρχικές τιμές στον πίνακα options
-        if(!$options->getOption('convert_alac_files'))
-            $options->createOption('convert_alac_files', 'false', 1, 0);
-
-        if(!$options->getOption('playlist_limit'))
-            $options->createOption('playlist_limit', '150', 1, 0);
-
-        if(!$options->getOption('dir_prefix'))
-            $options->createOption('dir_prefix', '/', 1, 0);
-
-        if(!$options->getOption('syncItunes'))
-            $options->createOption('syncItunes', 'false', 1, 0);
-
-        if(!$options->getOption('date_format'))
-            $options->createOption('date_format', 'Y-m-d', 1, 0);
-
-        if(!$options->getOption('icecast_server'))
-            $options->createOption('icecast_server', '0.0.0.0:8000', 1, 0);
-
-        if(!$options->getOption('icecast_mount'))
-            $options->createOption('icecast_mount', 'listen', 1, 0);
-
-        if(!$options->getOption('icecast_user'))
-            $options->createOption('icecast_user', 'user', 1, 0);
-
-        if(!$options->getOption('icecast_pass'))
-            $options->createOption('icecast_pass', 'pass', 1, 1);
-
-        if(!$options->getOption('icecast_enable'))
-            $options->createOption('icecast_enable', 'false', 1, 0);
-
-        if(!$options->getOption('jukebox_enable'))
-            $options->createOption('jukebox_enable', 'false', 1, 0);
-
-        if(!$options->getOption('default_language'))
-            $options->createOption('default_language', 'en', 1, 0);
-
-        if(!$options->getOption('youtube_api'))
-            $options->createOption('youtube_api', 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 1, 0);
-
-        if(!$options->getOption('play_percentage'))
-            $options->createOption('play_percentage', '20', 1, 0);
-
-
-
-
-        // TODO να τα περνάω κι αυτά όπως περνάνε τα options
-
-        // Οι αρχικές τιμές στον πίνακα progress
-        if(!Progress::checkIfProgressNameExists('progressInPercent'))
-            Progress::createProgressName('progressInPercent');
-
-        if(!Progress::checkIfProgressNameExists('progressMessage'))
-            Progress::createProgressName('progressMessage');
-
-        if(!Progress::checkIfProgressNameExists('killCommand')) {
-            Progress::createProgressName('killCommand');
-            Progress::setKillCommand('0');
+        // Θέτουμε για key το όνομα του option και για value το value του option
+        foreach ($progressArray as $item) {
+            $newArray[] = $item['progressName'];
         }
 
-        if(!Progress::checkIfProgressNameExists('lastMomentAlive')) {
-            Progress::createProgressName('lastMomentAlive');
-            Progress::setLastMomentAlive(true);
+        // Ελέγχουμε αν κάποιο progress που βρίσκετε στο $this->defaultProgress δεν υπάρχει στην βάση
+        // Το δημιουργούμε αν δεν υπάρχει
+        foreach ($this->defaultProgress as $progress) {
+            if(in_array($progress['progressName'], $newArray) == false) {
+                Progress::createProgressName($progress['progressName'], $progress['progressValue']);
+            }
         }
-
-        if(!Progress::checkIfProgressNameExists('currentSong')) {
-            Progress::createProgressName('currentSong');
-        }
-
-
 
     }
+
 
 }

@@ -18,6 +18,9 @@ require_once('src/boot.php');
 
 session_start();
 
+MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
+MyDB::checkMySqlForTypeChanges(); // Έλεγχος για αλλαγμένα πεδία στην βάση
+
 $lang=new Language();
 
 $phrasesForJavascript=json_encode($lang->getPhrasesTable());
@@ -31,12 +34,8 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
-
 require_once('src/login.php');
 require_once('src/MainPage.php');
-
-
-MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
 
 $MainPage = new Page();
 $user = new User();
@@ -51,8 +50,6 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
-
-
 
 if (!isset($_GET['mobile'])) {
     $css = array('styles/basic.css', 'styles/main.css');

@@ -549,9 +549,9 @@ class MyDB
 
 
     // Ελέγχει αν υπάρχουν τα tables της βάσης και ότι δεν υπάρχει το δημιουργεί
-    static function checkMySqlTables () {
+    static function checkMySqlTables ()
+    {
         global $mySqlTables;  // To array με τα tables και τα creation strings
-        global $mySqlChanges;  // To array με τις αλλαγές που χρειάζονται
 
         // Ελέγχει κάθε ένα table αν υπάρχει
         foreach ($mySqlTables as $item) {
@@ -560,17 +560,21 @@ class MyDB
             }
         }
 
+
+    }
+
+    // Ελέγχει αν χρειάζονται αλλαγές σε κάποιους τύπους πεδίων
+    static function checkMySqlForTypeChanges()
+    {
+        global $mySqlChanges;  // To array με τις αλλαγές που χρειάζονται
+
         // Ελέγχει για αλλαγές στα types
         foreach ($mySqlChanges as $item) {
-
-            trigger_error(self::getTableFieldType($item['table'], $item['field']));
-
             // Αν το type του πεδίου είναι ίσο με το oldType, τότε τρέχουμε το alter query
             if(self::getTableFieldType($item['table'], $item['field'])==$item['oldType']) {
                 self::runQuery($item['sql']);
             }
         }
-
     }
 
 

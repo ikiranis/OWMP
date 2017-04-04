@@ -13,7 +13,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\Logs;
-use apps4net\framework\MyDB;
+use apps4net\framework\Progress;
 use apps4net\framework\BackupDB;
 
 require_once('../src/boot.php');
@@ -30,12 +30,14 @@ $chozenTables = array('manual_playlists', 'salts', 'user_details', 'user',
 $backup = new BackupDB();
 $backup->tables = $chozenTables;
 
-
 $backup->sqlFilePath=OUTPUT_FOLDER;
 $backup->sqlFile='backup_20170403180218.sql';
 
+Progress::updateRestoreRunning('1');
+
 if ($backup->restoreDatabase()) {
     $jsonArray = array('success' => true);
+    Progress::updateRestoreRunning('0');
     Logs::insertLog('Restore database from backup file with success'); // Προσθήκη της κίνησης στα logs
 } else {
     $jsonArray = array('success' => false);

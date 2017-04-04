@@ -15,7 +15,6 @@
 
 use apps4net\framework\Language;
 
-
 define ('APP_VERSION', '0.4.0');
 define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
