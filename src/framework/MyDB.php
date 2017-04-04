@@ -562,6 +562,9 @@ class MyDB
 
         // Ελέγχει για αλλαγές στα types
         foreach ($mySqlChanges as $item) {
+
+            trigger_error(self::getTableFieldType($item['table'], $item['field']));
+
             // Αν το type του πεδίου είναι ίσο με το oldType, τότε τρέχουμε το alter query
             if(self::getTableFieldType($item['table'], $item['field'])==$item['oldType']) {
                 self::runQuery($item['sql']);
