@@ -139,3 +139,8 @@ $mySqlTables = array (
                                           PRIMARY KEY (`id`)
                                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;')
 );
+
+$mySqlChanges = array(
+                array('table' => 'options', 'field' => 'option_id', 'oldType' => 'TINYINT(4)',
+                    'sql' => 'ALTER TABLE options MODIFY option_id int(11) AUTO_INCREMENT')
+);

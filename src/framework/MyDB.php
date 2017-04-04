@@ -528,7 +528,7 @@ class MyDB
     }
 
     // Δημιουργεί ένα table με βάση το $sql script
-    static function createTable($sql) {
+    static function runQuery($sql) {
         $conn = new MyDB();
         $conn->CreateConnection();
 
@@ -550,13 +550,22 @@ class MyDB
 
     // Ελέγχει αν υπάρχουν τα tables της βάσης και ότι δεν υπάρχει το δημιουργεί
     static function checkMySqlTables () {
-        global $mySqlTables;  // To table με τα tables και τα creation strings
+        global $mySqlTables;  // To array με τα tables και τα creation strings
+        global $mySqlChanges;  // To array με τις αλλαγές που χρειάζονται
 
-        foreach ($mySqlTables as $item) {  // Ελέγχει κάθε ένα table αν υπάρχει
+        // Ελέγχει κάθε ένα table αν υπάρχει
+        foreach ($mySqlTables as $item) {
             if(!self::checkIfTableExist($item['table'])) {
-                self::createTable($item['sql']); // αν δεν υπάρχει το δημιουργεί
+                self::runQuery($item['sql']); // αν δεν υπάρχει το δημιουργεί
             }
+        }
 
+        // Ελέγχει για αλλαγές στα types
+        foreach ($mySqlChanges as $item) {
+            // Αν το type του πεδίου είναι ίσο με το oldType, τότε τρέχουμε το alter query
+            if(self::getTableFieldType($item['table'], $item['field'])==$item['oldType']) {
+                self::runQuery($item['sql']);
+            }
         }
 
     }
