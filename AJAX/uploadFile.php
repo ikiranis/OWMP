@@ -29,7 +29,6 @@ $file = new FilesIO(OUTPUT_FOLDER, $filename, 'write');
 
 $file->insertRow($myFile);
 
-trigger_error($myFile);
 
 
 
