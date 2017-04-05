@@ -1689,7 +1689,7 @@ class OWMP
                     </p>
 
                     <p>
-                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" accept='sql/*' onchange="uploadFile(this.file)">
+                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" accept='sql/*' onchange="uploadFile(this.files)">
 
                         <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
                                value="Database Restore (experimental)">
