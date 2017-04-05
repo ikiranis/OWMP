@@ -3020,7 +3020,26 @@ function restoreTheBackup() {
 
 function uploadFile(files) {
     var selectedFile = document.getElementById('uploadSQLFile').files[0];
-    alert(selectedFile);
+    console.log(selectedFile);
+
+    myMime = selectedFile.type;
+
+    var f = files[0];
+
+    var reader = new FileReader();
+
+    // Called when the file content is loaded, e.target.result is
+    // The content
+    reader.onload = function (e) {
+        console.log(e.target.result);
+
+        myFile = e.target.result;
+
+    };
+
+
+    // Start reading asynchronously the file
+    reader.readAsDataURL(f);
 }
 
 
