@@ -21,9 +21,7 @@ require_once('../src/boot.php');
 session_start();
 Page::checkValidAjaxRequest(true);
 
-trigger_error('SOMETHING');
-
-$myFile = $_POST['file'];
+$myFile = $_POST['myFile'];
 
 trigger_error($myFile);
 
