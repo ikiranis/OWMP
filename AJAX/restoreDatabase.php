@@ -20,27 +20,37 @@ require_once('../src/boot.php');
 
 session_start();
 
-Page::checkValidAjaxRequest(true);
+
+if(file_exists(OUTPUT_FOLDER . TEMP_RESTORE_DATABASE_FILE)) {
+
+    Page::checkValidAjaxRequest(true);
 
 // Τα επιλεγμένα tables
-$chozenTables = array('manual_playlists', 'salts', 'user_details', 'user',
-    'music_tags', 'album_arts', 'files', 'options', 'paths');
+    $chozenTables = array('manual_playlists', 'salts', 'user_details', 'user',
+        'music_tags', 'album_arts', 'files', 'options', 'paths');
 
 // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
-$backup = new BackupDB();
-$backup->tables = $chozenTables;
+    $backup = new BackupDB();
+    $backup->tables = $chozenTables;
 
-$backup->sqlFilePath=OUTPUT_FOLDER;
-$backup->sqlFile='backup_20170403180218.sql';
+    $backup->sqlFilePath = OUTPUT_FOLDER;
+    $backup->sqlFile = TEMP_RESTORE_DATABASE_FILE;
 
-Progress::updateRestoreRunning('1');
+    Progress::updateRestoreRunning('1');
 
-if ($backup->restoreDatabase()) {
-    $jsonArray = array('success' => true);
-    Progress::updateRestoreRunning('0');
-    Logs::insertLog('Restore database from backup file with success'); // Προσθήκη της κίνησης στα logs
+    if ($backup->restoreDatabase()) {
+        $jsonArray = array('success' => true);
+        Progress::updateRestoreRunning('0');
+        unlink(OUTPUT_FOLDER . TEMP_RESTORE_DATABASE_FILE);  // Σβήνει το προσωρινό αρχείο
+        Logs::insertLog('Restore database from backup file with success'); // Προσθήκη της κίνησης στα logs
+    } else {
+        $jsonArray = array('success' => false);
+    }
+
 } else {
     $jsonArray = array('success' => false);
+    trigger_error('DEN YPARXEI ARXEIO');
 }
 
 echo json_encode($jsonArray);
+

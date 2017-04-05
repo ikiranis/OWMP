@@ -42,6 +42,7 @@ define ('MANUAL_PLAYLIST_STRING', 'mnPl_');  // To string που προσθέτ�
 define ('PLAYED_QUEUE_PLAYLIST_STRING', 'pqPl_');  // To string που προσθέτει στο όνομα ενός played queue playlist
 define ('BACKUP_FILE_PREFIX', 'backup_');
 define ('JUKEBOX_LIST_NAME', 'jukebox');  // Το όνομα του jukebox table
+define ('TEMP_RESTORE_DATABASE_FILE', 'temp_restore_database.sql');
 
 // *********  Τραβάει τιμές από την βάση για τα options
 

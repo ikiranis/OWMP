@@ -24,10 +24,8 @@ Page::checkValidAjaxRequest(true);
 
 $myFile = $_POST['myFile'];
 
-$filename = 'temp.sql';
-$file = new FilesIO(OUTPUT_FOLDER, $filename, 'write');
+$file = new FilesIO(OUTPUT_FOLDER, TEMP_RESTORE_DATABASE_FILE, 'write');
 
-trigger_error(OUTPUT_FOLDER);
 $file->insertRow($myFile);
 
 
