@@ -3018,8 +3018,8 @@ function restoreTheBackup() {
     }
 }
 
-function uploadFile(file) {
-    var selectedFile = document.getElementById('uploadFile').file;
+function uploadFile(files) {
+    var selectedFile = document.getElementById('uploadFile').files[0];
     alert(selectedFile);
 }
 
