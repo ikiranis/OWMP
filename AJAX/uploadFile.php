@@ -18,7 +18,7 @@ use apps4net\framework\Page;
 
 require_once('../src/boot.php');
 
-session_abort();
+session_start();
 Page::checkValidAjaxRequest(true);
 
 trigger_error('SOMETHING');
