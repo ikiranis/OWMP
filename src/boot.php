@@ -42,6 +42,7 @@ $options->defaultOptions = array(
     array('option_name' => 'icecast_user', 'option_value' => 'user', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'icecast_pass', 'option_value' => 'pass', 'setting' => 1, 'encrypt' => 1),
     array('option_name' => 'icecast_enable', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'jukebox_enable', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'default_language', 'option_value' => 'en', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'youtube_api', 'option_value' => 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0)
