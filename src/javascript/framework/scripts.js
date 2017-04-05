@@ -2991,32 +2991,35 @@ function restoreTheBackup() {
                     checkProgress();
                 }, 5000);
 
+                $.ajax({
+                    url: callFile,
+                    type: 'POST',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.success == true) {
 
-                $.get(callFile, function (data) {
+                            DisplayMessage('#alert_error', 'Restore success');
 
-                    if (data.success == true) {
+                            $('#progress').hide();
+                            $('#logprogress').hide();
+                            localStorage.syncPressed = 'false';
+                            $('.syncButton').prop('disabled', false);
+                            clearInterval(syncInterval);
 
-                        DisplayMessage('#alert_error', 'Restore success');
+                        }
+                        else {
 
-                        $('#progress').hide();
-                        $('#logprogress').hide();
-                        localStorage.syncPressed = 'false';
-                        $('.syncButton').prop('disabled', false);
-                        clearInterval(syncInterval);
+                            DisplayMessage('#alert_error', 'Restore fail');
 
+                            $('#progress').hide();
+                            $('#logprogress').hide();
+                            localStorage.syncPressed = 'false';
+                            $('.syncButton').prop('disabled', false);
+                            clearInterval(syncInterval);
+                        }
                     }
-                    else {
+                });
 
-                        DisplayMessage('#alert_error', 'Restore fail');
-
-                        $('#progress').hide();
-                        $('#logprogress').hide();
-                        localStorage.syncPressed = 'false';
-                        $('.syncButton').prop('disabled', false);
-                        clearInterval(syncInterval);
-                    }
-
-                }, "json");
             }
         }
     } else {
@@ -3026,7 +3029,6 @@ function restoreTheBackup() {
 
 function uploadFile(files) {
     var selectedFile = document.getElementById('uploadSQLFile').files[0];
-    console.log(selectedFile);
 
     myMime = selectedFile.type;
 
@@ -3045,7 +3047,7 @@ function uploadFile(files) {
 
 
     // Start reading asynchronously the file
-    reader.readAsDataURL(f);
+    reader.readAsText(f);
 }
 
 
