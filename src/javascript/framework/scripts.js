@@ -3019,7 +3019,7 @@ function restoreTheBackup() {
 }
 
 function uploadFile(files) {
-    var selectedFile = document.getElementById('uploadFile').files[0];
+    var selectedFile = document.getElementById('uploadSQLFile').files[0];
     alert(selectedFile);
 }
 
