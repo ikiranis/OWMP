@@ -27,6 +27,7 @@ $myFile = $_POST['myFile'];
 $filename = 'temp.sql';
 $file = new FilesIO(OUTPUT_FOLDER, $filename, 'write');
 
+trigger_error(OUTPUT_FOLDER);
 $file->insertRow($myFile);
 
 
