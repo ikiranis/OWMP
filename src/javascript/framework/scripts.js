@@ -34,6 +34,8 @@ var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζε�
 var myImage='';   // Το cover art που κάνουμε upload
 var myMime='';  // Ο τύπος του cover art
 
+var myFile=''; // Το αρχείο που κάνουμε upload
+
 var tabID;
 
 var PlayTime=0; // Κρατάει πόσα τραγούδια παίξανε
@@ -2969,52 +2971,56 @@ function startTheBackup() {
 
 //  Κάνει restore της βάσης από ένα αρχείο backup
 function restoreTheBackup() {
-    var confirmAnswer=confirm('Are you sure to restore the database?');
+    if(myFile!=='') {
+        var confirmAnswer=confirm('Are you sure to restore the database?');
 
-    if (confirmAnswer==true) {
-        if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
-            localStorage.syncPressed = 'true';
+        if (confirmAnswer==true) {
+            if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
+                localStorage.syncPressed = 'true';
 
-            callFile = AJAX_path + 'restoreDatabase.php';
+                callFile = AJAX_path + 'restoreDatabase.php';
 
-            $('#progress').show();
-            $('#logprogress').show();
-            $("#killCommand_img").show();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
+                $('#progress').show();
+                $('#logprogress').show();
+                $("#killCommand_img").show();
+                document.querySelector('#theProgressBar').value=0;
+                $("#theProgressNumber" ).html('');
 
-            // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
-            var syncInterval = setInterval(function () {
-                checkProgress();
-            }, 5000);
+                // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
+                var syncInterval = setInterval(function () {
+                    checkProgress();
+                }, 5000);
 
 
-            $.get(callFile, function (data) {
+                $.get(callFile, function (data) {
 
-                if (data.success == true) {
+                    if (data.success == true) {
 
-                    DisplayMessage('#alert_error', 'Restore success');
+                        DisplayMessage('#alert_error', 'Restore success');
 
-                    $('#progress').hide();
-                    $('#logprogress').hide();
-                    localStorage.syncPressed = 'false';
-                    $('.syncButton').prop('disabled', false);
-                    clearInterval(syncInterval);
+                        $('#progress').hide();
+                        $('#logprogress').hide();
+                        localStorage.syncPressed = 'false';
+                        $('.syncButton').prop('disabled', false);
+                        clearInterval(syncInterval);
 
-                }
-                else {
+                    }
+                    else {
 
-                    DisplayMessage('#alert_error', 'Restore fail');
+                        DisplayMessage('#alert_error', 'Restore fail');
 
-                    $('#progress').hide();
-                    $('#logprogress').hide();
-                    localStorage.syncPressed = 'false';
-                    $('.syncButton').prop('disabled', false);
-                    clearInterval(syncInterval);
-                }
+                        $('#progress').hide();
+                        $('#logprogress').hide();
+                        localStorage.syncPressed = 'false';
+                        $('.syncButton').prop('disabled', false);
+                        clearInterval(syncInterval);
+                    }
 
-            }, "json");
+                }, "json");
+            }
         }
+    } else {
+        alert('File not uploaded');
     }
 }
 
