@@ -15,6 +15,7 @@
 
 
 use apps4net\framework\Page;
+use apps4net\framework\FilesIO;
 
 require_once('../src/boot.php');
 
@@ -22,6 +23,11 @@ session_start();
 Page::checkValidAjaxRequest(true);
 
 $myFile = $_POST['myFile'];
+
+$filename = 'temp.sql';
+$file = new FilesIO(OUTPUT_FOLDER, $filename, 'write');
+
+$file->insertRow($myFile);
 
 trigger_error($myFile);
 
