@@ -48,6 +48,7 @@ $options->defaultOptions = array(
     array('option_name' => 'paok', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0)
 );
 
+// Τα default progress fields
 $options->defaultProgress = array(
     array('progressName' => 'progressInPercent', 'progressValue' => '0'),
     array('progressName' => 'progressMessage', 'progressValue' => ''),

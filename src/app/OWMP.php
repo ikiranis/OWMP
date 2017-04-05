@@ -1689,6 +1689,8 @@ class OWMP
                     </p>
 
                     <p>
+                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" accept='sql/*' onchange="">
+
                         <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
                                value="Database Restore (experimental)">
                     </p>

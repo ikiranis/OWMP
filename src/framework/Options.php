@@ -146,6 +146,7 @@ class Options extends MyDB
         return $result;
     }
 
+    // TODO να ελέγχει και να σβήνει ότι είναι περιττό
     // Επιστρέφει τα options σε array. Ελέγχει και δημιουργεί όσα options δεν υπάρχουν
     // @return: array $newArray, με key το όνομα του option και value το value του option
     public function getOptionsArray()
@@ -190,6 +191,7 @@ class Options extends MyDB
     }
 
 
+    // TODO να το πάω στο progress class
     // Ελέγχει αν υπάρχουν όλα τα progress fields κι αν δεν υπάρχουν τα δημιουργεί
     public function checkProgressFields()
     {
