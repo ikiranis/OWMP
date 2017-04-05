@@ -12,15 +12,16 @@
  * Σώζει ένα αρχείο που κάναμε upload
  *
  */
-trigger_error('SOMETHING');
+
 
 use apps4net\framework\Page;
 
 require_once('../src/boot.php');
 
+session_abort();
 Page::checkValidAjaxRequest(true);
 
-
+trigger_error('SOMETHING');
 
 $myFile = $_POST['file'];
 
