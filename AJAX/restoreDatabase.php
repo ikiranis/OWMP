@@ -27,7 +27,7 @@ if(file_exists(OUTPUT_FOLDER . TEMP_RESTORE_DATABASE_FILE)) {
 
 // Τα επιλεγμένα tables
     $chozenTables = array('manual_playlists', 'salts', 'user_details', 'user',
-        'music_tags', 'album_arts', 'files', 'options', 'paths');
+        'options', 'music_tags', 'album_arts', 'files', 'paths');
 
 // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
     $backup = new BackupDB();
