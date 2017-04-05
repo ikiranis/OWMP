@@ -80,7 +80,6 @@ class Crypto
 
     // Αποκρυπτογράφηση του κειμένο. Επιστρέφει το αποκρυπτογραφημένο
     function DecryptText ($text) {
-        trigger_error($text);
         $encryption_key = hash('md5',self::$KeyForPasswords); // hashing του $KeyForPasswords
 
         $parts = explode(':', $text); // Σπάει το encrypted text στα 2 για να πάρει το $iv να κάνει την αποκρυπτογράφηση
