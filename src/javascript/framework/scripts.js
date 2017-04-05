@@ -3055,11 +3055,11 @@ function uploadFile(files) {
 
             // Tell jQuery not to process data or worry about content-type
             // You *must* include these options!
-            contentType: false,
-            processData: false,
+            // contentType: false,
+            // processData: false,
 
             success: function (data) {
-                alert('ANEBHKE');
+                console.log('ANEBHKE');
             }
         });
 
