@@ -159,12 +159,7 @@ class Options extends MyDB
 
         // Θέτουμε για key το όνομα του option και για value το value του option
         foreach ($optionsArray as $item) {
-            if($item['encrypt']==1) {  // Αν είναι encrypted το value το κάνουμε decrypt
-                $newArray[$item['option_name']] = $crypto->DecryptText($item['option_value']);
-            } else {
-                $newArray[$item['option_name']] = $item['option_value'];
-            }
-
+            $newArray[$item['option_name']] = $item['option_value'];
         }
 
         // Παίρνει την τιμή του restoreRunning στο progress
