@@ -1685,14 +1685,16 @@ class OWMP
 
                     <p>
                         <input type="button" class="myButton syncButton" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
-                               value="Database Backup (experimental)">
+                               value="<?php echo __('start_backup'); ?>">
+                        <?php Page::getHelp('help_database_backup'); ?>
                     </p>
 
                     <p>
-                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" accept='sql/*' onchange="uploadFile(this.files)">
+                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="uploadFile(this.files)">
 
                         <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
-                               value="Database Restore (experimental)">
+                               value="<?php echo __('start_restore'); ?>">
+                        <?php Page::getHelp('help_database_backup'); ?>
                     </p>
 
                     <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>

@@ -108,6 +108,8 @@
         <phrase name="sync_youtube">Download from youTube</phrase>
         <phrase name="import_path">Import path</phrase>
         <phrase name="cover_convert">Create small album covers</phrase>
+        <phrase name="start_backup">Database backup</phrase>
+        <phrase name="start_restore">Database restore</phrase>
     </page>
 
     <page name="playlist">
@@ -216,6 +218,13 @@
         <phrase name="no_main_music_path">Didn't set a main music path</phrase>
         <phrase name="no_main_music_video_path">Didn't set a main music video path</phrase>
         <phrase name="no_programs_exist_for_alac">Required programs not installed to convert ALAC</phrase>
+        <phrase name="sure_to_backup">You will start the backup of database. Are you sure?</phrase>
+        <phrase name="backup_success">Backup completed succesfully</phrase>
+        <phrase name="backup_failure">Problem with backup</phrase>
+        <phrase name="sure_to_restore">You will start the restore of database. Are you sure?</phrase>
+        <phrase name="restore_success">Restore completed succesfully</phrase>
+        <phrase name="restore_failure">Problem with restore</phrase>
+        <phrase name="file_not_upload">File not uploaded</phrase>
     </page>
 
     <page name="help">
@@ -393,6 +402,16 @@
             <p>Δημιουργεί μικρότερες εκδόσεις και thumbnails των album covers, για όλη την συλλογή</p>
             <p><strong>ΠΡΟΣΟΧΗ:</strong> Πρέπει να έχετε εγκατεστημένη την <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> βιβλιοθήκη της PHP. Παράδειγμα εγκατάστασης για την PHP 7 σε ubuntu</p>
             <pre>sudo apt-get install php7.0-gd</pre>
+        ]]></phrase>
+        <phrase name="help_database_backup"><![CDATA[
+            <p>Παίρνει backup της βάσης, δημιουργώντας ένα .sql αρχείο από το οποίο μπορεί να γίνει επαναφορά.
+            Η επαναφορά μπορεί να γίνει, είτε μέσα από την εφαρμογή (σχετικό button), είτε χρησιμοποιώντας κάποιο άλλο
+            εργαλείο διαχείρισης της mySQL (π.χ. phpmyadmin)</p>
+            <p><strong>ΠΡΟΣΟΧΗ:</strong> Αναλόγως το πόσο μεγάλη είναι η βάση (και αναλόγως τις δυνατότητες του server)
+            θα πάρει και την ανάλογη ώρα. Ίσως μερικά λεπτά για το backup (για πολύ μεγάλες βάσεις).
+            Μέχρι μερικές ώρες για το restore που παίρνει πολύ περισσότερη ώρα από το backup.</p>
+            <p>Προτείνεται να παίρνεται backup μια φορά την μέρα</p>
+            <p>Τα αρχεία .sql σώζονται προς το παρόν στον φάκελο output, στο main path για τα videoclips</p>
         ]]></phrase>
 
     </page>

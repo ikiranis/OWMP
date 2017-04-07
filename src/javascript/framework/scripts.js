@@ -2920,7 +2920,7 @@ function startTheUpdate() {
 
 //  Παίρνει backup της βάσης
 function startTheBackup() {
-    var confirmAnswer=confirm('Are you sure to backup the database?');
+    var confirmAnswer=confirm(phrases['sure_to_backup']);
 
     if (confirmAnswer==true) {
 
@@ -2944,7 +2944,7 @@ function startTheBackup() {
 
                 if (data.success == true) {
 
-                    DisplayMessage('#alert_error', 'Backup success');
+                    DisplayMessage('#alert_error', phrases['backup_success']);
 
                     $('#progress').hide();
                     $('#logprogress').hide();
@@ -2955,7 +2955,7 @@ function startTheBackup() {
                 }
                 else {
 
-                    DisplayMessage('#alert_error', 'Backup fail');
+                    DisplayMessage('#alert_error', phrases['backup_failure']);
 
                     $('#progress').hide();
                     $('#logprogress').hide();
@@ -2972,7 +2972,7 @@ function startTheBackup() {
 //  Κάνει restore της βάσης από ένα αρχείο backup
 function restoreTheBackup() {
     if(myFile!=='') {
-        var confirmAnswer=confirm('Are you sure to restore the database?');
+        var confirmAnswer=confirm(phrases['sure_to_restore']);
 
         if (confirmAnswer==true) {
             if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
@@ -2998,7 +2998,7 @@ function restoreTheBackup() {
                     success: function(data) {
                         if (data.success == true) {
 
-                            DisplayMessage('#alert_error', 'Restore success');
+                            DisplayMessage('#alert_error', phrases['restore_success']);
 
                             $('#progress').hide();
                             $('#logprogress').hide();
@@ -3009,7 +3009,7 @@ function restoreTheBackup() {
                         }
                         else {
 
-                            DisplayMessage('#alert_error', 'Restore fail');
+                            DisplayMessage('#alert_error', phrases['restore_failure']);
 
                             $('#progress').hide();
                             $('#logprogress').hide();
@@ -3023,7 +3023,7 @@ function restoreTheBackup() {
             }
         }
     } else {
-        alert('File not uploaded');
+        DisplayMessage('#alert_error', phrases['file_not_upload']);
     }
 }
 
@@ -3058,9 +3058,9 @@ function uploadFile(files) {
             // contentType: false,
             // processData: false,
 
-            success: function (data) {
-                console.log('ANEBHKE');
-            }
+            // success: function (data) {
+            //     // console.log('U');
+            // }
         });
 
     };
