@@ -13,12 +13,9 @@
  *
  */
 
-use apps4net\framework\MyDB;
 use apps4net\framework\Language;
 
-$conn = new MyDB();
-
-define ('APP_VERSION', '0.3.3');
+define ('APP_VERSION', '0.4.0');
 define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
@@ -46,7 +43,8 @@ $languages = array (    // Οι γλώσσες που υποστηρίζοντα
         'lang_id' => 'en')
 );
 
-define('DEFAULT_LANG', $conn->getOption('default_language'));  // Η default γλώσσα της εφαρμογής
+
+define('DEFAULT_LANG', $optionsArray['default_language']);  // Η default γλώσσα της εφαρμογής
 
 $UserGroups = array (     // Τα user groups που υπάρχουν
     array ('id' => '1',

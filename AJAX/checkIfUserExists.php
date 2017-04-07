@@ -8,7 +8,7 @@
  * Ελέγχει αν ο χρήστης υπάρχει στην βάση κι επιστρέφει true or false
  */
 
-use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Page;
 
 require_once('../src/boot.php');
@@ -21,8 +21,8 @@ Page::checkValidAjaxRequest(false);
 if(isset($_GET['username']))
     $username=ClearString($_GET['username']);
 
-$conn = new MyDB();
-if ($conn->checkIfUserExists($username))
+$user = new User();
+if ($user->checkIfUserExists($username))
     $jsonArray=array( 'success'=>true);
 else $jsonArray=array( 'success'=>false);
 

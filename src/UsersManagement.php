@@ -8,7 +8,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Language;
 use apps4net\framework\Crypto;
 
@@ -36,8 +36,8 @@ if (isset($_SESSION["username"])) {
 if (isset($_GET['RegisterUser']))
     ShowRegisterUser();
 else {
-    $CheckDB = new MyDB();
-    if($CheckDB->CheckIfThereIsUsers())
+    $user = new User();
+    if($user->CheckIfThereIsUsers())
         DisplayUsers();
     else ShowRegisterUser();
 }

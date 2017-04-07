@@ -10,12 +10,16 @@
 
 use apps4net\framework\Language;
 use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Page;
 use apps4net\framework\Logs;
 
 require_once('src/boot.php');
 
 session_start();
+
+MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
+MyDB::checkMySqlForTypeChanges(); // Έλεγχος για αλλαγμένα πεδία στην βάση
 
 $lang=new Language();
 
@@ -30,14 +34,11 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
-
 require_once('src/login.php');
 require_once('src/MainPage.php');
 
-
-MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
-
 $MainPage = new Page();
+$user = new User();
 
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
@@ -49,8 +50,6 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
-
-
 
 if (!isset($_GET['mobile'])) {
     $css = array('styles/basic.css', 'styles/main.css');
@@ -111,9 +110,10 @@ define('TAB_ID', date('YmdHis'));
 
 $logged_in=false;
 
+
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
-if(!$conn->CheckCookiesForLoggedUser()) {
-    if (MyDB::checkIfUserIsLegit())
+if(!$user->CheckCookiesForLoggedUser()) {
+    if (User::checkIfUserIsLegit())
     {
         $userName=$conn->getSession('username');
         
@@ -160,7 +160,7 @@ if($logged_in) {
 
 // Αν δεν είναι login κάποιος χρήστης
 if(!$logged_in) {
-    if ($conn->CheckIfThereIsUsers())
+    if ($user->CheckIfThereIsUsers())
         showLoginWindow();
     else ShowRegisterUser();
 }

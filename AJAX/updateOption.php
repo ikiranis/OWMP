@@ -9,7 +9,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\MyDB;
+use apps4net\framework\Options;
 use apps4net\framework\Logs;
 
 require_once('../src/boot.php');
@@ -28,9 +28,9 @@ if(isset($_GET['option_value']))
     $option_value=ClearString($_GET['option_value']);
 
 
-$conn = new MyDB();
+$options = new Options();
 
-if($conn->changeOption($option_name, $option_value)) {
+if($options->changeOption($option_name, $option_value)) {
     $jsonArray=array( 'success'=>'true');
     Logs::insertLog('Option '.$option_name.'changed'); // Προσθήκη της κίνησης στα logs
 }

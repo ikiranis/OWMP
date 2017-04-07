@@ -1,3 +1,8 @@
+2017-4-8: 0.4.0
+
+Improvements on backup/restore. Restore by choosing the .sql file you want.
+Changes on framework structure
+
 2017-3-28: 0.3.3
 
 Improvements on backup/restore

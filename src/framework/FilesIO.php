@@ -24,8 +24,8 @@ class FilesIO
     public $handle;  // Το αρχείο που ανοίγουμε
 
     // Αρχικοποίηση της κλάσης. Ανοίγει ένα κενό αρχείο στην τοποθεσία $this->filename
-    // @param: $path = το path που θα ανοίξει το αρχείο
-    // @param: $filename = το όνομα του αρχείου
+    // @param: string $path = το path που θα ανοίξει το αρχείο
+    // @param: string $filename = το όνομα του αρχείου
     // @param: string $operation = Παίρνει τιμές 'write' ή 'read'
     // @return: string $this->filename =  Το αρχείο για χειρισμό από την κλάση
     function __construct($path, $filename, $operation) {

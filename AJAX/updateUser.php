@@ -9,7 +9,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Logs;
 
 require_once('../src/boot.php');
@@ -42,15 +42,15 @@ if(isset($_GET['lname']))
     $lname=ClearString($_GET['lname']);
 else $lname='';
 
-$conn = new MyDB();
+$user = new User();
 $conn->CreateConnection();
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
 
-    $IsUserExist=$conn->checkIfUserExists($username);  // Ελέγχει αν χρήστης υπάρχει ήδη
+    $IsUserExist=$user->checkIfUserExists($username);  // Ελέγχει αν χρήστης υπάρχει ήδη
     
     if(!$IsUserExist){
-        if($inserted_id=$conn->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) { // Δημιουργεί τον χρήστη
+        if($inserted_id=$user->CreateUser($username, $email, $password, $usergroup, 'local', $fname, $lname)) { // Δημιουργεί τον χρήστη
             $jsonArray = array('success' => true, 'lastInserted' => $inserted_id);
             Logs::insertLog('User '.$username.' created'); // Προσθήκη της κίνησης στα logs
         }
@@ -61,7 +61,7 @@ if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
 }
 
 else {   // αλλιώς κάνει update
-    if($conn->UpdateUser($id, $username, $email, $password, $usergroup, 'local', $fname, $lname))   // Ενημερώνει την εγγραφή
+    if($user->UpdateUser($id, $username, $email, $password, $usergroup, 'local', $fname, $lname))   // Ενημερώνει την εγγραφή
         $jsonArray=array( 'success'=>true);
 
 }

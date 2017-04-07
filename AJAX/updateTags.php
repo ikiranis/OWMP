@@ -11,6 +11,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Logs;
 use apps4net\parrot\app\OWMP;
 
@@ -22,10 +23,10 @@ Page::updateUserSession();
 
 Page::checkValidAjaxRequest(true);
 
-$conn = new MyDB();
+$user = new User();
 
 
-$UserGroup = $conn->getUserGroup($conn->getSession('username'));
+$UserGroup = $user->getUserGroup($conn->getSession('username'));
 
 if ($UserGroup==1) { // Αν ο χρήστης είναι admin
 

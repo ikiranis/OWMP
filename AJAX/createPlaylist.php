@@ -10,7 +10,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\parrot\app\OWMP;
 
 require_once('../src/boot.php');
@@ -24,9 +24,9 @@ Page::checkValidAjaxRequest(true);
 if(isset($_GET['playlistName']))
     $playlistName=ClearString($_GET['playlistName']);
 
-$conn = new MyDB();
+$user = new User();
 
-$userID=$conn->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+$userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
 
 $playlistTableName = MANUAL_PLAYLIST_STRING.date('YmdHis');   // Το όνομα που θα πάρει το table του manual playlist
 
@@ -34,7 +34,7 @@ if(OWMP::createPlaylistTempTable($playlistTableName)) {  // Αν δημιουρ�
     $sql = 'INSERT INTO manual_playlists (table_name, playlist_name, user_id) VALUES(?,?,?)';   // Εισάγει στον πίνακα manual_playlists
     $playlistArray = array($playlistTableName, $playlistName, $userID);
 
-    if($playlistID=$conn->ExecuteSQL($sql, $playlistArray)) {  // Αν γίνει κανονικά η εισαγωγή στην manual_playlists
+    if($playlistID=$conn->insertInto($sql, $playlistArray)) {  // Αν γίνει κανονικά η εισαγωγή στην manual_playlists
         $jsonArray = array('success' => true, 'playlistID' => $playlistID, 'playlistName' => $playlistName);
 
     }

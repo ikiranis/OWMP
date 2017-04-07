@@ -37,7 +37,7 @@ if($playlistTableName) {  // Αν υπάρχει το συγκεκριμένο $
         $sql = 'INSERT INTO ' . $playlistTableName . ' (file_id) VALUES(?)';   // Εισάγει στον πίνακα $playlistTableName
         $playlistArray = array($fileID);
 
-        if ($conn->ExecuteSQL($sql, $playlistArray)) {  // Αν γίνει κανονικά η εισαγωγή στο $playlistTableName
+        if ($conn->insertInto($sql, $playlistArray)) {  // Αν γίνει κανονικά η εισαγωγή στο $playlistTableName
             $jsonArray = array('success' => true, 'song_name' => $songName);
 
         } else {

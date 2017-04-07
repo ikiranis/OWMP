@@ -12,13 +12,17 @@
  *
  * Κλάση που περιέχει μεθόδους για backup και restore της βάσης
  *
- * TODO να φτιαχτεί η μέθοδος για restore
  * TODO να σου δίνει επιλογή να κατεβάσεις το αρχείο
+ * TODO να δω τι θα κάνω με τα options που την ώρα που σβήνεται και ξαναδημιουργείται ο πίνακας options τρέχει
+ * το boot.php και προλαβαίνει να γράψει
+ *
+ * ΠΡΟΣΟΧΗ στην σειρά που δηλώνονται τα $this->tables για backup και για restore. Στο backup πρέπει να δηλώνονται πρώτα
+ * τα parent tables όταν υπάρχουν αλληλοεξαρτήσεις. Η αντίστροφη σειρά πρέπει να υπάρχει στο restore, γιατί πρέπει
+ * να σβήνει πρώτα τα child tables.
  *
  */
 
 namespace apps4net\framework;
-
 
 class BackupDB extends MyDB
 {
@@ -51,6 +55,14 @@ class BackupDB extends MyDB
         return $result;
     }
 
+    // Επιστρέφει το query για το drop του $table
+    // @param: string $table = Ο πίνακας που θα σβηστεί
+    // @return: string
+    static function getDropTableString($table)
+    {
+        return 'DROP TABLE IF EXISTS '.$table;
+    }
+
 
     // Επιστρέφει το insert string για το $tableRow  του πίνακα $table, σύμφωνα και με τα $tableFields
     static function getInsertStringForTableRow($table, $tableRow, $tableFields)
@@ -66,7 +78,11 @@ class BackupDB extends MyDB
 
         // Προσθήκη των values στο string
         foreach ($tableRow as $value) {
-            $insertString.= '\''.addslashes($value).'\',';
+            if($value=='') {  // Αν είναι κενό το αντικαθιστούμε με null για να μην χτυπάει το insert
+                $insertString.= 'null,';
+            } else {
+                $insertString.= '\''.addslashes($value).'\',';
+            }
         }
         $insertString = Utilities::cutLastString($insertString,',');
         $insertString.= ');';
@@ -96,23 +112,25 @@ class BackupDB extends MyDB
             $this->tables=self::getDatabaseTablesList();
         }
 
-        $file->insertRow("# ****** CREATE QUERIES ******");
+        $file->insertRow("## ****** CREATE QUERIES ******");
 
         $totalInserts=0; // Τα συνολικά inserts που είναι να γίνουν
 
-        // Δημιοργούμε τα create tabe strings και τα προσθέτουμε στο $data
+        // Δημιοργούμε τα drop και create table strings και τα προσθέτουμε στο $data
         foreach ($this->tables as $table) {
             $createTableString = self::getTableCreateString($table);
+            $dropTableString = self::getDropTableString($table);
 
-            // Γράφει την σχετική εγγραφή στο αρχείο
-            $file->insertRow("\n\n".$createTableString.";\n\n");
+            // Γράφει την σχετικές εγγραφές στο αρχείο. Πρώτο το drop, μετά το create
+            $file->insertRow("\n\n".$dropTableString.";\n");
+            $file->insertRow($createTableString.";\n\n");
 
             $totalInserts+=MyDB::countTable($table); // Προσθέτει το μέγεθος του πίνακα στα $totalInserts
         }
 
         $file->insertRow("\n\n\n\n");
 
-        $file->insertRow("# ****** INSERT QUERIES ******\n\n");
+        $file->insertRow("## ****** INSERT QUERIES ******\n\n");
 
         $general_counter=0;  // Ο γενικός μετρητής για να υπολογίσουμε το ποσοστό του progress
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
@@ -122,7 +140,7 @@ class BackupDB extends MyDB
 
             trigger_error('PROCCESING '.$table);
 
-            $file->insertRow("# ****** TABLE: ".$table." ******\n\n");
+            $file->insertRow("## ****** TABLE: ".$table." ******\n\n");
 
             // Παίρνουμε τα περιεχόμενα του πίνακα
             $sql = 'SELECT * FROM '.$table;
@@ -143,7 +161,6 @@ class BackupDB extends MyDB
                     Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
                     Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
                     $general_counter++;
-                    trigger_error($general_counter);
                     $progressCounter=0;
                 } else {
                     $progressCounter++;
@@ -173,15 +190,22 @@ class BackupDB extends MyDB
     // Εκτελεί το query $this->query
     public function executeQuery()
     {
-        self::$conn->query($this->sql);
+        try {
+            self::$conn->query($this->sql);
+        } catch (\PDOException $pe) {
+            trigger_error('PROBLEM WITH QUERY: ' . $this->sql. ' ----> '.$pe->getMessage() );
+        }
     }
 
-    // Σβήνει όλα τα tables που έχουμε επιλέξει στο $this->tables
-    public function dropTables()
+    // Καθαρίζει όλα τα tables που έχουμε επιλέξει στο $this->tables
+    public function clearTables()
     {
         foreach ($this->tables as $table) {
-            if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το σβήνουμε
-                MyDB::dropTable($table);
+            trigger_error($table);
+            if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το καθαρίζουμε
+                if(!MyDB::dropTable($table)) {
+                    trigger_error('PROBLEM WITH DELETE '.$table);
+                }
             }
         }
     }
@@ -191,6 +215,9 @@ class BackupDB extends MyDB
     public function restoreDatabase()
     {
         set_time_limit(0);
+
+        // Θέτουμε το error mode ώστε να πετάει exception στα errors του PDO::query
+        self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         Progress::setProgress(0); // Μηδενίζει το progress
 
@@ -203,7 +230,7 @@ class BackupDB extends MyDB
         $progressCounter=0;  // Ο μετρητής για να στέλνει το progress ανα διαστήματα και όχι συνέχεια
 
         // Σβήνουμε πρώτα όλα τα tables που έχουμε επιλέξει στο $this->tables
-        $this->dropTables();
+        $this->clearTables();
 
         $totalQueries = $file->getLines(); // Το σύνολο των γραμμών που υπάρχουν στο αρχείο
 
@@ -211,7 +238,7 @@ class BackupDB extends MyDB
         while ( (($line = fgets($file->handle)) !== false) ) {
 
             // Αν δεν είναι κενή γραμμή ή σχόλιο
-            if( ($line!=="\n") && (!preg_match('/#/', $line)) ) {
+            if( ($line!=="\n") && (!preg_match('/##/', $line)) ) {
 
                 // Αν δεν έχει ερωτηματικό, άρα δεν έχει τελειώσει το query
                 if (!preg_match('/;/', $line)) {
@@ -231,7 +258,6 @@ class BackupDB extends MyDB
                 Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
                 Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
                 $general_counter++;
-                trigger_error($general_counter);
                 $progressCounter=0;
             } else {
                 $progressCounter++;

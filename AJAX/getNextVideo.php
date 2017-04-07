@@ -10,6 +10,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Utilities;
 use apps4net\framework\Progress;
 use apps4net\parrot\app\OWMP;
@@ -19,7 +20,7 @@ require_once('../src/boot.php');
 session_start();
 Page::checkValidAjaxRequest(true);
 
-$conn = new MyDB();
+$user = new User();
 
 
 //trigger_error(TAB_ID);
@@ -44,7 +45,7 @@ $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 $theDate = date('Y-m-d H:i:s');
 MyDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
 
-$UserGroup=$conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+$UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
 
 // Αν δεν είναι admin γίνεται true το $cantPlayVotes και δεν μπορεί να παίξει votes

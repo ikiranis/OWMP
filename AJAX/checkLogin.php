@@ -9,7 +9,7 @@
  *
  */
 
-use apps4net\framework\MyDB;
+use apps4net\framework\User;
 use apps4net\framework\Page;
 use apps4net\framework\Language;
 
@@ -20,7 +20,7 @@ session_start();
 Page::checkValidAjaxRequest(false);
 
 
-$conn = new MyDB();
+$user = new User();
 $lang = new Language();
 
 if(isset($_GET['username']))
@@ -33,7 +33,7 @@ if (isset($_GET['SavePassword']))
     $SavePassword=$_GET['SavePassword'];
 
 
-    $login=$conn->CheckLogin($username, $password, $SavePassword);
+    $login=$user->CheckLogin($username, $password, $SavePassword);
 
     if($login['success']) {
         $jsonArray=array( 'success'=>true, 'message'=>$login['message']);

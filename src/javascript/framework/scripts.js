@@ -34,6 +34,8 @@ var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζε�
 var myImage='';   // Το cover art που κάνουμε upload
 var myMime='';  // Ο τύπος του cover art
 
+var myFile=''; // Το αρχείο που κάνουμε upload
+
 var tabID;
 
 var PlayTime=0; // Κρατάει πόσα τραγούδια παίξανε
@@ -2918,7 +2920,7 @@ function startTheUpdate() {
 
 //  Παίρνει backup της βάσης
 function startTheBackup() {
-    var confirmAnswer=confirm('Are you sure to backup the database?');
+    var confirmAnswer=confirm(phrases['sure_to_backup']);
 
     if (confirmAnswer==true) {
 
@@ -2942,7 +2944,7 @@ function startTheBackup() {
 
                 if (data.success == true) {
 
-                    DisplayMessage('#alert_error', 'Backup success');
+                    DisplayMessage('#alert_error', phrases['backup_success']);
 
                     $('#progress').hide();
                     $('#logprogress').hide();
@@ -2953,7 +2955,7 @@ function startTheBackup() {
                 }
                 else {
 
-                    DisplayMessage('#alert_error', 'Backup fail');
+                    DisplayMessage('#alert_error', phrases['backup_failure']);
 
                     $('#progress').hide();
                     $('#logprogress').hide();
@@ -2969,53 +2971,103 @@ function startTheBackup() {
 
 //  Κάνει restore της βάσης από ένα αρχείο backup
 function restoreTheBackup() {
-    var confirmAnswer=confirm('Are you sure to restore the database?');
+    if(myFile!=='') {
+        var confirmAnswer=confirm(phrases['sure_to_restore']);
 
-    if (confirmAnswer==true) {
-        if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
-            localStorage.syncPressed = 'true';
+        if (confirmAnswer==true) {
+            if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
+                localStorage.syncPressed = 'true';
 
-            callFile = AJAX_path + 'restoreDatabase.php';
+                callFile = AJAX_path + 'restoreDatabase.php';
 
-            $('#progress').show();
-            $('#logprogress').show();
-            $("#killCommand_img").show();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
+                $('#progress').show();
+                $('#logprogress').show();
+                $("#killCommand_img").show();
+                document.querySelector('#theProgressBar').value=0;
+                $("#theProgressNumber" ).html('');
 
-            // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
-            var syncInterval = setInterval(function () {
-                checkProgress();
-            }, 5000);
+                // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
+                var syncInterval = setInterval(function () {
+                    checkProgress();
+                }, 5000);
 
+                $.ajax({
+                    url: callFile,
+                    type: 'POST',
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.success == true) {
 
-            $.get(callFile, function (data) {
+                            DisplayMessage('#alert_error', phrases['restore_success']);
 
-                if (data.success == true) {
+                            $('#progress').hide();
+                            $('#logprogress').hide();
+                            localStorage.syncPressed = 'false';
+                            $('.syncButton').prop('disabled', false);
+                            clearInterval(syncInterval);
 
-                    DisplayMessage('#alert_error', 'Restore success');
+                        }
+                        else {
 
-                    $('#progress').hide();
-                    $('#logprogress').hide();
-                    localStorage.syncPressed = 'false';
-                    $('.syncButton').prop('disabled', false);
-                    clearInterval(syncInterval);
+                            DisplayMessage('#alert_error', phrases['restore_failure']);
 
-                }
-                else {
+                            $('#progress').hide();
+                            $('#logprogress').hide();
+                            localStorage.syncPressed = 'false';
+                            $('.syncButton').prop('disabled', false);
+                            clearInterval(syncInterval);
+                        }
+                    }
+                });
 
-                    DisplayMessage('#alert_error', 'Restore fail');
-
-                    $('#progress').hide();
-                    $('#logprogress').hide();
-                    localStorage.syncPressed = 'false';
-                    $('.syncButton').prop('disabled', false);
-                    clearInterval(syncInterval);
-                }
-
-            }, "json");
+            }
         }
+    } else {
+        DisplayMessage('#alert_error', phrases['file_not_upload']);
     }
+}
+
+function uploadFile(files) {
+    var selectedFile = document.getElementById('uploadSQLFile').files[0];
+
+    myMime = selectedFile.type;
+
+    var f = files[0];
+
+    var reader = new FileReader();
+
+    // Called when the file content is loaded, e.target.result is
+    // The content
+    reader.onload = function (e) {
+        // console.log(e.target.result);
+
+        myFile = e.target.result;
+
+        $.ajax({
+            // Your server script to process the upload
+            url: AJAX_path + 'uploadFile.php',
+            type: 'POST',
+
+            // Form data
+            data: {
+                myFile: myFile
+            },
+
+            // Tell jQuery not to process data or worry about content-type
+            // You *must* include these options!
+            // contentType: false,
+            // processData: false,
+
+            // success: function (data) {
+            //     // console.log('U');
+            // }
+        });
+
+    };
+
+
+    // Start reading asynchronously the file
+    reader.readAsText(f);
 }
 
 
