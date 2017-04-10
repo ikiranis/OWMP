@@ -2940,31 +2940,46 @@ function startTheBackup() {
                 checkProgress();
             }, 5000);
 
-            $.get(callFile, function (data) {
+            $.ajax({
+                url: callFile,
+                type: 'GET',
+                dataType: "json",
+                success: function(data) {
+                    if (data.success == true) {
 
-                if (data.success == true) {
+                        DisplayMessage('#alert_error', phrases['backup_success']);
 
-                    DisplayMessage('#alert_error', phrases['backup_success']);
+                        // Δημιουργία a href element και αυτόματο download
+                        var downloadText = document.createElement('a');
+                        downloadText.href = data.fullPath;
+                        downloadText.innerHTML = data.fullPath;
+                        downloadText.target = '_blank';
+                        downloadText.download = data.filename;
+                        downloadText.click();
 
-                    $('#progress').hide();
-                    $('#logprogress').hide();
-                    localStorage.syncPressed = 'false';
-                    $('.syncButton').prop('disabled', false);
-                    clearInterval(syncInterval);
+                        console.log(downloadText);
 
+                        $('#SyncDetails').append(downloadText);
+                        $('#progress').hide();
+                        $('#logprogress').hide();
+                        localStorage.syncPressed = 'false';
+                        $('.syncButton').prop('disabled', false);
+                        clearInterval(syncInterval);
+
+                    }
+                    else {
+
+                        DisplayMessage('#alert_error', phrases['backup_failure']);
+
+                        $('#progress').hide();
+                        $('#logprogress').hide();
+                        localStorage.syncPressed = 'false';
+                        $('.syncButton').prop('disabled', false);
+                        clearInterval(syncInterval);
+                    }
                 }
-                else {
+            });
 
-                    DisplayMessage('#alert_error', phrases['backup_failure']);
-
-                    $('#progress').hide();
-                    $('#logprogress').hide();
-                    localStorage.syncPressed = 'false';
-                    $('.syncButton').prop('disabled', false);
-                    clearInterval(syncInterval);
-                }
-
-            }, "json");
         }
     }
 }
@@ -2993,7 +3008,7 @@ function restoreTheBackup() {
 
                 $.ajax({
                     url: callFile,
-                    type: 'POST',
+                    type: 'GET',
                     dataType: "json",
                     success: function(data) {
                         if (data.success == true) {

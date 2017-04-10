@@ -192,4 +192,11 @@ class Utilities
         return $result;
     }
 
+    // Αφαίρει τα διπλά slashes(/) από ένα url
+    // @param: string $url = Το url που θα μετατραπεί
+    // @return: string $url = Επιστρέφει το url μετά την μετατροπή
+    static function removeURLDoubleSlashes($url) {
+        return preg_replace('/([^:])(\/{2,})/', '$1/', $url);
+    }
+
 }

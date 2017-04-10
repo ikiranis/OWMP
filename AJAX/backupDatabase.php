@@ -36,7 +36,7 @@ $backup = new BackupDB();
 $backup->tables = array_merge($chozenTables, $manualPlaylists);
 
 if ($backup->backupDatabase()) {
-    $jsonArray = array('success' => true);
+    $jsonArray = array('success' => true, 'filename' => $backup->createdFilename, 'fullPath' => $backup->createdFullPath);
     Logs::insertLog('Backup of the database with success'); // Προσθήκη της κίνησης στα logs
 } else {
     $jsonArray = array('success' => false);

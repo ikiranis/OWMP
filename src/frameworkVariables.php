@@ -18,8 +18,8 @@ use apps4net\framework\Language;
 define ('APP_VERSION', '0.4.0');
 define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
-define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών. Να μην πειραχτεί
-define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http. Να μην πειραχτεί
+define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών.
+define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http.
 
 define ('AJAX_PATH', 'AJAX/');
 
@@ -28,6 +28,9 @@ define ('CHANGE_LOG_URL', 'http://apps4net.eu/?page_id=41');
 
 if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
 else define ('HTTP_TEXT', 'http://');
+
+// Η διεύθυνση του server, χωρίς το project_path
+define ('SERVER_ROOT_ADDRESS', HTTP_TEXT.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']);
 
 // Παίρνει ολόκληρο το url του project με την εσωτερική ip του server
 define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].PROJECT_PATH);
@@ -53,7 +56,6 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
         'group_name' => 'user')
 );
 
-// Από εδώ τραβάει την τρέχουσα έκδοση της εφαρμογής
-define ('APP_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php');
+
 
 $lang = new Language();

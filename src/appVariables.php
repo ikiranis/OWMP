@@ -43,6 +43,8 @@ define ('PLAYED_QUEUE_PLAYLIST_STRING', 'pqPl_');  // To string που προσ�
 define ('BACKUP_FILE_PREFIX', 'backup_');
 define ('JUKEBOX_LIST_NAME', 'jukebox');  // Το όνομα του jukebox table
 define ('TEMP_RESTORE_DATABASE_FILE', 'temp_restore_database.sql');
+// Από εδώ τραβάει την τρέχουσα έκδοση της εφαρμογής
+define ('APP_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php');
 
 // *********  Τραβάει τιμές από την βάση για τα options
 

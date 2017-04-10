@@ -30,6 +30,8 @@ class BackupDB extends MyDB
     public $sqlFilePath; // To path που βρίσκεται το backup της βάσης
     public $sqlFile; // Το αρχείο που βρίσκεται το backup της βάσης
     private $sql;   // To query που θα εκτελεστεί
+    public $createdFilename;
+    public $createdFullPath;
 
     // Επιστρέφει το string που δημιουργεί τον πίνακα $table
     static function getTableCreateString($table)
@@ -93,6 +95,7 @@ class BackupDB extends MyDB
 
 
     // Παίρνει backup της βάσης
+    // @return: string $filename = το filename στο οποίο έχει σωθεί το backup
     public function backupDatabase()
     {
         set_time_limit(0);
@@ -176,6 +179,10 @@ class BackupDB extends MyDB
         }
 
         trigger_error('END OF SCRIPT');
+
+        // Επιστρέφει το αρχείο στο οποίο έχει σωθεί το backup
+        $this->createdFilename = $filename;
+        $this->createdFullPath = Utilities::removeURLDoubleSlashes(SERVER_ROOT_ADDRESS.OUTPUT_FOLDER.$filename);
         return true;
     }
 
