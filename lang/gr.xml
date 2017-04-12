@@ -45,6 +45,7 @@
         <phrase name="settings_users">Χρήστες</phrase>
         <phrase name="settings_options">Options</phrase>
         <phrase name="settings_paths">Διαδρομές αρχείων</phrase>
+        <phrase name="download_paths">Διαδρομές αρχείων για κατέβασμα</phrase>
         <phrase name="paths_file_path">Διαδρομή αρχείων</phrase>
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>
@@ -110,6 +111,7 @@
         <phrase name="cover_convert">Δημιουργία μικρογραφιών των album covers</phrase>
         <phrase name="start_backup">Αντίγραφο της βάσης</phrase>3
         <phrase name="start_restore">Επαναφορά της βάσης</phrase>
+        <phrase name="backup_file_autoload">Αυτόματο κατέβασμα του αρχείου μόλις είναι έτοιμο</phrase>
     </page>
 
     <page name="playlist">

@@ -2781,7 +2781,7 @@ function cancelTheBrowse() {
 // Εισαγωγή διαδρομής στο σχετικό text input field
 function importPath() {
     var chosenPath = document.querySelector('#chosenPathText').innerText.slice(0, -1);  // Κόβει το τελευταίο '/'
-    document.querySelector('#paths_formID'+currentPathFormID+' #file_path').value=chosenPath;
+    document.querySelector('#'+currentPathFormID+' #file_path').value=chosenPath;
     $('#browsePathWindow').hide();
 }
 
@@ -2917,6 +2917,28 @@ function startTheUpdate() {
     }, "json");
 }
 
+// Δημιουργία a href DOM element και αυτόματο (ή όχι) download
+// @param: string fullPath = το πλήρες path μαζί με το filename του αρχείου
+// @param: string filename = σκέτο το όνομα του αρχείου
+// @param: string hrefText = το κείμενο που θα εμφανιστεί
+// @param: Bool autoDownload = true για να αρχίσει να κατεβάζει αυτόματα το αρχείο
+// @return: DOM object = To a href που θα εμφανίσει
+function getDownloadLink(fullPath, filename, hrefText, autoDownload) {
+
+    var downloadText = document.createElement('a');
+    downloadText.href = fullPath;
+    downloadText.innerHTML = hrefText;
+    downloadText.target = '_blank';
+    downloadText.download = filename;
+
+    if(autoDownload) {
+        downloadText.click();
+    }
+
+    return downloadText;
+
+}
+
 
 //  Παίρνει backup της βάσης
 function startTheBackup() {
@@ -2949,16 +2971,13 @@ function startTheBackup() {
 
                         DisplayMessage('#alert_error', phrases['backup_success']);
 
+                        // To checkbox για autodownload
+                        var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
+
                         // Δημιουργία a href element και αυτόματο download
-                        var downloadText = document.createElement('a');
-                        downloadText.href = data.fullPath;
-                        downloadText.innerHTML = data.fullPath;
-                        downloadText.target = '_blank';
-                        downloadText.download = data.filename;
-                        downloadText.click();
+                        var downloadText = getDownloadLink(data.fullPath, data.filename, data.fullPath, autoDownload);
 
-                        console.log(downloadText);
-
+                        $('#SyncDetails').append('<br>');
                         $('#SyncDetails').append(downloadText);
                         $('#progress').hide();
                         $('#logprogress').hide();

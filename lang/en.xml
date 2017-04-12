@@ -45,6 +45,7 @@
         <phrase name="settings_users">Users</phrase>
         <phrase name="settings_options">Options</phrase>
         <phrase name="settings_paths">Paths</phrase>
+        <phrase name="download_paths">Download Paths</phrase>
         <phrase name="paths_file_path">Files Path</phrase>
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>
@@ -110,6 +111,7 @@
         <phrase name="cover_convert">Create small album covers</phrase>
         <phrase name="start_backup">Database backup</phrase>
         <phrase name="start_restore">Database restore</phrase>
+        <phrase name="backup_file_autoload">Autodownload the backup file when it will be ready</phrase>
     </page>
 
     <page name="playlist">

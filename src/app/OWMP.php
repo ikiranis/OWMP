@@ -1390,7 +1390,7 @@ class OWMP
 
             <?php
 
-            self::displayBrowsePath();
+
 
             foreach($paths as $path)
             {
@@ -1402,7 +1402,7 @@ class OWMP
                                                         placeholder="<?php echo __('paths_file_path'); ?>"
                                                         maxlength="255" required type="text" name="file_path" id="file_path"
                                                         value="<?php echo $path['file_path']; ?>"
-                                                        onclick="displayBrowsePath(<?php echo $path['id']; ?>);" ></span>
+                                                        onclick="displayBrowsePath('paths_formID<?php echo $path['id']; ?>');" ></span>
 
                         <span class="ListColumn">
                             <select class="input_field" name="kind" id="kind" >
@@ -1450,6 +1450,66 @@ class OWMP
         <?php
     }
 
+
+    // Εμφανίζει τα input για επιλογή των διάφορων download paths
+    static function getDownloadPaths() {
+
+
+        ?>
+        <div class="ListTable">
+
+                <div class="PathsRow" id="musicDownloadPath">
+                    <form class="table_form paths_form" id="formMusicDownloadPath">
+                        <span class="ListColumn"><input class="input_field"
+                                                        placeholder="<?php echo __('paths_file_path'); ?>"
+                                                        maxlength="255" required type="text" name="file_path" id="file_path"
+                                                        value="<?php echo 'musicDownloadPath'; ?>"
+                                                        onclick="displayBrowsePath('formMusicDownloadPath');" ></span>
+
+                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
+                    </form>
+                </div>
+
+                <div class="PathsRow" id="musicVideoDownloadPath">
+                    <form class="table_form paths_form" id="formMusicVideoDownloadPath">
+                            <span class="ListColumn"><input class="input_field"
+                                                            placeholder="<?php echo __('paths_file_path'); ?>"
+                                                            maxlength="255" required type="text" name="file_path" id="file_path"
+                                                            value="<?php echo 'musicVideoDownloadPath'; ?>"
+                                                            onclick="displayBrowsePath('formMusicVideoDownloadPath');" ></span>
+
+                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
+                    </form>
+                </div>
+
+                <div class="PathsRow" id="outputFolder">
+                    <form class="table_form paths_form" id="formOutputFolder">
+                                <span class="ListColumn"><input class="input_field"
+                                                                placeholder="<?php echo __('paths_file_path'); ?>"
+                                                                maxlength="255" required type="text" name="file_path" id="file_path"
+                                                                value="<?php echo 'outputFolder'; ?>"
+                                                                onclick="displayBrowsePath('formOutputFolder');" ></span>
+
+                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
+                    </form>
+                </div>
+
+                <div class="PathsRow" id="coverAlbumsFolder">
+                    <form class="table_form paths_form" id="formCoverAlbumsFolder">
+                                    <span class="ListColumn"><input class="input_field"
+                                                                    placeholder="<?php echo __('paths_file_path'); ?>"
+                                                                    maxlength="255" required type="text" name="file_path" id="file_path"
+                                                                    value="<?php echo 'coverAlbumsFolder'; ?>"
+                                                                    onclick="displayBrowsePath('formCoverAlbumsFolder');" ></span>
+
+                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
+                    </form>
+                </div>
+
+        </div>
+
+        <?php
+    }
 
     static function showConfiguration () {
 
@@ -1608,10 +1668,18 @@ class OWMP
 
     // εμφάνιση των επιλογών συγχρονισμού
     static function showSynchronization () {
+
+        self::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
+
         ?>
             <details>
                 <summary> <?php echo __('settings_paths'); Page::getHelp('help_paths'); ?> </summary>
                 <?php self::getPathsInFormFields(); ?>
+            </details>
+
+            <details>
+                <summary> <?php echo __('download_paths'); Page::getHelp('help_paths'); ?> </summary>
+                <?php self::getDownloadPaths(); ?>
             </details>
 
         <?php
@@ -1687,6 +1755,7 @@ class OWMP
                         <input type="button" class="myButton syncButton" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
                                value="<?php echo __('start_backup'); ?>">
                         <?php Page::getHelp('help_database_backup'); ?>
+                        <input type="checkbox" id="autoDownloadBackupFile" name="autoDownloadBackupFile"> <?php echo __('backup_file_autoload'); ?>
                     </p>
 
                     <p>
