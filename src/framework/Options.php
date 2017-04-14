@@ -19,6 +19,7 @@ class Options extends MyDB
 {
     public $defaultOptions = array(); // Τα defaultOptions που θα καταχωρηθούν στην βάση
     public $defaultProgress = array(); // Τα progress fields που θα προστεθούν στον πίνακα progress
+    public $defaultDownloadPaths = array(); // Τα path names που θα έχει το table download_paths
 
     // Αλλάζει το $value ενός $option
     public function changeOption ($option, $value)
@@ -204,6 +205,26 @@ class Options extends MyDB
         foreach ($this->defaultProgress as $progress) {
             if(in_array($progress['progressName'], $newArray) == false) {
                 Progress::createProgressName($progress['progressName'], $progress['progressValue']);
+            }
+        }
+
+    }
+
+    // TODO να το προσθέσω πιθανά σε άλλη κλάση
+    // Ελέγχει το download_paths table, αν έχει τιμές
+    public function checkDownloadPaths()
+    {
+        // Παίρνουμε τα αποτελέσματα του download_paths σε array
+        $downloadPathsArray = MyDB::clearArray(self::getTableArray('download_paths', 'path_name', null, null, null, null, null));
+
+        // Ελέγχουμε αν κάποιο path name που βρίσκετε στο $this->defaultDownloadPaths δεν υπάρχει στην βάση
+        // Το δημιουργούμε αν δεν υπάρχει
+        foreach ($this->defaultDownloadPaths as $pathName) {
+            if(in_array($pathName, $downloadPathsArray) == false) {
+                $conn = new MyDB();
+                $sql = 'INSERT INTO download_paths (path_name) VALUES(?)';   // Εισάγει στον πίνακα download_paths
+                $pathsArray = array($pathName);
+                $conn->insertInto($sql, $pathsArray);
             }
         }
 

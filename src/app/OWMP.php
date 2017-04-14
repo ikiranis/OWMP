@@ -1454,57 +1454,37 @@ class OWMP
     // Εμφανίζει τα input για επιλογή των διάφορων download paths
     static function getDownloadPaths() {
 
+        // Παίρνουμε τα αποτελέσματα του download_paths σε array
+        $downloadPathsArray = MyDB::getTableArray('download_paths', null, null, null, null, null, null);
 
+        // TODO να κάνω την εισαγωγή στην βάση της κάθε επιλογής
+        
         ?>
         <div class="ListTable">
 
-                <div class="PathsRow" id="musicDownloadPath">
-                    <form class="table_form paths_form" id="formMusicDownloadPath">
+            <?php
+
+                foreach ($downloadPathsArray as $item) {
+                    ?>
+
+                    <div class="PathsRow" id="<?php echo $item['path_name']; ?>">
+                        <form class="table_form paths_form" id="form<?php echo $item['path_name']; ?>">
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('paths_file_path'); ?>"
-                                                        maxlength="255" required type="text" name="file_path" id="file_path"
-                                                        value="<?php echo 'musicDownloadPath'; ?>"
-                                                        onclick="displayBrowsePath('formMusicDownloadPath');" ></span>
+                                                        maxlength="255" required type="text" name="file_path"
+                                                        id="file_path"
+                                                        value="<?php echo $item['path_name']; ?>"
+                                                        onclick="displayBrowsePath('form<?php echo $item['path_name']; ?>');"></span>
 
-                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
-                    </form>
-                </div>
+                            <input type="button" class="update_button button_img" name="update_path"
+                                   title="<?php echo __('update_row'); ?>"
+                                   onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
+                        </form>
+                    </div>
 
-                <div class="PathsRow" id="musicVideoDownloadPath">
-                    <form class="table_form paths_form" id="formMusicVideoDownloadPath">
-                            <span class="ListColumn"><input class="input_field"
-                                                            placeholder="<?php echo __('paths_file_path'); ?>"
-                                                            maxlength="255" required type="text" name="file_path" id="file_path"
-                                                            value="<?php echo 'musicVideoDownloadPath'; ?>"
-                                                            onclick="displayBrowsePath('formMusicVideoDownloadPath');" ></span>
-
-                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
-                    </form>
-                </div>
-
-                <div class="PathsRow" id="outputFolder">
-                    <form class="table_form paths_form" id="formOutputFolder">
-                                <span class="ListColumn"><input class="input_field"
-                                                                placeholder="<?php echo __('paths_file_path'); ?>"
-                                                                maxlength="255" required type="text" name="file_path" id="file_path"
-                                                                value="<?php echo 'outputFolder'; ?>"
-                                                                onclick="displayBrowsePath('formOutputFolder');" ></span>
-
-                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
-                    </form>
-                </div>
-
-                <div class="PathsRow" id="coverAlbumsFolder">
-                    <form class="table_form paths_form" id="formCoverAlbumsFolder">
-                                    <span class="ListColumn"><input class="input_field"
-                                                                    placeholder="<?php echo __('paths_file_path'); ?>"
-                                                                    maxlength="255" required type="text" name="file_path" id="file_path"
-                                                                    value="<?php echo 'coverAlbumsFolder'; ?>"
-                                                                    onclick="displayBrowsePath('formCoverAlbumsFolder');" ></span>
-
-                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath();"">
-                    </form>
-                </div>
+                    <?php
+                }
+            ?>
 
         </div>
 

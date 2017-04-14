@@ -137,10 +137,46 @@ $mySqlTables = array (
                                           `file_id` bigint(20) DEFAULT NULL,
                                           `voter_ip` varchar(20) DEFAULT NULL,
                                           PRIMARY KEY (`id`)
-                                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;')
+                                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;'),
+    array ('table' => 'download_paths', 'sql' => 'CREATE TABLE `download_paths` (
+                                          `id` INT(11) NOT NULL AUTO_INCREMENT,
+                                          `file_path` VARCHAR(255) NULL DEFAULT NULL,
+                                          `path_name` VARCHAR(25) NULL,
+                                          PRIMARY KEY (`id`))
+                                        ENGINE = InnoDB
+                                        AUTO_INCREMENT = 4
+                                        DEFAULT CHARACTER SET = utf8')
 );
 
 $mySqlChanges = array(
                 array('table' => 'options', 'field' => 'option_id', 'oldType' => 'tinyint(4)',
                     'sql' => 'ALTER TABLE options MODIFY option_id int(11) AUTO_INCREMENT')
 );
+
+$defaultOptions = array(
+    array('option_name' => 'convert_alac_files', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'playlist_limit', 'option_value' => '150', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'dir_prefix', 'option_value' => '/', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'syncItunes', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'date_format', 'option_value' => 'Y-m-d', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'icecast_server', 'option_value' => '0.0.0.0:8000', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'icecast_mount', 'option_value' => 'listen', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'icecast_user', 'option_value' => 'user', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'icecast_pass', 'option_value' => 'pass', 'setting' => 1, 'encrypt' => 1),
+    array('option_name' => 'icecast_enable', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'jukebox_enable', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'default_language', 'option_value' => 'en', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'youtube_api', 'option_value' => 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0)
+);
+
+$defaultProgress = array(
+    array('progressName' => 'progressInPercent', 'progressValue' => '0'),
+    array('progressName' => 'progressMessage', 'progressValue' => ''),
+    array('progressName' => 'killCommand', 'progressValue' => '0'),
+    array('progressName' => 'lastMomentAlive', 'progressValue' => time()),
+    array('progressName' => 'currentSong', 'progressValue' => '0'),
+    array('progressName' => 'restoreRunning', 'progressValue' => '0')
+);
+
+$defaultPathNames = array('musicDownloadPath', 'musicVideoDownloadPath', 'outputFolder', 'coverAlbumsFolder');

@@ -558,10 +558,6 @@ function attachSinkId(element, sinkId) {
 function updatePath(id) {
     var currentMediaKind = document.querySelector('#paths_formID'+id+' #kind').value;
 
-    // /media/Therion/videoclips
-
-
-
     // Παίρνουμε όλα τα form id's που έχουν class paths_form
     var allForms = document.querySelectorAll('.paths_form');
     var FormIDs = [];

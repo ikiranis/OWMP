@@ -46,7 +46,6 @@ $languages = array (    // Οι γλώσσες που υποστηρίζοντα
         'lang_id' => 'en')
 );
 
-
 define('DEFAULT_LANG', $optionsArray['default_language']);  // Η default γλώσσα της εφαρμογής
 
 $UserGroups = array (     // Τα user groups που υπάρχουν
@@ -55,7 +54,5 @@ $UserGroups = array (     // Τα user groups που υπάρχουν
     array ('id' => '2',
         'group_name' => 'user')
 );
-
-
 
 $lang = new Language();
