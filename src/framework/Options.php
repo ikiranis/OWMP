@@ -228,6 +228,7 @@ class Options extends MyDB
         // Το δημιουργούμε αν δεν υπάρχει
         foreach ($this->defaultDownloadPaths as $item) {
             if(!isset($newArray[$item])) {
+                trigger_error($item);
                 $conn = new MyDB();
                 $sql = 'INSERT INTO download_paths (path_name) VALUES(?)';   // Εισάγει στον πίνακα download_paths
                 $pathsArray = array($item);
