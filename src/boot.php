@@ -42,7 +42,7 @@ $options->defaultDownloadPaths = $defaultPathNames;
 // Έλεγχος των progress fields και δημιουργία τους όταν δεν υπάρχουν
 $options->checkProgressFields();
 
-// TODO Να κάνω τους ελέγχους σε όλα τα directory αν είναι valid
+// TODO Να κάνω τους ελέγχους σε όλα τα directory αν είναι valid και writeable
 // Έλεγχος των path names αν υπάρχουν στο table download_paths και επιστροφή των paths σε array
 $downloadPaths = $options->getDownloadPaths();
 
