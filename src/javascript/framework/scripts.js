@@ -623,7 +623,7 @@ function deletePath(id) {
                 $("#PathID0").find('form').prop('id','paths_formID0');
                 $("#PathID0").find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
                 // αλλάζει την function στο button
-                $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(0)");
+                $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(paths_formID0)");
                 $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
                 $("#PathID0").find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
 

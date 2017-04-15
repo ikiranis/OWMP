@@ -1,3 +1,10 @@
+2017-4-16: 0.5.0
+
+After the backup you can download the sql file.
+You have to choose the paths for every write operation need to be done
+You don't have enymore to choose "main/not main" at library paths
+Improvements on library screen with group options
+
 2017-4-8: 0.4.0
 
 Improvements on backup/restore. Restore by choosing the .sql file you want.
