@@ -1596,7 +1596,6 @@ class OWMP
                     <input type="hidden" id="MusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $checkVideoFileUpload['result']; ?>">
                     <input type="hidden" id="MusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $checkAudioFileUpload['result']; ?>">
 
-                    <?php Page::getHelp('help_youtube'); ?>
                 </div>
 
                 <?php
@@ -1752,7 +1751,7 @@ class OWMP
             </details>
 
             <details>
-                <summary> <?php echo __('download_paths'); Page::getHelp('help_paths'); ?> </summary>
+                <summary> <?php echo __('download_paths'); Page::getHelp('help_download_paths'); ?> </summary>
                 <?php self::getDownloadPaths(); ?>
             </details>
 
@@ -1762,8 +1761,10 @@ class OWMP
             </details>
 
             <details>
-                <summary> <?php echo __('youtube_download'); ?> </summary>
-                <?php self::displayYoutubeDownloadElements(); // Εμφανίζει τις επιλογές για το youtube ?>
+                <summary> <?php echo __('youtube_download'); Page::getHelp('help_youtube'); ?> </summary>
+                <?php
+                    self::displayYoutubeDownloadElements(); // Εμφανίζει τις επιλογές για το youtube
+                ?>
             </details>
 
             <details>
