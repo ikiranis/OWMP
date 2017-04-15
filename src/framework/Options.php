@@ -228,8 +228,6 @@ class Options extends MyDB
             }
         }
 
-        print_r($newArray);
-
         // Ελέγχουμε αν κάποιο path name που βρίσκετε στο $this->defaultDownloadPaths δεν υπάρχει στην βάση
         // Το δημιουργούμε αν δεν υπάρχει
         foreach ($this->defaultDownloadPaths as $item) {
