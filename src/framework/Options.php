@@ -167,7 +167,7 @@ class Options extends MyDB
         $restoreRunning = MyDB::getTableFieldValue('progress', 'progressName=?', 'restoreRunning', 'progressValue');
 
         if($restoreRunning=='0') { // Αν δεν τρέχει το restore
-            // Ελέγχουμε αν κάποιο option που βρήσκετε στο $this->defaultOptions δεν υπάρχει στην βάση
+            // Ελέγχουμε αν κάποιο option που βρίσκεται στο $this->defaultOptions δεν υπάρχει στην βάση
             // Το δημιουργούμε αν δεν υπάρχει
             foreach ($this->defaultOptions as $option) {
                 if (!isset($newArray[$option['option_name']])) {
@@ -211,22 +211,31 @@ class Options extends MyDB
     }
 
     // TODO να το προσθέσω πιθανά σε άλλη κλάση
-    // Ελέγχει το download_paths table, αν έχει τιμές
-    public function checkDownloadPaths()
+    // Ελέγχει το download_paths table, αν έχει τιμές κι επιστρέφει τα paths σε array
+    public function getDownloadPaths()
     {
         // Παίρνουμε τα αποτελέσματα του download_paths σε array
-        $downloadPathsArray = MyDB::clearArray(self::getTableArray('download_paths', 'path_name', null, null, null, null, null));
+        $downloadPathsArray = self::getTableArray('download_paths', null, null, null, null, null, null);
+        $newArray = array();
+
+
+        // Θέτουμε για key το όνομα του option και για value το value του option
+        foreach ($downloadPathsArray as $item) {
+            $newArray[$item['path_name']] = $item['file_path'];
+        }
 
         // Ελέγχουμε αν κάποιο path name που βρίσκετε στο $this->defaultDownloadPaths δεν υπάρχει στην βάση
         // Το δημιουργούμε αν δεν υπάρχει
-        foreach ($this->defaultDownloadPaths as $pathName) {
-            if(in_array($pathName, $downloadPathsArray) == false) {
+        foreach ($this->defaultDownloadPaths as $item) {
+            if(!isset($newArray[$item])) {
                 $conn = new MyDB();
                 $sql = 'INSERT INTO download_paths (path_name) VALUES(?)';   // Εισάγει στον πίνακα download_paths
-                $pathsArray = array($pathName);
+                $pathsArray = array($item);
                 $conn->insertInto($sql, $pathsArray);
             }
         }
+
+        return $newArray;
 
     }
 

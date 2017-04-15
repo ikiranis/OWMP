@@ -50,34 +50,11 @@ define ('APP_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php')
 
 
 // Τα paths των αρχείων
-$MusicMainDir=MyDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
-if($MusicMainDir) {
-    define ('ALBUM_COVERS_DIR', $MusicMainDir.'/album_covers/');  // Ο φάκελος που ανεβαίνουν τα covers
-    define ('MUSIC_UPLOAD', $MusicMainDir.'/Converted/');  // O φάκελος που μετατρέπονται τα mp3
-}
-else {
-    define ('ALBUM_COVERS_DIR', null);  // Ο φάκελος που ανεβαίνουν τα covers
-    define ('MUSIC_UPLOAD', null);  // O φάκελος που μετατρέπονται τα mp3
-}
-
-$MusicVideoMainDir=MyDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music Video'), 'file_path');
-if($MusicVideoMainDir) {
-    define ('VIDEO_FILE_UPLOAD', $MusicVideoMainDir.'/Download/');
-    define ('OUTPUT_FOLDER', $MusicVideoMainDir.'/output/');
-}
-else  {
-    define ('VIDEO_FILE_UPLOAD', null);
-    define ('OUTPUT_FOLDER', null);
-}
-
-$MusicMainDir=MyDB::getTableFieldValue('paths', 'main=? and kind=?', array(1, 'Music'), 'file_path');
-if($MusicMainDir) {
-    define ('MUSIC_FILE_UPLOAD', $MusicMainDir.'/Download/');
-}
-else  {
-    define ('MUSIC_FILE_UPLOAD', null);
-}
-
+define ('ALBUM_COVERS_DIR', $downloadPaths['coverAlbumsFolder'].'/');  // Ο φάκελος που ανεβαίνουν τα covers
+define ('MUSIC_UPLOAD', $downloadPaths['convertedALAC'].'/');  // O φάκελος που μετατρέπονται τα mp3
+define ('VIDEO_FILE_UPLOAD', $downloadPaths['musicVideoDownloadPath'].'/'); // Ο φάκελος που κατεβαίνουν τα videoclips
+define ('OUTPUT_FOLDER', $downloadPaths['outputFolder'].'/');  // Ο φάκελος που κάνει τις οποιεσδήποτε εξαγωγές η εφαρμογή
+define ('MUSIC_FILE_UPLOAD', $downloadPaths['musicDownloadPath'].'/');  // Ο φάκελος που κατεβαίνουν τα audio files
 
 
 // Τα options

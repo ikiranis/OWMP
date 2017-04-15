@@ -42,8 +42,8 @@ $options->defaultDownloadPaths = $defaultPathNames;
 // Έλεγχος των progress fields και δημιουργία τους όταν δεν υπάρχουν
 $options->checkProgressFields();
 
-// Έλεγχος των path names αν υπάρχουν στο table download_paths
-$options->checkDownloadPaths();
+// Έλεγχος των path names αν υπάρχουν στο table download_paths και επιστροφή των paths σε array
+$downloadPaths = $options->getDownloadPaths();
 
 // Ο πίνακας με τα options
 $optionsArray = $options->getOptionsArray();
