@@ -46,6 +46,9 @@
         <phrase name="settings_options">Options</phrase>
         <phrase name="settings_paths">Paths</phrase>
         <phrase name="download_paths">Download Paths</phrase>
+        <phrase name="sync_jobs">Sync Jobs</phrase>
+        <phrase name="youtube_download">Download from Youtube</phrase>
+        <phrase name="requirements_check">Requirements Check</phrase>
         <phrase name="paths_file_path">Files Path</phrase>
         <phrase name="update_row">Update</phrase>
         <phrase name="delete_row">Delete</phrase>

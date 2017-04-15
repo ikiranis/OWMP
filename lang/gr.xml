@@ -46,6 +46,9 @@
         <phrase name="settings_options">Options</phrase>
         <phrase name="settings_paths">Διαδρομές αρχείων</phrase>
         <phrase name="download_paths">Διαδρομές αρχείων για κατέβασμα</phrase>
+        <phrase name="sync_jobs">Εργασίες συγχρονισμού</phrase>
+        <phrase name="youtube_download">Κατέβασμα από το Youtube</phrase>
+        <phrase name="requirements_check">Έλεγχοι απαιτούμενων εφαρμογών</phrase>
         <phrase name="paths_file_path">Διαδρομή αρχείων</phrase>
         <phrase name="update_row">Ενημέρωση</phrase>
         <phrase name="delete_row">Διαγραφή</phrase>

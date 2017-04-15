@@ -1646,25 +1646,8 @@ class OWMP
         <?php
     }
 
-
-    // εμφάνιση των επιλογών συγχρονισμού
-    static function showSynchronization () {
-
-        self::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
-
-        ?>
-            <details>
-                <summary> <?php echo __('settings_paths'); Page::getHelp('help_paths'); ?> </summary>
-                <?php self::getPathsInFormFields(); ?>
-            </details>
-
-            <details>
-                <summary> <?php echo __('download_paths'); Page::getHelp('help_paths'); ?> </summary>
-                <?php self::getDownloadPaths(); ?>
-            </details>
-
-        <?php
-
+    static function getSyncJobsButtons()
+    {
         $conn = new MyDB();
         $user = new User();
         $conn->CreateConnection();
@@ -1684,37 +1667,37 @@ class OWMP
                             <option value="<?php echo $kind; ?>">
                                 <?php echo $kind; ?>
                             </option>
-    
+
                             <?php
                         }
                         ?>
                     </select>
-    
-    
+
+
                     <p>
                         <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startTheSync('sync');"
-                           value="<?php echo __('Synchronize'); ?>">
+                               value="<?php echo __('Synchronize'); ?>">
                         <?php Page::getHelp('help_sync'); ?>
                     </p>
-    
+
                     <p>
                         <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startTheSync('clear');"
                                value="<?php echo __('sync_clear'); ?>">
                         <?php Page::getHelp('help_clear_db'); ?>
                     </p>
-    
+
                     <p>
                         <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startTheSync('hash');"
                                value="<?php echo __('sync_hash'); ?>">
                         <?php Page::getHelp('help_hash'); ?>
                     </p>
-    
+
                     <p>
                         <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
-                           value="<?php echo __('sync_metadata'); ?>">
+                               value="<?php echo __('sync_metadata'); ?>">
                         <?php Page::getHelp('help_metadata'); ?>
                     </p>
-    
+
                     <p>
                         <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
                                value="<?php echo __('sync_json'); ?>">
@@ -1727,10 +1710,10 @@ class OWMP
                         <?php Page::getHelp('help_convert_covers'); ?>
                     </p>
 
-<!--                    <p>-->
-<!--                        <input type="button" class="myButton syncButton" id="startUpdate" name="startUpdate" onclick="startTheUpdate();"-->
-<!--                               value="Update">-->
-<!--                    </p>-->
+                    <!--                    <p>-->
+                    <!--                        <input type="button" class="myButton syncButton" id="startUpdate" name="startUpdate" onclick="startTheUpdate();"-->
+                    <!--                               value="Update">-->
+                    <!--                    </p>-->
 
                     <p>
                         <input type="button" class="myButton syncButton" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
@@ -1747,27 +1730,54 @@ class OWMP
                         <?php Page::getHelp('help_database_backup'); ?>
                     </p>
 
-                    <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
-                    <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
-                    <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
-                    <li> <?php echo __('help_alac_title'); Page::getHelp('help_alac'); ?> </li>
-    
-
-                    <?php
-                        self::displayYoutubeDownloadElements();
-                    ?>
-
                 </form>
 
-
-                <?php
-                    self::checkRequirements();
-                ?>
-
-                   
             </div>
 
-            
+                <?php
+        }
+        else echo '<p>'.__('only_for_admin').'</p>';
+    }
+
+
+    // εμφάνιση των επιλογών συγχρονισμού
+    static function showSynchronization () {
+
+        self::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
+
+        ?>
+            <details>
+                <summary> <?php echo __('settings_paths'); Page::getHelp('help_paths'); ?> </summary>
+                <?php self::getPathsInFormFields(); ?>
+            </details>
+
+            <details>
+                <summary> <?php echo __('download_paths'); Page::getHelp('help_paths'); ?> </summary>
+                <?php self::getDownloadPaths(); ?>
+            </details>
+
+            <details>
+                <summary> <?php echo __('sync_jobs'); ?> </summary>
+                <?php self::getSyncJobsButtons(); ?>
+            </details>
+
+            <details>
+                <summary> <?php echo __('youtube_download'); ?> </summary>
+                <?php self::displayYoutubeDownloadElements(); // Εμφανίζει τις επιλογές για το youtube ?>
+            </details>
+
+            <details>
+                <summary> <?php echo __('requirements_check'); ?> </summary>
+                <?php self::checkRequirements();  // Εμφανίζει τους ελέγχους για τα requirements ?>
+            </details>
+
+            <p>
+                <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
+                <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
+                <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
+                <li> <?php echo __('help_alac_title'); Page::getHelp('help_alac'); ?> </li>
+            </p>
+
             
             <div id="SyncDetails">
                 <div id="progress"></div>
@@ -1787,8 +1797,6 @@ class OWMP
 
 
             <?php
-        }
-        else echo '<p>'.__('only_for_admin').'</p>';
     }
 
     // Εμφάνιση των logs
