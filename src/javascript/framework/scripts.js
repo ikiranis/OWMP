@@ -556,7 +556,6 @@ function attachSinkId(element, sinkId) {
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table paths, ή εισάγει νέα εγγραφή
 function updatePath(id) {
-    var currentMediaKind = document.querySelector('#paths_formID'+id+' #kind').value;
 
     // Παίρνουμε όλα τα form id's που έχουν class paths_form
     var allForms = document.querySelectorAll('.paths_form');
@@ -567,55 +566,38 @@ function updatePath(id) {
         FormIDs.push(allForms[i].id);
     }
 
-    for(var i = 0; i<FormIDs.length; i++) {
 
-        var curID = eval(FormIDs[i].replace('paths_formID',''));  // Παίρνει μόνο το id
+    var curID = id;  // Παίρνει μόνο το id
 
-        var checkedMediaKind = document.querySelector('#' + FormIDs[i] + ' #kind').value;
+    var file_path=$("#PathID"+curID).find('input[name="file_path"]').val();
+    var kind=$("#PathID"+curID).find('select[name="kind"]').val();
 
-        if(checkedMediaKind==currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
+    callFile=AJAX_path+"updatePath.php?id="+curID+"&file_path="+file_path+"&kind="+kind;
 
-            var file_path=$("#PathID"+curID).find('input[name="file_path"]').val();
-            var kind=$("#PathID"+curID).find('select[name="kind"]').val();
-            var main=$("#PathID"+curID).find('select[name="main"]').val();
+    if ($('#' + FormIDs[curID]).valid()) {
+        $.get(callFile, function (data) {
+            updatedID=data.id;
 
-            callFile=AJAX_path+"updatePath.php?id="+curID+"&file_path="+file_path+"&kind="+kind+"&main="+main;
+            if (data.success == true) {
+                if (updatedID == '0') {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    PathKeyPressed = false;
+                    LastInserted = data.lastInserted;
+                    $("#PathID0").prop('id', 'PathID' + LastInserted);
+                    $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
+                    $("#PathID" + LastInserted).find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
+                    $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
+                    $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
+                    $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
+                    $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
 
-
-            if ($('#' + FormIDs[i]).valid()) {
-                $.get(callFile, function (data) {
-                    updatedID=data.id;
-
-                    if (data.success == true) {
-                        if (updatedID == '0') {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
-                            PathKeyPressed = false;
-                            LastInserted = data.lastInserted;
-                            $("#PathID0").prop('id', 'PathID' + LastInserted);
-                            $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
-                            $("#PathID" + LastInserted).find('select[name="main"]').attr("onchange", "checkMainSelected(" + LastInserted + ", false)");
-                            $("#PathID" + LastInserted).find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
-                            $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
-                            $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
-                            $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
-                            $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
-
-                            var checkedMediaStatus = document.querySelector('#paths_formID' + LastInserted + ' #main').value;
-
-                            if(checkedMediaStatus=='1') {
-                                checkMainSelected(LastInserted, false);
-                            }
-                        }
-                        else {
-                            $("#messagePathID" + updatedID).addClassDelay("success", 3000);
-                        }
-                    }
-                    else $("#messagePathID" + updatedID).addClassDelay("failure", 3000);
-                }, "json");
+                }
+                else {
+                    $("#messagePathID" + updatedID).addClassDelay("success", 3000);
+                }
             }
-        }
-
+            else $("#messagePathID" + updatedID).addClassDelay("failure", 3000);
+        }, "json");
     }
-
 
 }
 
@@ -623,11 +605,6 @@ function updatePath(id) {
 function deletePath(id) {
     callFile=AJAX_path+"deletePath.php?id="+id;
 
-    var checkedMediaStatus = document.querySelector('#paths_formID' + id + ' #main').value;
-
-    if(checkedMediaStatus=="1") {
-        var updatedID=checkMainSelected(id, true);
-    }
 
     $.get( callFile, function( data ) {
         if(data.success==true) {
@@ -639,10 +616,6 @@ function deletePath(id) {
 
             if(!myClasses[2]) {   // Αν δεν έχει κλάση dontdelete σβήνει το div
                 $("#PathID" + id).remove();
-
-                if(checkedMediaStatus=="1") {
-                    updatePath(updatedID);
-                }
             }
             else {   // αλλιώς καθαρίζει μόνο τα πεδία
                 $("#PathID"+id).find('input').val('');   // clear field values
@@ -650,7 +623,6 @@ function deletePath(id) {
                 $("#PathID0").find('form').prop('id','paths_formID0');
                 $("#PathID0").find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
                 // αλλάζει την function στο button
-                $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
                 $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(0)");
                 $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
                 $("#PathID0").find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
@@ -677,7 +649,7 @@ function insertPath() {
         $("#PathID0").find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
         // αλλάζει την function στο button
         $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
-        $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(0)");
+        $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath('paths_formID0')");
         $("#PathID0").find('select[name="main"]').val(0);
         $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
         $("#PathID0").find('input[name="delete_path"]').attr("onclick", "deletePath(0)");

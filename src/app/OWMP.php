@@ -1419,17 +1419,6 @@ class OWMP
                                 ?>
                             </select>
                         </span>
-                        
-                        <span class="ListColumn">
-                            <select class="input_field" name="main" id="main" onchange="checkMainSelected('<?php echo $path['id']; ?>', false);">
-                                <option value="0" <?php if($path['main']==0) echo 'selected=selected'; ?> >
-                                    not main
-                                </option>
-                                <option value="1" <?php if($path['main']==1) echo 'selected=selected'; ?> >
-                                    main
-                                </option>
-                            </select>
-                        </span>
 
                         <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath(<?php echo $path['id']; ?>);"">
 
@@ -1467,7 +1456,9 @@ class OWMP
 
                     <div class="PathsRow" id="<?php echo $item['path_name']; ?>">
                         <form class="table_form paths_form" id="form<?php echo $item['path_name']; ?>">
-                        <span class="ListColumn"><?php echo $item['path_name']; ?></span>
+                        <span class="ListColumn"><input class="input_field" disabled
+                                                        placeholder="<?php echo __('options_option'); ?>"
+                                                        type="text" name="option_name" value="<?php echo $item['path_name']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('paths_file_path'); ?>"
                                                         maxlength="255" required type="text" name="file_path"

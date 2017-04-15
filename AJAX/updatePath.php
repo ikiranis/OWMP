@@ -28,20 +28,17 @@ if(isset($_GET['file_path']))
 if(isset($_GET['kind']))
     $kind=ClearString($_GET['kind']);
 
-if(isset($_GET['main']))
-    $main=ClearString($_GET['main']);
-
 $conn = new MyDB();
 $conn->CreateConnection();
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
-    $sql = 'INSERT INTO paths (file_path, kind, main) VALUES (?,?,?)';
-    $SQLparams=array($file_path, $kind, $main);
+    $sql = 'INSERT INTO paths (file_path, kind) VALUES (?,?)';
+    $SQLparams=array($file_path, $kind);
 }
 
 else {   // αλλιώς κάνει update
-    $sql = 'UPDATE paths SET file_path=?, kind=?, main=? WHERE id=?';
-    $SQLparams=array($file_path, $kind, $main, $id);
+    $sql = 'UPDATE paths SET file_path=?, kind=? WHERE id=?';
+    $SQLparams=array($file_path, $kind, $id);
 }
 
 $stmt = MyDB::$conn->prepare($sql);
