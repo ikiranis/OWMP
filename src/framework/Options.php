@@ -221,7 +221,11 @@ class Options extends MyDB
 
         // Θέτουμε για key το όνομα του option και για value το value του option
         foreach ($downloadPathsArray as $item) {
-            $newArray[$item['path_name']] = $item['file_path'];
+            if(!$item['file_path']=='') {
+                $newArray[$item['path_name']] = $item['file_path'];
+            } else {
+                $newArray[$item['path_name']] = null;
+            }
         }
 
         print_r($newArray);
