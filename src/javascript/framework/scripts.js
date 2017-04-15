@@ -3100,6 +3100,36 @@ function uploadFile(files) {
     reader.readAsText(f);
 }
 
+// Ενημερώνει το download path
+// @param: string pathName = To path name του σχετικού row στο download_paths, που θέλουμε να ενημερώσουμε
+// @return: void
+function updateDownloadPath(pathName) {
+    var filePath = document.querySelector('#'+pathName+' #file_path').value;
+
+    console.log(filePath);
+
+    $.ajax({
+        url: AJAX_path + 'updateDownloadPath.php',
+        type: 'GET',
+
+        // Form data
+        data: {
+            pathName: pathName,
+            filePath: filePath
+        },
+        dataType: "json",
+        success: function(data) {
+            if(data.success==true) {
+                $("#message_" + pathName).addClassDelay("success", 3000);
+            } else {
+                $("#message_" + pathName).addClassDelay("failure", 3000);
+            }
+        }
+
+    });
+
+}
+
 
 // ************************************
 // On load

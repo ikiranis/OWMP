@@ -1454,11 +1454,9 @@ class OWMP
     // Εμφανίζει τα input για επιλογή των διάφορων download paths
     static function getDownloadPaths() {
 
-        // Παίρνουμε τα αποτελέσματα του download_paths σε array
+        // Τα αποτελέσματα του download_paths σε array
         $downloadPathsArray = MyDB::getTableArray('download_paths', null, null, null, null, null, null);
 
-        // TODO να κάνω την εισαγωγή στην βάση της κάθε επιλογής
-        
         ?>
         <div class="ListTable">
 
@@ -1469,16 +1467,19 @@ class OWMP
 
                     <div class="PathsRow" id="<?php echo $item['path_name']; ?>">
                         <form class="table_form paths_form" id="form<?php echo $item['path_name']; ?>">
+                        <span class="ListColumn"><?php echo $item['path_name']; ?></span>
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('paths_file_path'); ?>"
                                                         maxlength="255" required type="text" name="file_path"
                                                         id="file_path"
-                                                        value="<?php echo $item['path_name']; ?>"
+                                                        value="<?php echo $item['file_path']; ?>"
                                                         onclick="displayBrowsePath('form<?php echo $item['path_name']; ?>');"></span>
 
                             <input type="button" class="update_button button_img" name="update_path"
                                    title="<?php echo __('update_row'); ?>"
                                    onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
+
+                            <input type="button" class="message" id="message_<?php echo $item['path_name']; ?>">
                         </form>
                     </div>
 
