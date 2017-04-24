@@ -235,196 +235,194 @@
     <page name="help">
         <phrase name="help_text_icon">Help</phrase>
         <phrase name="help_paths"><![CDATA[
-                <p>Επιλέγουμε (με την βοήθεια μενού πλοήγησης στους καταλόγους) τα linux path των φακέλων που βρίσκεται η μουσική μας. Διαλέγουμε αν είναι Music (mp3, m4a) ή Music Video (mp4, m4v).</p>
-
-                <p><strong>ΠΡΟΣΟΧΗ:</strong> Αν το path που θα επιλέξουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)</p>
-
-                <p>Αν το path είναι μέσα στο web folder (π.χ <strong>/var/www/html/</strong>) τότε για path (για videos π.χ.) επιλέγουμε κάτι σαν αυτό <strong>/var/www/html/myVideos</strong> και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost.</p>
+                <p>We select (with the help of the navigation menu in directories) the linux path of the folders in our music. We choose whether it is Music (mp3, m4a) or Music Video (mp4, m4v). </p>
+                <p><strong>WARNING: </strong> If the path we choose is outside the web directory (eg <strong>/var/www/html/</strong>), we must assign an alias to the virtualhost for each path (Instructions below) </p>
+                <p>If the path is within the web folder (eg <strong>/var/www/html/</strong>), then we choose something like this (eg for videos) <strong>/var/www/html/myVideos</strong> and of course we do not need to add alias to virtualhost. </p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
-            <p>Στο <strong>convert_alac_files</strong> βάζουμε <strong>true</strong> αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Με <strong>false</strong> εφαρμογή αδιαφορεί για τα ALAC.</p>
+            <p>At <strong>convert_alac_files</strong>, we put true if we want to convert ALAC files to plain mp3</p>
 
-            <p>Στο <strong>playlist_limit</strong> βάζουμε τον αριθμό των εγγραφών που θα εμφανίζονται σε κάθε σελίδα στην playlist. Για default έχει την τιμή 150. Προσοχή αν βάλουμε μεγάλο αριθμό, γιατί θα έχουμε πρόβλημα επιδόσεων της εφαρμογής</p>
+            <p>In <strong>playlist_limit</strong> we put the number of records that will be displayed on each page in the playlist. For default, it has a value of 150. Be careful if we put a large number, because you will have a performance problem</p>
 
-            <p>Στο <strong>dir_prefix</strong> βάζουμε το αρχικό κομμάτι του path των αρχείων μας. Αυτό κυρίως όταν θέλουμε να γίνει συγχρονισμός με itunes. Διάβασε παρακάτω πιο αναλυτικά γι' αυτό. Για default έχει το '/'. Δεν το πειράζουμε αν δεν μας ενδιαφέρει ο συγχρονισμός με itunes.</p>
+            <p>At <strong>dir_prefix</strong> we put the starting string of path for our files. This especially when we want to sync with itunes. Read below in more detail about this. By default has '/'. We do not mind if we do not care about sync with itunes.</p>
 
-            <p>Στο <strong>syncItunes</strong> βάζουμε true αν θέλουμε να γίνεται συγχρονισμός με itunes. Το έχουμε σε true για να κάνουμε τον συγχρονισμό. Αφού κάνουμε τον συγχρονισμό το βάζουμε πάλι σε false, αλλιώς θα αργεί μετά στον συγχρονισμό, χωρίς λόγο.</p>
+            <p>In <strong>syncItunes</strong>, we set true if we want to sync with itunes. We have it in true to do the synchronization. After making the synchronization, we put it back in false, otherwise it will be delayed after synchronization, without any reason.</p>
 
-            <p>Στο <strong>date_format</strong> έχει το format με βάση το οποίο θα εμφανίζονται οι ημερομηνίες. π.χ. <strong>d-m-Y</strong> για να εμφανίζονται στην μορφή 14-12-2010.</p>
+            <p><strong>date_format</strong> has the format based on which the dates will be displayed. eg D-m-y to appear in the format 14-12-2010.</p>
 
-            <p>Στο <strong>icecast_server</strong> βάζουμε την διεύθυνση του icecast server (π.χ. <strong>myserver.com:8000</strong>)</p>
+            <p>At <strong>icecast_server</strong> we put the icecast server address (eg myserver.com:8000)</p>
 
-            <p>Στο <strong>icecast_mount</strong> βάζουμε το mount του συγκεκριμένου stream (π.χ <strong>myradio</strong>)</p>
+            <p>At <strong>icecast_mount</strong> we put the mount of that stream (eg myradio)</p>
 
-            <p>Στο <strong>icecast_user</strong> βάζουμε τον user του icecast server</p>
+            <p>At <strong>icecast_user</strong> we put the icecast server user</p>
 
-            <p>Στο <strong>icecast_pass</strong> βάζουμε τον password του icecast server</p>
+            <p>At <strong>icecast_pass</strong> we put the icecast server password</p>
 
-            <p>Στο <strong>icecast_enable</strong> βάζουμε <strong>true</strong> αν θέλουμε να ενεργοποιήσουμε την αποστολή του τρέχοντος τραγουδιού στον icecast server. Αλλιώς <strong>false</strong></p>
+            <p>In <strong>icecast_enable</strong>, we set true if we want to enable sending the current song to the icecast server. Otherwise false</p>
 
-            <p>Στο <strong>jukebox_enable</strong> βάζουμε <strong>true</strong> αν θέλουμε να ενεργοποιήσουμε την σελίδα <strong>vote.php</strong> για ψηφοφορίες. Αλλιώς <strong>false</strong></p>
+            <p>In <strong>jukebox_enable</strong>, we set true if we want to activate vote.php for voting. Otherwise false</p>
 
-            <p>Στο <strong>default_language</strong> βάζουμε τον κωδικό της default γλώσσας. π.χ. <strong>gr</strong> ή <strong>en</strong> ή <strong>fr</strong> κοκ</p>
+            <p>In <strong>default_language</strong> we enter the default language code. eg <strong>gr</strong> or <strong>en</strong> or <strong>fr</strong></p>
 
-            <p>Στο <strong>youtube_api</strong> έχει το youtube api key. Το αφήνουμε ως έχει αν δεν θέλουμε να βάλουμε το προσωπικό μας</p>
+            <p><strong>Youtube_api</strong> has the youtube API key. We leave it as it is if we do not want to put our staff in</p>
 
-            <p>Στο <strong>play_percentage</strong> έχει το ποσοστό που όταν περάσει ένα τραγούδι, θεωρείται ότι αυτό έχει παιχτεί μία ακόμη φορά</p>
+            <p>The <strong>play_percentage</strong> has the percentage that when a song is passed, it is considered that this has been played once more</p>
 
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Όταν αλλαχτεί κάποια από αυτές τις τιμές πρέπει να γίνει refresh της εφαρμογής, για να πάρει την νέα τιμή</p>
+            <p><strong>CAUTION:</strong> When you change any of these values, you must refresh the application to get the new value</p>
         ]]></phrase>
         <phrase name="help_sync"><![CDATA[
-            <p>Αφού τα σετάρουμε όλα επιλέγουμε το media kind που θέλουμε και πατάμε Συγχρονισμός. Ο συγχρονισμός μπορεί να πάρει από μερικά λεπτά μέχρι πάρα πολλές ώρες. Αναλόγως πόσο μεγάλη είναι η συλλογή μας. Φυσικά για τα βιντεοκλιπς πολύ περισσότερο από τα mp3, γιατί πρέπει να διαβάσει μεγαλύτερα αρχεία.</p>
+            <p>If we set them all, we select the media type we want and press <strong>Synchronization</strong>. Synchronization can take from a few minutes to many hours. Depending on how large our collection is. Of course for video clips much more than mp3, because they read larger files.</p>
         ]]></phrase>
         <phrase name="help_youtube"><![CDATA[
-            <p>Στην συλλογή, στο text area που έχει, αντιγράφουμε τα youtube links (ή τα youtube playlist links) που θέλουμε να κατεβάσουμε χωρισμένα με ','. Πατάμε Download Youtube και περιμένουμε να κατέβουν. Μετά το κατέβασμα γίνεται αυτόματα συγχρονισμός και περνιούνται στην database.</p>
+            <p>In the text area, we are copying the youtube links (or the youtube playlist links) that we want to download, separated by ','. Press Download Youtube and wait for it to come down</p>
 
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Για να κατεβάσει από youtube πρέπει να έχουμε σετάρει music video path (αν θέλουμε να κατεβάσουμε music video) ή music path (αν θέλουμε να κατεβάσουμε audio) (με main) στην Συλλογή/Διαδρομές αρχείων και να έχει write δικαιώματα εκεί ο www-data.</p>
-            <p>Για κατέβασμα από youTube πρέπει να εγκαταστήσουμε το youtube-dl (https://rg3.github.io/youtube-dl/download.html)</p>
-            <p>π.χ.</p>
+            <p><Strong>WARNING:</strong> To download from youtube, we must have a music video path (if we want to download music video) or music path (if we want to download audio) to the Collection/File Paths. They must have writing rights for linux user www-data.</p>
+            <p>To download from youTube we need to install youtube-dl (<a href="https://rg3.github.io/youtube-dl/download.html">https://rg3.github.io/youtube-dl/download.html</a>)</p>
+            <p>eg</p>
             <pre>sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl</pre>
             <pre>sudo chmod a+rx /usr/local/bin/youtube-dl</pre>
-            <p>Σε περίπτωση που αποτύχει να κατεβάσει κάποιο video, θα ωφείλεται συνήθως σε αλλαγές που έχει κάνει το YouTube. Δοκιμάζουμε να κάνουμε update το youtube-dl τρέχοντας την παρακάτω εντολή και προσπαθούμε πάλι να κατεβάσουμε το video</p>
+            <p>If you fail to download a video, it will usually be due to changes made by YouTube. We are trying to update youtube-dl by running the following command and trying to download the video again</p>
             <pre>sudo youtube-dl -U</pre>
-            <p>Αν συνεχίσει να μην μπορεί να κατεβάσει, κάνουμε update ξανά το youtube-dl, μήπως έχει ενσωματώσει τις αλλαγές, τις επόμενες μέρες</p>
+            <p>If it still can not download, we update youtube-dl again in the next few days</p>
         ]]></phrase>
         <phrase name="help_manual_playlists"><![CDATA[
-            <p>Δημιουργούμε μια <strong>playlist</strong> πατώντας στην σχετική επιλογή στην κορυφή της σελίδας. Αφού την δημιουργήσουμε την <strong>επιλέγουμε μετά στο drop down menu</strong>.</p>
-            <p>Όταν έχουμε επιλεγμένη μια playlist αυτή θα είναι η ενεργή και κάθε φορά που πατάμε το εικονίδιο "<strong>προσθήκη στην playlist</strong>" για κάθε τραγούδι, το τραγούδι θα προστίθεται σε αυτή την playlist. Μπορούμε επίσης να πατήσουμε το shorcut "<strong>A</strong>" και θα προστεθεί το τραγούδι που παίζει εκείνη την στιγμή, στην ενεργή playlist.</p>
-            <p>Για να φορτωθεί μια <strong>manual playlist</strong> επιλέγουμε την playlist και πατάμε το εικονίδιο της αναπαραγωγής στα δεξιά του menu.</p>
-            <p>Αντίστοιχα μπορούμε να σβήσουμε μια playlist πατώντας το εικονίδιο της <strong>διαγραφής</strong>.</p>
-            <p>Όταν βρισκόμαστε μέσα σε μια <strong>manual playlist</strong>, τότε το εικονίδιο της "<strong>προσθήκης στην playlist</strong>", αλλάζει σε εικονίδιο <strong>αφαίρεσης από την playlist</strong>. Αυτό σημαίνει φυσικά ότι πατώντας το, αφαιρείται το συγκεκριμένο τραγούδι από την συγκεκριμένη playlist.</p>
-            <p>Κάθε χρήστης έχει τις δικές του playlists και δεν μπορεί να τις δει κανένας άλλος.</p>
+            <p>We create a <strong>playlist</strong> by clicking on the relevant option at the top of the page. After we create <strong>we then choose it at the drop down menu</strong></p>
+            <p>When a playlist is selected, it will be active, and each time we click on the <strong>Add to playlist</strong> icon for each song, the song will be added to this playlist. We can also press the shortcut "<strong>A</strong>" to add the song currently playing to the active playlist.</p>
+            <p>To load a <strong>manual playlist</strong>, select the playlist and click on the play icon to the right of the menu</p>
+            <p>Likewise, we can erase a playlist by pressing the <strong>delete</strong> icon</p>
+            <p>When we are in a <strong>manual playlist</strong>, the "<strong>Add to playlist</strong>" icon changes to a <strong>remove from playlist</strong> icon. This means, of course, that by pressing this button, this song is removed from that playlist.</p>
+            <p>Each user has their own playlists and can not be seen by anyone else.</p>
         ]]></phrase>
         <phrase name="help_playlist_export"><![CDATA[
-            <p>Μπορούμε να κάνουμε <strong>εξαγωγή της τρέχουσας playlist</strong>, για να μεταφέρουμε τα αντίστοιχα αρχεία και τα metadata σε άλλη πιθανή εγκατάσταση. Τρέχουσα playlist είναι <strong>είτε ολόκληρη η συλλογή μας,</strong> είτε η συλλογή μετά από <strong>επιλογή κάποιων φίλτρων</strong>. π.χ. τα μουσικά βίντεο ενός συγκεκριμένου συγκροτήματος.</p>
+            <p>We can <strong>export the current playlist</strong> to transfer the corresponding files and metadata to another possible installation. A current playlist is <strong>either our entire collection</strong> or the collection after <strong>selecting some filters</strong>. eg The music videos of a particular band.</p>
 
-            <p>Από την στιγμή που έχουμε επιλέξει το φίλτρο που θέλουμε, πατάμε πάνω δεξιά το εικονίδιο "<strong>εξαγωγή λίστας</strong>". Αφού πατήσουμε ΟΚ στην επιβεβαίωση που θα ζητήσει, αρχίζει και αντιγράφει όλα τα αρχεία (με βάση το φίλτρο), σε ειδικό φάκελο. Ταυτόχρονα εξάγει και ένα αρχείο <strong>playlist.json</strong> το οποίο περιέχει όλα τα <strong>metadata</strong> της playlist (τίτλοι, καλλιτέχνες κοκ).</p>
+            <p>Once we've selected the filter we want, click the <strong>list export</strong> icon to the top right. After we click OK on the confirmation that it requests, it starts and copies all files (based on the filter) into a special folder. At the same time, it extracts a <strong>playlist.json</strong> file that contains all the <strong>metadata</strong> of the playlist (titles, artists, and more).</p>
 
-            <p><strong>ΠΡΟΣΟΧΗ: </strong>Ο φάκελος στον οποίο θα γίνει η αντιγραφή, δημιουργείται μέσα στο main directory που έχουμε σετάρει για τα μουσικά βίντεο. Ο φάκελος αυτός θα έχει όνομα <strong>output</strong>. (π.χ. /var/www/html/videos/output)</p>
+            <p><strong>WARNING:</strong> Exporting to the "<strong>outputFolder</strong>" folder we have selected in <strong>Download Paths</strong></p>
 
-            <p>Αφού γίνει η εξαγωγή παίρνουμε τα αρχεία μουσικής από τον φάκελο <strong>output</strong> και τα αντιγράφουμε στον φάκελο που θα είναι τα αρχεία της μουσικής στην νέα εγκατάσταση. Μέσα στον φάκελο output θα είναι και το αρχείο <strong>playlist.json</strong>. Αυτό το παίρνουμε και το βάζουμε <strong>στο root του web folder</strong> που έχουμε εγκαταστήσει την εφαρμογή (π.χ. /var/www/html/newOWMLP/)</p>
+            <p>Once the export is done, we get the music files from the <strong>outputFolder</strong> and copy them to the folder where the music files will be in the new installation. Within the output folder will be the <strong>playlist.json</strong> file. This is what we get and put it <strong>in the root of the web folder</strong> that we have installed the application (eg /var/www/html/newOWMLP/)</p>
 
-            <p>Αφού κάνουμε τις αντιγραφές πάμε στην εφαρμογή (στην νέα εγκατάσταση), στην οθόνη "<strong>Συλλογή</strong>". Πατάμε "<strong>JSON import</strong>" για να εισαχθούν τα metadata της playlist στην βάση της νέας εγκατάστασης.</p>
+            <p>After making the copies, go to the application (in the new installation) on the <strong>Collection</strong> screen. We press "<strong>JSON import</strong>" to insert the playlist metadata on the basis of the new installation.</p>
 
-            <p>Στην συνέχεια πατάμε "<strong>Συγχρονισμός</strong>" για να διαβάσει τα νέα αρχεία και να τα συγχρονίσει. Η εφαρμογή θα καταλάβει αυτόματα πιο αρχείο αντιστοιχεί στα αντίστοιχα metadata.</p>
+            <p>Then we click "<strong>Synchronization</ strong>" to read and synchronize new files. The application will automatically see the files corresponding to the metadata.</p>
 
-            <p><strong>Αφού ολοκληρώσουμε την διαδικασία</strong> πάμε και <strong>σβήνουμε τα περιεχόμενα του φακέλου output</strong> της αρχικής εγκατάστασης, για να μην πάει και τα διαβάσει στον επόμενο συγχρονισμό που θα κάνουμε.</p>
+            <p><strong>After we complete the process </strong> go and <strong>erase the contents of the outputFolder</strong> of the original installation so that it does not go and reads it in the next synchronization we will do.</p>
 
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> <strong>Πρώτα εισάγουμε τα metadata</strong> και μετά κάνουμε "<strong>Συγχρονισμό</strong>". Αν γίνει ανάποδα, τότε θα περαστούν τα αρχεία στην συλλογή, χωρίς τα σωστά metadata.</p>
+            <p><strong>WARNING:</strong> <strong>First, import metadata </strong> and then <strong>Sync</strong>. If it is upside down, then the files will be passed to the collection without the correct metadata.</p>
 
-            <p><strong>ΣΗΜΕΙΩΣΗ:</strong> Η δυνατότητα εξαγωγής/εισαγωγής, προς το παρόν, <strong>δεν μεταφέρει</strong> και τα <strong>album covers</strong> για την μουσική.</p>
+            <p><strong> NOTE:</strong> The export/import feature does <strong>not currently carry the album covers</strong> for the audio music.</p>
         ]]></phrase>
         <phrase name="help_clear_db"><![CDATA[
-            <p>Ψάχνει για εγγραφές στην βάση που δεν αντιστοιχούν σε φυσικά αρχεία. Αν βρει καθαρίζει την βάση από αυτές.</p>
+            <p>Searches for database records that do not correspond to physical files. If found it will clean the database from them.</p>
         ]]></phrase>
         <phrase name="help_hash"><![CDATA[
-            <p>Σαρώνει την βάση και παράγει από την αρχή hash strings για κάθε αρχείο.</p>
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Μπορεί να πάρει πολλές ώρες η διαδικασία, αναλόγως το μέγεθος της συλλογής</p>
+            <p>Scans the database and generates from the beginning, the hash strings for each file.</p>
+            <p><strong>CAUTION:</strong> It may take many hours to process, depending on the size of the library</p>
         ]]></phrase>
         <phrase name="help_metadata"><![CDATA[
-            <p>Σαρώνει την βάση και ψάχνει για τα metadata για όλα τα αρχεία.</p>
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Μπορεί να πάρει πολλές ώρες η διαδικασία, αναλόγως το μέγεθος της συλλογής</p>
+            <p>Scans the database and searches for metadata for all files.</p>
+            <p><strong>CAUTION:</strong> It may take many hours to process, depending on the size of the library</p>
         ]]></phrase>
         <phrase name="help_samba_sharing_title">
-            Μοίρασμα δίσκων με Samba αν οι δίσκοι δεν είναι στο ίδιο μηχάνημα με τον web server
+            Samba sharing if the disks are not on the same machine as the web server
         </phrase>
         <phrase name="help_samba_sharing"><![CDATA[
-            <p>Μοιράζουμε τον δίσκο με samba (είτε από linux, είτε από windows, είτε από Mac OS) και κάνουμε τον δίσκο mount στο μηχάνημα που είναι ο web server. π.χ. μπορεί να τρέχει σε virtualbox</p>
+            <p>We share the samba disk (either from linux or from windows or from Mac OS) and we mount the disk on the machine that is the web server. eg Can run on a virtualbox</p>
 
-            <p>Για μόνιμα βάζουμε την απαραίτητη γραμμή στο αρχείο /etc/fstab</p>
+            <p>We permanently put the required line in the file /etc/fstab</p>
 
-            <p>π.χ.
+            <p>eg
             <pre>sudo nano /etc/fstab</pre>
-            και προσθέτουμε κάτι σαν αυτό
+            and we add something like this
             <pre>//192.168.1.150/diskname /media/diskname cifs credentials=/home/user/.creds,iocharset=utf8,sec=ntlm,noperm,rw</pre>
-            και στην συνέχεια restart ή
+            and then restart or
             <pre>sudo mount -a</pre>
-            στο /home/user/.creds βάζουμε τα samba username, password σε γραμμές τύπου
+            In /home/user/.creds we put the samba username, password, like this
             <pre>username=user</pre>
             <pre>password=pass</pre></p>
         ]]></phrase>
         <phrase name="help_itunes_sync_title">
-            Συγχρονισμός με iTunes
+            Sync with iTunes
         </phrase>
         <phrase name="help_itunes_sync"><![CDATA[
-            <p>Για να κάνουμε συγχρονισμό με itunes (δηλαδή να πάρει όλα τα metadata για κάθε αρχείο μας που είχαμε βάλει στο itunes) κάνουμε export της playlist μας στο itunes, σε xml. Παίρνουμε το xml, το ονομάζουμε 'Library.xml' (οπωσδήποτε) και το βάζουμε στο root directory όπου είναι η εφαρμογή μας στον web server.</p>
+            <p>To sync with itunes (get all the metadata for each file we have in itunes) we export our playlist to itunes, in xml. We take xml, and call it 'Library.xml' (in any case) and put it in the root directory where our application is on the web server.</p>
 
-            <p>Για να γίνει ο συγχρονισμός ελέγχονται τα paths που βάζει το itunes στο xml με τα paths που έχουμε τα αρχεία. π.χ. στο mac το path στο itunes έχει την μορφή file://localhost/Volumes/disk...... Ενώ σε linux έχει την μορφή /media/disk......</p>
+            <p>In order to synchronize, the paths that itunes have the files are checked with the paths we have the files. eg On mac the path in itunes is in the form of: //localhost/Volumes/disk...... While in linux it has the format /media/disk......</p>
 
-            <p>Επειδή αυτό που σώζει το itunes (το αρχικό μέρος) είναι διαφορετικής μορφής από το path που έχουμε στο linux, η εφαρμογή κόβει το αρχικό κομμάτι, ώστε να γίνεται σωστός έλεγχος.</p>
+            <p>Because the itunes saves (the starting part) is of a different form than the path we have in linux, the application cuts the starting part so that it is properly scanned.</p>
 
-            <p>Αυτός είναι και ο λόγος που υπάρχει το dir_prefix στα options. Αν το path μας στο linux είναι στο /media/disk/directory.... τότε βάζουμε για dir_prefix το '/media/' (με τις 2 καθέτους).</p>
+            <p>This is why <strong>dir_prefix</strong> is in the options. If our linux path is in the /media/disk/directory.... then we put "/media/" (with the 2 slashes) for <strong>dir_prefix</strong></p>
 
-            <p>Αν το path μας είναι /disk/directory.... τότε το αφήνουμε '/'</p>
+            <p>If our path is /disk/directory.... then we leave it '/'</p>
 
-            <p>Στην συνέχεια βάζουμε true στο syncItunes στα options και κάνουμε τον συγχρονισμό στην Συλλογή όπως παραπάνω.</p>
+            <p>Then we put true in <strong>syncItunes</strong> on the options and do the synchronization in the Collection as above.</p>
 
-            <p>Από το itunes τραβάει τα metadata artist, tittle, album, genre, year, date added, play count, date last played, rating.</p>
+            <p>From itunes takes the metadata artist, title, album, genre, year, date added, play count, date last played, rating.</p>
         ]]></phrase>
         <phrase name="help_alac_title">
-            Μετατροπή των ALAC
+            Converting ALAC
         </phrase>
         <phrase name="help_alac"><![CDATA[
-            <p>Αν έχουμε επιλέξει να γίνεται μετατροπή των ALAC, μετατρέπει τα αρχεία σε ειδικό φάκελο (Converted στo main μουσικό path), περνάει αυτά στην database και τα original τα μετονομάζει σε file.m4a.converted. Η μετονομασία γίνεται, γιατί αλλιώς κάθε φορά που γίνεται συγχρονισμός θα κοιτάει και γι'αυτά πάλι. Κάποια στιγμή θα υπάρξει σκριπτάκι αν θέλουμε να τα μετονομάσουμε όλα αυτά μαζικά πάλι στο original τους.</p>
-            <p>Για μετατροπή ALAC πρέπει να εγκαταστήσουμε
+            <p>If we have chosen to convert ALAC, it converts the files into a special folder ("<strong>convertedALAC</strong>), passes them to the database, and renames the original to file.m4a.converted. Renaming is done, otherwise every time you synchronize it will look again for them. At some point, there will be a script if we want to re-name them all in their original form.</p>
+            <p>For ALAC conversion we need to install
 
             <p>ffmpeg</p>
             <p>lame</p>
 
-            <p>π.χ. για ubuntu
+            <p>eg για ubuntu
             <pre>sudo apt-get install ffmpeg</pre>
             <pre>sudo apt-get install lame</pre></p>
         ]]></phrase>
         <phrase name="help_apache_title">
-            Ενημέρωση του virtualhost στον Apache με τα paths των αρχείων μας
+            Updating the virtualhost to Apache with the paths of our files
         </phrase>
         <phrase name="help_apache"><![CDATA[
-            <p>Για να μπορούμε να έχουμε πρόσβαση στα αρχεία μουσικής μας από το web πρέπει να βάλουμε τα paths και στο virtualhost του apache, σαν alias.</p>
+            <p>To be able to access our music files from the web we need to put the paths in apache's virtualhost as an alias</p>
 
-            <p>Κάνουμε edit το αρχείο</p>
+            <p>We edit the file</p>
             <pre>sudo nano /etc/apache2/sites-enabled/000-default.conf</pre>
-            <p>Αν υποθέσουμε ότι το path των αρχείων μας είναι στο /media/myDisk/myDirectory</p>
+            <p>Assuming that the path of our files is in /media/myDisk/myDirectory</p>
 
-            <p>Κάπου ανάμεσα στα &lt;virtualhost&gt;</p>
+            <p>Somewhere between &lt;virtualhost&gt;</p>
 
-            <p>βάζουμε τις παρακάτω γραμμές, για κάθε ξεχωριστό path</p>
+            <p>We put the following lines for each separate path</p>
             <p><pre>Alias /media/myDisk/myDirectory "/media/myDisk/myDirectory"
             &lt;Directory "/media/myDisk/myDirectory"&gt;
                 Order allow,deny
                 Allow from all
                 Require all granted
             &lt;/Directory&gt;</pre>
-            <p>κάνουμε restart τον Apache</p>
+            <p>We're rebooting Apache</p>
             <pre>sudo service apache2 restart</pre>
         ]]></phrase>
         <phrase name="help_convert_covers"><![CDATA[
-            <p>Δημιουργεί μικρότερες εκδόσεις και thumbnails των album covers, για όλη την συλλογή</p>
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Πρέπει να έχετε εγκατεστημένη την <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> βιβλιοθήκη της PHP. Παράδειγμα εγκατάστασης για την PHP 7 σε ubuntu</p>
+            <p>Creates smaller versions and thumbnails of album covers for the entire collection</p>
+            <p><strong>CAUTION:</strong> You must have <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> PHP library. Example of installation for PHP 7 in ubuntu</p>
             <pre>sudo apt-get install php7.0-gd</pre>
         ]]></phrase>
         <phrase name="help_database_backup"><![CDATA[
-            <p>Παίρνει backup της βάσης, δημιουργώντας ένα .sql αρχείο από το οποίο μπορεί να γίνει επαναφορά.
-            Η επαναφορά μπορεί να γίνει, είτε μέσα από την εφαρμογή (σχετικό button), είτε χρησιμοποιώντας κάποιο άλλο
-            εργαλείο διαχείρισης της mySQL (π.χ. phpmyadmin)</p>
-            <p><strong>ΠΡΟΣΟΧΗ:</strong> Αναλόγως το πόσο μεγάλη είναι η βάση (και αναλόγως τις δυνατότητες του server)
-            θα πάρει και την ανάλογη ώρα. Ίσως μερικά λεπτά για το backup (για πολύ μεγάλες βάσεις).
-            Μέχρι μερικές ώρες για το restore που παίρνει πολύ περισσότερη ώρα από το backup.</p>
-            <p>Προτείνεται να παίρνεται backup μια φορά την μέρα</p>
-            <p>Τα αρχεία .sql σώζονται προς το παρόν στον φάκελο output, στο main path για τα videoclips</p>
+            <p>It backup the database, creating a .sql file from which it can be restore.
+             The restore can be done either through the application (relative button) or using another
+             MySQL management tool (eg phpmyadmin)</p>
+            <p><strong>CAUTION:</strong> Depending on how large the database is (and depending on the server's capabilities)
+             It will take the relevant time. Maybe a few minutes for backup (for very large databases).
+             Up to a few hours. To restore takes much longer than backup.</p>
+            <p>It is suggested that you backup once a day</p>
+            <p>.sql files are saved in the <strong>outputFolder</strong></p>
         ]]></phrase>
         <phrase name="help_download_paths"><![CDATA[
-            <p>Σετάρουμε τα paths στα οποία η εφαρμογή χρειάζεται να κατεβάσει κάτι (π.χ. από youtube)
-            ή να εξάγει (π.χ. αρχεία backup). Αυτό σημαίνει ότι πρέπει να έχουν δικαιώματα εγγραφής.</p>
-            <p>Στο <strong>musicDownloadPath</strong> βάζουμε το path στο οποίο θα κατεβάζει τα αρχεία ήχου. Προτείνεται
-            να είναι όπου είναι και τα υπόλοιπα αρχεία ήχου της συλλογής</p>
-            <p>Στο <strong>musicVideoDownloadPath</strong> βάζουμε το path στο οποίο θα κατεβάζει τα videoclips.
-            Προτείνεται να είναι όπου είναι και τα υπόλοιπα videoclips της συλλογής</p>
-            <p>Στο <strong>outputFolder</strong> βάζουμε το path στο οποίο θα γίνονται οι διάφορες εξαγωγές.
-            π.χ. τα sql αρχεία από το backup</p>
-            <p>Στο <strong>coverAlbumsFolder</strong> βάζουμε το path στο οποίο θα σώζονται τα cover albums των
-            αρχείων ήχου. Προτείνεται να είναι όπου είναι και τα υπόλοιπα αρχεία ήχου της συλλογής</p>
-            <p>Στο <strong>convertedALAC</strong> βάζουμε το path στο οποίο θα μετατρέπονται τα αρχεία ALAC.
-            Προτείνεται να είναι όπου είναι και τα υπόλοιπα αρχεία ήχου της συλλογής</p>
+            <p>We set the paths that the app needs to download something (eg from youtube)
+             Or export (e.g., backup files). This means they must have writing rights.</p>
+            <p>In <strong>musicDownloadPath</strong>, we put the path where the audio files will be downloaded. Suggested
+             to be where the other sound files of the collection are</p>
+            <p>At <strong>musicVideoDownloadPath</strong>, we put the path where the video clips will be downloaded.
+             It is suggested to be where the other videoclips of the collection are</p>
+            <p>At <strong>outputFolder </strong>, we put the path to which the various exports will be made.
+             eg sql files from backup</p>
+            <p>At <strong>coverAlbumsFolder</strong>, we put the path where the cover albums are saved.
+             It is suggested to be where the other sound files of the collection are</p>
+            <p>In <strong>convertedALAC</strong> we put the path to which the ALAC files will be converted.
+             It is suggested to be where the other sound files of the collection are</p>
         ]]></phrase>
     </page>
 
