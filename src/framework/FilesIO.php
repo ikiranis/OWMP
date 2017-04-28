@@ -31,7 +31,7 @@ class FilesIO
     function __construct($path, $filename, $operation) {
         if($operation=='write') {
             // Ελέγχει και δημιουργεί το $path
-            $createOutputFolder = OWMP::createDirectory($path);
+            $createOutputFolder = self::createDirectory($path);
 
             // Αν το directory υπάρχει δημιουργεί ένα κενό αρχείο $filename
             if ($createOutputFolder['result']) {
@@ -86,6 +86,46 @@ class FilesIO
         fclose($file);
 
         return $lines;
+    }
+
+    // Σβήνει μόνο το αρχείο στον δίσκο
+    static function deleteFile($fullPath)
+    {
+        if (file_exists($fullPath)) {  // αν υπάρχει το αρχείο, σβήνει το αρχείο
+            if (unlink($fullPath))
+                $result = true;
+            else $result = false;
+        } else $result = false;
+
+        return $result;
+    }
+
+    // πραγματικός έλεγχος αν ένα αρχείο υπάρχει, γιατί παίζει μερικές φορές λόγω cashe να επιστρέφει λάθος αποτέλεσμα η file_exists
+    static function fileExists($path){
+        return (@fopen($path,"r")==true);
+    }
+
+    // Ελέγχει την ύπαρξη ενός directory και αν μπορεί το δημιουργεί, όταν δεν υπάρχει
+    static function createDirectory($dir)
+    {
+        $result=array('result' => true);
+
+        if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+            if (mkdir($dir, 0777, true)) {
+                if (!is_writable($dir)) {
+                    $result=array('result' => false, 'message'=> '<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
+                }
+            }
+            else {
+                $result=array('result' => false, 'message'=> '<p class="general_fail">ERROR! '.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
+            }
+        } else {
+            if(!is_writable($dir)) {
+                $result=array('result' => false, 'message'=> '<p class="general_fail>ERROR! '.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
+            }
+        }
+
+        return $result;
     }
 
 }

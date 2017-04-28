@@ -11,7 +11,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\User;
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -30,7 +30,7 @@ $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέ�
 
 $playlistTableName = MANUAL_PLAYLIST_STRING.date('YmdHis');   // Το όνομα που θα πάρει το table του manual playlist
 
-if(OWMP::createPlaylistTempTable($playlistTableName)) {  // Αν δημιουργηθεί κανονικά το table του manual playlist
+if(OWMPElements::createPlaylistTempTable($playlistTableName)) {  // Αν δημιουργηθεί κανονικά το table του manual playlist
     $sql = 'INSERT INTO manual_playlists (table_name, playlist_name, user_id) VALUES(?,?,?)';   // Εισάγει στον πίνακα manual_playlists
     $playlistArray = array($playlistTableName, $playlistName, $userID);
 

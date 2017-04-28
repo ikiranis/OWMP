@@ -10,6 +10,7 @@
 
 use apps4net\framework\Page;
 use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 
 require_once('../src/boot.php');
@@ -69,21 +70,21 @@ if($firstTime=='true')
 
 
 if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
-    OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
+    OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
 
 }
 else {
     if ($loadPlaylist == true) {
-        OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, $loadPlaylist, false);
+        OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, $loadPlaylist, false);
     }
     if($duplicates==true) {
-        OWMP::getPlaylist($jsonArray, $offset, $step, $duplicates, $mediaKind, $tabID, null, false);
+        OWMPElements::getPlaylist($jsonArray, $offset, $step, $duplicates, $mediaKind, $tabID, null, false);
     }
     if($votePlaylist==true) {
-        OWMP::getPlaylist(null, $offset, $step, null, null, null, true, true);
+        OWMPElements::getPlaylist(null, $offset, $step, null, null, null, true, true);
 
     }
     if($playedQueue==true) {
-        OWMP::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
+        OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
     }
 }

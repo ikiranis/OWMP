@@ -12,7 +12,7 @@
 
 use apps4net\framework\Language;
 use apps4net\framework\Page;
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('src/boot.php');
 
@@ -97,7 +97,7 @@ $MainPage->showHeader();
                         if($_SESSION['PlaylistCounter']==0) {
                             $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                             $_SESSION['arrayParams']=null;
-                            OWMP::getPlaylist(null,0,PLAYLIST_LIMIT,null,null,null,true,true);
+                            OWMPElements::getPlaylist(null,0,PLAYLIST_LIMIT,null,null,null,true,true);
                         }
                         else {
                             ?>

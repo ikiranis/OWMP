@@ -14,7 +14,7 @@
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
 use apps4net\framework\Progress;
-use apps4net\parrot\app\OWMP;
+use apps4net\framework\FilesIO;
 use apps4net\parrot\app\SyncFiles;
 
 set_time_limit(0);
@@ -38,7 +38,7 @@ $playlistTable=MyDB::getTableArray($tempUserPlaylist, 'file_id', null, null, nul
 
 //trigger_error(OUTPUT_FOLDER);
 
-$checkOutputFolder = OWMP::createDirectory(OUTPUT_FOLDER);
+$checkOutputFolder = FilesIO::createDirectory(OUTPUT_FOLDER);
 if(!$checkOutputFolder['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
     exit($checkOutputFolder['message']);
 }

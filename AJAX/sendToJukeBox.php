@@ -12,7 +12,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -28,7 +28,7 @@ $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
 
 // Αν δεν υπάρχει ήδη το JUKEBOX_LIST_NAME το δημιουργούμε
 if(!MyDB::checkIfTableExist(JUKEBOX_LIST_NAME)) {
-    OWMP::createPlaylistTempTable(JUKEBOX_LIST_NAME);
+    OWMPElements::createPlaylistTempTable(JUKEBOX_LIST_NAME);
 } 
 
 // Αντιγράφει τον $tempUserPlaylist στον JUKEBOX_LIST_NAME

@@ -14,6 +14,7 @@ use apps4net\framework\User;
 use apps4net\framework\Utilities;
 use apps4net\framework\Progress;
 use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -61,7 +62,7 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
         if ($playMode == 'shuffle') {
             $tableCount = MyDB::countTable($tempUserPlaylist);
             $randomRow = rand(0, $tableCount);
-            $return = OWMP::getRandomPlaylistID($tempUserPlaylist, $randomRow);
+            $return = OWMPElements::getRandomPlaylistID($tempUserPlaylist, $randomRow);
             $playlistID = $return['playlist_id'];
             $fileID = $return['file_id'];
         } else {
@@ -71,7 +72,7 @@ if($operation=='next') { // όταν θέλουμε να παίξει το επ�
     } else {  // αλλιώς παίρνει το επόμενο τραγούδι από την καταμέτρηση των ψήφων
 
         // Ο δισδιάστατος πίνακας με τις ψήφους. Στην 1η στήλη είναι το fileID, στην 2η ο αριθμός των ψήφων
-        $votesArray = OWMP::getVotes();
+        $votesArray = OWMPElements::getVotes();
 
         // Παίρνει τα fileID που έχουν τις περισσότερες ψήφους
         $fileIDsWithMaxVotes=Utilities::getArrayMax($votesArray);
@@ -138,8 +139,8 @@ if ($playlistID && $fileID) {
 
     // Στέλνει στον icecast server
     if(ICECAST_ENABLE) {
-        $songInfo = OWMP::getSongInfo($fileID);
-        OWMP::sendToIcecast($songInfo[0]['song_name'] . ' : ' . $songInfo[0]['artist']);
+        $songInfo = OWMPElements::getSongInfo($fileID);
+        OWMPElements::sendToIcecast($songInfo[0]['song_name'] . ' : ' . $songInfo[0]['artist']);
     }
 }
 else $jsonArray = array('success' => false);

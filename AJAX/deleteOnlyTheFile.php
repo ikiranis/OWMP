@@ -12,6 +12,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\Logs;
+use apps4net\framework\FilesIO;
 use apps4net\parrot\app\OWMP;
 
 require_once('../src/boot.php');
@@ -31,7 +32,7 @@ if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
 
-if (OWMP::deleteOnlyFile($fullpath)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
+if (FilesIO::deleteFile($fullpath)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
     $jsonArray = array('success' => true, 'id' => $id);
 
     Logs::insertLog('File ' . $filename . ' deleted.'); // Προσθήκη της κίνησης στα logs

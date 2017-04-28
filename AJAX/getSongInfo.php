@@ -11,7 +11,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -19,7 +19,7 @@ session_start();
 
 Page::checkValidAjaxRequest(false);
 
-if($currentSong = OWMP::getSongInfo(null)) { // Τα στοιχεία του τραγουδιού
+if($currentSong = OWMPElements::getSongInfo(null)) { // Τα στοιχεία του τραγουδιού
     $jsonArray = array('success' => true,
         'songName' => $currentSong[0]['song_name'],
         'artist' => $currentSong[0]['artist'], 

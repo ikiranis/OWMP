@@ -11,6 +11,7 @@ require_once('src/boot.php');
 
 use apps4net\parrot\app\OWMP;
 use apps4net\framework\Page;
+use apps4net\parrot\app\OWMPElements;
 
 
 function DisplayMainPage() {
@@ -79,7 +80,7 @@ function DisplayMainPage() {
         </div>
 
 
-        <?php OWMP::displayControls('overlay_media_controls', true); ?>
+        <?php OWMPElements::displayControls('overlay_media_controls', true); ?>
     
     <?php
     

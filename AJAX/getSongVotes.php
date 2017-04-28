@@ -12,6 +12,7 @@
 
 use apps4net\framework\Page;
 use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -20,7 +21,7 @@ session_start();
 Page::checkValidAjaxRequest(false);
 
 // Ο δισδιάστατος πίνακας με τις ψήφους. Στην 1η στήλη είναι το fileID, στην 2η ο αριθμός των ψήφων
-$votesArray = OWMP::getVotes();
+$votesArray = OWMPElements::getVotes();
 
 ?>
 
@@ -28,7 +29,7 @@ $votesArray = OWMP::getVotes();
         
         <?php
         foreach ($votesArray as $vote) {
-            $songInfo = OWMP::getSongInfo($vote['file_id']);
+            $songInfo = OWMPElements::getSongInfo($vote['file_id']);
         
             ?>
             

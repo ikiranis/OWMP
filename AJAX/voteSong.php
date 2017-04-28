@@ -11,7 +11,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -23,7 +23,7 @@ if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
 
-if(OWMP::voteSong($id)) {
+if(OWMPElements::voteSong($id)) {
     $jsonArray = array('success' => true, 'id' => $id);
 }
 else $jsonArray=array( 'success'=> false);

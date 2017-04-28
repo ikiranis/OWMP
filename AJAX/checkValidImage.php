@@ -10,7 +10,7 @@
  * 
  */
 
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -22,7 +22,7 @@ if(isset($_GET['imagePath']))
     $imagePath=$_GET['imagePath'];
 
 
-if($myImage=OWMP::openImage($imagePath)) {
+if($myImage=OWMPElements::openImage($imagePath)) {
     $jsonArray = array('success' => true);
     imagedestroy($myImage);
 }

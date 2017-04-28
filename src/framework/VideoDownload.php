@@ -177,7 +177,7 @@ class VideoDownload
             $uploadDir=MUSIC_FILE_UPLOAD . $fileDir;
         }
 
-        $checkUploadDir = OWMP::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+        $checkUploadDir = FilesIO::createDirectory($uploadDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
         if(!$checkUploadDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
             exit($checkUploadDir['message']);
         }
@@ -202,7 +202,7 @@ class VideoDownload
         Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
         // έλεγχος αν έχει κατέβει το βίντεο
-        if(OWMP::fileExists($outputfilename))
+        if(FilesIO::fileExists($outputfilename))
             return $outputfilename;
         else return false;
     }

@@ -13,7 +13,7 @@ use apps4net\framework\Page;
 use apps4net\framework\MyDB;
 use apps4net\framework\User;
 use apps4net\framework\Logs;
-use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
 
@@ -89,7 +89,7 @@ if ($UserGroup==1) { // Αν ο χρήστης είναι admin
         $coverImage =  substr($coverImage,strpos($coverImage,",")+1);
         $coverImage = base64_decode($coverImage);
 
-        $albumCoverID=OWMP::uploadAlbumImage($coverImage,$coverMime); // Ανεβάζει το αρχείο της εικόνας και παίρνει το album_artwork_id
+        $albumCoverID=OWMPElements::uploadAlbumImage($coverImage,$coverMime); // Ανεβάζει το αρχείο της εικόνας και παίρνει το album_artwork_id
         $fieldsArray[]='album_artwork_id';
         $valuesArray[]=$albumCoverID;
     }

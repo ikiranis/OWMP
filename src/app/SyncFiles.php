@@ -15,11 +15,11 @@
 namespace apps4net\parrot\app;
 
 use apps4net\framework\MyDB;
-use apps4net\framework\Page;
 use apps4net\framework\Logs;
 use apps4net\framework\Progress;
 use apps4net\framework\Utilities;
 use apps4net\framework\ScanDir;
+use apps4net\framework\FilesIO;
 
 // @source https://github.com/jsjohnst/php_class_lib/tree/master
 require_once('../src/external/PlistParser.php');
@@ -212,7 +212,7 @@ class SyncFiles
         if($mediaKind=='Music') {
 
             // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
-            $checkAlbumCoversDir=OWMP::createDirectory(ALBUM_COVERS_DIR);
+            $checkAlbumCoversDir=FilesIO::createDirectory(ALBUM_COVERS_DIR);
             if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
                 exit($checkAlbumCoversDir['message']);
             }
@@ -222,12 +222,12 @@ class SyncFiles
 
             if(CONVERT_ALAC_FILES) {
                 // Έλεγχοι φακέλων που χρειάζονται
-                $ckeckInternalConvertPath = OWMP::createDirectory(INTERNAL_CONVERT_PATH);
+                $ckeckInternalConvertPath = FilesIO::createDirectory(INTERNAL_CONVERT_PATH);
                 if(!$ckeckInternalConvertPath['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
                     exit($ckeckInternalConvertPath['message']);
                 }
 
-                $checkMusicUpload = OWMP::createDirectory(MUSIC_UPLOAD);
+                $checkMusicUpload = FilesIO::createDirectory(MUSIC_UPLOAD);
                 if(!$checkMusicUpload['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
                     exit($checkMusicUpload['message']);
                 }
@@ -293,14 +293,14 @@ class SyncFiles
 
             if(!$fileAlreadySynced) { // Έλεγχος στα νέα αρχεία αν το hash υπάρχει ήδη στην βάση
 
-                if(OWMP::fileExists($full_path)) { // Αν το αρχείο υπάρχει
+                if(FilesIO::fileExists($full_path)) { // Αν το αρχείο υπάρχει
                     $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
 
                     if ($searchHash = self::searchForHash($hash)) { // Έλεγχος στην βάση για to hash
 
-                        $oldFullPath = DIR_PREFIX . OWMP::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
+                        $oldFullPath = DIR_PREFIX . OWMPElements::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
 
-                        if (!OWMP::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
+                        if (!FilesIO::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
 
                             self::$filesForUpdate[] = [  // Πίνακας με τα id των προς διαγραφή αρχείων
                                 'id' => $searchHash,
@@ -565,7 +565,7 @@ class SyncFiles
 
             if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
 //                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
-                $albumCoverID=OWMP::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
+                $albumCoverID=OWMPElements::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
 //                echo '<img src='.$albumCover.' />';
             }
             else $albumCoverID = 1;
@@ -651,8 +651,8 @@ class SyncFiles
 
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
-                if(!OWMP::fileExists($full_path)) {
-                    OWMP::deleteFile($file['id']);
+                if(!FilesIO::fileExists($full_path)) {
+                    OWMPElements::deleteFile($file['id']);
                     echo $full_path.'<br>';
                     $counter++;
                 }
@@ -691,7 +691,7 @@ class SyncFiles
     static function hashFile($full_path) {
 
         // Παίρνουμε ένα κομμάτι (string) από το αρχείο και το διαβάζουμε
-        if(OWMP::fileExists($full_path)) {
+        if(FilesIO::fileExists($full_path)) {
             Progress::setLastMomentAlive(false);
 
             $start=filesize($full_path)/2;
@@ -752,7 +752,7 @@ class SyncFiles
 
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
-                if(OWMP::fileExists($full_path)) {
+                if(FilesIO::fileExists($full_path)) {
                             $start = microtime(true);
                     
                             $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
@@ -866,7 +866,7 @@ class SyncFiles
 
             foreach ($filesOnDB as $file) {
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
-                if(OWMP::fileExists($full_path)) {
+                if(FilesIO::fileExists($full_path)) {
 
                     self::getMediaFileTags($full_path);  // Παίρνουμε τα metadata του αρχείου
 
@@ -936,7 +936,7 @@ class SyncFiles
             foreach ($artsArray as $item) {
                 $myImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
                 
-                if(OWMP::fileExists($myImage)) {
+                if(FilesIO::fileExists($myImage)) {
                     $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
                     $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
@@ -966,9 +966,9 @@ class SyncFiles
                     if (!$thumbExist || !$smallExist || !$icoExist) {
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
-                        if (OWMP::checkValidImage($myImage)) {
+                        if (OWMPElements::checkValidImage($myImage)) {
                             if (!$thumbExist) {
-                                if (OWMP::createSmallerImage($myImage, 'thumb')) {
+                                if (OWMPElements::createSmallerImage($myImage, 'thumb')) {
                                     echo $thumbnailImage . ' CREATED<br>';
                                 } else {
                                     echo $myImage . ' CORRUPTED<br>';
@@ -976,7 +976,7 @@ class SyncFiles
                             }
 
                             if (!$smallExist) {
-                                if (OWMP::createSmallerImage($myImage, 'small')) {
+                                if (OWMPElements::createSmallerImage($myImage, 'small')) {
                                     echo $smallImage . ' CREATED<br>';
                                 } else {
                                     echo $myImage . ' CORRUPTED<br>';
@@ -984,7 +984,7 @@ class SyncFiles
                             }
 
                             if (!$icoExist) {
-                                if (OWMP::createSmallerImage($myImage, 'ico')) {
+                                if (OWMPElements::createSmallerImage($myImage, 'ico')) {
                                     echo $icoImage . ' CREATED<br>';
                                 } else {
                                     echo $myImage . ' CORRUPTED<br>';
@@ -1035,18 +1035,18 @@ class SyncFiles
         // TODO να κάνω και μία function που να μετατρέπει όλα τα .converted πίσω στο αρχικό τους
 
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
-        OWMP::execConvertALAC($fullPath, INTERNAL_CONVERT_PATH . $filename, '320');
+        OWMPElements::execConvertALAC($fullPath, INTERNAL_CONVERT_PATH . $filename, '320');
 
 //        print shell_exec('ffmpeg -i "'.$fullPath.'" -ac 2 -f wav - | lame -b 320 - "'.INTERNAL_CONVERT_PATH.$filename.'" ');
 
-        if (OWMP::fileExists(INTERNAL_CONVERT_PATH . $filename)) { // Αν η μετατροπή έχει γίνει
+        if (FilesIO::fileExists(INTERNAL_CONVERT_PATH . $filename)) { // Αν η μετατροπή έχει γίνει
             // μετονομάζει το αρχικό αρχείο σε .converted για να μην ξανασκανιαριστεί
             if (rename(DIR_PREFIX . $path . $filename, DIR_PREFIX . $path . $filename . '.converted')) { // Αν μετονομαστεί με επιτυχία
                 // Το αντιγράφει στην τοποθεσία DIR_PREFIX.MUSIC_UPLOAD όπου βάζει όλα τα converted και πρέπει να έχει δικαιώματα
                 print shell_exec('cp "' . INTERNAL_CONVERT_PATH . $filename . '" "' . MUSIC_UPLOAD . $filename . '"');
                 unlink(INTERNAL_CONVERT_PATH . $filename); // Το σβήνει από την προσωρινή τοποθεσία INTERNAL_CONVERT_PATH
 
-                if (OWMP::fileExists(MUSIC_UPLOAD . $filename)) // Αν έχει γίνει σωστά η αντιγραφή
+                if (FilesIO::fileExists(MUSIC_UPLOAD . $filename)) // Αν έχει γίνει σωστά η αντιγραφή
                     $result = array('path' => MUSIC_UPLOAD); // Επιστρέφει το νέο path
                 else $result = false;
             } else $result = false;
@@ -1077,7 +1077,7 @@ class SyncFiles
     // Παίρνει το αρχείο JSON_PLAYLIST_FILE και το μετατρέπει σε table self::$jsonTable
     public function getJsonFileToTable() {
 
-        if(!OWMP::fileExists(JSON_PLAYLIST_FILE))
+        if(!FilesIO::fileExists(JSON_PLAYLIST_FILE))
             exit(__('there_is_no_file').' '.JSON_PLAYLIST_FILE);
 
         $handle   = fopen(JSON_PLAYLIST_FILE, "rb");
