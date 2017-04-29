@@ -1338,9 +1338,7 @@ class OWMPElements extends OWMP
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
         $extension = pathinfo($fullpath, PATHINFO_EXTENSION);
 
-
-
-        // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
+     // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
         if(FilesIO::fileExists($fullpath)) {
             if (!$image = self::openImage($fullpath)) {
                 return false;
@@ -1483,48 +1481,6 @@ class OWMPElements extends OWMP
     {
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
         print shell_exec('ffmpeg -i "'.$source.'" -ac 2 -f wav - | lame -b '.$bitrate.' - "'.$target.'" ');
-    }
-
-    // Επιστρέφει το λινκ με το artwork cover από το itunes API
-    static function getItunesCover($search)
-    {
-
-        $html = 'https://itunes.apple.com/search?term='.urlencode($search);
-//        trigger_error($html);
-        $response = file_get_contents($html);
-        $decoded = json_decode($response, true);
-
-        if($decoded) {
-            // Αν είναι mobile παίρνει την μικρή έκδοση.
-            if(!$_SESSION['mobile']) {
-                $coverSize = '1400x1400';
-            } else {
-                $coverSize = '250x250';
-            }
-
-            foreach ($decoded['results'] as $items) {
-                $artwork = $items['artworkUrl100'];
-                $artwork = str_replace('100x100', $coverSize, $artwork);
-                return $artwork;
-            }
-        } else return false;
-    }
-
-    // Επιστρέφει το λινκ με το gif από το giphy API
-    static function getGiphy($search)
-    {
-
-        $html = 'https://api.giphy.com/v1/gifs/search?q='.urlencode($search).'&api_key='.GIPHY_API;
-//        trigger_error($html);
-        $response = file_get_contents($html);
-        $decoded = json_decode($response, true);
-
-        if($decoded) {
-            foreach ($decoded['data'] as $items) {
-                $giphy = $items['images']['downsized_large']['url'];
-                return $giphy;
-            }
-        } else return false;
     }
 
     // Δημιουργεί έναν νέο πίνακα για temporary playlist με το όνομα $table

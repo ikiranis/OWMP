@@ -10,7 +10,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\MyDB;
-use apps4net\parrot\app\OWMP;
+use apps4net\framework\ExternalAPI;
 use apps4net\parrot\app\OWMPElements;
 
 require_once('../src/boot.php');
@@ -71,11 +71,11 @@ if($metadata=MyDB::getTableArray('music_tags','*', 'id=?', array($id),null, null
         if($metadata[0]['album_artwork_id']==DEFAULT_ARTWORK_ID) {
             
             // Από itunes API
-            if ($iTunesArtwork = OWMPElements::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist']))) {
+            if ($iTunesArtwork = ExternalAPI::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist']))) {
                 $fromAPI = $iTunesArtwork;
                 $apiSource='iTunes';
             }
-            else if ($giphy = OWMPElements::getGiphy(htmlspecialchars_decode($metadata[0]['song_name']))) { // Από Giphy API
+            else if ($giphy = ExternalAPI::getGiphy(htmlspecialchars_decode($metadata[0]['song_name']))) { // Από Giphy API
                 $fromAPI = $giphy;
                 $apiSource='Giphy';
             }
@@ -83,7 +83,7 @@ if($metadata=MyDB::getTableArray('music_tags','*', 'id=?', array($id),null, null
 
         // Αν έχουμε επιλέξει πάντα να εμφανίζει από giphy
         if($onlyGiphy=='true') {
-            if ($giphy = OWMPElements::getGiphy(htmlspecialchars_decode($metadata[0]['song_name']))) { // Από Giphy API
+            if ($giphy = ExternalAPI::getGiphy(htmlspecialchars_decode($metadata[0]['song_name']))) { // Από Giphy API
                 $fromAPI = $giphy;
                 $albumCoverPath=null;
                 $apiSource='Giphy';

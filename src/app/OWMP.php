@@ -306,10 +306,6 @@ class OWMP
             <?php OWMPElements::getUsersInFormFields() ?>
         </details>
 
-
-
-
-
         <div id="error_container">
             <div id="alert_error"></div>
         </div>
