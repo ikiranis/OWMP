@@ -138,7 +138,7 @@ function registerUser() {
     if ($('#RegisterForm').valid()) {
 
 
-        callFile = AJAX_path+"registerUser.php?username=" + username + "&password=" + password + "&email=" + email;
+        callFile = AJAX_path+"framework/registerUser.php?username=" + username + "&password=" + password + "&email=" + email;
 
         $.get(callFile, function (data) {
 
@@ -170,7 +170,7 @@ function login() {
     if ($('#LoginForm').valid()) {
 
 
-        callFile = AJAX_path+"checkLogin.php?username=" + username + "&password=" + password + "&SavePassword=" + SavePassword;
+        callFile = AJAX_path+"framework/checkLogin.php?username=" + username + "&password=" + password + "&SavePassword=" + SavePassword;
 
         $.get(callFile, function (data) {
 
@@ -209,9 +209,9 @@ function updateUser(id) {
     // console.log(id+' '+username+' '+email+' '+password+' '+repeat_password+' '+usergroup+' '+fname+' '+lname+ ' '+changepass);
 
     if(changepass)
-        var callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
+        var callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
             "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
-    else var callFile=AJAX_path+"updateUser.php?id="+id+"&username="+username+"&email="+email+
+    else var callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
 
@@ -257,7 +257,7 @@ function updateOption(id) {
     option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
 
 
-    var callFile=AJAX_path+"updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
+    var callFile=AJAX_path+"framework/updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
 
 
     // console.log(callFile);
@@ -278,7 +278,7 @@ function updateOption(id) {
 
 // Σβήνει την εγγραφή στο user, user_details, salts
 function deleteUser(id) {
-    var callFile=AJAX_path+"deleteUser.php?id="+id;
+    var callFile=AJAX_path+"framework/deleteUser.php?id="+id;
 
     $.get( callFile, function( data ) {
         console.log(data.success);
@@ -437,7 +437,7 @@ function createCookie(name, value, minutes) {
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
-    callFile=AJAX_path+"displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
+    callFile=AJAX_path+"framework/displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
 
 
 
@@ -572,7 +572,7 @@ function updatePath(id) {
     var file_path=$("#PathID"+curID).find('input[name="file_path"]').val();
     var kind=$("#PathID"+curID).find('select[name="kind"]').val();
 
-    callFile=AJAX_path+"updatePath.php?id="+curID+"&file_path="+file_path+"&kind="+kind;
+    callFile=AJAX_path+"app/updatePath.php?id="+curID+"&file_path="+file_path+"&kind="+kind;
 
     if ($('#' + FormIDs[curID]).valid()) {
         $.get(callFile, function (data) {
@@ -603,7 +603,7 @@ function updatePath(id) {
 
 // Σβήνει την εγγραφή στο paths
 function deletePath(id) {
-    callFile=AJAX_path+"deletePath.php?id="+id;
+    callFile=AJAX_path+"app/deletePath.php?id="+id;
 
 
     $.get( callFile, function( data ) {
@@ -806,7 +806,7 @@ function getNextVideoID(id, operation) {
     }
 
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "getNextVideo.php",
+        url: AJAX_path + "app/getNextVideo.php",
         type: 'GET',
         async: true,
         data: {
@@ -840,13 +840,13 @@ function getNextVideoID(id, operation) {
 function loadNextVideo(id) {
 
     if(id==0) {
-        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
+        callFile = AJAX_path+"app/getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
     }
 
     else {
         currentID=id;
 
-        callFile = AJAX_path+"getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
+        callFile = AJAX_path+"app/getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
     }
 
     TimeUpdated=false;
@@ -1110,7 +1110,7 @@ function update_tags(key_rating) {
 
 
 
-    callFile=AJAX_path+"updateTags.php";
+    callFile=AJAX_path+"app/updateTags.php";
 
 
     $.ajax({
@@ -1172,7 +1172,7 @@ function update_tags(key_rating) {
 
 // Ενημερώνει τα play count και date last played
 function updateVideoPlayed() {
-    callFile=AJAX_path+"updateTimePlayed.php?id="+currentID;
+    callFile=AJAX_path+"app/updateTimePlayed.php?id="+currentID;
 
 
     $.get(callFile, function (data) {
@@ -1194,7 +1194,7 @@ function updateVideoPlayed() {
 
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function findDuplicates(offset, step, firstTime) {
-    callFile=AJAX_path+"searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
+    callFile=AJAX_path+"app/searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
     $('#progress').show();
 
     $.get(callFile, function(data) {
@@ -1242,7 +1242,7 @@ function searchPlaylist(offset, step, firstTime, search) {
     currentPlaylistID='1';
 
 
-    callFile=AJAX_path+"searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step
+    callFile=AJAX_path+"app/searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step
         +"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind)+'&tabID='+tabID;
 
 
@@ -1266,7 +1266,7 @@ function searchPlaylist(offset, step, firstTime, search) {
 // Ελέγχει και εμφανίζει το progress
 function checkProgress()
 {
-    var progressCallFile = AJAX_path + "getProgress.php";
+    var progressCallFile = AJAX_path + "framework/getProgress.php";
 
     $.ajax({
         url: progressCallFile,
@@ -1293,8 +1293,8 @@ function checkProgress()
 function startTheSync(operation) {
     var mediaKind=document.querySelector('#mediakind').value;
     
-    // var callFile=AJAX_path+"syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
-    var callFile=AJAX_path+"syncTheFiles.php";
+    // var callFile=AJAX_path+"app/syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
+    var callFile=AJAX_path+"app/syncTheFiles.php";
 
     // console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
 
@@ -1345,7 +1345,7 @@ function startTheSync(operation) {
 // Έλεγχος αν η process τρέχει
 function checkProcessAlive() {
     // TODO να τεστάρω τι γίνεται την στιγμή που διαβάζει αρχεία και δεν στέλνει σημείο ζωής
-    CallFile = AJAX_path + "checkLastMomentAlive.php";
+    CallFile = AJAX_path + "framework/checkLastMomentAlive.php";
 
 
 
@@ -1379,7 +1379,7 @@ function checkProcessAlive() {
 // Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
 function callGetYouTube(id,counter,total, mediaKind) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "getYouTube.php",
+        url: AJAX_path + "framework/getYouTube.php",
         type: 'GET',
         async: true,
         data: {
@@ -1415,7 +1415,7 @@ function callGetYouTube(id,counter,total, mediaKind) {
 // Ελέγχει αν είναι video ή playlist και επιστρέφει τα id σε σχετικό πίνακα videoItems[]
 function checkVideoUrl(url,counter,total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "checkVideoURL.php",
+        url: AJAX_path + "framework/checkVideoURL.php",
         type: 'GET',
         async: true,
         data: {
@@ -1440,11 +1440,10 @@ function checkVideoUrl(url,counter,total) {
     });
 }
 
-// TODO να τσεκάρω αν σβήνονται τα row στο update
 // Καλεί το ajax σε queue για να κάνει το μαζικό update αρχείων
 function callUpdateTheFile(path, filename, id, counter, total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "updateFile.php",
+        url: AJAX_path + "app/updateFile.php",
         type: 'GET',
         async: true,
         data: {
@@ -1476,7 +1475,7 @@ function callUpdateTheFile(path, filename, id, counter, total) {
 // Καλεί το ajax σε queue για να κάνει το μαζικό delete αρχείων
 function callDeleteTheFile(fullpath, filename, id, counter, total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "deleteOnlyTheFile.php",
+        url: AJAX_path + "app/deleteOnlyTheFile.php",
         type: 'GET',
         async: true,
         data: {
@@ -1654,7 +1653,7 @@ function deleteFile(id) {
 
     if (confirmAnswer==true) {
         if(id!=0) { // Αν δεν είναι 0 τότε σβήνει μοναδική εγγραφή
-            callFile = AJAX_path + "deleteFile.php?id=" + id;
+            callFile = AJAX_path + "app/deleteFile.php?id=" + id;
 
             $.get(callFile, function (data) {
                 if (data.success == true) {
@@ -1668,7 +1667,7 @@ function deleteFile(id) {
         }
         else {  // σβήνει μαζικά όσα αρχεία έχουν τσεκαριστεί
             for(var i = 0; i < checkIDs.length;  i++) {
-                callFile = AJAX_path + "deleteFile.php?id=" + checkIDs[i];
+                callFile = AJAX_path + "app/deleteFile.php?id=" + checkIDs[i];
 
                 $.get(callFile, function (data) {
                     if (data.success == true) {
@@ -1794,7 +1793,7 @@ function editFiles() {
         for (var i = 0; i < checkIDs.length; i++) {
 
 
-            callFile=AJAX_path+"updateTags.php";
+            callFile=AJAX_path+"app/updateTags.php";
 
             $.ajax({
                 url: callFile,
@@ -1889,7 +1888,7 @@ function addToPlaylist(fileID) {
 
     }
 
-    callFile=AJAX_path+"addToPlaylist.php?playlistID="+playlistID+'&fileID='+fileID;
+    callFile=AJAX_path+"app/addToPlaylist.php?playlistID="+playlistID+'&fileID='+fileID;
 
 
     $.get(callFile, function (data) {
@@ -1937,7 +1936,7 @@ function removeFromPlaylist(fileID) {
 
     }
 
-    callFile=AJAX_path+"removeFromPlaylist.php?playlistID="+playlistID+'&fileID='+fileID;
+    callFile=AJAX_path+"app/removeFromPlaylist.php?playlistID="+playlistID+'&fileID='+fileID;
 
 
     $.get(callFile, function (data) {
@@ -2100,7 +2099,7 @@ function sendKillCommand() {
     // console.log(runningYoutubeDownload);
 
     if(!runningYoutubeDownload) {
-        callFile = AJAX_path + "sendKillCommand.php";
+        callFile = AJAX_path + "framework/sendKillCommand.php";
 
         $("#killCommand_img").hide();
 
@@ -2119,7 +2118,7 @@ function sendKillCommand() {
 
 // Ψάχνει και καθαρίζει την βάση από προσωρινά tables που δεν χρησιμοποιούνται πλέον
 function garbageCollection() {
-    callFile=AJAX_path+"garbageCollection.php?tabID="+tabID;
+    callFile=AJAX_path+"framework/garbageCollection.php?tabID="+tabID;
 
 
     $.get(callFile, function (data) {
@@ -2412,7 +2411,7 @@ function exportPlaylist() {
     var confirmAnswer=confirm(phrases['sure_to_export_playlist']);
 
     if (confirmAnswer==true) {
-        callFile=AJAX_path+"exportPlaylist.php?tabID="+tabID;
+        callFile=AJAX_path+"app/exportPlaylist.php?tabID="+tabID;
 
 
         if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
@@ -2424,7 +2423,7 @@ function exportPlaylist() {
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');
 
-            progressCallFile = AJAX_path + "getProgress.php";
+            progressCallFile = AJAX_path + "framework/getProgress.php";
 
             var exportInterval=setInterval(function(){
 
@@ -2454,7 +2453,7 @@ function exportPlaylist() {
 function createPlaylist() {
     var playlistName=document.querySelector('#playlistName').value;
 
-    callFile=AJAX_path+"createPlaylist.php?playlistName="+playlistName;
+    callFile=AJAX_path+"app/createPlaylist.php?playlistName="+playlistName;
 
 
     $.get(callFile, function (data) {
@@ -2493,7 +2492,7 @@ function deletePlaylist() {
 
     if (confirmAnswer==true) {
 
-        callFile = AJAX_path + "deletePlaylist.php?playlistID=" + playlistID;
+        callFile = AJAX_path + "app/deletePlaylist.php?playlistID=" + playlistID;
 
 
         $.get(callFile, function (data) {
@@ -2526,7 +2525,7 @@ function playPlaylist() {
 
     $('#progress').show();
 
-    callFile=AJAX_path+"loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
+    callFile=AJAX_path+"app/loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
 
 
     $.get(callFile, function (data) {
@@ -2534,7 +2533,7 @@ function playPlaylist() {
 
         if (data.success == true) {
 
-            callFile=AJAX_path+'searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
+            callFile=AJAX_path+'app/searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
 
             $.get(callFile, function(data) {
                 if (data) {
@@ -2560,14 +2559,14 @@ function loadPlayedQueuePlaylist() {
     $('#progress').show();
     $('#search').hide();
     
-    callFile=AJAX_path+'loadPlayedQueue.php?tabID='+tabID;
+    callFile=AJAX_path+'app/loadPlayedQueue.php?tabID='+tabID;
 
 
     $.get(callFile, function (data) {
 
         if (data.success == true) {
 
-            callFile=AJAX_path+'searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
+            callFile=AJAX_path+'app/searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
 
             $.get(callFile, function(data) {
                 if (data) {
@@ -2709,7 +2708,7 @@ function getPaths(path) {
 
     document.querySelector('#chosenPathText').innerText=path;
 
-    callFile = AJAX_path + "getPaths.php?path=" +path;
+    callFile = AJAX_path + "app/getPaths.php?path=" +path;
 
     $.get(callFile, function (data) {
         for(var i = 1; i<data.length; i ++) {
@@ -2766,7 +2765,7 @@ function resetFormMassiveTags() {
 function sendToJukeboxList() {
     $('#progress').show();
 
-    callFile=AJAX_path+'sendToJukeBox.php?tabID='+tabID;
+    callFile=AJAX_path+'app/sendToJukeBox.php?tabID='+tabID;
 
 
     $.get(callFile, function (data) {
@@ -2789,7 +2788,7 @@ function sendToJukeboxList() {
 // Προσθέτει μία ψήφο στο τραγούδι
 function voteSong(id) {
 
-    callFile=AJAX_path+'voteSong.php?id='+id;
+    callFile=AJAX_path+'app/voteSong.php?id='+id;
 
     $.get(callFile, function (data) {
 
@@ -2869,7 +2868,7 @@ function startValidates() {
 }
 
 function startTheUpdate() {
-    callFile=AJAX_path+'updateApp.php';
+    callFile=AJAX_path+'framework/updateApp.php';
 
     $.get(callFile, function (data) {
 
@@ -2917,7 +2916,7 @@ function startTheBackup() {
         if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed = 'true';
 
-            callFile = AJAX_path + 'backupDatabase.php';
+            callFile = AJAX_path + 'framework/backupDatabase.php';
 
             $('#progress').show();
             $('#logprogress').show();
@@ -2980,7 +2979,7 @@ function restoreTheBackup() {
             if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
                 localStorage.syncPressed = 'true';
 
-                callFile = AJAX_path + 'restoreDatabase.php';
+                callFile = AJAX_path + 'framework/restoreDatabase.php';
 
                 $('#progress').show();
                 $('#logprogress').show();
@@ -3047,7 +3046,7 @@ function uploadFile(files) {
 
         $.ajax({
             // Your server script to process the upload
-            url: AJAX_path + 'uploadFile.php',
+            url: AJAX_path + 'app/uploadFile.php',
             type: 'POST',
 
             // Form data
@@ -3081,7 +3080,7 @@ function updateDownloadPath(pathName) {
     console.log(filePath);
 
     $.ajax({
-        url: AJAX_path + 'updateDownloadPath.php',
+        url: AJAX_path + 'app/updateDownloadPath.php',
         type: 'GET',
 
         // Form data

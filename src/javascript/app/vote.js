@@ -28,7 +28,7 @@ function DisplayMessage (element, error) {
 // Προσθέτει μία ψήφο στο τραγούδι
 function voteSong(id) {
 
-    callFile=AJAX_path+'voteSong.php?id='+id;
+    callFile=AJAX_path+'app/voteSong.php?id='+id;
 
     $.get(callFile, function (data) {
 
@@ -47,7 +47,7 @@ function voteSong(id) {
 
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function getVotePlaylist(offset, step, firstTime) {
-    callFile=AJAX_path+"searchPlaylist.php?votePlaylist=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step;
+    callFile=AJAX_path+"app/searchPlaylist.php?votePlaylist=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step;
     $('#progress').show();
 
     $.get(callFile, function(data) {
@@ -67,7 +67,7 @@ function getVotePlaylist(offset, step, firstTime) {
 
 // Τραβάει τα song info του τρέχοντος τραγουδιού
 function getSongInfo() {
-    callFile=AJAX_path+"getSongInfo.php";
+    callFile=AJAX_path+"app/getSongInfo.php";
 
     $.get(callFile, function (data) {
         if(data.success) {
@@ -93,7 +93,7 @@ function closeVotesWindow() {
 }
 
 function getSongVotes() {
-    callFile=AJAX_path+"getSongVotes.php";
+    callFile=AJAX_path+"app/getSongVotes.php";
 
     $.get(callFile, function(data) {
         if (data) {
