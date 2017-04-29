@@ -22,10 +22,10 @@ use apps4net\framework\ScanDir;
 use apps4net\framework\FilesIO;
 
 // @source https://github.com/jsjohnst/php_class_lib/tree/master
-require_once('../src/external/PlistParser.php');
+require_once('../../src/external/PlistParser.php');
 
 // @source https://github.com/JamesHeinrich/getID3/
-require_once('../src/external/getid3/getid3.php');
+require_once('../../src/external/getid3/getid3.php');
 
 class SyncFiles
 {
