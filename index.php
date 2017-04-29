@@ -44,7 +44,9 @@ $user = new User();
 $MainPage->tittle = APP_NAME;
 
 $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
-    'src/javascript/framework/scripts.js',    // my scripts
+    'src/javascript/framework/variables.js',    // Javascript public variables
+    'src/javascript/framework/scripts.js',    // framework scripts
+    'src/javascript/app/scripts.js',    // app scripts
     // TODO να φύγει το polyfill κάποια στιγμή που θα το υποστηρίζουν κανονικά όλοι οι browsers
     'src/javascript/framework/details.js',    // polyfill για το summary/details
     'src/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
