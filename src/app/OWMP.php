@@ -258,6 +258,7 @@ class OWMP
 
         OWMPElements::displayEditTagsWindow($UserGroup); // Εμφάνιση του παραθύρου για edit tags
         OWMPElements::displayChooseMediaSelect(); // Εμφάνιση του media select
+        OWMPElements::displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
 
         ?>
 

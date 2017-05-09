@@ -2203,8 +2203,9 @@ function uploadFile(files) {
 // Ενημερώνει το download path
 // @param: string pathName = To path name του σχετικού row στο download_paths, που θέλουμε να ενημερώσουμε
 // @return: void
-function updateDownloadPath(pathName) {
-    var filePath = document.querySelector('#'+pathName+' #file_path').value;
+function updateDownloadPath(pathName)
+{
+    var filePath = document.querySelector('#' + pathName + ' #file_path').value;
 
     console.log(filePath);
 
@@ -2218,8 +2219,8 @@ function updateDownloadPath(pathName) {
             filePath: filePath
         },
         dataType: "json",
-        success: function(data) {
-            if(data.success==true) {
+        success: function (data) {
+            if (data.success == true) {
                 $("#message_" + pathName).addClassDelay("success", 3000);
             } else {
                 $("#message_" + pathName).addClassDelay("failure", 3000);
@@ -2227,5 +2228,49 @@ function updateDownloadPath(pathName) {
         }
 
     });
-
 }
+
+// Εμφανίζει το παράθυρο επιλογής του sleep timer
+function displayTheSleepTimer()
+{
+    $('#insertSleepTimerWindow').show();
+}
+
+// Εξαφανίζει το παράθυρο επιλογής του sleep timer
+function cancelTheSleepTimer()
+{
+    $('#insertSleepTimerWindow').hide();
+}
+
+// Αρχίζει την αντίστροφη μέτρηση για το sleep
+function startSleepTimer()
+{
+    var sleepMinutes = document.querySelector('#sleepMinutes').value;
+
+    var timeInSeconds = sleepMinutes*60;
+
+    if(theTimer) {
+        clearInterval(theTimer);
+    }
+
+    var theTimer = setInterval(function () {
+        timeInSeconds--;
+
+        timeInMinutesAndSeconds = seconds2MinutesAndSeconds(timeInSeconds);
+        document.querySelector('#theSleepTimer').innerText = timeInMinutesAndSeconds['minutes'] + ':' + timeInMinutesAndSeconds['seconds'];
+
+        if (timeInSeconds == 0) {
+            clearInterval(theTimer);
+            if (!myVideo.paused) {
+                myVideo.pause();
+                displayPlayButton();
+            }
+        }
+
+    }, 1000);
+
+    $('#insertSleepTimerWindow').hide();
+}
+
+
+
