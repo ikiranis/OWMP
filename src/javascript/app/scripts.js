@@ -2249,12 +2249,12 @@ function startSleepTimer()
 
     var timeInSeconds = sleepMinutes*60;
 
-    if(theTimer) {
-        clearInterval(theTimer);
-    }
+    clearInterval(theTimer);
 
-    var theTimer = setInterval(function () {
+    theTimer = setInterval(function () {
         timeInSeconds--;
+
+        console.log(timeInSeconds);
 
         timeInMinutesAndSeconds = seconds2MinutesAndSeconds(timeInSeconds);
         document.querySelector('#theSleepTimer').innerText = timeInMinutesAndSeconds['minutes'] + ':' + timeInMinutesAndSeconds['seconds'];

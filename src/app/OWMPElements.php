@@ -1828,15 +1828,14 @@ class OWMPElements extends OWMP
         <div id="insertSleepTimerWindow">
             <form id="sleepTimer" name="sleepTimer">
                 <select id="sleepMinutes" name="sleepMinutes">
-                    <option value="0"><?php echo __('sleep_timer_in_minutes'); ?></option>
-                    <option value="1">1 minute</option>
-                    <option value="5">5 minutes</option>
-                    <option value="10">10 minutes</option>
-                    <option value="15">15 minutes</option>
-                    <option value="30">30 minutes</option>
-                    <option value="60">1 hour</option>
-                    <option value="120">2 hours</option>
-                    <option value="300">6 hours</option>
+                    <option value="1">1 <?php echo __('text_minute'); ?></option>
+                    <option value="5">5 <?php echo __('text_minutes'); ?></option>
+                    <option value="10">10 <?php echo __('text_minutes'); ?></option>
+                    <option value="15">15 <?php echo __('text_minutes'); ?></option>
+                    <option value="30">30 <?php echo __('text_minutes'); ?></option>
+                    <option value="60">1 <?php echo __('text_hour'); ?></option>
+                    <option value="120">2 <?php echo __('text_hours'); ?></option>
+                    <option value="300">6 <?php echo __('text_hours'); ?></option>
                 </select>
                 <input type="button" class="myButton sleepButton" id="startSleepTimerButton" name="startSleepTimerButton" onclick="startSleepTimer();"
                        value="<?php echo __('start_sleep_timer'); ?>">

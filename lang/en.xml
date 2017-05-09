@@ -138,7 +138,10 @@
         <phrase name="toggle_shuffle">Activate/Deactivate shuffle</phrase>
         <phrase name="sleep_timer">Sleep Timer</phrase>
         <phrase name="start_sleep_timer">Start sleep timer</phrase>
-        <phrase name="sleep_timer_in_minutes">In minutes</phrase>
+        <phrase name="text_minute">minute</phrase>
+        <phrase name="text_minutes">minutes</phrase>
+        <phrase name="text_hour">hour</phrase>
+        <phrase name="text_hours">hours</phrase>
     </page>
 
     <page name="search">

@@ -55,6 +55,8 @@ var currentPathFormID;
 
 var videoItems=[];
 
+var theTimer; // Ο μετρητής του sleep timer
+
 if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy==null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
