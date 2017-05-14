@@ -166,6 +166,9 @@ class VideoDownload
         $title=str_replace("/",'',$title);
         $title=Utilities::GrCyr2Latin(ClearString($title));
 
+        // Μετατροπή του τίτλου σε μικρά και μετά το πρώτο γράμμα κάθε λέξης σε κεφαλαίο
+        $title = ucwords(strtolower($title));
+
         $videoFullPath = $uploadDir.$title;
 
         // κατεβάζει το βίντεο

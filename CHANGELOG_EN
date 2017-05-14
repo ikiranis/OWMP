@@ -1,6 +1,7 @@
 2017-5-14: 0.7.1
 
 Fix on youtube downloading
+Convert the video title to small letters, and the first letter of each word to capital
 
 2017-5-9: 0.7.0
 
