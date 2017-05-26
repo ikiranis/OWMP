@@ -1,0 +1,14 @@
+#youTubeUrl {
+    width: 90%;
+    height: 10em;
+}
+
+.youtube_success {
+    color: green;
+    font-weight: bold;
+}
+
+.youtube_fail {
+    color: darkred;
+    font-weight: bold;
+}

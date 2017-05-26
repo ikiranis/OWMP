@@ -1,0 +1,62 @@
+/* Footer */
+footer {
+    clear: both;
+    position: relative;
+    background-color: #90A4AE;
+    height: 3%;
+    font-size: 0.8em;
+    color: #FFFFFF;
+    display: flex;
+
+}
+
+footer span {
+    align-self: center;
+    display: inline-flex;
+}
+
+#AppVersionContainer {
+    position: absolute;
+    right: 2em;
+    padding: 0;
+    margin: 0;
+}
+
+#checkCurrentVersion {
+    margin-left: 1em;
+    color: red;
+    font-weight: bold;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+/* mouse over link */
+footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* selected link */
+footer a:active {
+    color: white;
+    text-decoration: underline;
+}
+
+#mobileVersion {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 0.5%;
+}
+
+#mobileVersionText {
+    font-size:70%;
+}

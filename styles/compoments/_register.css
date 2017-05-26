@@ -1,0 +1,59 @@
+/* Register Window */
+
+#RegisterUserWindow {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: auto;
+
+    border-radius: 6px;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    padding: 1em;
+    background-color: #ECEFF1;
+
+}
+
+#RegisterUserWindow .formRow {
+    display: block;
+    margin-top: 1em;
+}
+
+#RegisterUserWindow input[type=text] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#RegisterUserWindow input[type=email] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#RegisterUserWindow input[type=password] {
+    background-color: white;
+    width: 15em;
+    border-radius: 6px;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+}
+
+#RegisterUserWindow input[type=button] {
+    background-color: #607D8B;
+    color: white;
+    width: 15em;
+    border-radius: 6px;
+    border: none;
+    font-size: 1.5em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition:all 0.5s;
+}
+
+#RegisterUserWindow input[type=button]:hover {
+    transform: scale(1.05);
+}

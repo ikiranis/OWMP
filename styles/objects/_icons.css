@@ -1,0 +1,113 @@
+/* Icons */
+
+.play_button {
+    background-image: url( '../../img/play.png' );
+    background-repeat: no-repeat;
+}
+
+.play_button_white {
+    background-image: url( '../../img/play_white.png' );
+    background-repeat: no-repeat;
+}
+
+.pause_button_black {
+    background-image: url( '../../img/pause_black.png' );
+    background-repeat: no-repeat;
+}
+
+.pause_button_white {
+    background-image: url( '../../img/pause_white.png' );
+    background-repeat: no-repeat;
+}
+
+.next_button_black {
+    background-image: url( '../../img/next_black.png' );
+    background-repeat: no-repeat;
+}
+.next_button_white {
+    background-image: url( '../../img/next_white.png' );
+    background-repeat: no-repeat;
+}
+
+.prev_button_black {
+    background-image: url( '../../img/previous_black.png' );
+    background-repeat: no-repeat;
+}
+
+.prev_button_white {
+    background-image: url( '../../img/previous_white.png' );
+    background-repeat: no-repeat;
+}
+
+.fullscreen_button_maximize {
+    background-image: url( '../../img/fullscreen_black.png' );
+    background-repeat: no-repeat;
+}
+
+.fullscreen_button_minimize {
+    background-image: url( '../../img/fullscreen_white.png' );
+    background-repeat: no-repeat;
+}
+
+.gif_button {
+    background-image: url( '../../img/gif_logo.png' );
+    background-repeat: no-repeat;
+}
+
+.shuffle_button {
+    background-image: url( '../../img/shuffle.png' );
+    background-repeat: no-repeat;
+}
+
+.shuffle_on {
+    opacity: 0.3;
+}
+
+.shuffle_off {
+    opacity: 1;
+}
+
+.fullscreen_button_info {
+    background-image: url( '../../img/info_white.png' );
+    background-repeat: no-repeat;
+}
+
+
+.fullscreen_button_img {
+    background-size: 7em;
+    width: 7em;
+    height: 7em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: center center;
+}
+
+.fullscreen_icon_img {
+    background-size: 4em;
+    width: 5em;
+    height: 5em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: top center;
+}
+
+.video_controls_button_img {
+    background-size: 3em;
+    width: 3em;
+    height: 3em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: center center;
+}

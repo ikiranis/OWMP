@@ -1,0 +1,115 @@
+/*Στοιχεία εμφάνισης ρυθμίσεων*/
+.UsersRow {
+    display:table-row;
+}
+
+
+.ListTable {
+    display:table;
+    width:auto;
+}
+
+.ListColumn {
+    float: left; /*fix for  buggy browsers*/
+    display: table-column;
+    text-align: center;
+    margin-right: 0.3em;
+}
+
+.input_field {
+    width: 10em;
+    font-size: 0.7em;
+    /*box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);*/
+}
+
+.ListTittleRow {
+    font-weight: bold;
+}
+
+
+.update_button {
+    background-image: url( '../../img/update.png' );
+    background-repeat: no-repeat;
+}
+
+.delete_button {
+    background-image: url( '../../img/delete.png' );
+    background-repeat: no-repeat;
+}
+
+.edit_button {
+    background-image: url( '../../img/edit.png' );
+    background-repeat: no-repeat;
+}
+
+.export_button {
+    background-image: url( '../../img/copy.png' );
+    background-repeat: no-repeat;
+}
+
+.browse_path_button {
+    background-image: url( '../../img/create.png' );
+    background-repeat: no-repeat;
+}
+
+.button_img {
+    background-size: 1.5em;
+    background-color: transparent;
+    width: 1.5em;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    top:-0.3em;
+    background-position: center center;
+}
+
+.message {
+    background-size: 1.5em;
+
+    border: none;
+    background-color: transparent;
+    background-position: center center;
+}
+
+.success {
+    background-image: url( '../../img/done.png' );
+    background-repeat: no-repeat;
+
+
+}
+
+.failure {
+    background-image: url( '../../img/problem.png' );
+    background-repeat: no-repeat;
+
+}
+
+.table_form {
+    padding: 0;
+    margin: 0;
+}
+
+.general_fail {
+    color: darkred;
+    font-weight: bold;
+}
+
+
+details div.error {
+    position: relative;
+    display: block;
+    color: black;
+    border: 1px dotted black;
+    font-size: 0.8em;
+    margin-top: 0.3em;
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
+    padding: 0.5em;
+    background-color: #FFEDED;
+    border-radius: 6px;
+    width: 7em;
+}
+
+details .insert_row  {
+    margin: 0.5em 0;
+}

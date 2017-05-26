@@ -1,0 +1,74 @@
+/* Nav menu */
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+}
+
+nav li a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+
+}
+
+nav li {
+    margin-top:0.7em;
+    color: #607D8B;
+    box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
+    background-color: #ECEFF1;
+    transition:all 0.5s;
+    cursor: pointer;
+}
+
+
+
+nav li a.active {
+    background-color: #546E7A;
+    color: white;
+    box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+
+}
+
+nav li a:hover:not(.active) {
+    background-color: #B0BEC5;
+    color: white;
+    box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+
+#TotalInPlaylist {
+    display: block;
+    width: 100%;
+    position: absolute;
+    bottom:0;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+#TotalNumberInPlaylist {
+    font-weight: bold;
+}
+
+
+
+/*Οι σημαίες για τις γλώσσες*/
+.flags {
+    width: 1.8em;
+    height: 1.3em;
+}
+
+
+
+#languages {
+    margin-top: 1em;
+    width: 100%;
+    display:block;
+    text-align: center;
+}

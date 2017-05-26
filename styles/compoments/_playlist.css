@@ -1,0 +1,140 @@
+/* Playlist */
+
+.playlistTittle {
+    font-weight: bold;
+}
+
+
+#playlist_container {
+    overflow-y: scroll;
+    height:96%;
+}
+
+#playlistTable {
+    display: table;
+    width: 100%;
+    height: auto;
+    font-size: 0.7em;
+    border-collapse: collapse;
+}
+
+.track {
+    display: table-row;
+    /*cursor: pointer;*/
+}
+
+.track:nth-child(odd) {
+    background-color: #CFD8DC;
+}
+
+.track:nth-child(even) {
+    background-color: #ECEFF1;
+}
+
+.track:hover {
+    background-color: #B0BEC5;
+}
+
+#playlistTable .ItemActive {
+    background-color: #B0BEC5;
+}
+
+
+
+.tag {
+    display: table-cell;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 0.5em;
+}
+
+.kind {
+    max-width: 1em;
+    padding: 0.4em;
+}
+
+.kind_music {
+    background-image: url( '../../img/music.png' );
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: center center;
+}
+
+.kind_music_video {
+    background-image: url( '../../img/music_video.png' );
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: center center;
+}
+
+.delete_file {
+    width: 0.2em;
+    margin: 0;
+    z-index: 10;
+}
+
+.song_name {
+    max-width: 10em;
+}
+
+.artist {
+    max-width: 5em;
+}
+
+.album {
+    max-width: 2em;
+}
+
+.genre {
+    max-width: 2em;
+}
+
+.song_year {
+    max-width: 2em;
+}
+
+.play_count {
+    max-width: 1em;
+}
+
+.rating {
+    max-width: 1em;
+}
+
+.date_added {
+    max-width: 3em;
+}
+
+.searchableItem:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.vote_button {
+    background-image: url( '../../img/favorite.png' );
+    background-repeat: no-repeat;
+}
+
+.playlist_add_button {
+    background-image: url( '../../img/playlist_add.png' );
+    background-repeat: no-repeat;
+}
+
+.playlist_remove_button {
+    background-image: url( '../../img/playlist_remove.png' );
+    background-repeat: no-repeat;
+}
+
+
+.playlist_button_img {
+    background-size: 1.5em;
+    width: 1.5em;
+    background-color: transparent;
+    border: none;
+    /*padding-top:0.5em;*/
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-position: center center;
+}

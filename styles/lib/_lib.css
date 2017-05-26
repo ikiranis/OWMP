@@ -1,0 +1,104 @@
+/* Το styling της κεντρικής σελίδας */
+
+/* Color Pallettes
+    https://material.google.com/style/color.html#color-color-palette */
+
+
+/* ********* Base elements *********** */
+@import '../base/_base.css';
+
+/* ******* Compoments ********* */
+
+/* Nav menu */
+@import '../compoments/_nav-menu.css';
+
+/* Header */
+@import '../compoments/_header.css';
+
+/* Login Window */
+@import '../compoments/_login.css';
+
+/* Register Window */
+@import '../compoments/_register.css';
+
+/* Footer */
+@import '../compoments/_footer.css';
+
+/* Logs */
+@import '../compoments/_logs.css';
+
+/* Settings */
+@import '../compoments/_settings.css';
+
+/* FormTags */
+@import '../compoments/_formTags.css';
+
+/* EditTag */
+@import '../compoments/_editTag.css';
+
+/* Fullscreen Video */
+@import '../compoments/_fullscreen-video.css';
+
+/* Progress Bar */
+@import '../compoments/_progress.css';
+
+/* Search */
+@import '../compoments/_search.css';
+
+/* Playlist List */
+@import '../compoments/_playlist.css';
+
+/* Playlist Window */
+@import '../compoments/_playlist-window.css';
+
+/* Browse Path */
+@import '../compoments/_browsePath.css';
+
+/* ******** Objects ******** */
+
+/* Error Message */
+@import '../objects/_error.css';
+
+/* Help */
+@import '../objects/_help.css';
+
+/* Buttons */
+@import '../objects/_buttons.css';
+
+/* Icons */
+@import '../objects/_icons.css';
+
+/* Η μπάρα με την χρονική στιγμή στο τραγούδι (εκτός full screen) */
+@import '../objects/_track-time.css';
+
+/* Cover Image */
+@import '../objects/_coverImage.css';
+
+/* Sleep Timer Window */
+@import '../objects/_sleepTimer.css';
+
+/* Some Tools */
+@import '../objects/_someTools.css';
+
+/* Youtube */
+@import '../objects/_youtube.css';
+
+/* Media Controls */
+@import '../objects/_mediaControls.css';
+
+/* Sync */
+@import '../objects/_sync.css';
+
+
+
+
+
+
+
+
+
+
+
+
+
+

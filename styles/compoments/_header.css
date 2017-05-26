@@ -1,0 +1,57 @@
+/* Header */
+header {
+    height: 3%;
+    background-color: #607D8B;
+    color: white;
+    overflow: hidden;
+}
+
+#LeftSide {
+    width: 30%;
+    float: left;
+    display: inline-block;
+}
+
+#RightSide {
+    width: 50%;
+    float: right;
+    text-align: right;
+    display: inline-block;
+
+
+}
+
+.mainbarcontent {
+    display: inline-flex;
+}
+
+
+#account_image {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#account_name {
+    align-self: center;
+    position:relative;
+}
+
+#logout img {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#SystemTime {
+    align-self: center;
+    display: inline-flex;
+}
+
+#timetext {
+    align-self: center;
+}
+
+#SystemTime img {
+    width: 1.5em;
+    height: 1.5em;
+
+}

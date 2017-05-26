@@ -1,19 +1,21 @@
-/* Desktop layout */
+@import '../lib/_lib.css';
+
+/* Mobile layout */
 
 html, body {
-    height:99%;
-    width: 99%;
+    width: 98%;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height:1.2;
     font-size: 16px;
     background-color: #CFD8DC;
-    overflow: auto;
+
 }
 
 
 header, footer {
+    width: auto;
     font-size: 120%;
-    margin: 0.1%;
+    /*margin: 0.1%;*/
     border-radius: 6px;
     padding: 1em 1em;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
@@ -31,14 +33,12 @@ main {
 /*Κεντρικό box*/
 section {
     font-size: 120%;
-    margin: 0.5%;
-    padding: 1em 1em;
+    padding: 0;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     position: relative;
     display: block;
-    width: 53%;
-    height: 75%;
-    float: right;
+    width: auto;
+    height: 50%;
     background-color: #ECEFF1;
     margin-bottom: 1%;
     color: #455A64;
@@ -46,29 +46,24 @@ section {
 
 aside {
     font-size: 120%;
-    margin: 0.5%;
-    padding: 1em 1em;
+    padding: 0;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     position: relative;
     display: block;
-    width: 30%;
-    height: 75%;
-    float: right;
+    width: auto;
     background-color: #ECEFF1;
     margin-bottom: 1%;
     color: #455A64;
-    overflow-y: auto;
 }
 
 /*Nav menu*/
 nav {
     position: relative;
-    width: 7%;
-    height: 75%;
-    float: left;
+    width: 95%;
     padding-top: 1em;
     padding-bottom: 1em;
-    margin: 0.1%;
+
     display:block;
-    font-size: 0.7em;
+    font-size: 0.8em;
+    margin-bottom: 1em;
 }

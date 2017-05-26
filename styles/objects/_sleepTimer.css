@@ -1,0 +1,13 @@
+/*Παράθυρο επιλογής sleep timer*/
+#insertSleepTimerWindow {
+    position: absolute;
+    display: none;
+    box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
+    background-color: white;
+    right: 1em;
+    width: 50%;
+    height: auto;
+    /*border: solid 1px black;*/
+    padding: 1em;
+    z-index:10;
+}

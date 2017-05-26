@@ -54,10 +54,10 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
 if (!isset($_GET['mobile'])) {
-    $css = array('styles/basic.css', 'styles/main.css');
+    $css = array('styles/layouts/basic.css');
     $_SESSION['mobile']=false;
 } else {
-    $css = array('styles/mobile.css', 'styles/main.css');
+    $css = array('styles/layouts/mobile.css');
     $_SESSION['mobile']=true;
 }
 

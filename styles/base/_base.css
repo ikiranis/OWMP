@@ -1,0 +1,63 @@
+/* Base elements */
+
+pre {
+    background-color: black;
+    color: white;
+    font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+    padding: 1em;
+    font-size: 0.8em;
+}
+
+article {
+    position: inherit;
+    padding-bottom: 1em;
+    height: 99%;
+    display: block;
+    overflow-y: auto;
+}
+
+article h2 {
+    color: #37474F;
+}
+
+article h3 {
+    color: #37474F;
+}
+
+
+/* Εμφάνιση του summary/details */
+
+summary {
+    cursor: pointer;
+}
+
+
+/*Input Fields Validation*/
+
+input:required:invalid {
+    background-image: url(../../img/invalid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid #ee8a10;
+    outline: none;
+}
+
+input:focus:invalid, input:invalid {
+    background-image: url(../../img/invalid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid red;
+    outline: none;
+}
+input:required:valid {
+    background-image: url(../../img/valid.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid green;
+    outline: none;
+}
+
+input {
+    border: 1px solid black;
+    outline: none;
+}
