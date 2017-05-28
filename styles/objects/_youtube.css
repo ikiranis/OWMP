@@ -1,14 +1,18 @@
-#youTubeUrl {
+.o-youTube--textArea {
     width: 90%;
     height: 10em;
 }
 
-.youtube_success {
+/*o-youTube--mediaKind {*/
+    /**/
+/*}*/
+
+.is_youTube-success {
     color: green;
     font-weight: bold;
 }
 
-.youtube_fail {
+.is_youTube-fail {
     color: darkred;
     font-weight: bold;
 }

@@ -963,9 +963,9 @@ class OWMPElements extends OWMP
 
                 ?>
                 <div>
-                    <textarea id="youTubeUrl" name="youTubeUrl"></textarea>
+                    <textarea class="o-youTube--textArea" name="o-youTube--textArea"></textarea>
 
-                    <select name="youtubeMediaKind" id="youtubeMediaKind">
+                    <select name="jsMediaKind" class="jsMediaKind">
                         <?php
                         foreach ($mediaKinds as $kind) {
                             ?>
@@ -978,12 +978,12 @@ class OWMPElements extends OWMP
                         ?>
                     </select>
 
-                    <input type="button" class="myButton syncButton" id="downloadYouTube" name="downloadYouTube"
+                    <input type="button" class="myButton syncButton" id="jsDownloadYouTube" name="jsDownloadYouTube"
                            onclick="downloadTheYouTube();"
                            value="<?php echo __('sync_youtube'); ?>" >
 
-                    <input type="hidden" id="MusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $checkVideoFileUpload['result']; ?>">
-                    <input type="hidden" id="MusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $checkAudioFileUpload['result']; ?>">
+                    <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $checkVideoFileUpload['result']; ?>">
+                    <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $checkAudioFileUpload['result']; ?>">
 
                 </div>
 

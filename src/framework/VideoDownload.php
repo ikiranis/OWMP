@@ -13,8 +13,6 @@
 
 namespace apps4net\framework;
 
-use apps4net\parrot\app\OWMP;
-
 class VideoDownload
 {
 

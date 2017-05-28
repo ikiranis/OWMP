@@ -849,10 +849,10 @@ function callGetYouTube(id,counter,total, mediaKind) {
         },
         success: function (data) {
             if (data.success == true) {
-                $("#SyncDetails").append('<p class="youtube_success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+                $("#SyncDetails").append('<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
             } else {
-                $("#SyncDetails").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                $("#SyncDetails").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });
@@ -951,13 +951,13 @@ function callDeleteTheFile(fullpath, filename, id, counter, total) {
 
 // Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
 function downloadTheYouTube() {
-    var urls=document.querySelector('#youTubeUrl').value;
-    var mediaKind=document.querySelector('#youtubeMediaKind').value;
+    var urls=document.querySelector('.o-youTube--textArea').value;
+    var mediaKind=document.querySelector('.jsMediaKind').value;
 
     var OKGo=false;
 
     if(mediaKind=='Music Video') {
-        var MusicVideoPathOK=document.querySelector('#MusicVideoPathOK').value;
+        var MusicVideoPathOK=document.querySelector('#jsMusicVideoPathOK').value;
 
         if(MusicVideoPathOK) {
             OKGo=true;
@@ -965,7 +965,7 @@ function downloadTheYouTube() {
             DisplayMessage('#alert_error', phrases['no_main_music_video_path']);
         }
     } else {
-        var MusicPathOK=document.querySelector('#MusicPathOK').value;
+        var MusicPathOK=document.querySelector('#jsMusicPathOK').value;
 
         if(MusicPathOK) {
             OKGo=true;
