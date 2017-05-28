@@ -153,12 +153,12 @@ class OWMP
         <?php OWMPElements::displayControls('mediaControls', false); ?>
         
         <div id="the_time_track">
-            <span id="current_track_time">00:00</span> /
-            <span id="total_track_time">00:00</span>
+            <span id="jsTrackTime">00:00</span> /
+            <span id="jsTotalTrackTime">00:00</span>
         </div>
 
-        <div id="track_time">
-            <input type=range id="track_range" name="track_range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
+        <div id="o-trackTime">
+            <input type=range class="o-trackTime__range" name="o-trackTime__range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
         </div>
 
         
@@ -172,10 +172,10 @@ class OWMP
         <div id="overlay" ondblclick="displayFullscreenControls();">
             <div id="overlay_rating"></div>
             <div id="overlay_play_count"></div>
-            <div id="overlay_track_time">
-                <span id="overlay_current_track_time">00:00</span>
-                <input type=range id="overlay_track_range" name="overlay_track_range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
-                <span id="overlay_total_track_time">00:00</span>
+            <div class="o-trackTime--overlay l-o-trackTime--overlay">
+                <span id="jsOverlayTrackTime">00:00</span>
+                <input type=range class="o-trackTime--overlay__range" name="o-trackTime--overlay__range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
+                <span id="jsOverlayTotalTrackTime">00:00</span>
             </div>
 
 

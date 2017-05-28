@@ -963,7 +963,7 @@ class OWMPElements extends OWMP
 
                 ?>
                 <div>
-                    <textarea class="o-youTube--textArea" name="o-youTube--textArea"></textarea>
+                    <textarea class="o-youTube__textArea" name="o-youTube__textArea"></textarea>
 
                     <select name="jsMediaKind" class="jsMediaKind">
                         <?php

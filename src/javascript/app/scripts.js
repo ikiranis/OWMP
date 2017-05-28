@@ -424,7 +424,7 @@ function loadNextVideo(id) {
             $('#date_added').val(data.tags.date_added);
             $('#rating').val(data.tags.rating);
             $('#rating_output').val(data.tags.rating);
-            $('#track_time').val(timeInMinutesAndSeconds);
+            $('#jsTrackTime').val(timeInMinutesAndSeconds);
             $('#live').val(data.tags.live);
             $('#path_filename').val(decodeURIComponent(file_path));
 
@@ -437,8 +437,9 @@ function loadNextVideo(id) {
             // $('#overlay_rating').html(stars);
             ratingToStars(data.tags.rating,'#overlay_rating');
             $('#overlay_play_count').html(data.tags.play_count);
-            $('#overlay_total_track_time').html(timeInMinutesAndSeconds); // σε full screen
-            $('#total_track_time').html(timeInMinutesAndSeconds); //  εκτός  full screen
+            // Ο συνολικός χρόνος του τραγουδιού
+            $('#jsOverlayTotalTrackTime').html(timeInMinutesAndSeconds); // σε full screen
+            $('#jsTotalTrackTime').html(timeInMinutesAndSeconds); //  εκτός  full screen
             $('#overlay_live').html(liveOptions[data.tags.live]);
             showFullScreenVideoTags();
 
@@ -951,7 +952,7 @@ function callDeleteTheFile(fullpath, filename, id, counter, total) {
 
 // Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
 function downloadTheYouTube() {
-    var urls=document.querySelector('.o-youTube--textArea').value;
+    var urls=document.querySelector('.o-youTube__textArea').value;
     var mediaKind=document.querySelector('.jsMediaKind').value;
 
     var OKGo=false;
@@ -1444,9 +1445,9 @@ function displayVolume(operation) {
 // Αλλάζει τον χρόνο που βρίσκεται το track αναλόγως την θέση στον slider
 function controlTrack() {
     if(checkFullscreen()) { // Όταν είναι σε full screen
-        var curTime = document.querySelector('#overlay_track_range').value;  // ο τρέχον track time σε ποσοστό
+        var curTime = document.querySelector('.o-trackTime--overlay__range').value;  // ο τρέχον track time σε ποσοστό
     } else { // όταν δεν είναι σε full screen
-        var curTime = document.querySelector('#track_range').value;  // ο τρέχον track time σε ποσοστό
+        var curTime = document.querySelector('.o-trackTime__range').value;  // ο τρέχον track time σε ποσοστό
     }
 
     var duration=myVideo.duration;  // ο συνολικός track time

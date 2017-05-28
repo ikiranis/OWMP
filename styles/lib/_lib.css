@@ -69,7 +69,7 @@
 @import '../objects/_icons.css';
 
 /* Η μπάρα με την χρονική στιγμή στο τραγούδι (εκτός full screen) */
-@import '../objects/_track-time.css';
+@import '../objects/_trackTime.css';
 
 /* Cover Image */
 @import '../objects/_coverImage.css';

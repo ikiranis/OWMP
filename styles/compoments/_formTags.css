@@ -15,9 +15,6 @@
 
 }
 
-
-
-
 #FormTags #title {
     font-size: 1em;
     margin-top: 0.2em;
@@ -118,9 +115,6 @@
     cursor: pointer;
     transition:all 0.5s;
 }
-
-
-
 
 #tags #submit:hover {
     transform: scale(1.05);

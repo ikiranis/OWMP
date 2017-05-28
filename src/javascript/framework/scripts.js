@@ -846,11 +846,11 @@ $(function(){
 
             // Εμφάνιση του τρέχοντα track time
             if(checkFullscreen()) { // όταν είναι σε full screen
-                $('#overlay_current_track_time').html(timeInMinutesAndSeconds);
-                $('#overlay_track_range').val(curTimePercent);
+                $('#jsOverlayTrackTime').html(timeInMinutesAndSeconds);
+                $('.o-trackTime--overlay__range ').val(curTimePercent);
             } else {   // όταν δεν είναι σε full screen
-                $('#current_track_time').html(timeInMinutesAndSeconds);
-                $('#track_range').val(curTimePercent);
+                $('#jsTrackTime').html(timeInMinutesAndSeconds);
+                $('.o-trackTime__range').val(curTimePercent);
             }
 
         });
