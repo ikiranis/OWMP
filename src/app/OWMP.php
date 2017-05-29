@@ -284,7 +284,7 @@ class OWMP
         $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         ?>
-        <h2><?php echo __('nav_item_2'); ?></h2>
+        <h2 class="c1"><?php echo __('nav_item_2'); ?></h2>
 
 
         <?php
@@ -387,7 +387,7 @@ class OWMP
     static function showLogs ()
     {
         ?>
-        <h2><?php echo __('nav_item_4'); ?></h2>
+        <h2 class="c1"><?php echo __('nav_item_4'); ?></h2>
         <?php
 
         $conn = new MyDB();
@@ -435,7 +435,7 @@ class OWMP
     static function showHelp ()
     {
         ?>
-        <h2><?php echo __('nav_item_5'); ?></h2>
+        <h2 class="c1"><?php echo __('nav_item_5'); ?></h2>
 
         <?php
 

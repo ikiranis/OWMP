@@ -10,7 +10,7 @@ nav ul {
 
 nav li a {
     display: block;
-    color: #000;
+    color: #000000;
     padding: 8px 0 8px 16px;
     text-decoration: none;
 
@@ -18,9 +18,7 @@ nav li a {
 
 nav li {
     margin-top:0.7em;
-    color: #607D8B;
     box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
-    background-color: #ECEFF1;
     transition:all 0.5s;
     cursor: pointer;
 }
@@ -29,7 +27,7 @@ nav li {
 
 nav li a.active {
     background-color: #546E7A;
-    color: white;
+    color: #FFFFFF;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
 
@@ -37,7 +35,7 @@ nav li a.active {
 
 nav li a:hover:not(.active) {
     background-color: #B0BEC5;
-    color: white;
+    color: #FFFFFF;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
 }

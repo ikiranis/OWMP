@@ -99,7 +99,7 @@
 details div.error {
     position: relative;
     display: block;
-    color: black;
+    color: #000000;
     border: 1px dotted black;
     font-size: 0.8em;
     margin-top: 0.3em;

@@ -16,15 +16,6 @@ article {
     overflow-y: auto;
 }
 
-article h2 {
-    color: #37474F;
-}
-
-article h3 {
-    color: #37474F;
-}
-
-
 /* Εμφάνιση του summary/details */
 
 summary {

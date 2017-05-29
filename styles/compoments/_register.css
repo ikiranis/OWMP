@@ -19,7 +19,7 @@
 }
 
 #RegisterUserWindow input[type=text] {
-    background-color: white;
+    background-color: #FFFFFF;
     width: 15em;
     border-radius: 6px;
     font-size: 1.5em;
@@ -27,7 +27,7 @@
 }
 
 #RegisterUserWindow input[type=email] {
-    background-color: white;
+    background-color: #FFFFFF;
     width: 15em;
     border-radius: 6px;
     font-size: 1.5em;
@@ -35,7 +35,7 @@
 }
 
 #RegisterUserWindow input[type=password] {
-    background-color: white;
+    background-color: #FFFFFF;
     width: 15em;
     border-radius: 6px;
     font-size: 1.5em;

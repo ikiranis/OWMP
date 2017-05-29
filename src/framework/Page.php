@@ -374,7 +374,7 @@ class Page
                         if($displayOK) {
                             if ($targetPage == 'page') {
                                 ?>
-                                <li><a <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
+                                <li class="c5 bgc2"><a <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
                                         href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
 
                                 <?php
@@ -382,7 +382,7 @@ class Page
 
                             if ($targetPage == 'window') {
                                 ?>
-                                <li>
+                                <li class="c5 bgc2">
                                     <a id="navID<?php echo $counter; ?>" <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
                                        onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a>
                                 </li>

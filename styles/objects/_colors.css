@@ -1,0 +1,63 @@
+/* Color Palette */
+
+/* @source https://material.google.com/style/color.html#color-color-palette */
+
+.c1 {
+    color: #37474F;
+}
+
+.c2 {
+    color: #FFFFFF;
+}
+
+.c3 {
+    color: red;
+}
+
+.c4 {
+    color: grey;
+}
+
+.c5 {
+    color: #607D8B;
+}
+
+.c6 {
+    color: darkred;
+}
+
+.c7 {
+    color: #455A64;
+}
+
+.bgc1 {
+    background-color: #CFD8DC;
+}
+
+.bgc2 {
+    background-color: #ECEFF1;
+}
+
+.bgc3 {
+    background-color: #FFFFFF;
+}
+
+.bgc4 {
+    background-color: #90A4AE;
+}
+
+.bgc5 {
+    background-color: #000000;
+}
+
+.bgc5 {
+    background-color: #607D8B;
+}
+
+.bgc7 {
+    background-color: #546E7A;
+}
+
+.bgc8 {
+    background-color: #B0BEC5;
+}
