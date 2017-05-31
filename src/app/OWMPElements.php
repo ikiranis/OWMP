@@ -31,7 +31,7 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div id="<?php echo $element; ?>" class="bgc10 c2">
+        <div id="<?php echo $element; ?>" <?php if($fullscreen) echo 'class="bgc10 c2"'; ?>>
 
             <input type="button" class="<?php if($fullscreen) echo 'prev_button_white fullscreen_button_img'; else echo 'prev_button_black video_controls_button_img'; ?>"
                    title="<?php echo __('previous_song'); ?>"
