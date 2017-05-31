@@ -1954,7 +1954,7 @@ class OWMPElements extends OWMP
             <?php
         } else {
         ?>
-            <div id="search"></div>
+            <div id="search" class="bgc3"></div>
             <?php
         }
         ?>
