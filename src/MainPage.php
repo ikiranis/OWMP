@@ -36,14 +36,14 @@ function DisplayMainPage() {
     ?>
 
 
-        <aside>
+        <aside class="bgc2 c7">
 
             <?php OWMP::showVideo(); ?>
 
         </aside>
 
 
-        <section>
+        <section class="bgc2 c7">
             <article>
                 <?php
                 switch ($NavActiveItem) {
@@ -74,7 +74,7 @@ function DisplayMainPage() {
         </nav>
 
 
-        <div id="helpContainer">
+        <div id="helpContainer" class="bgc3 c8">
             <div id="helpText"></div>
             <input type="button" id="closeHelp" name="closeHelp" class="myButton" value="<?php echo __('close_text'); ?>" onclick="closeHelp();" >
         </div>

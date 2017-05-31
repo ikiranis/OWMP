@@ -31,7 +31,7 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div id="<?php echo $element; ?>">
+        <div id="<?php echo $element; ?>" class="bgc10 c2">
 
             <input type="button" class="<?php if($fullscreen) echo 'prev_button_white fullscreen_button_img'; else echo 'prev_button_black video_controls_button_img'; ?>"
                    title="<?php echo __('previous_song'); ?>"
@@ -594,7 +594,7 @@ class OWMPElements extends OWMP
                 ?>
 
                 <div id="error_container">
-                    <div id="alert_error"></div>
+                    <div class="alert_error bgc9"></div>
                 </div>
 
             </div>
@@ -1810,7 +1810,7 @@ class OWMPElements extends OWMP
     static function displayInsertPlaylistWindow()
     {
         ?>
-        <div id="insertPlaylistWindow">
+        <div id="insertPlaylistWindow" class="bgc3">
             <form id="insertPlaylist" name="insertPlaylist">
                 <input type="text" id="playlistName" name="playlistName">
                 <input type="button" class="myButton PlaylistButton" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
@@ -1825,7 +1825,7 @@ class OWMPElements extends OWMP
     static function displaySleepTimer()
     {
         ?>
-        <div id="insertSleepTimerWindow">
+        <div id="insertSleepTimerWindow" class="bgc3">
             <form id="sleepTimer" name="sleepTimer">
                 <select id="sleepMinutes" name="sleepMinutes">
                     <option value="1">1 <?php echo __('text_minute'); ?></option>
@@ -1853,7 +1853,7 @@ class OWMPElements extends OWMP
 
         if($_SESSION['PlaylistCounter']==0) {
         ?>
-            <div id="search">
+            <div id="search" class="bgc3">
                 <form id="SearchForm" name="SearchForm">
                     <?php
 

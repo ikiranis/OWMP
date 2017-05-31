@@ -30,6 +30,10 @@
     color: #455A64;
 }
 
+.c8 {
+    color: #000000;
+}
+
 .bgc1 {
     background-color: #CFD8DC;
 }
@@ -60,4 +64,72 @@
 
 .bgc8 {
     background-color: #B0BEC5;
+}
+
+.bgc9 {
+    background-color: #FFEDED;
+}
+
+.bgc10 {
+    background-color: #333333;
+}
+
+
+/* Χρώματα συγκεκριμένων elements */
+
+/* Nav Bar */
+nav li a.active {
+    background-color: #546E7A;
+    color: #FFFFFF;
+}
+
+nav li a:hover:not(.active) {
+    background-color: #B0BEC5;
+    color: #FFFFFF;
+}
+
+
+/* Playlist line colors */
+.track:nth-child(odd) {
+    background-color: #CFD8DC;
+}
+
+.track:nth-child(even) {
+    background-color: #ECEFF1;
+}
+
+.track:hover {
+    background-color: #B0BEC5;
+}
+
+.is-active {
+    background-color: #B0BEC5 !important;
+}
+
+details div.error {
+    color: #000000;
+    background-color: #FFEDED;
+}
+
+.is-fail {
+    color: darkred;
+}
+
+.syncButton:disabled {
+    background-color: red;
+}
+
+span.error {
+    background-color: #FFEDED;
+    color: #000000;
+}
+
+.is_youTube-success {
+    color: green;
+    font-weight: bold;
+}
+
+.is_youTube-fail {
+    color: darkred;
+    font-weight: bold;
 }

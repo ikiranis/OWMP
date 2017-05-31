@@ -172,7 +172,7 @@ class OWMP
         <div id="overlay" ondblclick="displayFullscreenControls();">
             <div id="overlay_rating"></div>
             <div id="overlay_play_count"></div>
-            <div class="o-trackTime--overlay l-o-trackTime--overlay">
+            <div class="o-trackTime--overlay l-o-trackTime--overlay c2">
                 <span id="jsOverlayTrackTime">00:00</span>
                 <input type=range class="o-trackTime--overlay__range" name="o-trackTime--overlay__range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
                 <span id="jsOverlayTotalTrackTime">00:00</span>
@@ -251,7 +251,7 @@ class OWMP
 
         ?>
 
-        <div id="progress"></div>
+        <div id="progress" class="bgc3"></div>
 
 
         <?php
@@ -308,7 +308,7 @@ class OWMP
         </details>
 
         <div id="error_container">
-            <div id="alert_error"></div>
+            <div class="alert_error bgc9"></div>
         </div>
 
         <script type="text/javascript">
@@ -364,11 +364,11 @@ class OWMP
 
             
             <div id="SyncDetails">
-                <div id="progress"></div>
+                <div id="progress" class="bgc3"></div>
             </div>
 
             <div id="error_container">
-                <div id="alert_error"></div>
+                <div class="alert_error bgc9"></div>
             </div>
             
 

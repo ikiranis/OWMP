@@ -28,9 +28,7 @@
     margin: 0.1em 0.5em 0.1em 0.5em;
 }
 
-.syncButton:disabled {
-    background-color: red;
-}
+
 
 .myButton:hover {
     transform: scale(1.05);

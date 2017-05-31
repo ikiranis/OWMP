@@ -32,7 +32,7 @@ class Page
     ?>
 
         <!DOCTYPE html>
-    <HTML xmlns="http://www.w3.org/1999/html">
+    <HTML xmlns="http://www.w3.org/1999/html" class="bgc1">
         <head>
 
 <!--            <link id="appIcon" rel="apple-touch-icon" type="image/png" href="">-->
@@ -87,7 +87,7 @@ class Page
 
         </head>
 
-        <BODY>
+        <body class="bgc1">
 
         <?php
         
@@ -167,7 +167,7 @@ class Page
         ?>
 
 
-        </BODY>
+        </body>
         </HTML>
 
         <?php
@@ -241,6 +241,7 @@ class Page
                             <?php if (isset($item['onclick'])) echo 'onClick=' . $item['onclick']; ?>
                             <?php if (isset($item['name'])) echo 'id=' . $item['name']; ?>
                             <?php if (isset($item['name'])) echo 'name=' . $item['name']; ?>
+                            <?php if (isset($item['className'])) echo 'class=' . $item['className']; ?>
                             <?php if (isset($item['value'])) echo 'value=' . $item['value']; ?>
                             <?php if (isset($item['maxlength'])) echo 'maxlength=' . $item['maxlength']; ?>
                             <?php if (isset($item['pattern'])) echo 'pattern=' . $item['pattern']; ?>

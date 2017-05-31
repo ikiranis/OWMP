@@ -1,9 +1,5 @@
 /* Κάνει import όλα τα απαραίτητα στοιχεία css */
 
-/* Color Pallettes
-    https://material.google.com/style/color.html#color-color-palette */
-
-
 /* ********* Base elements *********** */
 @import '../base/_base.css';
 

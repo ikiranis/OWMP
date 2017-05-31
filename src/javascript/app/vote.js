@@ -34,11 +34,11 @@ function voteSong(id) {
 
         if (data.success == true) {
 
-            DisplayMessage('#alert_error', phrases['vote_accepted']);
+            DisplayMessage('.alert_error', phrases['vote_accepted']);
 
         }
         else {
-            DisplayMessage('#alert_error', phrases['vote_not_accepted']);
+            DisplayMessage('.alert_error', phrases['vote_not_accepted']);
         }
 
     }, "json");

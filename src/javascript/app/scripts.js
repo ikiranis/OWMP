@@ -545,10 +545,10 @@ function failed(e) {
 
 // Κάνει active το τρέχον row στην playlist
 function makePlaylistItemActive(id) {
-    $('.track').removeClass('ItemActive');  // Κάνει unactive όλα τα rows
+    $('.track').removeClass('is-active');  // Κάνει unactive όλα τα rows
 
     if($("#fileID"+id).length) { // Αν υπάρχει στην λίστα το συγκεκριμένο row το κάνει active
-        $("#fileID" + id).addClass('ItemActive');
+        $("#fileID" + id).addClass('is-active');
 
         // if (!checkFullscreen ()) // Αν δεν είναι σε fullscreen, αλλιώς λειτουργεί περιέργως
         //     document.querySelector("#fileID"+id).scrollIntoView();  // κάνει scrolling στο συγκεκριμένο row
@@ -963,7 +963,7 @@ function downloadTheYouTube() {
         if(MusicVideoPathOK) {
             OKGo=true;
         } else {
-            DisplayMessage('#alert_error', phrases['no_main_music_video_path']);
+            DisplayMessage('.alert_error', phrases['no_main_music_video_path']);
         }
     } else {
         var MusicPathOK=document.querySelector('#jsMusicPathOK').value;
@@ -971,7 +971,7 @@ function downloadTheYouTube() {
         if(MusicPathOK) {
             OKGo=true;
         } else {
-            DisplayMessage('#alert_error', phrases['no_main_music_path']);
+            DisplayMessage('.alert_error', phrases['no_main_music_path']);
         }
     }
 
@@ -1316,7 +1316,7 @@ function addToPlaylist(fileID) {
 
     if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
         if(!checkFullscreen()) { // αν δεν είναι σε full screen
-            DisplayMessage('#alert_error', phrases['you_have_to_choose_playlist']);
+            DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         }
         else { // αν είναι σε full screen
             DisplayMessage('#error_overlay', phrases['you_have_to_choose_playlist']);
@@ -1334,7 +1334,7 @@ function addToPlaylist(fileID) {
 
         if (data.success == true) {
             if(!checkFullscreen()) { // αν δεν είναι σε full screen
-                DisplayMessage('#alert_error', phrases['song_added_to'] + ' ' + data.song_name
+                DisplayMessage('.alert_error', phrases['song_added_to'] + ' ' + data.song_name
                     + ' ' + phrases['_to_playlist'] + ' ' + playlistName);
             }
             else { // αν είναι σε full screen
@@ -1345,7 +1345,7 @@ function addToPlaylist(fileID) {
         else {
             if(data.errorID==2) {
                 if(!checkFullscreen()) { // αν δεν είναι σε full screen
-                    DisplayMessage('#alert_error', phrases['song_exist_to'] + ' ' + data.song_name
+                    DisplayMessage('.alert_error', phrases['song_exist_to'] + ' ' + data.song_name
                         + ' ' + phrases['_to_playlist'] + ' ' + playlistName);
                 }
                 else { // αν είναι σε full screen
@@ -1364,7 +1364,7 @@ function removeFromPlaylist(fileID) {
 
     if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
         if(!checkFullscreen()) { // αν δεν είναι σε full screen
-            DisplayMessage('#alert_error', phrases['you_have_to_choose_playlist']);
+            DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         }
         else { // αν είναι σε full screen
             DisplayMessage('#error_overlay', phrases['you_have_to_choose_playlist']);
@@ -1383,7 +1383,7 @@ function removeFromPlaylist(fileID) {
         if (data.success == true) {
 
             if(!checkFullscreen()) { // αν δεν είναι σε full screen
-                DisplayMessage('#alert_error', phrases['song_deleted_from'] + ' ' + data.song_name
+                DisplayMessage('.alert_error', phrases['song_deleted_from'] + ' ' + data.song_name
                     + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
             }
             else { // αν είναι σε full screen
@@ -1396,7 +1396,7 @@ function removeFromPlaylist(fileID) {
         }
         else {
             if(!checkFullscreen()) { // αν δεν είναι σε full screen
-                DisplayMessage('#alert_error', phrases['song_not_deleted'] + ' ' + data.song_name
+                DisplayMessage('.alert_error', phrases['song_not_deleted'] + ' ' + data.song_name
                     + ' ' + phrases['_from_playlist'] + ' ' + playlistName);
             } else {
                 DisplayMessage('#error_overlay', phrases['song_not_deleted'] + ' ' + data.song_name
@@ -1847,12 +1847,12 @@ function createPlaylist() {
 
             document.querySelector('#playlist').appendChild(option); // προσθέτει το νέο option
 
-            DisplayMessage('#alert_error', phrases['playlist_created'] + ' ' + data.playlistName);
+            DisplayMessage('.alert_error', phrases['playlist_created'] + ' ' + data.playlistName);
 
             document.querySelector('#insertPlaylist').reset();
         }
         else {
-            DisplayMessage('#alert_error', phrases['playlist_not_created'] + ' ' + data.playlistName);
+            DisplayMessage('.alert_error', phrases['playlist_not_created'] + ' ' + data.playlistName);
         }
 
     }, "json");
@@ -1864,7 +1864,7 @@ function deletePlaylist() {
     var playlistID=document.querySelector('#playlist').value;
 
     if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
-        DisplayMessage('#alert_error', phrases['you_have_to_choose_playlist']);
+        DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         return;
     }
 
@@ -1879,14 +1879,14 @@ function deletePlaylist() {
             var playlistName = document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
             if (data.success == true) {
-                DisplayMessage('#alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
+                DisplayMessage('.alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
 
                 // Σβήνει το συγκεκριμένο option από το select #playlist
                 document.querySelector("#playlist option:checked").remove();
 
             }
             else {
-                DisplayMessage('#alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+                DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
             }
         }, "json");
 
@@ -1899,7 +1899,7 @@ function playPlaylist() {
     var playlistID=document.querySelector('#playlist').value;
 
     if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
-        DisplayMessage('#alert_error', phrases['you_have_to_choose_playlist']);
+        DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         return;
     }
 
@@ -1928,7 +1928,7 @@ function playPlaylist() {
             });
         }
         else {
-            DisplayMessage('#alert_error', phrases['playlist_loading_problem']);
+            DisplayMessage('.alert_error', phrases['playlist_loading_problem']);
         }
     }, "json");
 
@@ -1961,7 +1961,7 @@ function loadPlayedQueuePlaylist() {
             });
         }
         else {
-            DisplayMessage('#alert_error', phrases['playlist_loading_problem']);
+            DisplayMessage('.alert_error', phrases['playlist_loading_problem']);
         }
 
     }, "json");
@@ -2124,12 +2124,12 @@ function sendToJukeboxList() {
 
         if (data.success == true) {
 
-            DisplayMessage('#alert_error', phrases['playlist_loaded_to_jukebox']);
+            DisplayMessage('.alert_error', phrases['playlist_loaded_to_jukebox']);
             $('#progress').hide();
 
         }
         else {
-            DisplayMessage('#alert_error', phrases['problem_to_copy_to_jukebox']);
+            DisplayMessage('.alert_error', phrases['problem_to_copy_to_jukebox']);
             $('#progress').hide();
         }
 
@@ -2146,11 +2146,11 @@ function voteSong(id) {
 
         if (data.success == true) {
 
-            DisplayMessage('#alert_error', phrases['vote_accepted']);
+            DisplayMessage('.alert_error', phrases['vote_accepted']);
 
         }
         else {
-            DisplayMessage('#alert_error', phrases['vote_not_accepted']);
+            DisplayMessage('.alert_error', phrases['vote_not_accepted']);
         }
 
     }, "json");

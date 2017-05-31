@@ -4,11 +4,9 @@
 }
 
 .is_youTube-success {
-    color: green;
     font-weight: bold;
 }
 
 .is_youTube-fail {
-    color: darkred;
     font-weight: bold;
 }

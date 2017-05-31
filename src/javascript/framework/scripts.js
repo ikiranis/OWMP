@@ -98,7 +98,7 @@ function registerUser() {
                 $('#RegisterForm #register').prop('disabled', true);
                 window.location.href = "";
             }
-            else  DisplayMessage('#alert_error',result['message']);
+            else  DisplayMessage('.alert_error',result['message']);
 
         });
 
@@ -131,7 +131,7 @@ function login() {
                 $('#LoginForm #submit').prop('disabled', true);
                 window.location.href = "";
             }
-            else  DisplayMessage('#alert_error',result['message']);
+            else  DisplayMessage('.alert_error',result['message']);
 
         });
 
@@ -189,7 +189,7 @@ function updateUser(id) {
             else if(data.UserExists) {
                 $("#messageUserID" + id).addClassDelay("failure", 3000);
 
-                DisplayMessage('#alert_error', error1+' '+username+' '+error2);
+                DisplayMessage('.alert_error', error1+' '+username+' '+error2);
             } else $("#messageUserID" + id).addClassDelay("failure", 3000);
 
         }, "json");
@@ -654,11 +654,11 @@ function startTheUpdate() {
 
         if (data.success == true) {
 
-            DisplayMessage('#alert_error', 'App Updated');
+            DisplayMessage('.alert_error', 'App Updated');
 
         }
         else {
-            DisplayMessage('#alert_error', 'App Not Updated');
+            DisplayMessage('.alert_error', 'App Not Updated');
         }
 
     }, "json");
@@ -715,7 +715,7 @@ function startTheBackup() {
                 success: function(data) {
                     if (data.success == true) {
 
-                        DisplayMessage('#alert_error', phrases['backup_success']);
+                        DisplayMessage('.alert_error', phrases['backup_success']);
 
                         // To checkbox για autodownload
                         var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
@@ -734,7 +734,7 @@ function startTheBackup() {
                     }
                     else {
 
-                        DisplayMessage('#alert_error', phrases['backup_failure']);
+                        DisplayMessage('.alert_error', phrases['backup_failure']);
 
                         $('#progress').hide();
                         $('#logprogress').hide();
@@ -778,7 +778,7 @@ function restoreTheBackup() {
                     success: function(data) {
                         if (data.success == true) {
 
-                            DisplayMessage('#alert_error', phrases['restore_success']);
+                            DisplayMessage('.alert_error', phrases['restore_success']);
 
                             $('#progress').hide();
                             $('#logprogress').hide();
@@ -789,7 +789,7 @@ function restoreTheBackup() {
                         }
                         else {
 
-                            DisplayMessage('#alert_error', phrases['restore_failure']);
+                            DisplayMessage('.alert_error', phrases['restore_failure']);
 
                             $('#progress').hide();
                             $('#logprogress').hide();
@@ -803,7 +803,7 @@ function restoreTheBackup() {
             }
         }
     } else {
-        DisplayMessage('#alert_error', phrases['file_not_upload']);
+        DisplayMessage('.alert_error', phrases['file_not_upload']);
     }
 }
 

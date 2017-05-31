@@ -23,19 +23,13 @@ nav li {
     cursor: pointer;
 }
 
-
-
 nav li a.active {
-    background-color: #546E7A;
-    color: #FFFFFF;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
 
 }
 
 nav li a:hover:not(.active) {
-    background-color: #B0BEC5;
-    color: #FFFFFF;
     box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
     transform: scale(1.05);
 }

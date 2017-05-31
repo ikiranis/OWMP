@@ -9,8 +9,6 @@
     border-radius: 6px;
     box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);
     padding: 1em;
-    background-color: #ECEFF1;
-
 }
 
 #RegisterUserWindow .formRow {
@@ -19,7 +17,6 @@
 }
 
 #RegisterUserWindow input[type=text] {
-    background-color: #FFFFFF;
     width: 15em;
     border-radius: 6px;
     font-size: 1.5em;
@@ -27,7 +24,6 @@
 }
 
 #RegisterUserWindow input[type=email] {
-    background-color: #FFFFFF;
     width: 15em;
     border-radius: 6px;
     font-size: 1.5em;
@@ -35,7 +31,6 @@
 }
 
 #RegisterUserWindow input[type=password] {
-    background-color: #FFFFFF;
     width: 15em;
     border-radius: 6px;
     font-size: 1.5em;
@@ -43,8 +38,6 @@
 }
 
 #RegisterUserWindow input[type=button] {
-    background-color: #607D8B;
-    color: white;
     width: 15em;
     border-radius: 6px;
     border: none;

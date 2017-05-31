@@ -134,7 +134,7 @@ function showLoginWindow()
     </main>
 
     <div id="error_container">
-        <div id="alert_error"></div>
+        <div class="alert_error bgc9"></div>
     </div>
 
     <?php
@@ -150,7 +150,7 @@ function ShowRegisterUser()
 
     ?>
     <main>
-    <div id="RegisterUserWindow">
+    <div id="RegisterUserWindow" class="bgc2">
 
 
         <?php
@@ -158,6 +158,7 @@ function ShowRegisterUser()
 
         $FormElementsArray = array(
             array('name' => 'username',
+                'className' => 'bgc3',
                 'fieldtext' => __('form_user_name'),
                 'type' => 'text',
                 'onclick' => null,
@@ -168,6 +169,7 @@ function ShowRegisterUser()
                 'disabled' => 'no',
                 'value' => null),
             array('name' => 'email',
+                'className' => 'bgc3',
                 'fieldtext' => __('form_email'),
                 'type' => 'email',
                 'onclick' => null,
@@ -177,6 +179,7 @@ function ShowRegisterUser()
                 'disabled' => 'no',
                 'value' => null),
             array('name' => 'password',
+                'className' => 'bgc3',
                 'fieldtext' => __('form_password'),
                 'type' => 'password',
                 'onclick' => null,
@@ -187,6 +190,7 @@ function ShowRegisterUser()
                 'disabled' => 'no',
                 'value' => null),
             array('name' => 'repeat_password',
+                'className' => 'bgc3',
                 'fieldtext' => __('form_repeat_password'),
                 'type' => 'password',
                 'onclick' => null,
@@ -197,6 +201,7 @@ function ShowRegisterUser()
                 'disabled' => 'no',
                 'value' => null),
             array('name' => 'register',
+                'className' => 'bgc5 c2',
                 'fieldtext' => '',
                 'type' => 'button',
                 'onclick' => 'registerUser();',
