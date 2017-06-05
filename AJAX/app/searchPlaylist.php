@@ -9,7 +9,7 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\parrot\app\OWMPElements;
+use apps4net\parrot\app\PlaylistSearch;
 
 
 require_once('../../src/boot.php');
@@ -18,7 +18,7 @@ session_start();
 
 Page::checkValidAjaxRequest(false);
 
-$OWMPElements = new OWMPElements();
+$playlist = new PlaylistSearch();
 
 
 if(isset($_GET['offset']))
@@ -68,36 +68,36 @@ else $tabID = null;
 if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
-$OWMPElements->fieldsArray = $jsonArray;
-$OWMPElements->offset = $offset;
-$OWMPElements->step = $step;
-$OWMPElements->duplicates = null;
-$OWMPElements->mediaKind = $mediaKind;
-$OWMPElements->tabID = $tabID;
-$OWMPElements->loadPlaylist = null;
-$OWMPElements->votePlaylist = false;
+$playlist->fieldsArray = $jsonArray;
+$playlist->offset = $offset;
+$playlist->step = $step;
+$playlist->duplicates = null;
+$playlist->mediaKind = $mediaKind;
+$playlist->tabID = $tabID;
+$playlist->loadPlaylist = null;
+$playlist->votePlaylist = false;
 
 if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
-    $OWMPElements->getPlaylist();
+    $playlist->getPlaylist();
 }
 else {
     if ($loadPlaylist == true) {
-        $OWMPElements->loadPlaylist = $loadPlaylist;
+        $playlist->loadPlaylist = $loadPlaylist;
     }
     if($duplicates==true) {
-        $OWMPElements->duplicates = $duplicates;
+        $playlist->duplicates = $duplicates;
     }
     if($votePlaylist==true) {
-        $OWMPElements->fieldsArray = null;
-        $OWMPElements->mediaKind = null;
-        $OWMPElements->tabID = null;
-        $OWMPElements->votePlaylist = $votePlaylist;
+        $playlist->fieldsArray = null;
+        $playlist->mediaKind = null;
+        $playlist->tabID = null;
+        $playlist->votePlaylist = $votePlaylist;
     }
 //    if($playedQueue==true) {
 //        $OWMPElements->getPlaylist();
 //    }
 
-    $OWMPElements->getPlaylist();
+    $playlist->getPlaylist();
 }
 
 

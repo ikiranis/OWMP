@@ -12,7 +12,7 @@
 
 use apps4net\framework\Language;
 use apps4net\framework\Page;
-use apps4net\parrot\app\OWMPElements;
+use apps4net\parrot\app\PlaylistSearch;
 
 require_once('src/boot.php');
 
@@ -52,7 +52,7 @@ session_start();
 <?php
 
 $MainPage = new Page();
-$OWMPElements = new OWMPElements();
+$playlist = new PlaylistSearch();
 
 // Αποθηκεύει την IP σε session για τις περιπτώσεις που αλλάζει συνέχεια η IP του χρήστη (π.χ. σε 3g network)
 if(!isset($_SESSION['user_IP'])) {
@@ -99,15 +99,15 @@ $MainPage->showHeader();
                             $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                             $_SESSION['arrayParams']=null;
 
-                            $OWMPElements->fieldsArray = null;
-                            $OWMPElements->offset = 0;
-                            $OWMPElements->step = PLAYLIST_LIMIT;
-                            $OWMPElements->duplicates = null;
-                            $OWMPElements->mediaKind = null;
-                            $OWMPElements->tabID = null;
-                            $OWMPElements->loadPlaylist = true;
-                            $OWMPElements->votePlaylist = true;
-                            $OWMPElements->getPlaylist();
+                            $playlist->fieldsArray = null;
+                            $playlist->offset = 0;
+                            $playlist->step = PLAYLIST_LIMIT;
+                            $playlist->duplicates = null;
+                            $playlist->mediaKind = null;
+                            $playlist->tabID = null;
+                            $playlist->loadPlaylist = true;
+                            $playlist->votePlaylist = true;
+                            $playlist->getPlaylist();
                         }
                         else {
                             ?>
