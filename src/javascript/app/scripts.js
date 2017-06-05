@@ -672,7 +672,7 @@ function findDuplicates(offset, step, firstTime) {
 function searchPlaylist(offset, step, firstTime, search) {
     $('#progress').show();
 
-    if(!search) {
+    if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
         var searchArray = [];
         for (var i = 1; i <= SearchRows; i++) {
             searchArray[i] = {

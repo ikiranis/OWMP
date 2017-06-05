@@ -65,8 +65,6 @@ if(isset($_GET['tabID']))
 if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
-//trigger_error($jsonArray);
-
 
 if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
     OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);

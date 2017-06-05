@@ -318,21 +318,19 @@ class OWMPElements extends OWMP
         <?php
     }
 
-    // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null,
-                                $loadPlaylist=null, $votePlaylist)
+    // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
+    // @param: array $fieldsArray = Το json array που θα διαβάσει
+    // @return: string 'condition' = To search query
+    // @return: array 'arrayParams' = To array με τις παραμέτρους για το search
+    static function getSearchElements($fieldsArray)
     {
-
         $condition='';
         $arrayParams=array();
-
-
-//        print_r($fieldsArray);
 
         if($fieldsArray) {
             foreach ($fieldsArray as $field) {
 
-                if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν μηδέν, αλλιώς το νομίζει null
+                if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν είναι μηδέν, αλλιώς το νομίζει null
                     $searchText = ' ' . $field['search_text'];
                 else
                     $searchText = $field['search_text'];
@@ -390,8 +388,7 @@ class OWMPElements extends OWMP
             $_SESSION['arrayParams']=null;
         }
 
-
-
+        // Αν υπάρχει προηγούμενο query παίρνει αυτό
         if(isset($_SESSION['condition']))
             $condition=$_SESSION['condition'];
 
@@ -407,12 +404,27 @@ class OWMPElements extends OWMP
             $arrayParams[]=$mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
         }
 
-
+        // Όταν τρέχει για πρώτη φορά η εφαρμογή
         if(!isset($_SESSION['PlaylistCounter'])){
             $_SESSION['PlaylistCounter']=0;
             $_SESSION['condition']=null;
             $_SESSION['arrayParams']=null;
         }
+
+        // Επιστρέφει σε πίνακα
+        return array('condition' => $condition, 'arrayParams' => $arrayParams);
+
+    }
+
+    // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
+    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null,
+                                $loadPlaylist=null, $votePlaylist)
+    {
+
+        // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
+        $searchElements = self::getSearchElements($fieldsArray);
+        $condition = $searchElements['condition'];
+        $arrayParams = $searchElements['arrayParams'];
 
         if(!$loadPlaylist)
             $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
@@ -426,8 +438,6 @@ class OWMPElements extends OWMP
                 $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
         }
 
-
-
         // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
         if($votePlaylist) {
             $tempUserPlaylist = JUKEBOX_LIST_NAME;
@@ -439,15 +449,13 @@ class OWMPElements extends OWMP
 
 
         if($duplicates==null) {   // κανονική λίστα
+            // Όταν φορτώσει για πρώτη φορά η εφαρμογή
             if ($_SESSION['PlaylistCounter'] == 0) {
-//                $playlistToPlay = MyDB::getTableArray('music_tags', 'music_tags.id', $condition, $arrayParams, 'date_added DESC', 'files', $joinFieldsArray); // Ολόκληρη η λίστα
-
-
+                // Δημιουργούμε τα temporary tables
                 // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
                 // από την manual playlist
-                if(!$loadPlaylist) {
+                if(!$loadPlaylist) { // Αν δεν είναι manual playlist
                     $myQuery = MyDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
-
 
                     // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
                     self::checkTempPlaylist($tempUserPlaylist);
@@ -459,17 +467,17 @@ class OWMPElements extends OWMP
                     MyDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $arrayParams);
                 }
 
+                // Μετράει τις εγγραφές που βρήκε
                 $tableCount = MyDB::countTable($tempUserPlaylist);
-
                 $_SESSION['$countThePlaylist'] = $tableCount;
             }
 
             // Η λίστα προς εμφάνιση
-            if(!$loadPlaylist) {  // Αν το $loadPlaylist είναι false
+            if(!$loadPlaylist) {  // Αν το $loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
                 $playlist = MyDB::getTableArray('music_tags', null, $condition, $arrayParams,
                     'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
             }
-            else { // αλλιώς κάνει join με τον $tempUserPlaylist
+            else { // αλλιώς κάνει join με τον $tempUserPlaylist. Όταν είναι manual playlist δηλαδή
                 $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
                 $mainTables = array('music_tags', 'files');
 
@@ -479,9 +487,7 @@ class OWMPElements extends OWMP
 
 
 
-        }
-        else {  // εμφάνιση διπλών εγγραφών
-//                $playlistToPlay = self::getFilesDuplicates(null,null); // Ολόκληρη η λίστα
+        } else {  // εμφάνιση διπλών εγγραφών
 
             if (!$tabID)  // Αν δεν έρχεται από function
                 $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
@@ -516,11 +522,6 @@ class OWMPElements extends OWMP
 
 
         $counter=0;
-
-//        if(!$votePlaylist) {
-//            $UserGroupID = $conn->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
-//        }
-
 
         // Αρχίζει η εμφάνιση της playlist
         if($playlist) {
