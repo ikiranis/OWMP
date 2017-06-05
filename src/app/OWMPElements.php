@@ -25,6 +25,14 @@ use apps4net\framework\Progress;
 
 class OWMPElements extends OWMP
 {
+    public $fieldsArray=null;  // Το json array που περιέχει τα πεδία για το search query
+    public $offset; // το offset για το limit στο sql query
+    public $step; // το βήμα για το limit στο sql query
+    public $duplicates=null;  // true αν θέλουμε να ψάξει για duplicates
+    public $mediaKind=null;  // ορίζεται το media kind για το οποίο θα γίνει η αναζήτηση. null για όλα
+    public $tabID;
+    public $loadPlaylist=null;  // true αν πρόκειται για manual playlist
+    public $votePlaylist;   // true αν θέλουμε να εμφανιστεί η λίστα για την σελίδα των votes
 
     // Εμφανίζει την μπάρα με τα controls
     static function displayControls($element, $fullscreen)
@@ -81,7 +89,7 @@ class OWMPElements extends OWMP
     }
 
     // Εμφανίζει τα browse buttons
-    static function getBrowseButtons($operation, $offset, $step)
+    public function getBrowseButtons($operation)
     {
 
         if($operation=='search') {
@@ -89,9 +97,9 @@ class OWMPElements extends OWMP
 
             <div id="browseButtons">
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="searchPlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
+                       onclick="searchPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="searchPlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
+                       onclick="searchPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -102,9 +110,9 @@ class OWMPElements extends OWMP
 
             <div id="browseButtons">
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="findDuplicates(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
+                       onclick="findDuplicates(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="findDuplicates(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
+                       onclick="findDuplicates(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -115,9 +123,9 @@ class OWMPElements extends OWMP
 
             <div id="browseButtons">
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="getVotePlaylist(<?php if ($offset > 0) echo $offset - $step; else echo '0'; ?>,<?php echo $step; ?>);">
+                       onclick="getVotePlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="getVotePlaylist(<?php if (($offset + $step) < $_SESSION['$countThePlaylist']) echo $offset + $step; else echo $offset; ?>,<?php echo $step; ?>);">
+                       onclick="getVotePlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -322,13 +330,13 @@ class OWMPElements extends OWMP
     // @param: array $fieldsArray = Το json array που θα διαβάσει
     // @return: string 'condition' = To search query
     // @return: array 'arrayParams' = To array με τις παραμέτρους για το search
-    static function getSearchElements($fieldsArray)
+    public function getSearchElements()
     {
         $condition='';
         $arrayParams=array();
 
-        if($fieldsArray) {
-            foreach ($fieldsArray as $field) {
+        if($this->fieldsArray) {
+            foreach ($this->fieldsArray as $field) {
 
                 if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν είναι μηδέν, αλλιώς το νομίζει null
                     $searchText = ' ' . $field['search_text'];
@@ -396,12 +404,12 @@ class OWMPElements extends OWMP
             $arrayParams=$_SESSION['arrayParams'];
 
         // Επιλογές για join ώστε να πάρουμε το media kind από το files
-        if(isset($mediaKind)) {
+        if(isset($this->mediaKind)) {
             if (!$condition=='')
                 $condition = '(' . $condition . ')' . ' AND files.kind=? ';
             else $condition.=  ' files.kind=? ';
 
-            $arrayParams[]=$mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
+            $arrayParams[]=$this->mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
         }
 
         // Όταν τρέχει για πρώτη φορά η εφαρμογή
@@ -417,44 +425,43 @@ class OWMPElements extends OWMP
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
-    static function getPlaylist($fieldsArray=null, $offset, $step, $duplicates=null, $mediaKind=null, $tabID=null,
-                                $loadPlaylist=null, $votePlaylist)
+    public function getPlaylist()
     {
 
         // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
-        $searchElements = self::getSearchElements($fieldsArray);
+        $searchElements = $this->getSearchElements();
         $condition = $searchElements['condition'];
         $arrayParams = $searchElements['arrayParams'];
 
-        if(!$loadPlaylist)
+        if(!$this->loadPlaylist)
             $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
         else $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
 
         $playlistToPlay=null;
         $playlist=null;
 
-        if(!$votePlaylist) {
-            if (!$tabID)  // Αν δεν έρχεται από function
-                $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
+        if(!$this->votePlaylist) {
+            if (!$this->tabID)  // Αν δεν έρχεται από function
+                $this->tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
         }
 
         // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-        if($votePlaylist) {
+        if($this->votePlaylist) {
             $tempUserPlaylist = JUKEBOX_LIST_NAME;
         } else {
-            $tempUserPlaylist = CUR_PLAYLIST_STRING . $tabID;
+            $tempUserPlaylist = CUR_PLAYLIST_STRING . $this->tabID;
         }
 
-        $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
+        $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $this->tabID;
 
 
-        if($duplicates==null) {   // κανονική λίστα
+        if($this->duplicates==null) {   // κανονική λίστα
             // Όταν φορτώσει για πρώτη φορά η εφαρμογή
             if ($_SESSION['PlaylistCounter'] == 0) {
                 // Δημιουργούμε τα temporary tables
                 // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
                 // από την manual playlist
-                if(!$loadPlaylist) { // Αν δεν είναι manual playlist
+                if(!$this->loadPlaylist) { // Αν δεν είναι manual playlist
                     $myQuery = MyDB::createQuery('music_tags', 'music_tags.id', $condition, 'date_added DESC', 'files', $joinFieldsArray);
 
                     // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
@@ -473,27 +480,27 @@ class OWMPElements extends OWMP
             }
 
             // Η λίστα προς εμφάνιση
-            if(!$loadPlaylist) {  // Αν το $loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
+            if(!$this->loadPlaylist) {  // Αν το $loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
                 $playlist = MyDB::getTableArray('music_tags', null, $condition, $arrayParams,
-                    'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
+                    'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, 'files', $joinFieldsArray);
             }
             else { // αλλιώς κάνει join με τον $tempUserPlaylist. Όταν είναι manual playlist δηλαδή
                 $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
                 $mainTables = array('music_tags', 'files');
 
                 $playlist = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-                    null, null, 'date_added DESC LIMIT ' . $offset . ',' . $step, $tempUserPlaylist, $joinFieldsArray);
+                    null, null, 'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, $tempUserPlaylist, $joinFieldsArray);
             }
 
 
 
         } else {  // εμφάνιση διπλών εγγραφών
 
-            if (!$tabID)  // Αν δεν έρχεται από function
-                $tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
+            if (!$this->tabID)  // Αν δεν έρχεται από function
+                $this->tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
 
             // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-            $tempUserPlaylist = CUR_PLAYLIST_STRING . $tabID;
+            $tempUserPlaylist = CUR_PLAYLIST_STRING . $this->tabID;
 
             // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
             if ($_SESSION['PlaylistCounter'] == 0) {
@@ -516,7 +523,7 @@ class OWMPElements extends OWMP
             $mainTables = array('music_tags', 'files');
 
             $playlist = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-                null, null, 'files.hash DESC LIMIT ' . $offset . ',' . $step, $tempUserPlaylist, $joinFieldsArray);
+                null, null, 'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step, $tempUserPlaylist, $joinFieldsArray);
 
         }
 
@@ -532,15 +539,15 @@ class OWMPElements extends OWMP
                 <?php
                 // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
 
-                if (!$duplicates && !$votePlaylist) {
-                    OWMPElements::getBrowseButtons('search', $offset, $step);
+                if (!$this->duplicates && !$this->votePlaylist) {
+                    $this->getBrowseButtons('search');
                 } else {
-                    if($duplicates) {
-                        OWMPElements::getBrowseButtons('duplicates', $offset, $step);
+                    if($this->duplicates) {
+                        $this->getBrowseButtons('duplicates');
                     }
 
-                    if($votePlaylist) {
-                        OWMPElements::getBrowseButtons('votePlaylist', $offset, $step);
+                    if($this->votePlaylist) {
+                        $this->getBrowseButtons('votePlaylist');
                     }
                 }
 
@@ -550,27 +557,27 @@ class OWMPElements extends OWMP
                     <?php
 
                     // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
-                    if(!$votePlaylist && !$_SESSION['mobile']) {
-                        OWMPElements::displayPlaylistTitle();
+                    if(!$this->votePlaylist && !$_SESSION['mobile']) {
+                        self::displayPlaylistTitle();
                     }
 
 
                     foreach ($playlist as $track) {
 
-                        if(!$votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
+                        if(!$this->votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
                             // Εμφανίζει την λίστα με τα πλήρη στοιχεία
-                            OWMPElements::displayFullPlaylist($track,$loadPlaylist,$votePlaylist);
+                            self::displayFullPlaylist($track,$this->loadPlaylist,$this->votePlaylist);
                         } else { // Αν είναι η σελίδα vote
                             // Εμφανίζει την λίστα με ελάχιστα στοιχεία
-                            OWMPElements::displaySmallPlaylist($track);
+                            self::displaySmallPlaylist($track);
                         }
 
                         $counter++;
                     }
 
 
-                    $offset = intval($offset);
-                    $step = intval($step);
+                    $this->offset = intval($this->offset);
+                    $this->step = intval($this->step);
                     ?>
 
 
@@ -580,15 +587,15 @@ class OWMPElements extends OWMP
 
 
                 // Εμφάνιση των browse buttons
-                if (!$duplicates && !$votePlaylist) {
-                    OWMPElements::getBrowseButtons('search', $offset, $step);
+                if (!$this->duplicates && !$this->votePlaylist) {
+                    $this->getBrowseButtons('search');
                 } else {
-                    if($duplicates) {
-                        OWMPElements::getBrowseButtons('duplicates', $offset, $step);
+                    if($this->duplicates) {
+                        $this->getBrowseButtons('duplicates');
                     }
 
-                    if($votePlaylist) {
-                        OWMPElements::getBrowseButtons('votePlaylist', $offset, $step);
+                    if($this->votePlaylist) {
+                        $this->getBrowseButtons('votePlaylist');
                     }
                 }
 
@@ -607,7 +614,7 @@ class OWMPElements extends OWMP
             <?php
         }
 
-        if ($_SESSION['PlaylistCounter'] == 0 && !$votePlaylist) {
+        if ($_SESSION['PlaylistCounter'] == 0 && !$this->votePlaylist) {
             ?>
 
             <script type="text/javascript">
@@ -2015,7 +2022,7 @@ class OWMPElements extends OWMP
     }
 
     // Εμφάνιση του playlist container
-    static function displayPlaylistContainer($offset,$step)
+    public function displayPlaylistContainer($offset,$step)
     {
         ?>
         <div id="playlist_container">
@@ -2024,7 +2031,16 @@ class OWMPElements extends OWMP
             if($_SESSION['PlaylistCounter']==0) {
                 $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                 $_SESSION['arrayParams']=null;
-                OWMPElements::getPlaylist(null,$offset,$step,null,null,null,null,false);
+
+                $this->fieldsArray = null;
+                $this->offset = $offset;
+                $this->step = $step;
+                $this->duplicates = null;
+                $this->mediaKind = null;
+                $this->tabID = null;
+                $this->loadPlaylist = null;
+                $this->votePlaylist = false;
+                $this->getPlaylist();
             }
             else {
                 ?>

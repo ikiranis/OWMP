@@ -245,6 +245,7 @@ class OWMP
     {
         $conn = new MyDB();
         $user = new User();
+        $OWMPElements = new OWMPElements();
 
         $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
@@ -256,9 +257,9 @@ class OWMP
 
         <?php
 
-        OWMPElements::displayEditTagsWindow($UserGroup); // Εμφάνιση του παραθύρου για edit tags
-        OWMPElements::displayChooseMediaSelect(); // Εμφάνιση του media select
-        OWMPElements::displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
+        $OWMPElements->displayEditTagsWindow($UserGroup); // Εμφάνιση του παραθύρου για edit tags
+        $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select
+        $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
 
         ?>
 
@@ -266,12 +267,12 @@ class OWMP
 
         <?php
 
-        OWMPElements::displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist
-        OWMPElements::displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
-        OWMPElements::displaySomeTools($UserGroup); // Εμφάνιση διάφορων εργαλείων
-        OWMPElements::displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
-        OWMPElements::displayEditButtons($UserGroup); // Εμφάνιση των edit buttons
-        OWMPElements::displayPlaylistContainer($offset,$step); // Εμφάνιση του playlist container
+        $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist
+        $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
+        $OWMPElements->displaySomeTools($UserGroup); // Εμφάνιση διάφορων εργαλείων
+        $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
+        $OWMPElements->displayEditButtons($UserGroup); // Εμφάνιση των edit buttons
+        $OWMPElements->displayPlaylistContainer($offset,$step); // Εμφάνιση του playlist container
     }
 
     // Εμφανίζει την οθόνη του configuration

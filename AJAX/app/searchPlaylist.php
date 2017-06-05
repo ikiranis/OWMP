@@ -18,6 +18,8 @@ session_start();
 
 Page::checkValidAjaxRequest(false);
 
+$OWMPElements = new OWMPElements();
+
 
 if(isset($_GET['offset']))
     $offset=ClearString($_GET['offset']);
@@ -60,28 +62,42 @@ else $votePlaylist=null;
 
 if(isset($_GET['tabID']))
     $tabID=ClearString($_GET['tabID']);
+else $tabID = null;
 
 
 if($firstTime=='true')
     $_SESSION['PlaylistCounter']=0;
 
+$OWMPElements->fieldsArray = $jsonArray;
+$OWMPElements->offset = $offset;
+$OWMPElements->step = $step;
+$OWMPElements->duplicates = null;
+$OWMPElements->mediaKind = $mediaKind;
+$OWMPElements->tabID = $tabID;
+$OWMPElements->loadPlaylist = null;
+$OWMPElements->votePlaylist = false;
 
 if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
-    OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
-
+    $OWMPElements->getPlaylist();
 }
 else {
     if ($loadPlaylist == true) {
-        OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, $loadPlaylist, false);
+        $OWMPElements->loadPlaylist = $loadPlaylist;
     }
     if($duplicates==true) {
-        OWMPElements::getPlaylist($jsonArray, $offset, $step, $duplicates, $mediaKind, $tabID, null, false);
+        $OWMPElements->duplicates = $duplicates;
     }
     if($votePlaylist==true) {
-        OWMPElements::getPlaylist(null, $offset, $step, null, null, null, true, true);
+        $OWMPElements->fieldsArray = null;
+        $OWMPElements->mediaKind = null;
+        $OWMPElements->tabID = null;
+        $OWMPElements->votePlaylist = $votePlaylist;
+    }
+//    if($playedQueue==true) {
+//        $OWMPElements->getPlaylist();
+//    }
 
-    }
-    if($playedQueue==true) {
-        OWMPElements::getPlaylist($jsonArray, $offset, $step, null, $mediaKind, $tabID, null, false);
-    }
+    $OWMPElements->getPlaylist();
 }
+
+

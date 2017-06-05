@@ -52,6 +52,7 @@ session_start();
 <?php
 
 $MainPage = new Page();
+$OWMPElements = new OWMPElements();
 
 // Αποθηκεύει την IP σε session για τις περιπτώσεις που αλλάζει συνέχεια η IP του χρήστη (π.χ. σε 3g network)
 if(!isset($_SESSION['user_IP'])) {
@@ -97,7 +98,16 @@ $MainPage->showHeader();
                         if($_SESSION['PlaylistCounter']==0) {
                             $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
                             $_SESSION['arrayParams']=null;
-                            OWMPElements::getPlaylist(null,0,PLAYLIST_LIMIT,null,null,null,true,true);
+
+                            $OWMPElements->fieldsArray = null;
+                            $OWMPElements->offset = 0;
+                            $OWMPElements->step = PLAYLIST_LIMIT;
+                            $OWMPElements->duplicates = null;
+                            $OWMPElements->mediaKind = null;
+                            $OWMPElements->tabID = null;
+                            $OWMPElements->loadPlaylist = true;
+                            $OWMPElements->votePlaylist = true;
+                            $OWMPElements->getPlaylist();
                         }
                         else {
                             ?>
