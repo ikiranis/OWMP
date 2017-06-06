@@ -9,6 +9,12 @@
  * Date: 06/06/2017
  * Time: 02:15
  *
+ * Κλάση που χειρίζεται την αναζήτηση και εμφάνιση της playlist
+ *
+ * Βασική μέθοδος που καλείται
+ *
+ * getPlaylist()
+ *
  */
 
 namespace apps4net\parrot\app;
@@ -20,7 +26,7 @@ use apps4net\framework\Utilities;
 
 class PlaylistSearch extends OWMPElements
 {
-    // Attributes για την αναζήτηση
+    // Attributes της κλάσης
     public $fieldsArray=null;  // Το json array που περιέχει τα πεδία για το search query
     public $offset; // το offset για το limit στο sql query
     public $step; // το βήμα για το limit στο sql query
@@ -356,7 +362,7 @@ class PlaylistSearch extends OWMPElements
 
     }
 
-    // Θέτει τις τιμές του query σε sessions
+    // Θέτει τις τιμές του query σε sessions για μελλοντική χρήση
     public function setQuerySessions()
     {
         if (!$this->condition=='') {
@@ -377,7 +383,8 @@ class PlaylistSearch extends OWMPElements
 
     }
 
-    // Αν υπάρχει προηγούμενο query παίρνει τις τιμές από αυτό
+    // Αν υπάρχει τιμή στα query sessions παίρνει τις τιμές από αυτά
+    //      @return: boolean True/False
     public function getQueryFromSessions()
     {
         if( isset($_SESSION['condition']) && isset($_SESSION['arrayParams']) ) {
@@ -392,6 +399,9 @@ class PlaylistSearch extends OWMPElements
     }
 
     // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
+    //      @param: string $this->mediaKind  Το media kind που έχει επιλέξει ο χρήστης
+    //      @return: string $this->condition = To search query
+    //      @return: array $this->arrayParams = To array με τις παραμέτρους για το search
     public function insertMediaKindJoin()
     {
         // Επιλογές για join ώστε να πάρουμε το media kind από το files
@@ -405,7 +415,7 @@ class PlaylistSearch extends OWMPElements
 
     }
 
-    // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
+    // Διαβάζει το json array $this->fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
     //      @param: array $this->fieldsArray = Το json array που θα διαβάσει
     //      @return: string $this->condition = To search query
     //      @return: array $this->arrayParams = To array με τις παραμέτρους για το search
@@ -441,8 +451,10 @@ class PlaylistSearch extends OWMPElements
     }
 
     // Επιστρέφει τις διπλοεγγραφές
+    //      @return: array $this->playlist  Τα περιεχόμενα της λίστας που θα εμφανίσει
     public function getDuplicateRecords()
     {
+
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
 
@@ -456,13 +468,14 @@ class PlaylistSearch extends OWMPElements
             $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
         }
 
-
         // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
         $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
             null, null, 'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
+
     }
 
-    // Επιστρέφει την αρχική playlist
+    // Δημιουργεί τα αρχικά temporary tables με την αρχική λίστα
+    //      return: void
     public function getStartupPlaylist()
     {
 
@@ -514,6 +527,7 @@ class PlaylistSearch extends OWMPElements
         if($this->duplicates==null) {   // κανονική λίστα
             // Όταν φορτώσει για πρώτη φορά η εφαρμογή
             if ($_SESSION['PlaylistCounter'] == 0) {
+                // Δημιουργεί τα αρχικά temporary tables με την αρχική λίστα
                 $this->getStartupPlaylist();
             }
 
@@ -598,6 +612,7 @@ class PlaylistSearch extends OWMPElements
         <?php
     }
 
+    // ΒΑΣΙΚΗ ΜΕΘΟΔΟΣ ΤΗΣ ΚΛΑΣΗΣ
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
     //    @param string $this->fieldsArray Το json array που περιέχει τα πεδία για το search query
     //    @param integer $this->offset Το offset για το limit στο sql query
@@ -624,25 +639,28 @@ class PlaylistSearch extends OWMPElements
             // Εμφανίζει τα περιεχόμενα της playlist
             $this->displayPlaylistContent();
 
+            // Στέλνει στην javascript το σύνολο των εγγραφών που βρέθηκαν
             ?>
-
             <script type="text/javascript">
                 var playlistCount = <?php echo $_SESSION['$countThePlaylist']; ?>;
             </script>
-
             <?php
+
         }
 
+        // Όταν φορτώνεται για πρώτη φορά playlist
         if ($_SESSION['PlaylistCounter'] == 0 && !$this->votePlaylist) {
-            ?>
 
+            // Αρχικοποιεί το video element στην javascript
+            ?>
             <script type="text/javascript">
                 init();
             </script>
-
             <?php
+
         }
 
+        // Αυξάνει την τιμή που σημαίνει ότι έχει φορτώσει για πρώτη φορά η σελίδα (δεν είναι 0 δηλαδή)
         $_SESSION['PlaylistCounter']++;
 
     }
