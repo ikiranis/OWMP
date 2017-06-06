@@ -31,6 +31,10 @@ class PlaylistSearch extends OWMPElements
     public $votePlaylist;   // true αν θέλουμε να εμφανιστεί η λίστα για την σελίδα των votes
     public $condition = null; // το sql query για search
     public $arrayParams = array(); // οι παράμετροι που θα περάσουν στο sql query
+    public $joinFieldsArray;   // Τα πεδία που θα γίνουν join
+    public $tempUserPlaylist; // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
+    public $mainTables; // Οι πίνακες που θα γίνουν join
+    public $playlist; // H playlist που θα εμφανιστεί
 
     // Εμφανίζει τα browse buttons
     public function getBrowseButtons()
@@ -413,11 +417,167 @@ class PlaylistSearch extends OWMPElements
             // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
             $this->setQuerySessions();
 
-            // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
-            $this->insertMediaKindJoin();
-
         }
 
+        // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
+        $this->insertMediaKindJoin();
+
+    }
+
+    // Επιστρέφει τις διπλοεγγραφές
+    public function getDuplicateRecords()
+    {
+        // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
+        if ($_SESSION['PlaylistCounter'] == 0) {
+
+            $myQuery = 'SELECT files.id as file_id
+                            FROM files JOIN music_tags on files.id=music_tags.id 
+                            WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
+
+            // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
+            MyDB::copyFieldsToOtherTable('file_id', $this->tempUserPlaylist, $myQuery, null);
+
+            $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
+        }
+
+
+        // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
+        $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+            null, null, 'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
+    }
+
+    // Επιστρέφει την αρχική playlist
+    public function getStartupPlaylist()
+    {
+
+        // Δημιουργούμε τα temporary tables
+        // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
+        // από την manual playlist
+        if(!$this->loadPlaylist) { // Αν δεν είναι manual playlist
+            $myQuery = MyDB::createQuery('music_tags', 'music_tags.id', $this->condition, 'date_added DESC', 'files', $this->joinFieldsArray);
+
+            // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
+            self::checkTempPlaylist($this->tempUserPlaylist);
+
+            // Δημιουργία και ενός played queue playlist
+            self::checkTempPlaylist(PLAYED_QUEUE_PLAYLIST_STRING . $this->tabID);
+
+            // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
+            MyDB::copyFieldsToOtherTable('file_id', $this->tempUserPlaylist, $myQuery, $this->arrayParams);
+        }
+
+        // Μετράει τις εγγραφές που βρήκε
+        $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
+
+    }
+
+    // Παίρνει τα περιεχόμενα της playlist που ψάχνουμε
+    public function getPlaylistResults()
+    {
+
+        if(!$this->loadPlaylist)
+            $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'id');
+        else {
+            $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'file_id');
+        }
+
+        $this->mainTables = array('music_tags', 'files');
+
+        if (!$this->tabID) {  // Αν δεν έρχεται από το attribute της κλάσης
+            $this->tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
+        }
+
+        // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
+        if($this->votePlaylist) {
+            $this->tempUserPlaylist = JUKEBOX_LIST_NAME;
+        } else {
+            $this->tempUserPlaylist = CUR_PLAYLIST_STRING . $this->tabID;
+        }
+
+        if($this->duplicates==null) {   // κανονική λίστα
+            // Όταν φορτώσει για πρώτη φορά η εφαρμογή
+            if ($_SESSION['PlaylistCounter'] == 0) {
+                $this->getStartupPlaylist();
+            }
+
+            // Η λίστα προς εμφάνιση
+            if(!$this->loadPlaylist) {  // Αν το $this->loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
+                $this->playlist = MyDB::getTableArray('music_tags', null, $this->condition, $this->arrayParams,
+                    'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, 'files', $this->joinFieldsArray);
+            }
+            else { // αλλιώς κάνει join με τον $this->tempUserPlaylist. Όταν είναι manual playlist δηλαδή
+                $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+                    null, null, 'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
+            }
+
+
+        } else {  // εμφάνιση διπλών εγγραφών
+            $this->getDuplicateRecords();
+        }
+
+    }
+
+    // Εμφανίζει τα περιεχόμενα της playlist
+    public function displayPlaylistContent()
+    {
+        $counter = 0;
+
+        ?>
+
+        <div id="playlist_content">
+
+            <?php
+            // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
+
+            // Εμφάνιση των κουμπιών previous/next
+            $this->getBrowseButtons();
+
+            ?>
+
+            <div id="playlistTable">
+                <?php
+
+                // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
+                if(!$this->votePlaylist && !$_SESSION['mobile']) {
+                    self::displayPlaylistTitle();
+                }
+
+
+                foreach ($this->playlist as $track) {
+
+                    if(!$this->votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
+                        // Εμφανίζει την λίστα με τα πλήρη στοιχεία
+                        $this->displayFullPlaylist($track);
+                    } else { // Αν είναι η σελίδα vote
+                        // Εμφανίζει την λίστα με ελάχιστα στοιχεία
+                        self::displaySmallPlaylist($track);
+                    }
+
+                    $counter++;
+                }
+
+
+                $this->offset = intval($this->offset);
+                $this->step = intval($this->step);
+                ?>
+
+
+            </div>
+
+            <?php
+
+            // Εμφάνιση των κουμπιών previous/next
+            $this->getBrowseButtons();
+
+            ?>
+
+            <div id="error_container">
+                <div class="alert_error bgc9"></div>
+            </div>
+
+        </div>
+
+        <?php
     }
 
     // Εμφανίζει την playlist με βάση διάφορα keys αναζήτησης
@@ -437,160 +597,16 @@ class PlaylistSearch extends OWMPElements
         // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
         $this->getSearchElements();
 
-        if(!$this->loadPlaylist)
-            $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'id');
-        else $joinFieldsArray= array('firstField'=>'id', 'secondField'=>'file_id');
-
-        $playlistToPlay=null;
-        $playlist=null;
-
-
-        if(!$this->votePlaylist) {
-            if (!$this->tabID)  // Αν δεν έρχεται από function
-                $this->tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
-        }
-
-        // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-        if($this->votePlaylist) {
-            $tempUserPlaylist = JUKEBOX_LIST_NAME;
-        } else {
-            $tempUserPlaylist = CUR_PLAYLIST_STRING . $this->tabID;
-        }
-
-        $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $this->tabID;
-
-
-        if($this->duplicates==null) {   // κανονική λίστα
-            // Όταν φορτώσει για πρώτη φορά η εφαρμογή
-            if ($_SESSION['PlaylistCounter'] == 0) {
-                // Δημιουργούμε τα temporary tables
-                // Αν είναι true το $loadPlaylist τότε δεν χρειάζεται να δημιουργηθεί temporary table. Υπάρχει ήδη
-                // από την manual playlist
-                if(!$this->loadPlaylist) { // Αν δεν είναι manual playlist
-                    $myQuery = MyDB::createQuery('music_tags', 'music_tags.id', $this->condition, 'date_added DESC', 'files', $joinFieldsArray);
-
-                    // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
-                    self::checkTempPlaylist($tempUserPlaylist);
-
-                    // Δημιουργία και ενός played queue playlist
-                    self::checkTempPlaylist($tempPlayedQueuePlaylist);
-
-                    // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
-                    MyDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, $this->arrayParams);
-                }
-
-                // Μετράει τις εγγραφές που βρήκε
-                $tableCount = MyDB::countTable($tempUserPlaylist);
-                $_SESSION['$countThePlaylist'] = $tableCount;
-            }
-
-            // Η λίστα προς εμφάνιση
-            if(!$this->loadPlaylist) {  // Αν το $loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
-                $playlist = MyDB::getTableArray('music_tags', null, $this->condition, $this->arrayParams,
-                    'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, 'files', $joinFieldsArray);
-            }
-            else { // αλλιώς κάνει join με τον $tempUserPlaylist. Όταν είναι manual playlist δηλαδή
-                $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
-                $mainTables = array('music_tags', 'files');
-
-                $playlist = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-                    null, null, 'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, $tempUserPlaylist, $joinFieldsArray);
-            }
-
-
-
-        } else {  // εμφάνιση διπλών εγγραφών
-
-            if (!$this->tabID)  // Αν δεν έρχεται από function
-                $this->tabID = TAB_ID;  // Την πρώτη φορά που τρέχει η εφαρμογή το παίρνει από το TAB_ID
-
-            // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
-            $tempUserPlaylist = CUR_PLAYLIST_STRING . $this->tabID;
-
-            // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
-            if ($_SESSION['PlaylistCounter'] == 0) {
-
-                $myQuery = 'SELECT files.id as file_id
-                            FROM files JOIN music_tags on files.id=music_tags.id 
-                            WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
-
-                // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
-                MyDB::copyFieldsToOtherTable('file_id', $tempUserPlaylist, $myQuery, null);
-
-                $tableCount = MyDB::countTable($tempUserPlaylist);
-
-                $_SESSION['$countThePlaylist'] = $tableCount;
-            }
-
-
-            // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
-            $joinFieldsArray = array('firstField' => 'id', 'secondField' => 'file_id');
-            $mainTables = array('music_tags', 'files');
-
-            $playlist = MyDB::getTableArray($mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-                null, null, 'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step, $tempUserPlaylist, $joinFieldsArray);
-
-        }
-
-
-        $counter=0;
+        // Παίρνει τα περιεχόμενα της playlist που ψάχνουμε
+        $this->getPlaylistResults();
 
         // Αρχίζει η εμφάνιση της playlist
-        if($playlist) {
+        if(isset($this->playlist)) {
+
+            // Εμφανίζει τα περιεχόμενα της playlist
+            $this->displayPlaylistContent();
+
             ?>
-
-            <div id="playlist_content">
-
-                <?php
-                // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
-
-                // Εμφάνιση των κουμπιών previous/next
-                $this->getBrowseButtons();
-
-                ?>
-
-                <div id="playlistTable">
-                    <?php
-
-                    // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
-                    if(!$this->votePlaylist && !$_SESSION['mobile']) {
-                        self::displayPlaylistTitle();
-                    }
-
-
-                    foreach ($playlist as $track) {
-
-                        if(!$this->votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
-                            // Εμφανίζει την λίστα με τα πλήρη στοιχεία
-                            $this->displayFullPlaylist($track);
-                        } else { // Αν είναι η σελίδα vote
-                            // Εμφανίζει την λίστα με ελάχιστα στοιχεία
-                            self::displaySmallPlaylist($track);
-                        }
-
-                        $counter++;
-                    }
-
-
-                    $this->offset = intval($this->offset);
-                    $this->step = intval($this->step);
-                    ?>
-
-
-                </div>
-
-                <?php
-
-                // Εμφάνιση των κουμπιών previous/next
-                $this->getBrowseButtons();
-
-                ?>
-
-                <div id="error_container">
-                    <div class="alert_error bgc9"></div>
-                </div>
-
-            </div>
 
             <script type="text/javascript">
                 var playlistCount = <?php echo $_SESSION['$countThePlaylist']; ?>;
