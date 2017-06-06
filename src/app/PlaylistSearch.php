@@ -285,81 +285,95 @@ class PlaylistSearch extends OWMPElements
         <?php
     }
 
-    // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
-    //      @param: array $this->fieldsArray = Το json array που θα διαβάσει
+    // Μετατρέπει το $field array σε sql query string
+    //      @param array $field  Το array με τα πεδία που είναι να μπουν στο sql search query
     //      @return: string $this->condition = To search query
     //      @return: array $this->arrayParams = To array με τις παραμέτρους για το search
-    public function getSearchElements()
+    public function getFieldString($field)
     {
+        if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν είναι μηδέν, αλλιώς το νομίζει null
+            $searchText = ' ' . $field['search_text'];
+        else
+            $searchText = $field['search_text'];
 
-        if($this->fieldsArray) {
-            foreach ($this->fieldsArray as $field) {
+        if ((!$field == null) && (!$searchText == null)) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
 
-                if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν είναι μηδέν, αλλιώς το νομίζει null
-                    $searchText = ' ' . $field['search_text'];
-                else
+            $fieldType = MyDB::getTableFieldType('music_tags', $field['search_field']);  // παίρνει το type του field
+
+            if ($fieldType == 'int(11)' || $fieldType == 'tinyint(4)' || $fieldType == 'datetime') {   // αν το type είναι νούμερο
+                if ($fieldType == 'datetime')
                     $searchText = $field['search_text'];
-
-
-                if ((!$field == null) && (!$searchText == null)) {  // αν ο πίνακας δεν είναι κενός και αν το search text δεν είναι κενό
-
-                    $fieldType = MyDB::getTableFieldType('music_tags', $field['search_field']);  // παίρνει το type του field
-//                    trigger_error($fieldType);
-                    if ($fieldType == 'int(11)' || $fieldType == 'tinyint(4)' || $fieldType == 'datetime') {   // αν το type είναι νούμερο
-                        if ($fieldType == 'datetime')
-                            $searchText = $field['search_text'];
-                        else {
-                            if ($field['search_field'] == 'rating')
-                                $searchText = intval($field['search_text']) * 20;
-                            else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
-                        }
-
-                        $equality = $field['search_equality'];
-                        switch ($equality) {
-                            case 'equal':
-                                $equality_sign = '=';
-                                break;
-                            case 'greater':
-                                $equality_sign = '>';
-                                break;
-                            case 'less':
-                                $equality_sign = '<';
-                                break;
-                        }
-
-                        $this->condition = $this->condition . $field['search_field'] . $equality_sign . '? ' . $field['search_operator'] . ' ';
-                        $this->arrayParams[] = $searchText;
-                    } else {   // αν είναι string
-                        $searchText = ClearString($field['search_text']);
-                        $this->condition = $this->condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
-                        $this->arrayParams[] = '%' . $searchText . '%';
-                    }
-
-
+                else {
+                    if ($field['search_field'] == 'rating')
+                        $searchText = intval($field['search_text']) * 20;
+                    else $searchText = intval($field['search_text']);  // μετατροπή του κειμένου σε νούμερο
                 }
+
+                $equality = $field['search_equality'];
+                switch ($equality) {
+                    case 'equal':
+                        $equality_sign = '=';
+                        break;
+                    case 'greater':
+                        $equality_sign = '>';
+                        break;
+                    case 'less':
+                        $equality_sign = '<';
+                        break;
+                }
+
+                // Τελικό sql query
+                $this->condition = $this->condition . $field['search_field'] . $equality_sign . '? ' . $field['search_operator'] . ' ';
+                $this->arrayParams[] = $searchText;
+            } else {   // αν είναι string
+                $searchText = ClearString($field['search_text']);
+                $this->condition = $this->condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
+                $this->arrayParams[] = '%' . $searchText . '%';
             }
+
+
         }
 
-        if (!$this->condition=='') {
-            $this->condition = Utilities::cutLastString($this->condition, 'OR ');
-//            $condition = page::cutLastString($condition, 'AND ');
+    }
 
+    // Θέτει τις τιμές του query σε sessions
+    public function setQuerySessions()
+    {
+        if (!$this->condition=='') {
             $_SESSION['condition']=$this->condition;  // Το κρατάει σε session για μελοντική χρήση
             $_SESSION['arrayParams']=$this->arrayParams;
         }
         else {
-            $condition=null;
             $_SESSION['condition']=null;  // Το κρατάει σε session για μελοντική χρήση
             $_SESSION['arrayParams']=null;
         }
 
-        // Αν υπάρχει προηγούμενο query παίρνει αυτό
-        if(isset($_SESSION['condition']))
-            $this->condition=$_SESSION['condition'];
+        // Όταν τρέχει για πρώτη φορά η εφαρμογή
+        if(!isset($_SESSION['PlaylistCounter'])){
+            $_SESSION['PlaylistCounter']=0;
+            $_SESSION['condition']=null;
+            $_SESSION['arrayParams']=null;
+        }
 
-        if(isset($_SESSION['arrayParams']))
-            $this->arrayParams=$_SESSION['arrayParams'];
+    }
 
+    // Αν υπάρχει προηγούμενο query παίρνει τις τιμές από αυτό
+    public function getQueryFromSessions()
+    {
+        if( isset($_SESSION['condition']) && isset($_SESSION['arrayParams']) ) {
+            $this->condition = $_SESSION['condition'];
+            $this->arrayParams = $_SESSION['arrayParams'];
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
+    public function insertMediaKindJoin()
+    {
         // Επιλογές για join ώστε να πάρουμε το media kind από το files
         if(isset($this->mediaKind)) {
             if (!$this->condition=='')
@@ -369,11 +383,39 @@ class PlaylistSearch extends OWMPElements
             $this->arrayParams[]=$this->mediaKind; // προσθέτει και την παράμετρο του $mediakind στις παραμέτρους του query
         }
 
-        // Όταν τρέχει για πρώτη φορά η εφαρμογή
-        if(!isset($_SESSION['PlaylistCounter'])){
-            $_SESSION['PlaylistCounter']=0;
-            $_SESSION['condition']=null;
-            $_SESSION['arrayParams']=null;
+    }
+
+    // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
+    //      @param: array $this->fieldsArray = Το json array που θα διαβάσει
+    //      @return: string $this->condition = To search query
+    //      @return: array $this->arrayParams = To array με τις παραμέτρους για το search
+    public function getSearchElements()
+    {
+
+        // Αν υπάρχει προηγούμενο query παίρνει τις τιμές από αυτό. Αν όχι κάνει τους νέους υπολογισμούς
+        if(!$this->getQueryFromSessions()) {
+
+            if ($this->fieldsArray) { // Αν έχει δοθεί json array με τα πεδία
+                foreach ($this->fieldsArray as $field) {
+                    // Μετατρέπει το $field array σε sql query string
+                    $this->getFieldString($field);
+                }
+
+                // Καθαρισμός το τελικού string
+                $this->condition = Utilities::cutLastString($this->condition, 'OR ');
+                //            $condition = page::cutLastString($condition, 'AND ');
+
+            } else { // αλλιώς τα αρχικοποιεί
+                $this->condition = null;
+                $this->arrayParams = array();
+            }
+
+            // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
+            $this->setQuerySessions();
+
+            // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
+            $this->insertMediaKindJoin();
+
         }
 
     }
