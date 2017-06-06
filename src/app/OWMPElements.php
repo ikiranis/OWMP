@@ -1258,7 +1258,7 @@ class OWMPElements extends OWMP
             </form>
         </div>
 
-        <input type="button" id="playPlaylist" onclick="playPlaylist();" title="<?php echo __('play_file'); ?>">
+        <input type="button" id="playPlaylist" onclick="playPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
         <input type="button" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
         <input type="button" id="deletePlaylistClick" onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
 

@@ -39,23 +39,26 @@ class PlaylistSearch extends OWMPElements
     // Εμφανίζει τα browse buttons
     public function getBrowseButtons()
     {
-        $operation = '';
 
         // Έλεγχος για το τι είδους λίστα εμφανίζει
-        if (!$this->duplicates && !$this->votePlaylist) {
-            $operation = 'search';
+        if (!$this->duplicates && !$this->votePlaylist && !$this->loadPlaylist) {
+            $_SESSION['operation'] = 'search';
         } else {
             if($this->duplicates) {
-                $operation = 'duplicates';
+                $_SESSION['operation'] = 'duplicates';
             }
 
             if($this->votePlaylist) {
-                $operation = 'votePlaylist';
+                $_SESSION['operation'] = 'votePlaylist';
+            }
+
+            if($this->loadPlaylist) {
+                $_SESSION['operation'] = 'manualPlaylist';
             }
         }
 
-        // Εμφάνιση των κουμπιών
-        if($operation=='search') {
+        // Εμφάνιση των κουμπιών αναλόγως την περίπτωση
+        if($_SESSION['operation']=='search') {
             ?>
 
             <div id="browseButtons">
@@ -68,7 +71,7 @@ class PlaylistSearch extends OWMPElements
             <?php
         }
 
-        if($operation=='duplicates') {
+        if($_SESSION['operation']=='duplicates') {
             ?>
 
             <div id="browseButtons">
@@ -81,7 +84,7 @@ class PlaylistSearch extends OWMPElements
             <?php
         }
 
-        if($operation=='votePlaylist') {
+        if($_SESSION['operation']=='votePlaylist') {
             ?>
 
             <div id="browseButtons">
@@ -89,6 +92,19 @@ class PlaylistSearch extends OWMPElements
                        onclick="getVotePlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
                        onclick="getVotePlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
+            </div>
+
+            <?php
+        }
+
+        if($_SESSION['operation']=='manualPlaylist') {
+            ?>
+
+            <div id="browseButtons">
+                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
+                       onclick="playPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
+                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
+                       onclick="playPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -475,12 +491,12 @@ class PlaylistSearch extends OWMPElements
     public function getPlaylistResults()
     {
 
+        // Τα arrays για να γίνει το join των πινάκων
         if(!$this->loadPlaylist)
             $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'id');
         else {
             $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'file_id');
         }
-
         $this->mainTables = array('music_tags', 'files');
 
         if (!$this->tabID) {  // Αν δεν έρχεται από το attribute της κλάσης
@@ -494,14 +510,16 @@ class PlaylistSearch extends OWMPElements
             $this->tempUserPlaylist = CUR_PLAYLIST_STRING . $this->tabID;
         }
 
+        // Αρχίζει το search
         if($this->duplicates==null) {   // κανονική λίστα
             // Όταν φορτώσει για πρώτη φορά η εφαρμογή
             if ($_SESSION['PlaylistCounter'] == 0) {
                 $this->getStartupPlaylist();
             }
 
-            // Η λίστα προς εμφάνιση
+            // Η λίστα προς εμφάνιση όταν γίνεται search
             if(!$this->loadPlaylist) {  // Αν το $this->loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
+                // το βασικό search
                 $this->playlist = MyDB::getTableArray('music_tags', null, $this->condition, $this->arrayParams,
                     'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, 'files', $this->joinFieldsArray);
             }

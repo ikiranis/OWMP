@@ -49,6 +49,4 @@ else {
     $jsonArray = array('success' => false, 'errorID'=> 3);  // Δεν υπάρχει το συγκεκριμένο $playlistTableName στην βάση
 }
 
-
-
 echo json_encode($jsonArray);
