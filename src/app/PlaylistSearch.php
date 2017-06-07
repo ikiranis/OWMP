@@ -534,7 +534,7 @@ class PlaylistSearch extends OWMPElements
                 $this->getStartupPlaylist();
             }
 
-            // Η λίστα προς εμφάνιση όταν γίνεται search
+            //  Η λίστα προς εμφάνιση όταν γίνεται search
             if(!$this->loadPlaylist) {  // Αν το $this->loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
                 // το βασικό search
                 $this->playlist = MyDB::getTableArray('music_tags', null, $this->condition, $this->arrayParams,
