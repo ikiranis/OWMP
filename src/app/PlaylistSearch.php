@@ -423,29 +423,29 @@ class PlaylistSearch extends OWMPElements
     {
 
         // Αν υπάρχει προηγούμενο query παίρνει τις τιμές από αυτό. Αν όχι κάνει τους νέους υπολογισμούς
-        if(!$this->getQueryFromSessions()) {
+        if ($this->fieldsArray) { // Αν έχει δοθεί json array με τα πεδία
+            foreach ($this->fieldsArray as $field) {
+                // Μετατρέπει το $field array σε sql query string
+                $this->getFieldString($field);
+            }
 
-            if ($this->fieldsArray) { // Αν έχει δοθεί json array με τα πεδία
-                foreach ($this->fieldsArray as $field) {
-                    // Μετατρέπει το $field array σε sql query string
-                    $this->getFieldString($field);
-                }
+            // Καθαρισμός το τελικού string
+            $this->condition = Utilities::cutLastString($this->condition, 'OR ');
+            //            $condition = page::cutLastString($condition, 'AND ');
 
-                // Καθαρισμός το τελικού string
-                $this->condition = Utilities::cutLastString($this->condition, 'OR ');
-                //            $condition = page::cutLastString($condition, 'AND ');
+            if($this->condition=='') {
+                $this->condition = null;
+            }
 
-                if($this->condition=='')
-                    $this->condition = null;
+            // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
+            $this->setQuerySessions();
 
-                // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
-                $this->setQuerySessions();
-
-            } else { // αλλιώς τα αρχικοποιεί
+        } else { // αλλιώς τα αρχικοποιεί
+            // Αν υπάρχει προηγούμενο query παίρνει τις τιμές από αυτό. Αλλιώς αρχικοποιεί
+            if(!$this->getQueryFromSessions()){
                 $this->condition = null;
                 $this->arrayParams = array();
             }
-
         }
 
 
