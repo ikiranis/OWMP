@@ -1211,7 +1211,7 @@ class OWMPElements extends OWMP
 
         ?>
         <div id="ChooseMediaKind">
-            <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+            <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
                 <option value="">
                     All
                 </option>
@@ -1395,7 +1395,7 @@ class OWMPElements extends OWMP
 
                     <div id="searchButtons">
                         <input type="button" class="myButton" name="searching" id="searching"
-                               value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                               value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
 
                         <input type="button" class="myButton" name="duplicates" id="duplicates"
                                value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">

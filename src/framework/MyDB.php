@@ -130,8 +130,6 @@ class MyDB
         if(isset($orderBy))
             $sql=$sql.' ORDER BY '.$orderBy;
         
-
-
 //        trigger_error('SQL   '.$sql);
         
         $stmt = self::$conn->prepare($sql);

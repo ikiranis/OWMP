@@ -387,7 +387,7 @@ class PlaylistSearch extends OWMPElements
     //      @return: boolean True/False
     public function getQueryFromSessions()
     {
-        if( isset($_SESSION['condition']) && isset($_SESSION['arrayParams']) ) {
+        if( isset($_SESSION['condition']) || isset($_SESSION['arrayParams']) ) {
             $this->condition = $_SESSION['condition'];
             $this->arrayParams = $_SESSION['arrayParams'];
 
@@ -435,15 +435,19 @@ class PlaylistSearch extends OWMPElements
                 $this->condition = Utilities::cutLastString($this->condition, 'OR ');
                 //            $condition = page::cutLastString($condition, 'AND ');
 
+                if($this->condition=='')
+                    $this->condition = null;
+
+                // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
+                $this->setQuerySessions();
+
             } else { // αλλιώς τα αρχικοποιεί
                 $this->condition = null;
                 $this->arrayParams = array();
             }
 
-            // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
-            $this->setQuerySessions();
-
         }
+
 
         // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
         $this->insertMediaKindJoin();
@@ -503,7 +507,6 @@ class PlaylistSearch extends OWMPElements
     // Παίρνει τα περιεχόμενα της playlist που ψάχνουμε
     public function getPlaylistResults()
     {
-
         // Τα arrays για να γίνει το join των πινάκων
         if(!$this->loadPlaylist)
             $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'id');
