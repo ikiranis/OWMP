@@ -667,15 +667,24 @@ function findDuplicates(offset, step, firstTime) {
     });
 }
 
+// Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
+function getSearchRows()
+{
+    // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
+    searchRows = $('#SearchForm').children('div').length;
+    // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
+    var groupRows = $('#SearchForm').children('.groupRow').length;
+    searchRows=(searchRows-groupRows)-1;
+
+    return searchRows;
+}
+
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, search) {
     $('#progress').show();
 
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
-    var searchRows = $('#SearchForm').children('div').length;
-    // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
-    var groupRows = $('#SearchForm').children('.groupRow').length;
-    searchRows=(searchRows-groupRows)-1;
+    searchRows = getSearchRows();
 
     if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
         var searchArray = [];
