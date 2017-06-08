@@ -443,9 +443,8 @@ class PlaylistSearch extends OWMPElements
             $this->condition = Utilities::cutLastString($this->condition, $this->lastOperator);
             $this->condition = $this->condition.')';
 
-//            trigger_error($this->condition);
-
-            if($this->condition=='') {
+            // Αν είναι κενό
+            if($this->condition=='' || $this->condition==')') {
                 $this->condition = null;
             }
 
