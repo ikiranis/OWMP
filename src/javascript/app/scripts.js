@@ -321,6 +321,7 @@ function loadNextVideo(id) {
         file_path=DIR_PREFIX+thePath+encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
         myVideo.src = file_path;
+        // myVideo.src = AJAX_path+"app/serveFile.php?id="+currentID;
         // myVideo.controls=false;
         // console.log(myVideo.src);
 

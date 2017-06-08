@@ -441,7 +441,7 @@ class PlaylistSearch extends OWMPElements
 
             // Καθαρισμός το τελικού string και προσθήκη της τελικής παρένθεσης
             $this->condition = Utilities::cutLastString($this->condition, $this->lastOperator);
-            $this->condition = $this->condition.')'; 
+            $this->condition = $this->condition.')';
 
 //            trigger_error($this->condition);
 
@@ -459,7 +459,6 @@ class PlaylistSearch extends OWMPElements
                 $this->arrayParams = array();
             }
         }
-
 
         // Προσθέτει στο query το join με τα files  με βάση το $this->mediaKind
         $this->insertMediaKindJoin();
