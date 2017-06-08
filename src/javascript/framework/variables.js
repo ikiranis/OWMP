@@ -29,7 +29,6 @@ var PlaylistContainerHTML=null;   // τα περιεχόμενα του div play
 var SearchHTML=null; // τα περιεχόμενα του div search
 var MediaKindChosen=null;
 var GlobalSearchArray=[]; //  τα values στην αναζήτηση
-var SearchRows=5; // Σύνολο των search rows
 var CurrentPage=1;
 
 var OverlayON=false;  // Κρατάει το αν το overlay εμφανίζεται

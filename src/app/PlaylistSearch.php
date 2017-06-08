@@ -41,6 +41,7 @@ class PlaylistSearch extends OWMPElements
     public $tempUserPlaylist; // Το όνομα του temporary user playlist table για τον συγκεκριμένο χρήστη
     public $mainTables; // Οι πίνακες που θα γίνουν join
     public $playlist; // H playlist που θα εμφανιστεί
+    public $lastOperator; // Το τελευταίο operator που εμφανίστηκε, για να το σβήσουμε
 
     // Εμφανίζει τα browse buttons
     public function getBrowseButtons()
@@ -317,6 +318,7 @@ class PlaylistSearch extends OWMPElements
     //      @return: array $this->arrayParams = To array με τις παραμέτρους για το search
     public function getFieldString($field)
     {
+
         if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν είναι μηδέν, αλλιώς το νομίζει null
             $searchText = ' ' . $field['search_text'];
         else
@@ -357,9 +359,8 @@ class PlaylistSearch extends OWMPElements
                 $this->arrayParams[] = '%' . $searchText . '%';
             }
 
-
+            $this->lastOperator = ' '.$field['search_operator'].' ';
         }
-
     }
 
     // Θέτει τις τιμές του query σε sessions για μελλοντική χρήση
@@ -424,14 +425,25 @@ class PlaylistSearch extends OWMPElements
 
         // Αν υπάρχει προηγούμενο query παίρνει τις τιμές από αυτό. Αν όχι κάνει τους νέους υπολογισμούς
         if ($this->fieldsArray) { // Αν έχει δοθεί json array με τα πεδία
-            foreach ($this->fieldsArray as $field) {
+
+            $this->condition = '('; // Η αρχική παρένθεση
+
+            foreach ($this->fieldsArray as $key=>$field) {
                 // Μετατρέπει το $field array σε sql query string
                 $this->getFieldString($field);
+
+                // Αν υπάρχει group_operator τότε σπάει το query string με αυτό το operator
+                if(isset($field['group_operator'])) { // Αν είναι groupRow προσθέτουμε το ανάλογο operator
+                    $this->condition = Utilities::cutLastString($this->condition, $this->lastOperator);
+                    $this->condition = $this->condition.') '.$field['group_operator'].' (';
+                }
             }
 
-            // Καθαρισμός το τελικού string
-            $this->condition = Utilities::cutLastString($this->condition, 'OR ');
-            //            $condition = page::cutLastString($condition, 'AND ');
+            // Καθαρισμός το τελικού string και προσθήκη της τελικής παρένθεσης
+            $this->condition = Utilities::cutLastString($this->condition, $this->lastOperator);
+            $this->condition = $this->condition.')'; 
+
+//            trigger_error($this->condition);
 
             if($this->condition=='') {
                 $this->condition = null;

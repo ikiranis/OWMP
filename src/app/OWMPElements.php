@@ -1387,6 +1387,8 @@ class OWMPElements extends OWMP
                                 </option>
 
                             </select>
+
+                            <input type="button" class="myButton" id="jsAddGroup" value="group" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
                         </div>
 
                         <?php

@@ -670,14 +670,22 @@ function findDuplicates(offset, step, firstTime) {
 function searchPlaylist(offset, step, firstTime, search) {
     $('#progress').show();
 
+    // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
+    var searchRows = $('#SearchForm').children('div').length;
+    // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
+    var groupRows = $('#SearchForm').children('.groupRow').length;
+    searchRows=(searchRows-groupRows)-1;
+
     if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
         var searchArray = [];
-        for (var i = 1; i <= SearchRows; i++) {
+
+        for (var i = 1; i <= searchRows; i++) {
             searchArray[i] = {
                 'search_field': $('#search_field' + i).val(),
                 'search_text': $('#search_text' + i).val(),
                 'search_operator': $('#search_operator' + i).val(),
-                'search_equality': $('#search_equality' + i).val()
+                'search_equality': $('#search_equality' + i).val(),
+                'group_operator': $('#group_operator' + i).val()
             }
         }
 
@@ -752,6 +760,41 @@ function playPlaylist(offset, step) {
         }
     }, "json");
 
+}
+
+// Προσθέτει OR/AND στο group πεδίων
+function addOrAndToGroup(elementID) {
+    var currentElement = document.querySelector('#searchRow' + elementID); // To element μετά το οποίο θα προστεθεί το select
+
+    // Το div element μέσα στο οποίο θα μπει το select
+    var divElement = document.createElement('div');
+    divElement.setAttribute('id', 'groupRow' + (elementID));
+    divElement.setAttribute('class', 'groupRow' );
+
+    // Δημιουργεί το select
+    var selectElement = document.createElement('select');
+    selectElement.setAttribute('type', 'text');
+    selectElement.setAttribute('class', 'search_operator');
+    selectElement.setAttribute('id', 'group_operator' + (elementID));
+    selectElement.setAttribute('name', 'group_operator' + (elementID));
+
+    // Τα Options του select
+    var option=[];
+
+    option[0] = document.createElement('option');
+    option[0].value = 'OR';
+    option[0].innerHTML = 'OR';
+
+    option[1] = document.createElement('option');
+    option[1].value = 'AND';
+    option[1].innerHTML = 'AND';
+
+    $(divElement).insertAfter(currentElement); // προσθέτει το divElement μετά το currentElement
+
+    for (var i = 0; i < 2; i++)
+        selectElement.appendChild(option[i]); // προσθέτει τα options
+
+    divElement.appendChild(selectElement); // Προσθέτει το select μέσα στο div
 }
 
 // Φορτώνει την λίστα του ιστορικού
@@ -2245,6 +2288,7 @@ function startSleepTimer()
 
     $('#insertSleepTimerWindow').hide();
 }
+
 
 
 
