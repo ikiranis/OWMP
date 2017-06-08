@@ -388,7 +388,8 @@ function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
     callFile=AJAX_path+"framework/displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
 
-
+    // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
+    var searchRows = $('#SearchForm').children('div').length;
 
     // Αν target σελίδα δεν είναι η 1
     if(page!==1) {
@@ -397,7 +398,7 @@ function DisplayWindow(page, offset, step) {
         if(!$('#search').length==0) {
 
             // διαβάζουμε τις τιμές των search fields
-            readSearchFields(SearchRows);
+            readSearchFields(searchRows);
 
             // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #search, στην μεταβλητή SearchHTML
             SearchHTML = $('#search').html();

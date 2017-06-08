@@ -29,5 +29,3 @@ $fullPathFilename = DIR_PREFIX.$file[0]['path'].$file[0]['filename'];
 $streamFile = new MediaStream($fullPathFilename);
 $streamFile->start();
 
-
-
