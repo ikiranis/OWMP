@@ -38,9 +38,6 @@ class MediaStream
         if (!($this->stream = fopen($this->path, 'rb'))) {
             die('Could not open stream for reading');
         }
-
-        $this->mime = mime_content_type($this->path);
-
     }
 
     /**
@@ -49,6 +46,14 @@ class MediaStream
     private function setHeader()
     {
         ob_get_clean();
+
+        // Αναζήτηση του mime type
+        $this->mime = mime_content_type($this->path);
+        trigger_error('path: '.$this->path. ' mime: '.$this->mime);
+        if($this->mime=='application/octet-stream') {
+            $this->mime = 'audio/mpeg';
+        }
+
         header("Content-Type: " . $this->mime);
         header("Cache-Control: max-age=2592000, public");
         header("Expires: ".gmdate('D, d M Y H:i:s', time()+2592000) . ' GMT');

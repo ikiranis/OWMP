@@ -357,7 +357,7 @@ function loadNextVideo(id) {
                 var albumCoverPath = data.tags.albumCoverPath;
                 var iconImagePath = data.tags.iconImagePath;
 
-                console.log(albumCoverPath);
+                // console.log(albumCoverPath);
 
                 // alert('paok5');
 
