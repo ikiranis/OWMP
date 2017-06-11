@@ -44,7 +44,7 @@ $youtubeDL->mediaKind = $mediaKind;
 //else $jsonArray=array( 'success'=> false, 'theUrl' => $url);
 
 if($result=$youtubeDL->downloadVideo()) {
-    $jsonArray = array('success' => true, 'result' => $result);
+    $jsonArray = array('success' => true, 'result' => $result, 'imageThumbnail' => $youtubeDL->imageThumbnail);
 }
 else $jsonArray=array( 'success'=> false, 'theUrl' => $id);
 

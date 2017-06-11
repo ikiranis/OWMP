@@ -974,7 +974,8 @@ function callGetYouTube(id,counter,total, mediaKind) {
         },
         success: function (data) {
             if (data.success == true) {
-                $("#SyncDetails").append('<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+                $("#SyncDetails").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
+                    '<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
             } else {
                 $("#SyncDetails").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');

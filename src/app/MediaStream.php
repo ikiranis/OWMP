@@ -47,13 +47,6 @@ class MediaStream
     {
         ob_get_clean();
 
-        // Αναζήτηση του mime type
-        $this->mime = mime_content_type($this->path);
-        trigger_error('path: '.$this->path. ' mime: '.$this->mime);
-        if($this->mime=='application/octet-stream') {
-            $this->mime = 'audio/mpeg';
-        }
-
         header("Content-Type: " . $this->mime);
         header("Cache-Control: max-age=2592000, public");
         header("Expires: ".gmdate('D, d M Y H:i:s', time()+2592000) . ' GMT');
@@ -112,6 +105,16 @@ class MediaStream
         exit;
     }
 
+
+    // Αναζήτηση του mime type
+    private function getMime()
+    {
+        $this->mime = mime_content_type($this->path);
+        if($this->mime=='application/octet-stream') {
+            $this->mime = 'audio/mpeg';
+        }
+    }
+
     /**
      *      * perform the streaming of calculated range
      *           */
@@ -137,6 +140,7 @@ class MediaStream
     function start()
     {
         $this->open();
+        $this->getMime();
         $this->setHeader();
         $this->stream();
         $this->end();

@@ -19,6 +19,7 @@ class VideoDownload
     public $videoURL;
     public $videoID;
     public $mediaKind;
+    public $imageThumbnail='';
 
     // Επιστρέφει το id ενός youtube video από το url του
     // Source from http://code.runnable.com/VUpjz28i-V4jETgo/get-youtube-video-id-from-url-for-php
@@ -111,6 +112,7 @@ class VideoDownload
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
         foreach ($decoded['items'] as $items) {
+            $this->imageThumbnail = $items['snippet']['thumbnails']['default']['url'];
             $uploadDate = substr($items['snippet']['publishedAt'],0,10);
             $title= $items['snippet']['title'].' ('.$uploadDate.')';
             return $title;
