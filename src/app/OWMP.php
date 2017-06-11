@@ -358,7 +358,6 @@ class OWMP
 
             <p>
                 <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
-                <li> <?php echo __('help_apache_title'); Page::getHelp('help_apache'); ?> </li>
                 <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
                 <li> <?php echo __('help_alac_title'); Page::getHelp('help_alac'); ?> </li>
             </p>

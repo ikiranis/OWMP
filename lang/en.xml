@@ -242,8 +242,6 @@
         <phrase name="help_text_icon">Help</phrase>
         <phrase name="help_paths"><![CDATA[
                 <p>We select (with the help of the navigation menu in directories) the linux path of the folders in our music. We choose whether it is Music (mp3, m4a) or Music Video (mp4, m4v). </p>
-                <p><strong>WARNING: </strong> If the path we choose is outside the web directory (eg <strong>/var/www/html/</strong>), we must assign an alias to the virtualhost for each path (Instructions below) </p>
-                <p>If the path is within the web folder (eg <strong>/var/www/html/</strong>), then we choose something like this (eg for videos) <strong>/var/www/html/myVideos</strong> and of course we do not need to add alias to virtualhost. </p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
             <p>At <strong>convert_alac_files</strong>, we put true if we want to convert ALAC files to plain mp3</p>
@@ -378,28 +376,6 @@
             <p>eg για ubuntu
             <pre>sudo apt-get install ffmpeg</pre>
             <pre>sudo apt-get install lame</pre></p>
-        ]]></phrase>
-        <phrase name="help_apache_title">
-            Updating the virtualhost to Apache with the paths of our files
-        </phrase>
-        <phrase name="help_apache"><![CDATA[
-            <p>To be able to access our music files from the web we need to put the paths in apache's virtualhost as an alias</p>
-
-            <p>We edit the file</p>
-            <pre>sudo nano /etc/apache2/sites-enabled/000-default.conf</pre>
-            <p>Assuming that the path of our files is in /media/myDisk/myDirectory</p>
-
-            <p>Somewhere between &lt;virtualhost&gt;</p>
-
-            <p>We put the following lines for each separate path</p>
-            <p><pre>Alias /media/myDisk/myDirectory "/media/myDisk/myDirectory"
-            &lt;Directory "/media/myDisk/myDirectory"&gt;
-                Order allow,deny
-                Allow from all
-                Require all granted
-            &lt;/Directory&gt;</pre>
-            <p>We're rebooting Apache</p>
-            <pre>sudo service apache2 restart</pre>
         ]]></phrase>
         <phrase name="help_convert_covers"><![CDATA[
             <p>Creates smaller versions and thumbnails of album covers for the entire collection</p>

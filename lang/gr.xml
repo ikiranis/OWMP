@@ -242,10 +242,6 @@
         <phrase name="help_text_icon">Βοήθεια</phrase>
         <phrase name="help_paths"><![CDATA[
                 <p>Επιλέγουμε (με την βοήθεια μενού πλοήγησης στους καταλόγους) τα linux path των φακέλων που βρίσκεται η μουσική μας. Διαλέγουμε αν είναι Music (mp3, m4a) ή Music Video (mp4, m4v).</p>
-
-                <p><strong>ΠΡΟΣΟΧΗ:</strong> Αν το path που θα επιλέξουμε είναι έξω από το web directory (π.χ. /var/www/html/) του server πρέπει να ορίσουμε alias στο virtualhost για το κάθε path (οδηγίες παρακάτω)</p>
-
-                <p>Αν το path είναι μέσα στο web folder (π.χ <strong>/var/www/html/</strong>) τότε για path (για videos π.χ.) επιλέγουμε κάτι σαν αυτό <strong>/var/www/html/myVideos</strong> και φυσικά δεν χρειάζεται να προσθέσουμε alias στο virtualhost.</p>
         ]]></phrase>
         <phrase name="help_options"><![CDATA[
             <p>Στο <strong>convert_alac_files</strong> βάζουμε <strong>true</strong> αν θέλουμε να μετατρέπει τα ALAC αρχεία σε απλά mp3. Με <strong>false</strong> εφαρμογή αδιαφορεί για τα ALAC.</p>
@@ -380,28 +376,6 @@
             <p>π.χ. για ubuntu
             <pre>sudo apt-get install ffmpeg</pre>
             <pre>sudo apt-get install lame</pre></p>
-        ]]></phrase>
-        <phrase name="help_apache_title">
-            Ενημέρωση του virtualhost στον Apache με τα paths των αρχείων μας
-        </phrase>
-        <phrase name="help_apache"><![CDATA[
-            <p>Για να μπορούμε να έχουμε πρόσβαση στα αρχεία μουσικής μας από το web πρέπει να βάλουμε τα paths και στο virtualhost του apache, σαν alias.</p>
-
-            <p>Κάνουμε edit το αρχείο</p>
-            <pre>sudo nano /etc/apache2/sites-enabled/000-default.conf</pre>
-            <p>Αν υποθέσουμε ότι το path των αρχείων μας είναι στο /media/myDisk/myDirectory</p>
-
-            <p>Κάπου ανάμεσα στα &lt;virtualhost&gt;</p>
-
-            <p>βάζουμε τις παρακάτω γραμμές, για κάθε ξεχωριστό path</p>
-            <p><pre>Alias /media/myDisk/myDirectory "/media/myDisk/myDirectory"
-            &lt;Directory "/media/myDisk/myDirectory"&gt;
-                Order allow,deny
-                Allow from all
-                Require all granted
-            &lt;/Directory&gt;</pre>
-            <p>κάνουμε restart τον Apache</p>
-            <pre>sudo service apache2 restart</pre>
         ]]></phrase>
         <phrase name="help_convert_covers"><![CDATA[
             <p>Δημιουργεί μικρότερες εκδόσεις και thumbnails των album covers, για όλη την συλλογή</p>
