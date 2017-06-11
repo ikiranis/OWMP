@@ -24,7 +24,6 @@ Page::checkValidAjaxRequest(true);
 
 $conn = new MyDB();
 
-
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
@@ -123,9 +122,6 @@ if($metadata=MyDB::getTableArray('music_tags','*', 'id=?', array($id),null, null
         'apiSource'=>$apiSource,
         'playlist_id' => $playlistID,
         'playlist_count' => $_SESSION['$countThePlaylist']);
-
-
-
 
 }
 else $jsonArray = array('success' => false);

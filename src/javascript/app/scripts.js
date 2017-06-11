@@ -357,19 +357,11 @@ function loadNextVideo(id) {
                 var albumCoverPath = data.tags.albumCoverPath;
                 var iconImagePath = data.tags.iconImagePath;
 
-                // console.log(albumCoverPath);
-
-                // alert('paok5');
-
                 document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
 
                 // Αν υπάρχει icon το εμφανίζει σαν favicon
                 if(iconImagePath) {
-                    // document.querySelector("link[rel='shortcut icon']").href = iconImagePath;
-                    document.querySelector("#theFavIcon").href = albumCoverPath;
-                    // document.querySelector("#theFavIcon").href = iconImagePath;
-                    // document.querySelector("#appIcon").href = albumCoverPath;
-
+                    document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                 }
 
 
@@ -377,16 +369,16 @@ function loadNextVideo(id) {
                     if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                         myVideo.poster = data.tags.fromAPI;
                     }
-                    else myVideo.poster = albumCoverPath;
+                    else myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                 } else {   // όταν δεν θέλουμε μόνο από giphy
                     // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
-                    if (albumCoverPath == Album_covers_path + 'default.gif' || albumCoverPath == Album_covers_path + 'small_default.gif') {
+                    if (albumCoverPath == AJAX_path+'app/serveImage.php?imagePath=' + Album_covers_path + 'default.gif' || albumCoverPath == AJAX_path+'app/serveImage.php?imagePath=' + Album_covers_path + 'small_default.gif') {
                         if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                             myVideo.poster = data.tags.fromAPI;
                         }
-                        else myVideo.poster = albumCoverPath;
+                        else myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                     }
-                    else myVideo.poster = albumCoverPath;
+                    else myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                 }
 
 
@@ -427,7 +419,6 @@ function loadNextVideo(id) {
             $('#live').val(data.tags.live);
             $('#path_filename').val(decodeURIComponent(file_path));
 
-
             // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
             $('#overlay_artist').html(data.tags.artist);
             $('#overlay_song_name').html(data.tags.title);
@@ -446,15 +437,11 @@ function loadNextVideo(id) {
 
 
         } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
-
             $('#FormTags').find('input').not('[type="button"]').val('');
             $('#title').val(filename);
         }
 
-
         PlayTime++;
-
-
 
     }, "json");
 

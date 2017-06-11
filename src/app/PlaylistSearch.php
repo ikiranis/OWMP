@@ -201,7 +201,7 @@ class PlaylistSearch extends OWMPElements
                     if($coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small')) {
 
                         ?>
-                        <img class="coverImage" src="<?php echo $coverImagePath; ?>">
+                        <img class="coverImage" src="<?php echo AJAX_PATH . 'app/serveImage.php?imagePath=' . $coverImagePath; ?>">
                         <?php
                     }
                 }
