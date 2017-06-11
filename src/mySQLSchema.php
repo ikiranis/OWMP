@@ -179,4 +179,10 @@ $defaultProgress = array(
     array('progressName' => 'restoreRunning', 'progressValue' => '0')
 );
 
-$defaultPathNames = array('musicDownloadPath', 'musicVideoDownloadPath', 'outputFolder', 'coverAlbumsFolder', 'convertedALAC');
+$defaultPathNames = array(
+    array('pathName' => 'musicDownloadPath', 'path' => 'upload/musicDownload'),
+    array('pathName' => 'musicVideoDownloadPath', 'path' => 'upload/videoDownload'),
+    array('pathName' => 'outputFolder', 'path' => 'upload/output'),
+    array('pathName' => 'coverAlbumsFolder', 'path' => 'upload/albumCovers'),
+    array('pathName' => 'convertedALAC', 'path' => 'upload/convertedMusic')
+);

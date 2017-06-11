@@ -227,11 +227,10 @@ class Options extends MyDB
         // Ελέγχουμε αν κάποιο path name που βρίσκετε στο $this->defaultDownloadPaths δεν υπάρχει στην βάση
         // Το δημιουργούμε αν δεν υπάρχει
         foreach ($this->defaultDownloadPaths as $item) {
-            if(!isset($newArray[$item])) {
-                trigger_error($item);
+            if(!isset($newArray[$item['pathName']])) {
                 $conn = new MyDB();
                 $sql = 'INSERT INTO download_paths (path_name, file_path) VALUES(?,?)';   // Εισάγει στον πίνακα download_paths
-                $pathsArray = array($item, '/empty');
+                $pathsArray = array($item['pathName'], $item['path']);
                 $conn->insertInto($sql, $pathsArray);
             }
         }
