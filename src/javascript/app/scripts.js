@@ -357,7 +357,7 @@ function loadNextVideo(id) {
                 var albumCoverPath = data.tags.albumCoverPath;
                 var iconImagePath = data.tags.iconImagePath;
 
-                document.querySelector('#overlay_poster_source').innerHTML=data.tags.apiSource;
+                document.querySelector('#overlay_poster_source').innerHTML = data.tags.apiSource;
 
                 // Αν υπάρχει icon το εμφανίζει σαν favicon
                 if(iconImagePath) {
@@ -368,15 +368,17 @@ function loadNextVideo(id) {
                 if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
                     if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                         myVideo.poster = data.tags.fromAPI;
+                    } else {
+                        myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                     }
-                    else myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                 } else {   // όταν δεν θέλουμε μόνο από giphy
                     // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
-                    if (albumCoverPath == AJAX_path+'app/serveImage.php?imagePath=' + Album_covers_path + 'default.gif' || albumCoverPath == AJAX_path+'app/serveImage.php?imagePath=' + Album_covers_path + 'small_default.gif') {
+                    if (albumCoverPath == Album_covers_path + 'default.gif' || albumCoverPath == Album_covers_path + 'small_default.gif') {
                         if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                             myVideo.poster = data.tags.fromAPI;
+                        } else {
+                            myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                         }
-                        else myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                     }
                     else myVideo.poster = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
                 }
