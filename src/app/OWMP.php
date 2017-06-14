@@ -269,6 +269,7 @@ class OWMP
 
         $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
+        $OWMPElements->displayInsertSmartPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης smart playlist
         $OWMPElements->displaySomeTools($UserGroup); // Εμφάνιση διάφορων εργαλείων
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
         $OWMPElements->displayEditButtons($UserGroup); // Εμφάνιση των edit buttons

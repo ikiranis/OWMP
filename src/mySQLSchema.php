@@ -145,7 +145,20 @@ $mySqlTables = array (
                                           PRIMARY KEY (`id`))
                                         ENGINE = InnoDB
                                         AUTO_INCREMENT = 4
-                                        DEFAULT CHARACTER SET = utf8')
+                                        DEFAULT CHARACTER SET = utf8'),
+    array ('table' => 'smart_playlists', 'sql' => 'CREATE TABLE IF NOT EXISTS `smart_playlists` (
+                                          `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                          `playlist_name` VARCHAR(50) NULL,
+                                          `playlist_data` VARCHAR(1000) NULL,
+                                          `user_id` INT(11) NOT NULL,
+                                          PRIMARY KEY (`id`, `user_id`),
+                                          INDEX `fk_manual_playlists_user1_idx` (`user_id` ASC),
+                                          CONSTRAINT `fk_manual_playlists_user10`
+                                            FOREIGN KEY (`user_id`)
+                                            REFERENCES `user` (`user_id`)
+                                            ON DELETE NO ACTION
+                                            ON UPDATE NO ACTION)
+                                        ENGINE = InnoDB DEFAULT CHARACTER SET = utf8')
 );
 
 $mySqlChanges = array(

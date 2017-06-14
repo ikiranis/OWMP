@@ -1623,13 +1623,27 @@ function displayInsertPlaylistWindow() {
     $('#insertPlaylistWindow').show();
 }
 
+// Εμφανίζει το παράθυρο για εισαγωγή smart playlist
+function displayInsertSmartPlaylistWindow()
+{
+    $('#insertSmartPlaylistWindow').show();
+}
+
 // Κλείνει το παράθυρο για εισαγωγή playlist
-function cancelCreatePlaylist() {
+function cancelCreatePlaylist()
+{
     $('#insertPlaylistWindow').hide();
 }
 
+// Κλείνει το παράθυρο για εισαγωγή smart playlist
+function cancelCreateSmartPlaylist()
+{
+    $('#insertSmartPlaylistWindow').hide();
+}
+
 // Έλεγχος για όταν γίνονται αλλαγές στα search fields
-function checkSearchFieldChanges() {
+function checkSearchFieldChanges()
+{
     $('.search_field').off('change'); // Αφαίρεση προηγούμενων change events
 
     // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
@@ -2000,6 +2014,34 @@ function createPlaylist() {
     }, "json");
 }
 
+// Δημιουργεί μια smart playlist
+function createSmartPlaylist() {
+    var playlistName=document.querySelector('#smartPlaylistName').value;
+
+    callFile=AJAX_path+"app/createSmartPlaylist.php?playlistName="+playlistName;
+
+    $.get(callFile, function (data) {
+        if (data.success == true) {
+            $('#insertSmartPlaylistWindow').hide();
+
+            // Προσθέτει στο select #playlist καινούργιο option με την νέα playlist
+            var option = document.createElement('option');
+            option.value = data.playlistID;
+            option.innerHTML = data.playlistName;
+
+            document.querySelector('#smartPlaylist').appendChild(option); // προσθέτει το νέο option
+
+            DisplayMessage('.alert_error', phrases['playlist_created'] + ' ' + data.playlistName);
+
+            document.querySelector('#insertSmartPlaylist').reset();
+        }
+        else {
+            DisplayMessage('.alert_error', phrases['playlist_not_created'] + ' ' + data.playlistName);
+        }
+
+    }, "json");
+}
+
 // Σβήνει μια manual playlist
 function deletePlaylist() {
     var playlistID=document.querySelector('#playlist').value;
@@ -2034,6 +2076,40 @@ function deletePlaylist() {
     }
 }
 
+// Σβήνει μια smart playlist
+function deleteSmartPlaylist() {
+    var playlistID=document.querySelector('#smartPlaylist').value;
+
+    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+        DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
+        return;
+    }
+
+    var confirmAnswer=confirm(phrases['sure_to_delete_playlist']);
+
+    if (confirmAnswer==true) {
+
+        callFile = AJAX_path + "app/deleteSmartPlaylist.php?playlistID=" + playlistID;
+
+
+        $.get(callFile, function (data) {
+            var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
+
+            if (data.success == true) {
+                DisplayMessage('.alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
+
+                // Σβήνει το συγκεκριμένο option από το select #playlist
+                document.querySelector("#smartPlaylist option:checked").remove();
+
+            }
+            else {
+                DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+            }
+        }, "json");
+
+    }
+}
+
 // όταν η φόρμα είναι focused
 function OnFocusInForm (event) {
     var target = event.target ? event.target : event.srcElement;
@@ -2057,6 +2133,7 @@ function checkFormsFocus() {
         checkTheFocus('FormMassiveTags');
         checkTheFocus('SearchForm');
         checkTheFocus('insertPlaylist');
+        checkTheFocus('insertSmartPlaylist');
         // checkTheFocus('paths_form');
     }
 }

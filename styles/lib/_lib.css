@@ -50,6 +50,9 @@
 /* Playlist Window */
 @import '../compoments/_playlist-window.css';
 
+/* Smart Playlist Window */
+@import '../compoments/_smartPlaylistWindow.css';
+
 /* Browse Path */
 @import '../compoments/_browsePath.css';
 

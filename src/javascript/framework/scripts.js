@@ -369,7 +369,7 @@ function DisplayWindow(page, offset, step) {
         if(!$('#search').length==0) {
 
             // διαβάζουμε τις τιμές των search fields
-            readSearchFields(getSearchRows());
+            readSearchFields(getNumberOfSearchRows());
 
             // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #search, στην μεταβλητή SearchHTML
             SearchHTML = $('#search').html();
@@ -397,7 +397,7 @@ function DisplayWindow(page, offset, step) {
 
                 // εμφανίζουμε τις μεταβλητές που έχουμε σώσει στα αντίστοιχα divs
                 $('#search').html(SearchHTML);
-                writeSearchFields(getSearchRows());
+                writeSearchFields(getNumberOfSearchRows());
                 document.querySelector('#ChooseMediaKind select[name=mediakind]').value = MediaKindChosen;
                 $('#playlist_content').html(PlaylistContainerHTML);
                 checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields

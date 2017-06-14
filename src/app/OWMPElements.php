@@ -1267,6 +1267,42 @@ class OWMPElements extends OWMP
         Page::getHelp('help_manual_playlists');
     }
 
+    // Εμφάνιση των στοιχείων επιλογής playlist
+    static function displayChooseSmartPlaylistElements($userID)
+    {
+        ?>
+        <div id="ChooseSmartPlaylist">
+            <form id="formChooseSmartPlaylist">
+                <select name="smartPlaylist" id="smartPlaylist" >
+                    <option value="">
+                        <?php echo __('choose_playlist'); ?>
+                    </option>
+                    <?php
+
+                    // H λίστα με τις manual playlists
+                    $smartPlaylists = MyDB::getTableArray('smart_playlists', 'id, playlist_name, playlist_data', 'user_id=?', array($userID), null, null, null);
+
+                    foreach ($smartPlaylists as $playlist) {
+                        ?>
+                        <option value="<?php echo $playlist['id']; ?>">
+                            <?php echo  $playlist['playlist_name']; ?>
+                        </option>
+
+                        <?php
+                    }
+                    ?>
+                </select>
+            </form>
+        </div>
+
+        <input type="button" id="insertSmartPlaylistClick" onclick="displayInsertSmartPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
+        <input type="button" id="deleteSmartPlaylistClick" onclick="deleteSmartPlaylist();" title="<?php echo __('delete_playlist'); ?>">
+
+        <?php
+
+        Page::getHelp('help_manual_playlists');
+    }
+
     // Εμφάνιση παραθύρου προσθήκης playlist
     static function displayInsertPlaylistWindow()
     {
@@ -1277,6 +1313,21 @@ class OWMPElements extends OWMP
                 <input type="button" class="myButton PlaylistButton" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
                        value="<?php echo __('create_playlist'); ?>">
                 <input type="button" class="myButton" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
+            </form>
+        </div>
+        <?php
+    }
+
+    // Παράθυρο δημιουργίας μιας smart playlist
+    static function displayInsertSmartPlaylistWindow()
+    {
+        ?>
+        <div id="insertSmartPlaylistWindow" class="bgc3">
+            <form id="insertSmartPlaylist" name="insertSmartPlaylist">
+                <input type="text" id="smartPlaylistName" name="smartPlaylistName">
+                <input type="button" class="myButton PlaylistButton" id="insertSmartPlaylistButton" name="insertSmartPlaylistButton" onclick="createSmartPlaylist();"
+                       value="<?php echo __('create_playlist'); ?>">
+                <input type="button" class="myButton" name="cancelSmartPlaylist" id="cancelSmartPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreateSmartPlaylist();">
             </form>
         </div>
         <?php
@@ -1310,11 +1361,26 @@ class OWMPElements extends OWMP
     // Εμφάνιση του παραθύρου για αναζήτηση
     static function displaySearchWindow()
     {
+
+
         $fields=MyDB::getTableFields('music_tags',array('id'));
 
         if($_SESSION['PlaylistCounter']==0) {
         ?>
             <div id="search" class="bgc3">
+
+                <?php
+
+                $conn = new MyDB();
+                $user = new User();
+                $OWMPElements = new OWMPElements();
+
+                $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+                // Εμφνάνιση στοιχείων για επιλογή της smart playlist
+                $OWMPElements->displayChooseSmartPlaylistElements($userID);
+
+                ?>
+
                 <form id="SearchForm" name="SearchForm">
                     <?php
 

@@ -46,6 +46,4 @@ else {
     $jsonArray = array('success' => false, 'playlistName' => $playlistName);
 }
 
-
-
 echo json_encode($jsonArray);
