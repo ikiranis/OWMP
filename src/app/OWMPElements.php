@@ -1407,8 +1407,8 @@ class OWMPElements extends OWMP
                         <input type="button" class="myButton" name="playedQueue" id="playedQueue"
                                value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
 
-                        <input type="button" class="myButton" name="clearSearch" id="clearSearch"
-                               value="<?php echo __('search_text_clear'); ?>" onclick="reset();">
+                        <input type="button" class="myButton" name="jsClearSearch" id="jsClearSearch"
+                               value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
 
                         <input type="button" class="myButton" name="cancelSearch" id="cancelSearch"
                                value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >

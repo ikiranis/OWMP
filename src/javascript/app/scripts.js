@@ -644,7 +644,7 @@ function findDuplicates(offset, step, firstTime) {
 }
 
 // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
-function getSearchRows()
+function getNumberOfSearchRows()
 {
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
     searchRows = $('#SearchForm').children('div').length;
@@ -655,42 +655,46 @@ function getSearchRows()
     return searchRows;
 }
 
+// Διαβάζει την φόρμα και επιστρέφει τα πεδία αναζήτησησης σε μορφή array
+function getSearchArray()
+{
+    var searchArray = [];
+
+    // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
+    var searchRows = getNumberOfSearchRows();
+
+    for (var i = 1; i <= searchRows; i++) {
+        searchArray[i] = {
+            'search_field': $('#search_field' + i).val(),
+            'search_text': $('#search_text' + i).val(),
+            'search_operator': $('#search_operator' + i).val(),
+            'search_equality': $('#search_equality' + i).val(),
+            'group_operator': $('#group_operator' + i).val()
+        }
+    }
+
+    return searchArray;
+}
+
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, search) {
     $('#progress').show();
 
-    // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
-    searchRows = getSearchRows();
-
     if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
-        var searchArray = [];
-
-        for (var i = 1; i <= searchRows; i++) {
-            searchArray[i] = {
-                'search_field': $('#search_field' + i).val(),
-                'search_text': $('#search_text' + i).val(),
-                'search_operator': $('#search_operator' + i).val(),
-                'search_equality': $('#search_equality' + i).val(),
-                'group_operator': $('#group_operator' + i).val()
-            }
-        }
-
-
+        var searchArray = getSearchArray();
         jsonArray=JSON.stringify(searchArray);
-        console.log(jsonArray);
     } else {
         jsonArray=JSON.stringify(search);
     }
 
     var mediaKind=document.querySelector('#ChooseMediaKind select[name=mediakind]').value;
 
-    // console.log(jsonArray);
+    console.log(jsonArray);
 
     currentPlaylistID='1';
 
     callFile=AJAX_path+"app/searchPlaylist.php?jsonArray="+encodeURIComponent(jsonArray)+"&offset="+offset+"&step="+step
         +"&firstTime="+firstTime+"&mediaKind="+encodeURI(mediaKind)+'&tabID='+tabID;
-
 
     $.get(callFile, function(data) {
         if (data) {
@@ -703,7 +707,6 @@ function searchPlaylist(offset, step, firstTime, search) {
             $('#progress').hide();
             $('#search').hide();
         }
-
     });
 
 }
@@ -819,6 +822,18 @@ function addOrAndToGroup(elementID)
         selectElement.appendChild(option[i]); // προσθέτει τα options
 
     divElement.appendChild(selectElement); // Προσθέτει το select μέσα στο div
+}
+
+// Καθαρίζει την φόρμα search
+function clearSearch()
+{
+    var searchRows = getNumberOfSearchRows();
+
+    for(var i=1; i<=searchRows; i++) {
+        $("#searchRow" + i).remove();
+    }
+
+    addSearchRow();
 }
 
 // Φορτώνει την λίστα του ιστορικού
