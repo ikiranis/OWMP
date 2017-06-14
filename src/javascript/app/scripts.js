@@ -748,8 +748,44 @@ function playPlaylist(offset, step) {
 
 }
 
+// Προσθέτει μια γραμμή searchRow
+function addSearchRow()
+{
+    var lastElementID = $('div[id^="searchRow"]:last').prop('id'); // To id του τελευταίου searchRow
+    var newID = parseInt(lastElementID.match(/[0-9]+/))+1;
+    var newElementID = 'searchRow' + newID; // To id του νέου searchRow
+
+    // Προσθέτει το νέο searchRow αντιγράφοντας το searchRow0 και το κάνει visible
+    $('#searchRow0').clone().insertAfter('div[id^="searchRow"]:last').prop('id',newElementID);
+    $('#'+newElementID).toggleClass('isHidden', 'isVisible');
+
+    // Αλλάζει τα id όλων των child elements
+    $('.search_field', '#'+newElementID).prop('id', 'search_field' + newID ).prop('name', 'search_field' + newID );
+    $('.search_equality', '#'+newElementID).prop('id', 'search_equality' + newID ).prop('name', 'search_equality' + newID );
+    $('.search_text', '#'+newElementID).prop('id', 'search_text' + newID ).prop('name', 'search_text' + newID );
+    $('.search_operator', '#'+newElementID).prop('id', 'search_operator' + newID ).prop('name', 'search_operator' + newID );
+    $('#'+newElementID).find('label[for^="search_field"]').prop('for', 'search_field' + newID );
+    $('#'+newElementID).find('label[for^="search_text"]').prop('for', 'search_text' + newID );
+
+    // Αλλάζει τις τιμές στις onclick functions
+    $('#'+newElementID).find('input[id="jsAddGroup"]').attr("onclick", "addOrAndToGroup("+newID+")");
+    $('#'+newElementID).find('input[id="jsRemoveSearchRow"]').attr("onclick", "removeSearchRow("+newID+")");
+
+    checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
+
+}
+
+// Αφαιρεί μία γραμμή searchRow
+function removeSearchRow(elementID)
+{
+    if(elementID!==1) { // αν δεν είναι η πρώτη γραμμή
+        $("#searchRow"+elementID).remove();
+    }
+}
+
 // Προσθέτει OR/AND στο group πεδίων
-function addOrAndToGroup(elementID) {
+function addOrAndToGroup(elementID)
+{
     var currentElement = document.querySelector('#searchRow' + elementID); // To element μετά το οποίο θα προστεθεί το select
 
     // Το div element μέσα στο οποίο θα μπει το select
@@ -1096,7 +1132,6 @@ function downloadTheYouTube() {
 
         }
 
-
         // αφου τελειώσουν οι έλεγχοι
         $(document).one("ajaxStop", function () {
 
@@ -1106,7 +1141,6 @@ function downloadTheYouTube() {
                 callGetYouTube(videoItems[i], i, videoItems.length, mediaKind);
 
             }
-
 
             // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
             $(document).one("ajaxStop", function () {

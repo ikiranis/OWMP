@@ -3,6 +3,9 @@
 /* ********* Base elements *********** */
 @import '../base/_base.css';
 
+/* ********* States *********** */
+@import '../states/_states.css';
+
 /* ******* Compoments ********* */
 
 /* Nav menu */

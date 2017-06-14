@@ -1318,10 +1318,10 @@ class OWMPElements extends OWMP
                 <form id="SearchForm" name="SearchForm">
                     <?php
 
-                    for($counter=1;$counter<6;$counter++) {
+                    for($counter=0;$counter<2;$counter++) {
 
                         ?>
-                        <div id="searchRow<?php echo $counter; ?>">
+                        <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>">
                             <label for="search_field<?php echo $counter; ?>">
                                 <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
                                     <?php
@@ -1373,7 +1373,7 @@ class OWMPElements extends OWMP
                             </select>
 
                             <label for="search_text<?php echo $counter; ?>">
-                                <input type="text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
+                                <input type="text" class="search_text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
                             </label>
 
                             <select class="search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
@@ -1388,6 +1388,8 @@ class OWMPElements extends OWMP
 
                             </select>
 
+                            <input type="button" class="myButton" id="jsAddSearchRow" value="add row" onclick="addSearchRow();">
+                            <input type="button" class="myButton" id="jsRemoveSearchRow" value="remove row" onclick="removeSearchRow(<?php echo $counter; ?>);">
                             <input type="button" class="myButton" id="jsAddGroup" value="group" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
                         </div>
 

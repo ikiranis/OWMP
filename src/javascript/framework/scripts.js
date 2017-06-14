@@ -75,8 +75,6 @@ function DisplayMessage (element, error) {
     $(element).stop().show(0).delay(5000).hide(0);
 }
 
-
-
 // Εισαγωγή αρχικού χρήστη admin
 function registerUser() {
     username = $("#RegisterUserWindow").find('input[name="username"]').val();
@@ -85,7 +83,6 @@ function registerUser() {
     repeat_password = $("#RegisterUserWindow").find('input[name="repeat_password"]').val();
 
     if ($('#RegisterForm').valid()) {
-
 
         callFile = AJAX_path+"framework/registerUser.php?username=" + username + "&password=" + password + "&email=" + email;
 
@@ -101,7 +98,6 @@ function registerUser() {
             else  DisplayMessage('.alert_error',result['message']);
 
         });
-
 
     }
 
@@ -139,9 +135,6 @@ function login() {
 
 }
 
-
-
-
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
     username=$("#UserID"+id).find('input[name="username"]').val();
@@ -155,23 +148,17 @@ function updateUser(id) {
     if (password=='') changepass=false;
     else changepass=true;
 
-    // console.log(id+' '+username+' '+email+' '+password+' '+repeat_password+' '+usergroup+' '+fname+' '+lname+ ' '+changepass);
-
     if(changepass)
         var callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
             "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
     else var callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+
         "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
 
-
-
     if ( $('#users_formID'+id).valid() && password==repeat_password ) {
 
         $.get(callFile, function (data) {
 
             if (data.success == true) {
-                // console.log(data.success);
-
                 if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                     UserKeyPressed = false;
                     LastInserted = data.lastInserted;
@@ -197,19 +184,12 @@ function updateUser(id) {
 
 }
 
-
-
-
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table options, ή εισάγει νέα εγγραφή
 function updateOption(id) {
     option_name=$("#OptionID"+id).find('input[name="option_name"]').val();
     option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
 
-
     var callFile=AJAX_path+"framework/updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
-
-
-    // console.log(callFile);
 
     if ($('#options_formID'+id).valid()) {
         $.get(callFile, function (data) {
@@ -287,14 +267,9 @@ function insertUser() {
         $("#UserID0").find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
         UserKeyPressed=true;
 
-
-
-
         $('#users_formID0').validate({ // initialize the plugin
             errorElement: 'div'
         });
-
-
 
     }
 }
@@ -368,7 +343,6 @@ function writeSearchFields(numberOfFields) {
         $('#search_equality' + i).val(GlobalSearchArray[i]['search_equality']);
     }
 }
-
 
 // Δημιουργεί ένα cookie
 function createCookie(name, value, minutes) {
@@ -616,8 +590,6 @@ function startValidates() {
     $('.UsersList').find('input[name=repeat_password]').keyup(function () {
         curEl=eval($(document.activeElement).prop('id'));
 
-        // console.log($('#password'+curEl).val());
-
         if ($('#password'+curEl).val() === $(this).val()) {
             $(this)[0].setCustomValidity('');
 
@@ -629,9 +601,6 @@ function startValidates() {
 
 
     $('#RegisterForm').find('input[name=repeat_password]').keyup(function () {
-        // curEl=eval($(document.activeElement).prop('id'));
-        //
-        // console.log($(this).val());
 
         if ($('input[name=password]').val() === $(this).val()) {
             $(this)[0].setCustomValidity('');
