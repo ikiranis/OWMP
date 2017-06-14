@@ -1297,6 +1297,7 @@ class OWMPElements extends OWMP
 
         <input type="button" id="insertSmartPlaylistClick" onclick="displayInsertSmartPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
         <input type="button" id="deleteSmartPlaylistClick" onclick="deleteSmartPlaylist();" title="<?php echo __('delete_playlist'); ?>">
+        <input type="button" class="myButton" id="jsSaveSmartPlaylist" onclick="saveSmartPlaylist();" value="save list" title="<?php echo __('delete_playlist'); ?>">
 
         <?php
 

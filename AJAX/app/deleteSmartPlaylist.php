@@ -27,7 +27,7 @@ $conn = new MyDB();
 if(isset($_GET['playlistID']))
     $playlistID=ClearString($_GET['playlistID']);
 
-// Ψάχνει αν υπάρχει ήδη λίστα με συγκεκριμένο όνομα
+// Ψάχνει αν υπάρχει η συγκεκριμένη λίστα
 $searchPlaylist = MyDB::getTableArray('smart_playlists', 'id', 'id=?', array($playlistID), null, null, null);
 
 if($searchPlaylist) {  // Αν υπάρχει η συγκεκριμένη εγγραφή
@@ -41,7 +41,5 @@ if($searchPlaylist) {  // Αν υπάρχει η συγκεκριμένη εγγ
 else {
     $jsonArray = array('success' => false, 'errorID'=> 3);  // Δεν υπάρχει το συγκεκριμένο row στην βάση
 }
-
-
 
 echo json_encode($jsonArray);

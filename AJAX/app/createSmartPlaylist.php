@@ -48,5 +48,4 @@ if(!$searchPlaylist) { // Αν δεν υπάρχει την εισάγουμε
     $jsonArray = array('success' => false, 'playlistName' => $playlistName);
 }
 
-
 echo json_encode($jsonArray);

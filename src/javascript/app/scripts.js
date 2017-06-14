@@ -2110,6 +2110,28 @@ function deleteSmartPlaylist() {
     }
 }
 
+// Σώζει το search query σε smart playlist, σε μορφή json
+function saveSmartPlaylist() {
+    var playlistID = document.querySelector('#smartPlaylist').value;
+
+    if(playlistID) {
+        var searchArray = getSearchArray();
+        var searchJsonString=JSON.stringify(searchArray);
+
+        callFile = AJAX_path + "app/saveSmartPlaylist.php?playlistID=" + playlistID +
+            '&searchJsonString=' + encodeURIComponent(searchJsonString);
+
+        $.get(callFile, function (data) {
+            if (data.success == true) {
+                DisplayMessage('.alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
+            }
+            else {
+                DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+            }
+        }, "json");
+    }
+}
+
 // όταν η φόρμα είναι focused
 function OnFocusInForm (event) {
     var target = event.target ? event.target : event.srcElement;
