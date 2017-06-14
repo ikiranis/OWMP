@@ -1321,7 +1321,7 @@ class OWMPElements extends OWMP
                     for($counter=0;$counter<2;$counter++) {
 
                         ?>
-                        <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>">
+                        <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>" >
                             <label for="search_field<?php echo $counter; ?>">
                                 <select class="search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
                                     <?php

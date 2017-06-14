@@ -650,7 +650,7 @@ function getSearchRows()
     searchRows = $('#SearchForm').children('div').length;
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
     var groupRows = $('#SearchForm').children('.groupRow').length;
-    searchRows=(searchRows-groupRows)-1;
+    searchRows=(searchRows-groupRows)-2;
 
     return searchRows;
 }
@@ -675,7 +675,9 @@ function searchPlaylist(offset, step, firstTime, search) {
             }
         }
 
+
         jsonArray=JSON.stringify(searchArray);
+        console.log(jsonArray);
     } else {
         jsonArray=JSON.stringify(search);
     }
@@ -1613,6 +1615,8 @@ function cancelCreatePlaylist() {
 
 // Έλεγχος για όταν γίνονται αλλαγές στα search fields
 function checkSearchFieldChanges() {
+    $('.search_field').off('change'); // Αφαίρεση προηγούμενων change events
+
     // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
     $('.search_field').change(function() {
         changedElement=$(this).attr('id');  // το id του αλλαγμένου selected
