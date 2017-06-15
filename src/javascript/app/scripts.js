@@ -795,8 +795,8 @@ function addOrAndToGroup(elementID)
 
     // Το div element μέσα στο οποίο θα μπει το select
     var divElement = document.createElement('div');
-    divElement.setAttribute('id', 'groupRow' + (elementID));
-    divElement.setAttribute('class', 'groupRow' );
+    divElement.setAttribute('id', 'searchRow.' + elementID);
+    divElement.setAttribute('class', 'searchRow' );
 
     // Δημιουργεί το select
     var selectElement = document.createElement('select');
@@ -1641,6 +1641,37 @@ function cancelCreateSmartPlaylist()
     $('#insertSmartPlaylistWindow').hide();
 }
 
+function checkTheChanges(element)
+{
+    changedElement=$(element).attr('id');  // το id του αλλαγμένου selected
+    valueOfChangedElement=$(element).val();  // η τιμή του αλλαγμένου selected
+
+    elementID=parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
+    searchStringElement=document.querySelector('#search_text'+elementID);
+
+    // αν το πεδίο που θέλουμε να αλλάξουμε δεν είναι κάποιο από αυτά
+    if( valueOfChangedElement!='rating' &&  valueOfChangedElement!='live' )
+        if (searchStringElement.type=='select-one')  // Ελέγχουμε αν το υπάρχον είναι select
+            changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
+
+    switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
+        case 'date_added': searchStringElement.type='date'; break;
+        case 'date_last_played': searchStringElement.type='date'; break;
+        case 'play_count': searchStringElement.type='number'; break;
+        case 'rating': changeToSelect(searchStringElement, elementID, ratingOptions); break;
+        case 'video_width': searchStringElement.type='number'; break;
+        case 'video_height': searchStringElement.type='number'; break;
+        case 'filesize': searchStringElement.type='number'; break;
+        case 'track_time': searchStringElement.type='number'; break;
+        case 'song_year': searchStringElement.type='number'; break;
+        case 'live': changeToSelect(searchStringElement, elementID, liveOptions); break;
+        case 'song_name':  searchStringElement.type='text'; break;
+        case 'artist': searchStringElement.type='text'; break;
+        case 'genre': searchStringElement.type='text'; break;
+        case 'album': searchStringElement.type='text'; break;
+    }
+}
+
 // Έλεγχος για όταν γίνονται αλλαγές στα search fields
 function checkSearchFieldChanges()
 {
@@ -1648,35 +1679,7 @@ function checkSearchFieldChanges()
 
     // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
     $('.search_field').change(function() {
-        changedElement=$(this).attr('id');  // το id του αλλαγμένου selected
-        valueOfChangedElement=$(this).val();  // η τιμή του αλλαγμένου selected
-
-        elementID=parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
-        searchStringElement=document.querySelector('#search_text'+elementID);
-
-        // αν το πεδίο που θέλουμε να αλλάξουμε δεν είναι κάποιο από αυτά
-        if( valueOfChangedElement!='rating' &&  valueOfChangedElement!='live' )
-            if (searchStringElement.type=='select-one')  // Ελέγχουμε αν το υπάρχον είναι select
-                changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
-
-        switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
-            case 'date_added': searchStringElement.type='date'; break;
-            case 'date_last_played': searchStringElement.type='date'; break;
-            case 'play_count': searchStringElement.type='number'; break;
-            case 'rating': changeToSelect(searchStringElement, elementID, ratingOptions); break;
-            case 'video_width': searchStringElement.type='number'; break;
-            case 'video_height': searchStringElement.type='number'; break;
-            case 'filesize': searchStringElement.type='number'; break;
-            case 'track_time': searchStringElement.type='number'; break;
-            case 'song_year': searchStringElement.type='number'; break;
-            case 'live': changeToSelect(searchStringElement, elementID, liveOptions); break;
-            case 'song_name':  searchStringElement.type='text'; break;
-            case 'artist': searchStringElement.type='text'; break;
-            case 'genre': searchStringElement.type='text'; break;
-            case 'album': searchStringElement.type='text'; break;
-        }
-
-
+        checkTheChanges(this);
     });
 }
 
@@ -2130,6 +2133,69 @@ function saveSmartPlaylist() {
             }
         }, "json");
     }
+}
+
+// Φορτώνει τις τιμές των search fields
+function loadSearchFields(elementID, searchArray)
+{
+    $('#search_field' + elementID).val(searchArray['search_field']);
+    $('#search_text' + elementID).val(searchArray['search_text']);
+    $('#search_operator' + elementID).val(searchArray['search_operator']);
+    $('#search_equality' + elementID).val(searchArray['search_equality']);
+}
+
+// Φορτώνει μία smart playlist και εμφανίζει όλα τα search items
+function loadSmartPlaylist()
+{
+    var playlistID = document.querySelector('#smartPlaylist').value;
+
+    callFile = AJAX_path + "app/loadSmartPlaylist.php?playlistID=" + playlistID;
+
+
+    $.get(callFile, function (data) {
+        var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
+
+        if (data.success == true) {
+            var jsonArray = JSON.parse(data.searchJsonArray);
+            console.log(jsonArray);
+
+            // Καθαρίζει τα υπάρχοντα searchRows
+            clearSearch();
+            $("#searchRow1").remove();
+
+            // Προσθέτει όλες τις γραμμές με τα περιεχόμενα τους
+            for(var i=1; i<jsonArray.length; i++) {
+
+
+                if(jsonArray[i]['group_operator']==null) {
+                    addSearchRow();
+                    loadSearchFields(i, jsonArray[i]);
+
+                    // Αλλαγή του τύπου των inputs με βάση το search field
+                    var theElement = document.querySelector('#searchRow' + i + ' .search_field');
+                    checkTheChanges(theElement);
+
+                    // ξαναδιάβασμα των τιμών, γιατί πιθανών μηδενίστηκαν από την αλλαγή των τύπων
+                    loadSearchFields(i, jsonArray[i]);
+
+                } else {
+                    addSearchRow();
+                    loadSearchFields(i, jsonArray[i]);
+                    addOrAndToGroup(i);
+                    if(jsonArray[i]['group_operator']=='AND') {
+                        document.querySelector('#group_operator' + i).selectedIndex='1';
+                    }
+
+                }
+
+            }
+
+
+        }
+        else {
+            DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+        }
+    }, "json");
 }
 
 // όταν η φόρμα είναι focused

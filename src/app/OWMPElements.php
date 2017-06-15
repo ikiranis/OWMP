@@ -1273,7 +1273,7 @@ class OWMPElements extends OWMP
         ?>
         <div id="ChooseSmartPlaylist">
             <form id="formChooseSmartPlaylist">
-                <select name="smartPlaylist" id="smartPlaylist" >
+                <select name="smartPlaylist" id="smartPlaylist">
                     <option value="">
                         <?php echo __('choose_playlist'); ?>
                     </option>
@@ -1295,9 +1295,14 @@ class OWMPElements extends OWMP
             </form>
         </div>
 
-        <input type="button" id="insertSmartPlaylistClick" onclick="displayInsertSmartPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
-        <input type="button" id="deleteSmartPlaylistClick" onclick="deleteSmartPlaylist();" title="<?php echo __('delete_playlist'); ?>">
-        <input type="button" class="myButton" id="jsSaveSmartPlaylist" onclick="saveSmartPlaylist();" value="save list" title="<?php echo __('delete_playlist'); ?>">
+        <input type="button" id="insertSmartPlaylistClick" onclick="displayInsertSmartPlaylistWindow();"
+               title="<?php echo __('create_playlist'); ?>">
+        <input type="button" id="deleteSmartPlaylistClick" onclick="deleteSmartPlaylist();"
+               title="<?php echo __('delete_playlist'); ?>">
+        <input type="button" class="myButton" id="jsSaveSmartPlaylist" onclick="saveSmartPlaylist();"
+               value="save list" title="<?php echo __('delete_playlist'); ?>">
+        <input type="button" class="myButton" id="jsLoadSmartPlaylist" onclick="loadSmartPlaylist();"
+               value="load list" title="<?php echo __('delete_playlist'); ?>">
 
         <?php
 
