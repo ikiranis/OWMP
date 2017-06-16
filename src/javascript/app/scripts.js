@@ -831,8 +831,10 @@ function addOrAndToGroup(elementID)
 // Καθαρίζει την φόρμα search
 function clearSearch()
 {
+    // Σβήνει όλα τα searchRow εκτός του searchRow0
     $('div[id^="searchRow"]').not('#searchRow0').remove();
 
+    // Προσθέτει ένα
     addSearchRow();
 }
 
