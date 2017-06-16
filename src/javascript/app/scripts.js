@@ -650,7 +650,7 @@ function getNumberOfSearchRows()
     searchRows = $('#SearchForm').children('div').length;
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
     var groupRows = $('#SearchForm').children('.groupRow').length;
-    searchRows=(searchRows-groupRows)-2;
+    searchRows = (searchRows-groupRows)-2;
 
     return searchRows;
 }
@@ -663,6 +663,8 @@ function getSearchArray()
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
     var searchRows = getNumberOfSearchRows();
 
+    console.log(searchRows);
+
     for (var i = 1; i <= searchRows; i++) {
         searchArray[i] = {
             'search_field': $('#search_field' + i).val(),
@@ -672,6 +674,8 @@ function getSearchArray()
             'group_operator': $('#group_operator' + i).val()
         }
     }
+
+    console.log(searchArray);
 
     return searchArray;
 }
@@ -796,7 +800,7 @@ function addOrAndToGroup(elementID)
     // Το div element μέσα στο οποίο θα μπει το select
     var divElement = document.createElement('div');
     divElement.setAttribute('id', 'searchRow.' + elementID);
-    divElement.setAttribute('class', 'searchRow' );
+    divElement.setAttribute('class', 'groupRow' );
 
     // Δημιουργεί το select
     var selectElement = document.createElement('select');
@@ -827,11 +831,7 @@ function addOrAndToGroup(elementID)
 // Καθαρίζει την φόρμα search
 function clearSearch()
 {
-    var searchRows = getNumberOfSearchRows();
-
-    for(var i=1; i<=searchRows; i++) {
-        $("#searchRow" + i).remove();
-    }
+    $('div[id^="searchRow"]').not('#searchRow0').remove();
 
     addSearchRow();
 }
@@ -2157,7 +2157,6 @@ function loadSmartPlaylist()
 
         if (data.success == true) {
             var jsonArray = JSON.parse(data.searchJsonArray);
-            console.log(jsonArray);
 
             // Καθαρίζει τα υπάρχοντα searchRows
             clearSearch();
@@ -2166,7 +2165,7 @@ function loadSmartPlaylist()
             // Προσθέτει όλες τις γραμμές με τα περιεχόμενα τους
             for(var i=1; i<jsonArray.length; i++) {
 
-
+                // αν δεν είναι group operator
                 if(jsonArray[i]['group_operator']==null) {
                     addSearchRow();
                     loadSearchFields(i, jsonArray[i]);
@@ -2178,10 +2177,12 @@ function loadSmartPlaylist()
                     // ξαναδιάβασμα των τιμών, γιατί πιθανών μηδενίστηκαν από την αλλαγή των τύπων
                     loadSearchFields(i, jsonArray[i]);
 
-                } else {
+                } else {  // αν είναι group
                     addSearchRow();
                     loadSearchFields(i, jsonArray[i]);
                     addOrAndToGroup(i);
+
+                    // αν είναι AND θέτει την τιμή
                     if(jsonArray[i]['group_operator']=='AND') {
                         document.querySelector('#group_operator' + i).selectedIndex='1';
                     }
