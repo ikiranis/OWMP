@@ -21,27 +21,3 @@
 #ChooseSmartPlaylist #smartPlaylist {
     font-size: 0.7em;
 }
-
-#insertSmartPlaylistClick {
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-    width: 1.7em;
-    background-color: transparent;
-    background-image: url( '../../img/create.png' );
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 2em;
-}
-
-#deleteSmartPlaylistClick {
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-    width: 1.7em;
-    background-color: transparent;
-    background-image: url( '../../img/delete.png' );
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 2em;
-}

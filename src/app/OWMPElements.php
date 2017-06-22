@@ -1295,14 +1295,14 @@ class OWMPElements extends OWMP
             </form>
         </div>
 
-        <input type="button" id="insertSmartPlaylistClick" onclick="displayInsertSmartPlaylistWindow();"
-               title="<?php echo __('create_playlist'); ?>">
-        <input type="button" id="deleteSmartPlaylistClick" onclick="deleteSmartPlaylist();"
-               title="<?php echo __('delete_playlist'); ?>">
-        <input type="button" class="myButton" id="jsSaveSmartPlaylist" onclick="saveSmartPlaylist();"
-               value="save list" title="<?php echo __('delete_playlist'); ?>">
-        <input type="button" class="myButton" id="jsLoadSmartPlaylist" onclick="loadSmartPlaylist();"
-               value="load list" title="<?php echo __('delete_playlist'); ?>">
+        <input type="button" class="o-imageButton--large o-imageButton_insertSmartPlaylist" id="jsInsertSmartPlaylistClick"
+               title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
+        <input type="button" class="o-imageButton--large o-imageButton_deleteSmartPlaylist" id="jdDeleteSmartPlaylistClick"
+               title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();" >
+        <input type="button" class="o-imageButton--large o-imageButton_saveSmartPlaylist" id="jsSaveSmartPlaylist"
+               title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();" >
+        <input type="button" class="o-imageButton--large o-imageButton_loadSmartPlaylist" id="jsLoadSmartPlaylist"
+               title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();" >
 
         <?php
 
@@ -1367,7 +1367,6 @@ class OWMPElements extends OWMP
     // Εμφάνιση του παραθύρου για αναζήτηση
     static function displaySearchWindow()
     {
-
 
         $fields=MyDB::getTableFields('music_tags',array('id'));
 
@@ -1460,9 +1459,12 @@ class OWMPElements extends OWMP
 
                             </select>
 
-                            <input type="button" class="myButton" id="jsAddSearchRow" value="add row" onclick="addSearchRow();">
-                            <input type="button" class="myButton" id="jsRemoveSearchRow" value="remove row" onclick="removeSearchRow(<?php echo $counter; ?>);">
-                            <input type="button" class="myButton" id="jsAddGroup" value="group" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
+                            <input type="button" class="o-imageButton ο-imageButton_addSearchRow" id="jsAddSearchRow"
+                                   title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
+                            <input type="button" class="o-imageButton ο-imageButton_removeSearchRow" id="jsRemoveSearchRow"
+                                   title="<?php echo __('remove_search_row'); ?>" onclick="removeSearchRow(<?php echo $counter; ?>);">
+                            <input type="button" class="o-imageButton ο-imageButton_addGroupRow" id="jsAddGroup"
+                                   title="<?php echo __('add_group_row'); ?>" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
                         </div>
 
                         <?php

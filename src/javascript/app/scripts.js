@@ -902,7 +902,6 @@ function checkProgress()
 function startTheSync(operation) {
     var mediaKind=document.querySelector('#mediakind').value;
 
-    // var callFile=AJAX_path+"app/syncTheFiles.php?operation="+operation+'&mediakind='+encodeURIComponent(mediaKind);
     var callFile=AJAX_path+"app/syncTheFiles.php";
 
     // console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
@@ -2036,12 +2035,12 @@ function createSmartPlaylist() {
 
             document.querySelector('#smartPlaylist').appendChild(option); // προσθέτει το νέο option
 
-            DisplayMessage('.alert_error', phrases['playlist_created'] + ' ' + data.playlistName);
+            DisplayMessage('.alert_error', phrases['smart_playlist_created'] + ' ' + data.playlistName);
 
             document.querySelector('#insertSmartPlaylist').reset();
         }
         else {
-            DisplayMessage('.alert_error', phrases['playlist_not_created'] + ' ' + data.playlistName);
+            DisplayMessage('.alert_error', phrases['smart_playlist_not_created'] + ' ' + data.playlistName);
         }
 
     }, "json");
@@ -2101,14 +2100,14 @@ function deleteSmartPlaylist() {
             var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
 
             if (data.success == true) {
-                DisplayMessage('.alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
+                DisplayMessage('.alert_error', phrases['smart_playlist_deleted'] + ' ' + playlistName);
 
                 // Σβήνει το συγκεκριμένο option από το select #playlist
                 document.querySelector("#smartPlaylist option:checked").remove();
 
             }
             else {
-                DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+                DisplayMessage('.alert_error', phrases['smart_playlist_not_deleted'] + ' ' + playlistName);
             }
         }, "json");
 
@@ -2127,11 +2126,13 @@ function saveSmartPlaylist() {
             '&searchJsonString=' + encodeURIComponent(searchJsonString);
 
         $.get(callFile, function (data) {
+            var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
+
             if (data.success == true) {
-                DisplayMessage('.alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
+                DisplayMessage('.alert_error', phrases['smart_playlist_saved'] + ' ' + playlistName);
             }
             else {
-                DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+                DisplayMessage('.alert_error', phrases['smart_playlist_not_saved'] + ' ' + playlistName);
             }
         }, "json");
     }
@@ -2196,7 +2197,7 @@ function loadSmartPlaylist()
 
         }
         else {
-            DisplayMessage('.alert_error', phrases['playlist_not_deleted'] + ' ' + playlistName);
+            DisplayMessage('.alert_error', phrases['smart_playlist_not_loaded'] + ' ' + playlistName);
         }
     }, "json");
 }

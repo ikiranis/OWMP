@@ -1,5 +1,73 @@
 /* Icons */
 
+.button_img {
+    background-size: 1.5em;
+    background-color: transparent;
+    width: 1.5em;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    top:-0.3em;
+    background-position: center center;
+}
+
+.o-imageButton {
+    background-size: 1.5em;
+    background-color: transparent;
+    width: 1.5em;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    top:-0.3em;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.o-imageButton--large {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    width: 1.7em;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 2em;
+}
+
+.ο-imageButton_addSearchRow {
+    background-image: url( '../../img/add_row.png' );
+}
+
+.ο-imageButton_removeSearchRow {
+    background-image: url( '../../img/remove_row.png' );
+}
+
+.ο-imageButton_addGroupRow {
+    background-image: url( '../../img/add_group.png' );
+}
+
+.ο-imageButton_removeGroupRow {
+    background-image: url( '../../img/add_group.png' );
+}
+
+.o-imageButton_saveSmartPlaylist {
+    background-image: url( '../../img/save.png' );
+}
+
+.o-imageButton_loadSmartPlaylist {
+    background-image: url( '../../img/load.png' );
+}
+
+.o-imageButton_insertSmartPlaylist {
+    background-image: url( '../../img/create.png' );
+}
+
+.o-imageButton_deleteSmartPlaylist {
+    background-image: url( '../../img/delete.png' );
+}
+
 .play_button {
     background-image: url( '../../img/play.png' );
     background-repeat: no-repeat;
@@ -56,6 +124,31 @@
 
 .shuffle_button {
     background-image: url( '../../img/shuffle.png' );
+    background-repeat: no-repeat;
+}
+
+.update_button {
+    background-image: url( '../../img/update.png' );
+    background-repeat: no-repeat;
+}
+
+.delete_button {
+    background-image: url( '../../img/delete.png' );
+    background-repeat: no-repeat;
+}
+
+.edit_button {
+    background-image: url( '../../img/edit.png' );
+    background-repeat: no-repeat;
+}
+
+.export_button {
+    background-image: url( '../../img/copy.png' );
+    background-repeat: no-repeat;
+}
+
+.browse_path_button {
+    background-image: url( '../../img/create.png' );
     background-repeat: no-repeat;
 }
 

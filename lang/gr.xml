@@ -158,6 +158,14 @@
         <phrase name="search_next">Επόμενη</phrase>
         <phrase name="close_text">Κλείσιμο</phrase>
         <phrase name="search_text_played_queue">Ιστορικό</phrase>
+        <phrase name="create_smart_playlist">Δημιουργία έξυπνης λίστας</phrase>
+        <phrase name="delete_smart_playlist">Διαγραφή έξυπνης λίστας</phrase>
+        <phrase name="save_smart_playlist">Αποθήκευση έξυπνης λίστας</phrase>
+        <phrase name="load_smart_playlist">Άνοιγμα έξυπνης λίστας</phrase>
+        <phrase name="add_search_row">Προσθήκη γραμμής αναζήτησης</phrase>
+        <phrase name="remove_search_row">Αφαίρεση γραμμής αναζήτησης</phrase>
+        <phrase name="add_group_row">Προσθήκη γραμμής ομαδοποίησης</phrase>
+        <phrase name="remove_group_row">Αφαίρεση γραμμής ομαδοποίησης</phrase>
     </page>
 
     <page name="logs">
@@ -236,6 +244,13 @@
         <phrase name="restore_success">Το restore ολοκληρώθηκε με επιτυχία</phrase>
         <phrase name="restore_failure">Υπήρξε πρόβλημα στο restore</phrase>
         <phrase name="file_not_upload">Το αρχείο δεν έχει ανέβει</phrase>
+        <phrase name="smart_playlist_deleted">Διαγράφηκε η έξυπνη λίστα</phrase>
+        <phrase name="smart_playlist_not_deleted">Δεν διαγράφηκε η έξυπνη λίστα</phrase>
+        <phrase name="smart_playlist_created">Δημιουργήθηκε η έξυπνη λίστα</phrase>
+        <phrase name="smart_playlist_not_created">Δεν δημιουργήθηκε η έξυπνη λίστα</phrase>
+        <phrase name="smart_playlist_saved">Αποθηκεύτηκε η έξυπνη λίστα</phrase>
+        <phrase name="smart_playlist_not_saved">Δεν αποθηκεύτηκε η έξυπνη λίστα</phrase>
+        <phrase name="smart_playlist_not_loaded">Δεν άνοιξε η έξυπνη λίστα</phrase>
     </page>
 
     <page name="help">

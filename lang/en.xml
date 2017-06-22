@@ -158,6 +158,14 @@
         <phrase name="search_next">Next</phrase>
         <phrase name="close_text">Close</phrase>
         <phrase name="search_text_played_queue">History</phrase>
+        <phrase name="create_smart_playlist">Create smart playlist</phrase>
+        <phrase name="delete_smart_playlist">Delete smart playlist</phrase>
+        <phrase name="save_smart_playlist">Save smart playlist</phrase>
+        <phrase name="load_smart_playlist">Load smart playlist</phrase>
+        <phrase name="add_search_row">Add search row</phrase>
+        <phrase name="remove_search_row">Remove search row</phrase>
+        <phrase name="add_group_row">Add group row</phrase>
+        <phrase name="remove_group_row">Remove group row</phrase>
     </page>
 
     <page name="logs">
@@ -236,6 +244,13 @@
         <phrase name="restore_success">Restore completed succesfully</phrase>
         <phrase name="restore_failure">Problem with restore</phrase>
         <phrase name="file_not_upload">File not uploaded</phrase>
+        <phrase name="smart_playlist_deleted">Smart playlist deleted</phrase>
+        <phrase name="smart_playlist_not_deleted">Problem to delete smart playlist</phrase>
+        <phrase name="smart_playlist_created">Smart playlist created</phrase>
+        <phrase name="smart_playlist_not_created">Problem to create smart playlist</phrase>
+        <phrase name="smart_playlist_saved">Smart playlist saved</phrase>
+        <phrase name="smart_playlist_not_saved">Smart playlist not saved</phrase>
+        <phrase name="smart_playlist_not_loaded">Smart playlist not loaded</phrase>
     </page>
 
     <page name="help">

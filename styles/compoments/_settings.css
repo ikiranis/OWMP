@@ -26,44 +26,6 @@
     font-weight: bold;
 }
 
-
-.update_button {
-    background-image: url( '../../img/update.png' );
-    background-repeat: no-repeat;
-}
-
-.delete_button {
-    background-image: url( '../../img/delete.png' );
-    background-repeat: no-repeat;
-}
-
-.edit_button {
-    background-image: url( '../../img/edit.png' );
-    background-repeat: no-repeat;
-}
-
-.export_button {
-    background-image: url( '../../img/copy.png' );
-    background-repeat: no-repeat;
-}
-
-.browse_path_button {
-    background-image: url( '../../img/create.png' );
-    background-repeat: no-repeat;
-}
-
-.button_img {
-    background-size: 1.5em;
-    background-color: transparent;
-    width: 1.5em;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    top:-0.3em;
-    background-position: center center;
-}
-
 .message {
     background-size: 1.5em;
 
@@ -75,8 +37,6 @@
 .success {
     background-image: url( '../../img/done.png' );
     background-repeat: no-repeat;
-
-
 }
 
 .failure {
