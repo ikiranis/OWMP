@@ -814,11 +814,11 @@ function addOrAndToGroup(elementID)
 
     option[0] = document.createElement('option');
     option[0].value = 'OR';
-    option[0].innerHTML = 'OR';
+    option[0].innerHTML = phrases['search_or'];
 
     option[1] = document.createElement('option');
     option[1].value = 'AND';
-    option[1].innerHTML = 'AND';
+    option[1].innerHTML = phrases['search_and'];
 
     $(divElement).insertAfter(currentElement); // προσθέτει το divElement μετά το currentElement
 
