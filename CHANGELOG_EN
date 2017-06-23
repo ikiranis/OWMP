@@ -1,3 +1,13 @@
+2017-6-24: 0.8.0
+
+Change to CSS architecture
+Change the way the files are served. The paths of the files no longer need to be declared
+as an alias in the apache settings.
+Ability for more complex search by grouping any search fields that the user wants.
+The user can add as many search fields as he wants.
+Ability to save/read search choices (smart playlists)
+Navigation (previous/next page) now works when a manual playlist is loaded
+
 2017-5-14: 0.7.1
 
 Fix on youtube downloading
