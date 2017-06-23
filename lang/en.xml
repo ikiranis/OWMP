@@ -421,6 +421,13 @@
             <p>In <strong>convertedALAC</strong> we put the path to which the ALAC files will be converted.
              It is suggested to be where the other sound files of the collection are</p>
         ]]></phrase>
+        <phrase name="help_smart_playlists"><![CDATA[
+            <p>We create a <strong>smart playlist</strong> by clicking on the relevant icon on the left</p>
+            <p>After selecting the smart playlist we created, we select the search fields we want,
+             And then click the icon to save the smart list</p>
+            <p>To open a smart playlist, do the corresponding procedure by clicking the icon for
+             Opening a smart list</p>
+        ]]></phrase>
     </page>
 
 </language>

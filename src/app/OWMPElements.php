@@ -1306,7 +1306,7 @@ class OWMPElements extends OWMP
 
         <?php
 
-        Page::getHelp('help_manual_playlists');
+        Page::getHelp('help_smart_playlists');
     }
 
     // Εμφάνιση παραθύρου προσθήκης playlist
