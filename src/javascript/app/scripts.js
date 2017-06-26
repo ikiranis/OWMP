@@ -2168,7 +2168,6 @@ function loadSmartPlaylist()
 
     callFile = AJAX_path + "app/loadSmartPlaylist.php?playlistID=" + playlistID;
 
-
     $.get(callFile, function (data) {
         var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
 
@@ -2208,6 +2207,8 @@ function loadSmartPlaylist()
 
             }
 
+            // Κάνει click στο searching button για να αρχίσει αμέσως την αναζήτηση
+            $('#searching').click();
 
         }
         else {
