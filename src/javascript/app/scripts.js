@@ -792,6 +792,11 @@ function removeSearchRow(elementID)
     }
 }
 
+// Αφαιρεί το group Row
+function removeGroupRow(elementID) {
+    $('#searchRow-' + elementID).remove();
+}
+
 // Προσθέτει OR/AND στο group πεδίων
 function addOrAndToGroup(elementID)
 {
@@ -799,15 +804,23 @@ function addOrAndToGroup(elementID)
 
     // Το div element μέσα στο οποίο θα μπει το select
     var divElement = document.createElement('div');
-    divElement.setAttribute('id', 'searchRow.' + elementID);
+    divElement.setAttribute('id', 'searchRow-' + elementID);
     divElement.setAttribute('class', 'groupRow' );
 
     // Δημιουργεί το select
     var selectElement = document.createElement('select');
     selectElement.setAttribute('type', 'text');
     selectElement.setAttribute('class', 'search_operator');
-    selectElement.setAttribute('id', 'group_operator' + (elementID));
-    selectElement.setAttribute('name', 'group_operator' + (elementID));
+    selectElement.setAttribute('id', 'group_operator' + elementID);
+    selectElement.setAttribute('name', 'group_operator' + elementID);
+
+    // Δημιουργεί το κουμπί για αφαίρεση της γραμμής
+    var removeRowButton = document.createElement('input');
+    removeRowButton.setAttribute('type', 'button');
+    removeRowButton.setAttribute('class', 'o-imageButton ο-imageButton_removeGroupRow');
+    removeRowButton.setAttribute('id', 'jsRemoveGroup' + elementID);
+    removeRowButton.setAttribute('title', phrases['remove_group_row']);
+    removeRowButton.setAttribute('onclick', 'removeGroupRow(' + elementID + ')');
 
     // Τα Options του select
     var option=[];
@@ -826,6 +839,7 @@ function addOrAndToGroup(elementID)
         selectElement.appendChild(option[i]); // προσθέτει τα options
 
     divElement.appendChild(selectElement); // Προσθέτει το select μέσα στο div
+    divElement.appendChild(removeRowButton);  // Προσθέτει το button μέσα στο div
 }
 
 // Καθαρίζει την φόρμα search
