@@ -29,6 +29,7 @@ $conn = new MyDB();
 $deleteAlerts=$conn->deleteRowFromTable ('alerts','user_id',$id);
 $deleteSalts=$conn->deleteRowFromTable ('salts','user_id',$id);
 $deletePlaylists=$conn->deleteRowFromTable ('manual_playlists','user_id',$id);
+$deleteSmartPlaylists=$conn->deleteRowFromTable ('smart_playlists','user_id',$id);
 $deleteUserDetails=$conn->deleteRowFromTable ('user_details','user_id',$id);
 
 if($deleteSalts==true && $deleteUserDetails==true && $deletePlaylists==true && $deleteAlerts==true){

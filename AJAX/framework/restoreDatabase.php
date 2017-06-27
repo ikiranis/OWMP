@@ -20,18 +20,16 @@ require_once('../../src/boot.php');
 
 session_start();
 
+global $restoreTables;
+
 
 if(file_exists(OUTPUT_FOLDER . TEMP_RESTORE_DATABASE_FILE)) {
 
     Page::checkValidAjaxRequest(true);
 
-// Τα επιλεγμένα tables
-    $chozenTables = array('manual_playlists', 'salts', 'user_details', 'user',
-        'options', 'music_tags', 'album_arts', 'files', 'paths');
-
-// Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
+    // Θέτουμε το array με τα tables που θέλουμε να κάνουμε backup
     $backup = new BackupDB();
-    $backup->tables = $chozenTables;
+    $backup->tables = $restoreTables;
 
     $backup->sqlFilePath = OUTPUT_FOLDER;
     $backup->sqlFile = TEMP_RESTORE_DATABASE_FILE;

@@ -19,6 +19,13 @@ use apps4net\framework\MyDB;
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
+// Τα tables για το backup
+$backupTables = array('user', 'user_details', 'salts', 'options', 'manual_playlists', 'smart_playlists',
+    'files', 'album_arts', 'music_tags', 'paths');
+// Τα tables για το restore
+$restoreTables = array('manual_playlists', 'smart_playlists', 'salts', 'user_details', 'user',
+    'options', 'music_tags', 'album_arts', 'files', 'paths');
+
 // Η διεύθυνση του checkValidImage script. Πρέπει να είναι ολόκληρο το url της εσωτερικής ip του server που τρέχει η εφαρμογή
 // π.χ. http://192.168.1.19:9999/arduino
 // αν το script τρέχει στον σερβερ της εφαρμογής, αφήνουμε αυτή την γραμμή όπως είναι, αλλιώς χρησιμοποιούμε τα παρακάτω παραδείγματα

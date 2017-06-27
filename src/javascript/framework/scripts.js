@@ -687,8 +687,10 @@ function startTheBackup() {
                         // To checkbox για autodownload
                         var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
 
+                        var path = AJAX_path+"app/serveFile.php?path="+data.fullPath;
+
                         // Δημιουργία a href element και αυτόματο download
-                        var downloadText = getDownloadLink(data.fullPath, data.filename, data.fullPath, autoDownload);
+                        var downloadText = getDownloadLink(path, data.filename, path, autoDownload);
 
                         $('#SyncDetails').append('<br>');
                         $('#SyncDetails').append(downloadText);

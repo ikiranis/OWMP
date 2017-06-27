@@ -178,7 +178,7 @@ class BackupDB extends MyDB
 
         // Επιστρέφει το αρχείο στο οποίο έχει σωθεί το backup
         $this->createdFilename = $filename;
-        $this->createdFullPath = Utilities::removeURLDoubleSlashes(SERVER_ROOT_ADDRESS.OUTPUT_FOLDER.$filename);
+        $this->createdFullPath = Utilities::removeURLDoubleSlashes(OUTPUT_FOLDER.$filename);
         return true;
     }
 
