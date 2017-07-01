@@ -55,6 +55,25 @@ class SyncFiles
     public $live = 0;
     public $codec = '';
 
+    public $stmt_file;  // Prepare files insert
+    public $stmt_tags;  // Prepage Music Tags insert
+    public $filesOnDB;  // Τα αρχεία που υπάρχουν στην βάση
+
+    public $filename; // Το όνομα του αρχείου
+    public $path; // To path του αρχείου
+    public $fullPathName; // Το πλήρες path μαζί με το filename
+    public $hash; // το hash του αρχείου
+
+    public $mediaKind;  // To media kind του αρχείου
+    public $searchItunes;  // Αν θέλουμε να κάνει import από itunes
+    public $searchIDFiles;  // Αν θέλουμε να τραβήξει metadata από το αρχείο
+
+    public $inserted_id;  // To id της εγγραφής που έγινε στο files
+
+    public $itunes_counter = 0; // μετρητής με τα αρχεία που βρέθηκαν στο itunes
+    public $added_video = 0;  // μετρητής με τα αρχεία που προσθέτηκαν
+    public $general_counter = 0;  // γενικός μετρητής
+
     static $filesForDelete = array();
     static $filesForUpdate = array();
 
@@ -96,6 +115,7 @@ class SyncFiles
     {
         $conn= new MyDB();
 
+        // TODO να γίνεται έλεγχος αν υπάρχουν τα paths. Αλλιώς να επιστρέφει false
         $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null, null, null); // Παίρνει τα paths
         $dirs=$conn->clearArray($dirs);
 
@@ -201,270 +221,221 @@ class SyncFiles
                 $this->live = 1;
     }
 
-    // Γράφει τα αρχεία που βρίσκει στην βάση
-    public function writeTracks($mediaKind, $searchItunes,$searchIDFiles)
+    // δημιουργούμε τους φακέλους που χρειαζόμαστε για την μουσική. Album Arts, Converted files
+    public function createDirectories()
     {
-        Progress::updatePercentProgress(0);   // Μηδενίζει το progress
+        // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
+        $checkAlbumCoversDir=FilesIO::createDirectory(ALBUM_COVERS_DIR);
+        if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+            exit($checkAlbumCoversDir['message']);
+        }
 
-        $script_start = microtime(true);
+        if(!is_dir(ALBUM_COVERS_DIR . 'default.gif'))   // Αν δεν υπάρχει το default.gif το αντιγράφουμε
+            copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif');
 
-        // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
-        if($mediaKind=='Music') {
-
-            // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
-            $checkAlbumCoversDir=FilesIO::createDirectory(ALBUM_COVERS_DIR);
-            if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
-                exit($checkAlbumCoversDir['message']);
+        if(CONVERT_ALAC_FILES) {
+            // Έλεγχοι φακέλων που χρειάζονται
+            $ckeckInternalConvertPath = FilesIO::createDirectory(INTERNAL_CONVERT_PATH);
+            if(!$ckeckInternalConvertPath['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                exit($ckeckInternalConvertPath['message']);
             }
 
-            if(!is_dir(ALBUM_COVERS_DIR . 'default.gif'))   // Αν δεν υπάρχει το default.gif το αντιγράφουμε
-                copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif');
-
-            if(CONVERT_ALAC_FILES) {
-                // Έλεγχοι φακέλων που χρειάζονται
-                $ckeckInternalConvertPath = FilesIO::createDirectory(INTERNAL_CONVERT_PATH);
-                if(!$ckeckInternalConvertPath['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
-                    exit($ckeckInternalConvertPath['message']);
-                }
-
-                $checkMusicUpload = FilesIO::createDirectory(MUSIC_UPLOAD);
-                if(!$checkMusicUpload['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
-                    exit($checkMusicUpload['message']);
-                }
+            $checkMusicUpload = FilesIO::createDirectory(MUSIC_UPLOAD);
+            if(!$checkMusicUpload['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                exit($checkMusicUpload['message']);
             }
         }
 
+    }
 
-        $this->scanFiles($mediaKind);
-
-        if($searchItunes)
-            $this->getItunesLibrary();
-
-        $conn = new MyDB();
-
-        // Παίρνουμε τις εγγραφές στο table files σε array
-        if(!$filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
-            $filesOnDB='';
-        else {
-            foreach ($filesOnDB as $file) {
-                $newFilesOnDB[$file['id']] = $file['path'] . $file['filename'];
-            }
-            $filesOnDB = $newFilesOnDB;
-        }
-
-        $conn->CreateConnection();
-
+    // Κάνε prepare τα inserts
+    public function prepareInserts()
+    {
         $sql_insert_file = 'INSERT INTO files (path, filename, hash, kind) VALUES (?,?,?,?)';
 
         $sql_insert_tags = 'INSERT INTO music_tags (id, song_name, artist, genre, date_added, play_count, 
                           date_last_played, rating, album, album_artwork_id, video_width, video_height, filesize, track_time, song_year, live) 
                           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-        $stmt_file = MyDB::$conn->prepare($sql_insert_file);
-        $stmt_tags = MyDB::$conn->prepare($sql_insert_tags);
+        $this->stmt_file = MyDB::$conn->prepare($sql_insert_file);
+        $this->stmt_tags = MyDB::$conn->prepare($sql_insert_tags);
+    }
 
+    // Παίρνουμε τις εγγραφές στο table files σε array
+    public function getFilesOnDB()
+    {
+        $conn = new MyDB();
+        $conn->CreateConnection();
 
-        $counter = 0;
-        $general_counter = 0;
-        $added_video = 0;
+        if(!$this->filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
+            $this->filesOnDB='';
+        else {
+            foreach ($this->filesOnDB as $file) {
+                $newFilesOnDB[$file['id']] = $file['path'] . $file['filename'];
+            }
+            $this->filesOnDB = $newFilesOnDB;
+        }
+    }
 
-        $totalFiles=count(self::$files);
-
-        $progressCounter=0;
-
-
-        foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
-
-            $string_array = explode('/', $file);
-            $filename = $string_array[count($string_array) - 1];
-            $path = str_replace($filename, '', $file);
-
-            if(is_array($filesOnDB)){  // Έλεγχος αν το αρχείο υπάρχει στην βάση
-                if($fileKey=array_search($file, $filesOnDB)) {
-                    $fileAlreadySynced=true;
-                } else $fileAlreadySynced=false;
-            } else $fileAlreadySynced=false;
-
-            $full_path = DIR_PREFIX . $path . $filename;
-
-            $problemInFilePath=false;
-
-//            $inserted_id=0;
-
-            if(!$fileAlreadySynced) { // Έλεγχος στα νέα αρχεία αν το hash υπάρχει ήδη στην βάση
-
-                if(FilesIO::fileExists($full_path)) { // Αν το αρχείο υπάρχει
-                    $hash = self::hashFile($full_path);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
-
-                    if ($searchHash = self::searchForHash($hash)) { // Έλεγχος στην βάση για to hash
-
-                        $oldFullPath = DIR_PREFIX . OWMPElements::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
-
-                        if (!FilesIO::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
-
-                            self::$filesForUpdate[] = [  // Πίνακας με τα id των προς διαγραφή αρχείων
-                                'id' => $searchHash,
-                                'filename' => $filename,
-                                'path' => $path
-                            ];
-
-                            trigger_error('UPDATE ' . $hash . ' FILENAME ' . $filename);
-
-                        } else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
-
-                            self::$filesForDelete[] = [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
-                                'id' => $searchHash,
-                                'filename' => $filename,
-                                'fullpath' => $full_path
-                            ];
-
-
-                            trigger_error('DIAGRAFH ' . $hash . ' FILENAME ' . $filename);
-
-                        }
-                    }
+    // Έλεγχος αν το αρχείο υπάρχει ήδη στην βάση
+    public function checkIfFileExistsOnDB($file, $checkOnArray)
+    {
+        if($checkOnArray) {  // Ψάχνει στο array
+            if(is_array($this->filesOnDB)){  // Έλεγχος αν το αρχείο υπάρχει στην βάση
+                if($fileKey=array_search($file, $this->filesOnDB)) {
+                    return true;
+                } else {
+                    return false;
                 }
-                else {
-                    echo '<p>'.__('there_is_a_problem_with_file').' '.$full_path.'. '.__('special_char_in_path').'</p>';
-                    $problemInFilePath=true;
-                }
+            } else {
+                return false;
+            }
+        } else {  // Ψάχνει στην βάση απευθείας
+            // Σπάει το $file σε $filename και $path
+            $splitFilename = Utilities::splitFilePathName($file);
+            $filename = $splitFilename['filename'];
+            $path = $splitFilename['path'];
 
-            } else $searchHash=false;
+            if($fileInDB = MyDB::getTableArray('files', 'id, path, filename',
+                'path=? AND filename=?', array($path, $filename), null, null, null)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-            if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {  // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
+    }
 
-                Progress::setLastMomentAlive(false);
+    public function checkIfFileExists()
+    {
+        if(FilesIO::fileExists($this->fullPathName)) { // Αν το αρχείο υπάρχει
+            $this->hash = self::hashFile($this->fullPathName);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
 
-                $this->startingValues($filename); // Αρχικοποίηση τιμών
+            if ($searchHash = self::searchForHash($this->hash)) { // Έλεγχος στην βάση για to hash
 
-                $dontDoRecord = false;
+                $oldFullPath = DIR_PREFIX . OWMPElements::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
 
-                if ($searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
-                    $this->getMediaFileTags($full_path); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
+                if (!FilesIO::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
 
-                    if ($this->codec == 'Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
-                        if (CONVERT_ALAC_FILES) { // Αν θέλουμε να μετατραπεί
+                    self::$filesForUpdate[] = [  // Πίνακας με τα id των προς διαγραφή αρχείων
+                        'id' => $searchHash,
+                        'filename' => $this->filename,
+                        'path' => $this->path
+                    ];
 
-                            //  Έλεγχος αν είναι εγκατεστημένες οι εφαρμογές ffmpeg και lame, που χρειάζονται
-                            if(Utilities::checkIfLinuxProgramInstalled('ffmpeg') && Utilities::checkIfLinuxProgramInstalled('lame')) {
-                                if ($newPath = self::convertALACtoMP3($full_path, $filename, $path)) {  // Το μετατρέπουμε και το παίρνουμε
-                                    $path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
-                                    $hash = self::hashFile(DIR_PREFIX . $path . $filename);
-                                } else {
-                                    $dontDoRecord = true;
-                                    echo '<p>' . __('there_is_a_problem_with_alac') . '. ' . __('special_char_in_path') . ' ' . $full_path . '</p>';
-                                }
-                            } else {
-                                $dontDoRecord = true;
-                                echo '<p>'. __('no_programs_exist_for_alac') . ' ' .  $full_path . '</p>';
-                            }
+                    trigger_error('UPDATE ' . $this->hash . ' FILENAME ' . $this->filename);
 
-                        } else {
-                            $dontDoRecord = true;
-                        }  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
-                    }
+                } else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
+
+                    self::$filesForDelete[] = [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
+                        'id' => $searchHash,
+                        'filename' => $this->filename,
+                        'fullpath' => $this->fullPathName
+                    ];
+
+
+                    trigger_error('DIAGRAFH ' . $this->hash . ' FILENAME ' . $this->filename);
 
                 }
-
-
-                if (!$dontDoRecord) {   // Αν είναι ALAC αρχείο και θέλουμε να μετατραπεί και δεν υπάρχει σφάλμα στην μετατροπή
-
-                    // Εγγραφή στο files
-                    $sqlParamsFile = array($path, $filename, $hash, $mediaKind);
-
-                    if ($stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
-                        $inserted_id = MyDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
-                    } else {
-                        $inserted_id = 0;
-                        trigger_error('PROBLEM!!!!!!!!!!     $path ' . $path . ' $filename ' . $filename);
-                    }
-
-
-
-                    $status = 'not founded';
-
-                    if ($searchItunes) {  // Αν έχει επιλεγεί να κάνουμε συγχρονισμό με itunes
-                        $key = array_search($file, self::$tracks);  // Έλεγχος αν υπάρχει στην λίστα του itunes
-
-
-                        if (($key) && (!$inserted_id == 0)) {   // Αν υπάρχει στην itunes library
-                            $track_id = $key;
-                            //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
-
-                            $this->getItunesValues($track_id);  // Παίρνει τις τιμές από την itunes library
-
-                            $counter++;
-
-                            $status = 'founded';
-
-                        }
-//                        else echo 'not found ' . $file;
-
-
-                    }
-
-
-                    // Εγγραφή στο music_tags
-                    $sqlParamsTags = array($inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
-                        $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
-                        $this->size, $this->track_time, $this->year, $this->live
-
-                    );
-
-
-
-                    if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
-                        echo __('file_added').' ' . $this->name . '<br>';
-                        $added_video++;
-                    } else {
-                        echo __('file_not_added').' ' . $this->name . '<br>';
-                        trigger_error($general_counter . ' PROBLEM!!!!!!!    ' . $status . '       $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
-                            '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
-                            '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
-                    }
-
-
-
-
-
-                }
-
-
-
             }
 
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
-            if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
-                $progressPercent = intval(($general_counter / $totalFiles) * 100);
+    // Έλεγχος και μετατροπή του ALAC
+    public function checkAndConvertALAC()
+    {
+        if ($this->codec == 'Apple Lossless Audio Codec') {   // Αν το αρχείο είναι ALAC
+            if (CONVERT_ALAC_FILES) { // Αν θέλουμε να μετατραπεί
+                //  Έλεγχος αν είναι εγκατεστημένες οι εφαρμογές ffmpeg και lame, που χρειάζονται
+                if(Utilities::checkIfLinuxProgramInstalled('ffmpeg') && Utilities::checkIfLinuxProgramInstalled('lame')) {
+                    if ($newPath = self::convertALACtoMP3($this->fullPathName, $this->filename, $this->path)) {  // Το μετατρέπουμε και το παίρνουμε
+                        $this->path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
+                        $this->hash = self::hashFile(DIR_PREFIX . $this->path . $this->filename);
+                    } else {
+                        echo '<p>' . __('there_is_a_problem_with_alac') . '. ' . __('special_char_in_path') . ' ' . $this->fullPathName . '</p>';
+                        return true;
+                    }
+                } else {
+                    echo '<p>'. __('no_programs_exist_for_alac') . ' ' .  $this->fullPathName . '</p>';
+                    return true;
+                }
+            } else {
+                return true;
+            }  // Αν δεν θέλουμε να μετατραπεί ή υπάρχει λάθος, τότε θέτουμε τιμή για να μην συνεχίσει η εγγραφή στην βάση
+        }
 
-                Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+    }
 
-                Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+    // Εγγραφή στο table files
+    public function writeTheFile() {
+        // Εγγραφή στο files
+        $sqlParamsFile = array($this->path, $this->filename, $this->hash, $this->mediaKind);
 
-                $progressCounter=0;
-            }
-            else $progressCounter++;
+        if ($this->stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
+            $this->inserted_id = MyDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
+        } else {
+            $this->inserted_id = 0;
+            trigger_error('PROBLEM!!!!!!!!!!     $path ' . $this->path . ' $filename ' . $this->filename);
+        }
 
-            $general_counter++;
+    }
 
+    // Ψάχνει αν υπάρχει στην λίστα του itunes και τραβάει τα αντίστοιχα data
+    public function searchForItunes($file)
+    {
+        $key = array_search($file, self::$tracks);  // Έλεγχος αν υπάρχει στην λίστα του itunes
+        $status = '';
+
+        if (($key) && (!$this->inserted_id == 0)) {   // Αν υπάρχει στην itunes library
+            $track_id = $key;
+            //            echo $counter . ' ' . $file . ' βρέθηκε στο ' . $key . ' | name: ' . $tags[$track_id]['Name'] . ' artist=' . $tags[$track_id]['Artist'] . '<br>';
+
+            $this->getItunesValues($track_id);  // Παίρνει τις τιμές από την itunes library
+
+            $this->itunes_counter++;
+
+            $status = 'founded';
 
         }
 
+        return $status;
+    }
 
-        // μετά την ολοκλήρωση τους σκανιαρίσματος των αρχείων
+    public function writeTheMusicTags()
+    {
+        // Εγγραφή στο music_tags
+        $sqlParamsTags = array($this->inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
+            $this->play_date, $this->rating, $this->album, $this->album_artwork_id, $this->video_width, $this->video_height,
+            $this->size, $this->track_time, $this->year, $this->live
 
-        Progress::setLastMomentAlive(true);
+        );
 
-        echo '<p>' . __('files_added') . ' '. $added_video . ' ' . __('added_files'). '</p>';
+        if ($this->stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
+            echo __('file_added').' ' . $this->name . '<br>';
+            $this->added_video++;
+        } else {
+            echo __('file_not_added').' ' . $this->name . '<br>';
+            trigger_error($this->general_counter . ' PROBLEM!!!!!!!    ' . '       $inserted_id ' . $this->inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
+                '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
+                '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
+        }
+    }
 
 
-        // Διαγραφή αρχείων αν χρειάζονται
+    // Εμφάνιση αρχείων για διαγραφή
+    public function displayFilesToDelete()
+    {
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
             echo '<p>'.__('files_to_delete').': '.count(self::$filesForDelete).' </p>';
 
             foreach (self::$filesForDelete as $item) {  // Εμφανίζει τα αρχεία προς διαγράφη
                 ?>
-                    <div id=deleteRow<?php echo $item['id']; ?> class="deleteRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
+                <div id=deleteRow<?php echo $item['id']; ?> class="deleteRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
 
                 <?php
             }
@@ -475,18 +446,21 @@ class SyncFiles
             ?>
 
             <br><input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="<?php echo __('delete_files'); ?>"
-                   onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
+                       onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
 
             <?php
         }
+    }
 
-        // Ενημέρωση της βάσης με τα νέα path και filename των αρχείων που έχουν αλλάξει θέση
+    // Εμφάνιση αρχείων για μετακίνηση
+    public function displayFilesToMove()
+    {
         if(self::$filesForUpdate) {  // Αν υπάρχουν αρχεία προς ενημέρωση
             echo '<p>'.__('files_to_update').': '.count(self::$filesForUpdate).' </p>';
 
             foreach (self::$filesForUpdate as $item) {  // Εμφανίζει τα αρχεία προς ενημέρωση
                 ?>
-                    <div id=updateRow<?php echo $item['id']; ?> class="updateRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
+                <div id=updateRow<?php echo $item['id']; ?> class="updateRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
 
                 <?php
             }
@@ -497,16 +471,142 @@ class SyncFiles
             ?>
 
             <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="<?php echo __('update_files'); ?>"
-                   onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
+                       onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
 
             <?php
         }
+    }
+
+    // Γράφει τα αρχεία που βρίσκει στην βάση
+    public function writeTracks()
+    {
+        Progress::updatePercentProgress(0);   // Μηδενίζει το progress
+
+        $script_start = microtime(true);
+
+        // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
+        if($this->mediaKind=='Music') {
+            $this->createDirectories();
+        }
+
+        // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
+        $this->scanFiles($this->mediaKind);
+
+        if($this->searchItunes) {
+            $this->getItunesLibrary();
+        }
+
+        $conn = new MyDB();
+        $conn->CreateConnection();
+
+        // Παίρνουμε τις εγγραφές στο table files σε array
+        $this->getFilesOnDB();
+
+        // Κάνει τα prepare για τα inserts
+        $this->prepareInserts();
+
+        $totalFiles=count(self::$files);
+
+        $progressCounter=0;
+
+        foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
+
+            // Σπάει το $file σε $filename και $path
+            $splitFilename = Utilities::splitFilePathName($file);
+            $this->filename = $splitFilename['filename'];
+            $this->path = $splitFilename['path'];
+            $this->fullPathName = DIR_PREFIX . $this->path . $this->filename;
+
+            // Έλεγχος αν υπάρχει ήδη το αρχείο στην βάση δεδομένων. True για να ψάξει στο array
+            $fileAlreadySynced = $this->checkIfFileExistsOnDB($file, true);
+
+            $problemInFilePath=false;
+
+            // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
+            if(!$fileAlreadySynced) {
+
+                // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
+                if(!$this->checkIfFileExists()) { // Αλλιώς το δηλώνουμε προβληματικό
+                    echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
+                    $problemInFilePath=true;
+                }
+
+            } else {
+                $searchHash = false;
+            }
+
+            // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
+            if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
+
+                Progress::setLastMomentAlive(false);
+
+                $this->startingValues($this->filename); // Αρχικοποίηση τιμών
+
+                $dontDoRecord = false;
+
+                if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
+                    $this->getMediaFileTags($this->fullPathName); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
+
+                    // Ελέγχει και μετατρέπει το alac
+                    $dontDoRecord = $this->checkAndConvertALAC();
+
+                }
+
+
+                if (!$dontDoRecord) {   // Αν είναι ALAC αρχείο και θέλουμε να μετατραπεί και δεν υπάρχει σφάλμα στην μετατροπή
+
+                    // Εγγραφή στο files και επιστροφή του $inserted_id
+                    $this->writeTheFile();
+
+                    if ($this->searchItunes) {  // Αν έχει επιλεγεί να κάνουμε συγχρονισμό με itunes
+                        $status = $this->searchForItunes($file);
+                    } else {
+                        $status = 'not founded';
+                    }
+
+                    // Εγγραφή στο music_tags
+                    $this->writeTheMusicTags();
+
+                }
+
+            }
+
+
+            if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
+                $progressPercent = intval(($this->general_counter / $totalFiles) * 100);
+
+                Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
+
+                Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
+
+                $progressCounter=0;
+            }
+            else $progressCounter++;
+
+            $this->general_counter++;
+
+
+        }
+
+
+        // μετά την ολοκλήρωση τους σκανιαρίσματος των αρχείων
+
+        Progress::setLastMomentAlive(true);
+
+        echo '<p>' . __('files_added') . ' '. $this->added_video . ' ' . __('added_files'). '</p>';
+
+
+        // Εμφάνιση αρχείων προς διαγραφή
+        $this->displayFilesToDelete();
+
+        // Εμφάνιση αρχείων για μετακίνηση
+        $this->displayFilesToMove();
 
         $script_time_elapsed_secs = microtime(true) - $script_start;
 
         echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
 
-        Logs::insertLog('Added ' . $added_video . ' files.'); // Προσθήκη της κίνησης στα logs
+        Logs::insertLog('Added ' . $this->added_video . ' files.'); // Προσθήκη της κίνησης στα logs
 
         Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
@@ -627,8 +727,11 @@ class SyncFiles
         ini_set('memory_limit','1024M');
 
         Progress::setLastMomentAlive(false);
-        
-        $this->writeTracks($mediakind, SYNC_ITUNES, true);
+
+        $this->mediaKind = $mediakind;
+        $this->searchItunes = SYNC_ITUNES;
+        $this->searchIDFiles = true;
+        $this->writeTracks();
     }
 
 

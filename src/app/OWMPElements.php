@@ -1280,7 +1280,8 @@ class OWMPElements extends OWMP
                     <?php
 
                     // H λίστα με τις manual playlists
-                    $smartPlaylists = MyDB::getTableArray('smart_playlists', 'id, playlist_name, playlist_data', 'user_id=?', array($userID), null, null, null);
+                    $smartPlaylists = MyDB::getTableArray('smart_playlists', 'id, playlist_name, playlist_data',
+                        'user_id=?', array($userID), null, null, null);
 
                     foreach ($smartPlaylists as $playlist) {
                         ?>

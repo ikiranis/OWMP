@@ -220,4 +220,14 @@ class Utilities
         return $string;
     }
 
+    // Σπάει το full file path name, σε filename και path
+    static function splitFilePathName($fullFilePathName)
+    {
+        $string_array = explode('/', $fullFilePathName);
+        $filename = $string_array[count($string_array) - 1];
+        $path = str_replace($filename, '', $fullFilePathName);
+
+        return array('filename' => $filename, 'path' => $path);
+    }
+
 }
