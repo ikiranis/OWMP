@@ -74,6 +74,8 @@ class SyncFiles
     public $added_video = 0;  // μετρητής με τα αρχεία που προσθέτηκαν
     public $general_counter = 0;  // γενικός μετρητής
 
+    public $script_start; // Ο μετρητής του χρόνου του process
+
     static $filesForDelete = array();
     static $filesForUpdate = array();
 
@@ -477,12 +479,31 @@ class SyncFiles
         }
     }
 
+    // Εμφάνιση των τελικών αποτελεσμάτων του συγχρονισμού
+    public function displaySyncResults()
+    {
+        echo '<p>' . __('files_added') . ' '. $this->added_video . ' ' . __('added_files'). '</p>';
+
+
+        // Εμφάνιση αρχείων προς διαγραφή
+        $this->displayFilesToDelete();
+
+        // Εμφάνιση αρχείων για μετακίνηση
+        $this->displayFilesToMove();
+
+        $script_time_elapsed_secs = microtime(true) - $this->script_start;
+
+        echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+
+        Logs::insertLog('Added ' . $this->added_video . ' files.'); // Προσθήκη της κίνησης στα logs
+    }
+
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks()
     {
         Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
-        $script_start = microtime(true);
+        $this->script_start = microtime(true);
 
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
         if($this->mediaKind=='Music') {
@@ -588,28 +609,12 @@ class SyncFiles
 
         }
 
-
         // μετά την ολοκλήρωση τους σκανιαρίσματος των αρχείων
-
         Progress::setLastMomentAlive(true);
-
-        echo '<p>' . __('files_added') . ' '. $this->added_video . ' ' . __('added_files'). '</p>';
-
-
-        // Εμφάνιση αρχείων προς διαγραφή
-        $this->displayFilesToDelete();
-
-        // Εμφάνιση αρχείων για μετακίνηση
-        $this->displayFilesToMove();
-
-        $script_time_elapsed_secs = microtime(true) - $script_start;
-
-        echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
-
-        Logs::insertLog('Added ' . $this->added_video . ' files.'); // Προσθήκη της κίνησης στα logs
-
         Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
+        // Εμφάνιση των αποτελεσμάτων του συγχρονισμού
+        $this->displaySyncResults();
 
     }
 
