@@ -29,8 +29,6 @@ require_once('../../src/external/getid3/getid3.php');
 
 class SyncFiles
 {
-
-
     static $files = array();
     static $tracks = array();
     static $tags = array();
@@ -77,8 +75,15 @@ class SyncFiles
 
     public $script_start; // Ο μετρητής του χρόνου του process
 
+    public $deleteFilesString;  // Το string που περιέχει τα αρχεία για διαγραφή
+
     static $filesForDelete = array();
     static $filesForUpdate = array();
+
+    function __construct()
+    {
+        $this->startingValues();
+    }
 
     // Διάβασμα της library στο itunes
     public function getItunesLibrary()
@@ -508,6 +513,17 @@ class SyncFiles
         $this->fullPathName = DIR_PREFIX . $this->path . $this->filename;
     }
 
+    //  Παίρνει το κείμενο για εμφάνιση αν χρειάζεται να σβηστεί αρχείο που βρέθηκε να υπάρχει
+    public function getFileToDelete()
+    {
+        if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
+            $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">'. 'File already exist '.
+                        '<input type="button" class="myButton" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" 
+                       value="'. __('delete_files'). '"
+                       onclick="deleteExistedFile('. $this->inserted_id . ');">'.' </p>';
+        }
+    }
+
     // Γράφει ένα μόνο αρχείο στην βάση
     public function writeTrack()
     {
@@ -556,7 +572,7 @@ class SyncFiles
 
         }
 
-        // TODO να κάνει τις απαραίτητες ενέργειες όταν βρει αρχείο που υπάρχει ήδη ή ότι έχει αλλάξει θέση
+        $this->getFileToDelete();
 
     }
 

@@ -991,6 +991,14 @@ function checkProcessAlive() {
     }, 1000);
 }
 
+function deleteExistedFile(id)
+{
+    deleteFile(id);
+    $('#jsFileAlreadyExist' + id).remove();
+
+    // TODO να κάνω πρώτα έλεγχο αν έχει σβηστεί το αρχείο και μετά να κάνω remove το element
+}
+
 // Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
 function callGetYouTube(id,counter,total, mediaKind) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
@@ -1020,6 +1028,8 @@ function callGetYouTube(id,counter,total, mediaKind) {
             if (data.success == true) {
                 $("#SyncDetails").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
                     '<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+
+                $("#SyncDetails").append(data.filesToDelete);
 
             } else {
                 $("#SyncDetails").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');

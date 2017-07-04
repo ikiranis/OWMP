@@ -14,7 +14,6 @@ use apps4net\framework\Page;
 use apps4net\framework\VideoDownload;
 use apps4net\parrot\app\SyncFiles;
 
-
 require_once('../../src/boot.php');
 
 session_start();
@@ -23,33 +22,19 @@ Page::checkValidAjaxRequest(true);
 
 set_time_limit(0);
 
-
-
-if(isset($_GET['id']))
-    $id=ClearString($_GET['id']);
-
-if(isset($_GET['mediaKind']))
-    $mediaKind=ClearString($_GET['mediaKind']);
-
 $youtubeDL = new VideoDownload();
 
-$youtubeDL->videoID = $id;
-$youtubeDL->mediaKind = $mediaKind;
+if(isset($_GET['id'])) {
+    $youtubeDL->videoID = ClearString($_GET['id']);
+}
 
-//trigger_error($youtubeDL->checkURLkind());
-
-//if($result=$youtubeDL->getYoutubePlaylistItems()) {
-//    var_dump($result);
-//    $jsonArray = array('success' => true, 'result' => $result);
-//}
-//else $jsonArray=array( 'success'=> false, 'theUrl' => $url);
+if(isset($_GET['mediaKind'])) {
+    $youtubeDL->mediaKind = ClearString($_GET['mediaKind']);
+}
 
 if($result=$youtubeDL->downloadVideo()) {
-    $jsonArray = array('success' => true, 'result' => $result, 'imageThumbnail' => $youtubeDL->imageThumbnail);
-
     // Εγγραφή στην βάση του τραγουδιού που κατέβηκε από το youtube
     $syncFile = new SyncFiles();
-    $syncFile->startingValues();
     $file = str_replace(DIR_PREFIX, '', $result);
     $syncFile->file = $file;
     $syncFile->searchIDFiles = true;
@@ -57,8 +42,11 @@ if($result=$youtubeDL->downloadVideo()) {
     $syncFile->name = $youtubeDL->title;
 
     $syncFile->writeTrack();
+
+    $jsonArray = array('success' => true, 'result' => $result, 'imageThumbnail' => $youtubeDL->imageThumbnail,
+        'filesToDelete' => $syncFile->deleteFilesString);
 } else {
-    $jsonArray=array( 'success'=> false, 'theUrl' => $id);
+    $jsonArray=array( 'success'=> false, 'theUrl' => $youtubeDL->videoID);
 }
 
 echo json_encode($jsonArray);
