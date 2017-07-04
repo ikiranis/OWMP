@@ -12,6 +12,7 @@
 
 use apps4net\framework\Page;
 use apps4net\framework\VideoDownload;
+use apps4net\parrot\app\SyncFiles;
 
 
 require_once('../../src/boot.php');
@@ -45,6 +46,18 @@ $youtubeDL->mediaKind = $mediaKind;
 
 if($result=$youtubeDL->downloadVideo()) {
     $jsonArray = array('success' => true, 'result' => $result, 'imageThumbnail' => $youtubeDL->imageThumbnail);
+
+    // Εγγραφή στην βάση του τραγουδιού που κατέβηκε από το youtube
+    $syncFile = new SyncFiles();
+    $syncFile->startingValues();
+    $file = str_replace(DIR_PREFIX, '', $result);
+    $syncFile->file = $file;
+    $syncFile->searchIDFiles = true;
+    $syncFile->mediaKind = $youtubeDL->mediaKind;
+    $syncFile->name = $youtubeDL->title;
+
+    $syncFile->writeTrack();
+
 }
 else $jsonArray=array( 'success'=> false, 'theUrl' => $id);
 

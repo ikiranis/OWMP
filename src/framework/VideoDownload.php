@@ -20,6 +20,7 @@ class VideoDownload
     public $videoID;
     public $mediaKind;
     public $imageThumbnail='';
+    public $title;
 
     // Επιστρέφει το id ενός youtube video από το url του
     // Source from http://code.runnable.com/VUpjz28i-V4jETgo/get-youtube-video-id-from-url-for-php
@@ -160,16 +161,16 @@ class VideoDownload
         }
 
         // Παίρνει τον τίτλο του βίντεο και τον μετατρέπει σε greeklish αν χρειάζεται
-        $title=$this->getYoutubeTitle();
+        $this->title=$this->getYoutubeTitle();
 
         // καθαρίζει τον τίτλο και τον μετατρέπει σε greeklish
-        $title=str_replace("/",'',$title);
-        $title=Utilities::GrCyr2Latin(ClearString($title));
+        $this->title=str_replace("/",'',$this->title);
+        $this->title=Utilities::GrCyr2Latin(ClearString($this->title));
 
         // Μετατροπή του τίτλου σε μικρά και μετά το πρώτο γράμμα κάθε λέξης σε κεφαλαίο
-        $title = ucwords(strtolower($title));
+        $this->title = ucwords(strtolower($this->title));
 
-        $videoFullPath = $uploadDir.$title;
+        $videoFullPath = $uploadDir.$this->title;
 
         // κατεβάζει το βίντεο
         $outputfilename = $this->downloadYoutube($videoFullPath);

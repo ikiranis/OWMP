@@ -26,9 +26,6 @@ if(isset($_GET['mediakind']))
 
 $sync = new SyncFiles();
 
-//$operation='sync';
-//$mediaKind='Music Video';
-
 if($operation=='sync')
     $sync->syncTheFiles($mediaKind);
 

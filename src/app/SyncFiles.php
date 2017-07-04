@@ -59,6 +59,7 @@ class SyncFiles
     public $stmt_tags;  // Prepage Music Tags insert
     public $filesOnDB;  // Τα αρχεία που υπάρχουν στην βάση
 
+    public $file; // To αρχείο για εισαγωγή
     public $filename; // Το όνομα του αρχείου
     public $path; // To path του αρχείου
     public $fullPathName; // Το πλήρες path μαζί με το filename
@@ -79,26 +80,26 @@ class SyncFiles
     static $filesForDelete = array();
     static $filesForUpdate = array();
 
-        // Διάβασμα της library στο itunes
-        public function getItunesLibrary()
-        {
+    // Διάβασμα της library στο itunes
+    public function getItunesLibrary()
+    {
 
-            $parser = new \plistParser();
-            $plist = $parser->parseFile(ITUNES_LIBRARY_FILE);
+        $parser = new \plistParser();
+        $plist = $parser->parseFile(ITUNES_LIBRARY_FILE);
 
-            self::$tracks = $plist['Tracks'];
-            self::$tags = $plist['Tracks'];
+        self::$tracks = $plist['Tracks'];
+        self::$tags = $plist['Tracks'];
 
-            $trimTracks = array();
-            foreach (self::$tracks as $track) {
-                $replace_text = array('file:///Volumes/', 'file://localhost/Volumes/');
+        $trimTracks = array();
+        foreach (self::$tracks as $track) {
+            $replace_text = array('file:///Volumes/', 'file://localhost/Volumes/');
 
-                if(isset($track['Location']))
-                    $location = urldecode(str_replace($replace_text, '', $track['Location']));
+            if(isset($track['Location']))
+                $location = urldecode(str_replace($replace_text, '', $track['Location']));
 
-                $trimTracks[$track['Track ID']] = $location;
-            }
-            self::$tracks = $trimTracks;
+            $trimTracks[$track['Track ID']] = $location;
+        }
+        self::$tracks = $trimTracks;
 
 //                    echo'<pre>';
 //        print_r(self::$tracks);
@@ -109,7 +110,7 @@ class SyncFiles
 //            echo count(self::$tracks);
 
 
-        }
+    }
     
 
     // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
@@ -160,11 +161,13 @@ class SyncFiles
 
 
     // Αρχικοποίηση τιμών
-    public function startingValues($filename) {
+    public function startingValues($filename=null) {
         // Αρχικοποίηση τιμών
         $replace_text = array('.mp4', '.m4v', '.mp3', 'm4a');
 
-        $this->name = str_replace($replace_text, '', $filename);
+        if($filename) {
+            $this->name = str_replace($replace_text, '', $filename);
+        }
         $this->artist = '';
         $this->genre = '';
         $this->date_added = date('Y-m-d H:i:s');
@@ -280,11 +283,11 @@ class SyncFiles
     }
 
     // Έλεγχος αν το αρχείο υπάρχει ήδη στην βάση
-    public function checkIfFileExistsOnDB($file, $checkOnArray)
+    public function checkIfFileExistsOnDB($checkOnArray)
     {
         if($checkOnArray) {  // Ψάχνει στο array
             if(is_array($this->filesOnDB)){  // Έλεγχος αν το αρχείο υπάρχει στην βάση
-                if($fileKey=array_search($file, $this->filesOnDB)) {
+                if($fileKey=array_search($this->file, $this->filesOnDB)) {
                     return true;
                 } else {
                     return false;
@@ -293,13 +296,8 @@ class SyncFiles
                 return false;
             }
         } else {  // Ψάχνει στην βάση απευθείας
-            // Σπάει το $file σε $filename και $path
-            $splitFilename = Utilities::splitFilePathName($file);
-            $filename = $splitFilename['filename'];
-            $path = $splitFilename['path'];
-
             if($fileInDB = MyDB::getTableArray('files', 'id, path, filename',
-                'path=? AND filename=?', array($path, $filename), null, null, null)) {
+                'path=? AND filename=?', array($this->path, $this->filename), null, null, null)) {
                 return true;
             } else {
                 return false;
@@ -375,7 +373,6 @@ class SyncFiles
 
     // Εγγραφή στο table files
     public function writeTheFile() {
-        // Εγγραφή στο files
         $sqlParamsFile = array($this->path, $this->filename, $this->hash, $this->mediaKind);
 
         if ($this->stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
@@ -498,6 +495,68 @@ class SyncFiles
         Logs::insertLog('Added ' . $this->added_video . ' files.'); // Προσθήκη της κίνησης στα logs
     }
 
+    // Σπάει το $file σε $filename και $path
+    public function getFilenameAndPath()
+    {
+        $splitFilename = Utilities::splitFilePathName($this->file);
+        $this->filename = $splitFilename['filename'];
+        $this->path = $splitFilename['path'];
+        $this->fullPathName = DIR_PREFIX . $this->path . $this->filename;
+    }
+
+    // Γράφει ένα μόνο αρχείο στην βάση
+    public function writeTrack()
+    {
+        // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
+        if($this->mediaKind=='Music') {
+            $this->createDirectories();
+        }
+
+        // Κάνει τα prepare για τα inserts
+        $this->prepareInserts();
+
+        $this->getFilenameAndPath();
+
+        // Έλεγχος αν υπάρχει ήδη το αρχείο στην βάση δεδομένων. True για να ψάξει στο array
+        $fileAlreadySynced = $this->checkIfFileExistsOnDB(false);
+
+        $problemInFilePath=false;
+
+        $searchHash='';
+
+        // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
+        if(!$fileAlreadySynced) {
+
+            // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
+            if(!$this->checkIfFileExists()) { // Αλλιώς το δηλώνουμε προβληματικό
+                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
+                $problemInFilePath=true;
+            }
+
+        } else {
+            $searchHash = false;
+        }
+
+        // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
+        if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
+
+            if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
+                $this->getMediaFileTags($this->fullPathName); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
+
+            }
+
+            // Εγγραφή στο files και επιστροφή του $inserted_id
+            $this->writeTheFile();
+
+            // Εγγραφή στο music_tags
+            $this->writeTheMusicTags();
+
+        }
+
+        // TODO να κάνει τις απαραίτητες ενέργειες όταν βρει αρχείο που υπάρχει ήδη ή ότι έχει αλλάξει θέση
+
+    }
+
     // Γράφει τα αρχεία που βρίσκει στην βάση
     public function writeTracks()
     {
@@ -530,16 +589,13 @@ class SyncFiles
 
         $progressCounter=0;
 
-        foreach (self::$files as $file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
+        foreach (self::$files as $this->file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
 
-            // Σπάει το $file σε $filename και $path
-            $splitFilename = Utilities::splitFilePathName($file);
-            $this->filename = $splitFilename['filename'];
-            $this->path = $splitFilename['path'];
-            $this->fullPathName = DIR_PREFIX . $this->path . $this->filename;
+            // Σπάει το $this->file σε $this->filename και $this->path
+            $this->getFilenameAndPath();
 
             // Έλεγχος αν υπάρχει ήδη το αρχείο στην βάση δεδομένων. True για να ψάξει στο array
-            $fileAlreadySynced = $this->checkIfFileExistsOnDB($file, true);
+            $fileAlreadySynced = $this->checkIfFileExistsOnDB(true);
 
             $problemInFilePath=false;
 
@@ -580,7 +636,7 @@ class SyncFiles
                     $this->writeTheFile();
 
                     if ($this->searchItunes) {  // Αν έχει επιλεγεί να κάνουμε συγχρονισμό με itunes
-                        $status = $this->searchForItunes($file);
+                        $status = $this->searchForItunes($this->file);
                     } else {
                         $status = 'not founded';
                     }
