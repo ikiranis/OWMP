@@ -405,7 +405,7 @@ class SyncFiles
         return $status;
     }
 
-    public function writeTheMusicTags()
+    public function writeTheMusicTags($displayEcho=null)
     {
         // Εγγραφή στο music_tags
         $sqlParamsTags = array($this->inserted_id, $this->name, $this->artist, $this->genre, $this->date_added, $this->play_count,
@@ -415,10 +415,14 @@ class SyncFiles
         );
 
         if ($this->stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
-            echo __('file_added').' ' . $this->name . '<br>';
+            if($displayEcho) {
+                echo __('file_added').' ' . $this->name . '<br>';
+            }
             $this->added_video++;
         } else {
-            echo __('file_not_added').' ' . $this->name . '<br>';
+            if($displayEcho) {
+                echo __('file_not_added').' ' . $this->name . '<br>';
+            }
             trigger_error($this->general_counter . ' PROBLEM!!!!!!!    ' . '       $inserted_id ' . $this->inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
                 '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
                 '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
@@ -542,7 +546,6 @@ class SyncFiles
 
             if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
                 $this->getMediaFileTags($this->fullPathName); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
-
             }
 
             // Εγγραφή στο files και επιστροφή του $inserted_id
@@ -642,7 +645,7 @@ class SyncFiles
                     }
 
                     // Εγγραφή στο music_tags
-                    $this->writeTheMusicTags();
+                    $this->writeTheMusicTags(true);
 
                 }
 

@@ -57,9 +57,8 @@ if($result=$youtubeDL->downloadVideo()) {
     $syncFile->name = $youtubeDL->title;
 
     $syncFile->writeTrack();
-
+} else {
+    $jsonArray=array( 'success'=> false, 'theUrl' => $id);
 }
-else $jsonArray=array( 'success'=> false, 'theUrl' => $id);
-
 
 echo json_encode($jsonArray);
