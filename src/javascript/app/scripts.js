@@ -991,12 +991,26 @@ function checkProcessAlive() {
     }, 1000);
 }
 
+// Σβήνει το αρχείο που μόλις περάσαμε, επειδή υπάρχει ήδη
 function deleteExistedFile(id)
 {
-    deleteFile(id);
-    $('#jsFileAlreadyExist' + id).remove();
+    var confirmAnswer=confirm(phrases['sure_to_delete_file']);
 
-    // TODO να κάνω πρώτα έλεγχο αν έχει σβηστεί το αρχείο και μετά να κάνω remove το element
+    if (confirmAnswer==true) {
+        $.ajax({
+            url: AJAX_path + "app/deleteFile.php",
+            type: 'GET',
+            data: {
+                id: id
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.success == true) {
+                    $('#jsFileAlreadyExist' + id).remove();
+                }
+            }
+        });
+    }
 }
 
 // Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
@@ -1276,15 +1290,12 @@ function deleteFile(id) {
 
             $.get(callFile, function (data) {
                 if (data.success == true) {
-
                     $("#fileID" + id).remove();
-                    // loadNextVideo(0);
                 }
 
 
             }, "json");
-        }
-        else {  // σβήνει μαζικά όσα αρχεία έχουν τσεκαριστεί
+        } else {  // σβήνει μαζικά όσα αρχεία έχουν τσεκαριστεί
             for(var i = 0; i < checkIDs.length;  i++) {
                 callFile = AJAX_path + "app/deleteFile.php?id=" + checkIDs[i];
 

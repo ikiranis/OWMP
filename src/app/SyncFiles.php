@@ -517,10 +517,9 @@ class SyncFiles
     public function getFileToDelete()
     {
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
-            $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">'. 'File already exist '.
-                        '<input type="button" class="myButton" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" 
-                       value="'. __('delete_files'). '"
-                       onclick="deleteExistedFile('. $this->inserted_id . ');">'.' </p>';
+            $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">'. __('file_to_delete') .
+                        ' <input type="button" class="myButton" value="'. __('delete_file'). '"
+                       onclick="deleteExistedFile('. $this->inserted_id . ');"></p>';
         }
     }
 
@@ -546,13 +545,11 @@ class SyncFiles
 
         // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
         if(!$fileAlreadySynced) {
-
             // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
             if(!$this->checkIfFileExists()) { // Αλλιώς το δηλώνουμε προβληματικό
                 echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                 $problemInFilePath=true;
             }
-
         } else {
             $searchHash = false;
         }
@@ -572,6 +569,7 @@ class SyncFiles
 
         }
 
+        // Παίρνει το κείμενο για εμφάνιση αν χρειάζεται να σβηστεί αρχείο που βρέθηκε να υπάρχει
         $this->getFileToDelete();
 
     }

@@ -194,7 +194,8 @@
         <phrase name="file_not_added">File not added</phrase>
         <phrase name="files_added">Added</phrase>
         <phrase name="added_files">files</phrase>
-        <phrase name="files_to_delete">Files already exist. Delete new files.</phrase>
+        <phrase name="files_to_delete">Files already exist. Delete new files</phrase>
+        <phrase name="file_to_delete">File already exist. Delete new file</phrase>
         <phrase name="delete_files">Delete files</phrase>
         <phrase name="files_to_update">File to update that changed path</phrase>
         <phrase name="update_files">Update files</phrase>
@@ -212,6 +213,7 @@
         <phrase name="youtube_downloading">Downloading</phrase>
         <phrase name="starting_sync">Starting synchronisation</phrase>
         <phrase name="sure_to_delete_files">You will delete the files. Are you sure?</phrase>
+        <phrase name="sure_to_delete_file">You will delete the file. Are you sure?</phrase>
         <phrase name="sure_to_update_files">You will update the files. Are you sure?</phrase>
         <phrase name="need_update">The application should be updated. Current version</phrase>
         <phrase name="sure_to_export_playlist">You will export the playlist. Are you sure?</phrase>

@@ -195,6 +195,7 @@
         <phrase name="files_added">Προστέθηκαν</phrase>
         <phrase name="added_files">αρχεία</phrase>
         <phrase name="files_to_delete">Τα αρχεία υπάρχουν ήδη. Διαγραφή των νέων</phrase>
+        <phrase name="file_to_delete">Το αρχείο υπάρχει ήδη. Διαγραφή του νέου</phrase>
         <phrase name="delete_files">Διαγραφή αρχείων</phrase>
         <phrase name="files_to_update">Αρχεία προς ενημέρωση που αλλάξανε θέση</phrase>
         <phrase name="update_files">Ενημέρωση αρχείων</phrase>
@@ -212,6 +213,7 @@
         <phrase name="youtube_downloading">Κατεβάζω το</phrase>
         <phrase name="starting_sync">Αρχίζω τον συγχρονισμό</phrase>
         <phrase name="sure_to_delete_files">Είσαι σίγουρος ότι θέλεις να σβήσεις τα αρχεία;</phrase>
+        <phrase name="sure_to_delete_file">Είσαι σίγουρος ότι θέλεις να σβήσεις το αρχείο;</phrase>
         <phrase name="sure_to_update_files">Είσαι σίγουρος ότι θέλεις να αλλάξεις τα αρχεία;</phrase>
         <phrase name="need_update">Η εφαρμογή πρέπει να ενημερωθεί. Τρέχουσα έκδοση</phrase>
         <phrase name="sure_to_export_playlist">Είσαι σίγουρος ότι θέλεις να κάνεις εξαγωγή της playlist;</phrase>
