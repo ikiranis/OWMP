@@ -572,7 +572,6 @@ class PlaylistSearch extends OWMPElements
         <div id="playlist_content">
 
             <?php
-            // TODO δεν παίζουν οι σελίδες όταν εμφανίζει manual playlists ή την ουρά
 
             // Εμφάνιση των κουμπιών previous/next
             $this->getBrowseButtons();

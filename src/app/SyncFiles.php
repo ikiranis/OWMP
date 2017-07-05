@@ -547,7 +547,7 @@ class SyncFiles
         if(!$fileAlreadySynced) {
             // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
             if(!$this->checkIfFileExists()) { // Αλλιώς το δηλώνουμε προβληματικό
-                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
+//                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                 $problemInFilePath=true;
             }
         } else {

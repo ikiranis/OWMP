@@ -149,7 +149,7 @@ $mySqlTables = array (
     array ('table' => 'smart_playlists', 'sql' => 'CREATE TABLE IF NOT EXISTS `smart_playlists` (
                                           `id` BIGINT NOT NULL AUTO_INCREMENT,
                                           `playlist_name` VARCHAR(50) NULL,
-                                          `playlist_data` VARCHAR(1000) NULL,
+                                          `playlist_data` TEXT NULL,
                                           `user_id` INT(11) NOT NULL,
                                           PRIMARY KEY (`id`, `user_id`),
                                           INDEX `fk_manual_playlists_user1_idx` (`user_id` ASC),
@@ -163,7 +163,9 @@ $mySqlTables = array (
 
 $mySqlChanges = array(
                 array('table' => 'options', 'field' => 'option_id', 'oldType' => 'tinyint(4)',
-                    'sql' => 'ALTER TABLE options MODIFY option_id int(11) AUTO_INCREMENT')
+                    'sql' => 'ALTER TABLE options MODIFY option_id int(11) AUTO_INCREMENT'),
+                array('table' => 'smart_playlists', 'field' => 'playlist_data', 'oldType' => 'varchar(1000)',
+                    'sql' => 'ALTER TABLE smart_playlists CHANGE COLUMN playlist_data playlist_data TEXT NULL DEFAULT NULL')
 );
 
 $defaultOptions = array(
