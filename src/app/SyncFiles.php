@@ -123,7 +123,6 @@ class SyncFiles
     {
         $conn= new MyDB();
 
-        // TODO να γίνεται έλεγχος αν υπάρχουν τα paths. Αλλιώς να επιστρέφει false
         $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null, null, null); // Παίρνει τα paths
         $dirs=$conn->clearArray($dirs);
 
@@ -133,7 +132,6 @@ class SyncFiles
                 $dirs[]=$dir;
             }
             else {
-//                trigger_error($dir);
                 echo __('path_does_not_exist').' '.$dir;
             }
         }
@@ -160,11 +158,9 @@ class SyncFiles
             self::$files = $trimFiles;
 
             return true;
-        } else {
+        } else { // Επιστρέφει false αν δεν υπάρχει κανένα directory για scanning
             return false;
         }
-
-
 
     }
 
@@ -592,10 +588,16 @@ class SyncFiles
 
         // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
         if(!$this->scanFiles($this->mediaKind)) {
+            // Αν επιστρέψει false τερματίζει την εκτέλεση του script
             Progress::setLastMomentAlive(true);
             Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
+            // TODO να βάλω δυναμικό text
             die('No Directories to scan');
+        }
+
+        if(count(self::$files) == 0) {
+            die('No files in directories');
         }
 
         if($this->searchItunes) {
