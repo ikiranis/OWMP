@@ -327,6 +327,8 @@ class OWMP
     // εμφάνιση της οθόνης συγχρονισμού
     static function showSynchronization () {
 
+        // TODO Έλεγχος των download paths αν έχουν δικαιώματα
+
         OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
 
         ?>

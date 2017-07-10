@@ -40,7 +40,7 @@ if (isset($_GET['email']))
 if(!$user->CheckIfThereIsAdminUser()) {
     $register = $user->CreateUser($username, $email, $password, '1', 'local', null, null);
 
-    if ($register['success']) {
+    if ($register) {
         $jsonArray = array('success' => true);
         Logs::insertLog('User ' . $username . ' registered'); // Προσθήκη της κίνησης στα logs
     } else {
@@ -50,7 +50,7 @@ if(!$user->CheckIfThereIsAdminUser()) {
 
 
     // ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
-    Page::startBasicOptions();
+//    Page::startBasicOptions();
 
     // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
     $eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';

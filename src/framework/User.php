@@ -207,8 +207,9 @@ class User extends MyDB
 
             return $inserted_id;
 
+        } else {
+            return false;
         }
-        else return false;
 
     }
 
