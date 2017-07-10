@@ -158,6 +158,10 @@ class SyncFiles
             }
 
             self::$files = $trimFiles;
+
+            return true;
+        } else {
+            return false;
         }
 
 
@@ -587,7 +591,12 @@ class SyncFiles
         }
 
         // Διάβασμα των αρχείων στα directory που δίνει ο χρήστης
-        $this->scanFiles($this->mediaKind);
+        if(!$this->scanFiles($this->mediaKind)) {
+            Progress::setLastMomentAlive(true);
+            Progress::updatePercentProgress(0);   // Μηδενίζει το progress
+
+            die('No Directories to scan');
+        }
 
         if($this->searchItunes) {
             $this->getItunesLibrary();
