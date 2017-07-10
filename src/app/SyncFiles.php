@@ -597,6 +597,9 @@ class SyncFiles
         }
 
         if(count(self::$files) == 0) {
+            Progress::setLastMomentAlive(true);
+            Progress::updatePercentProgress(0);   // Μηδενίζει το progress
+            
             die('No files in directories');
         }
 
