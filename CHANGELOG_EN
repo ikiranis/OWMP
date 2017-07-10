@@ -1,8 +1,13 @@
+2017-7-10: 0.9.0
+
+Improve the synchronization code
+Automatically import into the database files downloaded from youtube
+Bug Fixes
+
 2017-6-30: 0.8.1
 
 Improvements to search
 Corrections/improvements to database backup/restore
-
 
 2017-6-24: 0.8.0
 
