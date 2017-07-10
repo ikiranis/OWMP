@@ -594,13 +594,14 @@ class SyncFiles
 
             // TODO να βάλω δυναμικό text
             die('No Directories to scan');
-        }
+        } else { // Έλεχγος αν υπάρχουν αρχεία στα directories
+            if(count(self::$files) == 0) {
+                Progress::setLastMomentAlive(true);
+                Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
-        if(count(self::$files) == 0) {
-            Progress::setLastMomentAlive(true);
-            Progress::updatePercentProgress(0);   // Μηδενίζει το progress
-            
-            die('No files in directories');
+                // TODO να βάλω δυναμικό text
+                die('No files in directories');
+            }
         }
 
         if($this->searchItunes) {
