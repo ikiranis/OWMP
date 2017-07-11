@@ -166,8 +166,8 @@ class OWMPElements extends OWMP
                             <input class="input_field"
                                placeholder="<?php echo __('users_username'); ?>"
                                title="<?php echo __('valid_username'); ?>"
-                               pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$'
-                               maxlength="15" required type="text" id="username" name="username" value="<?php echo $item['username']; ?>">
+                               pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
+                               maxlength="15" required type="text" id="username1" name="username1" value="<?php echo $item['username']; ?>">
                         </span>
 
                         <span class="ListColumn">
