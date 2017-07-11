@@ -162,7 +162,6 @@ class OWMPElements extends OWMP
 
             while($item=$stmt->fetch(\PDO::FETCH_ASSOC))
             {
-                trigger_error($item['username']);
                 ?>
                 <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
                     <form class="table_form users_form" id="users_formID<?php echo $item['user_id']; ?>">
@@ -171,7 +170,7 @@ class OWMPElements extends OWMP
                                placeholder="<?php echo __('users_username'); ?>"
                                title="<?php echo __('valid_username'); ?>"
                                pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$'
-                               maxlength="15" required type="text" name="username" value="<?php echo $item['username']; ?>">
+                               maxlength="15" required type="text" name="username" value="<?php echo $item['username'].'fdfdfdfd'; ?>">
                     </span>
                         <span class="ListColumn">
                         <input class="input_field"
