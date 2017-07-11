@@ -162,6 +162,7 @@ class OWMPElements extends OWMP
 
             while($item=$stmt->fetch(\PDO::FETCH_ASSOC))
             {
+                trigger_error($item['username']);
                 ?>
                 <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
                     <form class="table_form users_form" id="users_formID<?php echo $item['user_id']; ?>">
@@ -192,10 +193,6 @@ class OWMPElements extends OWMP
                                pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
                                maxlength="15"  type="password" id="<?php echo $item['user_id']; ?>" name="repeat_password" value="">
                     </span>
-
-
-
-
 
                         <span class="ListColumn">
                         <select class="input_field" name="usergroup" <?php if($UserGroupID!=1) echo ' disabled=disabled'; ?> >
