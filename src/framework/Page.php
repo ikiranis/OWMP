@@ -12,8 +12,8 @@
 
 namespace apps4net\framework;
 
-use \apps4net\parrot\app\OWMP;
-use \apps4net\parrot\app\OWMPElements;
+use apps4net\parrot\app\OWMP;
+use apps4net\parrot\app\OWMPElements;
 
 class Page
 {

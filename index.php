@@ -72,8 +72,6 @@ if(!isset($_SESSION['user_IP'])) {
 if (isset($_GET['logout'])) {
     Logs::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
     $user->logout();
-
-    // TODO αν πας να κάνεις logout αμέσως μόλις μπεις, δεν κάνει
 }
 
 // δημιουργεί έναν μοναδικό αριθμό που χρησιμοποιείται στην υπόλοιπη εφαρμογή σαν tab id
@@ -127,7 +125,6 @@ else {
 
     $LoginNameText = '<img id="account_image" src="img/account.png"> <span id="account_name">' . $userName . '</span>';
     $logged_in = true;
-
 
     if (!isset($_SESSION["username"]))
         $conn->setSession('username', $userName);

@@ -25,6 +25,8 @@ use apps4net\framework\Progress;
 
 class OWMPElements extends OWMP
 {
+    public $checkVideoFileUpload;
+    public $checkAudioFileUpload;
 
     // Εμφανίζει την μπάρα με τα controls
     static function displayControls($element, $fullscreen)
@@ -391,35 +393,43 @@ class OWMPElements extends OWMP
         <?php
     }
 
+    // Έλεγχος αν υπάρχουν κι έχουν δικαιώματα τα directories για upload από το youtube
+    public function checkYoutubeUploadDirectories()
+    {
+        if(VIDEO_FILE_UPLOAD) {
+            $this->checkVideoFileUpload = FilesIO::createDirectory(VIDEO_FILE_UPLOAD);
+
+            if(!$this->checkVideoFileUpload['result']) {
+                echo $this->checkVideoFileUpload['message'];
+            }
+        } else {
+            echo '<p class="general_fail">'.__('no_main_music_video_path').'</p>';
+        }
+
+        if(MUSIC_FILE_UPLOAD) {
+            $this->checkAudioFileUpload = FilesIO::createDirectory(MUSIC_FILE_UPLOAD);
+
+            if(!$this->checkAudioFileUpload['result']) {
+                echo $this->checkAudioFileUpload['message'];
+            }
+        } else {
+            echo '<p class="general_fail">'.__('no_main_music_path').'</p>';
+        }
+
+    }
+
     // Εμφάνιση των στοιχείων για κατέβασμα από YouTube
-    static function displayYoutubeDownloadElements()
+    public function displayYoutubeDownloadElements()
     {
         global $mediaKinds;
 
-        if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) { // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+        // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
+        if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) {
 
-            if(VIDEO_FILE_UPLOAD) {
-                $checkVideoFileUpload = FilesIO::createDirectory(VIDEO_FILE_UPLOAD);
+            // Έλεγχος αν υπάρχουν κι έχουν δικαιώματα τα directories για upload από το youtube
+            $this->checkYoutubeUploadDirectories();
 
-                if(!$checkVideoFileUpload['result']) {
-                    echo $checkVideoFileUpload['message'];
-                }
-            } else {
-                echo '<p class="general_fail">'.__('no_main_music_video_path').'</p>';
-            }
-
-            if(MUSIC_FILE_UPLOAD) {
-                $checkAudioFileUpload = FilesIO::createDirectory(MUSIC_FILE_UPLOAD);
-
-                if(!$checkAudioFileUpload['result']) {
-                    echo $checkAudioFileUpload['message'];
-                }
-            } else {
-                echo '<p class="general_fail">'.__('no_main_music_path').'</p>';
-            }
-
-
-            if( $checkVideoFileUpload['result'] || $checkAudioFileUpload['result'] ) {
+            if( $this->checkVideoFileUpload['result'] || $this->checkAudioFileUpload['result'] ) {
 
                 ?>
                 <div>
@@ -442,8 +452,8 @@ class OWMPElements extends OWMP
                            onclick="downloadTheYouTube();"
                            value="<?php echo __('sync_youtube'); ?>" >
 
-                    <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $checkVideoFileUpload['result']; ?>">
-                    <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $checkAudioFileUpload['result']; ?>">
+                    <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $this->checkVideoFileUpload['result']; ?>">
+                    <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $this->checkAudioFileUpload['result']; ?>">
 
                 </div>
 
@@ -459,6 +469,7 @@ class OWMPElements extends OWMP
     // Έλεγχος και εμφάνιση απαιτήσεων
     static function checkRequirements()
     {
+        // TODO να μπουν δυναμικά κείμενα
         ?>
 
         <p>ffmpeg:

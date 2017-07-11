@@ -19,6 +19,7 @@ use apps4net\framework\Language;
 use apps4net\framework\MyDB;
 use apps4net\framework\Page;
 use apps4net\framework\User;
+use apps4net\framework\Utilities;
 
 class OWMP
 {
@@ -329,6 +330,8 @@ class OWMP
 
         // TODO Έλεγχος των download paths αν έχουν δικαιώματα
 
+        $OWMPElements = new OWMPElements();
+
         OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
 
         ?>
@@ -350,7 +353,13 @@ class OWMP
             <details>
                 <summary> <?php echo __('youtube_download'); Page::getHelp('help_youtube'); ?> </summary>
                 <?php
-                    OWMPElements::displayYoutubeDownloadElements(); // Εμφανίζει τις επιλογές για το youtube
+                    // Αν είναι εγκατεστημένο το youtube-dl
+                    if(Utilities::checkIfLinuxProgramInstalled('youtube-dl')) {
+                        $OWMPElements->displayYoutubeDownloadElements(); // Εμφανίζει τις επιλογές για το youtube
+                    } else {
+                        // TODO να μπει δυναμικό κείμενο
+                        echo 'youtube-dl not installed';
+                    }
                 ?>
             </details>
 

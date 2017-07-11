@@ -17,6 +17,7 @@ use apps4net\framework\Options;
 require_once ('autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
 require_once ('config.inc.php');  // Τα στοιχεία εισόδου στην βάση
 require_once ('functions.php');  // Public functions
+require_once ('mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
 
 // Αρχικοποίηση του Session class
 ini_set('session.gc_maxlifetime',60);
@@ -24,8 +25,6 @@ ini_set('session.gc_divisor',100);
 ini_set('session.gc_probability',100);
 $handler = new Session();
 session_set_save_handler($handler, true);
-
-require_once('mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
 
 $conn = new MyDB();
 $options = new Options();
