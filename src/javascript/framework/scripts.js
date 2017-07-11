@@ -137,7 +137,7 @@ function login() {
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
-    username=$("#UserID"+id).find('input[name="username"]').val();
+    username=$("#UserID"+id).find('input[name="theUsername"]').val();
     email=$("#UserID"+id).find('input[name="email"]').val();
     password=$("#UserID"+id).find('input[name="password"]').val();
     repeat_password=$("#UserID"+id).find('input[name="repeat_password"]').val();
@@ -254,7 +254,7 @@ function insertUser() {
 
         // clone last div row
         $('div[id^="UserID"]:last').clone().insertAfter('div[id^="UserID"]:last').prop('id','UserID0');
-        $("#UserID0").find('input[name="username"]').val(''); // clear field values
+        $("#UserID0").find('input[name="theUsername"]').val(''); // clear field values
         $("#UserID0").find('form').prop('id','users_formID0');
         $("#UserID0").find('input[name="email"]').val('');
         $("#UserID0").find('input[name="fname"]').val('');
