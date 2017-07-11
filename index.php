@@ -34,9 +34,6 @@ if (isset($_GET['ChangeLang'])) {
     header($targetPage);
 }
 
-require_once('src/login.php');
-require_once('src/MainPage.php');
-
 $MainPage = new Page();
 $user = new User();
 
@@ -74,10 +71,9 @@ if(!isset($_SESSION['user_IP'])) {
 
 if (isset($_GET['logout'])) {
     Logs::insertLog('User Logout'); // Προσθήκη της κίνησης στα logs
-    logout();
+    $user->logout();
 
     // TODO αν πας να κάνεις logout αμέσως μόλις μπεις, δεν κάνει
-
 }
 
 // δημιουργεί έναν μοναδικό αριθμό που χρησιμοποιείται στην υπόλοιπη εφαρμογή σαν tab id
@@ -153,8 +149,7 @@ if($logged_in) {
         }
     }
 
-
-    DisplayMainPage();
+    $MainPage->DisplayMainPage();
 
     $MainPage->showFooter(true,true,true);
 
@@ -163,8 +158,8 @@ if($logged_in) {
 // Αν δεν είναι login κάποιος χρήστης
 if(!$logged_in) {
     if ($user->CheckIfThereIsUsers())
-        showLoginWindow();
-    else ShowRegisterUser();
+        $user->showLoginWindow();
+    else $user->ShowRegisterUser();
 }
 
 // TODO Έλεγχος όλων των paths και των προγραμμάτων που πρέπει να είναι εγκατεστημένα στην οθόνη του register/login

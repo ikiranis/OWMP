@@ -274,8 +274,6 @@ function insertUser() {
     }
 }
 
-
-
 // μετράει τα πεδία ενός json object
 function countjson(obj) {
     var count=0;

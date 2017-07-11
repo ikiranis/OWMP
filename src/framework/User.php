@@ -425,4 +425,188 @@ class User extends MyDB
         return $result;
     }
 
+    // Κάνει logout
+    public function logout() {
+        // remove all session variables
+        session_unset();
+
+        // destroy the session
+        session_destroy();
+
+        // unset cookies
+        if (isset($_SERVER['HTTP_COOKIE'])) {
+            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+            foreach($cookies as $cookie) {
+                $parts = explode('=', $cookie);
+                $name = trim($parts[0]);
+                setcookie($name, '', time()-1000, PROJECT_PATH);
+            }
+        }
+
+        header('Location:index.php');
+    }
+
+    // Εμφάνιση οθόνης για login
+    public function showLoginWindow()
+    {
+
+        $LoginWindow = new Page();
+        $lang=new Language();
+
+        ?>
+        <main>
+            <div id="LoginWindow">
+
+                <?php
+
+                $FormElementsArray = array(
+                    array('name' => 'username',
+                        'fieldtext' => __('form_user_name'),
+                        'type' => 'text',
+                        'onclick' => null,
+                        'required' => 'yes',
+                        'maxlength' => '15',
+                        'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
+                        'title' => __('valid_username'),
+                        'disabled' => 'no',
+                        'value' => null),
+                    array('name' => 'password',
+                        'fieldtext' => __('form_password'),
+                        'type' => 'password',
+                        'onclick' => null,
+                        'required' => 'yes',
+                        'maxlength' => '15',
+                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                        'title' => __('valid_password'),
+                        'disabled' => 'no',
+                        'value' => null),
+                    array('name' => 'SavePassword',
+                        'fieldtext' => __('form_save_password'),
+                        'type' => 'checkbox',
+                        'onclick' => null,
+                        'required' => 'no',
+                        'maxlength' => '',
+                        'pattern' => '',
+                        'title' => '',
+                        'disabled' => 'no',
+                        'value' => 'yes'),
+                    array('name' => 'submit',
+                        'fieldtext' => '',
+                        'type' => 'button',
+                        'onclick' => 'login();',
+                        'required' => 'no',
+                        'maxlength' => '',
+                        'pattern' => '',
+                        'title' => '',
+                        'disabled' => 'no',
+                        'value' => __('form_login'))
+                );
+
+                $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
+
+                $languages_text=$lang->print_languages('lang_id',' ',true,false);
+
+                ?>
+
+                <div id="languages">
+                    <?php echo $languages_text; ?>
+                </div>
+
+            </div>
+
+        </main>
+
+        <div id="error_container">
+            <div class="alert_error bgc9"></div>
+        </div>
+
+        <?php
+    }
+
+    // Εμφάνιση οθόνης για εγγραφή χρήστη
+    public function ShowRegisterUser()
+    {
+        $RegisterUserWindow = new Page();
+        $lang=new Language();
+
+        ?>
+        <main>
+            <div id="RegisterUserWindow" class="bgc2">
+
+                <?php
+
+                $FormElementsArray = array(
+                    array('name' => 'username',
+                        'className' => 'bgc3',
+                        'fieldtext' => __('form_user_name'),
+                        'type' => 'text',
+                        'onclick' => null,
+                        'required' => 'yes',
+                        'maxlength' => '15',
+                        'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
+                        'title' => __('valid_username'),
+                        'disabled' => 'no',
+                        'value' => null),
+                    array('name' => 'email',
+                        'className' => 'bgc3',
+                        'fieldtext' => __('form_email'),
+                        'type' => 'email',
+                        'onclick' => null,
+                        'required' => 'yes',
+                        'maxlength' => '50',
+                        'title' => __('valid_email'),
+                        'disabled' => 'no',
+                        'value' => null),
+                    array('name' => 'password',
+                        'className' => 'bgc3',
+                        'fieldtext' => __('form_password'),
+                        'type' => 'password',
+                        'onclick' => null,
+                        'required' => 'yes',
+                        'maxlength' => '15',
+                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                        'title' => __('valid_password'),
+                        'disabled' => 'no',
+                        'value' => null),
+                    array('name' => 'repeat_password',
+                        'className' => 'bgc3',
+                        'fieldtext' => __('form_repeat_password'),
+                        'type' => 'password',
+                        'onclick' => null,
+                        'required' => 'yes',
+                        'maxlength' => '15',
+                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                        'title' => __('valid_password'),
+                        'disabled' => 'no',
+                        'value' => null),
+                    array('name' => 'register',
+                        'className' => 'bgc5 c2',
+                        'fieldtext' => '',
+                        'type' => 'button',
+                        'onclick' => 'registerUser();',
+                        'required' => 'no',
+                        'maxlength' => '',
+                        'pattern' => '',
+                        'title' => '',
+                        'disabled' => 'no',
+                        'value' => __('form_register'))
+                );
+
+                $RegisterUserWindow->MakeForm('RegisterForm', $FormElementsArray, false);
+
+                $languages_text=$lang->print_languages('lang_id',' ',true,false);
+
+                ?>
+                <div id="languages">
+                    <?php echo $languages_text; ?>
+                </div>
+
+            </div>
+
+        </main>
+
+        <?php
+    }
+
+
 }
