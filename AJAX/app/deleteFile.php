@@ -20,17 +20,13 @@ session_start();
 
 Page::checkValidAjaxRequest(true);
 
-
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
-
 
 if(OWMPElements::deleteFile($id)==true) {
     $jsonArray = array('success' => true, 'id' => $id);
     Logs::insertLog('Deleted song with id: '.$id); // Προσθήκη της κίνησης στα logs
 }
 else $jsonArray=array( 'success'=> false);
-
-
 
 echo json_encode($jsonArray);

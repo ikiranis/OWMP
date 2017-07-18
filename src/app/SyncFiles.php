@@ -311,7 +311,7 @@ class SyncFiles
 
     }
 
-    public function checkIfFileExists()
+    public function checkHashOfFile()
     {
         if(FilesIO::fileExists($this->fullPathName)) { // Αν το αρχείο υπάρχει
             $this->hash = self::hashFile($this->fullPathName);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
@@ -322,7 +322,7 @@ class SyncFiles
 
                 if (!FilesIO::fileExists($oldFullPath)) {  // Αν το παλιό αρχείο στο fullpath δεν βρεθεί
 
-                    self::$filesForUpdate[] = [  // Πίνακας με τα id των προς διαγραφή αρχείων
+                    self::$filesForUpdate[] = [  // Πίνακας με τα id των προς μεταφορά αρχείων
                         'id' => $searchHash,
                         'filename' => $this->filename,
                         'path' => $this->path
@@ -546,7 +546,7 @@ class SyncFiles
         // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
         if(!$fileAlreadySynced) {
             // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
-            if(!$this->checkIfFileExists()) { // Αλλιώς το δηλώνουμε προβληματικό
+            if(!$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
 //                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                 $problemInFilePath=true;
             }
@@ -635,7 +635,7 @@ class SyncFiles
             if(!$fileAlreadySynced) {
 
                 // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
-                if(!$this->checkIfFileExists()) { // Αλλιώς το δηλώνουμε προβληματικό
+                if(!$searchHash=$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
                     echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                     $problemInFilePath=true;
                 }
@@ -664,7 +664,7 @@ class SyncFiles
 
                 if (!$dontDoRecord) {   // Αν είναι ALAC αρχείο και θέλουμε να μετατραπεί και δεν υπάρχει σφάλμα στην μετατροπή
 
-                    // Εγγραφή στο files και επιστροφή του $inserted_id
+                    // Εγγραφή στο files και επιστροφή του $this->inserted_id
                     $this->writeTheFile();
 
                     if ($this->searchItunes) {  // Αν έχει επιλεγεί να κάνουμε συγχρονισμό με itunes

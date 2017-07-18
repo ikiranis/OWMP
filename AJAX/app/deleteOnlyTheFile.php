@@ -31,7 +31,6 @@ if(isset($_GET['fullpath']))
 if(isset($_GET['id']))
     $id=ClearString($_GET['id']);
 
-
 if (FilesIO::deleteFile($fullpath)) {  // Αν υπάρχει ήδη στην βάση σβήνει το αρχείο στον δίσκο και βγάζει μήνυμα
     $jsonArray = array('success' => true, 'id' => $id);
 
