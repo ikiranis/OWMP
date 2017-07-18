@@ -313,6 +313,7 @@ class SyncFiles
 
     public function checkHashOfFile()
     {
+        trigger_error($this->fullPathName);
         if(FilesIO::fileExists($this->fullPathName)) { // Αν το αρχείο υπάρχει
             $this->hash = self::hashFile($this->fullPathName);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
 
