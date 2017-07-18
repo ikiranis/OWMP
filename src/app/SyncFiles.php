@@ -316,7 +316,7 @@ class SyncFiles
         trigger_error($this->fullPathName);
         if(FilesIO::fileExists($this->fullPathName)) { // Αν το αρχείο υπάρχει
             $this->hash = self::hashFile($this->fullPathName);  // Παίρνουμε το hash από το συγκεκριμένο αρχείο
-
+            trigger_error($this->hash);
             if ($searchHash = self::searchForHash($this->hash)) { // Έλεγχος στην βάση για to hash
 
                 $oldFullPath = DIR_PREFIX . OWMPElements::getFullPathFromFileID($searchHash);  // To fullpath του αρχείου που βρέθηκε
