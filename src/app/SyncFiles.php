@@ -637,7 +637,7 @@ class SyncFiles
                     echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                     $problemInFilePath=true;
                 } else {
-                    trigger_error($this->file);
+                    trigger_error($searchHash);
                 }
 
 
