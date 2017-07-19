@@ -73,6 +73,8 @@ class SyncFiles
     public $added_video = 0;  // μετρητής με τα αρχεία που προσθέτηκαν
     public $general_counter = 0;  // γενικός μετρητής
 
+    public $hashAlreadyExist = false;
+
     public $script_start; // Ο μετρητής του χρόνου του process
 
     public $deleteFilesString;  // Το string που περιέχει τα αρχεία για διαγραφή
@@ -329,6 +331,8 @@ class SyncFiles
 
                     trigger_error('UPDATE ' . $this->hash . ' FILENAME ' . $this->filename);
 
+                    $this->hashAlreadyExist = true;
+
                 } else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
 
                     self::$filesForDelete[] = [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
@@ -340,12 +344,11 @@ class SyncFiles
 
                     trigger_error('DIAGRAFH ' . $this->hash . ' FILENAME ' . $this->filename);
 
+                    $this->hashAlreadyExist = true;
                 }
             }
 
-            return $searchHash;
         } else {
-            trigger_error('PROBLEM');
             return false;
         }
     }
@@ -629,22 +632,19 @@ class SyncFiles
             $fileAlreadySynced = $this->checkIfFileExistsOnDB(true);
 
             $problemInFilePath=false;
+            $this->hashAlreadyExist = false;
 
             // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
             if(!$fileAlreadySynced) {
                 // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
-                if(!$searchHash=$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
+                if(!$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
                     echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                     $problemInFilePath=true;
                 }
-            } else {
-                $searchHash = false;
             }
 
-
-
             // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
-            if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
+            if(!$fileAlreadySynced && !$this->hashAlreadyExist && !$problemInFilePath) {
 
                 trigger_error($this->file);
 
