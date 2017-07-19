@@ -636,11 +636,7 @@ class SyncFiles
                 if(!$searchHash=$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
                     echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                     $problemInFilePath=true;
-                } else {
-                    trigger_error($searchHash);
                 }
-
-
             } else {
                 $searchHash = false;
             }
@@ -649,6 +645,8 @@ class SyncFiles
 
             // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
             if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
+
+                trigger_error($this->file);
 
                 Progress::setLastMomentAlive(false);
 
