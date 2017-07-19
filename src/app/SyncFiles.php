@@ -545,8 +545,7 @@ class SyncFiles
         $fileAlreadySynced = $this->checkIfFileExistsOnDB(false);
 
         $problemInFilePath=false;
-
-        $searchHash='';
+        $this->hashAlreadyExist = false;
 
         // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
         if(!$fileAlreadySynced) {
@@ -555,12 +554,10 @@ class SyncFiles
 //                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                 $problemInFilePath=true;
             }
-        } else {
-            $searchHash = false;
-        }
+        } 
 
         // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
-        if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
+        if(!$fileAlreadySynced && !$this->hashAlreadyExist && !$problemInFilePath) {
 
             if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
                 $this->getMediaFileTags($this->fullPathName); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
