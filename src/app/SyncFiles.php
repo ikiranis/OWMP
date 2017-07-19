@@ -632,8 +632,6 @@ class SyncFiles
 
             // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
             if(!$fileAlreadySynced) {
-                trigger_error($this->file);
-
                 // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
                 if(!$searchHash=$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
                     echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
@@ -643,6 +641,8 @@ class SyncFiles
             } else {
                 $searchHash = false;
             }
+
+            trigger_error($this->file);
 
             // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
             if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
