@@ -632,6 +632,7 @@ class SyncFiles
 
             // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
             if(!$fileAlreadySynced) {
+                trigger_error($this->file);
 
                 // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
                 if(!$searchHash=$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
@@ -648,7 +649,6 @@ class SyncFiles
 
                 Progress::setLastMomentAlive(false);
 
-                trigger_error($this->filename);
                 $this->startingValues($this->filename); // Αρχικοποίηση τιμών
 
                 $dontDoRecord = false;
