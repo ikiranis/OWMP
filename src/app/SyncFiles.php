@@ -313,6 +313,7 @@ class SyncFiles
 
     }
 
+    // Δημιουργία και έλεγχος του hash του αρχείου
     public function checkHashOfFile()
     {
         if(FilesIO::fileExists($this->fullPathName)) { // Αν το αρχείο υπάρχει
@@ -349,6 +350,7 @@ class SyncFiles
             }
 
         } else {
+            trigger_error('problem');
             return false;
         }
     }
