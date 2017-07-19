@@ -629,6 +629,7 @@ class SyncFiles
             $fileAlreadySynced = $this->checkIfFileExistsOnDB(true);
 
             $problemInFilePath=false;
+            $searchHash=true;
 
             // Αν δεν έχει συγχρονιστεί ήδη το αρχείο κάνουμε ελέγχους αν έχει μεταφερθεί ή αν υπάρχει διπλή εγγραφή
             if(!$fileAlreadySynced) {
