@@ -329,6 +329,8 @@ class SyncFiles
 
                     trigger_error('UPDATE ' . $this->hash . ' FILENAME ' . $this->filename);
 
+                    return $searchHash;
+
                 } else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
 
                     self::$filesForDelete[] = [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
@@ -340,12 +342,12 @@ class SyncFiles
 
                     trigger_error('DIAGRAFH ' . $this->hash . ' FILENAME ' . $this->filename);
 
+                    return $searchHash;
                 }
             }
 
-            return true;
-        }
-        else {
+            return $searchHash;
+        } else {
             return false;
         }
     }
@@ -679,8 +681,6 @@ class SyncFiles
 
                 }
 
-            } else {
-                trigger_error('PROBLEM WITH: '.$this->file);
             }
 
 
