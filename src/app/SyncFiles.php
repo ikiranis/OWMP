@@ -345,6 +345,7 @@ class SyncFiles
 
             return $searchHash;
         } else {
+            trigger_error('PROBLEM');
             return false;
         }
     }
