@@ -638,11 +638,12 @@ class SyncFiles
                     $problemInFilePath=true;
                 }
 
+                trigger_error($this->file);
             } else {
                 $searchHash = false;
             }
 
-            trigger_error($this->file);
+
 
             // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
             if(!$fileAlreadySynced && !$searchHash && !$problemInFilePath) {
