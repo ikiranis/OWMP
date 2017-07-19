@@ -636,9 +636,11 @@ class SyncFiles
                 if(!$searchHash=$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
                     echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                     $problemInFilePath=true;
+                } else {
+                    trigger_error($this->file);
                 }
 
-                trigger_error($this->file);
+
             } else {
                 $searchHash = false;
             }
