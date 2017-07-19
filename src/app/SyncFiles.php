@@ -554,7 +554,7 @@ class SyncFiles
 //                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
                 $problemInFilePath=true;
             }
-        } 
+        }
 
         // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
         if(!$fileAlreadySynced && !$this->hashAlreadyExist && !$problemInFilePath) {
@@ -645,9 +645,6 @@ class SyncFiles
 
             // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
             if(!$fileAlreadySynced && !$this->hashAlreadyExist && !$problemInFilePath) {
-
-                trigger_error($this->file);
-
                 Progress::setLastMomentAlive(false);
 
                 $this->startingValues($this->filename); // Αρχικοποίηση τιμών
