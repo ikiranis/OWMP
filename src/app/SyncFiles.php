@@ -349,8 +349,9 @@ class SyncFiles
                 }
             }
 
+            return true;
+
         } else {
-            trigger_error('problem');
             return false;
         }
     }
