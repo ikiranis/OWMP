@@ -159,8 +159,6 @@ if(!$logged_in) {
     else $user->ShowRegisterUser();
 }
 
-// TODO Έλεγχος όλων των paths και των προγραμμάτων που πρέπει να είναι εγκατεστημένα στην οθόνη του register/login
-
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
 //$eventQuery='DELETE FROM logs WHERE log_date<DATE_SUB(NOW(), INTERVAL 30 DAY)';
 //MyDB::createMySQLEvent('logsManage', $eventQuery, '1 DAY');

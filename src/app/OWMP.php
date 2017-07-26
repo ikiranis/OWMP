@@ -328,8 +328,6 @@ class OWMP
     // εμφάνιση της οθόνης συγχρονισμού
     static function showSynchronization () {
 
-        // TODO Έλεγχος των download paths αν έχουν δικαιώματα
-
         $OWMPElements = new OWMPElements();
 
         OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
@@ -365,7 +363,14 @@ class OWMP
 
             <details>
                 <summary> <?php echo __('requirements_check'); ?> </summary>
-                <?php OWMPElements::checkRequirements();  // Εμφανίζει τους ελέγχους για τα requirements ?>
+                <?php
+                    // TODO να κάνω όλους τους έλεγχους εκτός του details, στην αρχή της σελίδας
+                    OWMPElements::checkRequirements();  // Εμφανίζει τους ελέγχους για τα requirements
+                    // Έλεγχος δικαιωμάτων φακέλων
+                    if($checkFolders = $OWMPElements->checkFoldersPermissions()) {
+                        echo $checkFolders;
+                    }
+                ?>
             </details>
 
             <p>

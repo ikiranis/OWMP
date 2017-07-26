@@ -219,7 +219,6 @@ class Options extends MyDB
         $downloadPathsArray = self::getTableArray('download_paths', null, null, null, null, null, null);
         $newArray = array();
 
-
         // Θέτουμε για key το όνομα του option και για value το value του option
         foreach ($downloadPathsArray as $item) {
             $newArray[$item['path_name']] = $item['file_path'];

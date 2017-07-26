@@ -466,6 +466,27 @@ class OWMPElements extends OWMP
         }
     }
 
+    // Έλεγχος αν οι φάκελοι έχουν δικαιώματα εγγραφής
+    public function checkFoldersPermissions()
+    {
+        global $downloadPaths;
+
+        $errorText = '';
+
+        foreach ($downloadPaths as $path) {
+            if(!is_writable($path)) {
+                $errorText.= '<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$path . '. '.__('give_permissions').'</p>';
+            }
+        }
+
+        if($errorText) {
+            return $errorText;
+        } else {
+            return false;
+        }
+
+    }
+
     // Έλεγχος και εμφάνιση απαιτήσεων
     static function checkRequirements()
     {
