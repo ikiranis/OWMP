@@ -170,6 +170,7 @@ class Options extends MyDB
             // Ελέγχουμε αν κάποιο option που βρίσκεται στο $this->defaultOptions δεν υπάρχει στην βάση
             // Το δημιουργούμε αν δεν υπάρχει
             foreach ($this->defaultOptions as $option) {
+
                 if (!isset($newArray[$option['option_name']])) {
 
                     if ($this->createOption($option['option_name'], $option['option_value'],

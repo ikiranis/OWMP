@@ -24,6 +24,8 @@ set_time_limit(0);
 
 $youtubeDL = new VideoDownload();
 
+$youtubeDL->maxVideoHeight = MAX_VIDEO_HEIGHT;
+
 if(isset($_GET['id'])) {
     $youtubeDL->videoID = ClearString($_GET['id']);
 }

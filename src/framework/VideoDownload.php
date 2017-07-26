@@ -21,7 +21,9 @@ class VideoDownload
     public $mediaKind;
     public $imageThumbnail='';
     public $title;
+    public $maxVideoHeight;
 
+    // TODO έχει πρόβλημα όταν το λινκ του youtube έχει τον χρονικό σημείο που πρέπει να παίξει
     // Επιστρέφει το id ενός youtube video από το url του
     // Source from http://code.runnable.com/VUpjz28i-V4jETgo/get-youtube-video-id-from-url-for-php
     public function getYoutubeID(){
@@ -105,10 +107,6 @@ class VideoDownload
     // Επιστρέφει τον τίτλο του βίντεο μέσω του Youtube API
     // Details @ https://developers.google.com/youtube/v3/getting-started
     public function getYoutubeTitle(){
-//        $youtubeID=$this->getYoutubeID();
-
-//        trigger_error($youtubeID);
-
         $html = 'https://www.googleapis.com/youtube/v3/videos?id='.$this->videoID.'&key='.YOUTUBE_API.'&part=snippet';
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
@@ -125,7 +123,7 @@ class VideoDownload
 
         if($this->mediaKind=='Music Video') {
             // Κατέβασμα βίντεο
-            $downloadString = '"bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" -- '.$this->videoID;
+            $downloadString = '"bestvideo[ext=mp4][height<='.$this->maxVideoHeight.']+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" -- '.$this->videoID;
         } else {
             // Κατέβασμα audio
             $downloadString = '"bestaudio[ext=m4a]/best[ext=mp3]/best" -o "'.$videoFullPath.'.%(ext)s" -- '.$this->videoID;

@@ -182,7 +182,8 @@ $defaultOptions = array(
     array('option_name' => 'jukebox_enable', 'option_value' => 'false', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'default_language', 'option_value' => 'en', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'youtube_api', 'option_value' => 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 'setting' => 1, 'encrypt' => 0),
-    array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0)
+    array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'max_video_height', 'option_value' => '1080', 'setting' => 1, 'encrypt' => 0)
 );
 
 $defaultProgress = array(
