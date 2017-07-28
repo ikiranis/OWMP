@@ -724,15 +724,9 @@ class SyncFiles
             self::$getID3=new \getID3();
         }
 
-
         $ThisFileInfo = self::$getID3->analyze($FullFileName);
 
         \getid3_lib::CopyTagsToComments($ThisFileInfo);
-
-//                           echo'<pre>';
-//       print_r($ThisFileInfo);
-//        echo'</pre>';
-        
 
         if(isset($ThisFileInfo['filename'])) {
             $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a');
@@ -1125,7 +1119,6 @@ class SyncFiles
             $general_counter=0;
 
             $totalFiles = count($artsArray);
-
 
             foreach ($artsArray as $item) {
                 $myImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];

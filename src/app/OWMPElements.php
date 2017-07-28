@@ -403,7 +403,7 @@ class OWMPElements extends OWMP
                 echo $this->checkVideoFileUpload['message'];
             }
         } else {
-            echo '<p class="general_fail">'.__('no_main_music_video_path').'</p>';
+            echo '<p class="isFail">'.__('no_main_music_video_path').'</p>';
         }
 
         if(MUSIC_FILE_UPLOAD) {
@@ -413,7 +413,7 @@ class OWMPElements extends OWMP
                 echo $this->checkAudioFileUpload['message'];
             }
         } else {
-            echo '<p class="general_fail">'.__('no_main_music_path').'</p>';
+            echo '<p class="isFail">'.__('no_main_music_path').'</p>';
         }
 
     }
@@ -466,29 +466,27 @@ class OWMPElements extends OWMP
         }
     }
 
-    // Έλεγχος αν οι φάκελοι έχουν δικαιώματα εγγραφής
+    // Έλεγχος αν οι φάκελοι υπάρχουν κι έχουν δικαιώματα εγγραφής
     public function checkFoldersPermissions()
     {
+        // Το array με τα download paths
         global $downloadPaths;
 
-        $errorText = '';
-
         foreach ($downloadPaths as $path) {
-            if(!is_writable($path)) {
-                $errorText.= '<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$path . '. '.__('give_permissions').'</p>';
+            if(is_dir($path)) { // Αν υπάρχει ο φάκελος
+                if(!is_writable($path)) {  // Αν δεν έχει δικαιώματα εγγραγφής
+                    echo '<p class="isFail">ERROR! '.__('cant_write_to_path'). ' '.$path . '. '.__('give_permissions').'</p>';
+                }
+            } else { // Αν ο φάκελος δεν υπάρχει
+                echo '<p class="isFail">'. __('path_does_not_exist') . ': '. $path . '</p>';
             }
-        }
 
-        if($errorText) {
-            return $errorText;
-        } else {
-            return false;
         }
 
     }
 
     // Έλεγχος και εμφάνιση απαιτήσεων
-    static function checkRequirements()
+    public function checkRequirements()
     {
         // TODO να μπουν δυναμικά κείμενα
         ?>
@@ -496,9 +494,9 @@ class OWMPElements extends OWMP
         <p>ffmpeg:
             <?php
             if (Utilities::checkIfLinuxProgramInstalled('ffmpeg')) {
-                echo 'Installed';
+                echo '<span class="isSuccess">Installed</span>';
             } else {
-                echo 'Not Installed';
+                echo '<span class="isFail">Not Installed</span>';
             }
             ?>
         </p>
@@ -506,9 +504,9 @@ class OWMPElements extends OWMP
         <p>lame:
             <?php
             if (Utilities::checkIfLinuxProgramInstalled('lame')) {
-                echo 'Installed';
+                echo '<span class="isSuccess">Installed</span>';
             } else {
-                echo 'Not Installed';
+                echo '<span class="isFail">Not Installed</span>';
             }
             ?>
         </p>
@@ -516,9 +514,20 @@ class OWMPElements extends OWMP
         <p>youtube-dl:
             <?php
             if (Utilities::checkIfLinuxProgramInstalled('youtube-dl')) {
-                echo 'Installed';
+                echo '<span class="isSuccess">Installed</span>';
             } else {
-                echo 'Not Installed';
+                echo '<span class="isFail">Not Installed</span>';
+            }
+            ?>
+        </p>
+
+        <p>GD Library:
+            <?php
+            // Έλεγχος της GD library για την διαχείριση εικόνων
+            if(function_exists('gd_info')) {
+                echo '<span class="isSuccess">Installed</span>';
+            } else {
+                echo '<span class="isFail">Not Installed</span>';
             }
             ?>
         </p>

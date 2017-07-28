@@ -111,8 +111,12 @@ details div.error {
     background-color: #FFEDED;
 }
 
-.is-fail {
+.isFail {
     color: darkred;
+}
+
+.isSuccess {
+    color: green;
 }
 
 .syncButton:disabled {

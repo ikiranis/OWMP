@@ -113,15 +113,15 @@ class FilesIO
         if (!is_dir($dir)) { // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
             if (@mkdir($dir, 0777, true)) {
                 if (!is_writable($dir)) {
-                    $result=array('result' => false, 'message'=> '<p class="general_fail">ERROR! '.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
+                    $result=array('result' => false, 'message'=> '<p class="isFail">ERROR! '.__('cant_write_to_path'). ' '.$dir . '. '.__('give_permissions').'</p>');
                 }
             }
             else {
-                $result=array('result' => false, 'message'=> '<p class="general_fail">ERROR! '.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
+                $result=array('result' => false, 'message'=> '<p class="isFail">ERROR! '.__('cant_create_path').' ' . $dir.'. '.__('create_the_path').'</p>');
             }
         } else {
             if(!is_writable($dir)) {
-                $result=array('result' => false, 'message'=> '<p class="general_fail>ERROR! '.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
+                $result=array('result' => false, 'message'=> '<p class="isFail">ERROR! '.__('cant_write_to_path').' ' . $dir . '. '.__('give_permissions').'</p>');
             }
         }
 

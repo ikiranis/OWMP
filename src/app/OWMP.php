@@ -328,6 +328,12 @@ class OWMP
     // εμφάνιση της οθόνης συγχρονισμού
     static function showSynchronization () {
 
+        ?>
+
+        <h2 class="c1"><?php echo __('nav_item_3'); ?></h2>
+
+        <?php
+
         $OWMPElements = new OWMPElements();
 
         OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
@@ -361,25 +367,21 @@ class OWMP
                 ?>
             </details>
 
-            <details>
-                <summary> <?php echo __('requirements_check'); ?> </summary>
-                <?php
-                    // TODO να κάνω όλους τους έλεγχους εκτός του details, στην αρχή της σελίδας
-                    OWMPElements::checkRequirements();  // Εμφανίζει τους ελέγχους για τα requirements
-                    // Έλεγχος δικαιωμάτων φακέλων
-                    if($checkFolders = $OWMPElements->checkFoldersPermissions()) {
-                        echo $checkFolders;
-                    }
-                ?>
-            </details>
-
             <p>
                 <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
                 <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>
                 <li> <?php echo __('help_alac_title'); Page::getHelp('help_alac'); ?> </li>
             </p>
 
-            
+            <h4 class="c1"><?php echo __('requirements_check'); ?></h4>
+
+            <?php
+                // Έλεγχοι εφαρμογών και φακέλων
+                $OWMPElements->checkRequirements();  // Εμφανίζει τους ελέγχους για τα requirements
+                // Έλεγχος δικαιωμάτων φακέλων
+                $OWMPElements->checkFoldersPermissions();
+            ?>
+
             <div id="SyncDetails">
                 <div id="progress" class="bgc3"></div>
             </div>
