@@ -626,7 +626,9 @@ class OWMPElements extends OWMP
 
             <?php
         }
-        else echo '<p>'.__('only_for_admin').'</p>';
+        else {
+            echo '<p>'.__('only_for_admin').'</p>';
+        }
     }
 
     // Επιστρέφει τις διπλές εγγραφές με βάση το hash
@@ -776,17 +778,14 @@ class OWMPElements extends OWMP
                     // Δημιουργεί thumbnail, small image και ico
                     self::createSmallerImage($file, 'thumb');
                     self::createSmallerImage($file, 'small');
-                    self::createSmallerImage($file, 'ico');
+//                    self::createSmallerImage($file, 'ico');
                 }
             }
 
         }
         else $coverID=$coverArtID;
 
-
         return $coverID;
-
-
     }
 
     // Ελέγχει αν ένα image είναι valid
@@ -865,11 +864,11 @@ class OWMPElements extends OWMP
                 $newHeight = 250;
                 $newFilename = 'small_'.$imageFilename;
                 break;
-            case 'ico':
-                $newWidth = 32;
-                $newHeight = 32;
-                $newFilename = str_replace('.'.$extension, '.ico', $imageFilename);
-                break;
+//            case 'ico':
+//                $newWidth = 32;
+//                $newHeight = 32;
+//                $newFilename = str_replace('.'.$extension, '.ico', $imageFilename);
+//                break;
         }
 
         // Δημιουργεί το image με νέες διαστάσεις
@@ -877,21 +876,21 @@ class OWMPElements extends OWMP
         imagecopyResampled ($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
 
         // Σώζει το image
-        if($imageSize!=='ico') {
+//        if($imageSize!=='ico') {
             if (imagejpeg($newImage, $imagePath . '/' . $newFilename)) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } else {
-//            trigger_error($imagePath . '/' . $newFilename);
-            if (imagepng($newImage, $imagePath . '/' . $newFilename)) {
-
-                $result = true;
-            } else {
-                $result = false;
-            }
-        }
+//        } else {
+////            trigger_error($imagePath . '/' . $newFilename);
+//            if (imagepng($newImage, $imagePath . '/' . $newFilename)) {
+//
+//                $result = true;
+//            } else {
+//                $result = false;
+//            }
+//        }
 
         imagedestroy($image); //  clean up image storage
         imagedestroy($newImage);

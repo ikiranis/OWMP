@@ -343,15 +343,17 @@ function loadNextVideo(id)
             if(data.file.kind=='Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
                 var albumCoverPath = data.tags.albumCoverPath;
-                var iconImagePath = data.tags.iconImagePath;
+                // var iconImagePath = data.tags.iconImagePath;
 
                 // Εμφάνιση του source στο fullscreen overlay
                 document.querySelector('#overlay_poster_source').innerHTML = data.tags.apiSource;
 
                 // Αν υπάρχει icon το εμφανίζει σαν favicon
-                if(iconImagePath) {
-                    document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
-                }
+                // if(iconImagePath) {
+                //     document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
+                // }
+
+                document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
 
                 // Εμφάνιση του cover
                 if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy

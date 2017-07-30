@@ -61,9 +61,9 @@ if($metadata=MyDB::getTableArray('music_tags','*', 'id=?', array($id),null, null
         // το Album cover
         $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');
 
-        if(!$iconImagePath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'ico')) {
-            $iconImagePath=null;
-        }
+//        if(!$iconImagePath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'ico')) {
+//            $iconImagePath=null;
+//        }
 
 
         // Χρησιμοποιεί το itunes ή giphy api για να πάρει artwork όταν δεν υπάρχει artwork στο τραγούδι
@@ -117,7 +117,7 @@ if($metadata=MyDB::getTableArray('music_tags','*', 'id=?', array($id),null, null
         'live' => $metadata[0]['live'],
         'rating' => $rating,
         'albumCoverPath'=>$albumCoverPath,
-        'iconImagePath' => $iconImagePath,
+//        'iconImagePath' => $iconImagePath,
         'fromAPI'=>$fromAPI,
         'apiSource'=>$apiSource,
         'playlist_id' => $playlistID,

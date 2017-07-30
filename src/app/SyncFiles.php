@@ -1128,7 +1128,7 @@ class SyncFiles
 
                     $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
                     $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
-                    $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
+//                    $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
 
 
                     if (file_exists($thumbnailImage)) {
@@ -1143,14 +1143,14 @@ class SyncFiles
                         $smallExist = false;
                     }
 
-                    if (file_exists($icoImage)) {
-                        $icoExist = true;
-                    } else {
-                        $icoExist = false;
-                    }
+//                    if (file_exists($icoImage)) {
+//                        $icoExist = true;
+//                    } else {
+//                        $icoExist = false;
+//                    }
 
                     // Αν δεν υπάρχουν ήδη τα small images
-                    if (!$thumbExist || !$smallExist || !$icoExist) {
+                    if (!$thumbExist || !$smallExist) {
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
                         if (OWMPElements::checkValidImage($myImage)) {
@@ -1170,13 +1170,13 @@ class SyncFiles
                                 }
                             }
 
-                            if (!$icoExist) {
-                                if (OWMPElements::createSmallerImage($myImage, 'ico')) {
-                                    echo $icoImage . ' CREATED<br>';
-                                } else {
-                                    echo $myImage . ' CORRUPTED<br>';
-                                }
-                            } 
+//                            if (!$icoExist) {
+//                                if (OWMPElements::createSmallerImage($myImage, 'ico')) {
+//                                    echo $icoImage . ' CREATED<br>';
+//                                } else {
+//                                    echo $myImage . ' CORRUPTED<br>';
+//                                }
+//                            }
 
                         } else {
                             echo $myImage . ' CORRUPTED IMAGE<br>';
