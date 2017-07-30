@@ -529,6 +529,7 @@ class OWMPElements extends OWMP
             } else {
                 echo '<span class="isFail">Not Installed</span>';
             }
+            Page::getHelp('help_GD_library');
             ?>
         </p>
 
@@ -563,10 +564,10 @@ class OWMPElements extends OWMP
                         ?>
                     </select>
 
-
                     <p>
                         <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startTheSync('sync');"
                                value="<?php echo __('Synchronize'); ?>">
+                        <input type="hidden" id="jsGDOK" value="<?php if(function_exists('gd_info')) echo 'true'; else 'false'; ?>">
                         <?php Page::getHelp('help_sync'); ?>
                     </p>
 

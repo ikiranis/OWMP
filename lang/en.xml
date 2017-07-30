@@ -253,6 +253,7 @@
         <phrase name="smart_playlist_saved">Smart playlist saved</phrase>
         <phrase name="smart_playlist_not_saved">Smart playlist not saved</phrase>
         <phrase name="smart_playlist_not_loaded">Smart playlist not loaded</phrase>
+        <phrase name="GD_not_installed">GD library not installed. I cant create small album cover images. Do you want to continue?</phrase>
     </page>
 
     <page name="help">
@@ -398,6 +399,11 @@
         ]]></phrase>
         <phrase name="help_convert_covers"><![CDATA[
             <p>Creates smaller versions and thumbnails of album covers for the entire collection</p>
+            <p><strong>CAUTION:</strong> You must have <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> PHP library. Example of installation for PHP 7 in ubuntu</p>
+            <pre>sudo apt-get install php7.0-gd</pre>
+        ]]></phrase>
+        <phrase name="help_GD_library"><![CDATA[
+            <p>Needed to create smaller versions and thumbnails of album covers</p>
             <p><strong>CAUTION:</strong> You must have <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> PHP library. Example of installation for PHP 7 in ubuntu</p>
             <pre>sudo apt-get install php7.0-gd</pre>
         ]]></phrase>

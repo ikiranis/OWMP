@@ -861,7 +861,6 @@ function loadPlayedQueuePlaylist() {
 
     callFile=AJAX_path+'app/loadPlayedQueue.php?tabID='+tabID;
 
-
     $.get(callFile, function (data) {
 
         if (data.success == true) {
@@ -916,11 +915,18 @@ function checkProgress()
 
 // Κάνει τον συγχρονισμό των αρχείων
 function startTheSync(operation) {
-    var mediaKind=document.querySelector('#mediakind').value;
+    var mediaKind = document.querySelector('#mediakind').value;
+    var GDOK =  document.querySelector('#jsGDOK').value;
+    var callFile = AJAX_path+"app/syncTheFiles.php";
 
-    var callFile=AJAX_path+"app/syncTheFiles.php";
+    // Έλεγχος αν είναι εγκατεστημένη η GD library
+    if ( (operation=='sync' && GDOK=='false' && mediaKind=='Music') || (operation=='coverConvert' && GDOK=='false') ) {
+        var confirmAnswer=confirm(phrases['GD_not_installed']);
 
-    // console.log(localStorage.syncPressed+ ' '+ phrases['running_process']);
+        if(!confirmAnswer) {
+            return;
+        }
+    }
 
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
@@ -956,8 +962,9 @@ function startTheSync(operation) {
             }
         });
 
+    } else {
+        alert (phrases['running_process']);
     }
-    else alert (phrases['running_process']);
 
 
 }

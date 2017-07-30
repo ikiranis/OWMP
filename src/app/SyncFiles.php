@@ -1099,6 +1099,7 @@ class SyncFiles
 
 
     // TODO να κάνει ταυτόχρονα και έλεγχο για τα ορφανά αρχεία
+    // TODO βγάζει errors
     // Δημιουργεί μαζικά μικρότερες εκδόσεις των cover albums
     public function convertCovers() {
         set_time_limit(0);
@@ -1129,7 +1130,6 @@ class SyncFiles
                     $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
                     $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
 //                    $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
-
 
                     if (file_exists($thumbnailImage)) {
                         $thumbExist = true;
