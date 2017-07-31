@@ -381,6 +381,7 @@ class Page
                 <div class="mainbarcontent">
                     <?php echo $leftSideText; ?>
                 </div>
+                <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="toggleResultsContainer();">
             </div>
 
             <div id="logprogress">
@@ -391,6 +392,8 @@ class Page
                 </progress>
                 <span id="theProgressNumber"></span>
             </div>
+
+            <div class="o-resultsContainer_loadingIcon"></div>
             
             <div id="RightSide" >
                 <div class="mainbarcontent">

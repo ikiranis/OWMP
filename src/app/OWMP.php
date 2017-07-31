@@ -382,9 +382,7 @@ class OWMP
                 $OWMPElements->checkFoldersPermissions();
             ?>
 
-            <div id="SyncDetails">
-                <div id="progress" class="bgc3"></div>
-            </div>
+            <div class="o-resultsContainer bgc3 isHidden"></div>
 
             <div id="error_container">
                 <div class="alert_error bgc9"></div>

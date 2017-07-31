@@ -1,18 +1,4 @@
 /*Progress*/
-#progress {
-    position: absolute;
-    background-image: url(../../img/Loading_icon.gif);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: auto;
-    border: 1px solid black;
-    top: 40%;
-    left: 40%;
-    width: 20%;
-    height: 25%;
-    display: none;
-}
-
 #logprogress {
     position: fixed;
     left: 40%;

@@ -628,17 +628,17 @@ function updateVideoPlayed() {
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function findDuplicates(offset, step, firstTime) {
     callFile=AJAX_path+"app/searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
-    $('#progress').show();
+    $('.o-resultsContainer_loadingIcon').show();
 
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            $('#progress').hide();
+            $('.o-resultsContainer_loadingIcon').hide();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            $('#progress').hide();
+            $('.o-resultsContainer_loadingIcon').hide();
             $('#search').hide();
         }
 
@@ -684,7 +684,7 @@ function getSearchArray()
 
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, search) {
-    $('#progress').show();
+    $('.o-resultsContainer_loadingIcon').show();
 
     if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
         var searchArray = getSearchArray();
@@ -705,12 +705,12 @@ function searchPlaylist(offset, step, firstTime, search) {
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            $('#progress').hide();
+            $('.o-resultsContainer_loadingIcon').hide();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            $('#progress').hide();
+            $('.o-resultsContainer_loadingIcon').hide();
             $('#search').hide();
         }
     });
@@ -726,7 +726,7 @@ function playPlaylist(offset, step) {
         return;
     }
 
-    $('#progress').show();
+    $('.o-resultsContainer_loadingIcon').show();
 
     // Αντιγραφή της manual playlist στην current playlist
     callFile=AJAX_path+"app/loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
@@ -743,11 +743,11 @@ function playPlaylist(offset, step) {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    $('#progress').hide();
+                    $('.o-resultsContainer_loadingIcon').hide();
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    $('#progress').hide();
+                    $('.o-resultsContainer_loadingIcon').hide();
                 }
 
             });
@@ -856,7 +856,7 @@ function clearSearch()
 
 // Φορτώνει την λίστα του ιστορικού
 function loadPlayedQueuePlaylist() {
-    $('#progress').show();
+    $('.o-resultsContainer_loadingIcon').show();
     $('#search').hide();
 
     callFile=AJAX_path+'app/loadPlayedQueue.php?tabID='+tabID;
@@ -870,11 +870,11 @@ function loadPlayedQueuePlaylist() {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    $('#progress').hide();
+                    $('.o-resultsContainer_loadingIcon').hide();
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    $('#progress').hide();
+                    $('.o-resultsContainer_loadingIcon').hide();
                 }
 
             });
@@ -901,10 +901,10 @@ function checkProgress()
                 if(progressData.progressInPercent>97 && localStorage.syncPressed=='true') {
                     DisplayWindow(3, null, null);
                 }
-                if($('#SyncDetails').length!==0 && localStorage.syncPressed=='true') {
-                    $('#progress').show();
+                if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
+                    $('.o-resultsContainer_loadingIcon').show();
                 } else {
-                    $('#progress').hide();
+                    $('.o-resultsContainer_loadingIcon').hide();
                 }
                 $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
                 document.querySelector('#theProgressBar').value=progressData.progressInPercent;
@@ -931,7 +931,7 @@ function startTheSync(operation) {
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
 
-        $('#progress').show();
+        $('.o-resultsContainer_loadingIcon').show();
         $('#logprogress').show();
         $("#killCommand_img").show();
         document.querySelector('#theProgressBar').value=0;
@@ -953,8 +953,8 @@ function startTheSync(operation) {
                 mediakind: mediaKind
             },
             success: function(data) {
-                $('#SyncDetails').append(data);
-                $('#progress').hide();
+                $('.o-resultsContainer').append(data);
+                $('.o-resultsContainer_loadingIcon').hide();
                 $('#logprogress').hide();
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
@@ -1035,7 +1035,7 @@ function callGetYouTube(id,counter,total, mediaKind) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $("#SyncDetails").append('<p> :: '+phrases['youtube_downloading']+
+                $(".o-resultsContainer").append('<p> :: '+phrases['youtube_downloading']+
                     ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
                     'https://www.youtube.com/watch?v=' + id + '</a></p>');
 
@@ -1049,13 +1049,13 @@ function callGetYouTube(id,counter,total, mediaKind) {
         },
         success: function (data) {
             if (data.success == true) {
-                $("#SyncDetails").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
+                $(".o-resultsContainer").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
                     '<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
-                $("#SyncDetails").append(data.filesToDelete);
+                $(".o-resultsContainer").append(data.filesToDelete);
 
             } else {
-                $("#SyncDetails").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                $(".o-resultsContainer").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });
@@ -1083,7 +1083,7 @@ function checkVideoUrl(url,counter,total) {
                 }
 
             } else {
-                $("#SyncDetails").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                $(".o-resultsContainer").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });
@@ -1179,7 +1179,7 @@ function downloadTheYouTube() {
     if(OKGo) {
         urls = urls.split(',');  // Παίρνουμε το string σε array
 
-        $('#progress').show();
+        $('.o-resultsContainer_loadingIcon').show();
         $('#logprogress').show();
         $("#killCommand_img").show();
 
@@ -1211,7 +1211,7 @@ function downloadTheYouTube() {
             $(document).one("ajaxStop", function () {
                 var syncInterval = setInterval(function () {
                     clearInterval(syncInterval);
-                    $("#progress").hide();
+                    $(".o-resultsContainer_loadingIcon").hide();
                     $('#logprogress').hide();
                     document.querySelector('#theProgressBar').value = 0;
                     $("#theProgressNumber").html('');
@@ -1323,7 +1323,7 @@ function deleteFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
-        $('#progress').show();
+        $('.o-resultsContainer_loadingIcon').show();
         $('#logprogress').show();
         $("#AgreeToDeleteFiles").remove();
 
@@ -1338,7 +1338,7 @@ function deleteFiles(filesArray) {
         }
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-            $("#progress").hide();
+            $(".o-resultsContainer_loadingIcon").hide();
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');
@@ -1496,7 +1496,7 @@ function updateFiles(filesArray) {
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');
-            // $("#SyncDetails").append('<p>'+phrases['starting_sync']+'</p>');
+            // $(".o-resultsContainer").append('<p>'+phrases['starting_sync']+'</p>');
             runningUpdateFiles = false;
         });
 
@@ -2543,6 +2543,11 @@ function startSleepTimer()
     $('#insertSleepTimerWindow').hide();
 }
 
+// Εμφανίζει/εξαφανίζει το resultsContainter
+function toggleResultsContainer()
+{
+    $('.o-resultsContainer').toggleClass('isHidden isVisible');
+}
 
 
 
