@@ -10,8 +10,18 @@
     height: auto;
     padding: 1em;
     z-index:10;
+    text-align: center;
 }
 
+.o-resultsContainer_text {
+    width: 100%;
+    height: 95%;
+    padding-right: 1em;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+/* TODO να το πάω σε ξεχωριστό αρχείο object */
 .o-resultsContainer_loadingIcon {
     position: absolute;
     background-image: url(../../img/Loading_icon.gif);
@@ -22,4 +32,8 @@
     width: 2em;
     height: 2em;
     display: none;
+}
+
+.o-resultsContainer_closeContainer {
+
 }

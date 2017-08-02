@@ -953,7 +953,7 @@ function startTheSync(operation) {
                 mediakind: mediaKind
             },
             success: function(data) {
-                $('.o-resultsContainer').append(data);
+                $('.o-resultsContainer_text').append(data);
                 $('.o-resultsContainer_loadingIcon').hide();
                 $('#logprogress').hide();
                 localStorage.syncPressed='false';
@@ -1035,7 +1035,7 @@ function callGetYouTube(id,counter,total, mediaKind) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $(".o-resultsContainer").append('<p> :: '+phrases['youtube_downloading']+
+                $(".o-resultsContainer_text").append('<p> :: '+phrases['youtube_downloading']+
                     ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
                     'https://www.youtube.com/watch?v=' + id + '</a></p>');
 
@@ -1049,13 +1049,13 @@ function callGetYouTube(id,counter,total, mediaKind) {
         },
         success: function (data) {
             if (data.success == true) {
-                $(".o-resultsContainer").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
+                $(".o-resultsContainer_text").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
                     '<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
-                $(".o-resultsContainer").append(data.filesToDelete);
+                $(".o-resultsContainer_text").append(data.filesToDelete);
 
             } else {
-                $(".o-resultsContainer").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                $(".o-resultsContainer_text").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });
@@ -1083,7 +1083,7 @@ function checkVideoUrl(url,counter,total) {
                 }
 
             } else {
-                $(".o-resultsContainer").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                $(".o-resultsContainer_text").append('<p class="youtube_fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });
@@ -1496,7 +1496,7 @@ function updateFiles(filesArray) {
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');
-            // $(".o-resultsContainer").append('<p>'+phrases['starting_sync']+'</p>');
+            // $(".o-resultsContainer_text").append('<p>'+phrases['starting_sync']+'</p>');
             runningUpdateFiles = false;
         });
 

@@ -412,9 +412,18 @@ function DisplayWindow(page, offset, step) {
     }
 }
 
-function closeHelp() {
+// Κλείνει το παράθυρο της βοήθειας
+function closeHelp()
+{
     $('#helpContainer').hide();
-};
+}
+
+// Κλείνει το παράθυρο container
+function closeWindow(container)
+{
+    $(container).toggleClass('isVisible isHidden');
+}
+
 
 // Eμφανίζει box με text το helpText
 function getHelp(helpText) {
@@ -690,8 +699,8 @@ function startTheBackup() {
                         // Δημιουργία a href element και αυτόματο download
                         var downloadText = getDownloadLink(path, data.filename, path, autoDownload);
 
-                        $('.o-resultsContainer').append('<br>');
-                        $('.o-resultsContainer').append(downloadText);
+                        $('.o-resultsContainer_text').append('<br>');
+                        $('.o-resultsContainer_text').append(downloadText);
                         $('.o-resultsContainer_loadingIcon').hide();
                         $('#logprogress').hide();
                         localStorage.syncPressed = 'false';

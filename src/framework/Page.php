@@ -71,6 +71,14 @@ class Page
 
                 ?>
             </article>
+
+            <div class="o-resultsContainer bgc3 isHidden c8">
+                <div class="o-resultsContainer_text"></div>
+                <input type="button" class="o-resultsContainer_closeContainer myButton"
+                       value="<?php echo __('close_text'); ?>"
+                       onclick="closeWindow('.o-resultsContainer');" >
+            </div>
+
         </section>
 
         <nav>
@@ -84,7 +92,6 @@ class Page
 
             <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"><?php echo $_SESSION['$countThePlaylist']; ?></span> <?php echo __('items_in_playlist'); ?></div>
         </nav>
-
 
         <div id="helpContainer" class="bgc3 c8">
             <div id="helpText"></div>
