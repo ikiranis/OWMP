@@ -204,6 +204,8 @@ class Page
         } else $this->css[] = $css;
     }
 
+
+    // Εμφανίζει τα στοιχεία του footer
     function showFooter($showAppName,$showAppVersion,$showMobileVersion)
     {
         ?>
@@ -389,6 +391,7 @@ class Page
                     <?php echo $leftSideText; ?>
                 </div>
                 <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="toggleResultsContainer();">
+                <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="initProgressAnimation();">
             </div>
 
             <div id="logprogress">
@@ -399,6 +402,10 @@ class Page
                 </progress>
                 <span id="theProgressNumber"></span>
             </div>
+
+            <canvas id="o-progressAnimation">
+
+            </canvas>
 
             <div class="o-resultsContainer_loadingIcon"></div>
             
