@@ -16,6 +16,7 @@ var frames = 6;
 var currentFrame = 0;
 var imageAnime, delayTheFrame;
 
+// Αρχικοποίηση των frame του animation
 function initImages()
 {
 
@@ -37,15 +38,15 @@ function initProgressAnimation()
 
     initImages();
 
+    // Καθαρισμός των τρέχοντων interval
     clearInterval(delayTheFrame);
-
     cancelAnimationFrame(imageAnime);
 
-    delayTheFrame = setInterval(frameDelay, 90);
-
+    delayTheFrame = setInterval(frameDelay, 150);
     imageAnime = requestAnimationFrame(drawImage);
 }
 
+// Υπολογίζει το τρέχον frame
 function frameDelay()
 {
     if(currentFrame<frames-1) {
@@ -55,12 +56,25 @@ function frameDelay()
     }
 }
 
+// Υπολογισμός του x
+function calculateX()
+{
+    if(x<canvas.width) {
+        x++;
+    } else {
+        x = 0;
+    }
+
+}
+
+// Εμφανίζει το image
 function drawImage()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(animationImages[currentFrame], x, 0, 70, 70);
-    x++;
+
+    calculateX();
 
     imageAnime = requestAnimationFrame(drawImage);
 }
