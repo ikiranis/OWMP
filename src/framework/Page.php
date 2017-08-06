@@ -403,9 +403,7 @@ class Page
                 <span id="theProgressNumber"></span>
             </div>
 
-            <canvas id="o-progressAnimation" width="900" height="70">
-
-            </canvas>
+            <div id="o-progressAnimation_container"></div>
 
             <div class="o-resultsContainer_loadingIcon"></div>
             

@@ -1,6 +1,13 @@
 /* Progress Animation */
+#o-progressAnimation_container {
+    position: absolute;
+    display: inline-block;
+    top: 0.5em;
+    width: 50%;
+    height: 100px;
+}
 
 #o-progressAnimation {
-    position: absolute;
-    top:10px;
+    
 }
+

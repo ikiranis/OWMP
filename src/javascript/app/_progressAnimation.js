@@ -14,7 +14,7 @@ var canvas, ctx, animationImages;
 var x;
 var frames = 6;
 var currentFrame = 0;
-var imageAnime, delayTheFrame;
+var imageAnimation, currentFrameInterval;
 
 // Αρχικοποίηση των frame του animation
 function initImages()
@@ -30,20 +30,47 @@ function initImages()
 
 }
 
+// Δημιουργεί το canvas element
+function initCanvasElement(elementName, canvasContainer)
+{
+    // Αν υπάρχει ήδη το σβήνου,ε
+    if($('#' + elementName).length>0) {
+        $('#' + elementName).remove();
+    }
+
+    canvasContainerElement = document.querySelector(canvasContainer);
+
+    canvasElement = document.createElement('canvas');
+    canvasElement.setAttribute('id', elementName);
+    canvasElement.setAttribute('width', canvasContainerElement.offsetWidth);
+    canvasElement.setAttribute('height', canvasContainerElement.offsetHeight);
+
+    document.querySelector(canvasContainer).appendChild(canvasElement);
+}
+
 // Αρχίζει το progress animation
 function initProgressAnimation()
 {
+    // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
+    initCanvasElement('o-progressAnimation', '#o-progressAnimation_container');
+
     canvas = document.querySelector("#o-progressAnimation");
     ctx=canvas.getContext('2d');
 
     initImages();
 
     // Καθαρισμός των τρέχοντων interval
-    clearInterval(delayTheFrame);
-    cancelAnimationFrame(imageAnime);
+    clearAnimations();
 
-    delayTheFrame = setInterval(frameDelay, 150);
-    imageAnime = requestAnimationFrame(drawImage);
+    currentFrameInterval = setInterval(frameDelay, 150);
+    imageAnimation = requestAnimationFrame(drawImage);
+}
+
+// Καθαρισμός των τρέχοντων interval
+function clearAnimations()
+{
+    clearInterval(currentFrameInterval);
+    cancelAnimationFrame(imageAnimation);
 }
 
 // Υπολογίζει το τρέχον frame
@@ -76,6 +103,6 @@ function drawImage()
 
     calculateX();
 
-    imageAnime = requestAnimationFrame(drawImage);
+    imageAnimation = requestAnimationFrame(drawImage);
 }
 
