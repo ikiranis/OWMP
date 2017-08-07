@@ -671,7 +671,7 @@ function startTheBackup() {
 
             callFile = AJAX_path + 'framework/backupDatabase.php';
 
-            $('.o-resultsContainer_loadingIcon').show();
+            initProgressAnimation();
             $('#logprogress').show();
             $("#killCommand_img").show();
             document.querySelector('#theProgressBar').value=0;
@@ -701,7 +701,7 @@ function startTheBackup() {
 
                         $('.o-resultsContainer_text').append('<br>');
                         $('.o-resultsContainer_text').append(downloadText);
-                        $('.o-resultsContainer_loadingIcon').hide();
+                        killAnimation();
                         $('#logprogress').hide();
                         localStorage.syncPressed = 'false';
                         $('.syncButton').prop('disabled', false);
@@ -712,7 +712,7 @@ function startTheBackup() {
 
                         DisplayMessage('.alert_error', phrases['backup_failure']);
 
-                        $('.o-resultsContainer_loadingIcon').hide();
+                        killAnimation();
                         $('#logprogress').hide();
                         localStorage.syncPressed = 'false';
                         $('.syncButton').prop('disabled', false);
@@ -736,7 +736,7 @@ function restoreTheBackup() {
 
                 callFile = AJAX_path + 'framework/restoreDatabase.php';
 
-                $('.o-resultsContainer_loadingIcon').show();
+                initProgressAnimation();
                 $('#logprogress').show();
                 $("#killCommand_img").show();
                 document.querySelector('#theProgressBar').value=0;
@@ -756,7 +756,7 @@ function restoreTheBackup() {
 
                             DisplayMessage('.alert_error', phrases['restore_success']);
 
-                            $('.o-resultsContainer_loadingIcon').hide();
+                            killAnimation();
                             $('#logprogress').hide();
                             localStorage.syncPressed = 'false';
                             $('.syncButton').prop('disabled', false);
@@ -767,7 +767,7 @@ function restoreTheBackup() {
 
                             DisplayMessage('.alert_error', phrases['restore_failure']);
 
-                            $('.o-resultsContainer_loadingIcon').hide();
+                            killAnimation();
                             $('#logprogress').hide();
                             localStorage.syncPressed = 'false';
                             $('.syncButton').prop('disabled', false);

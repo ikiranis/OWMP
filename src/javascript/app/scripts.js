@@ -628,17 +628,17 @@ function updateVideoPlayed() {
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function findDuplicates(offset, step, firstTime) {
     callFile=AJAX_path+"app/searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
-    $('.o-resultsContainer_loadingIcon').show();
+    initProgressAnimation();
 
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            $('.o-resultsContainer_loadingIcon').hide();
+            killAnimation();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            $('.o-resultsContainer_loadingIcon').hide();
+            killAnimation();
             $('#search').hide();
         }
 
@@ -684,7 +684,7 @@ function getSearchArray()
 
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, search) {
-    $('.o-resultsContainer_loadingIcon').show();
+    initProgressAnimation();
 
     if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
         var searchArray = getSearchArray();
@@ -705,12 +705,12 @@ function searchPlaylist(offset, step, firstTime, search) {
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            $('.o-resultsContainer_loadingIcon').hide();
+            killAnimation();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            $('.o-resultsContainer_loadingIcon').hide();
+            killAnimation();
             $('#search').hide();
         }
     });
@@ -726,7 +726,7 @@ function playPlaylist(offset, step) {
         return;
     }
 
-    $('.o-resultsContainer_loadingIcon').show();
+    initProgressAnimation();
 
     // Αντιγραφή της manual playlist στην current playlist
     callFile=AJAX_path+"app/loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
@@ -743,11 +743,11 @@ function playPlaylist(offset, step) {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    $('.o-resultsContainer_loadingIcon').hide();
+                    killAnimation();
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    $('.o-resultsContainer_loadingIcon').hide();
+                    killAnimation();
                 }
 
             });
@@ -856,7 +856,7 @@ function clearSearch()
 
 // Φορτώνει την λίστα του ιστορικού
 function loadPlayedQueuePlaylist() {
-    $('.o-resultsContainer_loadingIcon').show();
+    initProgressAnimation();
     $('#search').hide();
 
     callFile=AJAX_path+'app/loadPlayedQueue.php?tabID='+tabID;
@@ -870,11 +870,11 @@ function loadPlayedQueuePlaylist() {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    $('.o-resultsContainer_loadingIcon').hide();
+                    killAnimation();
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    $('.o-resultsContainer_loadingIcon').hide();
+                    killAnimation();
                 }
 
             });
@@ -902,9 +902,9 @@ function checkProgress()
                     DisplayWindow(3, null, null);
                 }
                 if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
-                    $('.o-resultsContainer_loadingIcon').show();
+                    initProgressAnimation();
                 } else {
-                    $('.o-resultsContainer_loadingIcon').hide();
+                    killAnimation();
                 }
                 $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
                 document.querySelector('#theProgressBar').value=progressData.progressInPercent;
@@ -931,7 +931,7 @@ function startTheSync(operation) {
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
 
-        $('.o-resultsContainer_loadingIcon').show();
+        initProgressAnimation();
         $('#logprogress').show();
         $("#killCommand_img").show();
         document.querySelector('#theProgressBar').value=0;
@@ -954,7 +954,7 @@ function startTheSync(operation) {
             },
             success: function(data) {
                 $('.o-resultsContainer_text').append(data);
-                $('.o-resultsContainer_loadingIcon').hide();
+                killAnimation();
                 $('#logprogress').hide();
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
@@ -1179,7 +1179,7 @@ function downloadTheYouTube() {
     if(OKGo) {
         urls = urls.split(',');  // Παίρνουμε το string σε array
 
-        $('.o-resultsContainer_loadingIcon').show();
+        initProgressAnimation();
         $('#logprogress').show();
         $("#killCommand_img").show();
 
@@ -1211,7 +1211,7 @@ function downloadTheYouTube() {
             $(document).one("ajaxStop", function () {
                 var syncInterval = setInterval(function () {
                     clearInterval(syncInterval);
-                    $(".o-resultsContainer_loadingIcon").hide();
+                    killAnimation();
                     $('#logprogress').hide();
                     document.querySelector('#theProgressBar').value = 0;
                     $("#theProgressNumber").html('');
@@ -1323,7 +1323,7 @@ function deleteFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
-        $('.o-resultsContainer_loadingIcon').show();
+        initProgressAnimation();
         $('#logprogress').show();
         $("#AgreeToDeleteFiles").remove();
 
@@ -1338,7 +1338,7 @@ function deleteFiles(filesArray) {
         }
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-            $(".o-resultsContainer_loadingIcon").hide();
+            killAnimation();
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');

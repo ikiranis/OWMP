@@ -405,8 +405,6 @@ class Page
 
             <div id="o-progressAnimation_container"></div>
 
-            <div class="o-resultsContainer_loadingIcon"></div>
-            
             <div id="RightSide" >
                 <div class="mainbarcontent">
                     <?php echo $rightSideText; ?>

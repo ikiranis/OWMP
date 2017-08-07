@@ -33,10 +33,8 @@ function initImages()
 // Δημιουργεί το canvas element
 function initCanvasElement(elementName, canvasContainer)
 {
-    // Αν υπάρχει ήδη το σβήνου,ε
-    if($('#' + elementName).length>0) {
-        $('#' + elementName).remove();
-    }
+    // Αν υπάρχει ήδη το σβήνουμε
+    killCanvas(elementName);
 
     canvasContainerElement = document.querySelector(canvasContainer);
 
@@ -71,6 +69,22 @@ function clearAnimations()
 {
     clearInterval(currentFrameInterval);
     cancelAnimationFrame(imageAnimation);
+}
+
+// Σβήνει το elementName canvas element
+function killCanvas(elementName)
+{
+    // Αν υπάρχει ήδη το σβήνουμε
+    if($('#' + elementName).length>0) {
+        $('#' + elementName).remove();
+    }
+}
+
+// Σταματάει κάθε animation και σβήνει το canvas element
+function killAnimation()
+{
+    clearAnimations();
+    killCanvas('o-progressAnimation');
 }
 
 // Υπολογίζει το τρέχον frame

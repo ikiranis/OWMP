@@ -48,17 +48,17 @@ function voteSong(id) {
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function getVotePlaylist(offset, step, firstTime) {
     callFile=AJAX_path+"app/searchPlaylist.php?votePlaylist=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step;
-    $('.o-resultsContainer_loadingIcon').show();
+    initProgressAnimation();
 
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            $('.o-resultsContainer_loadingIcon').hide();
+            killAnimation();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            $('.o-resultsContainer_loadingIcon').hide();
+            killAnimation();
             $('#search').hide();
         }
 
