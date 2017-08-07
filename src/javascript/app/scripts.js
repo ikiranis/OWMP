@@ -901,16 +901,24 @@ function checkProgress()
                 if(progressData.progressInPercent>97 && localStorage.syncPressed=='true') {
                     DisplayWindow(3, null, null);
                 }
-                if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
-                    initProgressAnimation();
-                } else {
-                    killAnimation();
-                }
+
+                // TODO να δω αν χρειάζεται όντως αυτός ο έλεγχος
+                // if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
+                //     initProgressAnimation();
+                // } else {
+                //     killAnimation();
+                // }
                 $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
                 document.querySelector('#theProgressBar').value=progressData.progressInPercent;
             }
         }
     });
+}
+
+// Καθαρισμός του results container
+function clearResultsContainer()
+{
+    document.querySelector('.o-resultsContainer_text').innerHTML = '';
 }
 
 // Κάνει τον συγχρονισμό των αρχείων
@@ -931,6 +939,7 @@ function startTheSync(operation) {
     if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
         localStorage.syncPressed='true';
 
+        clearResultsContainer();
         initProgressAnimation();
         $('#logprogress').show();
         $("#killCommand_img").show();
