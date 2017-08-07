@@ -15,6 +15,8 @@ var x;
 var frames = 6;
 var currentFrame = 0;
 var imageAnimation, currentFrameInterval;
+var imagePrefix1 = 'img/parrot_anime/parrot';
+var imagePrefix2 = '_small.png';
 
 // Αρχικοποίηση των frame του animation
 function initImages()
@@ -25,7 +27,7 @@ function initImages()
 
     for (var i=0; i<frames; i++) {
         animationImages.push(new Image());
-        animationImages[i].src = 'img/parrot_anime/parrot' + (i+1) + '_small.png';
+        animationImages[i].src = imagePrefix1 + (i+1) + imagePrefix2;
     }
 
 }
