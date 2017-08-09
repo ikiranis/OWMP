@@ -8,6 +8,9 @@
  *
  * Η διαχείριση του progress animation
  *
+ * Αρχική function που καλείται: initProgressAnimation()
+ * Σταματάει το animation: killAnimation()
+ *
  */
 
 var canvas, ctx, animationImages;
@@ -18,10 +21,34 @@ var imageAnimation, currentFrameInterval;
 var imagePrefix1 = 'img/parrot_anime/parrot';
 var imagePrefix2 = '_small.png';
 
+// Αρχίζει το progress animation.
+function initProgressAnimation(doProgress)
+{
+    // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
+    initCanvasElement('o-progressAnimation', '#o-progressAnimation_container');
+
+    canvas = document.querySelector("#o-progressAnimation");
+    ctx=canvas.getContext('2d');
+
+    initImages();
+
+    // Καθαρισμός των τρέχοντων animations
+    clearAnimations();
+
+    currentFrameInterval = setInterval(frameDelay, 150);
+    imageAnimation = requestAnimationFrame(drawImage);
+}
+
+// Σταματάει κάθε animation και σβήνει το canvas element
+function killProgressAnimation()
+{
+    clearAnimations();
+    killCanvas('o-progressAnimation');
+}
+
 // Αρχικοποίηση των frame του animation
 function initImages()
 {
-
     animationImages = [];
     x = 0;
 
@@ -29,7 +56,24 @@ function initImages()
         animationImages.push(new Image());
         animationImages[i].src = imagePrefix1 + (i+1) + imagePrefix2;
     }
+}
 
+// Σχεδιάζει την progress bar
+function drawProgressBar()
+{
+    ctx.fillStyle = 'white';
+    ctx.fillRect(x+35, 0, canvas.width, 3);
+}
+
+// Εμφανίζει το ποσοστό
+function drawProgressText()
+{
+    ctx.fillText(calculateProgressPercent() + '%', x, 10);
+}
+
+function calculateProgressPercent()
+{
+    return ( (x*100)/canvas.width ).toFixed(2);
 }
 
 // Δημιουργεί το canvas element
@@ -48,24 +92,6 @@ function initCanvasElement(elementName, canvasContainer)
     document.querySelector(canvasContainer).appendChild(canvasElement);
 }
 
-// Αρχίζει το progress animation
-function initProgressAnimation()
-{
-    // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
-    initCanvasElement('o-progressAnimation', '#o-progressAnimation_container');
-
-    canvas = document.querySelector("#o-progressAnimation");
-    ctx=canvas.getContext('2d');
-
-    initImages();
-
-    // Καθαρισμός των τρέχοντων interval
-    clearAnimations();
-
-    currentFrameInterval = setInterval(frameDelay, 150);
-    imageAnimation = requestAnimationFrame(drawImage);
-}
-
 // Καθαρισμός των τρέχοντων interval
 function clearAnimations()
 {
@@ -80,13 +106,6 @@ function killCanvas(elementName)
     if($('#' + elementName).length>0) {
         $('#' + elementName).remove();
     }
-}
-
-// Σταματάει κάθε animation και σβήνει το canvas element
-function killAnimation()
-{
-    clearAnimations();
-    killCanvas('o-progressAnimation');
 }
 
 // Υπολογίζει το τρέχον frame
@@ -116,6 +135,13 @@ function drawImage()
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.drawImage(animationImages[currentFrame], x, 0, 70, 70);
+
+    // if(doProgress) { // Αν είναι true το doProgress σχεδιάζει την progress bar
+    //     drawProgressBar();
+    // }
+
+    drawProgressBar();
+    drawProgressText();
 
     calculateX();
 
