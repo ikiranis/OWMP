@@ -921,6 +921,8 @@ function clearResultsContainer()
     document.querySelector('.o-resultsContainer_text').innerHTML = '';
 }
 
+// TODO όταν κάνεις κάτι συγχρονισμό κτλ και τρέχει το animation, αν κάνεις την ίδια στιγμή κάτι search και στο τέλος του
+// σταματήσει το animation, τότε σκοτώνει και το animation του συγχρονισμού
 // Κάνει τον συγχρονισμό των αρχείων
 function startTheSync(operation) {
     var mediaKind = document.querySelector('#mediakind').value;
@@ -928,7 +930,7 @@ function startTheSync(operation) {
     var callFile = AJAX_path+"app/syncTheFiles.php";
 
     // Έλεγχος αν είναι εγκατεστημένη η GD library
-    if ( (operation=='sync' && GDOK=='false' && mediaKind=='Music') || (operation=='coverConvert' && GDOK=='false') ) {
+    if ( (operation==='sync' && GDOK==='false' && mediaKind==='Music') || (operation==='coverConvert' && GDOK==='false') ) {
         var confirmAnswer=confirm(phrases['GD_not_installed']);
 
         if(!confirmAnswer) {
@@ -1188,6 +1190,7 @@ function downloadTheYouTube() {
     if(OKGo) {
         urls = urls.split(',');  // Παίρνουμε το string σε array
 
+        clearResultsContainer();
         initProgressAnimation();
         $('#logprogress').show();
         $("#killCommand_img").show();
