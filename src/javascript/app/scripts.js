@@ -628,17 +628,17 @@ function updateVideoPlayed() {
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function findDuplicates(offset, step, firstTime) {
     callFile=AJAX_path+"app/searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
-    initProgressAnimation(false);
+    ProgressAnimation.init(false);
 
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            killProgressAnimation();
+            ProgressAnimation.kill();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            killProgressAnimation();
+            ProgressAnimation.kill();
             $('#search').hide();
         }
 
@@ -684,7 +684,7 @@ function getSearchArray()
 
 // αναζήτηση στην playlist
 function searchPlaylist(offset, step, firstTime, search) {
-    initProgressAnimation(false);
+    ProgressAnimation.init(false);
 
     if(!search) { // Αν δεν υπάρχει ήδη json search array, διαβάζουμε την φόρμα
         var searchArray = getSearchArray();
@@ -705,12 +705,12 @@ function searchPlaylist(offset, step, firstTime, search) {
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            killProgressAnimation();
+            ProgressAnimation.kill();
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            killProgressAnimation();
+            ProgressAnimation.kill();
             $('#search').hide();
         }
     });
@@ -726,7 +726,7 @@ function playPlaylist(offset, step) {
         return;
     }
 
-    initProgressAnimation(false);
+    ProgressAnimation.init(false);
 
     // Αντιγραφή της manual playlist στην current playlist
     callFile=AJAX_path+"app/loadPlaylist.php?playlistID="+playlistID+'&tabID='+tabID;
@@ -743,11 +743,11 @@ function playPlaylist(offset, step) {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    killProgressAnimation();
+                    ProgressAnimation.kill();
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    killProgressAnimation();
+                    ProgressAnimation.kill();
                 }
 
             });
@@ -856,7 +856,7 @@ function clearSearch()
 
 // Φορτώνει την λίστα του ιστορικού
 function loadPlayedQueuePlaylist() {
-    initProgressAnimation(false);
+    ProgressAnimation.init(false);
     $('#search').hide();
 
     callFile=AJAX_path+'app/loadPlayedQueue.php?tabID='+tabID;
@@ -870,11 +870,11 @@ function loadPlayedQueuePlaylist() {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    killProgressAnimation();
+                    ProgressAnimation.kill();
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    killProgressAnimation();
+                    ProgressAnimation.kill();
                 }
 
             });
@@ -904,9 +904,9 @@ function checkProgress()
 
                 // TODO να δω αν χρειάζεται όντως αυτός ο έλεγχος
                 // if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
-                //     initProgressAnimation(false);
+                //     ProgressAnimation.init(false);
                 // } else {
-                //     killProgressAnimation();
+                //     ProgressAnimation.kill();
                 // }
                 $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
                 document.querySelector('#theProgressBar').value=progressData.progressInPercent;
@@ -942,7 +942,7 @@ function startTheSync(operation) {
         localStorage.syncPressed='true';
 
         clearResultsContainer();
-        initProgressAnimation(false);
+        ProgressAnimation.init(false);
         $('#logprogress').show();
         $("#killCommand_img").show();
         document.querySelector('#theProgressBar').value=0;
@@ -965,7 +965,7 @@ function startTheSync(operation) {
             },
             success: function(data) {
                 $('.o-resultsContainer_text').append(data);
-                killProgressAnimation();
+                ProgressAnimation.kill();
                 $('#logprogress').hide();
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
@@ -1192,7 +1192,7 @@ function downloadTheYouTube() {
         urls = urls.split(',');  // Παίρνουμε το string σε array
 
         clearResultsContainer();
-        initProgressAnimation(false);
+        ProgressAnimation.init(false);
         $('#logprogress').show();
         $("#killCommand_img").show();
 
@@ -1224,7 +1224,7 @@ function downloadTheYouTube() {
             $(document).one("ajaxStop", function () {
                 var syncInterval = setInterval(function () {
                     clearInterval(syncInterval);
-                    killProgressAnimation();
+                    ProgressAnimation.kill();
                     $('#logprogress').hide();
                     document.querySelector('#theProgressBar').value = 0;
                     $("#theProgressNumber").html('');
@@ -1336,7 +1336,7 @@ function deleteFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
-        initProgressAnimation(false);
+        ProgressAnimation.init(false);
         $('#logprogress').show();
         $("#AgreeToDeleteFiles").remove();
 
@@ -1351,7 +1351,7 @@ function deleteFiles(filesArray) {
         }
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-            killProgressAnimation();
+            ProgressAnimation.kill();
             $('#logprogress').hide();
             document.querySelector('#theProgressBar').value=0;
             $("#theProgressNumber" ).html('');

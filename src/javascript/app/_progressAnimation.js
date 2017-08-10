@@ -8,143 +8,151 @@
  *
  * Η διαχείριση του progress animation
  *
- * Αρχική function που καλείται: initProgressAnimation()
- * Σταματάει το animation: killAnimation()
+ * Αρχική function που καλείται: init()
+ * Σταματάει το animation: kill()
  *
  */
 
-var canvas, ctx, animationImages;
-var x;
-var frames = 6;
-var currentFrame = 0;
-var imageAnimation, currentFrameInterval;
-var imagePrefix1 = 'img/parrot_anime/parrot';
-var imagePrefix2 = '_small.png';
-
-// Αρχίζει το progress animation.
-function initProgressAnimation(doProgress)
+var ProgressAnimation =
 {
-    // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
-    initCanvasElement('o-progressAnimation', '#o-progressAnimation_container');
+    canvas: null,
+    ctx: null,
+    animationImages: [],
+    x: 0,
+    frames: 6,
+    currentFrame: 0,
+    imageAnimation: null,
+    currentFrameInterval: null,
+    imagePrefix1: 'img/parrot_anime/parrot',
+    imagePrefix2: '_small.png',
 
-    canvas = document.querySelector("#o-progressAnimation");
-    ctx=canvas.getContext('2d');
+    // Αρχίζει το progress animation
+    init: function(doProgress)
+    {
+        // Χρησιμοποιώ το bind(this) αλλιώς δεν παιρνάει το this στο setInterval και requestAnimationFrame
+        this.drawAnimationImage = this.drawAnimationImage.bind(this);
+        this.frameDelay = this.frameDelay.bind(this);
 
-    initImages();
+        // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
+        this.initCanvasElement('o-progressAnimation', '#o-progressAnimation_container');
 
-    // Καθαρισμός των τρέχοντων animations
-    clearAnimations();
+        this.canvas = document.querySelector("#o-progressAnimation");
+        this.ctx = this.canvas.getContext('2d');
 
-    currentFrameInterval = setInterval(frameDelay, 150);
-    imageAnimation = requestAnimationFrame(drawImage);
-}
+        this.initImages();
 
-// Σταματάει κάθε animation και σβήνει το canvas element
-function killProgressAnimation()
-{
-    clearAnimations();
-    killCanvas('o-progressAnimation');
-}
+        // Καθαρισμός των τρέχοντων animations
+        this.clearAnimations();
 
-// Αρχικοποίηση των frame του animation
-function initImages()
-{
-    animationImages = [];
-    x = 0;
+        this.currentFrameInterval = setInterval(this.frameDelay, 150);
+        this.imageAnimation = requestAnimationFrame(this.drawAnimationImage);
+    },
 
-    for (var i=0; i<frames; i++) {
-        animationImages.push(new Image());
-        animationImages[i].src = imagePrefix1 + (i+1) + imagePrefix2;
+    // Σταματάει κάθε animation και σβήνει το canvas element
+    kill: function()
+    {
+        this.clearAnimations();
+        this.killCanvas('o-progressAnimation');
+    },
+
+    // Αρχικοποίηση των frames του animation
+    initImages: function()
+    {
+        this.animationImages = [];
+
+        for (var i=0; i<this.frames; i++) {
+            this.animationImages.push(new Image());
+            this.animationImages[i].src = this.imagePrefix1 + (i+1) + this.imagePrefix2;
+        }
+    },
+
+    // Σχεδιάζει την progress bar
+    drawProgressBar: function()
+    {
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(this.x+35, 0, this.canvas.width, 3);
+    },
+
+    // Εμφανίζει το ποσοστό
+    drawProgressText: function()
+    {
+        this.ctx.fillText(this.calculateProgressPercent() + '%', this.x, 10);
+    },
+
+    calculateProgressPercent: function()
+    {
+        return ( (this.x*100)/this.canvas.width ).toFixed(2);
+    },
+
+    // Δημιουργεί το canvas element
+    initCanvasElement: function(elementName, canvasContainer)
+    {
+        // Αν υπάρχει ήδη το σβήνουμε
+        this.killCanvas(elementName);
+
+        canvasContainerElement = document.querySelector(canvasContainer);
+
+        canvasElement = document.createElement('canvas');
+        canvasElement.setAttribute('id', elementName);
+        canvasElement.setAttribute('width', canvasContainerElement.offsetWidth);
+        canvasElement.setAttribute('height', canvasContainerElement.offsetHeight);
+
+        document.querySelector(canvasContainer).appendChild(canvasElement);
+    },
+
+    // Καθαρισμός των τρέχοντων interval
+    clearAnimations: function()
+    {
+        clearInterval(this.currentFrameInterval);
+        cancelAnimationFrame(this.imageAnimation);
+    },
+
+    // Σβήνει το elementName canvas element
+    killCanvas: function(elementName)
+    {
+        // Αν υπάρχει ήδη το σβήνουμε
+        if($('#' + elementName).length>0) {
+            $('#' + elementName).remove();
+        }
+    },
+
+    // Υπολογίζει το τρέχον frame
+    frameDelay: function()
+    {
+        if(this.currentFrame<this.frames-1) {
+            this.currentFrame++;
+        } else {
+            this.currentFrame = 0;
+        }
+    },
+
+    // Υπολογισμός του x
+    calculateX: function()
+    {
+        if(this.x<this.canvas.width) {
+            this.x++;
+        } else {
+            this.x = 0;
+        }
+    },
+
+    // Σχεδιάζει το τρέχον frame
+    drawAnimationImage: function()
+    {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.drawImage(this.animationImages[this.currentFrame], this.x, 0, 70, 70);
+
+        // if(doProgress) { // Αν είναι true το doProgress σχεδιάζει την progress bar
+        //     drawProgressBar();
+        // }
+
+        this.drawProgressBar();
+        this.drawProgressText();
+
+        this.calculateX();
+
+        this.imageAnimation = requestAnimationFrame(this.drawAnimationImage);
     }
-}
-
-// Σχεδιάζει την progress bar
-function drawProgressBar()
-{
-    ctx.fillStyle = 'white';
-    ctx.fillRect(x+35, 0, canvas.width, 3);
-}
-
-// Εμφανίζει το ποσοστό
-function drawProgressText()
-{
-    ctx.fillText(calculateProgressPercent() + '%', x, 10);
-}
-
-function calculateProgressPercent()
-{
-    return ( (x*100)/canvas.width ).toFixed(2);
-}
-
-// Δημιουργεί το canvas element
-function initCanvasElement(elementName, canvasContainer)
-{
-    // Αν υπάρχει ήδη το σβήνουμε
-    killCanvas(elementName);
-
-    canvasContainerElement = document.querySelector(canvasContainer);
-
-    canvasElement = document.createElement('canvas');
-    canvasElement.setAttribute('id', elementName);
-    canvasElement.setAttribute('width', canvasContainerElement.offsetWidth);
-    canvasElement.setAttribute('height', canvasContainerElement.offsetHeight);
-
-    document.querySelector(canvasContainer).appendChild(canvasElement);
-}
-
-// Καθαρισμός των τρέχοντων interval
-function clearAnimations()
-{
-    clearInterval(currentFrameInterval);
-    cancelAnimationFrame(imageAnimation);
-}
-
-// Σβήνει το elementName canvas element
-function killCanvas(elementName)
-{
-    // Αν υπάρχει ήδη το σβήνουμε
-    if($('#' + elementName).length>0) {
-        $('#' + elementName).remove();
-    }
-}
-
-// Υπολογίζει το τρέχον frame
-function frameDelay()
-{
-    if(currentFrame<frames-1) {
-        currentFrame++;
-    } else {
-        currentFrame = 0;
-    }
-}
-
-// Υπολογισμός του x
-function calculateX()
-{
-    if(x<canvas.width) {
-        x++;
-    } else {
-        x = 0;
-    }
 
 }
-
-// Εμφανίζει το image
-function drawImage()
-{
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.drawImage(animationImages[currentFrame], x, 0, 70, 70);
-
-    // if(doProgress) { // Αν είναι true το doProgress σχεδιάζει την progress bar
-    //     drawProgressBar();
-    // }
-
-    drawProgressBar();
-    drawProgressText();
-
-    calculateX();
-
-    imageAnimation = requestAnimationFrame(drawImage);
-}
-

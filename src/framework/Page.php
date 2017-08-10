@@ -391,7 +391,7 @@ class Page
                     <?php echo $leftSideText; ?>
                 </div>
                 <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="toggleResultsContainer();">
-                <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="initProgressAnimation(false);">
+                <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="ProgressAnimation.init(false);">
             </div>
 
             <div id="logprogress">
