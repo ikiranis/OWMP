@@ -15,16 +15,20 @@
 
 var ProgressAnimation =
 {
-    canvas: null,
-    ctx: null,
-    animationImages: [],
-    x: 0,
-    frames: 6,
-    currentFrame: 0,
-    imageAnimation: null,
-    currentFrameInterval: null,
-    imagePrefix1: 'img/parrot_anime/parrot',
-    imagePrefix2: '_small.png',
+    // Object properties
+
+    canvas: null,                               // To canvas element
+    ctx: null,                                  // το context του canvas
+    animationImages: [],                        // Τα frames του sprite
+    x: 0,                                       // Η οριζόντια θέση του sprite
+    frames: 6,                                  // Το πλήθος των frames που περιέχει το sprite
+    currentFrame: 0,                            // Το τρέχον frame του sprite που εμφανίζεται
+    imageAnimation: null,                       // To loop για την μετακίνηση του sprite
+    currentFrameInterval: null,                 // Το loop για την εμφάνιση των frames
+    imagePrefix1: 'img/parrot_anime/parrot',    // Το αρχικό κομμάτι του path για τα frames
+    imagePrefix2: '_small.png',                 // Το τελικό κομμάτι του path για τα frames
+
+    // Methods
 
     // Αρχίζει το progress animation
     init: function(doProgress)
