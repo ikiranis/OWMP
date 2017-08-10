@@ -8,10 +8,11 @@
  *
  * Η διαχείριση του progress animation
  *
- * Αρχική function που καλείται: init()
- * Σταματάει το animation: kill()
+ * Αρχική function που καλείται: ProgressAnimation.init(false|true)
+ * Σταματάει το animation: ProgressAnimation.kill()
  *
  */
+
 
 var ProgressAnimation =
 {
