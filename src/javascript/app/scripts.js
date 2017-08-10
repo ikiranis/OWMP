@@ -908,8 +908,10 @@ function checkProgress()
                 // } else {
                 //     ProgressAnimation.kill();
                 // }
-                $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
-                document.querySelector('#theProgressBar').value=progressData.progressInPercent;
+                ProgressAnimation.setProgressPercent(progressData.progressInPercent);
+
+                // $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                // document.querySelector('#theProgressBar').value=progressData.progressInPercent;
             }
         }
     });
@@ -942,11 +944,13 @@ function startTheSync(operation) {
         localStorage.syncPressed='true';
 
         clearResultsContainer();
-        ProgressAnimation.init(false);
-        $('#logprogress').show();
-        $("#killCommand_img").show();
-        document.querySelector('#theProgressBar').value=0;
-        $("#theProgressNumber" ).html('');
+        ProgressAnimation.init(true);
+        ProgressAnimation.setProgressPercent(0);
+
+        // $('#logprogress').show();
+        // $("#killCommand_img").show();
+        // document.querySelector('#theProgressBar').value=0;
+        // $("#theProgressNumber" ).html('');
 
         $('.syncButton').prop('disabled', true);
 
@@ -966,7 +970,7 @@ function startTheSync(operation) {
             success: function(data) {
                 $('.o-resultsContainer_text').append(data);
                 ProgressAnimation.kill();
-                $('#logprogress').hide();
+                // $('#logprogress').hide();
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
                 clearInterval(syncInterval);
@@ -1052,8 +1056,10 @@ function callGetYouTube(id,counter,total, mediaKind) {
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
-                $("#theProgressNumber").html(progressPercent + '%');
-                document.querySelector('#theProgressBar').value = progressPercent;
+                ProgressAnimation.setProgressPercent(progressPercent);
+
+                // $("#theProgressNumber").html(progressPercent + '%');
+                // document.querySelector('#theProgressBar').value = progressPercent;
             }
             else xhr.abort();
 
@@ -1117,8 +1123,10 @@ function callUpdateTheFile(path, filename, id, counter, total) {
             if(runningUpdateFiles) {
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
-                $("#theProgressNumber").html(progressPercent + '%');
-                document.querySelector('#theProgressBar').value = progressPercent;
+                ProgressAnimation.setProgressPercent(progressPercent);
+
+                // $("#theProgressNumber").html(progressPercent + '%');
+                // document.querySelector('#theProgressBar').value = progressPercent;
             }
             else xhr.abort();
 
@@ -1148,8 +1156,10 @@ function callDeleteTheFile(fullpath, filename, id, counter, total) {
             if(runningUpdateFiles) {
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
-                $("#theProgressNumber").html(progressPercent + '%');
-                document.querySelector('#theProgressBar').value = progressPercent;
+                ProgressAnimation.setProgressPercent(progressPercent);
+
+                // $("#theProgressNumber").html(progressPercent + '%');
+                // document.querySelector('#theProgressBar').value = progressPercent;
             }
             else xhr.abort();
 
@@ -1192,14 +1202,15 @@ function downloadTheYouTube() {
         urls = urls.split(',');  // Παίρνουμε το string σε array
 
         clearResultsContainer();
-        ProgressAnimation.init(false);
-        $('#logprogress').show();
-        $("#killCommand_img").show();
+        ProgressAnimation.init(true);
+        ProgressAnimation.setProgressPercent(0);
+        // $('#logprogress').show();
+        // $("#killCommand_img").show();
 
         runningYoutubeDownload = true;
 
-        document.querySelector('#theProgressBar').value = 0;
-        $("#theProgressNumber").html('');
+        // document.querySelector('#theProgressBar').value = 0;
+        // $("#theProgressNumber").html('');
 
         videoItems = []; // καθαρίζει το array
 
@@ -1225,9 +1236,9 @@ function downloadTheYouTube() {
                 var syncInterval = setInterval(function () {
                     clearInterval(syncInterval);
                     ProgressAnimation.kill();
-                    $('#logprogress').hide();
-                    document.querySelector('#theProgressBar').value = 0;
-                    $("#theProgressNumber").html('');
+                    // $('#logprogress').hide();
+                    // document.querySelector('#theProgressBar').value = 0;
+                    // $("#theProgressNumber").html('');
                     runningYoutubeDownlod = false;
                     // startTheSync('sync');
                 }, 6000);
@@ -1336,13 +1347,14 @@ function deleteFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
     if (confirmAnswer==true) {
-        ProgressAnimation.init(false);
-        $('#logprogress').show();
+        ProgressAnimation.init(true);
+        ProgressAnimation.setProgressPercent(0);
+        // $('#logprogress').show();
         $("#AgreeToDeleteFiles").remove();
 
-        $("#killCommand_img").show();
-        document.querySelector('#theProgressBar').value=0;
-        $("#theProgressNumber" ).html('');
+        // $("#killCommand_img").show();
+        // document.querySelector('#theProgressBar').value=0;
+        // $("#theProgressNumber" ).html('');
 
         runningUpdateFiles = true;
 
@@ -1352,9 +1364,9 @@ function deleteFiles(filesArray) {
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
             ProgressAnimation.kill();
-            $('#logprogress').hide();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
+            // $('#logprogress').hide();
+            // document.querySelector('#theProgressBar').value=0;
+            // $("#theProgressNumber" ).html('');
             runningUpdateFiles = false;
         });
     }
@@ -1487,13 +1499,15 @@ function updateFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_update_files']);
 
     if (confirmAnswer==true) {
-        $('#progress').show();
-        $('#logprogress').show();
+        ProgressAnimation.init(true);
+        ProgressAnimation.setProgressPercent(0);
+        // $('#progress').show();
+        // $('#logprogress').show();
         $("#AgreeToUpdateFiles").remove();
 
-        $("#killCommand_img").show();
-        document.querySelector('#theProgressBar').value=0;
-        $("#theProgressNumber" ).html('');
+        // $("#killCommand_img").show();
+        // document.querySelector('#theProgressBar').value=0;
+        // $("#theProgressNumber" ).html('');
 
         console.log ('Files to update: '+filesArray.length);
 
@@ -1505,10 +1519,11 @@ function updateFiles(filesArray) {
         }
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
-            $("#progress").hide();
-            $('#logprogress').hide();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
+            ProgressAnimation.kill();
+            // $("#progress").hide();
+            // $('#logprogress').hide();
+            // document.querySelector('#theProgressBar').value=0;
+            // $("#theProgressNumber" ).html('');
             // $(".o-resultsContainer_text").append('<p>'+phrases['starting_sync']+'</p>');
             runningUpdateFiles = false;
         });
@@ -2014,11 +2029,13 @@ function exportPlaylist() {
         if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed='true';
 
-            $('#progress').show();
-            $('#logprogress').show();
-            $("#killCommand_img").show();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
+            ProgressAnimation.init(true);
+            ProgressAnimation.setProgressPercent(0);
+            // $('#progress').show();
+            // $('#logprogress').show();
+            // $("#killCommand_img").show();
+            // document.querySelector('#theProgressBar').value=0;
+            // $("#theProgressNumber" ).html('');
 
             progressCallFile = AJAX_path + "framework/getProgress.php";
 
@@ -2026,16 +2043,17 @@ function exportPlaylist() {
 
                 $.get(progressCallFile, function (progressData) {
                     if (progressData.success == true) {
-                        $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
-                        document.querySelector('#theProgressBar').value=progressData.progressInPercent;
+                        ProgressAnimation.setProgressPercent(progressData.progressInPercent);
+                        // $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                        // document.querySelector('#theProgressBar').value=progressData.progressInPercent;
                     }
                 }, "json");
 
             }, 1000);
 
             $.get(callFile, function(data) {
-                $('#progress').hide();
-                $('#logprogress').hide();
+                // $('#progress').hide();
+                // $('#logprogress').hide();
                 localStorage.syncPressed='false';
                 clearInterval(exportInterval);
             });

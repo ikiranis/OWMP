@@ -13,21 +13,23 @@
  *
  */
 
-
+// Εμφανίζει ένα animated sprite και αντίστοιχη progress bar
 var ProgressAnimation =
 {
     // Object properties
 
     canvas: null,                               // To canvas element
-    ctx: null,                                  // το context του canvas
+    ctx: null,                                  // Το context του canvas
     animationImages: [],                        // Τα frames του sprite
     x: 0,                                       // Η οριζόντια θέση του sprite
+    progressPercent: 0,                         // Το τρέχον ποσοστό του progress
     frames: 6,                                  // Το πλήθος των frames που περιέχει το sprite
     currentFrame: 0,                            // Το τρέχον frame του sprite που εμφανίζεται
     imageAnimation: null,                       // To loop για την μετακίνηση του sprite
     currentFrameInterval: null,                 // Το loop για την εμφάνιση των frames
     imagePrefix1: 'img/parrot_anime/parrot',    // Το αρχικό κομμάτι του path για τα frames
     imagePrefix2: '_small.png',                 // Το τελικό κομμάτι του path για τα frames
+    doProgress: false,                          // True για εμφάνιση progress bar, false για το αντίθετο
 
     // Methods
 
@@ -39,6 +41,7 @@ var ProgressAnimation =
         this.drawAnimationImage = this.drawAnimationImage.bind(this);
         this.frameDelay = this.frameDelay.bind(this);
 
+        this.doProgress = doProgress;
         this.x = 0;
 
         // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
@@ -60,6 +63,29 @@ var ProgressAnimation =
         // πολύ μεγαλύτερη καθυστέρηση ανάμεσα στα frames
         this.currentFrameInterval = setInterval(this.frameDelay, 150);
         // Η μετακίνηση του sprite
+        this.imageAnimation = requestAnimationFrame(this.drawAnimationImage);
+    },
+
+    // Σχεδιάζει το τρέχον frame
+    drawAnimationImage: function()
+    {
+        // σβήσιμο των περιεχομένων του canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Επανασχεδίαση των περιεχομένων του canvas
+
+        // Σχεδίαση του image
+        this.ctx.drawImage(this.animationImages[this.currentFrame], this.x, 0, 70, 70);
+
+        if(this.doProgress) { // Αν είναι true το doProgress σχεδιάζει την progress bar
+            this.drawProgressBar();   // Σχεδίαση της progress bar
+            this.drawProgressText();  // Σχεδίαση του κειμένου που θα εμφανιστεί
+        }
+
+        // Υπολογισμός της νέας θέσης του x
+        this.calculateX();
+
+        // Loop για το επόμενο frame
         this.imageAnimation = requestAnimationFrame(this.drawAnimationImage);
     },
 
@@ -91,13 +117,26 @@ var ProgressAnimation =
     // Εμφανίζει το ποσοστό
     drawProgressText: function()
     {
-        this.ctx.fillText(this.calculateProgressPercent() + '%', this.x, 10);
+        this.ctx.font="20px Verdana";
+        this.ctx.fillText(this.progressPercent + '%', this.x, 25);
     },
 
     // Επιστρέφει το ποσοστό της θέσης στην οποία βρίσκεται το sprite πάνω στο canvas
     calculateProgressPercent: function()
     {
-        return ( (this.x*100)/this.canvas.width ).toFixed(2);
+        return ( (this.x*100)/this.canvas.width ).toFixed(0);
+    },
+
+    // θέτει το τρέχον ποσοστό του progress
+    setProgressPercent: function(progressPercent)
+    {
+        this.progressPercent = progressPercent;
+    },
+
+    // Μετατροπή του ποσοστού progress σε x
+    percentToX: function()
+    {
+        return ( (this.progressPercent*this.canvas.width)/100 ).toFixed(0);
     },
 
     // Δημιουργεί το canvas element
@@ -147,36 +186,19 @@ var ProgressAnimation =
     // Υπολογισμός του x
     calculateX: function()
     {
-        if(this.x<this.canvas.width) {
-            this.x++;
+        if(this.doProgress) { // Αν εμφανίζεται η progress bar
+            // TODO να μειώνεται και η ταχύτητα μετακίνησης ίσως
+            if(this.x<this.percentToX()) { // Αυξάνει το this.x μέχρι το this.percentToX
+                this.x++;
+            }
         } else {
-            this.x = 0;
+            if(this.x<this.canvas.width) {
+                this.x++;
+            } else {
+                this.x = 0;
+            }
         }
-    },
 
-    // Σχεδιάζει το τρέχον frame
-    drawAnimationImage: function()
-    {
-        // σβήσιμο των περιεχομένων του canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Επανασχεδίαση των περιεχομένων του canvas
-
-        // Σχεδίαση του image
-        this.ctx.drawImage(this.animationImages[this.currentFrame], this.x, 0, 70, 70);
-
-        // if(doProgress) { // Αν είναι true το doProgress σχεδιάζει την progress bar
-        //     drawProgressBar();
-        // }
-
-        this.drawProgressBar();  // Σχεδίαση της progress bar
-        this.drawProgressText();  // Σχεδίαση του κειμένου που θα εμφανιστεί
-
-        // Υπολογισμός της νέας θέσης του x
-        this.calculateX();
-
-        // Loop για το επόμενο frame
-        this.imageAnimation = requestAnimationFrame(this.drawAnimationImage);
     }
 
 }

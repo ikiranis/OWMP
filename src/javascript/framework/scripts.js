@@ -671,11 +671,12 @@ function startTheBackup() {
 
             callFile = AJAX_path + 'framework/backupDatabase.php';
 
-            ProgressAnimation.init(false);
-            $('#logprogress').show();
-            $("#killCommand_img").show();
-            document.querySelector('#theProgressBar').value=0;
-            $("#theProgressNumber" ).html('');
+            ProgressAnimation.init(true);
+            ProgressAnimation.setProgressPercent(0);
+            // $('#logprogress').show();
+            // $("#killCommand_img").show();
+            // document.querySelector('#theProgressBar').value=0;
+            // $("#theProgressNumber" ).html('');
 
             // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
             var syncInterval = setInterval(function () {
@@ -702,7 +703,7 @@ function startTheBackup() {
                         $('.o-resultsContainer_text').append('<br>');
                         $('.o-resultsContainer_text').append(downloadText);
                         ProgressAnimation.kill();
-                        $('#logprogress').hide();
+                        // $('#logprogress').hide();
                         localStorage.syncPressed = 'false';
                         $('.syncButton').prop('disabled', false);
                         clearInterval(syncInterval);
@@ -713,7 +714,7 @@ function startTheBackup() {
                         DisplayMessage('.alert_error', phrases['backup_failure']);
 
                         ProgressAnimation.kill();
-                        $('#logprogress').hide();
+                        // $('#logprogress').hide();
                         localStorage.syncPressed = 'false';
                         $('.syncButton').prop('disabled', false);
                         clearInterval(syncInterval);
@@ -736,11 +737,12 @@ function restoreTheBackup() {
 
                 callFile = AJAX_path + 'framework/restoreDatabase.php';
 
-                ProgressAnimation.init(false);
-                $('#logprogress').show();
-                $("#killCommand_img").show();
-                document.querySelector('#theProgressBar').value=0;
-                $("#theProgressNumber" ).html('');
+                ProgressAnimation.init(true);
+                ProgressAnimation.setProgressPercent(0);
+                // $('#logprogress').show();
+                // $("#killCommand_img").show();
+                // document.querySelector('#theProgressBar').value=0;
+                // $("#theProgressNumber" ).html('');
 
                 // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
                 var syncInterval = setInterval(function () {
@@ -757,7 +759,7 @@ function restoreTheBackup() {
                             DisplayMessage('.alert_error', phrases['restore_success']);
 
                             ProgressAnimation.kill();
-                            $('#logprogress').hide();
+                            // $('#logprogress').hide();
                             localStorage.syncPressed = 'false';
                             $('.syncButton').prop('disabled', false);
                             clearInterval(syncInterval);
@@ -768,7 +770,7 @@ function restoreTheBackup() {
                             DisplayMessage('.alert_error', phrases['restore_failure']);
 
                             ProgressAnimation.kill();
-                            $('#logprogress').hide();
+                            // $('#logprogress').hide();
                             localStorage.syncPressed = 'false';
                             $('.syncButton').prop('disabled', false);
                             clearInterval(syncInterval);
