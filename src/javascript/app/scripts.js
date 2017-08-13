@@ -923,6 +923,19 @@ function clearResultsContainer()
     document.querySelector('.o-resultsContainer_text').innerHTML = '';
 }
 
+// Εμφανίζει το εικονίδιο για τα results
+function displayResultsIcon()
+{
+    $('.o-resultsContainer_iconContainer').toggleClass('isHidden', 'isVisible');
+    BlinkElement.start('.o-resultsContainer_iconContainer');
+}
+
+// Εξαφανίζει το εικονίδιο για τα results
+function hideResultsIcon()
+{
+    $('.o-resultsContainer_iconContainer').toggleClass('isVisible', 'isHidden');
+}
+
 // TODO όταν κάνεις κάτι συγχρονισμό κτλ και τρέχει το animation, αν κάνεις την ίδια στιγμή κάτι search και στο τέλος του
 // σταματήσει το animation, τότε σκοτώνει και το animation του συγχρονισμού
 // Κάνει τον συγχρονισμό των αρχείων
@@ -944,6 +957,7 @@ function startTheSync(operation) {
         localStorage.syncPressed='true';
 
         clearResultsContainer();
+        displayResultsIcon();
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
 
@@ -969,6 +983,7 @@ function startTheSync(operation) {
             },
             success: function(data) {
                 $('.o-resultsContainer_text').append(data);
+                displayResultsIcon();
                 ProgressAnimation.kill();
                 // $('#logprogress').hide();
                 localStorage.syncPressed='false';
@@ -1050,13 +1065,15 @@ function callGetYouTube(id,counter,total, mediaKind) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $(".o-resultsContainer_text").append('<p> :: '+phrases['youtube_downloading']+
+                $('.o-resultsContainer_text').append('<p> :: '+phrases['youtube_downloading']+
                     ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
                     'https://www.youtube.com/watch?v=' + id + '</a></p>');
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
                 ProgressAnimation.setProgressPercent(progressPercent);
+
+                BlinkElement.start('.o-resultsContainer_iconContainer');
 
                 // $("#theProgressNumber").html(progressPercent + '%');
                 // document.querySelector('#theProgressBar').value = progressPercent;
@@ -1202,6 +1219,7 @@ function downloadTheYouTube() {
         urls = urls.split(',');  // Παίρνουμε το string σε array
 
         clearResultsContainer();
+        displayResultsIcon();
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
         // $('#logprogress').show();
@@ -2578,6 +2596,40 @@ function startSleepTimer()
 function toggleResultsContainer()
 {
     $('.o-resultsContainer').toggleClass('isHidden isVisible');
+
+    BlinkElement.stop(); // Σταματάει το αναβόσβησμα του εικονίδιου
+}
+
+// Κάνει ένα element να αναβοσβήνει
+var BlinkElement =
+{
+    elementName: null,
+    blinkInterval: null,
+
+    // Αρχίζει το αναβόσβησμα
+    start: function(elementName)
+    {
+        this.elementName = elementName;
+
+        clearInterval(this.blinkInterval);
+
+        this.blink = this.blink.bind(this);
+
+        this.blinkInterval = setInterval(this.blink, 1000);
+    },
+
+    // Σταματάει το αναβόσβησμα
+    stop: function()
+    {
+        clearInterval(this.blinkInterval);
+        $(this.elementName).fadeIn(300);
+    },
+
+    // Το εφέ του αναβοσβήσματος
+    blink: function ()
+    {
+        $(this.elementName).fadeIn(300).fadeOut(500);
+    }
 }
 
 

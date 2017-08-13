@@ -389,9 +389,13 @@ class Page
             <div id="LeftSide">
                 <div class="mainbarcontent">
                     <?php echo $leftSideText; ?>
+
+                    <span class="o-resultsContainer_iconContainer isHidden">
+                        <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
+                           onclick="toggleResultsContainer();">
+                    </span>
                 </div>
-                <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="toggleResultsContainer();">
-                <input type="button" class="o-imageButton o-imageButton_toggleResultsContainer" onclick="ProgressAnimation.init(false);">
+
             </div>
 
             <div id="logprogress">
