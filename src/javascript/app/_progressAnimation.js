@@ -30,10 +30,15 @@ var ProgressAnimation =
     imagePrefix1: 'img/parrot_anime/parrot',    // Το αρχικό κομμάτι του path για τα frames
     imagePrefix2: '_small.png',                 // Το τελικό κομμάτι του path για τα frames
     doProgress: false,                          // True για εμφάνιση progress bar, false για το αντίθετο
+    spriteSize: 70,                             // Μέγεθος του sprite σε pixels
 
     // Methods
 
-    // Αρχίζει το progress animation
+    /**
+     * Αρχίζει το progress animation
+     *
+     * @param doProgress {boolean}: true για εμφάνιση progress bar
+     */
     init: function(doProgress)
     {
         // Χρησιμοποιώ το bind(this) αλλιώς δεν περνάει το this στο setInterval και requestAnimationFrame
@@ -75,7 +80,7 @@ var ProgressAnimation =
         // Επανασχεδίαση των περιεχομένων του canvas
 
         // Σχεδίαση του image
-        this.ctx.drawImage(this.animationImages[this.currentFrame], this.x, 0, 70, 70);
+        this.ctx.drawImage(this.animationImages[this.currentFrame], this.x, 0, this.spriteSize, this.spriteSize);
 
         if(this.doProgress) { // Αν είναι true το doProgress σχεδιάζει την progress bar
             this.drawProgressBar();   // Σχεδίαση της progress bar
@@ -111,35 +116,54 @@ var ProgressAnimation =
     drawProgressBar: function()
     {
         this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(this.x+35, 0, this.canvas.width, 3);
+        var x = this.x+(this.spriteSize/2);
+        var w = (this.canvas.width-(this.spriteSize/2))-x;
+        this.ctx.fillRect(x, 0, w, 3);
     },
 
     // Εμφανίζει το ποσοστό
     drawProgressText: function()
     {
-        this.ctx.font="20px Verdana";
+        this.ctx.font="17px Verdana";
         this.ctx.fillText(this.progressPercent + '%', this.x, 25);
     },
 
-    // Επιστρέφει το ποσοστό της θέσης στην οποία βρίσκεται το sprite πάνω στο canvas
+    /**
+     * Επιστρέφει το ποσοστό της θέσης στην οποία βρίσκεται το sprite πάνω στο canvas
+     *
+     * @returns {string}
+     */
     calculateProgressPercent: function()
     {
-        return ( (this.x*100)/this.canvas.width ).toFixed(0);
+        return ( (this.x*100)/(this.canvas.width-this.spriteSize) ).toFixed(0);
     },
 
-    // θέτει το τρέχον ποσοστό του progress
+    /**
+     * θέτει το τρέχον ποσοστό του progress
+     *
+     * @param progressPercent {int} Το τρέχον ποσοστό του progress
+     */
     setProgressPercent: function(progressPercent)
     {
         this.progressPercent = progressPercent;
     },
 
-    // Μετατροπή του ποσοστού progress σε x
+    /**
+     * Μετατροπή του ποσοστού progress σε x
+     *
+     * @returns {string}
+     */
     percentToX: function()
     {
-        return ( (this.progressPercent*this.canvas.width)/100 ).toFixed(0);
+        return ( (this.progressPercent*(this.canvas.width-this.spriteSize))/100 ).toFixed(0);
     },
 
-    // Δημιουργεί το canvas element
+    /**
+     * Δημιουργεί το canvas element
+     *
+     * @param elementName {string} Το όνομα του element που θα δημιουργηθεί
+     * @param canvasContainer {string} Το div element στο οποίο θα δημιουργηθεί μέσα το canvas
+     */
     initCanvasElement: function(elementName, canvasContainer)
     {
         // Αν υπάρχει ήδη το σβήνουμε
@@ -164,7 +188,11 @@ var ProgressAnimation =
         cancelAnimationFrame(this.imageAnimation);
     },
 
-    // Σβήνει το elementName canvas element
+    /**
+     * Σβήνει το elementName canvas element
+     *
+     * @param elementName {string} Το όνομα του canvas element που θα σβήσει
+     */
     killCanvas: function(elementName)
     {
         // Αν υπάρχει ήδη το σβήνουμε
@@ -188,7 +216,8 @@ var ProgressAnimation =
     {
         if(this.doProgress) { // Αν εμφανίζεται η progress bar
             // TODO να μειώνεται και η ταχύτητα μετακίνησης ίσως
-            if(this.x<this.percentToX()) { // Αυξάνει το this.x μέχρι το this.percentToX
+            // Αυξάνει το this.x μέχρι το this.percentToX
+            if( (this.x<this.percentToX()) && (this.x<this.canvas.width ) ) {
                 this.x++;
             }
         } else {

@@ -16,10 +16,11 @@
 
 namespace apps4net\framework;
 
-use apps4net\parrot\app\OWMP;
-
 class FilesIO
 {
+    /**
+     * @var string
+     */
     private $filename;  // Το filename του αρχείου με το πλήρες path
     public $handle;  // Το αρχείο που ανοίγουμε
 
