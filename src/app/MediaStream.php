@@ -25,6 +25,11 @@ class MediaStream
     private $size   = 0;
     private $mime   = "";
 
+    /**
+     * MediaStream constructor.
+     *
+     * @param $filePath {string} To filepath του αρχείου που θέλουμε να στριμάρουμε
+     */
     function __construct($filePath)
     {
         $this->path = $filePath;

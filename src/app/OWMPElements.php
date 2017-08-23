@@ -28,7 +28,12 @@ class OWMPElements extends OWMP
     public $checkVideoFileUpload;
     public $checkAudioFileUpload;
 
-    // Εμφανίζει την μπάρα με τα controls
+    /**
+     * Εμφανίζει την μπάρα με τα controls
+     *
+     * @param $element {string} To element στο οποίο θα εμφανίσει τα controls
+     * @param $fullscreen {boolean} True για εμφάνιση σε fullscreen
+     */
     static function displayControls($element, $fullscreen)
     {
         ?>
@@ -632,8 +637,14 @@ class OWMPElements extends OWMP
         }
     }
 
-    // Επιστρέφει τις διπλές εγγραφές με βάση το hash
-    // Δεν χρησιμοποιείται
+    /**
+     * Επιστρέφει τις διπλές εγγραφές με βάση το hash
+     * Δεν χρησιμοποιείται
+     *
+     * @param $offset {int}
+     * @param $step {int}
+     * @return mixed
+     */
     static function getFilesDuplicates ($offset, $step)
     {
         $conn = new MyDB();
@@ -657,8 +668,13 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // Δημιουργεί ένα κατάλληλο array ώστε να αντιγραφεί σε προσωρινό table
-    // Δεν χρησιμοποιείται
+    /**
+     * Δημιουργεί ένα κατάλληλο array ώστε να αντιγραφεί σε προσωρινό table
+     * Δεν χρησιμοποιείται
+     *
+     * @param $arrayToCopy
+     * @return array
+     */
     static function makePlaylistArrayToCopy($arrayToCopy)
     {
         $counter=0;
@@ -670,7 +686,12 @@ class OWMPElements extends OWMP
         return $newArray;
     }
 
-    // Σβήνει ένα αρχείο και την αντίστοιχη εγγραφή στην βάση
+    /**
+     * Σβήνει ένα αρχείο και την αντίστοιχη εγγραφή στην βάση
+     *
+     * @param $id {int} Το id του αρχείου για σβύσιμο
+     * @return bool
+     */
     static function deleteFile($id)
     {
         $conn = new MyDB();
@@ -700,7 +721,12 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // Επιστρέφει τo fullpath από τα files με $id
+    /**
+     * Επιστρέφει τo fullpath από τα files με $id
+     *
+     * @param $id {int} Το id του αρχείου για επιστροφή
+     * @return bool|string
+     */
     static function getFullPathFromFileID($id)
     {
         $conn = new MyDB();
@@ -725,7 +751,13 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // upload ενός image κι εισαγωγή στην βάση
+    /**
+     * Upload ενός image κι εισαγωγή στην βάση
+     *
+     * @param $image {string} Η εικόνα σε string
+     * @param $mime {string} Ο τύπος της εικόνας
+     * @return bool|mixed Επιστρέφει το id του cover ή false
+     */
     static function uploadAlbumImage($image, $mime)
     {
         $conn = new MyDB();
@@ -784,12 +816,19 @@ class OWMPElements extends OWMP
             }
 
         }
-        else $coverID=$coverArtID;
+        else {
+            $coverID=$coverArtID;
+        }
 
         return $coverID;
     }
 
-    // Ελέγχει αν ένα image είναι valid
+    /**
+     * Ελέγχει αν ένα image είναι valid
+     *
+     * @param $myImage {string} To path της εικόνας
+     * @return bool True or false
+     */
     static function checkValidImage($myImage)
     {
 
@@ -805,7 +844,12 @@ class OWMPElements extends OWMP
         } else return false;
     }
 
-    // Αναλόγως το extension επιστρέφει την εικόνα στο $image
+    /**
+     * Αναλόγως το extension επιστρέφει την εικόνα στο $image
+     *
+     * @param $myImage {string} Το path της εικόνας
+     * @return bool|resource Επιστρέφει την εικόνα σαν string ή false
+     */
     static function openImage($myImage) {
         $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
@@ -833,7 +877,13 @@ class OWMPElements extends OWMP
         return $image;
     }
 
-    // Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
+    /**
+     * Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
+     *
+     * @param $fullpath {string} Το path της εικόνας
+     * @param $imageSize {string} "thumb" or "small"
+     * @return bool True or False για την επιτυχία
+     */
     static function createSmallerImage($fullpath, $imageSize) {
         $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
@@ -900,7 +950,13 @@ class OWMPElements extends OWMP
 
     }
 
-    // Επιστρέφει το fullpath του album cover για το $id
+    /**
+     * Επιστρέφει το fullpath του album cover για το $id
+     *
+     * @param $id {int} Το id του cover image
+     * @param $imageSize {string} "thumb" or "small" or "big"
+     * @return bool|string To fullpath ή false στην αποτυχία
+     */
     static function getAlbumImagePath($id, $imageSize)
     {
         $conn = new MyDB();
@@ -953,9 +1009,9 @@ class OWMPElements extends OWMP
                     case 'thumb': if($thumbExist) {
                         $result = $thumbImage;
                     } break;
-                    case 'ico': if($icoExist) {
-                        $result = $icoImage;
-                    } break;
+//                    case 'ico': if($icoExist) {
+//                        $result = $icoImage;
+//                    } break;
                 }
 
                 if($imageSize=='big' && $_SESSION['mobile'] && $smallExist) {
@@ -977,14 +1033,25 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // Εκτελεί την linux εντολή για μετατροπή ενός ALAC σε mp3
+    /**
+     * Εκτελεί την linux εντολή για μετατροπή ενός ALAC σε mp3
+     *
+     * @param $source {string} Το path του αρχικού αρχείου
+     * @param $target {string} Το path του τελικού αρχείου
+     * @param $bitrate {int} To bitrate της μετατροπής
+     */
     static function execConvertALAC ($source, $target, $bitrate)
     {
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
         print shell_exec('ffmpeg -i "'.$source.'" -ac 2 -f wav - | lame -b '.$bitrate.' - "'.$target.'" ');
     }
 
-    // Δημιουργεί έναν νέο πίνακα για temporary playlist με το όνομα $table
+    /**
+     * Δημιουργεί έναν νέο πίνακα για temporary playlist με το όνομα $table
+     *
+     * @param $table {string} To όνομα του πίνακα που θα δημιουργηθεί
+     * @return bool True or False για την επιτυχία
+     */
     static function createPlaylistTempTable($table)
     {
         $conn = new MyDB();
@@ -1011,7 +1078,11 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // Ελέγχει αν υπάρχει ένα $tempPlaylist και αν δεν υπάρχει το δημιουργεί και κάνει σχετική εγγραφή στο playlist_tables
+    /**
+     * Ελέγχει αν υπάρχει ένα $tempPlaylist και αν δεν υπάρχει το δημιουργεί και κάνει σχετική εγγραφή στο playlist_tables
+     *
+     * @param $tempPlaylist {string} Το όνομα της προσωρινής playlist
+     */
     static function checkTempPlaylist($tempPlaylist)
     {
         $conn = new MyDB();
@@ -1027,7 +1098,13 @@ class OWMPElements extends OWMP
         }
     }
 
-    // Επιστρέφει μία τυχαία εγγραφή από τον $table
+    /**
+     * Επιστρέφει μία τυχαία εγγραφή από τον $table
+     *
+     * @param $table {string} Το όνομα του πίνακα
+     * @param $tableCount {int} Το μέγεθος του πίνακα
+     * @return array|bool
+     */
     static function getRandomPlaylistID($table, $tableCount)
     {
         $conn = new MyDB();
@@ -1051,7 +1128,13 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // Εισάγει ένα $fileID στο $tempPlaylist
+    /**
+     * Προσθέτει ένα $fileID στο $tempPlaylist
+     *
+     * @param $tempPlaylist {string} Το όνομα της προσωρινής playlist
+     * @param $fileID {int} To id του αρχείου που θα προστεθεί
+     * @return bool True or False για την επιτυχία
+     */
     static function insertIntoTempPlaylist($tempPlaylist, $fileID)
     {
 
@@ -1070,7 +1153,12 @@ class OWMPElements extends OWMP
 
     }
 
-    // Προσθέτει μία ψήφο στο table votes
+    /**
+     * Προσθέτει μία ψήφο στο table votes
+     *
+     * @param $fileID {int} Το id του αρχείου στο οποίο θα προστεθεί μία ψήφος
+     * @return bool True or False για την επιτυχία
+     */
     static function voteSong($fileID)
     {
 
@@ -1095,7 +1183,11 @@ class OWMPElements extends OWMP
 
     }
 
-    // Επιστρέφει το σύνολο ψήφων για κάθε file_id
+    /**
+     * Επιστρέφει το σύνολο ψήφων για κάθε file_id
+     *
+     * @return mixed Array με το file_id και τον αριθμό ψήφων
+     */
     static function getVotes()
     {
         $conn = new MyDB();
@@ -1115,7 +1207,12 @@ class OWMPElements extends OWMP
         return $result;
     }
 
-    // Επιστρέφει σε πίνακα (song_name, artist) τα στοιχεία του τρέχοντος τραγουδιού
+    /**
+     * Επιστρέφει σε πίνακα (song_name, artist) τα στοιχεία του τρέχοντος τραγουδιού
+     *
+     * @param $id {int} Το id του αρχείου
+     * @return bool|mixed Array με τα στοιχεία του τραγουδιού ή False για αποτυχία
+     */
     static function getSongInfo($id)
     {
 
@@ -1138,7 +1235,12 @@ class OWMPElements extends OWMP
 
     }
 
-    // Στέλνει τα στοιχεία του τραγουδιού στον icecast server
+    /**
+     * Στέλνει τα στοιχεία του τραγουδιού στον icecast server
+     *
+     * @param $songInfo {string} Τα στοιχεία του τραγουδιού
+     * @return bool True or False για την επιτυχία
+     */
     static function sendToIcecast ($songInfo)
     {
 
@@ -1151,11 +1253,17 @@ class OWMPElements extends OWMP
 
         if($decoded) {
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
 
     }
 
-    // Εμφάνιση του παραθύρου για edit tags
+    /**
+     * Εμφάνιση του παραθύρου για edit tags
+     *
+     * @param $UserGroup {int} Το usergroup του χρήστη
+     */
     static function displayEditTagsWindow($UserGroup)
     {
 
@@ -1270,7 +1378,11 @@ class OWMPElements extends OWMP
         <?php
     }
 
-    // Εμφάνιση των στοιχείων επιλογής playlist
+    /**
+     * Εμφάνιση των στοιχείων επιλογής playlist
+     *
+     * @param $userID {int} To userID του χρήστη
+     */
     static function displayChoosePlaylistElements($userID)
     {
         ?>
@@ -1307,7 +1419,11 @@ class OWMPElements extends OWMP
         Page::getHelp('help_manual_playlists');
     }
 
-    // Εμφάνιση των στοιχείων επιλογής playlist
+    /**
+     * Εμφάνιση των στοιχείων επιλογής playlist
+     *
+     * @param $userID {int} To userID του χρήστη
+     */
     static function displayChooseSmartPlaylistElements($userID)
     {
         ?>
@@ -1552,7 +1668,11 @@ class OWMPElements extends OWMP
         <?php
     }
 
-    // Εμφάνιση διάφορων εργαλείων
+    /**
+     * Εμφάνιση διάφορων εργαλείων
+     *
+     * @param $UserGroup {int} Το user group του χρήστη
+     */
     static function displaySomeTools($UserGroup)
     {
         ?>
@@ -1571,7 +1691,11 @@ class OWMPElements extends OWMP
         <?php
     }
 
-    // Εμφάνιση των edit buttons
+    /**
+     * Εμφάνιση των edit buttons
+     *
+     * @param $UserGroup {int} Το user group του χρήστη
+     */
     static function displayEditButtons($UserGroup)
     {
         if($UserGroup==1) {
@@ -1593,7 +1717,12 @@ class OWMPElements extends OWMP
         }
     }
 
-    // Εμφάνιση του playlist container
+    /**
+     * Εμφάνιση του playlist container
+     *
+     * @param $offset {int} Το τρέχον σημείο της λίστας
+     * @param $step {int} Ο αριθμός εγγραφών ανα σελίδα
+     */
     public function displayPlaylistContainer($offset,$step)
     {
         ?>

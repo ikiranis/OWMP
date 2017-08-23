@@ -241,7 +241,12 @@ class OWMP
 
     }
 
-    // Εμφανίζει το βασικό παράθυρο που εμφανίζεται η playlist
+    /**
+     * Εμφανίζει το βασικό παράθυρο που εμφανίζεται η playlist
+     *
+     * @param $offset {int} Το τρέχον σημείο της λίστας
+     * @param $step {int} Πόσες εγγραφές ανα σελίδα θα εμφανίσει
+     */
     static function showPlaylistWindow ($offset, $step)
     {
         $conn = new MyDB();
