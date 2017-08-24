@@ -392,20 +392,28 @@ class Page
 
                     <span class="o-resultsContainer_iconContainer isHidden">
                         <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
-                           onclick="toggleResultsContainer();">
+                               title="<?php echo __('display_activity'); ?>"
+                               onclick="toggleResultsContainer();">
                     </span>
+
+                    <span class="o-resultsContainer_killCommandContainer isHidden">
+                        <input type="button" class="o-imageButton--large o-imageButton_killCommand"
+                               title="<?php echo __('kill_process'); ?>"
+                               onclick="sendKillCommand();">
+                    </span>
+
                 </div>
 
             </div>
 
-            <div id="logprogress">
-                <input type="button" id="killCommand_img" class="button_img"
-                       title="<?php echo __('kill_process'); ?>"
-                       onclick="sendKillCommand();"">
-                <progress id="theProgressBar" max="100" value="0">
-                </progress>
-                <span id="theProgressNumber"></span>
-            </div>
+<!--            <div id="logprogress">-->
+<!--                <input type="button" id="killCommand_img" class="button_img"-->
+<!--                       title="--><?php //echo __('kill_process'); ?><!--"-->
+<!--                       onclick="sendKillCommand();"">-->
+<!--                <progress id="theProgressBar" max="100" value="0">-->
+<!--                </progress>-->
+<!--                <span id="theProgressNumber"></span>-->
+<!--            </div>-->
 
             <div id="o-progressAnimation_container"></div>
 

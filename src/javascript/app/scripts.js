@@ -625,7 +625,13 @@ function updateVideoPlayed() {
     }, "json");
 }
 
-// Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
+/**
+ * Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
+ *
+ * @param offset {int} Το τρέχον σημείο στην λίστα
+ * @param step {int} Ο αριθμός των εγγραφών που θα εμφανίσει
+ * @param firstTime {bool} True όταν τρέχει για πρώτη φορά η αναζήτηση
+ */
 function findDuplicates(offset, step, firstTime) {
     callFile=AJAX_path+"app/searchPlaylist.php?duplicates=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step+'&tabID='+tabID;
     ProgressAnimation.init(false);
@@ -936,6 +942,18 @@ function hideResultsIcon()
     $('.o-resultsContainer_iconContainer').toggleClass('isVisible', 'isHidden');
 }
 
+// Εμφανίζει το icon του kill command
+function displayKillCommandIcon()
+{
+    $('.o-resultsContainer_killCommandContainer').toggleClass('isHidden isVisible');
+}
+
+// Εξαφανίζει το icon του kill command
+function hideKillCommandIcon()
+{
+    $('.o-resultsContainer_killCommandContainer').toggleClass('isVisible isHidden');
+}
+
 // TODO όταν κάνεις κάτι συγχρονισμό κτλ και τρέχει το animation, αν κάνεις την ίδια στιγμή κάτι search και στο τέλος του
 // σταματήσει το animation, τότε σκοτώνει και το animation του συγχρονισμού
 // Κάνει τον συγχρονισμό των αρχείων
@@ -960,11 +978,7 @@ function startTheSync(operation) {
         displayResultsIcon();
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
-
-        // $('#logprogress').show();
-        // $("#killCommand_img").show();
-        // document.querySelector('#theProgressBar').value=0;
-        // $("#theProgressNumber" ).html('');
+        displayKillCommandIcon();
 
         $('.syncButton').prop('disabled', true);
 
@@ -985,7 +999,7 @@ function startTheSync(operation) {
                 $('.o-resultsContainer_text').append(data);
                 displayResultsIcon();
                 ProgressAnimation.kill();
-                // $('#logprogress').hide();
+                hideKillCommandIcon();
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
                 clearInterval(syncInterval);
@@ -1222,8 +1236,9 @@ function downloadTheYouTube() {
         displayResultsIcon();
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
+        displayKillCommandIcon();
+
         // $('#logprogress').show();
-        // $("#killCommand_img").show();
 
         runningYoutubeDownload = true;
 
@@ -1254,6 +1269,7 @@ function downloadTheYouTube() {
                 var syncInterval = setInterval(function () {
                     clearInterval(syncInterval);
                     ProgressAnimation.kill();
+                    hideKillCommandIcon();
                     // $('#logprogress').hide();
                     // document.querySelector('#theProgressBar').value = 0;
                     // $("#theProgressNumber").html('');
@@ -1367,10 +1383,11 @@ function deleteFiles(filesArray) {
     if (confirmAnswer==true) {
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
-        // $('#logprogress').show();
-        $("#AgreeToDeleteFiles").remove();
 
-        // $("#killCommand_img").show();
+        $("#AgreeToDeleteFiles").remove();
+        displayKillCommandIcon();
+
+        // $('#logprogress').show();
         // document.querySelector('#theProgressBar').value=0;
         // $("#theProgressNumber" ).html('');
 
@@ -1382,6 +1399,7 @@ function deleteFiles(filesArray) {
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
             ProgressAnimation.kill();
+            hideKillCommandIcon();
             // $('#logprogress').hide();
             // document.querySelector('#theProgressBar').value=0;
             // $("#theProgressNumber" ).html('');
@@ -1522,8 +1540,8 @@ function updateFiles(filesArray) {
         // $('#progress').show();
         // $('#logprogress').show();
         $("#AgreeToUpdateFiles").remove();
+        displayKillCommandIcon();
 
-        // $("#killCommand_img").show();
         // document.querySelector('#theProgressBar').value=0;
         // $("#theProgressNumber" ).html('');
 
@@ -1538,10 +1556,7 @@ function updateFiles(filesArray) {
 
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
             ProgressAnimation.kill();
-            // $("#progress").hide();
-            // $('#logprogress').hide();
-            // document.querySelector('#theProgressBar').value=0;
-            // $("#theProgressNumber" ).html('');
+            hideKillCommandIcon();
             // $(".o-resultsContainer_text").append('<p>'+phrases['starting_sync']+'</p>');
             runningUpdateFiles = false;
         });
@@ -2043,17 +2058,12 @@ function exportPlaylist() {
     if (confirmAnswer==true) {
         callFile=AJAX_path+"app/exportPlaylist.php?tabID="+tabID;
 
-
         if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed='true';
 
             ProgressAnimation.init(true);
             ProgressAnimation.setProgressPercent(0);
-            // $('#progress').show();
-            // $('#logprogress').show();
-            // $("#killCommand_img").show();
-            // document.querySelector('#theProgressBar').value=0;
-            // $("#theProgressNumber" ).html('');
+            displayKillCommandIcon();
 
             progressCallFile = AJAX_path + "framework/getProgress.php";
 
@@ -2070,8 +2080,7 @@ function exportPlaylist() {
             }, 1000);
 
             $.get(callFile, function(data) {
-                // $('#progress').hide();
-                // $('#logprogress').hide();
+                hideKillCommandIcon();
                 localStorage.syncPressed='false';
                 clearInterval(exportInterval);
             });
@@ -2622,13 +2631,13 @@ var BlinkElement =
     stop: function()
     {
         clearInterval(this.blinkInterval);
-        $(this.elementName).fadeIn(300);
+        $(this.elementName).fadeTo('fast', 1);
     },
 
     // Το εφέ του αναβοσβήσματος
     blink: function ()
     {
-        $(this.elementName).fadeIn(300).fadeOut(500);
+        $(this.elementName).fadeTo('fast', 0.1).fadeTo('fast', 1);
     }
 }
 

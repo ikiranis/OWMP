@@ -105,6 +105,7 @@
     <page name="sync">
         <phrase name="Synchronize">Synchronization</phrase>
         <phrase name="kill_process">Kill Process</phrase>
+        <phrase name="display_activity">Display activity</phrase>
         <phrase name="sync_clear">Database clear</phrase>
         <phrase name="sync_hash">Create hash</phrase>
         <phrase name="sync_metadata">Metadata</phrase>

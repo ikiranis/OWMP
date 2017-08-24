@@ -72,6 +72,10 @@
     background-image: url( '../../img/results.png' );
 }
 
+.o-imageButton_killCommand {
+    background-image: url( '../../img/killCommand.png' );
+}
+
 .play_button {
     background-image: url( '../../img/play.png' );
     background-repeat: no-repeat;
