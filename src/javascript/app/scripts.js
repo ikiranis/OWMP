@@ -2637,7 +2637,7 @@ var BlinkElement =
     // Το εφέ του αναβοσβήσματος
     blink: function ()
     {
-        $(this.elementName).fadeTo('fast', 0.1).fadeTo('fast', 1);
+        $(this.elementName).stop().fadeTo('fast', 0.1).fadeTo('fast', 1);
     }
 }
 
