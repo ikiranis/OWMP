@@ -1174,12 +1174,12 @@ function callUpdateTheFile(path, filename, id, counter, total) {
 // Καλεί το ajax σε queue για να κάνει το μαζικό delete αρχείων
 function callDeleteTheFile(fullpath, filename, id, counter, total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "app/deleteOnlyTheFile.php",
+        url: AJAX_path + "app/deleteFile.php",
         type: 'GET',
         async: true,
         data: {
-            fullpath: fullpath,
-            filename: filename,
+            // fullpath: fullpath,
+            // filename: filename,
             id: id
         },
         dataType: "json",
@@ -1188,9 +1188,6 @@ function callDeleteTheFile(fullpath, filename, id, counter, total) {
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
                 ProgressAnimation.setProgressPercent(progressPercent);
-
-                // $("#theProgressNumber").html(progressPercent + '%');
-                // document.querySelector('#theProgressBar').value = progressPercent;
             }
             else xhr.abort();
 
@@ -1387,10 +1384,6 @@ function deleteFiles(filesArray) {
         $("#AgreeToDeleteFiles").remove();
         displayKillCommandIcon();
 
-        // $('#logprogress').show();
-        // document.querySelector('#theProgressBar').value=0;
-        // $("#theProgressNumber" ).html('');
-
         runningUpdateFiles = true;
 
         for (var i = 0; i < filesArray.length; i++) {
@@ -1400,9 +1393,6 @@ function deleteFiles(filesArray) {
         $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
             ProgressAnimation.kill();
             hideKillCommandIcon();
-            // $('#logprogress').hide();
-            // document.querySelector('#theProgressBar').value=0;
-            // $("#theProgressNumber" ).html('');
             runningUpdateFiles = false;
         });
     }

@@ -337,7 +337,7 @@ class SyncFiles
                 } else {  // Αν το παλιό αρχείο στο fullpath βρεθεί, τότε σβήνει το καινούργιο
 
                     self::$filesForDelete[] = [  // Πίνακας με τα filepath των προς διαγραφή αρχείων
-                        'id' => $searchHash,
+                        'id' => random_int(0,1000000),
                         'filename' => $this->filename,
                         'fullpath' => $this->fullPathName
                     ];
@@ -381,12 +381,22 @@ class SyncFiles
 
     }
 
+    public function setIdForDeletedFile()
+    {
+        $myKey = array_search($this->filename, array_column(self::$filesForDelete, 'filename'));
+
+        if(false!==$myKey) {
+            self::$filesForDelete[$myKey]['id'] = $this->inserted_id;
+        }
+    }
+
     // Εγγραφή στο table files
     public function writeTheFile() {
         $sqlParamsFile = array($this->path, $this->filename, $this->hash, $this->mediaKind);
 
         if ($this->stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
             $this->inserted_id = MyDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
+            $this->setIdForDeletedFile();
         } else {
             $this->inserted_id = 0;
             trigger_error('PROBLEM!!!!!!!!!!     $path ' . $this->path . ' $filename ' . $this->filename);
@@ -521,10 +531,11 @@ class SyncFiles
     //  Παίρνει το κείμενο για εμφάνιση αν χρειάζεται να σβηστεί αρχείο που βρέθηκε να υπάρχει
     public function getFileToDelete()
     {
+        trigger_error('INSERTED ID '. $this->inserted_id);
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
-            $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">'. __('file_to_delete') .
-                        ' <input type="button" class="myButton" value="'. __('delete_file'). '"
-                       onclick="deleteExistedFile('. $this->inserted_id . ');"></p>';
+            $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">' . __('file_to_delete') .
+                ' <input type="button" class="myButton" value="' . __('delete_file') . '"
+                   onclick="deleteExistedFile(' . $this->inserted_id . ');"></p>';
         }
     }
 
@@ -557,7 +568,7 @@ class SyncFiles
         }
 
         // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
-        if(!$fileAlreadySynced && !$this->hashAlreadyExist && !$problemInFilePath) {
+        if(!$fileAlreadySynced && !$problemInFilePath) {
 
             if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
                 $this->getMediaFileTags($this->fullPathName); // διαβάζει το αρχείο και παίρνει τα αντίστοιχα file tags
@@ -644,7 +655,7 @@ class SyncFiles
             }
 
             // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
-            if(!$fileAlreadySynced && !$this->hashAlreadyExist && !$problemInFilePath) {
+            if(!$fileAlreadySynced && !$problemInFilePath) {
                 Progress::setLastMomentAlive(false);
 
                 $this->startingValues($this->filename); // Αρχικοποίηση τιμών

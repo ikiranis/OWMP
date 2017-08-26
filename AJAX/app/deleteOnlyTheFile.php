@@ -38,6 +38,4 @@ if (FilesIO::deleteFile($fullpath)) {  // Αν υπάρχει ήδη στην β
 }
 else $jsonArray=array( 'success'=> false);
 
-
-
 echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
