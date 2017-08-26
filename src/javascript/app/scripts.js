@@ -639,12 +639,16 @@ function findDuplicates(offset, step, firstTime) {
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            ProgressAnimation.kill();
+            if(!syncRunning) {
+                ProgressAnimation.kill();
+            }
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            ProgressAnimation.kill();
+            if(!syncRunning) {
+                ProgressAnimation.kill();
+            }
             $('#search').hide();
         }
 
@@ -711,12 +715,16 @@ function searchPlaylist(offset, step, firstTime, search) {
     $.get(callFile, function(data) {
         if (data) {
             $('#playlist_container').html(data);
-            ProgressAnimation.kill();
+            if(!syncRunning) {
+                ProgressAnimation.kill();
+            }
             $('#search').hide();
         }
         else {
             $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            ProgressAnimation.kill();
+            if(!syncRunning) {
+                ProgressAnimation.kill();
+            }
             $('#search').hide();
         }
     });
@@ -749,11 +757,15 @@ function playPlaylist(offset, step) {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    ProgressAnimation.kill();
+                    if(!syncRunning) {
+                        ProgressAnimation.kill();
+                    }
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    ProgressAnimation.kill();
+                    if(!syncRunning) {
+                        ProgressAnimation.kill();
+                    }
                 }
 
             });
@@ -876,11 +888,15 @@ function loadPlayedQueuePlaylist() {
             $.get(callFile, function(data) {
                 if (data) {
                     $('#playlist_container').html(data);
-                    ProgressAnimation.kill();
+                    if(!syncRunning) {
+                        ProgressAnimation.kill();
+                    }
                 }
                 else {
                     $('#playlist_container').html(phrases['records_not_founded']);
-                    ProgressAnimation.kill();
+                    if(!syncRunning) {
+                        ProgressAnimation.kill();
+                    }
                 }
 
             });
@@ -980,6 +996,8 @@ function startTheSync(operation) {
         ProgressAnimation.setProgressPercent(0);
         displayKillCommandIcon();
 
+        syncRunning = true;
+
         $('.syncButton').prop('disabled', true);
 
         // Κοιτάει για το progress κάθε ένα λεπτό και το τυπώνει
@@ -1003,6 +1021,7 @@ function startTheSync(operation) {
                 localStorage.syncPressed='false';
                 $('.syncButton').prop('disabled', false);
                 clearInterval(syncInterval);
+                syncRunning = false;
             }
         });
 
@@ -1087,10 +1106,13 @@ function callGetYouTube(id,counter,total, mediaKind) {
 
                 ProgressAnimation.setProgressPercent(progressPercent);
 
-                BlinkElement.start('.o-resultsContainer_iconContainer');
+                // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
+                var resultsContainer = document.querySelector('.o-resultsContainer');
 
-                // $("#theProgressNumber").html(progressPercent + '%');
-                // document.querySelector('#theProgressBar').value = progressPercent;
+                if(resultsContainer.classList.contains('isHidden')) {
+                    BlinkElement.start('.o-resultsContainer_iconContainer');
+                }
+
             }
             else xhr.abort();
 
@@ -1235,20 +1257,14 @@ function downloadTheYouTube() {
         ProgressAnimation.setProgressPercent(0);
         displayKillCommandIcon();
 
-        // $('#logprogress').show();
-
+        syncRunning = true;
         runningYoutubeDownload = true;
-
-        // document.querySelector('#theProgressBar').value = 0;
-        // $("#theProgressNumber").html('');
 
         videoItems = []; // καθαρίζει το array
 
         // έλεγχος των url και προσθήκη σε πίνακα με τα video ID
         for (var i = 0; i < urls.length; i++) {
-
             checkVideoUrl(urls[i], i, urls.length);
-
         }
 
         // αφου τελειώσουν οι έλεγχοι
@@ -1266,10 +1282,8 @@ function downloadTheYouTube() {
                 var syncInterval = setInterval(function () {
                     clearInterval(syncInterval);
                     ProgressAnimation.kill();
+                    syncRunning = false;
                     hideKillCommandIcon();
-                    // $('#logprogress').hide();
-                    // document.querySelector('#theProgressBar').value = 0;
-                    // $("#theProgressNumber").html('');
                     runningYoutubeDownlod = false;
                     // startTheSync('sync');
                 }, 6000);
@@ -2055,6 +2069,8 @@ function exportPlaylist() {
             ProgressAnimation.setProgressPercent(0);
             displayKillCommandIcon();
 
+            syncRunning = true;
+
             progressCallFile = AJAX_path + "framework/getProgress.php";
 
             var exportInterval=setInterval(function(){
@@ -2073,6 +2089,7 @@ function exportPlaylist() {
                 hideKillCommandIcon();
                 localStorage.syncPressed='false';
                 clearInterval(exportInterval);
+                syncRunning = false;
             });
 
 

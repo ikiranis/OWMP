@@ -381,11 +381,14 @@ class SyncFiles
 
     }
 
+    // Θέτει τιμή $this->inserted_id στο τελευταίο id του self::$filesForDelete
     public function setIdForDeletedFile()
     {
+        // Ελέγχει αν το τρέχον $this->filename υπάρχει στο array self::$filesForDelete
+        // ώστε να δώσει τιμή στο συγκεκριμένο id
         $myKey = array_search($this->filename, array_column(self::$filesForDelete, 'filename'));
 
-        if(false!==$myKey) {
+        if(false!==$myKey) { // Αν βρεθεί
             self::$filesForDelete[$myKey]['id'] = $this->inserted_id;
         }
     }

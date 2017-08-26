@@ -41,6 +41,11 @@ var ProgressAnimation =
      */
     init: function(doProgress)
     {
+        console.log(syncRunning);
+        if(syncRunning) {
+            return;
+        }
+
         // Χρησιμοποιώ το bind(this) αλλιώς δεν περνάει το this στο setInterval και requestAnimationFrame
         // reference @ https://stackoverflow.com/questions/19459449/running-requestanimationframe-from-within-a-new-object
         this.drawAnimationImage = this.drawAnimationImage.bind(this);
@@ -215,8 +220,7 @@ var ProgressAnimation =
     calculateX: function()
     {
         if(this.doProgress) { // Αν εμφανίζεται η progress bar
-            // TODO να μειώνεται και η ταχύτητα μετακίνησης ίσως
-            // Αυξάνει το this.x μέχρι το this.percentToX
+            // Αυξάνει το this.x μέχρι το this.percentToX και μέχρι το μέγεθος του canvas
             if( (this.x<this.percentToX()) && (this.x<this.canvas.width ) ) {
                 this.x++;
             }

@@ -406,15 +406,6 @@ class Page
 
             </div>
 
-<!--            <div id="logprogress">-->
-<!--                <input type="button" id="killCommand_img" class="button_img"-->
-<!--                       title="--><?php //echo __('kill_process'); ?><!--"-->
-<!--                       onclick="sendKillCommand();"">-->
-<!--                <progress id="theProgressBar" max="100" value="0">-->
-<!--                </progress>-->
-<!--                <span id="theProgressNumber"></span>-->
-<!--            </div>-->
-
             <div id="o-progressAnimation_container"></div>
 
             <div id="RightSide" >

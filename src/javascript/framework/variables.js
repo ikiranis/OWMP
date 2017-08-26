@@ -52,6 +52,8 @@ var displayingMediaControls=false; // Κρατάει το αν εμφανίζο�
 
 var currentPathFormID;
 
+var syncRunning = false;
+
 var videoItems=[];
 
 var theTimer; // Ο μετρητής του sleep timer
