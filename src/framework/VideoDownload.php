@@ -143,9 +143,7 @@ class VideoDownload
     public function downloadVideo() {
         Progress::setLastMomentAlive(false);
 
-        $myYear = date('Y');
-        $myMonth = date('m');
-        $fileDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
+        $fileDir = Utilities::getPathFromYearAndMonth();
 
         if($this->mediaKind=='Music Video') {
             $uploadDir=VIDEO_FILE_UPLOAD . $fileDir;

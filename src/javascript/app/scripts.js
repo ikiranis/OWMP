@@ -675,8 +675,6 @@ function getSearchArray()
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
     var searchRows = getNumberOfSearchRows();
 
-    console.log(searchRows);
-
     for (var i = 1; i <= searchRows; i++) {
         searchArray[i] = {
             'search_field': $('#search_field' + i).val(),
@@ -686,8 +684,6 @@ function getSearchArray()
             'group_operator': $('#group_operator' + i).val()
         }
     }
-
-    console.log(searchArray);
 
     return searchArray;
 }
@@ -704,8 +700,6 @@ function searchPlaylist(offset, step, firstTime, search) {
     }
 
     var mediaKind=document.querySelector('#ChooseMediaKind select[name=mediakind]').value;
-
-    console.log(jsonArray);
 
     currentPlaylistID='1';
 
@@ -1236,7 +1230,7 @@ function downloadTheYouTube() {
         if(MusicVideoPathOK) {
             OKGo=true;
         } else {
-            DisplayMessage('.alert_error', phrases['no_main_music_video_path']);
+            DisplayMessage('.alert_error', phrases['cant_write_to_path']);
         }
     } else {
         var MusicPathOK=document.querySelector('#jsMusicPathOK').value;
@@ -1244,7 +1238,7 @@ function downloadTheYouTube() {
         if(MusicPathOK) {
             OKGo=true;
         } else {
-            DisplayMessage('.alert_error', phrases['no_main_music_path']);
+            DisplayMessage('.alert_error', phrases['cant_write_to_path']);
         }
     }
 

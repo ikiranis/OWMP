@@ -41,7 +41,7 @@ var ProgressAnimation =
      */
     init: function(doProgress)
     {
-        console.log(syncRunning);
+        // αν τρέχει ήδη συγχρονισμός δεν το ξεκινάει
         if(syncRunning) {
             return;
         }

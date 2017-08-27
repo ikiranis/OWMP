@@ -401,8 +401,13 @@ class OWMPElements extends OWMP
     // Έλεγχος αν υπάρχουν κι έχουν δικαιώματα τα directories για upload από το youtube
     public function checkYoutubeUploadDirectories()
     {
+        // Παράγει το file path από το έτος και τον μήνα
+        $fileDir = Utilities::getPathFromYearAndMonth();
+
         if(VIDEO_FILE_UPLOAD) {
-            $this->checkVideoFileUpload = FilesIO::createDirectory(VIDEO_FILE_UPLOAD);
+            $uploadDir=VIDEO_FILE_UPLOAD . $fileDir;
+
+            $this->checkVideoFileUpload = FilesIO::createDirectory($uploadDir);
 
             if(!$this->checkVideoFileUpload['result']) {
                 echo $this->checkVideoFileUpload['message'];
@@ -412,7 +417,8 @@ class OWMPElements extends OWMP
         }
 
         if(MUSIC_FILE_UPLOAD) {
-            $this->checkAudioFileUpload = FilesIO::createDirectory(MUSIC_FILE_UPLOAD);
+            $uploadDir=MUSIC_FILE_UPLOAD . $fileDir;
+            $this->checkAudioFileUpload = FilesIO::createDirectory($uploadDir);
 
             if(!$this->checkAudioFileUpload['result']) {
                 echo $this->checkAudioFileUpload['message'];
