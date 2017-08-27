@@ -124,6 +124,12 @@ var ProgressAnimation =
         var x = this.x+(this.spriteSize/2);
         var w = (this.canvas.width-(this.spriteSize/2))-x;
         this.ctx.fillRect(x, 0, w, 3);
+
+        // Shadow progress bar
+        this.ctx.fillStyle = '#37474F';
+        this.ctx.fillRect(x+3, 3, w, 3);
+
+        this.ctx.fillStyle = 'white';
     },
 
     // Εμφανίζει το ποσοστό
