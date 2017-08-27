@@ -1,3 +1,13 @@
+2017-8-27: 0.10.0
+
+Changes in the system of displaying the results of a task (synchronization, etc.). They appear in a separate window
+Added animated parrot instead of the classic loading icon or progress bar
+Changes to the code architecture for file synchronization
+Improve checking on the existence and rights of the various required directories
+Fix on user registration
+Added option for maximum video resolution to download
+Improve installation checking for required applications
+
 2017-7-10: 0.9.0
 
 Improve the synchronization code
