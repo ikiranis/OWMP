@@ -372,6 +372,17 @@ class OWMP
                 ?>
             </details>
 
+            <details>
+                <summary> <?php echo __('upload_files'); ?> </summary>
+
+                <input type="file" name="jsMediaFiles" id="jsMediaFiles"
+                       accept=".mp4, .m4v, .mp3, .m4a"
+                       onchange="uploadMediaFiles(this.files);" multiple>
+
+                <input type="button" class="myButton" id="jsMediaUploadFiles" name="jsMediaUploadFiles" onclick=""
+                       value="<?php echo __('upload_files'); ?>">
+            </details>
+
             <p>
                 <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
                 <li> <?php echo __('help_itunes_sync_title'); Page::getHelp('help_itunes_sync'); ?> </li>

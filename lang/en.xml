@@ -48,6 +48,7 @@
         <phrase name="download_paths">Download Paths</phrase>
         <phrase name="sync_jobs">Sync Jobs</phrase>
         <phrase name="youtube_download">Download from Youtube</phrase>
+        <phrase name="upload_files">Upload Files</phrase>
         <phrase name="requirements_check">Requirements Check</phrase>
         <phrase name="paths_file_path">Files Path</phrase>
         <phrase name="update_row">Update</phrase>

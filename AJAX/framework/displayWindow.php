@@ -19,9 +19,6 @@ session_start();
 
 Page::checkValidAjaxRequest(true);
 
-
-
-
 if(isset($_GET['page']))
     $page=ClearString($_GET['page']);
 
@@ -35,11 +32,6 @@ else $step=PLAYLIST_LIMIT;
 
 if(isset($_GET['search_text']))
     $search_text=ClearString($_GET['search_text']);
-
-//if(isset($_GET['tabID']))
-//    $tabID=ClearString($_GET['tabID']);
-//
-//trigger_error('ON DISPLAYWINDOW '.$tabID);
 
 switch ($page) {
     case 1: OWMP::showPlaylistWindow($offset,$step); break;

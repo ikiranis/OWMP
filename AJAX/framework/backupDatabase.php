@@ -40,5 +40,4 @@ if ($backup->backupDatabase()) {
     $jsonArray = array('success' => false);
 }
 
-
 echo json_encode($jsonArray);

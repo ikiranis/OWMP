@@ -1290,7 +1290,13 @@ function downloadTheYouTube() {
 
 }
 
-// Αλλάζει ένα text input σε select. Elem είναι το input field που θα αλλάξουμε. ID το id του row
+/**
+ * Αλλάζει ένα text input σε select. Elem είναι το input field που θα αλλάξουμε. ID το id του row
+ *
+ * @param elem {element object} Το element που θα αλλάξει
+ * @param elementID {int} Το id του element
+ * @param optionsArray {array} To array με τα options
+ */
 function changeToSelect(elem, elementID, optionsArray) {
 
     elem.outerHTML = ""; // Σβήσιμο του υπάρχοντος
@@ -1313,7 +1319,8 @@ function changeToSelect(elem, elementID, optionsArray) {
         option[i].innerHTML = optionsArray[i];
     }
 
-    var newSelect=document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement); // προσθέτει το element πριν το afterElement
+    // προσθέτει το element πριν το afterElement
+    var newSelect=document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement);
 
     for (var i = 0; i < optionsArray.length; i++)
         newSelect.appendChild(option[i]); // προσθέτει τα options
@@ -2513,16 +2520,7 @@ function uploadFile(files) {
             // Form data
             data: {
                 myFile: myFile
-            },
-
-            // Tell jQuery not to process data or worry about content-type
-            // You *must* include these options!
-            // contentType: false,
-            // processData: false,
-
-            // success: function (data) {
-            //     // console.log('U');
-            // }
+            }
         });
 
     };
@@ -2530,6 +2528,45 @@ function uploadFile(files) {
 
     // Start reading asynchronously the file
     reader.readAsText(f);
+}
+
+// Ανεβάζει ένα αρχείο
+function uploadMediaFiles(files) {
+    var selectedFiles = document.getElementById('jsMediaFiles').files[0];
+
+    myMime = selectedFiles.type;
+    uploadedFilename = selectedFiles.name;
+    console.log(myMime + ' ' + uploadedFilename);
+
+    var f = files[0];
+
+    var reader = new FileReader();
+
+    // Called when the file content is loaded, e.target.result is
+    // The content
+    reader.onload = function (e) {
+        // console.log(e.target.result);
+
+        myFile = e.target.result;
+
+        $.ajax({
+            // Your server script to process the upload
+            url: AJAX_path + 'app/uploadMediaFile.php',
+            type: 'POST',
+
+            data: {
+                myFile: myFile,
+                uploadedFilename: uploadedFilename,
+                myMime: myMime
+            }
+
+        });
+
+    };
+
+
+    // Start reading asynchronously the file
+    reader.readAsBinaryString(f);
 }
 
 // Ενημερώνει το download path

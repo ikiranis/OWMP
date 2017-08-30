@@ -48,6 +48,7 @@
         <phrase name="download_paths">Διαδρομές αρχείων για κατέβασμα</phrase>
         <phrase name="sync_jobs">Εργασίες συγχρονισμού</phrase>
         <phrase name="youtube_download">Κατέβασμα από το Youtube</phrase>
+        <phrase name="upload_files">Ανέβασμα αρχείων</phrase>
         <phrase name="requirements_check">Έλεγχοι απαιτούμενων</phrase>
         <phrase name="paths_file_path">Διαδρομή αρχείων</phrase>
         <phrase name="update_row">Ενημέρωση</phrase>
