@@ -2553,12 +2553,15 @@ function uploadMediaFiles(files) {
             // Your server script to process the upload
             url: AJAX_path + 'app/uploadMediaFile.php',
             type: 'POST',
+            contentType: false,
+            data: myFile,
+            // data: {
+            //     myFile: myFile,
+            //     uploadedFilename: uploadedFilename,
+            //     myMime: myMime
+            // },
 
-            data: {
-                myFile: myFile,
-                uploadedFilename: uploadedFilename,
-                myMime: myMime
-            }
+            proccessData: false
 
         });
 
@@ -2566,7 +2569,7 @@ function uploadMediaFiles(files) {
 
 
     // Start reading asynchronously the file
-    reader.readAsBinaryString(f);
+    reader.readAsDataURL(f);
 }
 
 // Ενημερώνει το download path

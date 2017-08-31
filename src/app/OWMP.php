@@ -379,8 +379,8 @@ class OWMP
                        accept=".mp4, .m4v, .mp3, .m4a"
                        onchange="uploadMediaFiles(this.files);" multiple>
 
-                <input type="button" class="myButton" id="jsMediaUploadFiles" name="jsMediaUploadFiles" onclick=""
-                       value="<?php echo __('upload_files'); ?>">
+<!--                <input type="button" class="myButton" id="jsMediaUploadFiles" name="jsMediaUploadFiles" onclick=""-->
+<!--                       value="--><?php //echo __('upload_files'); ?><!--">-->
             </details>
 
             <p>
