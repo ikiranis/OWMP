@@ -2534,6 +2534,8 @@ function uploadMediaFiles(files) {
     // To imput element που περιέχει τα επιλεγμένα αρχεία
     // var selectedFiles = document.querySelector('#jsMediaFiles').files;
 
+    clearResultsContainer();
+    displayResultsIcon();
     ProgressAnimation.init(true);
     ProgressAnimation.setProgressPercent(0);
 
@@ -2551,6 +2553,8 @@ function uploadMediaFiles(files) {
             // Όταν ανέβει το αρχείο
             reader.onload = function (e) {
 
+                console.log(file.name);
+
                 // Τα data του αρχείου μαζί με το όνομα του αρχείου και τον τύπο του, χωρισμένα με κόμμα (,)
                 var myFile = e.target.result + ',' + encodeURIComponent(file.name) + ',' + file.type;
 
@@ -2560,9 +2564,10 @@ function uploadMediaFiles(files) {
                     url: AJAX_path + 'app/uploadMediaFile.php',
                     type: 'POST',
                     data: myFile,
-                    // cache: false,
+                    cache: false,
                     contentType: false,
                     proccessData: false,
+                    dataType: "json",
 
                     xhr: function() {
                         myXhr = $.ajaxSettings.xhr();
@@ -2574,8 +2579,25 @@ function uploadMediaFiles(files) {
                         return myXhr;
                     },
 
+                    // TODO πρόβλημα με crashing και δεν σταματάει την progress bar
                     success: function(data) {
                         finishedUploads++;
+                        if (data.success == true) {
+                            $(".o-resultsContainer_text").append('<p class="is_youTube-success">'+
+                                phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+
+                            $(".o-resultsContainer_text").append(data.filesToDelete);
+
+                            // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
+                            var resultsContainer = document.querySelector('.o-resultsContainer');
+
+                            if(resultsContainer.classList.contains('isHidden')) {
+                                BlinkElement.start('.o-resultsContainer_iconContainer');
+                            }
+
+                        } else {
+                            console.log('upload problem');
+                        }
                     }
                 });
 
@@ -2590,10 +2612,11 @@ function uploadMediaFiles(files) {
 
 }
 
+// TODO όταν διαβάζει το αρχείο, παγώνει το animation
 /**
  * Εμφανίζει το ποσοστό uploading του τρέχοντος αρχείου σε σχέση και με το συνολικό ποσοστό όλων των αρχείων
  *
- * @param evt
+ * @param evt {object} Το progress event του uploading
  */
 function showFileUploadProgress(evt) {
     if (evt.lengthComputable) {

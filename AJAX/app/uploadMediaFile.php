@@ -16,6 +16,7 @@
 use apps4net\framework\Page;
 use apps4net\framework\FilesIO;
 use apps4net\framework\Utilities;
+use apps4net\parrot\app\SyncFiles;
 
 require_once('../../src/boot.php');
 
@@ -30,17 +31,42 @@ $results = file_get_contents ("php://input");
 // Separate out the data
 $results = explode(',', $results); // Σπάει σε array όταν βρει (,)
 $uploadedFilename = urldecode($results[2]); // Το όνομα του αρχείου
-$myMime = $results[3]; // Ο τύπος του αρχείου
+$fileType = $results[3]; // Ο τύπος του αρχείου
 
 //trigger_error($uploadedFilename. ' ' . $myMime.' '.$results[0]);
 
 // Encode it correctly
 $encodedData = str_replace(' ','+',$results[1]);
-$myFile = base64_decode($encodedData);
+$theFile = base64_decode($encodedData);
 
-// Παράγει το file path από το έτος και τον μήνα
-$uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
+$syncFile = new SyncFiles();
+
+// Παράγει το file path από το έτος και τον μήνα και ελέγχει το είδος του αρχείου
+if (strpos(strtolower($fileType), 'video')!==false) {
+    $syncFile->mediaKind = 'Music Video';
+    $uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
+} else {
+    $syncFile->mediaKind = 'Music';
+    $uploadDir = MUSIC_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
+}
 
 // Σώσιμο του αρχείου
-$file = new FilesIO(OUTPUT_FOLDER, $uploadedFilename, 'write');
-$file->insertRow($myFile);
+$file = new FilesIO($uploadDir, $uploadedFilename, 'write');
+$file->insertRow($theFile);
+
+
+if(file_exists($uploadDir.$uploadedFilename)) {
+    // Εγγραφή στην βάση του τραγουδιού που κατέβηκε ανέβηκε
+    $syncFile->file = str_replace(DIR_PREFIX, '', $uploadDir.$uploadedFilename);
+    $syncFile->searchIDFiles = true;
+    $syncFile->name = $uploadedFilename;
+
+    $syncFile->writeTrack();
+
+    $jsonArray = array('success' => true, 'result' => $uploadDir.$uploadedFilename,
+        'filesToDelete' => $syncFile->deleteFilesString);
+} else {
+    $jsonArray=array( 'success'=> false);
+}
+
+echo json_encode($jsonArray);

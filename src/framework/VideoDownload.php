@@ -138,8 +138,11 @@ class VideoDownload
         return $outputfilename;
     }
 
-
-    // Κατεβάζει ένα βίντεο
+    /**
+     * Κατεβάζει ένα βίντεο
+     *
+     * @return bool|mixed|string
+     */
     public function downloadVideo() {
         Progress::setLastMomentAlive(false);
 

@@ -136,7 +136,6 @@ var ProgressAnimation =
     drawProgressText: function()
     {
         this.ctx.font="17px Verdana";
-        var XtoProgress = this.calculateProgressPercent();
         this.ctx.fillText((this.calculateProgressPercent()) + '%', this.x, 25);
     },
 
