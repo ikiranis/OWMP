@@ -24,29 +24,23 @@ Page::checkValidAjaxRequest(true);
 
 ini_set('memory_limit','1024M');
 
+// Τα row data που έρχονται από javascript
 $results = file_get_contents ("php://input");
 
-//
-//if(isset($results['uploadedFilename'])){
-//    $uploadedFilename=ClearString($results['uploadedFilename']);
-//}
-//
-//if(isset($results['myMime'])){
-//    $myMime=ClearString($results['myMime']);
-//}
-
-
 // Separate out the data
-$data = explode(',', $results);
-$uploadedFilename = $data[2];
+$results = explode(',', $results); // Σπάει σε array όταν βρει (,)
+$uploadedFilename = urldecode($results[2]); // Το όνομα του αρχείου
+$myMime = $results[3]; // Ο τύπος του αρχείου
+
+trigger_error($uploadedFilename. ' ' . $myMime.' '.$results[0]);
 
 // Encode it correctly
-$encodedData = str_replace(' ','+',$data[1]);
-$decodedData = base64_decode($encodedData);
+$encodedData = str_replace(' ','+',$results[1]);
+$myFile = base64_decode($encodedData);
 
 // Παράγει το file path από το έτος και τον μήνα
 $uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
 
+// Σώσιμο του αρχείου
 $file = new FilesIO(OUTPUT_FOLDER, $uploadedFilename, 'write');
-
-$file->insertRow($decodedData);
+$file->insertRow($myFile);

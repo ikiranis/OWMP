@@ -2537,42 +2537,36 @@ function uploadFile(files) {
  */
 function uploadMediaFiles(files) {
     // To imput element που περιέχει τα επιλεγμένα αρχεία
-    var selectedFiles = document.querySelector('#jsMediaFiles').files;
-
-    // myMime = selectedFiles[0].type;
+    // var selectedFiles = document.querySelector('#jsMediaFiles').files;
 
     for(var i=0; i<files.length; i++) {
+        (function (file) {
+            var reader = new FileReader();
 
-        var uploadedFilename = selectedFiles[i].name; // Το όνομα του αρχείου
+            // Τρέχει τον παρακάτω κώδικα reader.onload μόλις ανέβει το αρχείο
+            reader.readAsDataURL(file);
 
-        // var myMime = selectedFiles[0].type;  // Ο τύπος του αρχείου
+            // Όταν ανέβει το αρχείο
+            reader.onload = function (e) {
 
-        // Το αρχείο που επεξεργάζεται την δεδομένη στιγμή
-        var uploadedFile = files[i];
+                // Τα data του αρχείου μαζί με το όνομα του αρχείου και τον τύπο του, χωρισμένα με κόμμα (,)
+                var myFile = e.target.result + ',' + encodeURIComponent(file.name) + ',' + file.type;
 
-        var reader = new FileReader();
+                // Στέλνει τα data στην php
+                $.ajax({
+                    // Your server script to process the upload
+                    url: AJAX_path + 'app/uploadMediaFile.php',
+                    type: 'POST',
+                    data: myFile,
+                    // cache: false,
+                    contentType: false,
+                    proccessData: false
+                });
 
-        // Όταν ανέβει το αρχείο
-        reader.onload = function (e) {
+            };
+        })(files[i]);
 
-            // Τα data του αρχείου μαζί με το όνομα του αρχείου, χωρισμένα με κόμμα (,)
-            myFile = e.target.result + ',' + uploadedFilename;
 
-            // Στέλνει τα data στην php
-            $.ajax({
-                // Your server script to process the upload
-                url: AJAX_path + 'app/uploadMediaFile.php',
-                type: 'POST',
-                data: myFile,
-                // cache: false,
-                contentType: false,
-                proccessData: false
-            });
-
-        };
-
-        // Τρέχει τον παραπάνω κώδικα reader.onload μόλις ανέβει το αρχείο
-        reader.readAsDataURL(uploadedFile);
     }
 
 }
