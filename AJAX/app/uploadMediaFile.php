@@ -32,7 +32,7 @@ $results = explode(',', $results); // Σπάει σε array όταν βρει (,
 $uploadedFilename = urldecode($results[2]); // Το όνομα του αρχείου
 $myMime = $results[3]; // Ο τύπος του αρχείου
 
-trigger_error($uploadedFilename. ' ' . $myMime.' '.$results[0]);
+//trigger_error($uploadedFilename. ' ' . $myMime.' '.$results[0]);
 
 // Encode it correctly
 $encodedData = str_replace(' ','+',$results[1]);

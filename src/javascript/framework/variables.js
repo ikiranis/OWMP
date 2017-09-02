@@ -52,7 +52,9 @@ var displayingMediaControls=false; // Κρατάει το αν εμφανίζο�
 
 var currentPathFormID;
 
-var syncRunning = false;
+var syncRunning = false; // Κρατάει το αν τρέχει κάποια sync εργασία
+
+var finishedUploads = 0; // Πόσα uploads αρχείων έχουν ολοκληρωθεί
 
 var videoItems=[];
 

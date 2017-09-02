@@ -1542,24 +1542,18 @@ function updateFiles(filesArray) {
     if (confirmAnswer==true) {
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
-        // $('#progress').show();
-        // $('#logprogress').show();
         $("#AgreeToUpdateFiles").remove();
         displayKillCommandIcon();
-
-        // document.querySelector('#theProgressBar').value=0;
-        // $("#theProgressNumber" ).html('');
 
         console.log ('Files to update: '+filesArray.length);
 
         runningUpdateFiles = true;
 
-
         for (var i = 0; i < filesArray.length; i++) {
             callUpdateTheFile(filesArray[i]['path'], filesArray[i]['filename'], filesArray[i]['id'], i, filesArray.length);
         }
 
-        $( document ).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
+        $(document).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
             ProgressAnimation.kill();
             hideKillCommandIcon();
             // $(".o-resultsContainer_text").append('<p>'+phrases['starting_sync']+'</p>');
@@ -2095,7 +2089,9 @@ function exportPlaylist() {
 
 
         }
-        else alert (phrases['running_process']);
+        else {
+            alert (phrases['running_process']);
+        }
     }
 }
 
@@ -2104,7 +2100,6 @@ function createPlaylist() {
     var playlistName=document.querySelector('#playlistName').value;
 
     callFile=AJAX_path+"app/createPlaylist.php?playlistName="+playlistName;
-
 
     $.get(callFile, function (data) {
         if (data.success == true) {
@@ -2539,8 +2534,12 @@ function uploadMediaFiles(files) {
     // To imput element που περιέχει τα επιλεγμένα αρχεία
     // var selectedFiles = document.querySelector('#jsMediaFiles').files;
 
+    ProgressAnimation.init(true);
+    ProgressAnimation.setProgressPercent(0);
+
     for(var i=0; i<files.length; i++) {
-        (function (file) {
+        (function (file, filesLength) {
+
             var reader = new FileReader();
 
             // Τρέχει τον παρακάτω κώδικα reader.onload μόλις ανέβει το αρχείο
@@ -2560,16 +2559,44 @@ function uploadMediaFiles(files) {
                     data: myFile,
                     // cache: false,
                     contentType: false,
-                    proccessData: false
+                    proccessData: false,
+
+                    xhr: function() {
+                        myXhr = $.ajaxSettings.xhr();
+                        if(myXhr.upload){
+                            myXhr.upload.addEventListener('progress', fileUploadProgress, false);
+                        } else {
+                            console.log("Upload progress is not supported.");
+                        }
+                        return myXhr;
+                    },
+
+                    success: function(data) {
+                        finishedUploads++;
+                        var progressPercent = ((finishedUploads / filesLength) * 100).toFixed(0);
+                        console.log(progressPercent);
+                        ProgressAnimation.setProgressPercent(progressPercent);
+                    }
                 });
 
             };
-        })(files[i]);
-
-
+        })(files[i], files.length);
     }
 
+    // όταν εκτελεστούν όλα τα ajax
+    $(document).one("ajaxStop", function () {
+        ProgressAnimation.kill();
+    });
+
 }
+
+function fileUploadProgress(evt) {
+    if (evt.lengthComputable) {
+        var percentComplete = ((evt.loaded / evt.total) * 100).toFixed(0);
+        // ProgressAnimation.setProgressPercent(percentComplete);
+    }
+}
+
 
 // Ενημερώνει το download path
 // @param: string pathName = To path name του σχετικού row στο download_paths, που θέλουμε να ενημερώσουμε
