@@ -2532,20 +2532,17 @@ function uploadFile(files) {
 
 // Ανεβάζει ένα αρχείο
 function uploadMediaFiles(files) {
-    var selectedFiles = document.getElementById('jsMediaFiles').files[0];
+    var selectedFiles = document.querySelector('#jsMediaFiles').files;
 
-    myMime = selectedFiles.type;
-    uploadedFilename = selectedFiles.name;
+    myMime = selectedFiles[0].type;
+    uploadedFilename = selectedFiles[0].name;
     console.log(myMime + ' ' + uploadedFilename);
 
     var f = files[0];
 
     var reader = new FileReader();
 
-    // Called when the file content is loaded, e.target.result is
-    // The content
     reader.onload = function (e) {
-        // console.log(e.target.result);
 
         myFile = e.target.result;
 
@@ -2553,7 +2550,6 @@ function uploadMediaFiles(files) {
             // Your server script to process the upload
             url: AJAX_path + 'app/uploadMediaFile.php',
             type: 'POST',
-            contentType: false,
             data: myFile,
             // data: {
             //     myFile: myFile,
@@ -2561,6 +2557,9 @@ function uploadMediaFiles(files) {
             //     myMime: myMime
             // },
 
+
+            cache: false,
+            contentType: false,
             proccessData: false
 
         });

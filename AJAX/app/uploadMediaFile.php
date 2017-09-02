@@ -22,17 +22,13 @@ require_once('../../src/boot.php');
 session_start();
 Page::checkValidAjaxRequest(true);
 
-//ini_set('max_input_vars','100000');
-//ini_set('memory_limit','1024M');
-
-set_time_limit(0);
 ini_set('memory_limit','1024M');
 
 $results = file_get_contents ("php://input");
-//$results = json_decode($results, TRUE);
 
-$myFile = base64_encode($results);
+$myFile = $results;
 
+//
 //if(isset($results['uploadedFilename'])){
 //    $uploadedFilename=ClearString($results['uploadedFilename']);
 //}
@@ -41,18 +37,23 @@ $myFile = base64_encode($results);
 //    $myMime=ClearString($results['myMime']);
 //}
 
+
+// Separate out the data
+$data = explode(',', $myFile);
+
+// Encode it correctly
+$encodedData = str_replace(' ','+',$data[1]);
+$decodedData = base64_decode($encodedData);
+
 // Παράγει το file path από το έτος και τον μήνα
 $uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
 $myFilename = $uploadedFilename;
 
-trigger_error($myFilename);
 
-//file_put_contents(OUTPUT_FOLDER . 'something.mp4', $myFile);
+//$fp = fopen(OUTPUT_FOLDER . 'something.mp4', 'wb');
+//fwrite($fp, $decodedData);
+//fclose($fp);
 
-$fp = fopen(OUTPUT_FOLDER . 'something.mp4', 'wb');
-fwrite($fp, $myFile);
-fclose($fp);
+$file = new FilesIO(OUTPUT_FOLDER, 'something.mp4', 'write');
 
-//$file = new FilesIO(OUTPUT_FOLDER, 'something.mp4', 'write');
-//
-//$file->insertRow($myFile);
+$file->insertRow($decodedData);
