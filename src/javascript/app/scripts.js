@@ -2530,45 +2530,51 @@ function uploadFile(files) {
     reader.readAsText(f);
 }
 
-// Ανεβάζει ένα αρχείο
+/**
+ * Ανεβάζει ένα αρχείο
+ *
+ * @param files {array} Τα αρχεία που έχει επιλέξει ο χρήστης
+ */
 function uploadMediaFiles(files) {
+    // To imput element που περιέχει τα επιλεγμένα αρχεία
     var selectedFiles = document.querySelector('#jsMediaFiles').files;
 
-    myMime = selectedFiles[0].type;
-    uploadedFilename = selectedFiles[0].name;
-    console.log(myMime + ' ' + uploadedFilename);
+    // myMime = selectedFiles[0].type;
 
-    var f = files[0];
+    for(var i=0; i<files.length; i++) {
 
-    var reader = new FileReader();
+        var uploadedFilename = selectedFiles[i].name; // Το όνομα του αρχείου
 
-    reader.onload = function (e) {
+        // var myMime = selectedFiles[0].type;  // Ο τύπος του αρχείου
 
-        myFile = e.target.result;
+        // Το αρχείο που επεξεργάζεται την δεδομένη στιγμή
+        var uploadedFile = files[i];
 
-        $.ajax({
-            // Your server script to process the upload
-            url: AJAX_path + 'app/uploadMediaFile.php',
-            type: 'POST',
-            data: myFile,
-            // data: {
-            //     myFile: myFile,
-            //     uploadedFilename: uploadedFilename,
-            //     myMime: myMime
-            // },
+        var reader = new FileReader();
 
+        // Όταν ανέβει το αρχείο
+        reader.onload = function (e) {
 
-            cache: false,
-            contentType: false,
-            proccessData: false
+            // Τα data του αρχείου μαζί με το όνομα του αρχείου, χωρισμένα με κόμμα (,)
+            myFile = e.target.result + ',' + uploadedFilename;
 
-        });
+            // Στέλνει τα data στην php
+            $.ajax({
+                // Your server script to process the upload
+                url: AJAX_path + 'app/uploadMediaFile.php',
+                type: 'POST',
+                data: myFile,
+                // cache: false,
+                contentType: false,
+                proccessData: false
+            });
 
-    };
+        };
 
+        // Τρέχει τον παραπάνω κώδικα reader.onload μόλις ανέβει το αρχείο
+        reader.readAsDataURL(uploadedFile);
+    }
 
-    // Start reading asynchronously the file
-    reader.readAsDataURL(f);
 }
 
 // Ενημερώνει το download path

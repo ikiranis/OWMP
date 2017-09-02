@@ -26,8 +26,6 @@ ini_set('memory_limit','1024M');
 
 $results = file_get_contents ("php://input");
 
-$myFile = $results;
-
 //
 //if(isset($results['uploadedFilename'])){
 //    $uploadedFilename=ClearString($results['uploadedFilename']);
@@ -39,7 +37,8 @@ $myFile = $results;
 
 
 // Separate out the data
-$data = explode(',', $myFile);
+$data = explode(',', $results);
+$uploadedFilename = $data[2];
 
 // Encode it correctly
 $encodedData = str_replace(' ','+',$data[1]);
@@ -47,13 +46,7 @@ $decodedData = base64_decode($encodedData);
 
 // Παράγει το file path από το έτος και τον μήνα
 $uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
-$myFilename = $uploadedFilename;
 
-
-//$fp = fopen(OUTPUT_FOLDER . 'something.mp4', 'wb');
-//fwrite($fp, $decodedData);
-//fclose($fp);
-
-$file = new FilesIO(OUTPUT_FOLDER, 'something.mp4', 'write');
+$file = new FilesIO(OUTPUT_FOLDER, $uploadedFilename, 'write');
 
 $file->insertRow($decodedData);
