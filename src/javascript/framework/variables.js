@@ -55,6 +55,7 @@ var currentPathFormID;
 var syncRunning = false; // Κρατάει το αν τρέχει κάποια sync εργασία
 
 var finishedUploads = 0; // Πόσα uploads αρχείων έχουν ολοκληρωθεί
+var filesUploadedCount = 0; // Σϋνολο των αρχείων που ανέβηκαν
 
 var videoItems=[];
 

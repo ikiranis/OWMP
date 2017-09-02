@@ -132,17 +132,18 @@ var ProgressAnimation =
         this.ctx.fillStyle = 'white';
     },
 
-    // Εμφανίζει το ποσοστό
+    // Εμφανίζει το ποσοστό της θέσης στην οποία βρίσκεται
     drawProgressText: function()
     {
         this.ctx.font="17px Verdana";
-        this.ctx.fillText(this.progressPercent + '%', this.x, 25);
+        var XtoProgress = this.calculateProgressPercent();
+        this.ctx.fillText((this.calculateProgressPercent()) + '%', this.x, 25);
     },
 
     /**
      * Επιστρέφει το ποσοστό της θέσης στην οποία βρίσκεται το sprite πάνω στο canvas
      *
-     * @returns {string}
+     * @returns {int}
      */
     calculateProgressPercent: function()
     {

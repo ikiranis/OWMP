@@ -2537,8 +2537,11 @@ function uploadMediaFiles(files) {
     ProgressAnimation.init(true);
     ProgressAnimation.setProgressPercent(0);
 
+    finishedUploads = 0;
+    filesUploadedCount = files.length;
+
     for(var i=0; i<files.length; i++) {
-        (function (file, filesLength) {
+        (function (file) {
 
             var reader = new FileReader();
 
@@ -2552,7 +2555,7 @@ function uploadMediaFiles(files) {
                 var myFile = e.target.result + ',' + encodeURIComponent(file.name) + ',' + file.type;
 
                 // Στέλνει τα data στην php
-                $.ajax({
+                $.ajaxQueue({
                     // Your server script to process the upload
                     url: AJAX_path + 'app/uploadMediaFile.php',
                     type: 'POST',
@@ -2564,7 +2567,7 @@ function uploadMediaFiles(files) {
                     xhr: function() {
                         myXhr = $.ajaxSettings.xhr();
                         if(myXhr.upload){
-                            myXhr.upload.addEventListener('progress', fileUploadProgress, false);
+                            myXhr.upload.addEventListener('progress', showFileUploadProgress, false);
                         } else {
                             console.log("Upload progress is not supported.");
                         }
@@ -2573,14 +2576,11 @@ function uploadMediaFiles(files) {
 
                     success: function(data) {
                         finishedUploads++;
-                        var progressPercent = ((finishedUploads / filesLength) * 100).toFixed(0);
-                        console.log(progressPercent);
-                        ProgressAnimation.setProgressPercent(progressPercent);
                     }
                 });
 
             };
-        })(files[i], files.length);
+        })(files[i]);
     }
 
     // όταν εκτελεστούν όλα τα ajax
@@ -2590,17 +2590,29 @@ function uploadMediaFiles(files) {
 
 }
 
-function fileUploadProgress(evt) {
+/**
+ * Εμφανίζει το ποσοστό uploading του τρέχοντος αρχείου σε σχέση και με το συνολικό ποσοστό όλων των αρχείων
+ *
+ * @param evt
+ */
+function showFileUploadProgress(evt) {
     if (evt.lengthComputable) {
-        var percentComplete = ((evt.loaded / evt.total) * 100).toFixed(0);
-        // ProgressAnimation.setProgressPercent(percentComplete);
+        // Το συνολικό ποσοστό όλων των αρχείων
+        var totalPercent = parseInt(((finishedUploads / filesUploadedCount) * 1000));
+        // Το ποσοστό του τρέχοντος αρχείου
+        var currentPercent = parseInt(((evt.loaded / evt.total) * 100));
+        // Προστίθεται το τρέχον ποσοστό, στο συνολικό
+        var theTotal = (( (currentPercent+totalPercent) / 1000) * 100).toFixed(0);
+
+        ProgressAnimation.setProgressPercent(theTotal);
     }
 }
 
-
-// Ενημερώνει το download path
-// @param: string pathName = To path name του σχετικού row στο download_paths, που θέλουμε να ενημερώσουμε
-// @return: void
+/**
+ * Ενημερώνει το download path
+ *
+ * @param pathName {string} To path name του σχετικού row στο download_paths, που θέλουμε να ενημερώσουμε
+ */
 function updateDownloadPath(pathName)
 {
     var filePath = document.querySelector('#' + pathName + ' #file_path').value;
