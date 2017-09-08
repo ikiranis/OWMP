@@ -11,6 +11,8 @@
  *
  * Uploading αρχείων
  *
+ * @reference https://deliciousbrains.com/using-javascript-file-api-to-avoid-file-upload-limits/
+ *
  */
 
 namespace apps4net\framework;
