@@ -56,6 +56,12 @@ var syncRunning = false; // Κρατάει το αν τρέχει κάποια s
 
 var finishedUploads = 0; // Πόσα uploads αρχείων έχουν ολοκληρωθεί
 var filesUploadedCount = 0; // Σϋνολο των αρχείων που ανέβηκαν
+var percent_done = [];
+
+// Για το upload αρχείων
+var reader = [];
+var theFile = [];
+var slice_size = 1000 * 1024;
 
 var videoItems=[];
 

@@ -14,59 +14,50 @@
  */
 
 use apps4net\framework\Page;
-use apps4net\framework\FilesIO;
-use apps4net\framework\Utilities;
+use apps4net\framework\FileUpload;
 use apps4net\parrot\app\SyncFiles;
 
 require_once('../../src/boot.php');
 
+// TODO να δω πως μπορεί να γίνει πιο γρήγορο το upload
+
 session_start();
 Page::checkValidAjaxRequest(true);
 
-ini_set('memory_limit','1024M');
-
 // Τα row data που έρχονται από javascript
-$results = file_get_contents ("php://input");
+$results = file_get_contents ('php://input');
+$results = json_decode($results, TRUE);
 
-// Separate out the data
-$results = explode(',', $results); // Σπάει σε array όταν βρει (,)
-$uploadedFilename = urldecode($results[2]); // Το όνομα του αρχείου
-$fileType = $results[3]; // Ο τύπος του αρχείου
+if($results['uploadKind']=='slice') {
+    $fileUpload = new FileUpload($results['file_data'], $results['file_type'], $results['file']);
 
-//trigger_error($uploadedFilename. ' ' . $myMime.' '.$results[0]);
+    $fileUpload->ajaxUploadFile();
+} else {
+    trigger_error($results['fullPathFilename']);
 
-// Encode it correctly
-$encodedData = str_replace(' ','+',$results[1]);
-$theFile = base64_decode($encodedData);
-
-$syncFile = new SyncFiles();
+    $syncFile = new SyncFiles();
 
 // Παράγει το file path από το έτος και τον μήνα και ελέγχει το είδος του αρχείου
-if (strpos(strtolower($fileType), 'video')!==false) {
-    $syncFile->mediaKind = 'Music Video';
-    $uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
-} else {
-    $syncFile->mediaKind = 'Music';
-    $uploadDir = MUSIC_FILE_UPLOAD . Utilities::getPathFromYearAndMonth();
+    if (strpos(strtolower($results['file_type']), 'video')!==false) {
+        $syncFile->mediaKind = 'Music Video';
+    } else {
+        $syncFile->mediaKind = 'Music';
+    }
+
+    if(file_exists($results['fullPathFilename'])) {
+        // Εγγραφή στην βάση του τραγουδιού που κατέβηκε ανέβηκε
+        $syncFile->file = str_replace(DIR_PREFIX, '', $results['fullPathFilename']);
+        $syncFile->searchIDFiles = true;
+        $syncFile->name = $results['fileName'];
+
+        $syncFile->writeTrack();
+
+        $jsonArray = array('success' => true, 'result' => $results['fullPathFilename'],
+            'filesToDelete' => $syncFile->deleteFilesString);
+    } else {
+        $jsonArray=array( 'success'=> false);
+    }
+
+    echo json_encode($jsonArray);
 }
 
-// Σώσιμο του αρχείου
-$file = new FilesIO($uploadDir, $uploadedFilename, 'write');
-$file->insertRow($theFile);
-
-
-if(file_exists($uploadDir.$uploadedFilename)) {
-    // Εγγραφή στην βάση του τραγουδιού που κατέβηκε ανέβηκε
-    $syncFile->file = str_replace(DIR_PREFIX, '', $uploadDir.$uploadedFilename);
-    $syncFile->searchIDFiles = true;
-    $syncFile->name = $uploadedFilename;
-
-    $syncFile->writeTrack();
-
-    $jsonArray = array('success' => true, 'result' => $uploadDir.$uploadedFilename,
-        'filesToDelete' => $syncFile->deleteFilesString);
-} else {
-    $jsonArray=array( 'success'=> false);
-}
-
-echo json_encode($jsonArray);

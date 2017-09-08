@@ -2542,93 +2542,119 @@ function uploadMediaFiles(files) {
     finishedUploads = 0;
     filesUploadedCount = files.length;
 
-    for(var i=0; i<files.length; i++) {
-        (function (file) {
+    percent_done = [];
+    reader = [];
+    theFile = [];
 
-            var reader = new FileReader();
+    for(var i=0; i<filesUploadedCount; i++) {
+        (function (file, i) {
 
-            // Τρέχει τον παρακάτω κώδικα reader.onload μόλις ανέβει το αρχείο
-            reader.readAsDataURL(file);
+            // event.preventDefault();
 
-            // Όταν ανέβει το αρχείο
-            reader.onload = function (e) {
+            reader.push(new FileReader());
+            theFile.push(file);
 
-                console.log(file.name);
+            upload_file( 0, i );
 
-                // Τα data του αρχείου μαζί με το όνομα του αρχείου και τον τύπο του, χωρισμένα με κόμμα (,)
-                var myFile = e.target.result + ',' + encodeURIComponent(file.name) + ',' + file.type;
-
-                // Στέλνει τα data στην php
-                $.ajaxQueue({
-                    // Your server script to process the upload
-                    url: AJAX_path + 'app/uploadMediaFile.php',
-                    type: 'POST',
-                    data: myFile,
-                    cache: false,
-                    contentType: false,
-                    proccessData: false,
-                    dataType: "json",
-
-                    xhr: function() {
-                        myXhr = $.ajaxSettings.xhr();
-                        if(myXhr.upload){
-                            myXhr.upload.addEventListener('progress', showFileUploadProgress, false);
-                        } else {
-                            console.log("Upload progress is not supported.");
-                        }
-                        return myXhr;
-                    },
-
-                    // TODO πρόβλημα με crashing και δεν σταματάει την progress bar
-                    success: function(data) {
-                        finishedUploads++;
-                        if (data.success == true) {
-                            $(".o-resultsContainer_text").append('<p class="is_youTube-success">'+
-                                phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
-
-                            $(".o-resultsContainer_text").append(data.filesToDelete);
-
-                            // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
-                            var resultsContainer = document.querySelector('.o-resultsContainer');
-
-                            if(resultsContainer.classList.contains('isHidden')) {
-                                BlinkElement.start('.o-resultsContainer_iconContainer');
-                            }
-
-                        } else {
-                            console.log('upload problem');
-                        }
-                    }
-                });
-
-            };
-        })(files[i]);
+        })(files[i], i);
     }
-
-    // όταν εκτελεστούν όλα τα ajax
-    $(document).one("ajaxStop", function () {
-        ProgressAnimation.kill();
-    });
 
 }
 
-// TODO όταν διαβάζει το αρχείο, παγώνει το animation
+function upload_file(start, i)
+{
+    var next_slice = start + slice_size + 1;
+    var blob = theFile[i].slice( start, next_slice );
+
+    reader[i].onloadend = function( event ) {
+        if ( event.target.readyState !== FileReader.DONE ) {
+            return;
+        }
+
+        $.ajax({
+            url: AJAX_path + 'app/uploadMediaFile.php',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({'file': theFile[i].name,
+                                'file_type': theFile[i].type,
+                                'uploadKind': 'slice',
+                                'file_data': event.target.result}),
+            dataType: "json",
+            error: function( jqXHR, textStatus, errorThrown ) {
+                console.log( jqXHR, textStatus, errorThrown );
+            },
+            success: function( data ) {
+                var size_done = start + slice_size;
+                percent_done[i] = Math.floor( ( size_done / theFile[i].size ) * 100 );
+
+                if ( next_slice < theFile[i].size ) {
+                    // Update upload progress
+                    showFileUploadProgress();
+
+                    // More to upload, call function recursively
+                    upload_file( next_slice, i );
+                } else {
+                    $.ajax({
+                        url: AJAX_path + 'app/uploadMediaFile.php',
+                        type: 'POST',
+                        cache: false,
+                        data: JSON.stringify({'fullPathFilename': data.fullPathFilename,
+                                            'fileName': data.fileName,
+                                            'file_type': data.fileType,
+                                             'uploadKind': 'finalizedFile'}),
+                        dataType: 'json',
+                        success: function( data ) {
+                            finishedUploads++;
+
+                            if(finishedUploads==filesUploadedCount) {
+                                ProgressAnimation.kill();
+                            }
+
+                            if (data.success == true) {
+                                $(".o-resultsContainer_text").append('<p class="is_youTube-success">'+
+                                    phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+
+                                $(".o-resultsContainer_text").append(data.filesToDelete);
+
+                                // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
+                                var resultsContainer = document.querySelector('.o-resultsContainer');
+
+                                if(resultsContainer.classList.contains('isHidden')) {
+                                    BlinkElement.start('.o-resultsContainer_iconContainer');
+                                }
+
+                            } else {
+                                console.log('upload problem');
+                            }
+                        }
+                    })
+                }
+            }
+        } );
+    };
+
+    reader[i].readAsDataURL( blob );
+
+}
+
 /**
  * Εμφανίζει το ποσοστό uploading του τρέχοντος αρχείου σε σχέση και με το συνολικό ποσοστό όλων των αρχείων
  *
  * @param evt {object} Το progress event του uploading
  */
-function showFileUploadProgress(evt) {
-    if (evt.lengthComputable) {
-        // Το συνολικό ποσοστό όλων των αρχείων
-        var totalPercent = parseInt(((finishedUploads / filesUploadedCount) * 1000));
-        // Το ποσοστό του τρέχοντος αρχείου
-        var currentPercent = parseInt(((evt.loaded / evt.total) * 100));
-        // Προστίθεται το τρέχον ποσοστό, στο συνολικό
-        var theTotal = (( (currentPercent+totalPercent) / 1000) * 100).toFixed(0);
-
-        ProgressAnimation.setProgressPercent(theTotal);
+function showFileUploadProgress() {
+    var percentSummary = 0;
+    for(var i=0; i<percent_done.length; i++) {
+        percentSummary = percentSummary+percent_done[i];
     }
+    // Το συνολικό ποσοστό όλων των αρχείων
+    var totalPercent = parseInt(filesUploadedCount * 100);
+    // Το ποσοστό του τρέχοντος αρχείου
+    // var currentPercent = parseInt(((evt.loaded / evt.total) * 100));
+    // Προστίθεται το τρέχον ποσοστό, στο συνολικό
+    var theTotal = ( (percentSummary / totalPercent) * 100).toFixed(0);
+
+    ProgressAnimation.setProgressPercent(theTotal);
 }
 
 /**
