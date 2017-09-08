@@ -16,7 +16,7 @@
 var UploadFiles =
 {
     finishedUploads: 0,             // Πόσα uploads αρχείων έχουν ολοκληρωθεί
-    filesUploadedCount:  0,         // Σύνολο των αρχείων που ανέβηκαν
+    filesUploadedCount:  0,         // Σύνολο των αρχείων που έχουν επιλεχθεί για ανέβασμα
     percent_done: [],               // Το ποσοστό που έχει ανέβει από κάθε αρχείο
     reader: [],                     // To fileReader object για κάθε αρχείο
     theFile: [],                    // Το κάθε αρχείο
@@ -46,18 +46,18 @@ var UploadFiles =
             this.reader.push(new FileReader());
             this.theFile.push(files[i]);
 
-            this.uploadTheFile( 0, i );
+            this.uploadSliceOfFile( 0, i );
         }
 
     },
 
     /**
-     * Αρχίζει το ανέβασμα του αρχείου
+     * Αρχίζει το ανέβασμα κομματιού του αρχείου
      *
      * @param start {int} Το σημείο που βρίσκεται το slice
      * @param i {int} Counter
      */
-    uploadTheFile: function (start, i)
+    uploadSliceOfFile: function (start, i)
     {
         var next_slice = start + this.slice_size + 1;
         var blob = this.theFile[i].slice( start, next_slice );
@@ -88,42 +88,9 @@ var UploadFiles =
                         this.showFileUploadProgress();
 
                         // More to upload, call function recursively
-                        this.uploadTheFile( next_slice, i );
+                        this.uploadSliceOfFile( next_slice, i );
                     } else {
-                        $.ajax({
-                            url: AJAX_path + 'app/uploadMediaFile.php',
-                            type: 'POST',
-                            cache: false,
-                            data: JSON.stringify({'fullPathFilename': data.fullPathFilename,
-                                'fileName': data.fileName,
-                                'file_type': data.fileType,
-                                'uploadKind': 'finalizedFile'}),
-                            dataType: 'json',
-                            success: function( data ) {
-                                this.finishedUploads++;
-
-                                if(this.finishedUploads===this.filesUploadedCount) {
-                                    ProgressAnimation.kill();
-                                }
-
-                                if (data.success === true) {
-                                    $(".o-resultsContainer_text").append('<p class="is_youTube-success">'+
-                                        phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
-
-                                    $(".o-resultsContainer_text").append(data.filesToDelete);
-
-                                    // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
-                                    var resultsContainer = document.querySelector('.o-resultsContainer');
-
-                                    if(resultsContainer.classList.contains('isHidden')) {
-                                        BlinkElement.start('.o-resultsContainer_iconContainer');
-                                    }
-
-                                } else {
-                                    console.log('upload problem');
-                                }
-                            }.bind(this)
-                        });
+                        this.insertFileToDatabase(data);
                     }
                 }.bind(this)
             });
@@ -131,6 +98,49 @@ var UploadFiles =
 
         this.reader[i].readAsDataURL( blob );
 
+    },
+
+    /**
+     * Εισαγωγή του τελικού αρχείου στην βάση
+     *
+     * @param data {object} Τα data που επέστρεψε το ajax call
+     */
+    insertFileToDatabase: function(data)
+    {
+        $.ajax({
+            url: AJAX_path + 'app/uploadMediaFile.php',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({'fullPathFilename': data.fullPathFilename,
+                'fileName': data.fileName,
+                'file_type': data.fileType,
+                'uploadKind': 'finalizedFile'}),
+            dataType: 'json',
+            success: function( data ) {
+                this.finishedUploads++;
+
+                if(this.finishedUploads===this.filesUploadedCount) {
+                    ProgressAnimation.kill();
+                }
+
+                if (data.success === true) {
+                    $(".o-resultsContainer_text").append('<p class="is_youTube-success">'+
+                        phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+
+                    $(".o-resultsContainer_text").append(data.filesToDelete);
+
+                    // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
+                    var resultsContainer = document.querySelector('.o-resultsContainer');
+
+                    if(resultsContainer.classList.contains('isHidden')) {
+                        BlinkElement.start('.o-resultsContainer_iconContainer');
+                    }
+
+                } else {
+                    console.log('upload problem');
+                }
+            }.bind(this)
+        });
     },
 
     /**
