@@ -19,7 +19,12 @@ namespace apps4net\framework;
 class Utilities
 {
 
-    // Έλεγχος αν είναι εγκατεστημένη μια linux εφαρμογή
+    /**
+     * Έλεγχος αν είναι εγκατεστημένη μια linux εφαρμογή
+     *
+     * @param $program
+     * @return bool
+     */
     static function checkIfLinuxProgramInstalled($program)
     {
         $output = shell_exec('which ' . $program);
@@ -31,6 +36,9 @@ class Utilities
         }
     }
 
+    /**
+     * @param $sudoPass
+     */
     static function runGitUpdate($sudoPass)
     {
         $crypt = new Crypto();
@@ -44,8 +52,13 @@ class Utilities
         trigger_error($output);
     }
 
-
-    // Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη κι επιστρέφει πίνακα με τις τιμές της πρώτης στήλης που έχουν την μέγιστη τιμή
+    /**
+     * Βρίσκει την μεγαλύτερη τιμή στην δεύτερη στήλη κι επιστρέφει πίνακα με τις τιμές
+     * της πρώτης στήλης που έχουν την μέγιστη τιμή
+     *
+     * @param $myArray
+     * @return array
+     */
     static function getArrayMax($myArray)
     {
         $myMax = 0;
@@ -68,7 +81,11 @@ class Utilities
 
     }
 
-    // Επιστρέφει τον browser του χρήστη
+    /**
+     * Επιστρέφει τον browser του χρήστη
+     *
+     * @return array
+     */
     static function getBrowser()
     {
         $u_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -142,8 +159,12 @@ class Utilities
         );
     }
 
-
-    // Επιστρέφει την μετατροπή των δευτερολέπτων σε λεπτά:δευτερόλεπτα
+    /**
+     * Επιστρέφει την μετατροπή των δευτερολέπτων σε λεπτά:δευτερόλεπτα
+     *
+     * @param $timeInSeconds
+     * @return string
+     */
     static function seconds2MinutesAndSeconds($timeInSeconds)
     {
         $timeInMinutes = (int)($timeInSeconds / 60);
@@ -164,7 +185,14 @@ class Utilities
     //hour     = $diff->format('%h');
     //min      = $diff->format('%i');
     //sec      = $diff->format('%s');
-    // Επιστρέφει την διαφορά της $endDate με την $startDate και επιστρέφει τιμή αναλόγως το $returnedFormat
+    /**
+     * Επιστρέφει την διαφορά της $endDate με την $startDate και επιστρέφει τιμή αναλόγως το $returnedFormat
+     *
+     * @param $startDate
+     * @param $endDate
+     * @param $returnedFormat
+     * @return string
+     */
     static function dateDifference($startDate, $endDate, $returnedFormat)
     {
         $d_start = new \DateTime($startDate);
@@ -176,8 +204,13 @@ class Utilities
         return $difference;
     }
 
-
-    // Κόβει το $cut_string που βρίσκεται στο τέλος του $main_string
+    /**
+     * Κόβει το $cut_string που βρίσκεται στο τέλος του $main_string
+     *
+     * @param $main_string
+     * @param $cut_string
+     * @return bool|string
+     */
     static function cutLastString($main_string, $cut_string)
     {
         $result = substr($main_string, 0, -strlen($cut_string));
@@ -193,7 +226,12 @@ class Utilities
         return preg_replace('/([^:])(\/{2,})/', '$1/', $url);
     }
 
-    // Μετατροπή Ελληνικών και Κυριλικών χαρακτήρων σε λατινικούς
+    /**
+     * Μετατροπή Ελληνικών και Κυριλικών χαρακτήρων σε λατινικούς
+     *
+     * @param $string
+     * @return mixed
+     */
     static function GrCyr2Latin($string)
     {
         $cyr = array(
@@ -215,7 +253,12 @@ class Utilities
         return $string;
     }
 
-    // Σπάει το full file path name, σε filename και path
+    /**
+     * Σπάει το full file path name, σε filename και path
+     *
+     * @param $fullFilePathName
+     * @return array
+     */
     static function splitFilePathName($fullFilePathName)
     {
         $string_array = explode('/', $fullFilePathName);
@@ -226,7 +269,7 @@ class Utilities
     }
 
     /**
-     * Επιστρέφει path string με βάση το έτος και τον μήνα. Τύπου "2017/09/"
+     * Επιστρέφει path string με βάση το έτος, τον μήνα και την μέρα. Τύπου "2017/09/01/"
      *
      * @return string
      */
@@ -234,8 +277,9 @@ class Utilities
     {
         $myYear = date('Y');
         $myMonth = date('m');
+        $myDay = date('d');
 
-        return $myYear . '/' . $myMonth . '/';
+        return $myYear . '/' . $myMonth . '/' . $myDay . '/';
     }
 
     /**
