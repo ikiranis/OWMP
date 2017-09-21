@@ -39,12 +39,14 @@ function updatePath(id) {
                 if (updatedID == '0') {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                     PathKeyPressed = false;
                     LastInserted = data.lastInserted;
+                    var PathID = $("#PathID" + LastInserted);
+
                     $("#PathID0").prop('id', 'PathID' + LastInserted);
-                    $("#PathID" + LastInserted).find('form').prop('id','paths_formID'+ LastInserted);
-                    $("#PathID" + LastInserted).find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
-                    $("#PathID" + LastInserted).find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
-                    $("#PathID" + LastInserted).find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
-                    $("#PathID" + LastInserted).find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
+                    PathID.find('form').prop('id','paths_formID'+ LastInserted);
+                    PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
+                    PathID.find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
+                    PathID.find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
+                    PathID.find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
                     $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
 
                 }
@@ -75,14 +77,17 @@ function deletePath(id) {
                 $("#PathID" + id).remove();
             }
             else {   // αλλιώς καθαρίζει μόνο τα πεδία
-                $("#PathID"+id).find('input').val('');   // clear field values
-                $("#PathID"+id).prop('id','PathID0');
-                $("#PathID0").find('form').prop('id','paths_formID0');
-                $("#PathID0").find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
+                var PathID = $("#PathID0");
+                var PathWithID = $("#PathID"+id);
+
+                PathWithID.find('input').val('');   // clear field values
+                PathWithID.prop('id','PathID0');
+                PathID.find('form').prop('id','paths_formID0');
+                PathID.find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
                 // αλλάζει την function στο button
-                $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath(paths_formID0)");
-                $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
-                $("#PathID0").find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
+                PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath(paths_formID0)");
+                PathID.find('input[name="update_path"]').attr("onclick", "updatePath(0)");
+                PathID.find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
 
                 $('#paths_formID0').validate({ // initialize the plugin
                     errorElement: 'div'
@@ -99,17 +104,18 @@ function deletePath(id) {
 function insertPath() {
 
     if(!PathKeyPressed) {
+        var PathID = $("#PathID0");
         // clone last div row
         $('div[id^="PathID"]:last').clone().insertAfter('div[id^="PathID"]:last').prop('id','PathID0');
-        $("#PathID0").find('input').val('');   // clear field values
-        $("#PathID0").find('form').prop('id','paths_formID0');
-        $("#PathID0").find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
+        PathID.find('input').val('');   // clear field values
+        PathID.find('form').prop('id','paths_formID0');
+        PathID.find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
         // αλλάζει την function στο button
-        $("#PathID0").find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
-        $("#PathID0").find('input[name="file_path"]').attr("onclick", "displayBrowsePath('paths_formID0')");
-        $("#PathID0").find('select[name="main"]').val(0);
-        $("#PathID0").find('input[name="update_path"]').attr("onclick", "updatePath(0)");
-        $("#PathID0").find('input[name="delete_path"]').attr("onclick", "deletePath(0)");
+        PathID.find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
+        PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath('paths_formID0')");
+        PathID.find('select[name="main"]').val(0);
+        PathID.find('input[name="update_path"]').attr("onclick", "updatePath(0)");
+        PathID.find('input[name="delete_path"]').attr("onclick", "deletePath(0)");
         PathKeyPressed=true;
 
         $('#paths_formID0').validate({ // initialize the plugin
@@ -356,7 +362,7 @@ function loadNextVideo(id)
                 document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
 
                 // Εμφάνιση του cover
-                if(localStorage.AllwaysGiphy=='true'){  // Αν θέλουμε μόνο από Giphy
+                if(localStorage.AllwaysGiphy==='true'){  // Αν θέλουμε μόνο από Giphy
                     if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                         myVideo.poster = data.tags.fromAPI;
                     } else { // Αν όχι εμφανίζει το album cover
@@ -364,8 +370,8 @@ function loadNextVideo(id)
                     }
                 } else {   // όταν δεν θέλουμε μόνο από giphy
                     // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
-                    if (albumCoverPath == Album_covers_path + 'default.gif' ||
-                        albumCoverPath == Album_covers_path + 'small_default.gif') {
+                    if (albumCoverPath === Album_covers_path + 'default.gif' ||
+                        albumCoverPath === Album_covers_path + 'small_default.gif') {
                         if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                             myVideo.poster = data.tags.fromAPI;
                         } else {
@@ -562,17 +568,19 @@ function update_tags(key_rating) {
         },
         dataType: "json",
         success: function(data) {
-            if (data.success == true) {
+            if (data.success === true) {
 
                 $("#message").addClassDelay("success", 3000);
 
-                if($("#fileID"+currentID).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-                    $("#fileID"+currentID).find('.song_name').text(song_name);
-                    $("#fileID"+currentID).find('.artist').text(artist);
-                    $("#fileID"+currentID).find('.genre').text(genre);
-                    $("#fileID"+currentID).find('.album').text(album);
-                    $("#fileID"+currentID).find('.song_year').text(song_year);
-                    $("#fileID"+currentID).find('.rating').text(rating);
+                var fileCurrentID = $("#fileID"+currentID);
+
+                if(fileCurrentID.length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                    fileCurrentID.find('.song_name').text(song_name);
+                    fileCurrentID.find('.artist').text(artist);
+                    fileCurrentID.find('.genre').text(genre);
+                    fileCurrentID.find('.album').text(album);
+                    fileCurrentID.find('.song_year').text(song_year);
+                    fileCurrentID.find('.rating').text(rating);
                 }
 
 
@@ -609,14 +617,16 @@ function updateVideoPlayed() {
     callFile=AJAX_path+"app/updateTimePlayed.php?id="+currentID;
 
     $.get(callFile, function (data) {
-        if (data.success == true) {
+        if (data.success === true) {
 
 
             $('#play_count').val(data.play_count);     // Ενημερώνει τα σχετικά input πεδία
             $('#date_played').val(data.date_last_played);
 
-            if($("#fileID"+currentID).length) {    // Ενημερώνει τα σχετικά πεδία στην λίστα
-                $("#fileID"+currentID).find('.play_count').text(data.play_count);
+            var fileCurrentID = $("#fileID" + currentID);
+
+            if(fileCurrentID.length) {    // Ενημερώνει τα σχετικά πεδία στην λίστα
+                fileCurrentID.find('.play_count').text(data.play_count);
             }
 
             $('#overlay_play_count').html(data.play_count);
@@ -658,10 +668,12 @@ function findDuplicates(offset, step, firstTime) {
 // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
 function getNumberOfSearchRows()
 {
+    var searchFormID = $('#SearchForm');
+
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
-    searchRows = $('#SearchForm').children('div').length;
+    searchRows = searchFormID.children('div').length;
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
-    var groupRows = $('#SearchForm').children('.groupRow').length;
+    var groupRows = searchFormID.children('.groupRow').length;
     searchRows = (searchRows-groupRows)-2;
 
     return searchRows;
@@ -729,7 +741,7 @@ function searchPlaylist(offset, step, firstTime, search) {
 function playPlaylist(offset, step) {
     var playlistID=document.querySelector('#playlist').value;
 
-    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+    if(playlistID==='') {  // Αν δεν έχει επιλεχτεί μια playlist
         DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         return;
     }
@@ -742,7 +754,7 @@ function playPlaylist(offset, step) {
     $.get(callFile, function (data) {
         // var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
-        if (data.success == true) {
+        if (data.success === true) {
 
             // Κάνει search και φορτώνει τα περιεχόμενα της manual playlist
             callFile=AJAX_path+'app/searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true'
@@ -777,22 +789,23 @@ function addSearchRow()
     var lastElementID = $('div[id^="searchRow"]:last').prop('id'); // To id του τελευταίου searchRow
     var newID = parseInt(lastElementID.match(/[0-9]+/))+1;
     var newElementID = 'searchRow' + newID; // To id του νέου searchRow
+    var theNewElementID = $('#'+newElementID);
 
     // Προσθέτει το νέο searchRow αντιγράφοντας το searchRow0 και το κάνει visible
     $('#searchRow0').clone().insertAfter('div[id^="searchRow"]:last').prop('id',newElementID);
-    $('#'+newElementID).toggleClass('isHidden', 'isVisible');
+    theNewElementID.toggleClass('isHidden', 'isVisible');
 
     // Αλλάζει τα id όλων των child elements
     $('.search_field', '#'+newElementID).prop('id', 'search_field' + newID ).prop('name', 'search_field' + newID );
     $('.search_equality', '#'+newElementID).prop('id', 'search_equality' + newID ).prop('name', 'search_equality' + newID );
     $('.search_text', '#'+newElementID).prop('id', 'search_text' + newID ).prop('name', 'search_text' + newID );
     $('.search_operator', '#'+newElementID).prop('id', 'search_operator' + newID ).prop('name', 'search_operator' + newID );
-    $('#'+newElementID).find('label[for^="search_field"]').prop('for', 'search_field' + newID );
-    $('#'+newElementID).find('label[for^="search_text"]').prop('for', 'search_text' + newID );
+    theNewElementID.find('label[for^="search_field"]').prop('for', 'search_field' + newID );
+    theNewElementID.find('label[for^="search_text"]').prop('for', 'search_text' + newID );
 
     // Αλλάζει τις τιμές στις onclick functions
-    $('#'+newElementID).find('input[id="jsAddGroup"]').attr("onclick", "addOrAndToGroup("+newID+")");
-    $('#'+newElementID).find('input[id="jsRemoveSearchRow"]').attr("onclick", "removeSearchRow("+newID+")");
+    theNewElementID.find('input[id="jsAddGroup"]').attr("onclick", "addOrAndToGroup("+newID+")");
+    theNewElementID.find('input[id="jsRemoveSearchRow"]').attr("onclick", "removeSearchRow("+newID+")");
 
     checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
 
@@ -875,7 +888,7 @@ function loadPlayedQueuePlaylist() {
 
     $.get(callFile, function (data) {
 
-        if (data.success == true) {
+        if (data.success === true) {
 
             callFile=AJAX_path+'app/searchPlaylist.php?tabID='+tabID+'&firstTime=true&loadPlaylist=true';
 
@@ -913,8 +926,8 @@ function checkProgress()
         type: 'GET',
         dataType: "json",
         success: function(progressData) {
-            if (progressData.success == true) {
-                if(progressData.progressInPercent>97 && localStorage.syncPressed=='true') {
+            if (progressData.success === true) {
+                if(progressData.progressInPercent>97 && localStorage.syncPressed==='true') {
                     DisplayWindow(3, null, null);
                 }
 
@@ -981,8 +994,8 @@ function startTheSync(operation) {
         }
     }
 
-    if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
-        localStorage.syncPressed='true';
+    if(localStorage.syncPressed==='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
+        localStorage.syncPressed = 'true';
 
         clearResultsContainer();
         displayResultsIcon();
@@ -1031,7 +1044,7 @@ function checkProcessAlive() {
     // TODO να τεστάρω τι γίνεται την στιγμή που διαβάζει αρχεία και δεν στέλνει σημείο ζωής
     CallFile = AJAX_path + "framework/checkLastMomentAlive.php";
 
-    if (localStorage.syncPressed == 'true') { // αν η process τρέχει
+    if (localStorage.syncPressed === 'true') { // αν η process τρέχει
         $('.syncButton').prop('disabled', true);
     }
     else {
@@ -1040,16 +1053,18 @@ function checkProcessAlive() {
 
     TheSyncInterval=setInterval(function(){
         $.get(CallFile, function (data) {
-            if (data.success == true) { // αν η process τρέχει
+            var syncButtonID = $('.syncButton');
+
+            if (data.success === true) { // αν η process τρέχει
                 localStorage.syncPressed='true';
                 $('.syncButton').prop('disabled', true);
             }
             else {
                 localStorage.syncPressed='false';
-                $('.syncButton').prop('disabled', false);
+                syncButtonID.prop('disabled', false);
             }
 
-            if($('.syncButton').length==0)
+            if(syncButtonID.length===0)
                 clearInterval(TheSyncInterval);
 
         }, "json");
@@ -1062,7 +1077,7 @@ function deleteExistedFile(id)
 {
     var confirmAnswer=confirm(phrases['sure_to_delete_file']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer===true) {
         $.ajax({
             url: AJAX_path + "app/deleteFile.php",
             type: 'GET',
@@ -1071,7 +1086,7 @@ function deleteExistedFile(id)
             },
             dataType: "json",
             success: function(data) {
-                if (data.success == true) {
+                if (data.success === true) {
                     $('#jsFileAlreadyExist' + id).remove();
                 }
             }
@@ -1112,15 +1127,17 @@ function callGetYouTube(id,counter,total, mediaKind) {
 
         },
         success: function (data) {
-            if (data.success == true) {
+            var resultsContainerTextID = $(".o-resultsContainer_text");
+
+            if (data.success === true) {
                 // TODO να το φτιάξω εμφανισιακά και με σωστό css
-                $(".o-resultsContainer_text").append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
+                resultsContainerTextID.append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
                     '<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
-                $(".o-resultsContainer_text").append(data.filesToDelete);
+                resultsContainerTextID.append(data.filesToDelete);
 
             } else {
-                $(".o-resultsContainer_text").append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                resultsContainerTextID.append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
         }
     });
@@ -1137,8 +1154,8 @@ function checkVideoUrl(url,counter,total) {
         },
         dataType: "json",
         success: function (data) {
-            if (data.success == true) {
-                if(data.videoKind=='video') {
+            if (data.success === true) {
+                if(data.videoKind === 'video') {
                     videoItems.push(data.videoID);
                 } else {
                     var videoIDs = data.playlistItems;
@@ -1224,7 +1241,7 @@ function downloadTheYouTube() {
 
     var OKGo=false;
 
-    if(mediaKind=='Music Video') {
+    if(mediaKind === 'Music Video') {
         var MusicVideoPathOK=document.querySelector('#jsMusicVideoPathOK').value;
 
         if(MusicVideoPathOK) {
@@ -1300,7 +1317,7 @@ function downloadTheYouTube() {
 function changeToSelect(elem, elementID, optionsArray) {
 
     elem.outerHTML = ""; // Σβήσιμο του υπάρχοντος
-    delete elem;
+    // delete elem;
 
     var afterElement = document.querySelector('#search_operator' + elementID); // To element πριν το οποίο θα προστεθεί το select
 
@@ -1322,7 +1339,7 @@ function changeToSelect(elem, elementID, optionsArray) {
     // προσθέτει το element πριν το afterElement
     var newSelect=document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement);
 
-    for (var i = 0; i < optionsArray.length; i++)
+    for (i = 0; i < optionsArray.length; i++)
         newSelect.appendChild(option[i]); // προσθέτει τα options
 
 }
@@ -1330,7 +1347,7 @@ function changeToSelect(elem, elementID, optionsArray) {
 // Αλλάζει ένα select σε input
 function changeSelectToInput(elem, elementID) {
     elem.outerHTML = ""; // Σβήσιμο του υπάρχοντος
-    delete elem;
+    // delete elem;
 
     var afterElement = document.querySelector('#search_operator' + elementID); // To element πριν το οποίο θα προστεθεί το select
 
@@ -1340,7 +1357,7 @@ function changeSelectToInput(elem, elementID) {
     element.setAttribute('id', 'search_text' + elementID);
     element.setAttribute('name', 'search_text' + elementID);
 
-    var newSelect=document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement); // προσθέτει το element πριν το afterElement
+    var newSelect = document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement); // προσθέτει το element πριν το afterElement
 }
 
 // εμφανίζει το sliderId value στο outputId
@@ -1350,7 +1367,7 @@ function printValue(sliderId, outputId) {
 
 // Σβήνει ένα αρχείο μαζί με την αντίστοιχη εγγραφή στην βάση
 function deleteFile(id) {
-    if(id==0) {  // Αν το id 0 παίρνει τα ids όλων των checkbox items σε πίνακα
+    if(id === 0) {  // Αν το id 0 παίρνει τα ids όλων των checkbox items σε πίνακα
         var all_checkboxes = document.querySelectorAll('input[name="check_item[]"]:checked');
 
         var checkIDs = [];
@@ -1363,12 +1380,12 @@ function deleteFile(id) {
 
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
-    if (confirmAnswer==true) {
-        if(id!=0) { // Αν δεν είναι 0 τότε σβήνει μοναδική εγγραφή
+    if (confirmAnswer === true) {
+        if(id!==0) { // Αν δεν είναι 0 τότε σβήνει μοναδική εγγραφή
             callFile = AJAX_path + "app/deleteFile.php?id=" + id;
 
             $.get(callFile, function (data) {
-                if (data.success == true) {
+                if (data.success === true) {
                     $("#fileID" + id).remove();
                 }
 
@@ -1379,7 +1396,7 @@ function deleteFile(id) {
                 callFile = AJAX_path + "app/deleteFile.php?id=" + checkIDs[i];
 
                 $.get(callFile, function (data) {
-                    if (data.success == true) {
+                    if (data.success === true) {
                         $("#fileID" + data.id).remove();
                     }
                 }, "json");
@@ -1392,7 +1409,7 @@ function deleteFile(id) {
 function deleteFiles(filesArray) {
     var confirmAnswer=confirm(phrases['sure_to_delete_files']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
 
@@ -1459,7 +1476,7 @@ function editFiles() {
 
     var confirmAnswer=confirm(phrases['sure_to_update_files']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
         var all_checkboxes = document.querySelectorAll('input[name="check_item[]"]:checked');
 
         var checkIDs = [];
@@ -1477,7 +1494,7 @@ function editFiles() {
         live=$('#FormMassiveTags #live').val();
 
 
-        if(myImage!='') {
+        if(myImage!=='') {
             coverImage = myImage;
             coverMime = myMime;
         }
@@ -1488,7 +1505,7 @@ function editFiles() {
 
 
 
-        for (var i = 0; i < checkIDs.length; i++) {
+        for (i = 0; i < checkIDs.length; i++) {
 
 
             callFile=AJAX_path+"app/updateTags.php";
@@ -1509,19 +1526,20 @@ function editFiles() {
                 },
                 dataType: "json",
                 success: function(data) {
-                    if (data.success == true) {
+                    if (data.success === true) {
+                        var fileDataID = $("#fileID"+data.id);
 
-                        if($("#fileID"+data.id).length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-                            if(artist!='')
-                                $("#fileID"+data.id).find('.artist').text(artist);
-                            if(genre!='')
-                                $("#fileID"+data.id).find('.genre').text(genre);
-                            if(album!='')
-                                $("#fileID"+data.id).find('.album').text(album);
-                            if(song_year!='')
-                                $("#fileID"+data.id).find('.song_year').text(song_year);
-                            if(rating!=0)
-                                $("#fileID"+data.id).find('.rating').text(rating);
+                        if(fileDataID.length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                            if(artist!=='')
+                                fileDataID.find('.artist').text(artist);
+                            if(genre!=='')
+                                fileDataID.find('.genre').text(genre);
+                            if(album!=='')
+                                fileDataID.find('.album').text(album);
+                            if(song_year!=='')
+                                fileDataID.find('.song_year').text(song_year);
+                            if(rating!==0)
+                                fileDataID.find('.rating').text(rating);
                         }
 
                     }
@@ -1537,9 +1555,9 @@ function editFiles() {
 
 // Ενημερώνει μια λίστα (array) αρχείων που έχουν αλλάξει filepath και filename
 function updateFiles(filesArray) {
-    var confirmAnswer=confirm(phrases['sure_to_update_files']);
+    var confirmAnswer = confirm(phrases['sure_to_update_files']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
         ProgressAnimation.init(true);
         ProgressAnimation.setProgressPercent(0);
         $("#AgreeToUpdateFiles").remove();
@@ -1567,7 +1585,7 @@ function updateFiles(filesArray) {
 function addToPlaylist(fileID) {
     var playlistID=document.querySelector('#playlist').value;
 
-    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+    if(playlistID === '') {  // Αν δεν έχει επιλεχτεί μια playlist
         if(!checkFullscreen()) { // αν δεν είναι σε full screen
             DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         }
@@ -1585,7 +1603,7 @@ function addToPlaylist(fileID) {
     $.get(callFile, function (data) {
         var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
-        if (data.success == true) {
+        if (data.success === true) {
             if(!checkFullscreen()) { // αν δεν είναι σε full screen
                 DisplayMessage('.alert_error', phrases['song_added_to'] + ' ' + data.song_name
                     + ' ' + phrases['_to_playlist'] + ' ' + playlistName);
@@ -1596,7 +1614,7 @@ function addToPlaylist(fileID) {
             }
         }
         else {
-            if(data.errorID==2) {
+            if(data.errorID === 2) {
                 if(!checkFullscreen()) { // αν δεν είναι σε full screen
                     DisplayMessage('.alert_error', phrases['song_exist_to'] + ' ' + data.song_name
                         + ' ' + phrases['_to_playlist'] + ' ' + playlistName);
@@ -1614,7 +1632,7 @@ function addToPlaylist(fileID) {
 function removeFromPlaylist(fileID) {
     var playlistID=document.querySelector('#playlist').value;
 
-    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+    if(playlistID === '') {  // Αν δεν έχει επιλεχτεί μια playlist
         if(!checkFullscreen()) { // αν δεν είναι σε full screen
             DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         }
@@ -1632,7 +1650,7 @@ function removeFromPlaylist(fileID) {
     $.get(callFile, function (data) {
         var playlistName=document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
-        if (data.success == true) {
+        if (data.success === true) {
 
             if(!checkFullscreen()) { // αν δεν είναι σε full screen
                 DisplayMessage('.alert_error', phrases['song_deleted_from'] + ' ' + data.song_name
@@ -1662,28 +1680,29 @@ function removeFromPlaylist(fileID) {
 function displayVolume(operation) {
     if(checkFullscreen()) {
         var volume = parseInt(localStorage.volume * 100);
+        var overlayTextID = $('#overlay_volume_text');
 
-        if(operation!='giphyON' && operation!='giphyOFF')
+        if(operation!=='giphyON' && operation!=='giphyOFF')
             document.querySelector('#overlay_volume_text').innerText = volume;
 
-        $('#overlay_volume_text').removeClass();
+        overlayTextID.removeClass();
 
         switch (operation) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
             case 'up':
-                $('#overlay_volume_text').addClass('overlay_volume_up');
+                overlayTextID.addClass('overlay_volume_up');
                 break;
             case 'down':
-                $('#overlay_volume_text').addClass('overlay_volume_down');
+                overlayTextID.addClass('overlay_volume_down');
                 break;
             case 'mute':
-                $('#overlay_volume_text').addClass('overlay_volume_mute');
+                overlayTextID.addClass('overlay_volume_mute');
                 break;
             case 'giphyON':
-                $('#overlay_volume_text').addClass('overlay_giphy');
+                overlayTextID.addClass('overlay_giphy');
                 document.querySelector('#overlay_volume_text').innerText = 'on';
                 break;
             case 'giphyOFF':
-                $('#overlay_volume_text').addClass('overlay_giphy');
+                overlayTextID.addClass('overlay_giphy');
                 document.querySelector('#overlay_volume_text').innerText = 'off';
                 break;
         }
@@ -1695,17 +1714,18 @@ function displayVolume(operation) {
 
 // Αλλάζει τον χρόνο που βρίσκεται το track αναλόγως την θέση στον slider
 function controlTrack() {
+    var curTime = null;
+
     if(checkFullscreen()) { // Όταν είναι σε full screen
-        var curTime = document.querySelector('.o-trackTime--overlay__range').value;  // ο τρέχον track time σε ποσοστό
+        curTime = document.querySelector('.o-trackTime--overlay__range').value;  // ο τρέχον track time σε ποσοστό
     } else { // όταν δεν είναι σε full screen
-        var curTime = document.querySelector('.o-trackTime__range').value;  // ο τρέχον track time σε ποσοστό
+        curTime = document.querySelector('.o-trackTime__range').value;  // ο τρέχον track time σε ποσοστό
     }
 
-    var duration=myVideo.duration;  // ο συνολικός track time
+    var duration = myVideo.duration;  // ο συνολικός track time
 
-    var PercentToTrackSeconds=parseInt( (curTime/100)*duration );  // μετατροπή του ποσοστού χρόνου σε πραγματικά δευτερόλεπτα
-
-    myVideo.currentTime=PercentToTrackSeconds;
+    // μετατροπή του ποσοστού χρόνου σε πραγματικά δευτερόλεπτα
+    myVideo.currentTime = parseInt( (curTime/100)*duration );
 }
 
 // Εμφανίζει το τρέχον cover image, όπου είναι ο κέρσορας
@@ -1748,15 +1768,15 @@ function cancelCreateSmartPlaylist()
 
 function checkTheChanges(element)
 {
-    changedElement=$(element).attr('id');  // το id του αλλαγμένου selected
-    valueOfChangedElement=$(element).val();  // η τιμή του αλλαγμένου selected
+    var changedElement = $(element).attr('id');  // το id του αλλαγμένου selected
+    var valueOfChangedElement = $(element).val();  // η τιμή του αλλαγμένου selected
 
-    elementID=parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
-    searchStringElement=document.querySelector('#search_text'+elementID);
+    var elementID = parseInt(changedElement.replace('search_field',''));   // παίρνουμε μόνο το id για να το προσθέσουμε στο search_text element
+    var searchStringElement = document.querySelector('#search_text'+elementID);
 
     // αν το πεδίο που θέλουμε να αλλάξουμε δεν είναι κάποιο από αυτά
-    if( valueOfChangedElement!='rating' &&  valueOfChangedElement!='live' )
-        if (searchStringElement.type=='select-one')  // Ελέγχουμε αν το υπάρχον είναι select
+    if( valueOfChangedElement !== 'rating' &&  valueOfChangedElement !== 'live' )
+        if (searchStringElement.type === 'select-one')  // Ελέγχουμε αν το υπάρχον είναι select
             changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
 
     switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
@@ -1780,10 +1800,12 @@ function checkTheChanges(element)
 // Έλεγχος για όταν γίνονται αλλαγές στα search fields
 function checkSearchFieldChanges()
 {
-    $('.search_field').off('change'); // Αφαίρεση προηγούμενων change events
+    var searchFieldID = $('.search_field');
+
+    searchFieldID.off('change'); // Αφαίρεση προηγούμενων change events
 
     // Έλεγχος πιο πεδίο έχουμε διαλέξει για να ψάξουμε, ώστε να αλλάξουμε τον τύπο του search text
-    $('.search_field').change(function() {
+    searchFieldID.change(function() {
         checkTheChanges(this);
     });
 }
@@ -1828,14 +1850,14 @@ function playSong() {
 }
 
 function interfaceToggle() {
-    if(localStorage.OverlayAllwaysOn=='true')
+    if(localStorage.OverlayAllwaysOn === 'true')
         showFullScreenVideoTags('off');
     else
         showFullScreenVideoTags('on');
 }
 
 function giphyToggle() {
-    if(localStorage.AllwaysGiphy=='true') {
+    if(localStorage.AllwaysGiphy === 'true') {
         localStorage.AllwaysGiphy = 'false';
         displayVolume('giphyOFF');
     }
@@ -1862,9 +1884,9 @@ function volumeDown() {
 }
 
 function volumeMute() {
-    if(localStorage.mute==null) localStorage.mute='false';
+    if(localStorage.mute === null) localStorage.mute='false';
 
-    if (localStorage.mute=='false') {
+    if (localStorage.mute === 'false') {
         localStorage.oldVolume = localStorage.volume;
         localStorage.mute = 'true';
         myVideo.volume = 0;
@@ -1891,17 +1913,21 @@ function resetPlaybackRate() {
 }
 
 function changeLive() {
-    live=$('#live').val(); // Η τρέχουσα τιμή του live
+    var liveID = $('#live');
+    var live = liveID.val(); // Η τρέχουσα τιμή του live
 
-    if (live==0) $('#live').val('1'); // Αν είναι 0 το κάνει 1
-    else $('#live').val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
+    if (live === 0) {
+        liveID.val('1');
+    } else { // Αν είναι 0 το κάνει 1
+        liveID.val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
+    }
 
     update_tags();  // ενημερώνει τα tags
 }
 
 // Ενεργοποιεί/απενεργοποιεί το shuffle/continue
 function toggleShuffle() {
-    if(localStorage.PlayMode=='shuffle') {
+    if(localStorage.PlayMode === 'shuffle') {
         localStorage.PlayMode='continue';
         $('.shuffle_button').removeClass('shuffle_on').addClass('shuffle_off');
     } else {
@@ -1912,7 +1938,7 @@ function toggleShuffle() {
 
 // Έλεγχος και αρχικοποίηση της κατάστασης του shuffle button
 function checkShuffleButton() {
-    if(localStorage.PlayMode=='shuffle') {
+    if(localStorage.PlayMode === 'shuffle') {
         $('.shuffle_button').addClass('shuffle_on');
     } else {
         $('.shuffle_button').addClass('shuffle_off');
@@ -2054,10 +2080,10 @@ function getShortcuts(elem) {
 function exportPlaylist() {
     var confirmAnswer=confirm(phrases['sure_to_export_playlist']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
         callFile=AJAX_path+"app/exportPlaylist.php?tabID="+tabID;
 
-        if(localStorage.syncPressed=='false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
+        if(localStorage.syncPressed === 'false'){  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed='true';
 
             ProgressAnimation.init(true);
@@ -2071,7 +2097,7 @@ function exportPlaylist() {
             var exportInterval=setInterval(function(){
 
                 $.get(progressCallFile, function (progressData) {
-                    if (progressData.success == true) {
+                    if (progressData.success === true) {
                         ProgressAnimation.setProgressPercent(progressData.progressInPercent);
                         // $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
                         // document.querySelector('#theProgressBar').value=progressData.progressInPercent;
@@ -2097,12 +2123,12 @@ function exportPlaylist() {
 
 // Δημιουργεί μια manual playlist
 function createPlaylist() {
-    var playlistName=document.querySelector('#playlistName').value;
+    var playlistName = document.querySelector('#playlistName').value;
 
-    callFile=AJAX_path+"app/createPlaylist.php?playlistName="+playlistName;
+    var callFile=AJAX_path + "app/createPlaylist.php?playlistName=" + playlistName;
 
     $.get(callFile, function (data) {
-        if (data.success == true) {
+        if (data.success === true) {
             $('#insertPlaylistWindow').hide();
 
             // Προσθέτει στο select #playlist καινούργιο option με την νέα playlist
@@ -2125,12 +2151,12 @@ function createPlaylist() {
 
 // Δημιουργεί μια smart playlist
 function createSmartPlaylist() {
-    var playlistName=document.querySelector('#smartPlaylistName').value;
+    var playlistName = document.querySelector('#smartPlaylistName').value;
 
-    callFile=AJAX_path+"app/createSmartPlaylist.php?playlistName="+playlistName;
+    var callFile = AJAX_path + "app/createSmartPlaylist.php?playlistName=" + playlistName;
 
     $.get(callFile, function (data) {
-        if (data.success == true) {
+        if (data.success === true) {
             $('#insertSmartPlaylistWindow').hide();
 
             // Προσθέτει στο select #playlist καινούργιο option με την νέα playlist
@@ -2155,22 +2181,21 @@ function createSmartPlaylist() {
 function deletePlaylist() {
     var playlistID=document.querySelector('#playlist').value;
 
-    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+    if(playlistID === '') {  // Αν δεν έχει επιλεχτεί μια playlist
         DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         return;
     }
 
     var confirmAnswer=confirm(phrases['sure_to_delete_playlist']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
 
-        callFile = AJAX_path + "app/deletePlaylist.php?playlistID=" + playlistID;
-
+        var callFile = AJAX_path + "app/deletePlaylist.php?playlistID=" + playlistID;
 
         $.get(callFile, function (data) {
             var playlistName = document.querySelector('#playlist option:checked').text; // Το όνομα της playlist
 
-            if (data.success == true) {
+            if (data.success === true) {
                 DisplayMessage('.alert_error', phrases['playlist_deleted'] + ' ' + playlistName);
 
                 // Σβήνει το συγκεκριμένο option από το select #playlist
@@ -2189,22 +2214,21 @@ function deletePlaylist() {
 function deleteSmartPlaylist() {
     var playlistID=document.querySelector('#smartPlaylist').value;
 
-    if(playlistID=='') {  // Αν δεν έχει επιλεχτεί μια playlist
+    if(playlistID === '') {  // Αν δεν έχει επιλεχτεί μια playlist
         DisplayMessage('.alert_error', phrases['you_have_to_choose_playlist']);
         return;
     }
 
-    var confirmAnswer=confirm(phrases['sure_to_delete_playlist']);
+    var confirmAnswer = confirm(phrases['sure_to_delete_playlist']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
 
-        callFile = AJAX_path + "app/deleteSmartPlaylist.php?playlistID=" + playlistID;
-
+        var callFile = AJAX_path + "app/deleteSmartPlaylist.php?playlistID=" + playlistID;
 
         $.get(callFile, function (data) {
             var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
 
-            if (data.success == true) {
+            if (data.success === true) {
                 DisplayMessage('.alert_error', phrases['smart_playlist_deleted'] + ' ' + playlistName);
 
                 // Σβήνει το συγκεκριμένο option από το select #playlist
@@ -2225,15 +2249,15 @@ function saveSmartPlaylist() {
 
     if(playlistID) {
         var searchArray = getSearchArray();
-        var searchJsonString=JSON.stringify(searchArray);
+        var searchJsonString = JSON.stringify(searchArray);
 
-        callFile = AJAX_path + "app/saveSmartPlaylist.php?playlistID=" + playlistID +
+        var callFile = AJAX_path + "app/saveSmartPlaylist.php?playlistID=" + playlistID +
             '&searchJsonString=' + encodeURIComponent(searchJsonString);
 
         $.get(callFile, function (data) {
             var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
 
-            if (data.success == true) {
+            if (data.success === true) {
                 DisplayMessage('.alert_error', phrases['smart_playlist_saved'] + ' ' + playlistName);
             }
             else {
@@ -2262,7 +2286,7 @@ function loadSmartPlaylist()
     $.get(callFile, function (data) {
         var playlistName = document.querySelector('#smartPlaylist option:checked').text; // Το όνομα της playlist
 
-        if (data.success == true) {
+        if (data.success === true) {
             var jsonArray = JSON.parse(data.searchJsonArray);
 
             // Καθαρίζει τα υπάρχοντα searchRows
@@ -2273,7 +2297,7 @@ function loadSmartPlaylist()
             for(var i=1; i<jsonArray.length; i++) {
 
                 // αν δεν είναι group operator
-                if(jsonArray[i]['group_operator']==null) {
+                if(jsonArray[i]['group_operator'] === null) {
                     addSearchRow();
                     loadSearchFields(i, jsonArray[i]);
 
@@ -2290,7 +2314,7 @@ function loadSmartPlaylist()
                     addOrAndToGroup(i);
 
                     // αν είναι AND θέτει την τιμή
-                    if(jsonArray[i]['group_operator']=='AND') {
+                    if(jsonArray[i]['group_operator'] === 'AND') {
                         document.querySelector('#group_operator' + i).selectedIndex='1';
                     }
 
@@ -2354,31 +2378,31 @@ function checkMainSelected(formID, checkAll) {
         FormIDs.push(allForms[i].id);
     }
 
-    for(var i = 0; i<FormIDs.length; i++) {
+    for(i = 0; i<FormIDs.length; i++) {
 
         var curID = eval(FormIDs[i].replace('paths_formID',''));  // Παίρνει μόνο το id
 
         var checkedMediaKind = document.querySelector('#paths_formID' + curID + ' #kind').value;
         var checkedMediaStatus = document.querySelector('#paths_formID' + curID + ' #main').value;
 
-        if(checkedMediaKind==currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
+        if(checkedMediaKind === currentMediaKind) {  // Αν είναι στο ίδιο kind με αυτό που αλλάξαμε
             if(!firstFindedMediaKind) {
                 firstFindedMediaKind = curID;
             }
 
-            if(checkedMediaStatus=='1') {  // αν είναι main το status
+            if(checkedMediaStatus === '1') {  // αν είναι main το status
                 founded++;
             }
 
-            if(curID!=formID) {  // Αλλάζει όλα σε not main, εκτός από το τρέχον που αλλάξαμε εμείς
+            if(curID !== formID) {  // Αλλάζει όλα σε not main, εκτός από το τρέχον που αλλάξαμε εμείς
                 document.querySelector('#paths_formID' + curID + ' #main').selectedIndex='0';
             }
         }
 
     }
 
-    if(checkAll==false) {
-        if(founded==0) {
+    if(checkAll === false) {
+        if(founded === 0) {
             document.querySelector('#paths_formID' + formID + ' #main').selectedIndex = '1';
         }
     }
@@ -2393,11 +2417,11 @@ function checkMainSelected(formID, checkAll) {
 // Παίρνει τα paths που είναι μέσα σε συγκεκριμένο directory
 function getPaths(path) {
 
-    document.querySelector('#displayPaths').innerHTML='';
+    document.querySelector('#displayPaths').innerHTML = '';
 
-    document.querySelector('#chosenPathText').innerText=path;
+    document.querySelector('#chosenPathText').innerText = path;
 
-    callFile = AJAX_path + "app/getPaths.php?path=" +path;
+    var callFile = AJAX_path + "app/getPaths.php?path=" + path;
 
     $.get(callFile, function (data) {
         for(var i = 1; i<data.length; i ++) {
@@ -2405,16 +2429,16 @@ function getPaths(path) {
             var newSpan = document.createElement('span');
             newSpan.className = 'thePaths';
             newSpan.innerText = data[i];
+            var newPath = null;
 
-            if(data[i]=='..') {  // Αν είναι '..' κόβει το τελευταίο directory από το string
-                var newPath = path.replace(/\/[^\/]+\/?$/, '')+'/';
+            if(data[i] === '..') {  // Αν είναι '..' κόβει το τελευταίο directory από το string
+                newPath = path.replace(/\/[^\/]+\/?$/, '')+'/';
             }
             else {
-                var newPath = path + data[i] + '/';
+                newPath = path + data[i] + '/';
             }
 
             newSpan.setAttribute('onclick', 'getPaths("'+newPath+'")' );
-
 
             document.querySelector('#displayPaths').append(newSpan);
         }
@@ -2436,8 +2460,7 @@ function cancelTheBrowse() {
 
 // Εισαγωγή διαδρομής στο σχετικό text input field
 function importPath() {
-    var chosenPath = document.querySelector('#chosenPathText').innerText.slice(0, -1);  // Κόβει το τελευταίο '/'
-    document.querySelector('#'+currentPathFormID+' #file_path').value=chosenPath;
+    document.querySelector('#'+currentPathFormID+' #file_path').value = document.querySelector('#chosenPathText').innerText.slice(0, -1);
     $('#browsePathWindow').hide();
 }
 
@@ -2452,12 +2475,11 @@ function resetFormMassiveTags() {
 function sendToJukeboxList() {
     $('#progress').show();
 
-    callFile=AJAX_path+'app/sendToJukeBox.php?tabID='+tabID;
-
+    var callFile = AJAX_path + 'app/sendToJukeBox.php?tabID=' + tabID;
 
     $.get(callFile, function (data) {
 
-        if (data.success == true) {
+        if (data.success === true) {
 
             DisplayMessage('.alert_error', phrases['playlist_loaded_to_jukebox']);
             $('#progress').hide();
@@ -2474,14 +2496,12 @@ function sendToJukeboxList() {
 // Προσθέτει μία ψήφο στο τραγούδι
 function voteSong(id) {
 
-    callFile=AJAX_path+'app/voteSong.php?id='+id;
+    var callFile = AJAX_path + 'app/voteSong.php?id=' + id;
 
     $.get(callFile, function (data) {
 
-        if (data.success == true) {
-
+        if (data.success === true) {
             DisplayMessage('.alert_error', phrases['vote_accepted']);
-
         }
         else {
             DisplayMessage('.alert_error', phrases['vote_not_accepted']);
@@ -2494,7 +2514,7 @@ function voteSong(id) {
 function uploadFile(files) {
     var selectedFile = document.getElementById('uploadSQLFile').files[0];
 
-    myMime = selectedFile.type;
+    var myMime = selectedFile.type;
 
     var f = files[0];
 
@@ -2505,7 +2525,7 @@ function uploadFile(files) {
     reader.onload = function (e) {
         // console.log(e.target.result);
 
-        myFile = e.target.result;
+        var myFile = e.target.result;
 
         $.ajax({
             // Your server script to process the upload
@@ -2519,7 +2539,6 @@ function uploadFile(files) {
         });
 
     };
-
 
     // Start reading asynchronously the file
     reader.readAsText(f);
@@ -2547,7 +2566,7 @@ function updateDownloadPath(pathName)
         },
         dataType: "json",
         success: function (data) {
-            if (data.success == true) {
+            if (data.success === true) {
                 $("#message_" + pathName).addClassDelay("success", 3000);
             } else {
                 $("#message_" + pathName).addClassDelay("failure", 3000);
@@ -2581,10 +2600,10 @@ function startSleepTimer()
     theTimer = setInterval(function () {
         timeInSeconds--;
 
-        timeInMinutesAndSeconds = seconds2MinutesAndSeconds(timeInSeconds);
+        var timeInMinutesAndSeconds = seconds2MinutesAndSeconds(timeInSeconds);
         document.querySelector('#theSleepTimer').innerText = timeInMinutesAndSeconds['minutes'] + ':' + timeInMinutesAndSeconds['seconds'];
 
-        if (timeInSeconds == 0) {
+        if (timeInSeconds === 0) {
             clearInterval(theTimer);
             if (!myVideo.paused) {
                 myVideo.pause();
@@ -2635,7 +2654,7 @@ var BlinkElement =
     {
         $(this.elementName).stop().fadeTo('fast', 0.1).fadeTo('fast', 1);
     }
-}
+};
 
 
 
