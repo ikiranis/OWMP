@@ -10,22 +10,10 @@
  *
  */
 
-/**
- * Επιστρέφει το project path
- *
- * @return string
- */
-function getProjectPath()
-{
-    // Get Project Path
-    $projectPath = dirname(__DIR__) . '/';
-    $projectPath = str_replace($_SERVER["DOCUMENT_ROOT"], '', $projectPath);
-//    $projectPath = str_replace('//', '/', $publicDirectory);
-
-    return $projectPath;
-}
-
-define ('PROJECT_PATH', getProjectPath());
+// Get Project Path
+$projectPath = dirname(__DIR__) . '/';
+$projectPath = str_replace($_SERVER["DOCUMENT_ROOT"], '', $projectPath);
+define ('PROJECT_PATH', $projectPath);
 
 use apps4net\framework\Session;
 use apps4net\framework\MyDB;

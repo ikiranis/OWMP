@@ -10,11 +10,6 @@
  *
  */
 
-
-
 define('CONNSTR', 'mysql:host=localhost;dbname=XXXXXXX');
 define('DBUSER', 'XXXXXX');
 define('DBPASS', 'XXXXXX');
-
-define ('PROJECT_PATH','/OpenWebMediaPlayer/');   // αν το project είναι σε κάποιον υποκατάλογο
-
