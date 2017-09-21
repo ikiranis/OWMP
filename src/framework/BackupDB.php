@@ -32,8 +32,7 @@ class BackupDB extends MyDB
     // Επιστρέφει το string που δημιουργεί τον πίνακα $table
     static function getTableCreateString($table)
     {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        self::createConnection();
 
         $sql = 'SHOW CREATE TABLE '.$table;
 
@@ -99,8 +98,7 @@ class BackupDB extends MyDB
         Progress::setProgress(0); // Μηδενίζει το progress
 
         // Σύνδεση στην βάση
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        self::createConnection();
 
         // Θέτει το αρχείο στο οποίο θα εξαχθεί το backup
         $filename = BACKUP_FILE_PREFIX . date('YmdHis') . '.sql';

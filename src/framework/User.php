@@ -22,7 +22,7 @@ class User extends MyDB
     // Ψάχνει αν υπάρχουν users στηνν βάση. Επιστρέφει true or false.
     function CheckIfThereIsUsers () {
 
-        $this->CreateConnection();
+        self::createConnection();
 
         $sql='SELECT user_id FROM user';
 
@@ -84,7 +84,7 @@ class User extends MyDB
     // Ελέγχει αν ο χρήστης υπάρχει στην βάση και είναι σωστά τα username, password που έχει δώσει
     function CheckLogin($username, $password, $SavePassword) {
 
-        $this->CreateConnection();
+        self::createConnection();
 
         $sql='SELECT * FROM user WHERE username=?';
 

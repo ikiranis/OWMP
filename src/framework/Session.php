@@ -21,7 +21,7 @@ class Session implements \SessionHandlerInterface
     {
 
         $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         if($conn){
             return true;
@@ -38,8 +38,7 @@ class Session implements \SessionHandlerInterface
 
     public function read($id)
     {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql='SELECT Session_Data FROM Session WHERE Session_Id = ? AND Session_Time > ?';
 
@@ -59,21 +58,16 @@ class Session implements \SessionHandlerInterface
 
     public function write($id, $data)
     {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $DateTime = date('Y-m-d H:i:s');
         $NewDateTime = date('Y-m-d H:i:s',strtotime($DateTime.' + 30 minutes'));
-        
-        
 
-            $sql='REPLACE INTO Session (Session_Id, Session_Time, Session_Data) VALUES (?,?,?)';
+        $sql='REPLACE INTO Session (Session_Id, Session_Time, Session_Data) VALUES (?,?,?)';
 
-            $stmt = MyDB::$conn->prepare($sql);
+        $stmt = MyDB::$conn->prepare($sql);
 
-
-            $stmt->execute(array($id,$NewDateTime,$data));
-
+        $stmt->execute(array($id,$NewDateTime,$data));
 
         if($stmt){
             return true;
@@ -88,18 +82,13 @@ class Session implements \SessionHandlerInterface
     public function destroy($id)
     {
 
-        $conn = new MyDB();
-        $conn->CreateConnection();
-
+        MyDB::createConnection();
 
         $sql='DELETE FROM Session WHERE Session_Id =?';
 
         $stmt = MyDB::$conn->prepare($sql);
 
-
         $stmt->execute(array($id));
-
-
 
         if($stmt){
             return true;
@@ -113,8 +102,7 @@ class Session implements \SessionHandlerInterface
 
     public function gc($maxlifetime)
     {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql='DELETE FROM Session WHERE ((UNIX_TIMESTAMP(Session_Time)+?) < ?)';
 

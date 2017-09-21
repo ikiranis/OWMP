@@ -33,7 +33,7 @@ if(isset($_GET['filePath'])) {
 }
 
 $conn = new MyDB();
-$conn->CreateConnection();
+MyDB::createConnection();
 
 $sql = 'UPDATE download_paths SET file_path=? WHERE path_name=?';
 $SQLparams=array($filePath, $pathName);

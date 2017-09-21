@@ -29,7 +29,7 @@ if(isset($_GET['kind']))
     $kind=ClearString($_GET['kind']);
 
 $conn = new MyDB();
-$conn->CreateConnection();
+MyDB::createConnection();
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
     $sql = 'INSERT INTO paths (file_path, kind) VALUES (?,?)';

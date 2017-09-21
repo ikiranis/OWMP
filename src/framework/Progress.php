@@ -21,8 +21,7 @@ class Progress
 
     // Ελέγχει αν υπάρχει το $progressName στον πίνακα progress
     static function checkIfProgressNameExists($progressName) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'SELECT progressName FROM progress WHERE progressName=?';
         $stmt = MyDB::$conn->prepare($sql);
@@ -45,8 +44,7 @@ class Progress
 
     // Δημιουργεί ένα $progressName στον πίνακα progress
     static function createProgressName($progressName, $progressValue) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'INSERT INTO progress (progressName, progressValue) VALUES(?,?)';
         $stmt = MyDB::$conn->prepare($sql);

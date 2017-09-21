@@ -23,7 +23,7 @@ class Logs
     // #return bool: True or false
     static function insertLog ($message) {
         $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'INSERT INTO logs (message, ip, user_name, log_date, browser) VALUES(?,?,?,?,?)';
         $stmt = MyDB::$conn->prepare($sql);

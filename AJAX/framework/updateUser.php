@@ -45,7 +45,7 @@ if(isset($_GET['lname']))
 else $lname='';
 
 $user = new User();
-$conn->CreateConnection();
+//MyDB::createConnection();
 
 if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
 

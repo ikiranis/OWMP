@@ -277,7 +277,7 @@ class SyncFiles
     public function getFilesOnDB()
     {
         $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         if(!$this->filesOnDB = $conn->getTableArray('files', 'id, path, filename', null, null, null, null, null)) // Ολόκληρη η λίστα
             $this->filesOnDB='';
@@ -624,8 +624,7 @@ class SyncFiles
             $this->getItunesLibrary();
         }
 
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         // Παίρνουμε τις εγγραφές στο table files σε array
         $this->getFilesOnDB();
@@ -1003,8 +1002,7 @@ class SyncFiles
 
     // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη στα τραγούδια
     static function searchForHash($hash) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'SELECT id FROM files WHERE hash=?';
         $stmt = MyDB::$conn->prepare($sql);
@@ -1025,8 +1023,7 @@ class SyncFiles
 
     // Ψάχνει αν το συγκεκριμένο $hash υπάρχει ήδη στις εικόνες
     static function searchForImageHash($hash) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'SELECT id FROM album_arts WHERE hash=?';
         $stmt = MyDB::$conn->prepare($sql);
@@ -1302,9 +1299,7 @@ class SyncFiles
         if(self::$jsonTable) // Ολόκληρη η λίστα
         {
 
-            $conn = new MyDB();
-
-            $conn->CreateConnection();
+            MyDB::createConnection();
 
             $sql_insert_file = 'INSERT INTO files (path, filename, hash, kind) VALUES (?,?,?,?)';
 

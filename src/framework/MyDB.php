@@ -25,9 +25,8 @@ class MyDB
     // 30 μέρες
     private static $CookieTime=60*60*24*30;
 
-
     // Άνοιγμα της σύνδεσης στην βάση
-    function CreateConnection(){
+    static function CreateConnection(){
         if (!self::$conn) {
             try {
                 self::$conn = new \PDO(self::$connStr, self::$DBuser, self::$DBpass,
@@ -40,10 +39,10 @@ class MyDB
     }
 
     // Εκτελεί ένα insert sql query
-    function insertInto($sql, $sqlParams)
+    public function insertInto($sql, $sqlParams)
     {
 
-        $this->CreateConnection();
+        self::CreateConnection();
 
         $stmt = self::$conn->prepare($sql);
 
@@ -58,7 +57,6 @@ class MyDB
 
     }
 
-
     // Σετάρει ένα cookie και το σώζει κωδικοποιημένο
     static function setACookie($cookieName, $value) {
         $crypt = new Crypto();
@@ -72,10 +70,6 @@ class MyDB
         return $crypt->DecryptText($_COOKIE[$cookieName]);
     }
 
-
-
-
-    
     // Επιστρέφει το decrypted text του session $name
     public function getSession($name) {
         $crypto = new Crypto();
@@ -224,8 +218,6 @@ class MyDB
         }
 
         $fieldsText=Utilities::cutLastString($fieldsText,', '); // Κόβει την τελευταία ','
-
-
 
         $sql = 'UPDATE '.$table.' SET '.$fieldsText.' WHERE '.$condition;
         $stmt = MyDB::$conn->prepare($sql);
@@ -527,17 +519,15 @@ class MyDB
 
     // Δημιουργεί ένα table με βάση το $sql script
     static function runQuery($sql) {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        self::createConnection();
 
         $stmt = MyDB::$conn->prepare($sql);
 
-
-        if($stmt->execute())
-
+        if($stmt->execute()) {
             $result = true;
-
-        else $result=false;
+        } else {
+            $result=false;
+        }
 
         $stmt->closeCursor();
         $stmt = null;

@@ -139,7 +139,7 @@ class OWMPElements extends OWMP
     {
         $conn = new MyDB();
         $user = new User();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
@@ -552,7 +552,7 @@ class OWMPElements extends OWMP
     {
         $conn = new MyDB();
         $user = new User();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         global $mediaKinds;
 
@@ -653,9 +653,7 @@ class OWMPElements extends OWMP
      */
     static function getFilesDuplicates ($offset, $step)
     {
-        $conn = new MyDB();
-
-        $conn->createConnection();
+        MyDB::createConnection();
 
         $sql='SELECT files.id as id, song_name, artist, genre, date_added, play_count, rating, song_year FROM files JOIN music_tags on files.id=music_tags.id WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
@@ -735,9 +733,7 @@ class OWMPElements extends OWMP
      */
     static function getFullPathFromFileID($id)
     {
-        $conn = new MyDB();
-
-        $conn->createConnection();
+        MyDB::createConnection();
 
         $sql='SELECT path, filename FROM files WHERE id=?';
 
@@ -967,7 +963,7 @@ class OWMPElements extends OWMP
     {
         $conn = new MyDB();
 
-        $conn->createConnection();
+        MyDB::createConnection();
 
         $sql='SELECT path, filename FROM album_arts WHERE id=?';
 
@@ -1061,7 +1057,7 @@ class OWMPElements extends OWMP
     static function createPlaylistTempTable($table)
     {
         $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'CREATE TABLE '.$table.' (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1113,8 +1109,7 @@ class OWMPElements extends OWMP
      */
     static function getRandomPlaylistID($table, $tableCount)
     {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql='SELECT * FROM '.$table.' LIMIT '.$tableCount.',1';
 
@@ -1196,8 +1191,7 @@ class OWMPElements extends OWMP
      */
     static function getVotes()
     {
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql='SELECT file_id, count(*) as numberOfVotes FROM votes GROUP BY file_id';
 

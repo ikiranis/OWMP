@@ -105,8 +105,6 @@ class OWMP
                 'allwaysview' => 'yes',
                 'value' => '0'),
 
-            
-
             array('name' => 'play_count',
                 'fieldtext' => __('tag_play_count'),
                 'type' => 'number',
@@ -421,8 +419,7 @@ class OWMP
         <h2 class="c1"><?php echo __('nav_item_4'); ?></h2>
         <?php
 
-        $conn = new MyDB();
-        $conn->CreateConnection();
+        MyDB::createConnection();
 
         $sql = 'SELECT * FROM logs ORDER BY log_date DESC LIMIT 0,100';
 
