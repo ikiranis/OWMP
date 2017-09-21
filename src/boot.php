@@ -18,19 +18,18 @@
 function getProjectPath()
 {
     // Get Project Path
-    $publicDirectory = dirname($_SERVER['PHP_SELF']);
-    $directoryArray = explode('/', $publicDirectory);
-    $projectPath = '/' . $directoryArray[1] . '/';
-    $projectPath = str_replace('//', '/', $projectPath);
+    $projectPath = dirname(__DIR__) . '/';
+    $projectPath = str_replace($_SERVER["DOCUMENT_ROOT"], '', $projectPath);
+//    $projectPath = str_replace('//', '/', $publicDirectory);
 
     return $projectPath;
 }
 
+define ('PROJECT_PATH', getProjectPath());
+
 use apps4net\framework\Session;
 use apps4net\framework\MyDB;
 use apps4net\framework\Options;
-
-define ('PROJECT_PATH', getProjectPath());
 
 require_once ('autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
 require_once ('config.inc.php');  // Τα στοιχεία εισόδου στην βάση
