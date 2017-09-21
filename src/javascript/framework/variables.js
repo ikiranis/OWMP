@@ -58,10 +58,10 @@ var videoItems=[];
 
 var theTimer; // Ο μετρητής του sleep timer
 
-if(localStorage.OverlayAllwaysOn === null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
-if(localStorage.AllwaysGiphy === null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
+if(localStorage.OverlayAllwaysOn == null) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
+if(localStorage.AllwaysGiphy == null) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
-if(localStorage.PlayMode === null) localStorage.PlayMode='continue';
+if(localStorage.PlayMode == null) localStorage.PlayMode='continue';
 
 // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
-if(localStorage.syncPressed === null) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
+if(localStorage.syncPressed == null) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός

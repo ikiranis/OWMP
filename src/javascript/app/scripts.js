@@ -789,10 +789,10 @@ function addSearchRow()
     var lastElementID = $('div[id^="searchRow"]:last').prop('id'); // To id του τελευταίου searchRow
     var newID = parseInt(lastElementID.match(/[0-9]+/))+1;
     var newElementID = 'searchRow' + newID; // To id του νέου searchRow
-    var theNewElementID = $('#'+newElementID);
 
     // Προσθέτει το νέο searchRow αντιγράφοντας το searchRow0 και το κάνει visible
     $('#searchRow0').clone().insertAfter('div[id^="searchRow"]:last').prop('id',newElementID);
+    var theNewElementID = $('#' + newElementID);
     theNewElementID.toggleClass('isHidden', 'isVisible');
 
     // Αλλάζει τα id όλων των child elements
@@ -1884,7 +1884,9 @@ function volumeDown() {
 }
 
 function volumeMute() {
-    if(localStorage.mute === null) localStorage.mute='false';
+    if(localStorage.mute == null) {
+        localStorage.mute = 'false';
+    }
 
     if (localStorage.mute === 'false') {
         localStorage.oldVolume = localStorage.volume;
@@ -2267,7 +2269,12 @@ function saveSmartPlaylist() {
     }
 }
 
-// Φορτώνει τις τιμές των search fields
+/**
+ * Φορτώνει τις τιμές των search fields
+ *
+ * @param elementID
+ * @param searchArray
+ */
 function loadSearchFields(elementID, searchArray)
 {
     $('#search_field' + elementID).val(searchArray['search_field']);
@@ -2295,9 +2302,8 @@ function loadSmartPlaylist()
 
             // Προσθέτει όλες τις γραμμές με τα περιεχόμενα τους
             for(var i=1; i<jsonArray.length; i++) {
-
                 // αν δεν είναι group operator
-                if(jsonArray[i]['group_operator'] === null) {
+                if(jsonArray[i]['group_operator'] == null) {
                     addSearchRow();
                     loadSearchFields(i, jsonArray[i]);
 
@@ -2471,6 +2477,7 @@ function resetFormMassiveTags() {
     document.querySelector('#uploadFile').value='';
 }
 
+// TODO να εμφανίζει το progress
 // Στέλνει την τρέχουσα playlist στην jukebox list
 function sendToJukeboxList() {
     $('#progress').show();
