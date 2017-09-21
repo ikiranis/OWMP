@@ -627,4 +627,21 @@ class Page
 
     }
 
+    /**
+     * Επιστρέφει το κεντρικό directory της εφαρμογής
+     *
+     * @return string
+     */
+    static function getProjectPath()
+    {
+        //get public directory structure eg "/top/second/third"
+        $public_directory = dirname($_SERVER['PHP_SELF']);
+        //place each directory into array
+        $directory_array = explode('/', $public_directory);
+        //get highest or top level in array of directory strings
+        $public_base = '/' . $directory_array[1] . '/';
+
+        return $public_base;
+    }
+
 }

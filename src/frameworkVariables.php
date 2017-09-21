@@ -18,16 +18,19 @@ use apps4net\framework\Language;
 define ('APP_VERSION', '0.11.0');
 define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
-define ('LANG_PATH',$_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών.
-define ('LANG_PATH_HTTP',$_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http.
+define ('LANG_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών.
+define ('LANG_PATH_HTTP', $_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http.
 
 define ('AJAX_PATH', 'AJAX/');
 
 define ('WEB_PAGE_URL', 'http://apps4net.eu');
 define ('CHANGE_LOG_URL', 'http://apps4net.eu/?page_id=41');
 
-if (isset($_SERVER['HTTPS'])) define ('HTTP_TEXT', 'https://');  // αν είναι https
-else define ('HTTP_TEXT', 'http://');
+if (isset($_SERVER['HTTPS'])) {
+    define ('HTTP_TEXT', 'https://');
+} else { // αν είναι https
+    define('HTTP_TEXT', 'http://');
+}
 
 // Η διεύθυνση του server, χωρίς το project_path
 define ('SERVER_ROOT_ADDRESS', HTTP_TEXT.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']);

@@ -226,11 +226,11 @@ function oldcheckFullscreen () {
 
 // Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
 function showFullScreenVideoTags(toggle) {
-    if(localStorage.OverlayAllwaysOn==null) localStorage.OverlayAllwaysOn='false';
+    if(localStorage.OverlayAllwaysOn === undefined) localStorage.OverlayAllwaysOn='false';
 
     if (checkFullscreen ()) {  // Αν είναι σε fullscreen
-        if(toggle!=null) {
-            if (toggle == 'on') {
+        if(toggle !== undefined) {
+            if (toggle === 'on') {
                 $('#overlay').show();
                 localStorage.OverlayAllwaysOn = 'true';
             }
@@ -240,7 +240,7 @@ function showFullScreenVideoTags(toggle) {
             }
         }
         else {
-            if (localStorage.OverlayAllwaysOn=='false') {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
+            if (localStorage.OverlayAllwaysOn === 'false') {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
                 if (!OverlayON) {  // αν δεν είναι on ήδη
                     OverlayON = true;
                     $('#overlay').show().delay(5000).hide(0);
@@ -1884,7 +1884,7 @@ function volumeDown() {
 }
 
 function volumeMute() {
-    if(localStorage.mute == null) {
+    if(localStorage.mute === undefined) {
         localStorage.mute = 'false';
     }
 
@@ -2303,7 +2303,7 @@ function loadSmartPlaylist()
             // Προσθέτει όλες τις γραμμές με τα περιεχόμενα τους
             for(var i=1; i<jsonArray.length; i++) {
                 // αν δεν είναι group operator
-                if(jsonArray[i]['group_operator'] == null) {
+                if(jsonArray[i]['group_operator'] === undefined) {
                     addSearchRow();
                     loadSearchFields(i, jsonArray[i]);
 
@@ -2371,8 +2371,8 @@ function checkFormsFocus() {
 function checkMainSelected(formID, checkAll) {
     var currentMediaKind = document.querySelector('#paths_formID'+formID+' #kind').value;
 
-    var founded=0;  // μετράει αν υπάρχει έστω κι ένα main
-    var firstFindedMediaKind=null;
+    var founded = 0;  // μετράει αν υπάρχει έστω κι ένα main
+    var firstFindedMediaKind = null;
 
     // Παίρνουμε όλα τα form id's που έχουν class paths_form
     var allForms = document.querySelectorAll('.paths_form');
