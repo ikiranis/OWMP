@@ -11,7 +11,6 @@
 use apps4net\framework\Page;
 use apps4net\parrot\app\PlaylistSearch;
 
-
 require_once('../../src/boot.php');
 
 session_start();

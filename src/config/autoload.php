@@ -20,12 +20,9 @@
 // @return void
 spl_autoload_register(function ($class) {
 
-    $prefixes = array (
-        array('prefix' => 'apps4net\\framework\\',
-            'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/framework/'),
-        array('prefix' => 'apps4net\\parrot\\app\\',
-            'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/app/')
-    );
+    global $autoloadPrefixes;
+
+    $prefixes = $autoloadPrefixes;
 
     foreach ($prefixes as $prefix) {
         // does the class use the namespace prefix?

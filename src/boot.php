@@ -10,19 +10,25 @@
  *
  */
 
-// Get Project Path
-$projectPath = dirname(__DIR__) . '/';
-$projectPath = str_replace($_SERVER["DOCUMENT_ROOT"], '', $projectPath);
-define ('PROJECT_PATH', $projectPath);
-
 use apps4net\framework\Session;
 use apps4net\framework\MyDB;
 use apps4net\framework\Options;
 
-require_once ('autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
-require_once ('config.inc.php');  // Τα στοιχεία εισόδου στην βάση
-require_once ('functions.php');  // Public functions
-require_once ('mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
+// Project Path
+define ('PROJECT_PATH', str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname(__DIR__).DIRECTORY_SEPARATOR));
+
+// Τα paths για το autoload
+$autoloadPrefixes = array (
+    array('prefix' => 'apps4net\\framework\\',
+        'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/framework/'),
+    array('prefix' => 'apps4net\\parrot\\app\\',
+        'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/app/')
+);
+
+require_once('config/autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
+require_once('config/config.inc.php');  // Τα στοιχεία εισόδου στην βάση
+require_once('framework/functions.php');  // Public functions
+require_once('config/mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
 
 // Αρχικοποίηση του Session class
 ini_set('session.gc_maxlifetime',60);
@@ -53,5 +59,5 @@ $downloadPaths = $options->getDownloadPaths();
 // Ο πίνακας με τα options
 $optionsArray = $options->getOptionsArray();
 
-require_once('frameworkVariables.php');  // Γενικές μεταβλητές και options του Framework
-require_once('appVariables.php');  // Γενικές μεταβλητές και options της εφαρμογής
+require_once('config/frameworkVariables.php');  // Γενικές μεταβλητές και options του Framework
+require_once('config/appVariables.php');  // Γενικές μεταβλητές και options της εφαρμογής
