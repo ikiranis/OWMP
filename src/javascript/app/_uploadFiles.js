@@ -15,12 +15,13 @@
 // Uploading Files
 var UploadFiles =
 {
-    finishedUploads: 0,             // Πόσα uploads αρχείων έχουν ολοκληρωθεί
-    filesUploadedCount:  0,         // Σύνολο των αρχείων που έχουν επιλεχθεί για ανέβασμα
-    percent_done: [],               // Το ποσοστό που έχει ανέβει από κάθε αρχείο
-    reader: [],                     // To fileReader object για κάθε αρχείο
-    theFile: [],                    // Το κάθε αρχείο
-    slice_size: 1000 * 1024,        // Το μέγεθος του slice
+    finishedUploads: 0,                     // Πόσα uploads αρχείων έχουν ολοκληρωθεί
+    filesUploadedCount:  0,                 // Σύνολο των αρχείων που έχουν επιλεχθεί για ανέβασμα
+    percent_done: [],                       // Το ποσοστό που έχει ανέβει από κάθε αρχείο
+    reader: [],                             // To fileReader object για κάθε αρχείο
+    theFile: [],                            // Το κάθε αρχείο
+    slice_size: 1000 * 1024,                // Το μέγεθος του slice
+    filesInputElement: '#jsMediaFiles',     // Το input element που παίρνει τα αρχεία
 
     /**
      * Εκκίνηση του uploading
@@ -28,7 +29,7 @@ var UploadFiles =
      */
     startUpload: function () {
         // To imput element που περιέχει τα επιλεγμένα αρχεία
-        var files = document.querySelector('#jsMediaFiles').files;
+        var files = document.querySelector(this.filesInputElement).files;
 
         clearResultsContainer();
         displayResultsIcon();
@@ -60,7 +61,7 @@ var UploadFiles =
     uploadSliceOfFile: function (start, i)
     {
         var next_slice = start + this.slice_size + 1;
-        var blob = this.theFile[i].slice( start, next_slice );
+        var blob = this.theFile[i].slice(start, next_slice);
 
         this.reader[i].onloadend = function( event ) {
             if ( event.target.readyState !== FileReader.DONE ) {
@@ -88,15 +89,15 @@ var UploadFiles =
                         this.showFileUploadProgress();
 
                         // More to upload, call function recursively
-                        this.uploadSliceOfFile( next_slice, i );
+                        this.uploadSliceOfFile(next_slice, i);
                     } else {
                         this.insertFileToDatabase(data);
                     }
                 }.bind(this)
             });
-        }.bind(this) // Περνάει το this για να μπορεί να το δει μέσα στο callback
+        }.bind(this); // Περνάει το this για να μπορεί να το δει μέσα στο callback
 
-        this.reader[i].readAsDataURL( blob );
+        this.reader[i].readAsDataURL(blob);
 
     },
 
@@ -119,15 +120,17 @@ var UploadFiles =
             success: function( data ) {
                 this.finishedUploads++;
 
-                if(this.finishedUploads===this.filesUploadedCount) {
+                if(this.finishedUploads === this.filesUploadedCount) {
                     ProgressAnimation.kill();
                 }
 
                 if (data.success === true) {
-                    $(".o-resultsContainer_text").append('<p class="is_youTube-success">'+
+                    var resultsContainerTextElem = $(".o-resultsContainer_text");
+
+                    resultsContainerTextElem.append('<p class="is_youTube-success">'+
                         phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
-                    $(".o-resultsContainer_text").append(data.filesToDelete);
+                    resultsContainerTextElem.append(data.filesToDelete);
 
                     // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
                     var resultsContainer = document.querySelector('.o-resultsContainer');
@@ -145,8 +148,6 @@ var UploadFiles =
 
     /**
      * Εμφανίζει το ποσοστό uploading του τρέχοντος αρχείου σε σχέση και με το συνολικό ποσοστό όλων των αρχείων
-     *
-     * @param evt {object} Το progress event του uploading
      */
     showFileUploadProgress: function () {
         var percentSummary = 0;
@@ -161,6 +162,6 @@ var UploadFiles =
         ProgressAnimation.setProgressPercent(theTotal);
     }
 
-}
+};
 
 
