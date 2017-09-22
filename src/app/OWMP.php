@@ -438,7 +438,6 @@ class OWMP
         echo '<span class="col logs_browser basic">'.__('logs_browser').'</span>';
         echo '</div>';
 
-
         // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
         while ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             echo '<div class=row>';

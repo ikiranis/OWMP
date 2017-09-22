@@ -77,10 +77,12 @@ function DisplayMessage (element, error) {
 
 // Εισαγωγή αρχικού χρήστη admin
 function registerUser() {
-    username = $("#RegisterUserWindow").find('input[name="username"]').val();
-    email = $("#RegisterUserWindow").find('input[name="email"]').val();
-    password = $("#RegisterUserWindow").find('input[name="password"]').val();
-    repeat_password = $("#RegisterUserWindow").find('input[name="repeat_password"]').val();
+    var registerUserWindowID = $("#RegisterUserWindow");
+
+    username = registerUserWindowID.find('input[name="username"]').val();
+    email = registerUserWindowID.find('input[name="email"]').val();
+    password = registerUserWindowID.find('input[name="password"]').val();
+    repeat_password = registerUserWindowID.find('input[name="repeat_password"]').val();
 
     if ($('#RegisterForm').valid()) {
 
@@ -89,7 +91,7 @@ function registerUser() {
         $.get(callFile, function (data) {
 
             result = JSON.parse(data);
-            if (result['success'] == true) {
+            if (result['success'] === true) {
 
                 document.querySelector('#RegisterForm #register').style.backgroundColor='green';
                 $('#RegisterForm #register').prop('disabled', true);
@@ -106,9 +108,10 @@ function registerUser() {
 
 // Έλεγχος του login
 function login() {
-    username = $("#LoginWindow").find('input[name="username"]').val();
-    password = $("#LoginWindow").find('input[name="password"]').val();
-    if ($("#LoginWindow").find('input[name="SavePassword"]').is(":checked"))
+    var loginWindowID = $("#LoginWindow");
+    username = loginWindowID.find('input[name="username"]').val();
+    password = loginWindowID.find('input[name="password"]').val();
+    if (loginWindowID.find('input[name="SavePassword"]').is(":checked"))
         SavePassword = true;
     else SavePassword = false;
 
@@ -120,7 +123,7 @@ function login() {
         $.get(callFile, function (data) {
 
             result = JSON.parse(data);
-            if (result['success'] == true) {
+            if (result['success'] === true) {
                 // TODO να αλλάζει χρώμα προσθέτοντας κλάση css καλύτερα
                 // TODO δεν δουλεύει σε safari
                 document.querySelector('#LoginForm #submit').style.backgroundColor='green';
@@ -137,38 +140,50 @@ function login() {
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table alerts, ή εισάγει νέα εγγραφή
 function updateUser(id) {
-    username=$("#UserID"+id).find('input[name="theUsername"]').val();
-    email=$("#UserID"+id).find('input[name="email"]').val();
-    password=$("#UserID"+id).find('input[name="password"]').val();
-    repeat_password=$("#UserID"+id).find('input[name="repeat_password"]').val();
-    usergroup=$("#UserID"+id).find('select[name="usergroup"]').val();
-    fname=$("#UserID"+id).find('input[name="fname"]').val();
-    lname=$("#UserID"+id).find('input[name="lname"]').val();
+    var userIDElem = $("#UserID"+id);
 
-    if (password=='') changepass=false;
-    else changepass=true;
+    var username=userIDElem.find('input[name="theUsername"]').val();
+    var email=userIDElem.find('input[name="email"]').val();
+    var password=userIDElem.find('input[name="password"]').val();
+    var repeat_password=userIDElem.find('input[name="repeat_password"]').val();
+    var usergroup=userIDElem.find('select[name="usergroup"]').val();
+    var fname=userIDElem.find('input[name="fname"]').val();
+    var lname=userIDElem.find('input[name="lname"]').val();
 
-    if(changepass)
-        var callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
+    var changepass;
+
+    if (password === '') {
+        changepass = false;
+    } else {
+        changepass = true;
+    }
+
+    var callFile;
+
+    if(changepass) {
+        callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+"&password="+password+
             "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
-    else var callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+
-        "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
+    } else {
+        callFile=AJAX_path+"framework/updateUser.php?id="+id+"&username="+username+"&email="+email+
+            "&usergroup="+usergroup+"&fname="+fname+"&lname="+lname;
+    }
 
-    if ( $('#users_formID'+id).valid() && password==repeat_password ) {
+    if ( $('#users_formID'+id).valid() && password === repeat_password ) {
 
         $.get(callFile, function (data) {
 
-            if (data.success == true) {
-                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+            if (data.success === true) {
+                if (id === 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                     UserKeyPressed = false;
                     LastInserted = data.lastInserted;
                     $("#UserID0").prop('id', 'UserID' + LastInserted);
-                    $("#UserID" + LastInserted).find('form').prop('id','users_formID'+ LastInserted);
-                    $("#UserID" + LastInserted).find('input[name="update_user"]')
+                    var userIDElem = $("#UserID" + LastInserted);
+                    userIDElem.find('form').prop('id','users_formID'+ LastInserted);
+                    userIDElem.find('input[name="update_user"]')
                         .attr("onclick", "updateUser(" + LastInserted + ")");
-                    $("#UserID" + LastInserted).find('input[name="delete_user"]')
+                    userIDElem.find('input[name="delete_user"]')
                         .attr("onclick", "deleteUser(" + LastInserted + ")");
-                    $("#UserID" + LastInserted).find('input[id^="messageUserID"]').prop('id', 'messageUserID' + LastInserted);
+                    userIDElem.find('input[id^="messageUserID"]').prop('id', 'messageUserID' + LastInserted);
                     $("#messageUserID" + LastInserted).addClassDelay("success", 3000);
                 }
                 else $("#messageUserID" + id).addClassDelay("success", 3000);
@@ -186,18 +201,21 @@ function updateUser(id) {
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table options, ή εισάγει νέα εγγραφή
 function updateOption(id) {
-    option_name=$("#OptionID"+id).find('input[name="option_name"]').val();
-    option_value=$("#OptionID"+id).find('input[name="option_value"]').val();
+    var optionIDElem = $("#OptionID"+id);
 
-    var callFile=AJAX_path+"framework/updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
+    var option_name = optionIDElem.find('input[name="option_name"]').val();
+    var option_value = optionIDElem.find('input[name="option_value"]').val();
+
+    var callFile = AJAX_path+"framework/updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
 
     if ($('#options_formID'+id).valid()) {
         $.get(callFile, function (data) {
-            if (data.success == 'true') {
-
+            if (data.success === 'true') {
                 $("#messageOptionID" + id).addClassDelay("success", 3000);
             }
-            else $("#messageOptionID" + id).addClassDelay("failure", 3000);
+            else {
+                $("#messageOptionID" + id).addClassDelay("failure", 3000);
+            }
         }, "json");
     }
 
@@ -207,39 +225,40 @@ function updateOption(id) {
 
 // Σβήνει την εγγραφή στο user, user_details, salts
 function deleteUser(id) {
-    var callFile=AJAX_path+"framework/deleteUser.php?id="+id;
+    var callFile = AJAX_path + "framework/deleteUser.php?id=" + id;
 
     $.get( callFile, function( data ) {
         console.log(data.success);
-        if(data.success=='true') {
+        if(data.success === 'true') {
 
             $("#messageUserID"+id).addClassDelay("success",3000);
 
-            myClasses= $("#UserID"+id).find('input[name=delete_user]').classes();   // Παίρνει τις κλάσεις του delete_alert
+            var userIDElem = $("#UserID"+id);
+
+            var myClasses = userIDElem.find('input[name=delete_user]').classes();   // Παίρνει τις κλάσεις του delete_alert
 
             if(!myClasses[2])   // Αν δεν έχει κλάση dontdelete σβήνει το div
-                $("#UserID"+id).remove();
+                userIDElem.remove();
             else {   // αλλιώς καθαρίζει μόνο τα πεδία
-                $("#UserID"+id).find('input').val('');   // clear field values
-                $("#UserID"+id).prop('id','UserID0');
-                $("#UserID0").find('form').prop('id','users_formID0');
-                $("#UserID0").find('input[name="email"]').val('');
-                $("#UserID0").find('input[name="fname"]').val('');
-                $("#UserID0").find('input[name="lname"]').val('');
-                $("#UserID0").find('input[name="password"]').prop('required',true).prop('id','password0');
-                $("#UserID0").find('input[name="repeat_password"]').prop('required',true).prop('id','0');
-                $("#UserID0").find('input[id^="messageUserID"]').text('').prop('id','messageUserID0');
+                userIDElem.find('input').val('');   // clear field values
+                userIDElem.prop('id','UserID0');
+                var userID0Elem = $("#UserID0");
+                userID0Elem.find('form').prop('id','users_formID0');
+                userID0Elem.find('input[name="email"]').val('');
+                userID0Elem.find('input[name="fname"]').val('');
+                userID0Elem.find('input[name="lname"]').val('');
+                userID0Elem.find('input[name="password"]').prop('required',true).prop('id','password0');
+                userID0Elem.find('input[name="repeat_password"]').prop('required',true).prop('id','0');
+                userID0Elem.find('input[id^="messageUserID"]').text('').prop('id','messageUserID0');
                 // αλλάζει την function στο button
-                $("#UserID0").find('input[name="update_user"]').attr("onclick", "updateUser(0)");
-                $("#UserID0").find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
-
+                userID0Elem.find('input[name="update_user"]').attr("onclick", "updateUser(0)");
+                userID0Elem.find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
 
                 $('#users_formID0').validate({ // initialize the plugin
                     errorElement: 'div'
                 });
 
             }
-
 
         }
         else $("#messageUserID"+id).addClassDelay("failure",3000);
@@ -254,18 +273,19 @@ function insertUser() {
 
         // clone last div row
         $('div[id^="UserID"]:last').clone().insertAfter('div[id^="UserID"]:last').prop('id','UserID0');
-        $("#UserID0").find('input[name="theUsername"]').val(''); // clear field values
-        $("#UserID0").find('form').prop('id','users_formID0');
-        $("#UserID0").find('input[name="email"]').val('');
-        $("#UserID0").find('input[name="fname"]').val('');
-        $("#UserID0").find('input[name="lname"]').val('');
-        $("#UserID0").find('input[name="password"]').prop('required',true).prop('id','password0');
-        $("#UserID0").find('input[name="repeat_password"]').prop('required',true).prop('id','0');
-        $("#UserID0").find('input[id^="messageUserID"]').text('').removeClass('success').prop('id','messageUserID0');
+        var userID0Elem = $("#UserID0");
+        userID0Elem.find('input[name="theUsername"]').val(''); // clear field values
+        userID0Elem.find('form').prop('id','users_formID0');
+        userID0Elem.find('input[name="email"]').val('');
+        userID0Elem.find('input[name="fname"]').val('');
+        userID0Elem.find('input[name="lname"]').val('');
+        userID0Elem.find('input[name="password"]').prop('required',true).prop('id','password0');
+        userID0Elem.find('input[name="repeat_password"]').prop('required',true).prop('id','0');
+        userID0Elem.find('input[id^="messageUserID"]').text('').removeClass('success').prop('id','messageUserID0');
         // αλλάζει την function στο button
-        $("#UserID0").find('input[name="update_user"]').attr("onclick", "updateUser(0)");
-        $("#UserID0").find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
-        UserKeyPressed=true;
+        userID0Elem.find('input[name="update_user"]').attr("onclick", "updateUser(0)");
+        userID0Elem.find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
+        UserKeyPressed = true;
 
         $('#users_formID0').validate({ // initialize the plugin
             errorElement: 'div'
@@ -287,13 +307,13 @@ function countjson(obj) {
 
 // Μετατρέπει τα δευτερόλεπτα σε "ανθρώπινα" λεπτά και δευτερόλεπτα. Επιστρέφει τιμές σε array (minutes, seconds)
 function seconds2MinutesAndSeconds(timeInSeconds) {
-    timeInMinutes=parseInt(timeInSeconds/60);
-    newTimeInSeconds=parseInt(timeInSeconds%60);
+    var timeInMinutes=parseInt(timeInSeconds/60);
+    var newTimeInSeconds=parseInt(timeInSeconds%60);
 
     if(timeInMinutes<10) timeInMinutes='0'+timeInMinutes.toString();
     if(newTimeInSeconds<10) newTimeInSeconds='0'+newTimeInSeconds.toString();
 
-    timeArray= {  // Μετατροπή σε array
+    var timeArray = {  // Μετατροπή σε array
             'minutes': timeInMinutes,
             'seconds': newTimeInSeconds
         }
@@ -358,35 +378,39 @@ function createCookie(name, value, minutes) {
 // Εμφανίζει τα περιεχόμενα του κεντρικού παραθύρου με ajax
 function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
-    callFile=AJAX_path+"framework/displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
+    var callFile=AJAX_path+"framework/displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
 
     // Αν target σελίδα δεν είναι η 1
-    if(page!==1) {
+    if(page !== 1) {
+
+        var searchElem = $('#search');
 
         // Αν το #search δεν είναι κενό, άρα είμασταν πριν στην 1
-        if(!$('#search').length==0) {
+        if(!searchElem.length === 0) {
 
             // διαβάζουμε τις τιμές των search fields
             readSearchFields(getNumberOfSearchRows());
 
             // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #search, στην μεταβλητή SearchHTML
-            SearchHTML = $('#search').html();
+            SearchHTML = searchElem.html();
         }
 
         // Αν το #ChooseMediaKind δεν είναι κενό, άρα είμασταν πριν στην 1
-        if(!$('#ChooseMediaKind').length==0) {
+        if(!$('#ChooseMediaKind').length === 0) {
             MediaKindChosen=document.querySelector('#ChooseMediaKind select[name=mediakind]').value;
         }
 
+        var playlistContentElem = $('#playlist_content');
+
         // Αν το #playlist_content δεν είναι κενό, άρα είμασταν πριν στην 1
-        if(!$('#playlist_content').length==0)
+        if(!playlistContentElem.length === 0)
         // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #playlist_content, στην μεταβλητή PlaylistContainerHTML
-            PlaylistContainerHTML = $('#playlist_content').html();
+            PlaylistContainerHTML = playlistContentElem.html();
 
     }
 
 
-    if(page!==CurrentPage) {
+    if(page !== CurrentPage) {
         // όταν ανοίγει το section article
         $('section article').load(callFile, function () {
 
@@ -402,7 +426,7 @@ function DisplayWindow(page, offset, step) {
                 checkFormsFocus();
             }
 
-            CurrentPage=page;
+            CurrentPage = page;
 
             for (var i = 1; i <= NavLength; i++)   // Κάνει όλα τα nav πεδία inactive
                 $('#navID' + i).removeClass('active');
@@ -488,10 +512,12 @@ function checkCurrentVersion() {
 function sendKillCommand() {
     // console.log(runningYoutubeDownload);
 
+    var killKommandImgElem = $("#killCommand_img");
+
     if(!runningYoutubeDownload) {
         callFile = AJAX_path + "framework/sendKillCommand.php";
 
-        $("#killCommand_img").hide();
+        killKommandImgElem.hide();
 
         $.get(callFile, function (data) {
             if (data.success)
@@ -499,7 +525,7 @@ function sendKillCommand() {
         }, "json");
     }
     else {
-        $("#killCommand_img").hide();
+        killKommandImgElem.hide();
         runningYoutubeDownload=false;
 
     }
@@ -508,8 +534,7 @@ function sendKillCommand() {
 
 // Ψάχνει και καθαρίζει την βάση από προσωρινά tables που δεν χρησιμοποιούνται πλέον
 function garbageCollection() {
-    callFile=AJAX_path+"framework/garbageCollection.php?tabID="+tabID;
-
+    var callFile = AJAX_path+"framework/garbageCollection.php?tabID="+tabID;
 
     $.get(callFile, function (data) {
         // if (data.success == true) {
@@ -522,11 +547,11 @@ function garbageCollection() {
 // Κάνει submit στην αντίστοιχη φόρμα που είναι ανοιχτή
 function pressEnterToForm() {
 
-    if(!$('#LoginForm').length==0) {
+    if(!$('#LoginForm').length === 0) {
         $('#LoginForm #submit').click();
     }
 
-    if(!$('#RegisterForm').length==0) {
+    if(!$('#RegisterForm').length === 0) {
         $('#RegisterForm #register').click();
     }
 }
@@ -622,11 +647,11 @@ function startValidates() {
 
 // Κάνει το update της εφαρμογής
 function startTheUpdate() {
-    callFile=AJAX_path+'framework/updateApp.php';
+    var callFile = AJAX_path+'framework/updateApp.php';
 
     $.get(callFile, function (data) {
 
-        if (data.success == true) {
+        if (data.success === true) {
 
             DisplayMessage('.alert_error', 'App Updated');
 
@@ -664,12 +689,12 @@ function getDownloadLink(fullPath, filename, hrefText, autoDownload) {
 function startTheBackup() {
     var confirmAnswer=confirm(phrases['sure_to_backup']);
 
-    if (confirmAnswer==true) {
+    if (confirmAnswer === true) {
 
-        if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
+        if(localStorage.syncPressed === 'false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed = 'true';
 
-            callFile = AJAX_path + 'framework/backupDatabase.php';
+            var callFile = AJAX_path + 'framework/backupDatabase.php';
 
             ProgressAnimation.init(true);
             ProgressAnimation.setProgressPercent(0);
@@ -686,7 +711,7 @@ function startTheBackup() {
                 type: 'GET',
                 dataType: "json",
                 success: function(data) {
-                    if (data.success == true) {
+                    if (data.success === true) {
 
                         DisplayMessage('.alert_error', phrases['backup_success']);
 
@@ -698,8 +723,9 @@ function startTheBackup() {
                         // Δημιουργία a href element και αυτόματο download
                         var downloadText = getDownloadLink(path, data.filename, path, autoDownload);
 
-                        $('.o-resultsContainer_text').append('<br>');
-                        $('.o-resultsContainer_text').append(downloadText);
+                        var resultsContainerElem = $('.o-resultsContainer_text');
+                        resultsContainerElem.append('<br>');
+                        resultsContainerElem.append(downloadText);
                         ProgressAnimation.kill();
                         syncRunning = false;
                         localStorage.syncPressed = 'false';
@@ -727,13 +753,13 @@ function startTheBackup() {
 //  Κάνει restore της βάσης από ένα αρχείο backup
 function restoreTheBackup() {
     if(myFile!=='') {
-        var confirmAnswer=confirm(phrases['sure_to_restore']);
+        var confirmAnswer = confirm(phrases['sure_to_restore']);
 
-        if (confirmAnswer==true) {
-            if(localStorage.syncPressed=='false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
+        if (confirmAnswer === true) {
+            if(localStorage.syncPressed === 'false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
                 localStorage.syncPressed = 'true';
 
-                callFile = AJAX_path + 'framework/restoreDatabase.php';
+                var callFile = AJAX_path + 'framework/restoreDatabase.php';
 
                 ProgressAnimation.init(true);
                 ProgressAnimation.setProgressPercent(0);
@@ -750,7 +776,7 @@ function restoreTheBackup() {
                     type: 'GET',
                     dataType: "json",
                     success: function(data) {
-                        if (data.success == true) {
+                        if (data.success === true) {
 
                             DisplayMessage('.alert_error', phrases['restore_success']);
 
@@ -810,7 +836,7 @@ $(function(){
             curTimePercent=(this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
 
 
-            if( (curTimePercent>TimePercentTrigger) && (TimeUpdated==false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
+            if( (curTimePercent>TimePercentTrigger) && (TimeUpdated === false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
                 updateVideoPlayed();
                 TimeUpdated=true;
             }
@@ -845,11 +871,7 @@ $(function(){
     // Έλεγχος για garbage collection
     setInterval(garbageCollection, 600000);
 
-
     document.addEventListener('touchmove', displayFullscreenControls, false);
-    
-
-
 });
 
 
