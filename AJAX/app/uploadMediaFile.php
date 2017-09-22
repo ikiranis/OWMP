@@ -55,7 +55,7 @@ if($results['uploadKind']=='slice') {
         $jsonArray = array('success' => true, 'result' => $results['fullPathFilename'],
             'filesToDelete' => $syncFile->deleteFilesString);
     } else {
-        $jsonArray=array( 'success'=> false);
+        $jsonArray=array( 'success'=> false, 'fileName' => $results['file']);
     }
 
     echo json_encode($jsonArray);

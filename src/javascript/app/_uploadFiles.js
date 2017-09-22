@@ -27,7 +27,8 @@ var UploadFiles =
      * Εκκίνηση του uploading
      *
      */
-    startUpload: function () {
+    startUpload: function ()
+    {
         // To imput element που περιέχει τα επιλεγμένα αρχεία
         var files = document.querySelector(this.filesInputElement).files;
 
@@ -82,7 +83,12 @@ var UploadFiles =
                 },
                 success: function( data ) {
                     var size_done = start + this.slice_size;
-                    this.percent_done[i] = Math.floor( ( size_done / this.theFile[i].size ) * 100 );
+                    this.percent_done[i] =  parseInt(((size_done / this.theFile[i].size) * 100).toFixed(0)) ;
+
+                    // Fix για τα mp3 που για κάποιο λόγο ανεβάζουν πάνω από το 100%
+                    if(this.percent_done[i] > 100) {
+                        this.percent_done[i] = 100;
+                    }
 
                     if ( next_slice < this.theFile[i].size ) {
                         // Update upload progress
@@ -119,14 +125,9 @@ var UploadFiles =
             dataType: 'json',
             success: function( data ) {
                 this.finishedUploads++;
-
-                if(this.finishedUploads === this.filesUploadedCount) {
-                    ProgressAnimation.kill();
-                }
+                var resultsContainerTextElem = $(".o-resultsContainer_text");
 
                 if (data.success === true) {
-                    var resultsContainerTextElem = $(".o-resultsContainer_text");
-
                     resultsContainerTextElem.append('<p class="is_youTube-success">'+
                         phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
 
@@ -140,8 +141,11 @@ var UploadFiles =
                     }
 
                 } else {
-                    console.log('upload problem');
+                    resultsContainerTextElem.append('<p>' + phrases['problem_with_file'] + ': ' + data.fileName + '</p>');
                 }
+
+                this.checkUploadTermination(); // Έλεγχος και τερματισμός της διαδικασίας του uploading
+
             }.bind(this)
         });
     },
@@ -149,17 +153,30 @@ var UploadFiles =
     /**
      * Εμφανίζει το ποσοστό uploading του τρέχοντος αρχείου σε σχέση και με το συνολικό ποσοστό όλων των αρχείων
      */
-    showFileUploadProgress: function () {
+    showFileUploadProgress: function ()
+    {
         var percentSummary = 0;
         for(var i=0; i<this.percent_done.length; i++) {
-            percentSummary = percentSummary+this.percent_done[i];
+            percentSummary = percentSummary + this.percent_done[i];
         }
         // Το συνολικό ποσοστό όλων των αρχείων
         var totalPercent = parseInt(this.filesUploadedCount * 100);
         // Προστίθεται το τρέχον ποσοστό, στο συνολικό
-        var theTotal = ( (percentSummary / totalPercent) * 100).toFixed(0);
+        var theTotal = ((percentSummary / totalPercent) * 100).toFixed(0);
 
         ProgressAnimation.setProgressPercent(theTotal);
+    },
+
+    /**
+     * Έλεγχος και τερματισμός της διαδικασίας του uploading
+     */
+    checkUploadTermination: function ()
+    {
+        if(this.finishedUploads === this.filesUploadedCount) {
+            ProgressAnimation.kill();
+            $(".o-resultsContainer_text").append('<p>' + phrases['files_added'] + ' ' + this.filesUploadedCount
+                + ' ' + phrases['added_files'] + '</p>');
+        }
     }
 
 };
