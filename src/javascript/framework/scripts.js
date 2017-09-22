@@ -173,7 +173,7 @@ function updateUser(id) {
         $.get(callFile, function (data) {
 
             if (data.success === true) {
-                if (id === 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                if (id == 0) {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                     UserKeyPressed = false;
                     LastInserted = data.lastInserted;
                     $("#UserID0").prop('id', 'UserID' + LastInserted);
@@ -386,7 +386,7 @@ function DisplayWindow(page, offset, step) {
         var searchElem = $('#search');
 
         // Αν το #search δεν είναι κενό, άρα είμασταν πριν στην 1
-        if(!searchElem.length === 0) {
+        if(!searchElem.length == 0) {
 
             // διαβάζουμε τις τιμές των search fields
             readSearchFields(getNumberOfSearchRows());
@@ -396,14 +396,14 @@ function DisplayWindow(page, offset, step) {
         }
 
         // Αν το #ChooseMediaKind δεν είναι κενό, άρα είμασταν πριν στην 1
-        if(!$('#ChooseMediaKind').length === 0) {
+        if(!$('#ChooseMediaKind').length == 0) {
             MediaKindChosen=document.querySelector('#ChooseMediaKind select[name=mediakind]').value;
         }
 
         var playlistContentElem = $('#playlist_content');
 
         // Αν το #playlist_content δεν είναι κενό, άρα είμασταν πριν στην 1
-        if(!playlistContentElem.length === 0)
+        if(!playlistContentElem.length == 0)
         // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #playlist_content, στην μεταβλητή PlaylistContainerHTML
             PlaylistContainerHTML = playlistContentElem.html();
 
@@ -547,11 +547,11 @@ function garbageCollection() {
 // Κάνει submit στην αντίστοιχη φόρμα που είναι ανοιχτή
 function pressEnterToForm() {
 
-    if(!$('#LoginForm').length === 0) {
+    if(!$('#LoginForm').length == 0) {
         $('#LoginForm #submit').click();
     }
 
-    if(!$('#RegisterForm').length === 0) {
+    if(!$('#RegisterForm').length == 0) {
         $('#RegisterForm #register').click();
     }
 }
