@@ -1,3 +1,11 @@
+2017-9-23: 0.12.0
+
+It creates separate directories per day, when the user uploads files
+The user no longer needs to declare the application path in the config.inc.php file
+Changes to the structure of the code
+Small improvements in the code
+Bug fixes
+
 2017-9-8: 0.11.0
 
 Uploading files from web interface
