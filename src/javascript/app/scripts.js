@@ -1367,7 +1367,7 @@ function printValue(sliderId, outputId) {
 
 // Σβήνει ένα αρχείο μαζί με την αντίστοιχη εγγραφή στην βάση
 function deleteFile(id) {
-    if(id === 0) {  // Αν το id 0 παίρνει τα ids όλων των checkbox items σε πίνακα
+    if(id == 0) {  // Αν το id 0 παίρνει τα ids όλων των checkbox items σε πίνακα
         var all_checkboxes = document.querySelectorAll('input[name="check_item[]"]:checked');
 
         var checkIDs = [];
@@ -1918,7 +1918,7 @@ function changeLive() {
     var liveID = $('#live');
     var live = liveID.val(); // Η τρέχουσα τιμή του live
 
-    if (live === 0) {
+    if (live == 0) {
         liveID.val('1');
     } else { // Αν είναι 0 το κάνει 1
         liveID.val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
@@ -2029,7 +2029,7 @@ function getShortcuts(elem) {
             }
 
             if (event.keyCode === 76) {   // L Αλλαγή live
-                changeLive()
+                changeLive();
             }
 
             if (event.keyCode === 49) {   // 1
@@ -2408,7 +2408,7 @@ function checkMainSelected(formID, checkAll) {
     }
 
     if(checkAll === false) {
-        if(founded === 0) {
+        if(founded == 0) {
             document.querySelector('#paths_formID' + formID + ' #main').selectedIndex = '1';
         }
     }
@@ -2610,7 +2610,7 @@ function startSleepTimer()
         var timeInMinutesAndSeconds = seconds2MinutesAndSeconds(timeInSeconds);
         document.querySelector('#theSleepTimer').innerText = timeInMinutesAndSeconds['minutes'] + ':' + timeInMinutesAndSeconds['seconds'];
 
-        if (timeInSeconds === 0) {
+        if (timeInSeconds == 0) {
             clearInterval(theTimer);
             if (!myVideo.paused) {
                 myVideo.pause();

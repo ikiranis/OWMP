@@ -14,7 +14,7 @@ use apps4net\framework\Language;
 use apps4net\framework\Page;
 use apps4net\parrot\app\PlaylistSearch;
 
-require_once('src/config/boot.php');
+require_once('src/boot.php');
 
 //  Αν είναι απενεργοποιημένο το jukebox τότε σταματάει την εκτέλεση της σελίδας
 if(!JUKEBOX_ENABLE) {
