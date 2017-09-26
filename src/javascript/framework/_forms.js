@@ -117,3 +117,50 @@ function startValidates() {
 
     });
 }
+
+/**
+ * όταν η φόρμα είναι focused
+ *
+ * @param event
+ */
+function OnFocusInForm (event) {
+    var target = event.target ? event.target : event.srcElement;
+    if (target) {
+        FocusOnForm=true;
+    }
+}
+
+/**
+ * όταν η φόρμα δεν είναι focused
+ *
+ * @param event
+ */
+function OnFocusOutForm (event) {
+    var target = event.target ? event.target : event.srcElement;
+    if (target) {
+        FocusOnForm=false;
+    }
+}
+
+/**
+ * Ελέγχει αν είναι focus οι φόρμες
+ */
+function checkFormsFocus() {
+    if(VideoLoaded) { // αν έχει φορτωθεί το βίντεο
+        checkTheFocus('FormTags');
+        checkTheFocus('FormMassiveTags');
+        checkTheFocus('SearchForm');
+        checkTheFocus('insertPlaylist');
+        checkTheFocus('insertSmartPlaylist');
+        // checkTheFocus('paths_form');
+    }
+}
+
+/**
+ * Σβήνει όλα τα περιεχόμενα της φόρμας
+ */
+function resetFormMassiveTags() {
+    document.querySelector('#FormMassiveTags').reset();
+    document.querySelector('#myImage').innerHTML='';
+    document.querySelector('#uploadFile').value='';
+}

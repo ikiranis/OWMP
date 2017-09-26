@@ -48,6 +48,9 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/_users.js',    // Users management functions
     'src/javascript/framework/scripts.js',    // framework scripts
     'src/javascript/app/scripts.js',    // app scripts
+    'src/javascript/app/_shortcuts.js',       // Shortcut actions
+    'src/javascript/app/_video.js',       // Video element management
+    'src/javascript/app/_youtube.js',       // Youtube downloading
     'src/javascript/app/_progressAnimation.js',  // Το progress animation
     'src/javascript/app/_uploadFiles.js',       // Uploading αρχείων
     // TODO να φύγει το polyfill κάποια στιγμή που θα το υποστηρίζουν κανονικά όλοι οι browsers

@@ -1,13 +1,14 @@
-//
-// File: scripts.js
-// Created by Yiannis Kiranis <rocean74@gmail.com>
-// http://www.apps4net.eu
-// Date: 20/05/16
-// Time: 19:44
-//
-// Framework javascript controls και functions
-//
-//
+/**
+ * File: scripts.js
+ * Created by Yiannis Kiranis <rocean74@gmail.com>
+ * http://www.apps4net.eu
+ * Date: 20/05/16
+ * Time: 19:44
+ *
+ * Framework javascript controls και functions
+ *
+ */
+
 
 /**
  * Εμφάνιση μυνήματος σε συγκεκριμένο element
