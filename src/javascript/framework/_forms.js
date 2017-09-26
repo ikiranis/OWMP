@@ -38,15 +38,13 @@ function checkTheFocus(theForm) {
         if (form.addEventListener) {    // IE from version 9
             form.addEventListener ("focusin", OnFocusInForm, false);
             form.addEventListener ("focusout", OnFocusOutForm, false);
-        }
-        else {
+        } else {
             if (form.attachEvent) {     // IE before version 9
                 form.attachEvent ("onfocusin", OnFocusInForm);
                 form.attachEvent ("onfocusout", OnFocusOutForm);
             }
         }
-    }
-    else {
+    } else {
         if (form.addEventListener) {    // Firefox, Opera, Google Chrome and Safari
             // since Firefox does not support the DOMFocusIn/Out events
             // and we do not want browser detection
