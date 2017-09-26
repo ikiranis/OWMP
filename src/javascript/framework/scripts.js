@@ -28,17 +28,27 @@ function updateOption(id) {
     var option_name = optionIDElem.find('input[name="option_name"]').val();
     var option_value = optionIDElem.find('input[name="option_value"]').val();
 
-    var callFile = AJAX_path+"framework/updateOption.php?id="+id+"&option_name="+option_name+"&option_value="+encodeURIComponent(option_value);
-
     if ($('#options_formID'+id).valid()) {
-        $.get(callFile, function (data) {
-            if (data.success === 'true') {
-                $("#messageOptionID" + id).addClassDelay("success", 3000);
+
+        $.ajax({
+            url: AJAX_path+"framework/updateOption.php",
+            type: 'GET',
+            data: {
+                id: id,
+                option_name: option_name,
+                option_value: encodeURIComponent(option_value)
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.success === 'true') {
+                    $("#messageOptionID" + id).addClassDelay("success", 3000);
+                }
+                else {
+                    $("#messageOptionID" + id).addClassDelay("failure", 3000);
+                }
             }
-            else {
-                $("#messageOptionID" + id).addClassDelay("failure", 3000);
-            }
-        }, "json");
+        });
+
     }
 
 }
@@ -174,13 +184,16 @@ function getHelp(helpText) {
  * Κάνει έλεγχο της τρέχουσας έκδοσης της εφαρμογής
  */
 function checkCurrentVersion() {
-    callFile = ParrotVersionFile;
-
-    $.get(callFile, function (data) {
-        // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
-        if(AppVersion!==data.app_version)
-            $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version+'&nbsp;<a href='+changeLogUrl+'>('+phrases['change_log']+')</a>');
-    }, "json");
+    $.ajax({
+        url: ParrotVersionFile,
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+            // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
+            if(AppVersion !== data.app_version)
+                $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version+'&nbsp;<a href='+changeLogUrl+'>('+phrases['change_log']+')</a>');
+        }
+    });
 }
 
 /**
@@ -192,19 +205,22 @@ function sendKillCommand() {
     var killKommandImgElem = $("#killCommand_img");
 
     if(!runningYoutubeDownload) {
-        callFile = AJAX_path + "framework/sendKillCommand.php";
-
         killKommandImgElem.hide();
 
-        $.get(callFile, function (data) {
-            if (data.success)
-                console.log('Killed');
-        }, "json");
-    }
-    else {
+        $.ajax({
+            url: AJAX_path + "framework/sendKillCommand.php",
+            type: 'GET',
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    console.log('Killed');
+                }
+            }
+        });
+
+    } else {
         killKommandImgElem.hide();
         runningYoutubeDownload=false;
-
     }
 
 }
@@ -213,34 +229,38 @@ function sendKillCommand() {
  * Ψάχνει και καθαρίζει την βάση από προσωρινά tables που δεν χρησιμοποιούνται πλέον
  */
 function garbageCollection() {
-    var callFile = AJAX_path+"framework/garbageCollection.php?tabID="+tabID;
-
-    $.get(callFile, function (data) {
-        // if (data.success == true) {
-        //
-        //
-        // }
-    }, "json");
+    $.ajax({
+        url: AJAX_path+"framework/garbageCollection.php",
+        type: 'GET',
+        data: {
+            tabID: tabID
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success === true) {
+                console.log('Garbage collected');
+            }
+        }
+    });
 }
 
 /**
  * Κάνει το update της εφαρμογής
  */
 function startTheUpdate() {
-    var callFile = AJAX_path+'framework/updateApp.php';
 
-    $.get(callFile, function (data) {
-
-        if (data.success === true) {
-
-            DisplayMessage('.alert_error', 'App Updated');
-
+    $.ajax({
+        url: AJAX_path+'framework/updateApp.php',
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+            if (data.success === true) {
+                DisplayMessage('.alert_error', 'App Updated');
+            } else {
+                DisplayMessage('.alert_error', 'App Not Updated');
+            }
         }
-        else {
-            DisplayMessage('.alert_error', 'App Not Updated');
-        }
-
-    }, "json");
+    });
 }
 
 /**
@@ -279,8 +299,6 @@ function startTheBackup() {
         if(localStorage.syncPressed === 'false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed = 'true';
 
-            var callFile = AJAX_path + 'framework/backupDatabase.php';
-
             ProgressAnimation.init(true);
             ProgressAnimation.setProgressPercent(0);
 
@@ -292,7 +310,7 @@ function startTheBackup() {
             }, 5000);
 
             $.ajax({
-                url: callFile,
+                url: AJAX_path + 'framework/backupDatabase.php',
                 type: 'GET',
                 dataType: "json",
                 success: function(data) {
@@ -346,8 +364,6 @@ function restoreTheBackup() {
             if(localStorage.syncPressed === 'false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
                 localStorage.syncPressed = 'true';
 
-                var callFile = AJAX_path + 'framework/restoreDatabase.php';
-
                 ProgressAnimation.init(true);
                 ProgressAnimation.setProgressPercent(0);
 
@@ -359,7 +375,7 @@ function restoreTheBackup() {
                 }, 5000);
 
                 $.ajax({
-                    url: callFile,
+                    url: AJAX_path + 'framework/restoreDatabase.php',
                     type: 'GET',
                     dataType: "json",
                     success: function(data) {
@@ -415,7 +431,6 @@ $(function(){
         "timeupdate",
         function(event){
             curTimePercent=(this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
-
 
             if( (curTimePercent>TimePercentTrigger) && (TimeUpdated === false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
                 updateVideoPlayed();

@@ -28,63 +28,77 @@ function DisplayMessage (element, error) {
 // Προσθέτει μία ψήφο στο τραγούδι
 function voteSong(id) {
 
-    callFile=AJAX_path+'app/voteSong.php?id='+id;
-
-    $.get(callFile, function (data) {
-
-        if (data.success == true) {
-
-            DisplayMessage('.alert_error', phrases['vote_accepted']);
-
+    $.ajax({
+        url: AJAX_path+'app/voteSong.php',
+        type: 'GET',
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success === true) {
+                DisplayMessage('.alert_error', phrases['vote_accepted']);
+            } else {
+                DisplayMessage('.alert_error', phrases['vote_not_accepted']);
+            }
         }
-        else {
-            DisplayMessage('.alert_error', phrases['vote_not_accepted']);
-        }
+    });
 
-    }, "json");
 }
 
 
 // Αναζήτηση για διπλές εγγραφές και εμφάνιση τους
 function getVotePlaylist(offset, step, firstTime) {
-    callFile=AJAX_path+"app/searchPlaylist.php?votePlaylist=true"+"&firstTime="+firstTime+"&offset="+offset+"&step="+step;
     ProgressAnimation.init(false);
 
-    $.get(callFile, function(data) {
-        if (data) {
-            $('#playlist_container').html(data);
-            ProgressAnimation.kill();
-            $('#search').hide();
+    $.ajax({
+        url: AJAX_path+"app/searchPlaylist.php",
+        type: 'GET',
+        data: {
+            votePlaylist: 'true',
+            firstTime: firstTime,
+            offset: offset,
+            step: step
+        },
+        success: function (data) {
+            if (data) {
+                $('#playlist_container').html(data);
+                ProgressAnimation.kill();
+                $('#search').hide();
+            }
+            else {
+                $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
+                ProgressAnimation.kill();
+                $('#search').hide();
+            }
         }
-        else {
-            $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
-            ProgressAnimation.kill();
-            $('#search').hide();
-        }
-
     });
+
 }
 
 // Τραβάει τα song info του τρέχοντος τραγουδιού
 function getSongInfo() {
-    callFile=AJAX_path+"app/getSongInfo.php";
+    $.ajax({
+        url: AJAX_path+"app/getSongInfo.php",
+        type: 'GET',
+        dataType: "json",
+        success: function (data) {
+            if(data.success) {
+                document.querySelector('#currentSongName').innerHTML = data.songName;
+                document.querySelector('#currentSongArtist').innerHTML = data.artist;
 
-    $.get(callFile, function (data) {
-        if(data.success) {
-            document.querySelector('#currentSongName').innerHTML = data.songName;
-            document.querySelector('#currentSongArtist').innerHTML = data.artist;
+                document.title = data.songName + ' : ' + data.artist;
 
-            document.title = data.songName+' : '+data.artist;
-
-            // Αν υπάρχει το συγκεκριμένο row τότε το σβήνει
-            if($('#fileID'+data.fileID).length!==0) {
-                $('#fileID' + data.fileID).addClass("blackRow");
-                setTimeout(function() {
-                    $('#fileID' + data.fileID).remove();
-                }, 1000);
+                // Αν υπάρχει το συγκεκριμένο row τότε το σβήνει
+                if($('#fileID'+data.fileID).length !== 0) {
+                    $('#fileID' + data.fileID).addClass("blackRow");
+                    setTimeout(function() {
+                        $('#fileID' + data.fileID).remove();
+                    }, 1000);
+                }
             }
         }
-    }, "json");
+    });
 }
 
 
@@ -93,17 +107,18 @@ function closeVotesWindow() {
 }
 
 function getSongVotes() {
-    callFile=AJAX_path+"app/getSongVotes.php";
-
-    $.get(callFile, function(data) {
-        if (data) {
-            $('#votesList').show();
-            $('#votesListText').html(data);
+    $.ajax({
+        url: AJAX_path+"app/getSongVotes.php",
+        type: 'GET',
+        success: function (data) {
+            if (data) {
+                $('#votesList').show();
+                $('#votesListText').html(data);
+            }
+            else {
+                $('#votesListText').html('Δεν βρέθηκαν εγγραφές');
+            }
         }
-        else {
-            $('#votesListText').html('Δεν βρέθηκαν εγγραφές');
-        }
-
     });
 }
 

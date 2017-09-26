@@ -138,145 +138,148 @@ function getNextVideoID(id, operation) {
  */
 function loadNextVideo(id)
 {
-    var callFile;
-
-    if(id == 0) {
-        callFile = AJAX_path+"app/getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
-    }
-
-    else {
+    if(id !== 0) {
         currentID = id;
-
-        callFile = AJAX_path+"app/getVideoMetadata.php?id="+currentID+'&tabID='+tabID;
     }
 
     TimeUpdated = false;
 
-    if(localStorage.AllwaysGiphy === 'true') // Αν θέλουμε μόνο από Giphy
-        callFile = callFile+'&onlyGiphy=true';
+    var onlyGiphy = 'false';
+    if(localStorage.AllwaysGiphy === 'true') { // Αν θέλουμε μόνο από Giphy
+        onlyGiphy = 'true';
+    }
 
-    $.get(callFile, function (data) {  // τραβάει τα metadata του αρχείου
+    // τραβάει τα metadata του αρχείου
+    $.ajax({
+        url: AJAX_path+"app/getVideoMetadata.php",
+        type: 'GET',
+        data: {
+            id: currentID,
+            tabID: tabID,
+            onlyGiphy: onlyGiphy
+        },
+        dataType: "json",
+        success: function (data) {
+            var filename = data.file.filename; // σκέτο το filename
 
-        var filename = data.file.filename; // σκέτο το filename
+            var thePath = data.file.path;
+            thePath = thePath.replace(WebFolderPath,'');
+            var file_path = DIR_PREFIX + thePath + encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
-        var thePath = data.file.path;
-        thePath = thePath.replace(WebFolderPath,'');
-        var file_path = DIR_PREFIX + thePath + encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
+            // myVideo.src = file_path;
+            myVideo.src = AJAX_path + "app/serveFile.php?id=" + currentID;
+            // myVideo.controls=false;
+            // console.log(myVideo.src);
 
-        // myVideo.src = file_path;
-        myVideo.src = AJAX_path + "app/serveFile.php?id=" + currentID;
-        // myVideo.controls=false;
-        // console.log(myVideo.src);
+            myVideo.load();
 
-        myVideo.load();
+            // Αν δεν είναι το πρώτο τραγούδι που παίζει τότε αρχίζει την αναπαραγωγή του τραγουδιού
+            if (PlayTime > 0) {
+                myVideo.play();
+                displayPauseButton();
+            } else { // αλλιώς κάνει pause
+                myVideo.pause();
+                displayPlayButton();
+            }
 
-        // Αν δεν είναι το πρώτο τραγούδι που παίζει τότε αρχίζει την αναπαραγωγή του τραγουδιού
-        if (PlayTime > 0) {
-            myVideo.play();
-            displayPauseButton();
-        } else { // αλλιώς κάνει pause
-            myVideo.pause();
-            displayPlayButton();
-        }
-
-        if (data.tags.success === true) { // τυπώνει τα data που τραβάει
+            if (data.tags.success === true) { // τυπώνει τα data που τραβάει
 
 
-            if(data.file.kind === 'Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
+                if(data.file.kind === 'Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
-                var albumCoverPath = data.tags.albumCoverPath;
-                // var iconImagePath = data.tags.iconImagePath;
+                    var albumCoverPath = data.tags.albumCoverPath;
+                    // var iconImagePath = data.tags.iconImagePath;
 
-                // Εμφάνιση του source στο fullscreen overlay
-                document.querySelector('#overlay_poster_source').innerHTML = data.tags.apiSource;
+                    // Εμφάνιση του source στο fullscreen overlay
+                    document.querySelector('#overlay_poster_source').innerHTML = data.tags.apiSource;
 
-                // Αν υπάρχει icon το εμφανίζει σαν favicon
-                // if(iconImagePath) {
-                //     document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
-                // }
+                    // Αν υπάρχει icon το εμφανίζει σαν favicon
+                    // if(iconImagePath) {
+                    //     document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
+                    // }
 
-                document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
+                    document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage.php?imagePath=' + albumCoverPath;
 
-                // Εμφάνιση του cover
-                if(localStorage.AllwaysGiphy === 'true'){  // Αν θέλουμε μόνο από Giphy
-                    if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
-                        myVideo.poster = data.tags.fromAPI;
-                    } else { // Αν όχι εμφανίζει το album cover
-                        myVideo.poster = AJAX_path + 'app/serveImage.php?imagePath=' + albumCoverPath;
-                    }
-                } else {   // όταν δεν θέλουμε μόνο από giphy
-                    // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
-                    if (albumCoverPath === Album_covers_path + 'default.gif' ||
-                        albumCoverPath === Album_covers_path + 'small_default.gif') {
-                        if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
+                    // Εμφάνιση του cover
+                    if(localStorage.AllwaysGiphy === 'true'){  // Αν θέλουμε μόνο από Giphy
+                        if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
                             myVideo.poster = data.tags.fromAPI;
-                        } else {
+                        } else { // Αν όχι εμφανίζει το album cover
                             myVideo.poster = AJAX_path + 'app/serveImage.php?imagePath=' + albumCoverPath;
                         }
+                    } else {   // όταν δεν θέλουμε μόνο από giphy
+                        // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
+                        if (albumCoverPath === Album_covers_path + 'default.gif' ||
+                            albumCoverPath === Album_covers_path + 'small_default.gif') {
+                            if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
+                                myVideo.poster = data.tags.fromAPI;
+                            } else {
+                                myVideo.poster = AJAX_path + 'app/serveImage.php?imagePath=' + albumCoverPath;
+                            }
+                        }
+                        else myVideo.poster = AJAX_path + 'app/serveImage.php?imagePath=' + albumCoverPath;
                     }
-                    else myVideo.poster = AJAX_path + 'app/serveImage.php?imagePath=' + albumCoverPath;
+
+                    // Τρικ για να εμφανίζει το poster σε fullscreen όταν πηγαίνει από βίντεο σε mp3
+                    // TODO να βρω καλύτερο τρόπο
+                    for(var i=0; i<4; i++) {
+                        toggleFullscreen();
+                    }
+
+                }
+                else { // Αν είναι video
+                    document.querySelector('#overlay_poster_source').innerHTML = '';
+                    myVideo.poster = '';
                 }
 
-                // Τρικ για να εμφανίζει το poster σε fullscreen όταν πηγαίνει από βίντεο σε mp3
-                // TODO να βρω καλύτερο τρόπο
-                for(var i=0; i<4; i++) {
-                    toggleFullscreen();
-                }
+                currentPlaylistID = data.tags.playlist_id;
 
+                // Αλλαγή του τίτλου του site με το τρέχον τραγούδι
+                document.title = data.tags.title + ' : ' + data.tags.artist;
+
+                //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
+                timeInMinutesAndSeconds = seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
+
+                // εμφανίζει τα metadata στα input fields
+                $('#title').val(data.tags.title);
+                $('#artist').val(data.tags.artist);
+                $('#genre').val(data.tags.genre);
+                $('#year').val(data.tags.year);
+                $('#album').val(data.tags.album);
+                $('#play_count').val(data.tags.play_count);
+                $('#date_played').val(data.tags.date_played);
+                $('#date_added').val(data.tags.date_added);
+                $('#rating').val(data.tags.rating);
+                $('#rating_output').val(data.tags.rating);
+                $('#jsTrackTime').val(timeInMinutesAndSeconds);
+                $('#live').val(data.tags.live);
+                $('#path_filename').val(decodeURIComponent(file_path));
+
+                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+                $('#overlay_artist').html(data.tags.artist);
+                $('#overlay_song_name').html(data.tags.title);
+                $('#overlay_song_year').html(data.tags.year);
+                $('#overlay_album').html(data.tags.album);
+                // $('#overlay_rating').html(stars);
+                ratingToStars(data.tags.rating,'#overlay_rating');
+                $('#overlay_play_count').html(data.tags.play_count);
+                // Ο συνολικός χρόνος του τραγουδιού
+                $('#jsOverlayTotalTrackTime').html(timeInMinutesAndSeconds); // σε full screen
+                $('#jsTotalTrackTime').html(timeInMinutesAndSeconds); //  εκτός  full screen
+                $('#overlay_live').html(liveOptions[data.tags.live]);
+                showFullScreenVideoTags();
+
+                makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist
+
+
+            } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
+                $('#FormTags').find('input').not('[type="button"]').val('');
+                $('#title').val(filename);
             }
-            else { // Αν είναι video
-                document.querySelector('#overlay_poster_source').innerHTML = '';
-                myVideo.poster = '';
-            }
 
-            currentPlaylistID = data.tags.playlist_id;
-
-            // Αλλαγή του τίτλου του site με το τρέχον τραγούδι
-            document.title = data.tags.title + ' : ' + data.tags.artist;
-
-            //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
-            timeInMinutesAndSeconds = seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
-
-            // εμφανίζει τα metadata στα input fields
-            $('#title').val(data.tags.title);
-            $('#artist').val(data.tags.artist);
-            $('#genre').val(data.tags.genre);
-            $('#year').val(data.tags.year);
-            $('#album').val(data.tags.album);
-            $('#play_count').val(data.tags.play_count);
-            $('#date_played').val(data.tags.date_played);
-            $('#date_added').val(data.tags.date_added);
-            $('#rating').val(data.tags.rating);
-            $('#rating_output').val(data.tags.rating);
-            $('#jsTrackTime').val(timeInMinutesAndSeconds);
-            $('#live').val(data.tags.live);
-            $('#path_filename').val(decodeURIComponent(file_path));
-
-            // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-            $('#overlay_artist').html(data.tags.artist);
-            $('#overlay_song_name').html(data.tags.title);
-            $('#overlay_song_year').html(data.tags.year);
-            $('#overlay_album').html(data.tags.album);
-            // $('#overlay_rating').html(stars);
-            ratingToStars(data.tags.rating,'#overlay_rating');
-            $('#overlay_play_count').html(data.tags.play_count);
-            // Ο συνολικός χρόνος του τραγουδιού
-            $('#jsOverlayTotalTrackTime').html(timeInMinutesAndSeconds); // σε full screen
-            $('#jsTotalTrackTime').html(timeInMinutesAndSeconds); //  εκτός  full screen
-            $('#overlay_live').html(liveOptions[data.tags.live]);
-            showFullScreenVideoTags();
-
-            makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist
-
-
-        } else {   // Αν δεν βρει metadata τα κάνει όλα κενα
-            $('#FormTags').find('input').not('[type="button"]').val('');
-            $('#title').val(filename);
+            PlayTime++;
         }
-
-        PlayTime++;
-
-    }, "json");
+    });
 
 }
 
