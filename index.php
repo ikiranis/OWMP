@@ -42,6 +42,10 @@ $MainPage->tittle = APP_NAME;
 
 $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/variables.js',    // Javascript public variables
+    'src/javascript/framework/_jqueryExtensions.js',    // jQuery extensions
+    'src/javascript/framework/_utilities.js',    // Utility functions
+    'src/javascript/framework/_forms.js',    // Forms functions
+    'src/javascript/framework/_users.js',    // Users management functions
     'src/javascript/framework/scripts.js',    // framework scripts
     'src/javascript/app/scripts.js',    // app scripts
     'src/javascript/app/_progressAnimation.js',  // Το progress animation
