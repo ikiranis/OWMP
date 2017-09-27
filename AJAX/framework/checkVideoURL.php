@@ -18,8 +18,9 @@ session_start();
 
 Page::checkValidAjaxRequest(true);
 
-if(isset($_GET['url']))
-    $url=ClearString($_GET['url']);
+if(isset($_GET['url'])) {
+    $url = ClearString($_GET['url']);
+}
 
 $youtubeDL = new VideoDownload();
 
