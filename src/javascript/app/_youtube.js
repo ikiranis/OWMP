@@ -105,13 +105,13 @@ function checkVideoUrl(url,counter,total) {
  * Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
  */
 function downloadTheYouTube() {
-    var urls=document.querySelector('.o-youTube__textArea').value;
-    var mediaKind=document.querySelector('.jsMediaKind').value;
+    var urls = document.querySelector('.o-youTube__textArea').value;
+    var mediaKind = document.querySelector('.jsMediaKind').value;
 
     var OKGo=false;
 
     if(mediaKind === 'Music Video') {
-        var MusicVideoPathOK=document.querySelector('#jsMusicVideoPathOK').value;
+        var MusicVideoPathOK = document.querySelector('#jsMusicVideoPathOK').value;
 
         if(MusicVideoPathOK) {
             OKGo = true;
@@ -119,7 +119,7 @@ function downloadTheYouTube() {
             DisplayMessage('.alert_error', phrases['cant_write_to_path']);
         }
     } else {
-        var MusicPathOK=document.querySelector('#jsMusicPathOK').value;
+        var MusicPathOK = document.querySelector('#jsMusicPathOK').value;
 
         if(MusicPathOK) {
             OKGo = true;

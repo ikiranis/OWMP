@@ -38,7 +38,8 @@ class AjaxRouting
 
         $method = $url[1];
 
-        trigger_error($controller);
+//        trigger_error($method);
+
 
         if(class_exists($controller)) {
             $cont = new $controller();
@@ -48,10 +49,9 @@ class AjaxRouting
 
     public function parseUrl()
     {
-        if(isset($_GET['url']))
+        if(isset($_GET['route']))
         {
-            trigger_error($_GET['url']);
-            return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
+            return $url = explode('/', filter_var(rtrim($_GET['route'], '/'), FILTER_SANITIZE_URL));
         }
     }
 }

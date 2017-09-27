@@ -30,6 +30,12 @@ require_once('config/config.inc.php');  // Τα στοιχεία εισόδου 
 require_once('framework/functions.php');  // Public functions
 require_once('config/mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
 
+//TODO να δω πως να μην φορτώνουν αυτά τα δυο πάντα αφού δεν χρειάζονται
+// @source https://github.com/jsjohnst/php_class_lib/tree/master
+require_once('external/PlistParser.php');
+// @source https://github.com/JamesHeinrich/getID3/
+require_once('external/getid3/getid3.php');
+
 // Αρχικοποίηση του Session class
 ini_set('session.gc_maxlifetime',60);
 ini_set('session.gc_divisor',100);
