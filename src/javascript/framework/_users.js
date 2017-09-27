@@ -24,7 +24,7 @@ function registerUser() {
     if ($('#RegisterForm').valid()) {
 
         $.ajax({
-            url: AJAX_path+"framework/registerUser.php",
+            url: AJAX_path+"framework/registerUser",
             type: 'GET',
             data: {
                 username: username,
@@ -62,7 +62,7 @@ function login() {
     if ($('#LoginForm').valid()) {
 
         $.ajax({
-            url: AJAX_path+"framework/checkLogin.php",
+            url: AJAX_path+"framework/checkLogin",
             type: 'GET',
             data: {
                 username: username,
@@ -116,7 +116,7 @@ function updateUser(id) {
     if ( $('#users_formID'+id).valid() && password === repeat_password ) {
 
         $.ajax({
-            url: AJAX_path+"framework/updateUser.php",
+            url: AJAX_path+"framework/updateUser",
             type: 'GET',
             data: {
                 id: id,
@@ -166,7 +166,7 @@ function updateUser(id) {
  */
 function deleteUser(id) {
     $.ajax({
-        url: AJAX_path + "framework/deleteUser.php",
+        url: AJAX_path + "framework/deleteUser",
         type: 'GET',
         data: {
             id: id

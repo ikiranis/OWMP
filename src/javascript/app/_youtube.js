@@ -20,7 +20,7 @@
  */
 function callGetYouTube(id,counter,total, mediaKind) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "framework/getYouTube.php",
+        url: AJAX_path + "framework/getYouTube",
         type: 'GET',
         async: true,
         data: {
@@ -76,7 +76,7 @@ function callGetYouTube(id,counter,total, mediaKind) {
  */
 function checkVideoUrl(url,counter,total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "framework/checkVideoURL.php",
+        url: AJAX_path + "framework/checkVideoURL",
         type: 'GET',
         async: true,
         data: {

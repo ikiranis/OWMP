@@ -70,7 +70,7 @@ var UploadFiles =
             }
 
             $.ajax({
-                url: AJAX_path + 'app/uploadMediaFile.php',
+                url: AJAX_path + 'app/uploadMediaFile',
                 type: 'POST',
                 cache: false,
                 data: JSON.stringify({'file': this.theFile[i].name,
@@ -115,7 +115,7 @@ var UploadFiles =
     insertFileToDatabase: function(data)
     {
         $.ajax({
-            url: AJAX_path + 'app/uploadMediaFile.php',
+            url: AJAX_path + 'app/uploadMediaFile',
             type: 'POST',
             cache: false,
             data: JSON.stringify({'fullPathFilename': data.fullPathFilename,

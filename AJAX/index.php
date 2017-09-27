@@ -11,8 +11,8 @@
  *
  */
 
-use apps4net\framework\App;
+use apps4net\framework\AjaxRouting;
 
 require_once '../src/boot.php';
 
-$app = new App();
+$app = new AjaxRouting();

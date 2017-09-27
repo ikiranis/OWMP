@@ -3,7 +3,7 @@ Options +FollowSymlinks
 Options -MultiViews
 RewriteEngine On
 
-RewriteBase /OpenWebMediaPlayer/MVC/
+RewriteBase /OpenWebMediaPlayer/AJAX/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

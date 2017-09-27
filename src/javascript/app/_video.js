@@ -101,7 +101,7 @@ function getNextVideoID(id, operation) {
     }
 
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "app/getNextVideo.php",
+        url: AJAX_path + "app/getNextVideo",
         type: 'GET',
         async: true,
         data: {
@@ -151,7 +151,7 @@ function loadNextVideo(id)
 
     // τραβάει τα metadata του αρχείου
     $.ajax({
-        url: AJAX_path+"app/getVideoMetadata.php",
+        url: AJAX_path+"app/getVideoMetadata",
         type: 'GET',
         data: {
             id: currentID,

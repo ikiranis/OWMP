@@ -37,7 +37,7 @@ function updatePath(id)
     if ($('#' + FormIDs[curID]).valid()) {
 
         $.ajax({
-            url: AJAX_path+"app/updatePath.php",
+            url: AJAX_path+"app/updatePath",
             type: 'GET',
             data: {
                 id: curID,
@@ -83,7 +83,7 @@ function updatePath(id)
  */
 function deletePath(id) {
     $.ajax({
-        url: AJAX_path+"app/deletePath.php",
+        url: AJAX_path+"app/deletePath",
         type: 'GET',
         data: {
             id: id
@@ -161,7 +161,7 @@ function getPaths(path) {
     document.querySelector('#chosenPathText').innerText = path;
 
     $.ajax({
-        url: AJAX_path + "app/getPaths.php",
+        url: AJAX_path + "app/getPaths",
         type: 'GET',
         data: {
             path: path
@@ -225,7 +225,7 @@ function updateDownloadPath(pathName)
     var filePath = document.querySelector('#' + pathName + ' #file_path').value;
 
     $.ajax({
-        url: AJAX_path + 'app/updateDownloadPath.php',
+        url: AJAX_path + 'app/updateDownloadPath',
         type: 'GET',
 
         // Form data
@@ -364,7 +364,7 @@ function update_tags(key_rating) {
     var live = $('#FormTags #live').val();
 
     $.ajax({
-        url: AJAX_path + "app/updateTags.php",
+        url: AJAX_path + "app/updateTags",
         type: 'POST',
         data: {
             id: currentID,
@@ -427,7 +427,7 @@ function update_tags(key_rating) {
  */
 function updateVideoPlayed() {
     $.ajax({
-        url: AJAX_path+"app/updateTimePlayed.php",
+        url: AJAX_path+"app/updateTimePlayed",
         type: 'GET',
         data: {
             id: currentID
@@ -462,7 +462,7 @@ function findDuplicates(offset, step, firstTime) {
     ProgressAnimation.init(false);
 
     $.ajax({
-        url: AJAX_path + "app/searchPlaylist.php",
+        url: AJAX_path + "app/searchPlaylist",
         type: 'GET',
         data: {
             duplicates: 'true',
@@ -556,7 +556,7 @@ function searchPlaylist(offset, step, firstTime, search) {
     currentPlaylistID = '1';
 
     $.ajax({
-        url: AJAX_path + "app/searchPlaylist.php",
+        url: AJAX_path + "app/searchPlaylist",
         type: 'GET',
         data: {
             jsonArray: jsonArray,
@@ -603,7 +603,7 @@ function playPlaylist(offset, step) {
 
     // Αντιγραφή της manual playlist στην current playlist
     $.ajax({
-        url: AJAX_path + "app/loadPlaylist.php",
+        url: AJAX_path + "app/loadPlaylist",
         type: 'GET',
         data: {
             playlistID: playlistID,
@@ -617,7 +617,7 @@ function playPlaylist(offset, step) {
 
                 // Κάνει search και φορτώνει τα περιεχόμενα της manual playlist
                 $.ajax({
-                    url: AJAX_path + 'app/searchPlaylist.php',
+                    url: AJAX_path + 'app/searchPlaylist',
                     type: 'GET',
                     data: {
                         tabID: tabID,
@@ -769,7 +769,7 @@ function loadPlayedQueuePlaylist() {
     $('#search').hide();
 
     $.ajax({
-        url: AJAX_path + 'app/loadPlayedQueue.php',
+        url: AJAX_path + 'app/loadPlayedQueue',
         type: 'GET',
         data: {
           tabID: tabID
@@ -778,7 +778,7 @@ function loadPlayedQueuePlaylist() {
         success: function (data) {
             if (data.success === true) {
                 $.ajax({
-                    url: AJAX_path + 'app/searchPlaylist.php',
+                    url: AJAX_path + 'app/searchPlaylist',
                     type: 'GET',
                     data: {
                         tabID: tabID,
@@ -814,7 +814,7 @@ function loadPlayedQueuePlaylist() {
 function checkProgress()
 {
     $.ajax({
-        url: AJAX_path + "framework/getProgress.php",
+        url: AJAX_path + "framework/getProgress",
         type: 'GET',
         dataType: "json",
         success: function(progressData) {
@@ -917,7 +917,7 @@ function startTheSync(operation) {
 
         // Τρέχει τον συγχρονισμό και περιμένει το αποτέλεσμα να το τυπώσει
         $.ajax({
-            url: AJAX_path+"app/syncTheFiles.php",
+            url: AJAX_path+"app/syncTheFiles",
             type: 'GET',
             data: {
                 operation: operation,
@@ -958,7 +958,7 @@ function checkProcessAlive() {
     var TheSyncInterval = setInterval(function(){
 
         $.ajax({
-            url: AJAX_path + "framework/checkLastMomentAlive.php",
+            url: AJAX_path + "framework/checkLastMomentAlive",
             type: 'GET',
             dataType: "json",
             success: function (data) {
@@ -993,7 +993,7 @@ function deleteExistedFile(id)
 
     if (confirmAnswer === true) {
         $.ajax({
-            url: AJAX_path + "app/deleteFile.php",
+            url: AJAX_path + "app/deleteFile",
             type: 'GET',
             data: {
                 id: id
@@ -1019,7 +1019,7 @@ function deleteExistedFile(id)
  */
 function callUpdateTheFile(path, filename, id, counter, total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "app/updateFile.php",
+        url: AJAX_path + "app/updateFile",
         type: 'GET',
         async: true,
         data: {
@@ -1061,7 +1061,7 @@ function callUpdateTheFile(path, filename, id, counter, total) {
  */
 function callDeleteTheFile(fullpath, filename, id, counter, total) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
-        url: AJAX_path + "app/deleteFile.php",
+        url: AJAX_path + "app/deleteFile",
         type: 'GET',
         async: true,
         data: {
@@ -1179,7 +1179,7 @@ function deleteFile(id) {
     if (confirmAnswer === true) {
         if(id!==0) { // Αν δεν είναι 0 τότε σβήνει μοναδική εγγραφή
             $.ajax({
-                url: AJAX_path + "app/deleteFile.php",
+                url: AJAX_path + "app/deleteFile",
                 type: 'GET',
                 data: {
                   id: id
@@ -1194,7 +1194,7 @@ function deleteFile(id) {
         } else {  // σβήνει μαζικά όσα αρχεία έχουν τσεκαριστεί
             for(var i = 0; i < checkIDs.length;  i++) {
                 $.ajax({
-                    url: AJAX_path + "app/deleteFile.php",
+                    url: AJAX_path + "app/deleteFile",
                     type: 'GET',
                     data: {
                         id: checkIDs[i]
@@ -1329,7 +1329,7 @@ function editFiles() {
         for (i = 0; i < checkIDs.length; i++) {
 
             $.ajax({
-                url: AJAX_path+"app/updateTags.php",
+                url: AJAX_path+"app/updateTags",
                 type: 'POST',
                 data: {
                     id: checkIDs[i],
@@ -1417,7 +1417,7 @@ function addToPlaylist(fileID) {
     }
 
     $.ajax({
-        url: AJAX_path + "app/addToPlaylist.php",
+        url: AJAX_path + "app/addToPlaylist",
         type: 'GET',
         data: {
             playlistID: playlistID,
@@ -1471,7 +1471,7 @@ function removeFromPlaylist(fileID) {
     }
 
     $.ajax({
-        url: AJAX_path + "app/removeFromPlaylist.php",
+        url: AJAX_path + "app/removeFromPlaylist",
         type: 'GET',
         data: {
             playlistID: playlistID,
@@ -1690,7 +1690,7 @@ function exportPlaylist() {
             var exportInterval=setInterval(function(){
 
                 $.ajax({
-                    url: AJAX_path + "framework/getProgress.php",
+                    url: AJAX_path + "framework/getProgress",
                     type: 'GET',
                     dataType: "json",
                     success: function (data) {
@@ -1705,7 +1705,7 @@ function exportPlaylist() {
             }, 1000);
 
             $.ajax({
-                url: AJAX_path + "app/exportPlaylist.php",
+                url: AJAX_path + "app/exportPlaylist",
                 type: 'GET',
                 data: {
                     tabID: tabID
@@ -1732,7 +1732,7 @@ function createPlaylist() {
     var playlistName = document.querySelector('#playlistName').value;
 
     $.ajax({
-        url: AJAX_path + "app/createPlaylist.php",
+        url: AJAX_path + "app/createPlaylist",
         type: 'GET',
         data: {
             playlistName: playlistName
@@ -1766,7 +1766,7 @@ function createSmartPlaylist() {
     var playlistName = document.querySelector('#smartPlaylistName').value;
 
     $.ajax({
-        url: AJAX_path + "app/createSmartPlaylist.php",
+        url: AJAX_path + "app/createSmartPlaylist",
         type: 'GET',
         data: {
             playlistName: playlistName
@@ -1807,7 +1807,7 @@ function deletePlaylist() {
     if (confirmAnswer === true) {
 
         $.ajax({
-            url: AJAX_path + "app/deletePlaylist.php",
+            url: AJAX_path + "app/deletePlaylist",
             type: 'GET',
             data: {
                 playlistID: playlistID
@@ -1847,7 +1847,7 @@ function deleteSmartPlaylist() {
     if (confirmAnswer === true) {
 
         $.ajax({
-            url: AJAX_path + "app/deleteSmartPlaylist.php",
+            url: AJAX_path + "app/deleteSmartPlaylist",
             type: 'GET',
             data: {
                 playlistID: playlistID
@@ -1882,7 +1882,7 @@ function saveSmartPlaylist() {
         var searchJsonString = JSON.stringify(searchArray);
 
         $.ajax({
-            url: AJAX_path + "app/saveSmartPlaylist.php",
+            url: AJAX_path + "app/saveSmartPlaylist",
             type: 'GET',
             data: {
                 playlistID: playlistID,
@@ -1925,7 +1925,7 @@ function loadSmartPlaylist()
     var playlistID = document.querySelector('#smartPlaylist').value;
 
     $.ajax({
-        url: AJAX_path + "app/loadSmartPlaylist.php",
+        url: AJAX_path + "app/loadSmartPlaylist",
         type: 'GET',
         data: {
             playlistID: playlistID
@@ -2042,7 +2042,7 @@ function sendToJukeboxList() {
     $('#progress').show();
 
     $.ajax({
-        url: AJAX_path + 'app/sendToJukeBox.php',
+        url: AJAX_path + 'app/sendToJukeBox',
         type: 'GET',
         data: {
             tabID: tabID
@@ -2067,7 +2067,7 @@ function sendToJukeboxList() {
  */
 function voteSong(id) {
     $.ajax({
-        url: AJAX_path + 'app/voteSong.php',
+        url: AJAX_path + 'app/voteSong',
         type: 'GET',
         data: {
             id: id
@@ -2106,7 +2106,7 @@ function uploadFile(files) {
 
         $.ajax({
             // Your server script to process the upload
-            url: AJAX_path + 'app/uploadFile.php',
+            url: AJAX_path + 'app/uploadFile',
             type: 'POST',
 
             // Form data

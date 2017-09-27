@@ -29,7 +29,7 @@ function DisplayMessage (element, error) {
 function voteSong(id) {
 
     $.ajax({
-        url: AJAX_path+'app/voteSong.php',
+        url: AJAX_path+'app/voteSong',
         type: 'GET',
         data: {
             id: id
@@ -52,7 +52,7 @@ function getVotePlaylist(offset, step, firstTime) {
     ProgressAnimation.init(false);
 
     $.ajax({
-        url: AJAX_path+"app/searchPlaylist.php",
+        url: AJAX_path+"app/searchPlaylist",
         type: 'GET',
         data: {
             votePlaylist: 'true',
@@ -79,7 +79,7 @@ function getVotePlaylist(offset, step, firstTime) {
 // Τραβάει τα song info του τρέχοντος τραγουδιού
 function getSongInfo() {
     $.ajax({
-        url: AJAX_path+"app/getSongInfo.php",
+        url: AJAX_path+"app/getSongInfo",
         type: 'GET',
         dataType: "json",
         success: function (data) {
@@ -108,7 +108,7 @@ function closeVotesWindow() {
 
 function getSongVotes() {
     $.ajax({
-        url: AJAX_path+"app/getSongVotes.php",
+        url: AJAX_path+"app/getSongVotes",
         type: 'GET',
         success: function (data) {
             if (data) {

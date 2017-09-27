@@ -31,7 +31,7 @@ function updateOption(id) {
     if ($('#options_formID'+id).valid()) {
 
         $.ajax({
-            url: AJAX_path+"framework/updateOption.php",
+            url: AJAX_path+"framework/updateOption",
             type: 'GET',
             data: {
                 id: id,
@@ -208,7 +208,7 @@ function sendKillCommand() {
         killKommandImgElem.hide();
 
         $.ajax({
-            url: AJAX_path + "framework/sendKillCommand.php",
+            url: AJAX_path + "framework/sendKillCommand",
             type: 'GET',
             dataType: "json",
             success: function (data) {
@@ -230,7 +230,7 @@ function sendKillCommand() {
  */
 function garbageCollection() {
     $.ajax({
-        url: AJAX_path+"framework/garbageCollection.php",
+        url: AJAX_path+"framework/garbageCollection",
         type: 'GET',
         data: {
             tabID: tabID
@@ -250,14 +250,14 @@ function garbageCollection() {
 function startTheUpdate() {
 
     $.ajax({
-        url: AJAX_path+'framework/updateApp.php',
+        url: AJAX_path+'framework/updateApp',
         type: 'GET',
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                DisplayMessage('.alert_error', 'App Updated');
+                DisplayMessage('.alert_error', 'AjaxRouting Updated');
             } else {
-                DisplayMessage('.alert_error', 'App Not Updated');
+                DisplayMessage('.alert_error', 'AjaxRouting Not Updated');
             }
         }
     });
@@ -310,7 +310,7 @@ function startTheBackup() {
             }, 5000);
 
             $.ajax({
-                url: AJAX_path + 'framework/backupDatabase.php',
+                url: AJAX_path + 'framework/backupDatabase',
                 type: 'GET',
                 dataType: "json",
                 success: function(data) {
@@ -375,7 +375,7 @@ function restoreTheBackup() {
                 }, 5000);
 
                 $.ajax({
-                    url: AJAX_path + 'framework/restoreDatabase.php',
+                    url: AJAX_path + 'framework/restoreDatabase',
                     type: 'GET',
                     dataType: "json",
                     success: function(data) {
