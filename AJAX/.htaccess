@@ -1,9 +1,8 @@
 Options +FollowSymlinks
-# Prevent Directoy listing
+# Prevent Directory listing
 Options -MultiViews
+Options -Indexes
 RewriteEngine On
-
-
 
 #RewriteBase /OpenWebMediaPlayer/AJAX/
 #
