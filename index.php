@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File: index.php
+ * File: routing.php
  * Created by Yiannis Kiranis <rocean74@gmail.com>
  * http://www.apps4net.eu
  * Date: 17/04/16
@@ -13,6 +13,7 @@ use apps4net\framework\MyDB;
 use apps4net\framework\User;
 use apps4net\framework\Page;
 use apps4net\framework\Logs;
+use apps4net\framework\Utilities;
 
 require_once('src/boot.php');
 
@@ -21,13 +22,23 @@ session_start();
 MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
 MyDB::checkMySqlForTypeChanges(); // Έλεγχος για αλλαγμένα πεδία στην βάση
 
-$lang=new Language();
+$lang = new Language();
+
+// Έλεγχος αν είναι enabled το mod_rewrite
+if(!Utilities::checkApacheRewriteModule()) {
+    die('Apache mod_rewrite is DISABLED. Please enable it');
+}
+
+// Έλεγχος αν λειτουργεί το htaccess
+if(!Utilities::checkIfHTaccessWorks()) {
+    die('htaccess doesn\'t work. Please check it');
+}
 
 $phrasesForJavascript=json_encode($lang->getPhrasesTable());
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
-    $targetPage='Location:index.php';
+    $targetPage='Location:routing.php';
 
     $lang->change_lang($_GET['ChangeLang']);
 
@@ -59,6 +70,8 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
+
+// Έλεγχος αν είναι σε mobile ή όχι
 if (!isset($_GET['mobile'])) {
     $css = array('styles/layouts/basic.css');
     $_SESSION['mobile']=false;

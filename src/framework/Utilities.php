@@ -290,11 +290,41 @@ class Utilities
      */
     static function isDirWritable($dir)
     {
-        $dir = self::removeURLDoubleSlashes($dir.'/');
-        $is_writable = @file_put_contents($dir.'dummy.txt', "test");
+        $dir = self::removeURLDoubleSlashes($dir . '/');
+        $is_writable = @file_put_contents($dir . 'dummy.txt', "test");
 
         if ($is_writable > 0) {
-            unlink($dir.'dummy.txt');
+            unlink($dir . 'dummy.txt');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Έλεγχος αν είναι enabled το Apache Rewrite Module
+     *
+     * @return bool
+     */
+    static function checkApacheRewriteModule()
+    {
+        if(in_array('mod_rewrite', apache_get_modules())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Έλεγχος αν λειτουργεί το htaccess
+     *
+     * @return bool
+     */
+    static function checkIfHTaccessWorks()
+    {
+        $myFile = LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'framework/checkHTaccess';
+
+        if(@file_get_contents($myFile)) {
             return true;
         } else {
             return false;

@@ -541,4 +541,12 @@ class Ajax extends Controller
         echo json_encode($jsonArray);
     }
 
+    /**
+     * Επιστροφή true για να γίνει έλεγχος αν λειτουργεί το htaccess
+     */
+    public function checkHTaccess()
+    {
+        echo 'true';
+    }
+
 }

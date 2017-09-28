@@ -40,7 +40,9 @@ class ExternalAPI
                 $artwork = str_replace('100x100', $coverSize, $artwork);
                 return $artwork;
             }
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     // Επιστρέφει το λινκ με το gif από το giphy API

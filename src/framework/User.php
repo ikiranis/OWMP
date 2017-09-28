@@ -443,7 +443,7 @@ class User extends MyDB
             }
         }
 
-        header('Location:index.php');
+        header('Location:routing.php');
     }
 
     // Εμφάνιση οθόνης για login

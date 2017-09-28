@@ -14,4 +14,4 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond $0#%{REQUEST_URI} ([^#]*)#(.*)\1$
 
-RewriteRule ^([^?]*) %2index.php?route=$1 [L,QSA]
+RewriteRule ^([^?]*) %2routing.php?route=$1 [L,QSA]
