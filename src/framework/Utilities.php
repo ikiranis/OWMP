@@ -308,11 +308,9 @@ class Utilities
      */
     static function checkApacheRewriteModule()
     {
-        if(in_array('mod_rewrite', apache_get_modules())) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return in_array('mod_rewrite', apache_get_modules()) ? true : false;
+
     }
 
     /**
@@ -324,11 +322,8 @@ class Utilities
     {
         $myFile = LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'framework/checkHTaccess';
 
-        if(file_get_contents($myFile)) {
-            return true;
-        } else {
-            return false;
-        }
+        return file_get_contents($myFile) ? true : false;
+
     }
 
 }
