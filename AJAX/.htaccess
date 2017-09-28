@@ -3,9 +3,16 @@ Options +FollowSymlinks
 Options -MultiViews
 RewriteEngine On
 
-RewriteBase /OpenWebMediaPlayer/AJAX/
+
+
+#RewriteBase /OpenWebMediaPlayer/AJAX/
+#
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $0#%{REQUEST_URI} ([^#]*)#(.*)\1$
 
-RewriteRule ^([^?]*) index.php?route=$1 [L,QSA]
+RewriteRule ^([^?]*) %2index.php?route=$1 [L,QSA]
