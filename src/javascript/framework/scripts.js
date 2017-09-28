@@ -92,7 +92,7 @@ function writeSearchFields(numberOfFields) {
  */
 function DisplayWindow(page, offset, step) {
     // console.log(curNavItem+ ' '+ NavLength);
-    var callFile=AJAX_path+"framework/displayWindow.php?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
+    var callFile=AJAX_path+"framework/displayWindow?page="+page+"&offset="+offset+"&step="+step+'&tabID='+tabID;
 
     // Αν target σελίδα δεν είναι η 1
     if(page !== 1) {
@@ -321,7 +321,7 @@ function startTheBackup() {
                         // To checkbox για autodownload
                         var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
 
-                        var path = AJAX_path+"app/serveFile.php?path="+data.fullPath;
+                        var path = AJAX_path + "app/serveFile?path=" + data.fullPath;
 
                         // Δημιουργία a href element και αυτόματο download
                         var downloadText = getDownloadLink(path, data.filename, path, autoDownload);
