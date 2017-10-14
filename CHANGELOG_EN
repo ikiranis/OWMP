@@ -1,3 +1,8 @@
+2017-10-14: 0.13.0
+
+Changes to javascript code
+Implementation of ajax calls with routing in relative class
+
 2017-9-23: 0.12.0
 
 It creates separate directories per day, when the user uploads files

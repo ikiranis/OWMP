@@ -256,6 +256,25 @@
         <phrase name="smart_playlist_not_saved">Smart playlist not saved</phrase>
         <phrase name="smart_playlist_not_loaded">Smart playlist not loaded</phrase>
         <phrase name="GD_not_installed">GD library not installed. I cant create small album cover images. Do you want to continue?</phrase>
+        <phrase name="mod_rewrite_disabled"><![CDATA[
+            <p><b>htaccess</b> can't work. Apache <b>mod_rewrite</a> is <b>disabled</b>. Please enable it</p>
+            <p><b>Example</b></p>
+            <p><pre>sudo a2enmod rewrite && sudo service apache2 restart</pre></a>
+        ]]></phrase>
+        <phrase name="htaccess_cant_work"><![CDATA[
+            <p><b>htaccess</b> can't work. Try to fix it</p>
+            <p><b>Example</b></p>
+            <p>Open File <b>/etc/apache2/apache2.conf</b></p>
+            <p>Go to lines likes those</p>
+            <p><pre>
+            &lt;Directory /var/www/&gt;
+                Options Indexes FollowSymLinks
+                AllowOverride None
+                Require all granted
+            &lt;/Directory&gt;
+            </pre></p>
+            <p>Change <b>AllowOverride</b> line to <b>AllowOverride All</b>
+        ]]></phrase>
     </page>
 
     <page name="help">

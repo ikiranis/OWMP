@@ -26,12 +26,12 @@ $lang = new Language();
 
 // Έλεγχος αν είναι enabled το mod_rewrite
 if(!Utilities::checkApacheRewriteModule()) {
-    die('Apache mod_rewrite is DISABLED. Please enable it');
+    die(__('mod_rewrite_disabled'));
 }
 
 // Έλεγχος αν λειτουργεί το htaccess
 if(!Utilities::checkIfHTaccessWorks()) {
-    die('htaccess doesn\'t work. Please check it');
+    die(__('htaccess_cant_work'));
 }
 
 $phrasesForJavascript=json_encode($lang->getPhrasesTable());

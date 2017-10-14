@@ -256,6 +256,25 @@
         <phrase name="smart_playlist_not_saved">Δεν αποθηκεύτηκε η έξυπνη λίστα</phrase>
         <phrase name="smart_playlist_not_loaded">Δεν άνοιξε η έξυπνη λίστα</phrase>
         <phrase name="GD_not_installed">Η βιβλιοθήκη GD δεν είναι εγκατεστημένη. Δεν μπορούν να δημιουργηθούν μικρές εικόνες των album cover. Θέλεις να συνεχίσεις;</phrase>
+        <phrase name="mod_rewrite_disabled"><![CDATA[
+            <p>Το <b>htaccess</b> δεν μπορεί να λειτουργήσει. Το Apache <b>mod_rewrite</a> είναι <b>απενεργοποιημένο</b>. Πρέπει να το ενεργοποιήσεις</p>
+            <p><b>Παράδειγμα</b></p>
+            <p><pre>sudo a2enmod rewrite && sudo service apache2 restart</pre></a>
+        ]]></phrase>
+        <phrase name="htaccess_cant_work"><![CDATA[
+            <p>Το <b>htaccess</b> δεν μπορεί να λειτουργήσει. Προσπάθησε να το διορθώσεις</p>
+            <p><b>Παράδειγμα</b></p>
+            <p>Άνοιξε το αρχείο <b>/etc/apache2/apache2.conf</b></p>
+            <p>Πήγαινε στις γραμμές σαν αυτές</p>
+            <p><pre>
+            &lt;Directory /var/www/&gt;
+                Options Indexes FollowSymLinks
+                AllowOverride None
+                Require all granted
+            &lt;/Directory&gt;
+            </pre></p>
+            <p>Άλλαξε την γραμμή <b>AllowOverride</b> σε <b>AllowOverride All</b>
+        ]]></phrase>
     </page>
 
     <page name="help">
