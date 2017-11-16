@@ -280,6 +280,7 @@ function getDownloadLink(fullPath, filename, hrefText, autoDownload) {
     downloadText.target = '_blank';
     downloadText.download = filename;
 
+    // TODO Το autoload δεν παίζει σε firefox
     if(autoDownload) {
         downloadText.click();
     }
@@ -299,8 +300,10 @@ function startTheBackup() {
         if(localStorage.syncPressed === 'false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
             localStorage.syncPressed = 'true';
 
+            clearResultsContainer();
             ProgressAnimation.init(true);
             ProgressAnimation.setProgressPercent(0);
+            var resultsContainerElem = $('.o-resultsContainer_text');
 
             syncRunning = true;
 
@@ -316,8 +319,6 @@ function startTheBackup() {
                 success: function(data) {
                     if (data.success === true) {
 
-                        DisplayMessage('.alert_error', phrases['backup_success']);
-
                         // To checkbox για autodownload
                         var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
 
@@ -326,8 +327,9 @@ function startTheBackup() {
                         // Δημιουργία a href element και αυτόματο download
                         var downloadText = getDownloadLink(path, data.filename, path, autoDownload);
 
-                        var resultsContainerElem = $('.o-resultsContainer_text');
+                        displayResultsIcon();
                         resultsContainerElem.append('<br>');
+                        resultsContainerElem.append('<p>' + phrases['backup_success'] + '</p>');
                         resultsContainerElem.append(downloadText);
                         ProgressAnimation.kill();
                         syncRunning = false;
@@ -337,9 +339,9 @@ function startTheBackup() {
 
                     }
                     else {
-
-                        DisplayMessage('.alert_error', phrases['backup_failure']);
-
+                        displayResultsIcon();
+                        resultsContainerElem.append('<br>');
+                        resultsContainerElem.append('<p>' + phrases['backup_failure'] + '</p>');
                         ProgressAnimation.kill();
                         syncRunning = false;
                         localStorage.syncPressed = 'false';
@@ -364,8 +366,10 @@ function restoreTheBackup() {
             if(localStorage.syncPressed === 'false') {  // Έλεγχος αν δεν έχει πατηθεί ήδη
                 localStorage.syncPressed = 'true';
 
+                clearResultsContainer();
                 ProgressAnimation.init(true);
                 ProgressAnimation.setProgressPercent(0);
+                var resultsContainerElem = $('.o-resultsContainer_text');
 
                 syncRunning = true;
 
@@ -381,8 +385,9 @@ function restoreTheBackup() {
                     success: function(data) {
                         if (data.success === true) {
 
-                            DisplayMessage('.alert_error', phrases['restore_success']);
-
+                            displayResultsIcon();
+                            resultsContainerElem.append('<br>');
+                            resultsContainerElem.append(phrases['restore_success']);
                             ProgressAnimation.kill();
                             syncRunning = false;
                             localStorage.syncPressed = 'false';
@@ -391,9 +396,9 @@ function restoreTheBackup() {
 
                         }
                         else {
-
-                            DisplayMessage('.alert_error', phrases['restore_failure']);
-
+                            displayResultsIcon();
+                            resultsContainerElem.append('<br>');
+                            resultsContainerElem.append(phrases['restore_failure']);
                             ProgressAnimation.kill();
                             syncRunning = false;
                             localStorage.syncPressed = 'false';
@@ -408,6 +413,77 @@ function restoreTheBackup() {
     } else {
         DisplayMessage('.alert_error', phrases['file_not_upload']);
     }
+}
+
+/**
+ * Ελέγχει και εμφανίζει το progress
+ */
+function checkProgress()
+{
+    $.ajax({
+        url: AJAX_path + "framework/getProgress",
+        type: 'GET',
+        dataType: "json",
+        success: function(progressData) {
+            if (progressData.success === true) {
+                if(progressData.progressInPercent>97 && localStorage.syncPressed==='true') {
+                    DisplayWindow(3, null, null);
+                }
+
+                // TODO να δω αν χρειάζεται όντως αυτός ο έλεγχος
+                // if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
+                //     ProgressAnimation.init(false);
+                // } else {
+                //     ProgressAnimation.kill();
+                // }
+                ProgressAnimation.setProgressPercent(progressData.progressInPercent);
+
+                // $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
+                // document.querySelector('#theProgressBar').value=progressData.progressInPercent;
+            }
+        }
+    });
+}
+
+/**
+ * Καθαρισμός του results container
+ */
+function clearResultsContainer()
+{
+    document.querySelector('.o-resultsContainer_text').innerHTML = '';
+}
+
+/**
+ * Εμφανίζει το εικονίδιο για τα results
+ */
+function displayResultsIcon()
+{
+    $('.o-resultsContainer_iconContainer').toggleClass('isHidden', 'isVisible');
+    BlinkElement.start('.o-resultsContainer_iconContainer');
+}
+
+/**
+ * Εξαφανίζει το εικονίδιο για τα results
+ */
+function hideResultsIcon()
+{
+    $('.o-resultsContainer_iconContainer').toggleClass('isVisible', 'isHidden');
+}
+
+/**
+ * Εμφανίζει το icon του kill command
+ */
+function displayKillCommandIcon()
+{
+    $('.o-resultsContainer_killCommandContainer').toggleClass('isHidden isVisible');
+}
+
+/**
+ * Εξαφανίζει το icon του kill command
+ */
+function hideKillCommandIcon()
+{
+    $('.o-resultsContainer_killCommandContainer').toggleClass('isVisible isHidden');
 }
 
 // ************************************
