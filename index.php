@@ -38,7 +38,7 @@ $phrasesForJavascript=json_encode($lang->getPhrasesTable());
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
-    $targetPage='Location:routing.php';
+    $targetPage='Location:index.php';
 
     $lang->change_lang($_GET['ChangeLang']);
 
