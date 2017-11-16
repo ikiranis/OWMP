@@ -1351,9 +1351,11 @@ class Ajax extends Controller
     {
         // TODO να δω πως μπορεί να γίνει πιο γρήγορο το upload
 
+        // TODO να μπαίνουν οι παρακάτω 2 γραμμές σε όλες τις μεθόδους αυτόματα
         session_start();
         Page::checkValidAjaxRequest(true);
 
+        // TODO όλα τα data σε όλες τις μεθόδους να παίρνονται row
         // Τα row data που έρχονται από javascript
         $results = file_get_contents ('php://input');
         $results = json_decode($results, TRUE);
@@ -1385,7 +1387,7 @@ class Ajax extends Controller
                 $jsonArray = array('success' => true, 'result' => $results['fullPathFilename'],
                     'filesToDelete' => $syncFile->deleteFilesString);
             } else {
-                $jsonArray=array( 'success'=> false, 'fileName' => $results['file']);
+                $jsonArray=array( 'success'=> false, 'fileName' => $results['fullPathFilename']);
             }
 
             echo json_encode($jsonArray);
