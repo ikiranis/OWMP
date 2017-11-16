@@ -468,7 +468,7 @@ class OWMP
 
         $lang = new Language();
 
-        include ('../../lang/'.$lang->lang_id().'.help.html');
+        include ('../lang/'.$lang->lang_id().'.help.html');
 
     }
 
