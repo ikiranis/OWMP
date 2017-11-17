@@ -12,7 +12,6 @@
  *
  */
 
-// TODO πρόβλημα με firefox. Σε κάποια αρχεία χάνεται
 // Uploading Files
 var UploadFiles =
 {
@@ -70,7 +69,7 @@ var UploadFiles =
                 return;
             }
 
-            $.ajax({
+            $.ajaxQueue({
                 url: AJAX_path + 'app/uploadMediaFile',
                 type: 'POST',
                 cache: false,
@@ -115,7 +114,7 @@ var UploadFiles =
      */
     insertFileToDatabase: function(data)
     {
-        $.ajax({
+        $.ajaxQueue({
             url: AJAX_path + 'app/uploadMediaFile',
             type: 'POST',
             cache: false,
