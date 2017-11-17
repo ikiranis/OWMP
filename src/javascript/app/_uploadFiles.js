@@ -12,6 +12,7 @@
  *
  */
 
+// TODO πρόβλημα με firefox. Σε κάποια αρχεία χάνεται
 // Uploading Files
 var UploadFiles =
 {

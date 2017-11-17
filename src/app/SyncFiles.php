@@ -527,7 +527,6 @@ class SyncFiles
     //  Παίρνει το κείμενο για εμφάνιση αν χρειάζεται να σβηστεί αρχείο που βρέθηκε να υπάρχει
     public function getFileToDelete()
     {
-        trigger_error('INSERTED ID '. $this->inserted_id);
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
             $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">' . __('file_to_delete') .
                 ' <input type="button" class="myButton" value="' . __('delete_file') . '"
