@@ -24,14 +24,18 @@ MyDB::checkMySqlForTypeChanges(); // Έλεγχος για αλλαγμένα π
 
 $lang = new Language();
 
-// Έλεγχος αν είναι enabled το mod_rewrite
-if(!Utilities::checkApacheRewriteModule()) {
-    die(__('mod_rewrite_disabled'));
-}
+if(isset($_SERVER['SERVER_SOFTWARE'])) {
+    if (stripos($_SERVER['SERVER_SOFTWARE'], 'lighttpd') == false) {
+        // Έλεγχος αν είναι enabled το mod_rewrite
+        if (!Utilities::checkApacheRewriteModule()) {
+            die(__('mod_rewrite_disabled'));
+        }
 
-// Έλεγχος αν λειτουργεί το htaccess
-if(!Utilities::checkIfHTaccessWorks()) {
-    die(__('htaccess_cant_work'));
+        // Έλεγχος αν λειτουργεί το htaccess
+        if (!Utilities::checkIfHTaccessWorks()) {
+            die(__('htaccess_cant_work'));
+        }
+    }
 }
 
 $phrasesForJavascript=json_encode($lang->getPhrasesTable());
