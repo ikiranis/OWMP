@@ -168,7 +168,6 @@ function getPaths(path) {
         },
         dataType: "json",
         success: function (data) {
-            console.log(data);
             for(var i = 1; i<data.length; i ++) {
                 // Προσθέτει κάθε directory σαν span
                 var newSpan = document.createElement('span');
@@ -182,7 +181,7 @@ function getPaths(path) {
                     newPath = path + data[i] + '/';
                 }
 
-                newSpan.setAttribute('onclick', 'getPaths("'+newPath+'")' );
+                newSpan.setAttribute('onclick', 'getPaths("' + newPath + '")' );
 
                 document.querySelector('#displayPaths').append(newSpan);
             }

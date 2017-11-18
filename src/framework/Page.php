@@ -47,7 +47,7 @@ class Page
 
         global $lang;
 
-        $languages_text=$lang->print_languages('lang_id',' ',true,false);
+        $languages_text = $lang->print_languages('lang_id',' ',true,false);
 
         ?>
 
