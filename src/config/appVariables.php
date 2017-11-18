@@ -33,9 +33,9 @@ define ('VALID_IMAGE_SCRIPT_ADDRESS', LOCAL_SERVER_IP_WITH_PORT.AJAX_PATH.'app/c
 define ('JSON_FILENAME', 'playlist.json');
 define ('ITUNES_FILENAME', 'Library.xml');
 // Το αρχείο του itunes library
-define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. ITUNES_FILENAME);
+define ('ITUNES_LIBRARY_FILE', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . ITUNES_FILENAME);
 // To json file της playlist για import
-define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"]  .PROJECT_PATH. JSON_FILENAME);
+define ('JSON_PLAYLIST_FILE', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . JSON_FILENAME);
 define ('WEB_FOLDER_PATH',$_SERVER['DOCUMENT_ROOT'].'/');  // To path του web folder
 define ('DIR_PREFIX',$optionsArray['dir_prefix']);   // Το αρχικό κομμάτι του path.
 // Το ποσοστό που θεωρείται ότι ένα τραγούδι έχει παιχτεί
@@ -44,7 +44,7 @@ define ('PLAYLIST_LIMIT',intval($optionsArray['playlist_limit']));   // Τα κ�
 define ('DATE_FORMAT',$optionsArray['date_format']);  // To format των ημερομηνιών που εμφανίζονται στο site
 define ('MAX_VIDEO_HEIGHT',$optionsArray['max_video_height']);  // To μέγιστο ύψος του youtube video που θα κατεβάσει
 // το path που μετατρέπει τα ALAC
-define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"].PROJECT_PATH.'ConvertedMusic/');
+define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'ConvertedMusic/');
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist
 define ('MANUAL_PLAYLIST_STRING', 'mnPl_');  // To string που προσθέτει στο όνομα ενός manual playlist
 define ('PLAYED_QUEUE_PLAYLIST_STRING', 'pqPl_');  // To string που προσθέτει στο όνομα ενός played queue playlist
@@ -66,21 +66,21 @@ define ('MUSIC_FILE_UPLOAD', $downloadPaths['musicDownloadPath'].'/');  // Ο φ
 
 
 // Τα options
-$convertALACOption= $optionsArray['convert_alac_files'];
-if ($convertALACOption=='true')
+$convertALACOption = $optionsArray['convert_alac_files'];
+if ($convertALACOption == 'true')
     define ('CONVERT_ALAC_FILES', true); // true για να μετατρέπει τα ALAC
 else define ('CONVERT_ALAC_FILES', false);
 
-if ($optionsArray['syncItunes']=='true')
+if ($optionsArray['syncItunes'] == 'true')
     define ('SYNC_ITUNES', true); // true για να μετατρέπει συγχρονίζει με itunes
 else define ('SYNC_ITUNES', false);
 
-if ($optionsArray['jukebox_enable']=='true')
+if ($optionsArray['jukebox_enable'] == 'true')
     define ('JUKEBOX_ENABLE', true); // true για το αν θα εμφανίζεται η σελίδα για ψηφοφορίες
 else define ('JUKEBOX_ENABLE', false);
 
 // Τα settings του icecast server
-if ($optionsArray['icecast_enable']=='true')
+if ($optionsArray['icecast_enable'] == 'true')
     define ('ICECAST_ENABLE', true); // true για το αν θα στέλνει τα songs info στον icecast server
 else define ('ICECAST_ENABLE', false);
 

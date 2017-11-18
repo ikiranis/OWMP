@@ -24,7 +24,7 @@ function registerUser() {
     if ($('#RegisterForm').valid()) {
 
         $.ajax({
-            url: AJAX_path+"framework/registerUser",
+            url: AJAX_path + 'framework/registerUser',
             type: 'GET',
             data: {
                 username: username,
@@ -62,7 +62,7 @@ function login() {
     if ($('#LoginForm').valid()) {
 
         $.ajax({
-            url: AJAX_path+"framework/checkLogin",
+            url: AJAX_path + 'framework/checkLogin',
             type: 'GET',
             data: {
                 username: username,

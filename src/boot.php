@@ -14,7 +14,9 @@ use apps4net\framework\Session;
 use apps4net\framework\MyDB;
 use apps4net\framework\Options;
 
-// TODO να δω γιατί έχει πρόβλημα σε no apache εγκατάσταση
+// dsphinx hack for document_root
+$_SERVER["DOCUMENT_ROOT"] = dirname(__DIR__,2);
+
 // Project Path
 define ('PROJECT_PATH', str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname(__DIR__).DIRECTORY_SEPARATOR));
 

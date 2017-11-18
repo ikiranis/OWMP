@@ -196,9 +196,9 @@ $defaultProgress = array(
 );
 
 $defaultPathNames = array(
-    array('pathName' => 'musicDownloadPath', 'path' => 'upload/musicDownload'),
-    array('pathName' => 'musicVideoDownloadPath', 'path' => 'upload/videoDownload'),
-    array('pathName' => 'outputFolder', 'path' => 'upload/output'),
-    array('pathName' => 'coverAlbumsFolder', 'path' => 'upload/albumCovers'),
-    array('pathName' => 'convertedALAC', 'path' => 'upload/convertedMusic')
+    array('pathName' => 'musicDownloadPath', 'path' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . '/upload/musicDownload'),
+    array('pathName' => 'musicVideoDownloadPath', 'path' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'upload/videoDownload'),
+    array('pathName' => 'outputFolder', 'path' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . '/upload/output'),
+    array('pathName' => 'coverAlbumsFolder', 'path' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . '/upload/albumCovers'),
+    array('pathName' => 'convertedALAC', 'path' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . '/upload/convertedMusic')
 );
