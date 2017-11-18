@@ -512,7 +512,19 @@ class Ajax extends Controller
         if(isset($_GET['path']))
             $path=ClearString($_GET['path']);
 
-        $paths=scandir($path);
+        $paths = scandir($path);
+
+        $onlyDirectories = array();
+
+        if($paths) {
+            foreach ($paths as $item) {
+                if (is_dir($path . $item)) {
+                    $onlyDirectories[] = $item;
+                }
+            }
+        }
+
+        echo json_encode($onlyDirectories, JSON_UNESCAPED_UNICODE);
     }
 
     /**
