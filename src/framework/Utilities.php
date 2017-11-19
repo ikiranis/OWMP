@@ -326,4 +326,26 @@ class Utilities
 
     }
 
+    /**
+     * Έλεγχος αν τρέχουν τα routing rules, αναλόγως τον web server
+     *
+     */
+    static function checkWebServerForRoutingRules()
+    {
+        // Έλεγχος για το τι server είναι. Αν δεν είναι lighttpd, τρέχει τον έλεγχο για apache
+        if(isset($_SERVER['SERVER_SOFTWARE'])) {
+            if (stripos($_SERVER['SERVER_SOFTWARE'], 'lighttpd') == false) {
+                // Έλεγχος αν είναι enabled το mod_rewrite
+                if (!Utilities::checkApacheRewriteModule()) {
+                    die(__('mod_rewrite_disabled'));
+                }
+            }
+
+            // Έλεγχος αν λειτουργεί το htaccess
+            if (!Utilities::checkIfHTaccessWorks()) {
+                die(__('htaccess_cant_work'));
+            }
+        }
+    }
+
 }
