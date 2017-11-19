@@ -45,7 +45,7 @@ class Language
 
         }
 
-        self::$phrases=$phrases;
+        self::$phrases = $phrases;
     }
     
     // Επιστρέφει τις φράσεις σε table
@@ -85,15 +85,21 @@ class Language
         foreach ($languages as $language) {
             $flag_icon = HTTP_TEXT . LANG_PATH_HTTP . 'flags/' . $language['lang_id'] . '.png';
 
-            if($show_flag) $flag_img=' <img src='.$flag_icon.' class="flags">'; else $flag_img=''; // προσθέτει img της σημαίας ή όχι
+            if($show_flag) { // προσθέτει img της σημαίας ή όχι
+                $flag_img=' <img src='.$flag_icon.' class="flags">';
+            } else {
+                $flag_img='';
+            }
 
-            if($show_texts) $insert_text=$language[$name]; else $insert_text=''; // προσθέτει το κείμενο ή όχι
+            if($show_texts) { // προσθέτει το κείμενο ή όχι
+                $insert_text=$language[$name];
+            } else {
+                $insert_text='';
+            }
 
             // Τελική εκτύπωση του $result προσθέτοντας και href για αλλαγή της γλώσσας
             $result = $result . '<a href=?ChangeLang=' . $language["lang_id"]. '>' . $insert_text . $flag_img .'</a>'. $string;
         }
-
-//        $result=substr($result,0,-strlen($string)); // κόβει το τελευταίο $string
 
         $result=Utilities::cutLastString($result,$string); // κόβει το τελευταίο $string
 
