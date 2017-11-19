@@ -18,23 +18,22 @@
  */
 function updatePath(id)
 {
-
     // Παίρνουμε όλα τα form id's που έχουν class paths_form
-    var allForms = document.querySelectorAll('.paths_form');
-    var FormIDs = [];
-
-    for(var i = 0; i < allForms.length;  i++) {
-        FormIDs.push(allForms[i].id);
-    }
+    // var allForms = document.querySelectorAll('.paths_form');
+    // var FormIDs = [];
+    //
+    // for(var i = 0; i < allForms.length;  i++) {
+    //     FormIDs.push(allForms[i].id);
+    // }
 
     var curID = id;  // Παίρνει μόνο το id
 
-    var pathIDElem = $("#PathID"+curID);
+    var pathIDElem = $("#PathID" + curID);
 
     var file_path = pathIDElem.find('input[name="file_path"]').val();
     var kind = pathIDElem.find('select[name="kind"]').val();
 
-    if ($('#' + FormIDs[curID]).valid()) {
+    if ($('#paths_formID' + curID).valid()) {
 
         $.ajax({
             url: AJAX_path+"app/updatePath",
@@ -49,12 +48,13 @@ function updatePath(id)
                 var updatedID = data.id;
 
                 if (data.success === true) {
-                    if (updatedID == '0') {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
+                    if (updatedID === '0') {   // αν έχει γίνει εισαγωγή νέας εγγρσφής, αλλάζει τα ονόματα των elements σχετικά
                         PathKeyPressed = false;
                         LastInserted = data.lastInserted;
-                        var PathID = $("#PathID" + LastInserted);
 
                         $("#PathID0").prop('id', 'PathID' + LastInserted);
+
+                        var PathID = $("#PathID" + LastInserted);
                         PathID.find('form').prop('id','paths_formID'+ LastInserted);
                         PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
                         PathID.find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
@@ -62,8 +62,7 @@ function updatePath(id)
                         PathID.find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
                         $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
 
-                    }
-                    else {
+                    } else {
                         $("#messagePathID" + updatedID).addClassDelay("success", 3000);
                     }
                 } else {
@@ -129,9 +128,11 @@ function deletePath(id) {
 function insertPath() {
 
     if(!PathKeyPressed) {
-        var PathID = $("#PathID0");
+
         // clone last div row
         $('div[id^="PathID"]:last').clone().insertAfter('div[id^="PathID"]:last').prop('id','PathID0');
+
+        var PathID = $("#PathID0");
         PathID.find('input').val('');   // clear field values
         PathID.find('form').prop('id','paths_formID0');
         PathID.find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
