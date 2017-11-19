@@ -262,18 +262,27 @@
             <p><pre>sudo a2enmod rewrite && sudo service apache2 restart</pre></a>
         ]]></phrase>
         <phrase name="htaccess_cant_work"><![CDATA[
-            <p>Το <b>htaccess</b> δεν μπορεί να λειτουργήσει. Προσπάθησε να το διορθώσεις</p>
+            <p>Τα <b>routing rules</b> δεν μπορούν να λειτουργήσουν. Προσπάθησε να το διορθώσεις</p>
             <p><b>Παράδειγμα</b></p>
+            <p><b>Σε Apache</b></p>
             <p>Άνοιξε το αρχείο <b>/etc/apache2/apache2.conf</b></p>
             <p>Πήγαινε στις γραμμές σαν αυτές</p>
             <p><pre>
             &lt;Directory /var/www/&gt;
                 Options Indexes FollowSymLinks
-                AllowOverride None
+                <b>AllowOverride None</b>
                 Require all granted
             &lt;/Directory&gt;
             </pre></p>
             <p>Άλλαξε την γραμμή <b>AllowOverride</b> σε <b>AllowOverride All</b>
+            <p><b>Σε lighttpd</b></p>
+            <p>Άνοιξε το αρχείο <b>/etc/lighttpd/ligttphd.conf</b></p>
+            <p>Πρόσθεσε το παρακάτω rule, βάζοντας το δικό σου path που είναι εγκατεστημένη η εφαρμογή. π.χ.: <b>/var/www/html/owmp</b></p>
+            <p><pre>
+            url.rewrite-once = (
+                "^<b>Fullpath of your app instalation</b>/AJAX/([^\?]+)(\?(.*))?" => "<b>Fullpath of your app instalation</b>/AJAX/routing.php?route=$1&$3"
+            )
+            </pre></p>
         ]]></phrase>
     </page>
 

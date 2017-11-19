@@ -33,7 +33,6 @@ if(isset($_SERVER['SERVER_SOFTWARE'])) {
         }
     }
 
-    // TODO να αλλάξω το κείμενο ώστε να λέει και για την περίπτωση του lighttpd
     // Έλεγχος αν λειτουργεί το htaccess
     if (!Utilities::checkIfHTaccessWorks()) {
         die(__('htaccess_cant_work'));

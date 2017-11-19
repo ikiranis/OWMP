@@ -26,7 +26,7 @@ function updatePath(id)
     //     FormIDs.push(allForms[i].id);
     // }
 
-    var curID = id;  // Παίρνει μόνο το id
+    var curID = id;
 
     var pathIDElem = $("#PathID" + curID);
 

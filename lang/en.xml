@@ -262,18 +262,27 @@
             <p><pre>sudo a2enmod rewrite && sudo service apache2 restart</pre></a>
         ]]></phrase>
         <phrase name="htaccess_cant_work"><![CDATA[
-            <p><b>htaccess</b> can't work. Try to fix it</p>
+            <p><b>Routing rules</b> can't work. Try to fix it</p>
             <p><b>Example</b></p>
-            <p>Open File <b>/etc/apache2/apache2.conf</b></p>
+            <p><b>For Apache</b></p>
+            <p>Open the File <b>/etc/apache2/apache2.conf</b></p>
             <p>Go to lines likes those</p>
             <p><pre>
             &lt;Directory /var/www/&gt;
                 Options Indexes FollowSymLinks
-                AllowOverride None
+                <b>AllowOverride None</b>
                 Require all granted
             &lt;/Directory&gt;
             </pre></p>
             <p>Change <b>AllowOverride</b> line to <b>AllowOverride All</b>
+            <p><b>For lighttpd</b></p>
+            <p>Open the File <b>/etc/lighttpd/ligttphd.conf</b></p>
+            <p>Add the rule, and replace your path for the installed app. Example <b>/var/www/html/owmp</b></p>
+            <p><pre>
+            url.rewrite-once = (
+                "^<b>Fullpath of your app instalation</b>/AJAX/([^\?]+)(\?(.*))?" => "<b>Fullpath of your app instalation</b>/AJAX/routing.php?route=$1&$3"
+            )
+            </pre></p>
         ]]></phrase>
     </page>
 
