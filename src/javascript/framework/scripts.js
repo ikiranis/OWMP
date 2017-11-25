@@ -305,6 +305,9 @@ function startTheBackup() {
             ProgressAnimation.setProgressPercent(0);
             var resultsContainerElem = $('.o-resultsContainer_text');
 
+            // To checkbox για autodownload
+            var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
+
             syncRunning = true;
 
             // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
@@ -318,9 +321,6 @@ function startTheBackup() {
                 dataType: "json",
                 success: function(data) {
                     if (data.success === true) {
-
-                        // To checkbox για autodownload
-                        var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
 
                         var path = AJAX_path + "app/serveFile?path=" + data.fullPath;
 
@@ -337,8 +337,7 @@ function startTheBackup() {
                         $('.syncButton').prop('disabled', false);
                         clearInterval(syncInterval);
 
-                    }
-                    else {
+                    } else {
                         displayResultsIcon();
                         resultsContainerElem.append('<br>');
                         resultsContainerElem.append('<p>' + phrases['backup_failure'] + '</p>');
