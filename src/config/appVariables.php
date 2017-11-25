@@ -17,6 +17,9 @@ use apps4net\framework\MyDB;
 
 // ********* DEFINES
 
+define ('APP_VERSION', '0.14.0');
+define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
+
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
 
 // Τα tables για το backup
