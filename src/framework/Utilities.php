@@ -332,6 +332,7 @@ class Utilities
      */
     static function checkWebServerForRoutingRules()
     {
+        trigger_error($_SERVER['SERVER_SOFTWARE']);
         // Έλεγχος για το τι server είναι. Αν δεν είναι lighttpd, τρέχει τον έλεγχο για apache
         if(isset($_SERVER['SERVER_SOFTWARE'])) {
             if (stripos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {

@@ -27,7 +27,7 @@ $lang = new Language();
 // Έλεγχος αν τρέχουν τα routing rules, αναλόγως τον web server
 Utilities::checkWebServerForRoutingRules();
 
-$phrasesForJavascript=json_encode($lang->getPhrasesTable());
+$phrasesForJavascript = json_encode($lang->getPhrasesTable());
 
 // έλεγχος αν έχει πατηθεί link για αλλαγής της γλώσσας
 if (isset($_GET['ChangeLang'])) {
