@@ -343,7 +343,7 @@ class Utilities
 
             // Έλεγχος αν λειτουργεί το htaccess γενικά
             if (!Utilities::checkIfHTaccessWorks()) {
-                die($_SERVER['SERVER_SOFTWARE']. __('htaccess_cant_work'));
+                die($_SERVER["DOCUMENT_ROOT"] . __('htaccess_cant_work'));
             }
         }
     }
