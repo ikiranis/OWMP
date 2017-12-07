@@ -1367,8 +1367,6 @@ class Ajax extends Controller
         session_start();
         Page::checkValidAjaxRequest(true);
 
-        trigger_error('UPLOAD MEDIA');
-
         // TODO όλα τα data σε όλες τις μεθόδους να παίρνονται row
         // Τα row data που έρχονται από javascript
         $results = file_get_contents ('php://input');
@@ -1379,7 +1377,6 @@ class Ajax extends Controller
 
             $fileUpload->ajaxUploadFile();
         } else {
-            trigger_error($results['fullPathFilename']);
 
             $syncFile = new SyncFiles();
 
@@ -1389,8 +1386,6 @@ class Ajax extends Controller
             } else {
                 $syncFile->mediaKind = 'Music';
             }
-
-            trigger_error($results['fullPathFilename']);
 
             if(file_exists($results['fullPathFilename'])) {
                 // Εγγραφή στην βάση του τραγουδιού που κατέβηκε ανέβηκε

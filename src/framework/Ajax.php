@@ -308,7 +308,9 @@ class Ajax extends Controller
             $youtubeDL->mediaKind = ClearString($_GET['mediaKind']);
         }
 
-        if($result=$youtubeDL->downloadVideo()) {
+        trigger_error('DOWNLOAD VIDEO');
+
+        if($result = $youtubeDL->downloadVideo()) {
             // Εγγραφή στην βάση του τραγουδιού που κατέβηκε από το youtube
             $syncFile = new SyncFiles();
             $file = str_replace(DIR_PREFIX, '', $result);
@@ -316,6 +318,8 @@ class Ajax extends Controller
             $syncFile->searchIDFiles = true;
             $syncFile->mediaKind = $youtubeDL->mediaKind;
             $syncFile->name = $youtubeDL->title;
+
+            trigger_error($youtubeDL->title);
 
             $syncFile->writeTrack();
 
