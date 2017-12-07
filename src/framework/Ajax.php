@@ -317,6 +317,7 @@ class Ajax extends Controller
             $syncFile->mediaKind = $youtubeDL->mediaKind;
             $syncFile->name = $youtubeDL->title;
 
+            trigger_error($syncFile->file);
             $syncFile->writeTrack();
 
             $jsonArray = array('success' => true, 'result' => $result, 'imageThumbnail' => $youtubeDL->imageThumbnail,
