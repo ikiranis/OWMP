@@ -343,7 +343,7 @@ class Utilities
 
             // Έλεγχος αν λειτουργεί το htaccess γενικά
             if (!Utilities::checkIfHTaccessWorks()) {
-                die($_SERVER['HTTP_X_REAL_IP'] . __('htaccess_cant_work'));
+                die($_SERVER['SERVER_NAME'] . __('htaccess_cant_work'));
             }
         }
     }
