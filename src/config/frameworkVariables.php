@@ -33,7 +33,7 @@ if (isset($_SERVER['HTTPS'])) {
 define ('SERVER_ROOT_ADDRESS', HTTP_TEXT . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']);
 
 // Παίρνει ολόκληρο το url του project με την εσωτερική ip του server
-define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT . 'localhost' . ':' . $_SERVER['SERVER_PORT'] . PROJECT_PATH);
+define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT'] . PROJECT_PATH);
 
 define ('NAV_LIST_ITEMS', '5'); // Ο αριθμός των επιλογών στo Nav Menu
 

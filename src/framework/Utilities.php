@@ -320,7 +320,7 @@ class Utilities
      */
     static function checkIfHTaccessWorks()
     {
-        $myFile = LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'framework/checkHTaccess';
+        $myFile = AJAX_PATH . 'framework/checkHTaccess';
 
         return file_get_contents($myFile) ? true : false;
 
