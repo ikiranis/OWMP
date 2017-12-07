@@ -311,7 +311,9 @@ class Ajax extends Controller
         if($result = $youtubeDL->downloadVideo()) {
             // Εγγραφή στην βάση του τραγουδιού που κατέβηκε από το youtube
             $syncFile = new SyncFiles();
-            $file = str_replace(DIR_PREFIX, '', $result);
+            if(DIR_PREFIX !== '/') {
+                $file = str_replace(DIR_PREFIX, '', $result);
+            }
             $syncFile->file = $file;
             $syncFile->searchIDFiles = true;
             $syncFile->mediaKind = $youtubeDL->mediaKind;
