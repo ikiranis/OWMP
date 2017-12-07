@@ -433,7 +433,6 @@ class SyncFiles
         );
 
         if ($this->stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
-            trigger_error($this->name);
             if($displayEcho) {
                 echo __('file_added').' ' . $this->name . '<br>';
             }
@@ -566,7 +565,6 @@ class SyncFiles
             }
         }
 
-        trigger_error($this->filename . ' already synced: '. $fileAlreadySynced );
         // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
         if(!$fileAlreadySynced && !$problemInFilePath) {
             if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
