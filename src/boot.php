@@ -15,7 +15,7 @@ use apps4net\framework\MyDB;
 use apps4net\framework\Options;
 
 // dsphinx hack for document_root
-//$_SERVER["DOCUMENT_ROOT"] = dirname(__DIR__,2);
+$_SERVER["DOCUMENT_ROOT"] = dirname(__DIR__,2);
 
 // Project Path
 define ('PROJECT_PATH', str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname(__DIR__).DIRECTORY_SEPARATOR));
