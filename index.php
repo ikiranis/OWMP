@@ -19,7 +19,6 @@ require_once('src/boot.php');
 
 session_start();
 
-trigger_error('HEY');
 MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
 MyDB::checkMySqlForTypeChanges(); // Έλεγχος για αλλαγμένα πεδία στην βάση
 

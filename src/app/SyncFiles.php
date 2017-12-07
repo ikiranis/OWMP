@@ -541,7 +541,6 @@ class SyncFiles
     public function writeTrack()
     {
 
-        trigger_error('TRYING TO WRITE TRACK. START');
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
         if($this->mediaKind=='Music') {
             $this->createDirectories();
@@ -567,6 +566,7 @@ class SyncFiles
             }
         }
 
+        trigger_error('TRYING TO WRITE TRACK. ');
         // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
         if(!$fileAlreadySynced && !$problemInFilePath) {
 
