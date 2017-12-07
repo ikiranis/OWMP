@@ -544,6 +544,7 @@ class OWMPElements extends OWMP
             ?>
         </p>
 
+
         <p>php-xml Library:
             <?php
             // Έλεγχος της php-xml library για διαχείριση του xml
@@ -552,7 +553,8 @@ class OWMPElements extends OWMP
             } else {
                 echo '<span class="isFail">Not Installed</span>';
             }
-            Page::getHelp('help_GD_library');
+            // TODO να κάνω το help για το php-xml
+//            Page::getHelp('help_GD_library');
             ?>
         </p>
 
