@@ -320,7 +320,7 @@ class Utilities
      */
     static function checkIfHTaccessWorks()
     {
-        $myFile = AJAX_PATH . 'framework/checkHTaccess';
+        $myFile = LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'framework/checkHTaccess';
 
         return file_get_contents($myFile) ? true : false;
 
@@ -343,7 +343,7 @@ class Utilities
 
             // Έλεγχος αν λειτουργεί το htaccess γενικά
             if (!Utilities::checkIfHTaccessWorks()) {
-                die($_SERVER["DOCUMENT_ROOT"] . __('htaccess_cant_work'));
+                die($_SERVER['HTTP_X_FORWARDED_FOR'] . __('htaccess_cant_work'));
             }
         }
     }
