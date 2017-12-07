@@ -1388,7 +1388,7 @@ class Ajax extends Controller
             }
 
             if(file_exists($results['fullPathFilename'])) {
-                // Εγγραφή στην βάση του τραγουδιού που κατέβηκε ανέβηκε
+                // Εγγραφή στην βάση του τραγουδιού που κατέβηκε
                 if(DIR_PREFIX !== '/') {
                     $syncFile->file = str_replace(DIR_PREFIX, '', $results['fullPathFilename']);
                 } else {
