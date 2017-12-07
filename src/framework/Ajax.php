@@ -313,6 +313,8 @@ class Ajax extends Controller
             $syncFile = new SyncFiles();
             if(DIR_PREFIX !== '/') {
                 $file = str_replace(DIR_PREFIX, '', $result);
+            } else {
+                $file = $result;
             }
             $syncFile->file = $file;
             $syncFile->searchIDFiles = true;
