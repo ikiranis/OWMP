@@ -295,6 +295,8 @@ class Ajax extends Controller
         Page::checkValidAjaxRequest(true);
 
         set_time_limit(0);
+        
+        trigger_error('DOWNLOAD VIDEO');
 
         $youtubeDL = new VideoDownload();
 
@@ -307,8 +309,6 @@ class Ajax extends Controller
         if(isset($_GET['mediaKind'])) {
             $youtubeDL->mediaKind = ClearString($_GET['mediaKind']);
         }
-
-        trigger_error('DOWNLOAD VIDEO');
 
         if($result = $youtubeDL->downloadVideo()) {
             // Εγγραφή στην βάση του τραγουδιού που κατέβηκε από το youtube
