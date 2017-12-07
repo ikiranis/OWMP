@@ -3,7 +3,7 @@ MAINTAINER rocean <rocean74@gmail.com>
 
 # Install apache, PHP, and supplimentary programs
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    apache2 php7.0 php7.0-mysql libapache2-mod-php7.0 curl lynx-cur php-xml php7.0-gd ffmpeg lame wget python locale-gen
+    apache2 php7.0 php7.0-mysql libapache2-mod-php7.0 curl lynx-cur php-xml php7.0-gd ffmpeg lame wget python locales
 
 # Install youtube-dl
 RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
@@ -18,8 +18,10 @@ RUN a2enmod rewrite
 #RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php/7.0/apache2/php.ini
 
 # Configure Locales
-RUN locale-gen "en_US.UTF-8"
-RUN dpkg-reconfigure locales
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # Manually set up the apache environment variables
 ENV APACHE_RUN_USER www-data
