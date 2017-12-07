@@ -566,7 +566,7 @@ class SyncFiles
             }
         }
 
-        trigger_error($fileAlreadySynced . '    '. $problemInFilePath);
+        trigger_error($this->filename . ' already synced: '. $fileAlreadySynced );
         // Αν το αρχείο δεν έχει περαστεί ήδη και δεν υπάρχει το hash του και δεν έχει πρόβλημα το path
         if(!$fileAlreadySynced && !$problemInFilePath) {
             if ($this->searchIDFiles == true) {  // Αν έχει επιλεγεί να ψάξουμε για tags στο αρχείο
