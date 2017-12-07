@@ -295,8 +295,6 @@ class Ajax extends Controller
         Page::checkValidAjaxRequest(true);
 
         set_time_limit(0);
-        
-        trigger_error('DOWNLOAD VIDEO');
 
         $youtubeDL = new VideoDownload();
 
