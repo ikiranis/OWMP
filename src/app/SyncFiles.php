@@ -540,6 +540,8 @@ class SyncFiles
     // Γράφει ένα μόνο αρχείο στην βάση
     public function writeTrack()
     {
+
+        trigger_error('TRYING TO WRITE TRACK. START');
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
         if($this->mediaKind=='Music') {
             $this->createDirectories();
