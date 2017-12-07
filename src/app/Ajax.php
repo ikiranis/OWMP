@@ -1394,6 +1394,8 @@ class Ajax extends Controller
                 $syncFile->searchIDFiles = true;
                 $syncFile->name = $results['fileName'];
 
+                trigger_error($syncFile->name);
+
                 $syncFile->writeTrack();
 
                 $jsonArray = array('success' => true, 'result' => $results['fullPathFilename'],

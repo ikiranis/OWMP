@@ -398,7 +398,6 @@ class SyncFiles
             trigger_error('PROBLEM!!!!!!!!!!     $path ' . $this->path . ' $filename ' . $this->filename);
         }
 
-        trigger_error($this->inserted_id);
     }
 
     // Ψάχνει αν υπάρχει στην λίστα του itunes και τραβάει τα αντίστοιχα data
@@ -430,8 +429,6 @@ class SyncFiles
             $this->size, $this->track_time, $this->year, $this->live
 
         );
-
-        trigger_error($this->inserted_id);
 
         if ($this->stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
             if($displayEcho) {
