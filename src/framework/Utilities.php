@@ -343,7 +343,7 @@ class Utilities
 
             // Έλεγχος αν λειτουργεί το htaccess γενικά
             if (!Utilities::checkIfHTaccessWorks()) {
-                die($_SERVER['HTTP_X_FORWARDED_FOR'] . __('htaccess_cant_work'));
+                die($_SERVER['HTTP_VIA'] . __('htaccess_cant_work'));
             }
         }
     }
