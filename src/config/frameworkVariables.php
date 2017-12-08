@@ -30,9 +30,16 @@ if (isset($_SERVER['HTTPS'])) {
     define('HTTP_TEXT', 'http://');
 }
 
-Utilities::isInDockerContainer()
-    ? $myServerAddress = $_SERVER['SERVER_NAME']
-    : $myServerAddress = $_SERVER['SERVER_ADDR'];
+if(Utilities::isInDockerContainer()) {
+    $_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
+        ? $myServerAddress = $_SERVER['SERVER_ADDR']
+        : $myServerAddress = $_SERVER['SERVER_NAME'];
+} else {
+    $_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
+        ? $myServerAddress = $_SERVER['SERVER_NAME']
+        : $myServerAddress = $_SERVER['SERVER_ADDR'];
+}
+
 
 //    trigger_error($_SERVER['SERVER_ADDR'] . '  -----   ' . $_SERVER['SERVER_NAME']);
 //$_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
