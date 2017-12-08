@@ -9,7 +9,7 @@ RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-g
     && rm -rf /var/lib/apt/lists/*
 
 # Install youtube-dl
-RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl \
     && chmod a+rx /usr/local/bin/youtube-dl
 
 # Enable apache mods.
