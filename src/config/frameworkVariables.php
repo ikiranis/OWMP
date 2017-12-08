@@ -29,6 +29,7 @@ if (isset($_SERVER['HTTPS'])) {
     define('HTTP_TEXT', 'http://');
 }
 
+trigger_error($_SERVER['SERVER_NAME']);
 // Η διεύθυνση του server, χωρίς το project_path
 define ('SERVER_ROOT_ADDRESS', HTTP_TEXT . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']);
 
