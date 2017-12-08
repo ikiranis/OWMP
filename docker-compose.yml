@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  my-apache-image:
+  owmp-apache-image:
     build: ./docker/apache
 
   owmp-mysql:
@@ -14,7 +14,7 @@ services:
       - ./docker/mysql/data:/var/lib/mysql
 
   owmp-apache:
-    image: my-apache-image
+    image: owmp-apache-image
     ports:
       - "7777:80"
       - "443:443"
