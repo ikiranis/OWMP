@@ -4,7 +4,7 @@ services:
 
   my-apache-image:
     build: ./docker/apache
-    container_name: owmp-apache-image
+    image: owmp-apache-image
 
   owmp-mysql:
     image: mysql
