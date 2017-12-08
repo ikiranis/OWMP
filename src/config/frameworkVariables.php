@@ -33,7 +33,6 @@ $_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
     ? $myServerAddress = $_SERVER['SERVER_NAME']
     : $myServerAddress = $_SERVER['SERVER_ADDR'];
 
-trigger_error($myServerAddress);
 // Η διεύθυνση του server, χωρίς το project_path
 define ('SERVER_ROOT_ADDRESS', HTTP_TEXT . $myServerAddress . ':' . $_SERVER['SERVER_PORT'] );
 
