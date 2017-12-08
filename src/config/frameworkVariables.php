@@ -29,6 +29,7 @@ if (isset($_SERVER['HTTPS'])) {
     define('HTTP_TEXT', 'http://');
 }
 
+trigger_error($_SERVER['SERVER_ADDR'] . '  -----   ' . $_SERVER['SERVER_NAME']);
 $_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
     ? $myServerAddress = $_SERVER['SERVER_NAME']
     : $myServerAddress = $_SERVER['SERVER_ADDR'];
