@@ -1,10 +1,10 @@
 version: '2'
 
-services:
-
-  my-apache-image:
+my-apache-image:
     build: ./docker/apache
     image: my-apache-image:1.0
+
+services:
 
   mysql-server:
     image: mysql
