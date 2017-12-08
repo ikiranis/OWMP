@@ -350,4 +350,12 @@ class Utilities
         }
     }
 
+    static function isInDockerContainer()
+    {
+        $dockerFile = '/.dockerenv';
+
+        return file_exists($dockerFile) ? true : false;
+
+    }
+
 }
