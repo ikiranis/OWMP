@@ -29,12 +29,12 @@ if (isset($_SERVER['HTTPS'])) {
     define('HTTP_TEXT', 'http://');
 }
 
-
+$myServerAddress = $_SERVER['SERVER_NAME'];
 // Η διεύθυνση του server, χωρίς το project_path
-define ('SERVER_ROOT_ADDRESS', HTTP_TEXT . 'localhost' . ':' . $_SERVER['SERVER_PORT']);
+define ('SERVER_ROOT_ADDRESS', HTTP_TEXT . $myServerAddress . ':' . $_SERVER['SERVER_PORT']);
 
 // Παίρνει ολόκληρο το url του project με την εσωτερική ip του server
-define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT . 'localhost' . ':' . $_SERVER['SERVER_PORT'] . PROJECT_PATH);
+define ('LOCAL_SERVER_IP_WITH_PORT', HTTP_TEXT . $myServerAddress . ':' . $_SERVER['SERVER_PORT'] . PROJECT_PATH);
 
 define ('NAV_LIST_ITEMS', '5'); // Ο αριθμός των επιλογών στo Nav Menu
 

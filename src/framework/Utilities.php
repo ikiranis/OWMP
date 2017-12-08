@@ -322,6 +322,8 @@ class Utilities
     {
         $myFile = LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'framework/checkHTaccess';
 
+        trigger_error($myFile);
+
         return file_get_contents($myFile) ? true : false;
 
     }
