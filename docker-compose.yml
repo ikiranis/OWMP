@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  myImage:
+  my-apache-image:
     build: ./docker/apache
     container_name: owmp-apache-image
 
