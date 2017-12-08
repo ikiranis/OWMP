@@ -12,9 +12,10 @@ services:
       MYSQL_ROOT_PASSWORD: owmp
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
+    links: apache-server
 
   apache-server:
-    image: owmp_apache-image
+    image: apache-image
     ports:
       - "7777:80"
       - "443:443"
