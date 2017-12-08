@@ -2,16 +2,6 @@ version: '2'
 
 services:
 
-  my-apache-image:
-      build:
-        context: ./docker/apache
-        dockerfile: Dockerfile
-
-
-#  my-apache-image:
-#      build: ./docker/apache
-#      image: my-apache-image:1.0
-
   mysql-server:
     image: mysql
     environment:
@@ -21,7 +11,7 @@ services:
       - ./docker/mysql/data:/var/lib/mysql
 
   apache-server:
-    image: my-apache-image
+    image: owmp-apache-image
     ports:
       - "7777:80"
 #      - "443:443"
