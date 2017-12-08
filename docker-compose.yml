@@ -1,20 +1,25 @@
-owmp-apache-image:
-  build: ./docker/apache
+version: '2'
 
-owmp-mysql:
-  image: mysql
-  environment:
-    MYSQL_DATABASE: owmp
-    MYSQL_ROOT_PASSWORD: owmp
-  volumes:
-    - ./docker/mysql/data:/var/lib/mysql
+services:
 
-owmp-apache:
-  image: owmp-apache-image
-  ports:
-    - "7777:80"
-    - "443:443"
-  volumes:
-    - .:/var/www/html
-  links:
-    - owmp-mysql
+  myImage:
+    build: ./docker/apache
+    image: owmp-apache-image
+
+  owmp-mysql:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: owmp
+      MYSQL_ROOT_PASSWORD: owmp
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+
+  owmp-apache:
+    image: owmp-apache-image
+    ports:
+      - "7777:80"
+      - "443:443"
+    volumes:
+      - .:/var/www/html
+    links:
+      - owmp-mysql
