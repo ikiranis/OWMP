@@ -13,7 +13,7 @@ services:
   apache-server:
     image: apps4net/apache:1.0
     ports:
-      - "7777:80"
+      - "XXX.XXX.XXX.XXX:7777:80"
 #      - "443:443"
     volumes:
       - .:/var/www/html
