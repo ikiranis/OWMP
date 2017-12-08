@@ -14,7 +14,7 @@ services:
       - ./docker/mysql/data:/var/lib/mysql
 
   owmp-apache:
-    image: owmp-apache-image
+    image: my-apache-image
     ports:
       - "7777:80"
       - "443:443"
