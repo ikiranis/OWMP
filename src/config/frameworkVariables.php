@@ -14,6 +14,7 @@
  */
 
 use apps4net\framework\Language;
+use apps4net\framework\Utilities;
 
 define ('LANG_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών.
 define ('LANG_PATH_HTTP', $_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http.
@@ -29,11 +30,14 @@ if (isset($_SERVER['HTTPS'])) {
     define('HTTP_TEXT', 'http://');
 }
 
-if (\apps4net\framework\Utilities::isInDockerContainer())
-    trigger_error($_SERVER['SERVER_ADDR'] . '  -----   ' . $_SERVER['SERVER_NAME']);
-$_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
+Utilities::isInDockerContainer()
     ? $myServerAddress = $_SERVER['SERVER_NAME']
     : $myServerAddress = $_SERVER['SERVER_ADDR'];
+
+//    trigger_error($_SERVER['SERVER_ADDR'] . '  -----   ' . $_SERVER['SERVER_NAME']);
+//$_SERVER['SERVER_ADDR'] == $_SERVER['SERVER_NAME']
+//    ? $myServerAddress = $_SERVER['SERVER_NAME']
+//    : $myServerAddress = $_SERVER['SERVER_ADDR'];
 
 // Η διεύθυνση του server, χωρίς το project_path
 define ('SERVER_ROOT_ADDRESS', HTTP_TEXT . $myServerAddress . ':' . $_SERVER['SERVER_PORT'] );
