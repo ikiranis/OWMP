@@ -23,11 +23,11 @@ services:
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-    volumes: ${MY_VOLUME1}
-#      - .:/var/www/html
-#      ${MY_VOLUME1}
-#      - ${MY_VOLUME2}
-#      - ${MY_VOLUME3}
+    volumes:
+      - .:/var/www/html
+      - ${MY_VOLUME1}
+      - ${MY_VOLUME2}
+      - ${MY_VOLUME3}
 #      - ${MY_VOLUME4}
 #      - ${MY_VOLUME5}
     links:
