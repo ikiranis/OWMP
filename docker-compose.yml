@@ -4,20 +4,22 @@ services:
 
   mysql-server:
     image: mysql
+    env_file:
+      - config.env
     environment:
-      MYSQL_DATABASE: owmp
-      MYSQL_ROOT_PASSWORD: owmp
+      MYSQL_DATABASE: $(DATABASE_NAME)
+      MYSQL_ROOT_PASSWORD: $(DATABASE_ROOT_PASSWORD)
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
 
   apache-server:
     image: apps4net/apache:1.0
+    env_file:
+      - config.env
     ports:
-      - "7777:80"
+      - "$(APP_PORT):80"
 #      - "443:443"
     volumes:
       - .:/var/www/html
     links:
       - mysql-server
-    environment:
-      DOCKER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
