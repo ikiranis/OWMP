@@ -28,6 +28,8 @@ $autoloadPrefixes = array (
         'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/app/')
 );
 
+trigger_error($_ENV['DATABASE_NAME]']);
+
 require_once('config/autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
 require_once('config/config.inc.php');  // Τα στοιχεία εισόδου στην βάση
 require_once('framework/functions.php');  // Public functions
