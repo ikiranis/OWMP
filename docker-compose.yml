@@ -5,8 +5,8 @@ services:
   mysql-server:
     image: mysql
     environment:
-      MYSQL_DATABASE: $${DATABASE_NAME}
-      MYSQL_ROOT_PASSWORD: $${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: owmp
+      MYSQL_ROOT_PASSWORD: owmp
     volumes:
 #      - ./docker/mysql/data:/var/lib/mysql
       - /var/lib/mysql
