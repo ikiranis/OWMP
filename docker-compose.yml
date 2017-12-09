@@ -8,7 +8,7 @@ services:
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     ports:
-     - 3333
+     - "3307:3306"
     volumes:
 #      - ./docker/mysql/data:/var/lib/mysql
       - /var/lib/mysql
