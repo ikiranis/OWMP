@@ -4,6 +4,8 @@ services:
 
   mysql-server:
     image: mysql
+    env_file:
+      - compose.env
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
@@ -13,6 +15,8 @@ services:
 
   apache-server:
     image: apps4net/apache:1.0
+    env_file:
+      - compose.env
     ports:
       - ${APP_PORT}
 #      - "443:443"
