@@ -8,8 +8,8 @@ services:
     env_file:
       - config.env
     environment:
-      MYSQL_DATABASE: $${DATABASE_NAME}
-      MYSQL_ROOT_PASSWORD: $${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
 
