@@ -3,8 +3,7 @@ version: '2'
 services:
 
   mysql-server:
-    env_file:
-      - docker/compose.env
+    env_file: docker/compose.env
     image: mysql
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
@@ -14,8 +13,7 @@ services:
       - /var/lib/mysql
 
   apache-server:
-    env_file:
-      - docker/compose.env
+    env_file: docker/compose.env
     image: apps4net/apache:1.0
     ports:
       - ${APP_PORT}
