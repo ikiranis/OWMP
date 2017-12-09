@@ -12,8 +12,8 @@ services:
     ports:
      - ${MYSQL_PORT}
     volumes:
-#      - ./docker/mysql/data:/var/lib/mysql
-      - /var/lib/mysql
+      - ./docker/mysql/data:/var/lib/mysql
+#      - /var/lib/mysql
 
   apache-server:
     image: apps4net/apache:1.0
