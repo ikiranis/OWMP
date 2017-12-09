@@ -8,6 +8,8 @@
  *
  * Ρυθμίσεις mysql στοιχείων που ορίζει ο χρήστης
  *
+ * Edit this ONLY when you are not running the app in Docker
+ *
  */
 
 define('CONNSTR', 'mysql:host=localhost;dbname=XXXXXXX');

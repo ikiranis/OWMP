@@ -33,10 +33,12 @@ require_once('config/autoload.php'); // Η autoload function που φορτών
 
 // Αν τρέχει σε docker τραβάει στοιχεία της βάσης από τις environment variables
 if(Utilities::isInDockerContainer()) {
+    trigger_error('In Docker');
     define('CONNSTR', 'mysql:host=mysql-server;dbname=' . getenv('MYSQL_DATABASE'));
     define('DBUSER', 'root');
     define('DBPASS', getenv('MYSQL_ROOT_PASSWORD'));
 } else { // Αλλιώς από το confing.inc.php
+    trigger_error('Out of Docker');
     require_once('config/config.inc.php');  // Τα στοιχεία εισόδου στην βάση
 }
 
