@@ -14,7 +14,6 @@
  */
 
 use apps4net\framework\Language;
-use apps4net\framework\Utilities;
 
 define ('LANG_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών.
 define ('LANG_PATH_HTTP', $_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      // το path του καταλόγου των γλωσσών σε http.

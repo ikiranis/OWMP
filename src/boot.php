@@ -13,6 +13,7 @@
 use apps4net\framework\Session;
 use apps4net\framework\MyDB;
 use apps4net\framework\Options;
+use apps4net\framework\Utilities;
 
 // dsphinx hack for document_root
 //$_SERVER["DOCUMENT_ROOT"] = dirname(__DIR__,2);
@@ -28,10 +29,17 @@ $autoloadPrefixes = array (
         'base_dir' => $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'src/app/')
 );
 
-trigger_error($_ENV['MYSQL_DATABASE']);
-
 require_once('config/autoload.php'); // Η autoload function που φορτώνει αυτόματα τα αρχεία των κλάσεων
-require_once('config/config.inc.php');  // Τα στοιχεία εισόδου στην βάση
+
+// Αν τρέχει σε docker τραβάει στοιχεία της βάσης από τις environment variables
+if(Utilities::isInDockerContainer()) {
+    define('CONNSTR', 'mysql:host=mysql-server;dbname=' . getenv('MYSQL_DATABASE'));
+    define('DBUSER', 'root');
+    define('DBPASS', getenv('MYSQL_ROOT_PASSWORD'));
+} else { // Αλλιώς από το confing.inc.php
+    require_once('config/config.inc.php');  // Τα στοιχεία εισόδου στην βάση
+}
+
 require_once('framework/functions.php');  // Public functions
 require_once('config/mySQLSchema.php'); // To schema της βάσης σε array και οι αλλαγές που χρειάζονται
 
