@@ -25,6 +25,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
     volumes:
       - .:/var/www/html
-      - ${MY_VOLUMES}
+      - ${MY_VOLUME1}
+      - ${MY_VOLUME2}
+      - ${MY_VOLUME3}
+      - ${MY_VOLUME4}
+      - ${MY_VOLUME5}
     links:
       - mysql-server
