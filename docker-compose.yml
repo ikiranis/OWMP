@@ -2,6 +2,7 @@ version: '2'
 
 services:
 
+
   mysql-server:
     image: mysql
     env_file:
@@ -17,7 +18,7 @@ services:
     env_file:
       - config.env
     ports:
-      - $${APP_PORT}
+      - "7777:80"
 #      - "443:443"
     volumes:
       - .:/var/www/html
