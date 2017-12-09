@@ -5,17 +5,17 @@ services:
   mysql-server:
     image: mysql
     env_file:
-      - .config.env
+      - config.env
     environment:
-      MYSQL_DATABASE: ${DATABASE_NAME}
-      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: $${DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: $${DATABASE_ROOT_PASSWORD}
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
 
   apache-server:
     image: apps4net/apache:1.0
     env_file:
-      - .config.env
+      - config.env
     ports:
       - "7777:80"
 #      - "443:443"
