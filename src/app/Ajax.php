@@ -1349,6 +1349,8 @@ class Ajax extends Controller
         session_start();
         Page::checkValidAjaxRequest(true);
 
+        ini_set('memory_limit','1024M');
+
         $myFile = $_POST['myFile'];
 
         $file = new FilesIO(OUTPUT_FOLDER, TEMP_RESTORE_DATABASE_FILE, 'write');
