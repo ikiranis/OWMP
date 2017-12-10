@@ -216,6 +216,7 @@ class BackupDB extends MyDB
     public function restoreDatabase()
     {
         set_time_limit(0);
+        ini_set('memory_limit','1024M');
 
         // Θέτουμε το error mode ώστε να πετάει exception στα errors του PDO::query
         self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
