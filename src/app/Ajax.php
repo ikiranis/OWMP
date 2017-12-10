@@ -1349,6 +1349,7 @@ class Ajax extends Controller
         session_start();
         Page::checkValidAjaxRequest(true);
 
+        trigger_error('EDW EISAI');
         ini_set('memory_limit','1024M');
 
         $myFile = $_POST['myFile'];
