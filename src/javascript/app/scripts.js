@@ -2018,7 +2018,7 @@ function voteSong(id) {
  *
  * @param files
  */
-function uploadFile(files) {
+function jsUploadFile(files) {
     var selectedFile = document.getElementById('uploadSQLFile').files[0];
 
     var myMime = selectedFile.type;
