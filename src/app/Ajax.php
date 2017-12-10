@@ -1346,7 +1346,6 @@ class Ajax extends Controller
      */
     public function uploadFile()
     {
-        trigger_error('EDW EISAI');
         session_start();
         Page::checkValidAjaxRequest(true);
 

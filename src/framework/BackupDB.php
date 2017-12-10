@@ -216,7 +216,6 @@ class BackupDB extends MyDB
     public function restoreDatabase()
     {
         set_time_limit(0);
-        ini_set('memory_limit','1024M');
 
         trigger_error(ini_get('memory_limit'));
 

@@ -639,7 +639,11 @@ class OWMPElements extends OWMP
                     </p>
 
                     <p>
-                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="jsUploadFile(this.files)">
+<!--                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="jsUploadFile(this.files)">-->
+
+                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"
+                               accept=".sql"
+                               onchange="UploadFiles.startUpload();" multiple>
 
                         <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
                                value="<?php echo __('start_restore'); ?>">

@@ -2019,7 +2019,6 @@ function voteSong(id) {
  * @param files
  */
 function jsUploadFile(files) {
-    console.log('edw eisai');
     var selectedFile = document.getElementById('uploadSQLFile').files[0];
 
     var myMime = selectedFile.type;
@@ -2033,7 +2032,7 @@ function jsUploadFile(files) {
     reader.onload = function (e) {
         // console.log(e.target.result);
 
-        var myFile = e.target.result;
+        myFile = e.target.result;
 
         $.ajax({
             // Your server script to process the upload
