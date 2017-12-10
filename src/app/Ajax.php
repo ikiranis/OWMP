@@ -1346,10 +1346,11 @@ class Ajax extends Controller
      */
     public function uploadFile()
     {
+        trigger_error('EDW EISAI');
         session_start();
         Page::checkValidAjaxRequest(true);
 
-        trigger_error('EDW EISAI');
+
         ini_set('memory_limit','1024M');
 
         $myFile = $_POST['myFile'];
