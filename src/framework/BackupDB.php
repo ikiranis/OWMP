@@ -217,8 +217,6 @@ class BackupDB extends MyDB
     {
         set_time_limit(0);
 
-        trigger_error(ini_get('memory_limit'));
-
         // Θέτουμε το error mode ώστε να πετάει exception στα errors του PDO::query
         self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
