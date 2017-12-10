@@ -2019,6 +2019,7 @@ function voteSong(id) {
  * @param files
  */
 function jsUploadFile(files) {
+    console.log('edw eisai');
     var selectedFile = document.getElementById('uploadSQLFile').files[0];
 
     var myMime = selectedFile.type;
