@@ -469,10 +469,9 @@ class PlaylistSearch extends OWMPElements
     public function getDuplicateRecords()
     {
 
-        trigger_error('DUPLICATE SEARCH');
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
-
+            trigger_error('DUPLICATE SEARCH');
             $myQuery = 'SELECT files.id as file_id
                             FROM files JOIN music_tags on files.id=music_tags.id 
                             WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
