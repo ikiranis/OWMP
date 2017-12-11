@@ -416,7 +416,7 @@ class SyncFiles
             trigger_error('PROBLEM!!!!!!!!!!     $path ' . $this->path . ' $filename ' . $this->filename);
         }
 
-        trigger_error($this->inserted_id);
+//        trigger_error($this->inserted_id);
 
     }
 

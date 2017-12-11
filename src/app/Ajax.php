@@ -1151,18 +1151,21 @@ class Ajax extends Controller
 
             $conn = new MyDB();
 
-            if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','$newID',$id))
-                if($deleteFile = $conn->deleteRowFromTable('files', '$newID', $id)) {
-                    echo '<p>'.__('the_file').' '. $filename . ' '.__('changed_path').'</p>';
+            if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$newID)) {
+                if ($deleteFile = $conn->deleteRowFromTable('files', '$id', $newID)) {
+                    echo '<p>' . __('the_file') . ' ' . $filename . ' ' . __('changed_path') . '</p>';
 
                     $jsonArray = array('success' => true, 'id' => $id);
 
-                    trigger_error($id.'  File ' . $filename . ' change path.');
+                    trigger_error($id . '  File ' . $filename . ' change path.');
 
                     Logs::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
                 } else {
-                    $jsonArray=array( 'success'=> false);
+                    $jsonArray = array('success' => false);
                 }
+            } else {
+                $jsonArray=array( 'success'=> false);
+            }
 
         } else {
             $jsonArray=array( 'success'=> false);
