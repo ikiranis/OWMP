@@ -946,7 +946,7 @@ class Ajax extends Controller
         $playlist->fieldsArray = $jsonArray;
         $playlist->offset = $offset;
         $playlist->step = $step;
-        $playlist->duplicates = $duplicates;
+        $playlist->duplicates = null;
         $playlist->mediaKind = $mediaKind;
         $playlist->tabID = $tabID;
         $playlist->loadPlaylist = null;
@@ -959,6 +959,7 @@ class Ajax extends Controller
             if ($loadPlaylist == true) {
                 $playlist->loadPlaylist = $loadPlaylist;
             }
+            trigger_error($duplicates);
             if($duplicates==true) {
                 $playlist->duplicates = $duplicates;
             }
