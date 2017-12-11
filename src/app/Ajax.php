@@ -1029,7 +1029,7 @@ class Ajax extends Controller
         } else {
             if(isset($path)) {
                 $fullPathFilename = $path;
-                $hash = hashFile($fullPathFilename);
+                $hash = SyncFiles::hashFile($fullPathFilename);
                 trigger_error($hash);
             }
         }
