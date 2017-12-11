@@ -471,14 +471,13 @@ class PlaylistSearch extends OWMPElements
 
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
-            trigger_error('DUPLICATE SEARCH');
             $myQuery = 'SELECT files.id as file_id
                             FROM files JOIN music_tags on files.id=music_tags.id 
                             WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
             // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
             MyDB::copyFieldsToOtherTable('file_id', $this->tempUserPlaylist, $myQuery, null);
-
+            trigger_error(MyDB::countTable($this->tempUserPlaylist));
             $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
         }
 
