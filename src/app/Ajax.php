@@ -1151,6 +1151,7 @@ class Ajax extends Controller
 
             $conn = new MyDB();
 
+            // Διαγραφή της νέας εγγραφής που έγινε για το ίδιο αρχείο
             if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$newID)) {
                 if ($deleteFile = $conn->deleteRowFromTable('files', '$id', $newID)) {
                     echo '<p>' . __('the_file') . ' ' . $filename . ' ' . __('changed_path') . '</p>';
@@ -1164,11 +1165,11 @@ class Ajax extends Controller
                     $jsonArray = array('success' => false);
                 }
             } else {
-                $jsonArray=array( 'success'=> false);
+                $jsonArray = array( 'success'=> false);
             }
 
         } else {
-            $jsonArray=array( 'success'=> false);
+            $jsonArray = array( 'success'=> false);
         }
 
         echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
