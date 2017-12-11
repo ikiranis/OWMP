@@ -117,9 +117,6 @@ class MyDB
             }
         }
 
-        trigger_error($sql);
-        
-
         if(isset($condition))
             $sql=$sql.' WHERE '.$condition;
         
