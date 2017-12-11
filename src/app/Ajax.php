@@ -1028,7 +1028,7 @@ class Ajax extends Controller
             trigger_error($fullPathFilename);
         } else {
             if(isset($path)) {
-                $fullPathFilename = $path;
+                $fullPathFilename = urlencode($path);
                 trigger_error($fullPathFilename);
             }
         }
