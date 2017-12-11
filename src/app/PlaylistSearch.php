@@ -642,6 +642,7 @@ class PlaylistSearch extends OWMPElements
         // Διαβάζει το json array $fieldsArray και επιστρέφει το search query μαζί με τους παραμέτρους
         $this->getSearchElements();
 
+        trigger_error($this->duplicates);
         // Παίρνει τα περιεχόμενα της playlist που ψάχνουμε
         $this->getPlaylistResults();
 
