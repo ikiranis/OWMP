@@ -468,6 +468,7 @@ class PlaylistSearch extends OWMPElements
     //      @return: array $this->playlist  Τα περιεχόμενα της λίστας που θα εμφανίσει
     public function getDuplicateRecords()
     {
+        $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'file_id');
 
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
