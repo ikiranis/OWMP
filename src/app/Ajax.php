@@ -924,6 +924,8 @@ class Ajax extends Controller
             $duplicates=true;
         else $duplicates=false;
 
+        trigger_error($duplicates);
+
         if(isset($_GET['queue']))
             $playedQueue=true;
         else $playedQueue=false;
