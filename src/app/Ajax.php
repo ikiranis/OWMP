@@ -1028,7 +1028,7 @@ class Ajax extends Controller
             trigger_error($fullPathFilename);
         } else {
             if(isset($path)) {
-                $fullPathFilename = utf8_encode($path);
+                $fullPathFilename = $path;
                 trigger_error($fullPathFilename);
             }
         }
