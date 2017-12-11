@@ -959,9 +959,10 @@ class Ajax extends Controller
             if ($loadPlaylist == true) {
                 $playlist->loadPlaylist = $loadPlaylist;
             }
-            trigger_error($duplicates);
             if($duplicates==true) {
+
                 $playlist->duplicates = $duplicates;
+                trigger_error($playlist->duplicates);
             }
             if($votePlaylist==true) {
                 $playlist->fieldsArray = null;
