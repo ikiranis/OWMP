@@ -475,18 +475,20 @@ class PlaylistSearch extends OWMPElements
                             FROM files JOIN music_tags on files.id=music_tags.id 
                             WHERE hash IN (SELECT hash FROM files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
+            trigger_error($this->tempUserPlaylist);
             // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
             MyDB::copyFieldsToOtherTable('file_id', $this->tempUserPlaylist, $myQuery, null);
 
-            trigger_error(MyDB::countTable($this->tempUserPlaylist));
             $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
+            trigger_error(MyDB::countTable($_SESSION['$countThePlaylist']));
         }
 
-//        $this->playlist = MyDB::getTableArray('music_tags', null, $this->condition, $this->arrayParams,
-//            'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, 'files', $this->joinFieldsArray);
+
+//        $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
+//            null, null, 'date_added DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
 
         // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
-        $this->playlist = MyDB::getTableArray($this->mainTables, null,
+        $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
             null, null, 'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
 
     }
