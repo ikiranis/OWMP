@@ -925,8 +925,6 @@ class Ajax extends Controller
             }
         }
 
-
-
         if(isset($_GET['duplicates']))
             $duplicates=true;
         else $duplicates=false;
@@ -1142,18 +1140,30 @@ class Ajax extends Controller
         if(isset($_GET['id']))
             $id=ClearString($_GET['id']);
 
+        if(isset($_GET['newID']))
+            $newID=ClearString($_GET['newID']);
+
         $update = MyDB::updateTableFields('files', 'id=?',
             array('path', 'filename'),
             array($path, $filename, $id));
 
         if($update) {
-            echo '<p>'.__('the_file').' '. $filename . ' '.__('changed_path').'</p>';
 
-            $jsonArray = array('success' => true, 'id' => $id);
+            $conn = new MyDB();
 
-            trigger_error($id.'  File ' . $filename . ' change path.');
+            if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','$newID',$id))
+                if($deleteFile = $conn->deleteRowFromTable('files', '$newID', $id)) {
+                    echo '<p>'.__('the_file').' '. $filename . ' '.__('changed_path').'</p>';
 
-            Logs::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
+                    $jsonArray = array('success' => true, 'id' => $id);
+
+                    trigger_error($id.'  File ' . $filename . ' change path.');
+
+                    Logs::insertLog('File ' . $filename . ' change path.'); // Προσθήκη της κίνησης στα logs
+                } else {
+                    $jsonArray=array( 'success'=> false);
+                }
+
         } else {
             $jsonArray=array( 'success'=> false);
         }

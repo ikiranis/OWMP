@@ -320,7 +320,8 @@ class SyncFiles
                     self::$filesForUpdate[] = [  // Πίνακας με τα id των προς μεταφορά αρχείων
                         'id' => $searchHash,
                         'filename' => $this->filename,
-                        'path' => $this->path
+                        'path' => $this->path,
+                        'newID' => random_int(0,1000000)
                     ];
 
                     trigger_error('UPDATE ' . $this->hash . ' FILENAME ' . $this->filename);
@@ -336,7 +337,7 @@ class SyncFiles
                     ];
 
 
-                    trigger_error('DIAGRAFH ' . $this->hash . ' FILENAME ' . $this->filename);
+                    trigger_error('DELETE ' . $this->hash . ' FILENAME ' . $this->filename);
 
                     $this->hashAlreadyExist = true;
                 }
@@ -374,7 +375,23 @@ class SyncFiles
 
     }
 
-    // Θέτει τιμή $this->inserted_id στο τελευταίο id του self::$filesForDelete
+    /**
+     * Θέτει τιμή $this->inserted_id στο τελευταίο id του self::$filesForUpdate
+     */
+    public function setIdForUpdatedFile()
+    {
+        // Ελέγχει αν το τρέχον $this->filename υπάρχει στο array self::$filesForUpdate
+        // ώστε να δώσει τιμή στο συγκεκριμένο newID
+        $myKey = array_search($this->filename, array_column(self::$filesForUpdate, 'filename'));
+
+        if(false!==$myKey) { // Αν βρεθεί
+            self::$filesForUpdate[$myKey]['newID'] = $this->inserted_id;
+        }
+    }
+
+    /**
+     * Θέτει τιμή $this->inserted_id στο τελευταίο id του self::$filesForDelete
+     */
     public function setIdForDeletedFile()
     {
         // Ελέγχει αν το τρέχον $this->filename υπάρχει στο array self::$filesForDelete
@@ -393,6 +410,7 @@ class SyncFiles
         if ($this->stmt_file->execute($sqlParamsFile)) {  // Αν η εγγραφή είναι επιτυχής
             $this->inserted_id = MyDB::$conn->lastInsertId();  // παίρνουμε το id για χρήση αργότερα
             $this->setIdForDeletedFile();
+            $this->setIdForUpdatedFile();
         } else {
             $this->inserted_id = 0;
             trigger_error('PROBLEM!!!!!!!!!!     $path ' . $this->path . ' $filename ' . $this->filename);

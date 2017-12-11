@@ -947,7 +947,7 @@ function deleteExistedFile(id)
  * @param counter
  * @param total
  */
-function callUpdateTheFile(path, filename, id, counter, total) {
+function callUpdateTheFile(path, filename, id, counter, total, newID) {
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "app/updateFile",
         type: 'GET',
@@ -955,7 +955,8 @@ function callUpdateTheFile(path, filename, id, counter, total) {
         data: {
             path: path,
             filename: filename,
-            id: id
+            id: id,
+            newID: newID
         },
         dataType: "json",
         beforeSend: function (xhr) {
@@ -1318,7 +1319,7 @@ function updateFiles(filesArray) {
         runningUpdateFiles = true;
 
         for (var i = 0; i < filesArray.length; i++) {
-            callUpdateTheFile(filesArray[i]['path'], filesArray[i]['filename'], filesArray[i]['id'], i, filesArray.length);
+            callUpdateTheFile(filesArray[i]['path'], filesArray[i]['filename'], filesArray[i]['id'], i, filesArray.length, filesArray[i]['newID']);
         }
 
         $(document).one("ajaxStop", function() {  // Μόλις εκτελεστούν όλα τα ajax κάνει το παρακάτω
