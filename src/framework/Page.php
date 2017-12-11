@@ -90,7 +90,7 @@ class Page
                 <?php echo $languages_text; ?>
             </div>
 
-            <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"><?php echo $_SESSION['$countThePlaylist']; ?></span> <?php echo __('items_in_playlist'); ?></div>
+            <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"><?php echo $_SESSION['countThePlaylist']; ?></span> <?php echo __('items_in_playlist'); ?></div>
         </nav>
 
         <div id="helpContainer" class="bgc3 c8">

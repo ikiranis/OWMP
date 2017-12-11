@@ -72,7 +72,7 @@ class PlaylistSearch extends OWMPElements
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                        onclick="searchPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="searchPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
+                       onclick="searchPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -85,7 +85,7 @@ class PlaylistSearch extends OWMPElements
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                        onclick="findDuplicates(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="findDuplicates(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
+                       onclick="findDuplicates(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -98,7 +98,7 @@ class PlaylistSearch extends OWMPElements
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                        onclick="getVotePlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="getVotePlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
+                       onclick="getVotePlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -111,7 +111,7 @@ class PlaylistSearch extends OWMPElements
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
                        onclick="playPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="playPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['$countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
+                       onclick="playPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -479,8 +479,8 @@ class PlaylistSearch extends OWMPElements
             // αντιγραφή του playlist σε αντίστοιχο $tempUserPlaylist table ώστε ο player να παίζει από εκεί
             MyDB::copyFieldsToOtherTable('file_id', $this->tempUserPlaylist, $myQuery, null);
 
-            $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
-            trigger_error(MyDB::countTable($_SESSION['$countThePlaylist']));
+            $_SESSION['countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
+            trigger_error(MyDB::countTable($_SESSION['countThePlaylist']));
         }
 
 
@@ -515,7 +515,7 @@ class PlaylistSearch extends OWMPElements
         }
 
         // Μετράει τις εγγραφές που βρήκε
-        $_SESSION['$countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
+        $_SESSION['countThePlaylist'] = MyDB::countTable($this->tempUserPlaylist);
 
     }
 
@@ -659,7 +659,7 @@ class PlaylistSearch extends OWMPElements
             // Στέλνει στην javascript το σύνολο των εγγραφών που βρέθηκαν
             ?>
             <script type="text/javascript">
-                var playlistCount = <?php echo $_SESSION['$countThePlaylist']; ?>;
+                var playlistCount = <?php echo $_SESSION['countThePlaylist']; ?>;
             </script>
             <?php
 

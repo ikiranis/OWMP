@@ -141,4 +141,4 @@ $MainPage->showFooter(true, false, false);
         </div>
     </div>
 
-<span id="playlistCount"><?php echo $_SESSION['$countThePlaylist'].' items'; ?> </span>
+<span id="playlistCount"><?php echo $_SESSION['countThePlaylist'].' items'; ?> </span>

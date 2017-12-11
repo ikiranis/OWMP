@@ -697,7 +697,7 @@ class Ajax extends Controller
                 'fromAPI'=>$fromAPI,
                 'apiSource'=>$apiSource,
                 'playlist_id' => $playlistID,
-                'playlist_count' => $_SESSION['$countThePlaylist']);
+                'playlist_count' => $_SESSION['countThePlaylist']);
 
         } else {
             $jsonArray = array('success' => false);

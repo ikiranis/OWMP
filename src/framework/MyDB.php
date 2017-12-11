@@ -116,6 +116,8 @@ class MyDB
                 }
             }
         }
+
+        trigger_error($sql);
         
 
         if(isset($condition))
