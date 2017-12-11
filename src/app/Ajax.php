@@ -1028,7 +1028,7 @@ class Ajax extends Controller
             trigger_error($fullPathFilename);
         } else {
             if(isset($path)) {
-                $fullPathFilename = db2_escape_string($path);
+                $fullPathFilename = base64_encode($path);
                 trigger_error($fullPathFilename);
             }
         }
