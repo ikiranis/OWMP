@@ -924,8 +924,6 @@ class Ajax extends Controller
             $duplicates=true;
         else $duplicates=false;
 
-        trigger_error($duplicates);
-
         if(isset($_GET['queue']))
             $playedQueue=true;
         else $playedQueue=false;
@@ -948,7 +946,7 @@ class Ajax extends Controller
         $playlist->fieldsArray = $jsonArray;
         $playlist->offset = $offset;
         $playlist->step = $step;
-        $playlist->duplicates = null;
+        $playlist->duplicates = $duplicates;
         $playlist->mediaKind = $mediaKind;
         $playlist->tabID = $tabID;
         $playlist->loadPlaylist = null;
