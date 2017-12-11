@@ -917,8 +917,15 @@ class Ajax extends Controller
             else $mediaKind=null;
         else $mediaKind=null;
 
-        if(isset($_GET['firstTime']))
-            $firstTime=ClearString($_GET['firstTime']);
+        if(isset($_GET['firstTime'])) {
+            $firstTime = ClearString($_GET['firstTime']);
+
+            if($firstTime=='true') {
+                $_SESSION['PlaylistCounter'] = 0;
+            }
+        }
+
+
 
         if(isset($_GET['duplicates']))
             $duplicates=true;
@@ -939,9 +946,6 @@ class Ajax extends Controller
         if(isset($_GET['tabID']))
             $tabID=ClearString($_GET['tabID']);
         else $tabID = null;
-
-        if($firstTime=='true')
-            $_SESSION['PlaylistCounter']=0;
 
         $playlist->fieldsArray = $jsonArray;
         $playlist->offset = $offset;
