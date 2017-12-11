@@ -1025,12 +1025,9 @@ class Ajax extends Controller
         if(isset($id)) {
             $file=MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
             $fullPathFilename = DIR_PREFIX.$file[0]['path'].$file[0]['filename'];
-            trigger_error($fullPathFilename);
         } else {
             if(isset($path)) {
                 $fullPathFilename = $path;
-                $hash = SyncFiles::hashFile($fullPathFilename);
-                trigger_error($hash);
             }
         }
 

@@ -673,6 +673,8 @@ class OWMPElements extends OWMP
     {
         MyDB::createConnection();
 
+        trigger('ANAZHTHSH');
+
         $sql='SELECT files.id as id, song_name, artist, genre, date_added, play_count, rating, song_year FROM files JOIN music_tags on files.id=music_tags.id WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
         if(isset($offset))
