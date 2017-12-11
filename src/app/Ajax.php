@@ -1029,7 +1029,8 @@ class Ajax extends Controller
         } else {
             if(isset($path)) {
                 $fullPathFilename = $path;
-                trigger_error($fullPathFilename);
+                $hash = hashFile($fullPathFilename)
+                trigger_error($hash);
             }
         }
 
