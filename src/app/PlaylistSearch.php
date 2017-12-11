@@ -469,6 +469,7 @@ class PlaylistSearch extends OWMPElements
     public function getDuplicateRecords()
     {
 
+        trigger_error('DUPLICATE SEARCH');
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
 
@@ -538,7 +539,6 @@ class PlaylistSearch extends OWMPElements
 
         // Αρχίζει το search
         if($this->duplicates==null) {   // κανονική λίστα
-            trigger_error('kanonikh');
             // Όταν φορτώσει για πρώτη φορά η εφαρμογή
             if ($_SESSION['PlaylistCounter'] == 0) {
                 // Δημιουργεί τα αρχικά temporary tables με την αρχική λίστα
@@ -558,7 +558,6 @@ class PlaylistSearch extends OWMPElements
 
 
         } else {  // εμφάνιση διπλών εγγραφών
-            trigger_error('duplicate');
             $this->getDuplicateRecords();
         }
 
