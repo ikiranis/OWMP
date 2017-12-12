@@ -366,7 +366,7 @@ function update_tags(key_rating) {
     var live = $('#FormTags #live').val();
 
     // Αν το songID είναι ίσο με το currentID, σε περίπτωση από κάποιο κόλλημα πάει να γράψει σε λάθος τραγούδι
-    if(songID === currentID) {
+    if(parseInt(songID) === parseInt(currentID)) {
         $.ajax({
             url: AJAX_path + "app/updateTags",
             type: 'POST',
