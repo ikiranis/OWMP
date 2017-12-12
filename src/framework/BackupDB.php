@@ -202,7 +202,6 @@ class BackupDB extends MyDB
     public function clearTables()
     {
         foreach ($this->tables as $table) {
-            trigger_error($table);
             if(MyDB::checkIfTableExist($table)) { // Αν υπάρχει το table, το καθαρίζουμε
                 if(!MyDB::dropTable($table)) {
                     trigger_error('PROBLEM WITH DELETE '.$table);

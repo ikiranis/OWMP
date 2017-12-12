@@ -224,14 +224,19 @@ class Options extends MyDB
             $newArray[$item['path_name']] = $item['file_path'];
         }
 
-        // Ελέγχουμε αν κάποιο path name που βρίσκετε στο $this->defaultDownloadPaths δεν υπάρχει στην βάση
-        // Το δημιουργούμε αν δεν υπάρχει
-        foreach ($this->defaultDownloadPaths as $item) {
-            if(!isset($newArray[$item['pathName']])) {
-                $conn = new MyDB();
-                $sql = 'INSERT INTO download_paths (path_name, file_path) VALUES(?,?)';   // Εισάγει στον πίνακα download_paths
-                $pathsArray = array($item['pathName'], $item['path']);
-                $conn->insertInto($sql, $pathsArray);
+        // Παίρνει την τιμή του restoreRunning στο progress
+        $restoreRunning = MyDB::getTableFieldValue('progress', 'progressName=?', 'restoreRunning', 'progressValue');
+
+        if($restoreRunning=='0') { // Αν δεν τρέχει το restore
+            // Ελέγχουμε αν κάποιο path name που βρίσκετε στο $this->defaultDownloadPaths δεν υπάρχει στην βάση
+            // Το δημιουργούμε αν δεν υπάρχει
+            foreach ($this->defaultDownloadPaths as $item) {
+                if (!isset($newArray[$item['pathName']])) {
+                    $conn = new MyDB();
+                    $sql = 'INSERT INTO download_paths (path_name, file_path) VALUES(?,?)';   // Εισάγει στον πίνακα download_paths
+                    $pathsArray = array($item['pathName'], $item['path']);
+                    $conn->insertInto($sql, $pathsArray);
+                }
             }
         }
 

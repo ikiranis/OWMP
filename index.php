@@ -19,8 +19,6 @@ require_once('src/boot.php');
 
 session_start();
 
-trigger_error(ini_get('memory_limit'));
-
 MyDB::checkMySqlTables(); // Έλεγχος των tables στην βάση
 MyDB::checkMySqlForTypeChanges(); // Έλεγχος για αλλαγμένα πεδία στην βάση
 
