@@ -130,7 +130,7 @@ class VideoDownload
         }
 
         // το όνομα του αρχείου που θα κατεβάσει με το full path
-        $outputfilename = shell_exec('youtube-dl --get-filename -f '.$downloadString);
+        $outputfilename = shell_exec('youtube-dl --restrict-filenames --get-filename -f '.$downloadString);
 
         trigger_error('youtube-dl --restrict-filenames --cache-dir '. OUTPUT_FOLDER . ' -f '.$downloadString);
 
