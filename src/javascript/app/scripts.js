@@ -365,7 +365,6 @@ function update_tags(key_rating) {
     }  // Αν έχει πατηθεί νούμερο για βαθμολογία
     var live = $('#FormTags #live').val();
 
-    console.log('SongID: ' + songID + ' currentID: ' + currentID);
     // Αν το songID είναι ίσο με το currentID, σε περίπτωση από κάποιο κόλλημα πάει να γράψει σε λάθος τραγούδι
     if(songID === currentID) {
         $.ajax({
@@ -426,7 +425,7 @@ function update_tags(key_rating) {
 
         })
     } else {
-        console.log('Bad ID');
+        console.log('BAD ID!!!!!!   SongID: ' + songID + ' currentID: ' + currentID);
     }
 }
 
