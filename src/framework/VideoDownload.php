@@ -121,7 +121,7 @@ class VideoDownload
     // Κατεβάζει ένα βίντεο από το youtube. Σε audio ή video
     public function downloadYoutube($videoFullPath) {
 
-        $youtubedlOptions = '--restrict-filenames --cache-dir '. OUTPUT_FOLDER;
+        $youtubedlDefaultOptions = '--restrict-filenames --cache-dir '. OUTPUT_FOLDER;
 
         if($this->mediaKind=='Music Video') {
             // Κατέβασμα βίντεο
@@ -132,12 +132,10 @@ class VideoDownload
         }
 
         // το όνομα του αρχείου που θα κατεβάσει με το full path
-        $outputfilename = shell_exec('youtube-dl ' . $youtubedlOptions . ' --restrict-filenames --get-filename -f '.$downloadString);
-
-        trigger_error('youtube-dl ' . $youtubedlOptions . ' -f '.$downloadString);
+        $outputfilename = shell_exec('youtube-dl ' . $youtubedlDefaultOptions . ' --get-filename -f '.$downloadString);
 
         // κατεβάζει το βίντεο
-        $result=shell_exec('youtube-dl ' . $youtubedlOptions . ' -f '.$downloadString);
+        $result=shell_exec('youtube-dl ' . $youtubedlDefaultOptions . ' -f '.$downloadString);
 
         return $outputfilename;
     }
