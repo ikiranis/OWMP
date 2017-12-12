@@ -351,7 +351,7 @@ function makePlaylistItemActive(id) {
  * @param key_rating
  */
 function update_tags(key_rating) {
-    var songID = $('#FormTags #songID').val();
+    var songID = parseInt($('#FormTags #songID').val());
     var song_name = $('#FormTags #title').val();
     var artist = $('#FormTags #artist').val();
     var genre = $('#FormTags #genre').val();
@@ -366,7 +366,7 @@ function update_tags(key_rating) {
     var live = $('#FormTags #live').val();
 
     // Αν το songID είναι ίσο με το currentID, σε περίπτωση από κάποιο κόλλημα πάει να γράψει σε λάθος τραγούδι
-    if(parseInt(songID) === parseInt(currentID)) {
+    if(songID === currentID) {
         $.ajax({
             url: AJAX_path + "app/updateTags",
             type: 'POST',
