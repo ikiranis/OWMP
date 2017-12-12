@@ -17,8 +17,8 @@ services:
 #      - /var/lib/mysql
 
   apache-server:
-    image: apps4net/apache:1.0
-#    image: apache
+#    image: apps4net/apache:1.0
+    image: apache
     ports:
       - ${APP_PORT}
 #      - "443:443"
