@@ -425,7 +425,7 @@ function update_tags(key_rating) {
 
         })
     } else {
-        console.log('BAD ID!!!!!!   SongID: ' + songID + ' currentID: ' + currentID);
+        console.log('BAD ID!!!!!!   SongID: (' + songID + ') currentID: (' + currentID + ')');
     }
 }
 
