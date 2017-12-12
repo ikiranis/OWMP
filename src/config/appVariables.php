@@ -24,10 +24,10 @@ $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υπ�
 
 // Τα tables για το backup
 $backupTables = array('user', 'user_details', 'salts', 'options', 'manual_playlists', 'smart_playlists',
-    'files', 'album_arts', 'music_tags', 'paths');
+    'files', 'album_arts', 'music_tags', 'paths', 'download_paths');
 // Τα tables για το restore
 $restoreTables = array('manual_playlists', 'smart_playlists', 'salts', 'user_details', 'user',
-    'options', 'music_tags', 'album_arts', 'files', 'paths');
+    'options', 'music_tags', 'album_arts', 'files', 'paths', 'download_paths');
 
 // Η διεύθυνση του checkValidImage script. Πρέπει να είναι ολόκληρο το url της εσωτερικής ip του server που τρέχει η εφαρμογή
 // π.χ. http://192.168.1.19:9999/arduino
