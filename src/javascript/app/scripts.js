@@ -351,7 +351,7 @@ function makePlaylistItemActive(id) {
  * @param key_rating
  */
 function update_tags(key_rating) {
-    var songID = parseInt($('#FormTags #songID').val());
+    var songID = $('#FormTags #songID').val();
     var song_name = $('#FormTags #title').val();
     var artist = $('#FormTags #artist').val();
     var genre = $('#FormTags #genre').val();
