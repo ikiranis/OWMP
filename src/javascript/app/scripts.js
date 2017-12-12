@@ -351,6 +351,7 @@ function makePlaylistItemActive(id) {
  * @param key_rating
  */
 function update_tags(key_rating) {
+    var songID = $('#FormTags #songID').val();
     var song_name = $('#FormTags #title').val();
     var artist = $('#FormTags #artist').val();
     var genre = $('#FormTags #genre').val();
@@ -364,63 +365,68 @@ function update_tags(key_rating) {
     }  // Αν έχει πατηθεί νούμερο για βαθμολογία
     var live = $('#FormTags #live').val();
 
-    $.ajax({
-        url: AJAX_path + "app/updateTags",
-        type: 'POST',
-        data: {
-            id: currentID,
-            song_name: song_name,
-            artist: artist,
-            genre: genre,
-            song_year: song_year,
-            album: album,
-            rating: rating,
-            live: live
-        },
-        dataType: "json",
-        success: function(data) {
-            if (data.success === true) {
+    // Αν το songID είναι ίσο με το currentID, σε περίπτωση από κάποιο κόλλημα πάει να γράψει σε λάθος τραγούδι
+    if(songID === currentID) {
+        $.ajax({
+            url: AJAX_path + "app/updateTags",
+            type: 'POST',
+            data: {
+                id: currentID,
+                song_name: song_name,
+                artist: artist,
+                genre: genre,
+                song_year: song_year,
+                album: album,
+                rating: rating,
+                live: live
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.success === true) {
 
-                $("#message").addClassDelay("success", 3000);
+                    $("#message").addClassDelay("success", 3000);
 
-                var fileCurrentID = $("#fileID"+currentID);
+                    var fileCurrentID = $("#fileID" + currentID);
 
-                if(fileCurrentID.length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
-                    fileCurrentID.find('.song_name').text(song_name);
-                    fileCurrentID.find('.artist').text(artist);
-                    fileCurrentID.find('.genre').text(genre);
-                    fileCurrentID.find('.album').text(album);
-                    fileCurrentID.find('.song_year').text(song_year);
-                    fileCurrentID.find('.rating').text(rating);
+                    if (fileCurrentID.length) {   // Ενημερώνει τα σχετικά πεδία στην λίστα
+                        fileCurrentID.find('.song_name').text(song_name);
+                        fileCurrentID.find('.artist').text(artist);
+                        fileCurrentID.find('.genre').text(genre);
+                        fileCurrentID.find('.album').text(album);
+                        fileCurrentID.find('.song_year').text(song_year);
+                        fileCurrentID.find('.rating').text(rating);
+                    }
+
+
+                    if (key_rating) {   // Αν έχει πατηθεί νούμερο για βαθμολογία
+                        $('#rating').val(rating);
+                        $('#rating_output').val(rating);
+                    }
+
+                    FocusOnForm = false;
+
+                    // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
+                    $('#overlay_artist').html(artist);
+                    $('#overlay_song_name').html(song_name);
+                    $('#overlay_song_year').html(song_year);
+                    $('#overlay_album').html(album);
+                    $('#overlay_live').html(liveOptions[live]);
+
+                    // $('#overlay_rating').html(stars);
+                    ratingToStars(rating, '#overlay_rating');
+
+                    showFullScreenVideoTags();
+
+
+                } else {
+                    $("#message").addClassDelay("failure", 3000);
                 }
-
-
-                if(key_rating) {   // Αν έχει πατηθεί νούμερο για βαθμολογία
-                    $('#rating').val(rating);
-                    $('#rating_output').val(rating);
-                }
-
-                FocusOnForm=false;
-
-                // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
-                $('#overlay_artist').html(artist);
-                $('#overlay_song_name').html(song_name);
-                $('#overlay_song_year').html(song_year);
-                $('#overlay_album').html(album);
-                $('#overlay_live').html(liveOptions[live]);
-
-                // $('#overlay_rating').html(stars);
-                ratingToStars(rating,'#overlay_rating');
-
-                showFullScreenVideoTags();
-
-
-            } else {
-                $("#message").addClassDelay("failure", 3000);
             }
-        }
 
-    })
+        })
+    } else {
+        console.log('Bad ID');
+    }
 }
 
 /**

@@ -241,6 +241,7 @@ function loadNextVideo(id)
                 timeInMinutesAndSeconds = seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
 
                 // εμφανίζει τα metadata στα input fields
+                $('#songID').val(data.tags.songID);
                 $('#title').val(data.tags.title);
                 $('#artist').val(data.tags.artist);
                 $('#genre').val(data.tags.genre);

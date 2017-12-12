@@ -681,6 +681,7 @@ class Ajax extends Controller
             $playlistID=MyDB::getTableFieldValue($tempUserPlaylist, 'file_id=?', $id, 'id');
 
             $jsonArray = array('success' => true,
+                'songID' => $metadata[0]['id'],
                 'artist' => htmlspecialchars_decode($metadata[0]['artist']),
                 'title' => htmlspecialchars_decode($metadata[0]['song_name']),
                 'genre' => htmlspecialchars_decode($metadata[0]['genre']),

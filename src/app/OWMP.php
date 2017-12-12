@@ -40,6 +40,11 @@ class OWMP
 
 
         $FormElementsArray = array(
+            array('name' => 'songID',
+                'fieldtext' => null,
+                'type' => 'hidden',
+                'required' => 'no',
+                'value' => null),
             array('name' => 'title',
                 'fieldtext' => __('tag_title'),
                 'type' => 'text',
