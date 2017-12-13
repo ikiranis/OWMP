@@ -488,7 +488,7 @@ class PlaylistSearch extends OWMPElements
                 'music_tags.*, files.path, files.filename, files.hash, files.kind',
                 null,
                 null,
-                'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step,
+                $this->tempUserPlaylist . '.id DESC LIMIT ' . $this->offset . ',' . $this->step,
                 $this->tempUserPlaylist,
                 $this->joinFieldsArray);
 
@@ -529,6 +529,7 @@ class PlaylistSearch extends OWMPElements
         else {
             $this->joinFieldsArray = array('firstField'=>'id', 'secondField'=>'file_id');
         }
+
         $this->mainTables = array('music_tags', 'files');
 
         if (!$this->tabID) {  // Αν δεν έρχεται από το attribute της κλάσης
