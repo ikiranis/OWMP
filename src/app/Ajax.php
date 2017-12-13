@@ -1154,7 +1154,7 @@ class Ajax extends Controller
 
             // Διαγραφή της νέας εγγραφής που έγινε για το ίδιο αρχείο
             if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$newID)) {
-                if ($deleteFile = $conn->deleteRowFromTable('files', '$id', $newID)) {
+                if ($deleteFile = $conn->deleteRowFromTable('files', 'id', $newID)) {
                     echo '<p>' . __('the_file') . ' ' . $filename . ' ' . __('changed_path') . '</p>';
 
                     $jsonArray = array('success' => true, 'id' => $id);
