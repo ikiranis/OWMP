@@ -472,7 +472,7 @@ class PlaylistSearch extends OWMPElements
 
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
-            $myQuery = 'SELECT files.id as file_id, hash
+            $myQuery = 'SELECT files.id as file_id
                             FROM files 
                             WHERE hash IN (SELECT hash FROM files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
@@ -484,7 +484,7 @@ class PlaylistSearch extends OWMPElements
 
         // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
         $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-            null, null, 'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
+            null, null, 'files.hash ASC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
 
     }
 
