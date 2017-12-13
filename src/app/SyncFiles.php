@@ -245,7 +245,7 @@ class SyncFiles
                 exit($ckeckInternalConvertPath['message']);
             }
 
-            $checkMusicUpload = FilesIO::createDirectory(MUSIC_UPLOAD);
+            $checkMusicUpload = FilesIO::createDirectory(MUSIC_FILE_UPLOAD);
             if(!$checkMusicUpload['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
                 exit($checkMusicUpload['message']);
             }
