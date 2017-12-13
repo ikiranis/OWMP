@@ -472,7 +472,7 @@ class PlaylistSearch extends OWMPElements
 
         // Την πρώτη φορά αντιγράφει την λίστα των διπλοεγγραφών στην $tempUserPlaylist
         if ($_SESSION['PlaylistCounter'] == 0) {
-            $myQuery = 'SELECT files.id as file_id
+            $myQuery = 'SELECT files.id as file_id, hash
                             FROM files 
                             WHERE hash IN (SELECT hash FROM files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
