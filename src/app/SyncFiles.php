@@ -232,22 +232,29 @@ class SyncFiles
         // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
         $checkAlbumCoversDir=FilesIO::createDirectory(ALBUM_COVERS_DIR);
         if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
-            exit($checkAlbumCoversDir['message']);
+            $myError = $checkAlbumCoversDir['message'];
+            trigger_error($myError);
+            exit($myError);
         }
 
-        if(!is_dir(ALBUM_COVERS_DIR . 'default.gif'))   // Αν δεν υπάρχει το default.gif το αντιγράφουμε
+        if(!is_dir(ALBUM_COVERS_DIR . 'default.gif')) {   // Αν δεν υπάρχει το default.gif το αντιγράφουμε
             copy('../img/default.gif', ALBUM_COVERS_DIR . 'default.gif');
+        }
 
         if(CONVERT_ALAC_FILES) {
             // Έλεγχοι φακέλων που χρειάζονται
             $ckeckInternalConvertPath = FilesIO::createDirectory(INTERNAL_CONVERT_PATH);
             if(!$ckeckInternalConvertPath['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
-                exit($ckeckInternalConvertPath['message']);
+                $myError = $ckeckInternalConvertPath['message'];
+                trigger_error($myError);
+                exit($myError);
             }
 
             $checkMusicUpload = FilesIO::createDirectory(MUSIC_FILE_UPLOAD);
             if(!$checkMusicUpload['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
-                exit($checkMusicUpload['message']);
+                $myError = $checkMusicUpload['message'];
+                trigger_error($myError);
+                exit($myError);
             }
         }
 
@@ -611,6 +618,7 @@ class SyncFiles
 
         // Αν το mediakind είναι μουσική ελέγχουμε και δημιουργούμε τους φακέλους που χρειαζόμαστε
         if($this->mediaKind=='Music') {
+            // TODO όταν κάνει exit επειδή δεν ειναι σωστό ένα dir, τότε να τερματίζει όλο το proccess γιατί κρεμάει το progress
             $this->createDirectories();
         }
 
