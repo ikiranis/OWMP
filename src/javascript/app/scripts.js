@@ -2076,7 +2076,6 @@ function cancelTheSleepTimer()
 }
 
 /**
- * // TODO δεν σβήνει το προηγούμενο timer και μπορεί να τρέχουν παραπάνω από ένα ταυτόχρονα
  * Αρχίζει την αντίστροφη μέτρηση για το sleep
  */
 function startSleepTimer()
