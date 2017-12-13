@@ -47,7 +47,7 @@ define ('PLAYLIST_LIMIT',intval($optionsArray['playlist_limit']));   // Τα κ�
 define ('DATE_FORMAT',$optionsArray['date_format']);  // To format των ημερομηνιών που εμφανίζονται στο site
 define ('MAX_VIDEO_HEIGHT',$optionsArray['max_video_height']);  // To μέγιστο ύψος του youtube video που θα κατεβάσει
 // το path που μετατρέπει τα ALAC
-define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'ConvertedMusic/');
+//define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'ConvertedMusic/');
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist
 define ('MANUAL_PLAYLIST_STRING', 'mnPl_');  // To string που προσθέτει στο όνομα ενός manual playlist
 define ('PLAYED_QUEUE_PLAYLIST_STRING', 'pqPl_');  // To string που προσθέτει στο όνομα ενός played queue playlist
@@ -62,7 +62,7 @@ define ('APP_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php')
 
 // Τα paths των αρχείων
 define ('ALBUM_COVERS_DIR', $downloadPaths['coverAlbumsFolder'].'/');  // Ο φάκελος που ανεβαίνουν τα covers
-define ('MUSIC_UPLOAD', $downloadPaths['convertedALAC'].'/');  // O φάκελος που μετατρέπονται τα mp3
+define ('INTERNAL_CONVERT_PATH', $downloadPaths['convertedALAC'].'/');  // O φάκελος που μετατρέπονται τα mp3
 define ('VIDEO_FILE_UPLOAD', $downloadPaths['musicVideoDownloadPath'].'/'); // Ο φάκελος που κατεβαίνουν τα videoclips
 define ('OUTPUT_FOLDER', $downloadPaths['outputFolder'].'/');  // Ο φάκελος που κάνει τις οποιεσδήποτε εξαγωγές η εφαρμογή
 define ('MUSIC_FILE_UPLOAD', $downloadPaths['musicDownloadPath'].'/');  // Ο φάκελος που κατεβαίνουν τα audio files
