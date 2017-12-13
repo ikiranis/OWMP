@@ -844,9 +844,13 @@ class SyncFiles
         $this->writeTracks();
     }
 
-
-    // Ψάχνει για αρχεία που δεν παίζουν και διαγράφει τις αντίστοιχες εγγραφές
+    /**
+     * Ψάχνει για αρχεία που δεν παίζουν και διαγράφει τις αντίστοιχες εγγραφές
+     */
     public function clearTheFiles() {
+        // TODO να προστεθεί και διαγραφή εγγραφών στο files που δεν υπάρχουν στο music_tags
+        // DELETE FROM files WHERE id NOT IN (SELECT id FROM music_tags)
+
         set_time_limit(0);
 
         $script_start = microtime(true);

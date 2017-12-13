@@ -1514,7 +1514,9 @@ class OWMPElements extends OWMP
         <?php
     }
 
-    // Εμφάνιση παραθύρου για επιλογή sleep timer
+    /**
+     * Εμφάνιση παραθύρου για επιλογή sleep timer
+     */
     static function displaySleepTimer()
     {
         ?>

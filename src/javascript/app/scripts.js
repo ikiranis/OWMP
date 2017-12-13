@@ -2087,7 +2087,7 @@ function startSleepTimer()
 
     clearInterval(theTimer);
 
-    var theTimer = setInterval(function () {
+    theTimer = setInterval(function () {
         timeInSeconds--;
 
         var timeInMinutesAndSeconds = seconds2MinutesAndSeconds(timeInSeconds);
