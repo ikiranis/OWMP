@@ -484,7 +484,7 @@ class PlaylistSearch extends OWMPElements
 
         // Κάνει join την $tempUserPlaylist με τα music_tags και files για εμφάνιση της playlist
         $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-            null, null, 'files.hash ASC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
+            null, null, ' LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
 
     }
 
