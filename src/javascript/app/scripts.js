@@ -286,6 +286,7 @@ function changeCheckAll(checkAll, checkItems) {
 
 }
 
+// TODO να προστεθεί κουμπί που να κάνεις toggle την εμφάνιση ή όχι στην αρχή του κάθε τραγουδιού του overlay
 /**
  * Εμφανίζει το div με τα metadata όταν είναι σε fullscreen
  *
