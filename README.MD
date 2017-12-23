@@ -1,21 +1,21 @@
-Parrot Tunes (Open Web Media Library and Player)
+##Parrot Tunes (Open Web Media Library and Player)
 
-Application Details
+**Application Details**
 
 http://apps4net.eu/?page_id=9
 
-Screenshots
+**Screenshots**
 
 http://apps4net.eu/?page_id=81
 
-Installation guide
+**Installation guide**
 
 http://apps4net.eu/?page_id=46
 
-Change Log
+**Change Log**
 
 http://apps4net.eu/?page_id=41
 
-Support the app
+**Support the app**
 
 http://apps4net.eu/?page_id=58
