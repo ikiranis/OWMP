@@ -292,35 +292,31 @@ function changeCheckAll(checkAll, checkItems) {
  * @param toggle
  */
 function showFullScreenVideoTags(toggle) {
-    if(localStorage.OverlayAllwaysOn === undefined) {
-        localStorage.OverlayAllwaysOn = 'false';
-    }
 
     if (checkFullscreen()) {  // Αν είναι σε fullscreen
-        if(toggle !== undefined) {
-            if (toggle === 'on') {
-                $('#overlay').show();
-                localStorage.OverlayAllwaysOn = 'true';
+        if(toggle !== undefined) { // Όταν έχει πατηθεί το I και ζητάμε αλλαγή του OverlayAllwaysOn
+            if (!OverlayON) {
+                if (toggle === 'on') {
+                    $('#overlay').show();
+                    localStorage.OverlayAllwaysOn = 'true';
+                } else {
+                    $('#overlay').hide();
+                    localStorage.OverlayAllwaysOn = 'false';
+                }
             }
-            else {
-                $('#overlay').hide();
-                localStorage.OverlayAllwaysOn = 'false';
-            }
-        }
-        else {
+        } else {
             if (localStorage.OverlayAllwaysOn === 'false') {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
                 if (!OverlayON) {  // αν δεν είναι on ήδη
                     OverlayON = true;
-                    $('#overlay').show().delay(5000).hide(0);
+                    $('#overlay').stop().show().delay(5000).hide(0);
                     OverlayON = false;
                 }
-
+            } else {
+                $('#overlay').show();
             }
-            else $('#overlay').show();
         }
 
-    }
-    else {
+    } else {
         $('#overlay').hide();
         $('#overlay_volume').hide();
     }

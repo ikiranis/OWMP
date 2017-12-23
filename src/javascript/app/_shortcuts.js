@@ -50,10 +50,12 @@ function playSong() {
 }
 
 function interfaceToggle() {
-    if(localStorage.OverlayAllwaysOn === 'true')
+    if(localStorage.OverlayAllwaysOn === 'true') {
         showFullScreenVideoTags('off');
-    else
+    } else {
         showFullScreenVideoTags('on');
+    }
+
 }
 
 function giphyToggle() {
