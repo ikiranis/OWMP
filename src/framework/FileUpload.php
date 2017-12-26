@@ -30,12 +30,12 @@ class FileUpload
      */
     public function __construct($file_data, $fileType, $uploadedFilename)
     {
-        $this->fileData     = $file_data;
+        $this->fileData = $file_data;
         $this->fileType = $fileType;
         $this->uploadedFilename = $uploadedFilename;
 
         // Παράγει το file path από το έτος και τον μήνα και ελέγχει το είδος του αρχείου
-        if (strpos(strtolower($this->fileType), 'video')!==false) {
+        if (strpos(strtolower($this->fileType), 'video') !== false) {
 //            $syncFile->mediaKind = 'Music Video';
             $this->uploadDir = VIDEO_FILE_UPLOAD . Utilities::getPathFromYearAndMonth(). $this->uploadedFilename;
         } else {
@@ -66,10 +66,11 @@ class FileUpload
             echo json_encode($jsonArray);
         }
 
-        file_put_contents( $uploadDir.$this->uploadedFilename, $this->fileData, FILE_APPEND );
+        file_put_contents( $uploadDir . $this->uploadedFilename, $this->fileData, FILE_APPEND );
 
         $jsonArray = array('success' => true, 'fileName' => $this->uploadedFilename,
-            'fullPathFilename' => $uploadDir.$this->uploadedFilename, 'fileType' => $this->fileType);
+            'fullPathFilename' => $uploadDir . $this->uploadedFilename, 'fileType' => $this->fileType);
+
         echo json_encode($jsonArray);
     }
 

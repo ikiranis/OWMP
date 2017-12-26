@@ -612,7 +612,7 @@ class Ajax extends Controller
         if(isset($_GET['tabID']))
             $tabID=ClearString($_GET['tabID']);
 
-        $file=MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
+        $file = MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
 
         $filesArray=array('path'=>$file[0]['path'],
             'filename'=>$file[0]['filename'],
@@ -1442,6 +1442,53 @@ class Ajax extends Controller
             $jsonArray = array('success' => true, 'id' => $id);
         } else {
             $jsonArray=array( 'success'=> false);
+        }
+
+        echo json_encode($jsonArray);
+    }
+
+    /**
+     * Convert an audio file to lower bitrate
+     */
+    public function convertAudioToLowerBitRate()
+    {
+        session_start();
+
+        Page::checkValidAjaxRequest(false);
+
+        if(isset($_GET['id'])){
+            $id = ClearString($_GET['id']);
+        }
+
+        if(isset($_GET['tabID'])) {
+            $tabID=ClearString($_GET['tabID']);
+        }
+
+        // Παίρνουμε το full path του συγκεκριμένου αρχείου
+        $file = MyDB::getTableArray('files','path, filename', 'id=?', array($id),null, null, null);
+
+        $fullPath = DIR_PREFIX . $file[0]['path'] . $file[0]['filename'];
+
+        $tempPath = OUTPUT_FOLDER . 'temp/' . $tabID . '/';
+        $tempFile = 'temp.mp3';
+
+        FilesIO::createDirectory($tempPath);
+
+        $execCommand = 'lame -f --mp3input -b 64 "' . $fullPath . '" "' . $tempPath . $tempFile . '" 2>&1';
+
+        $output = array();
+        $result = -1;
+
+        $script_start = microtime(true);
+        exec($execCommand, $output, $result);
+        $script_time_elapsed_secs = microtime(true) - $script_start;
+
+        if($result === 0) {
+            $finalOutput = $output[count($output)-2];
+
+            $jsonArray = array('success' => true, 'result' => $finalOutput, 'time' => $script_time_elapsed_secs);
+        } else {
+            $jsonArray = array('success' => false, 'errorCode' => $result);
         }
 
         echo json_encode($jsonArray);

@@ -85,6 +85,33 @@ function oldcheckFullscreen () {
 }
 
 /**
+ * Convert an audio file to lower bitrate
+ *
+ * @param id
+ */
+function convertAudioToLowerBitrate(id)
+{
+    $.ajax({
+        url: AJAX_path + "app/convertAudioToLowerBitRate",
+        type: 'GET',
+        async: true,
+        data: {
+            id: id,
+            tabID: tabID
+        },
+        dataType: "json",
+        success: function (data) {
+            if(data.success === true) {
+                console.log(data.result);
+                console.log(data.time);
+            } else {
+                console.log(data.errorCode);
+            }
+        }
+    });
+}
+
+/**
  * Παίρνει το επόμενο τραγούδι και αρχίζει την αναπαραγωγή
  *
  * @param id
@@ -113,7 +140,7 @@ function getNextVideoID(id, operation) {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                currentID=data.file_id;
+                currentID = data.file_id;
 
                 if(data.operation === 'next') {
                     currentPlaylistID = data.playlist_id;
@@ -122,6 +149,7 @@ function getNextVideoID(id, operation) {
                 if(data.operation === 'prev') {
                     currentQueuePlaylistID = data.playlist_id;
                 }
+
                 loadNextVideo(id);
             }
         }
@@ -129,7 +157,7 @@ function getNextVideoID(id, operation) {
 }
 
 /**
- * TODO όταν παίζει τραγούδια σε continues, αν παίξει κάποιο loved, τότε δεν συνεχίζει μετά από το τραγούδι που σταμάτησε
+ * TODO όταν παίζει τραγούδια σε continue, αν παίξει κάποιο loved, τότε δεν συνεχίζει μετά από το τραγούδι που σταμάτησε
  *
  * Set the src of the video to the next URL in the playlist
  * If at the end we start again from beginning (the modulo
@@ -226,8 +254,14 @@ function loadNextVideo(id)
                         toggleFullscreen();
                     }
 
-                }
-                else { // Αν είναι video
+                    // localStorage.convertToLowerBitrate = 'true';
+
+                    // If we want to convert audio to lower bitrate
+                    if(localStorage.convertToLowerBitrate === 'true') {
+                        convertAudioToLowerBitrate(currentID);
+                    }
+
+                } else { // Αν είναι video
                     document.querySelector('#overlay_poster_source').innerHTML = '';
                     myVideo.poster = '';
                 }

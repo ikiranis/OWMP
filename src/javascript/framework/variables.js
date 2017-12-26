@@ -65,3 +65,5 @@ if(localStorage.PlayMode === undefined) localStorage.PlayMode='continue';
 
 // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
 if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
+
+(localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'false' : null;
