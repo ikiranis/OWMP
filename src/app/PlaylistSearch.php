@@ -488,7 +488,7 @@ class PlaylistSearch extends OWMPElements
                 'music_tags.*, files.path, files.filename, files.hash, files.kind',
                 null,
                 null,
-                'files.has DESC LIMIT ' . $this->offset . ',' . $this->step,
+                'files.hash DESC LIMIT ' . $this->offset . ',' . $this->step,
                 $this->tempUserPlaylist,
                 $this->joinFieldsArray);
 

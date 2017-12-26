@@ -94,13 +94,16 @@ class MyDB
             $MainTable=$table[0];
         else $MainTable=$table;
 
-        if(!isset($fields)) $sql = 'SELECT * FROM '.$MainTable;
-        else $sql = 'SELECT '.$fields.' FROM '.$MainTable;
+        if(!isset($fields)) {
+            $sql = 'SELECT * FROM '.$MainTable;
+        } else {
+            $sql = 'SELECT '.$fields.' FROM '.$MainTable;
+        }
 
         if(isset($joinTable)) {
-            if(!is_array($table))
+            if(!is_array($table)) {
                 $sql = $sql . ' JOIN ' . $joinTable . ' on ' . $MainTable . '.' . $joinFields['firstField'] . '=' . $joinTable . '.' . $joinFields['secondField'];
-            else { // Όταν είναι πολλαπλά tables για join
+            } else { // Όταν είναι πολλαπλά tables για join
                 $counter=0;
 
                 foreach ($table as $item) {
