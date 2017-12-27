@@ -322,6 +322,8 @@
 
             <p>The <strong>max_video_height</strong> has the maximum resolution (height) of the video to be downloaded from youtube. eg 240, 360, 480, 720, 1080, 1440, 2160, etc</p>
 
+            <p>The <strong>low_audio_bitrate</strong> has the bitrate to convert songs, if you choose it</p>
+
             <p><strong>CAUTION:</strong> When you change any of these values, you must refresh the application to get the new value</p>
         ]]></phrase>
         <phrase name="help_sync"><![CDATA[

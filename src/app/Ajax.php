@@ -411,6 +411,8 @@ class Ajax extends Controller
             $cantPlayVotes = false;
         }
 
+        $songKind = null;
+
         if($operation=='next') { // όταν θέλουμε να παίξει το επόμενο
 
             if(!MyDB::countTable('votes') || $cantPlayVotes) {  // Αν δεν υπάρχουν ψήφοι στο votes
@@ -1477,7 +1479,7 @@ class Ajax extends Controller
 
         FilesIO::createDirectory($tempPath);
 
-        $execCommand = 'lame -f --mp3input -b 64 "' . $fullPath . '" "' . $tempPath . $filename . '" 2>&1';
+        $execCommand = 'lame -f --mp3input -b '. LOW_AUDIO_BITRATE . ' "' . $fullPath . '" "' . $tempPath . $filename . '" 2>&1';
 
         $output = array();
         $result = -1;

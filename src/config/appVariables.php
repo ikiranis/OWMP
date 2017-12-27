@@ -68,7 +68,6 @@ define ('OUTPUT_FOLDER', $downloadPaths['outputFolder'].'/');  // Ο φάκελ�
 define ('MUSIC_FILE_UPLOAD', $downloadPaths['musicDownloadPath'].'/');  // Ο φάκελος που κατεβαίνουν τα audio files
 
 define ('LOW_BITRATE_TEMP_FOLDER', OUTPUT_FOLDER . 'temp/');
-define ('TEMP_AUDIO_FILE', 'temp.mp3');
 
 // Τα options
 $convertALACOption = $optionsArray['convert_alac_files'];
@@ -93,6 +92,8 @@ define ('ICECAST_SERVER', $optionsArray['icecast_server']);
 define ('ICECAST_MOUNT', $optionsArray['icecast_mount']);
 define ('ICECAST_USER', $optionsArray['icecast_user']);
 define ('ICECAST_PASS', $optionsArray['icecast_pass']);
+
+define ('LOW_AUDIO_BITRATE', $optionsArray['low_audio_bitrate']);
 
 
 // Δημιουργεί την αρχική εγγραφή στο album_arts και παίρνει το id της, αν υπάρχει ήδη
