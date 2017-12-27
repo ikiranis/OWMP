@@ -253,7 +253,7 @@ class Ajax extends Controller
         $conn = new MyDB();
 
         // 30 minutes
-        $lastMinutes = strtotime('-2 minutes');
+        $lastMinutes = strtotime('-30 minutes');
         $theDate = date('Y-m-d H:i:s', $lastMinutes);
 //        trigger_error($theDate);
         $playlistTablesToDelete = MyDB::getTableArray('playlist_tables', 'table_name', 'last_alive<?', array($theDate), null, null, null);
