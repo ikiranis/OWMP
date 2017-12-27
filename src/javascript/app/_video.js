@@ -93,7 +93,6 @@ function convertAudioToLowerBitrate(id)
 {
     console.log('Start converting...');
 
-    //TODO what it will do when you press next before the end of converting
     $.ajax({
         url: AJAX_path + "app/convertAudioToLowerBitRate",
         type: 'GET',
@@ -126,8 +125,10 @@ function convertAudioToLowerBitrate(id)
  *
  * @param id
  * @param operation
+ * @param preload
  */
-function getNextVideoID(id, operation, preload) {
+function getNextVideoID(id, operation, preload)
+{
     var theCurrentPlaylistID;
 
     // TODO possible problem with this when you change manual playlists
@@ -184,6 +185,7 @@ function getNextVideoID(id, operation, preload) {
  * Set the src of the video to the next URL in the playlist
  * If at the end we start again from beginning (the modulo
  * source.length does that)
+ *
  * @param id
  */
 function loadNextVideo(id)
