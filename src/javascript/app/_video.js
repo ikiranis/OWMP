@@ -216,7 +216,7 @@ function loadNextVideo(id)
             thePath = thePath.replace(WebFolderPath,'');
             var file_path = DIR_PREFIX + thePath + encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
-            console.log('Current ID: ' + currentID);
+            // console.log('Current ID: ' + currentID);
 
             // myVideo.src = file_path;
             if(pathToTempAudioFile === null) {
@@ -393,6 +393,9 @@ function init(){
 
         // Έλεγχος και αρχικοποίηση της κατάστασης του shuffle button
         checkShuffleButton();
+
+        // Check and start the bitrate button condition
+        checkBitrateButton();
 
         initEventListenerHadler = true;
 

@@ -78,6 +78,10 @@ class OWMPElements extends OWMP
                        title="<?php echo __('toggle_shuffle'); ?>"
                        onclick="toggleShuffle();">
 
+                <input type="button" class="<?php echo 'lower_bitrate video_controls_button_img'; ?>"
+                       title="<?php echo __('toggle_lower_bitrate'); ?>"
+                       onclick="toggleLowerBitrate();">
+
                 <?php
             }
 

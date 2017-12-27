@@ -135,6 +135,11 @@
     background-repeat: no-repeat;
 }
 
+.lower_bitrate {
+    background-image: url( '../../img/low_bitrate_black.png' );
+    background-repeat: no-repeat;
+}
+
 .update_button {
     background-image: url( '../../img/update.png' );
     background-repeat: no-repeat;
@@ -160,11 +165,11 @@
     background-repeat: no-repeat;
 }
 
-.shuffle_on {
+.button_on {
     opacity: 0.3;
 }
 
-.shuffle_off {
+.button_off {
     opacity: 1;
 }
 

@@ -72,4 +72,4 @@ if(localStorage.PlayMode === undefined) localStorage.PlayMode='continue';
 if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
 
 // Convert to lower bitrate trigger
-(localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'true' : null;
+(localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'false' : null;

@@ -138,6 +138,7 @@
         <phrase name="toggle_giphy">Toggle Giphy</phrase>
         <phrase name="toggle_overlay">Overlay</phrase>
         <phrase name="toggle_shuffle">Activate/Deactivate shuffle</phrase>
+        <phrase name="toggle_lower_bitrate">Activate/Deactivate lower audio bitrates</phrase>
         <phrase name="sleep_timer">Sleep Timer</phrase>
         <phrase name="start_sleep_timer">Start sleep timer</phrase>
         <phrase name="text_minute">minute</phrase>

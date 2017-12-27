@@ -135,10 +135,24 @@ function changeLive() {
 function toggleShuffle() {
     if(localStorage.PlayMode === 'shuffle') {
         localStorage.PlayMode = 'continue';
-        $('.shuffle_button').removeClass('shuffle_on').addClass('shuffle_off');
+        $('.shuffle_button').removeClass('button_on').addClass('button_off');
     } else {
         localStorage.PlayMode = 'shuffle';
-        $('.shuffle_button').removeClass('shuffle_off').addClass('shuffle_on');
+        $('.shuffle_button').removeClass('button_off').addClass('button_on');
+    }
+}
+
+/**
+ * Activate/deactivate audio convert to lower bitrate
+ */
+function toggleLowerBitrate()
+{
+    if(localStorage.convertToLowerBitrate === 'true') {
+        localStorage.convertToLowerBitrate = 'false';
+        $('.lower_bitrate').removeClass('button_on').addClass('button_off');
+    } else {
+        localStorage.convertToLowerBitrate = 'true';
+        $('.lower_bitrate').removeClass('button_off').addClass('button_on');
     }
 }
 
@@ -147,9 +161,20 @@ function toggleShuffle() {
  */
 function checkShuffleButton() {
     if(localStorage.PlayMode === 'shuffle') {
-        $('.shuffle_button').addClass('shuffle_on');
+        $('.shuffle_button').addClass('button_on');
     } else {
-        $('.shuffle_button').addClass('shuffle_off');
+        $('.shuffle_button').addClass('button_off');
+    }
+}
+
+/**
+ * Check and start the bitrate button condition
+ */
+function checkBitrateButton() {
+    if(localStorage.convertToLowerBitrate === 'true') {
+        $('.lower_bitrate').addClass('button_on');
+    } else {
+        $('.lower_bitrate').addClass('button_off');
     }
 }
 
