@@ -91,6 +91,8 @@ function oldcheckFullscreen () {
  */
 function convertAudioToLowerBitrate(id)
 {
+    console.log('Start converting...');
+
     //TODO what it will do when you press next before the end of converting
     $.ajax({
         url: AJAX_path + "app/convertAudioToLowerBitRate",
@@ -103,13 +105,13 @@ function convertAudioToLowerBitrate(id)
         dataType: "json",
         success: function (data) {
             if(data.success === true) {
-                console.log(data.fullPath);
-                console.log(data.time);
-                console.log(data.result);
+                console.log('Converted... ' + data.fullPath);
+                console.log('Elapsed time... ' + data.time);
+                // console.log(data.result);
 
                 pathToTempAudioFile = data.tempFile;
             } else {
-                console.log(data.errorCode);
+                console.log('Error on converting... ' + data.errorCode);
             }
         }
     });
@@ -145,7 +147,8 @@ function getNextVideoID(id, operation, preload) {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                if(!preload) { // Get current song ids and play the song
+                if(preload === false) { // Get current song ids and play the song
+                    console.log('Not preload!');
                     currentID = data.file_id;
 
                     if(data.operation === 'next') {
@@ -163,7 +166,6 @@ function getNextVideoID(id, operation, preload) {
 
                     // If song is audio then convert to lower bitrate
                     if(data.songKind === 'Music') {
-                        console.log('Converting...');
                         convertAudioToLowerBitrate(nextPreloadedID);
                     }
                 }
@@ -211,15 +213,18 @@ function loadNextVideo(id)
             thePath = thePath.replace(WebFolderPath,'');
             var file_path = DIR_PREFIX + thePath + encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
+            console.log('Current ID: ' + currentID);
+
             // myVideo.src = file_path;
             if(pathToTempAudioFile === null) {
                 myVideo.src = AJAX_path + "app/serveFile?id=" + currentID;
             } else {
                 myVideo.src = AJAX_path + "app/serveFile?path=" + pathToTempAudioFile;
                 pathToTempAudioFile = null;
+                nextPreloadedID = 0;
             }
             // myVideo.controls=false;
-            console.log(myVideo.src);
+            console.log('Playing now... ' + myVideo.src);
 
             myVideo.load();
 
@@ -344,11 +349,14 @@ function loadAndplayNextVideo(operation) {
     myVideo.currentTime = 0;
     // myVideo.poster='';
 
+    console.log('nextPreloadedID: ' + nextPreloadedID);
     if(operation === 'next') {
         currentPlaylistID++;
-        if(!nextPreloadedID === 0) {
+        if(nextPreloadedID === 0) {
+            console.log('Press next before preloading...');
             getNextVideoID(0, 'next', false);
         } else {
+            console.log('Press next after preloading...');
             loadNextVideo(nextPreloadedID);
             nextPreloadedID = 0;
         }

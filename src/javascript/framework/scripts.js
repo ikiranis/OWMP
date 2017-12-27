@@ -501,26 +501,25 @@ $(function(){
         if(checkFullscreen()) getTime('#overlay_time');
     }, 1000);
 
-    // Ελέγχει τον χρόνο που βρίσκεται το βίντεο και όταν περάσει το όριο εκτελεί συγκεκριμένες εντολές
-    $("#myVideo").on(
-        "timeupdate",
-        function(event){
+    // Ελέγχει τον χρόνο που βρίσκεται το βίντεο και όταν περάσει το όριο εκτελεί συγκεκριμένες ενέργειες
+    $("#myVideo").on("timeupdate", function(event){
             curTimePercent = (this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
 
-            if( (curTimePercent>TimePercentTrigger) && (TimeUpdated === false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
+            // Όταν περάσει το TimePercentTrigger ενημερώνει την βάση
+            if( (curTimePercent>TimePercentTrigger) && (TimeUpdated === false) ) {
                 updateVideoPlayed();
                 TimeUpdated=true;
 
                 // If we want to convert audio to lower bitrate
                 if(localStorage.convertToLowerBitrate === 'true') {
-                    console.log('preloading');
                     // Preloading song
                     getNextVideoID(0, 'next', true);
                 }
             }
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα
-            timeInMinutesAndSeconds=seconds2MinutesAndSeconds(this.currentTime)['minutes']+' : '+seconds2MinutesAndSeconds(this.currentTime)['seconds'];
+            timeInMinutesAndSeconds = seconds2MinutesAndSeconds(this.currentTime)['minutes']+' : ' +
+                seconds2MinutesAndSeconds(this.currentTime)['seconds'];
 
             // Εμφάνιση του τρέχοντα track time
             if(checkFullscreen()) { // όταν είναι σε full screen
@@ -531,7 +530,7 @@ $(function(){
                 $('.o-trackTime__range').val(curTimePercent);
             }
 
-        });
+    });
 
     // Ελέγχει αν είναι focus οι φόρμες
     checkFormsFocus();
