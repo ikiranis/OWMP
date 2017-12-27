@@ -103,6 +103,9 @@ function convertAudioToLowerBitrate(id)
             tabID: tabID
         },
         dataType: "json",
+        before: function() {
+            audioConvertionRunning = true;
+        },
         success: function (data) {
             if(data.success === true) {
                 console.log('Converted... ' + data.fullPath);
@@ -110,6 +113,7 @@ function convertAudioToLowerBitrate(id)
                 // console.log(data.result);
 
                 pathToTempAudioFile = data.tempFile;
+                audioConvertionRunning = false;
             } else {
                 console.log('Error on converting... ' + data.errorCode);
             }
@@ -148,7 +152,6 @@ function getNextVideoID(id, operation, preload) {
         success: function (data) {
             if (data.success === true) {
                 if(preload === false) { // Get current song ids and play the song
-                    console.log('Not preload!');
                     currentID = data.file_id;
 
                     if(data.operation === 'next') {
@@ -349,14 +352,13 @@ function loadAndplayNextVideo(operation) {
     myVideo.currentTime = 0;
     // myVideo.poster='';
 
-    console.log('nextPreloadedID: ' + nextPreloadedID);
     if(operation === 'next') {
         currentPlaylistID++;
-        if(nextPreloadedID === 0) {
-            console.log('Press next before preloading...');
+        // If we haven't proloaded song or audio convertion is running at this moment
+        if(nextPreloadedID === 0 || audioConvertionRunning === true) {
+            pathToTempAudioFile = null; // We ignore the result of audio convertion
             getNextVideoID(0, 'next', false);
         } else {
-            console.log('Press next after preloading...');
             loadNextVideo(nextPreloadedID);
             nextPreloadedID = 0;
         }

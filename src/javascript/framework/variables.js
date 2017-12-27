@@ -19,7 +19,9 @@ var currentID; // Το τρέχον file id που παίζει
 var currentPlaylistID = '1';  // Το τρέχον id στην playlist
 var currentQueuePlaylistID = 0;  // Το τρέχον id στην queue playlist
 var nextPreloadedID = 0; // ID to play next after preloading
-var pathToTempAudioFile = null;
+var pathToTempAudioFile = null; // Path to next preloaded audio file
+var audioConvertionRunning = false; // Running the audio convertion
+var killAudioConvertedData = false; // Kills audio convertion results
 
 var myVideo;
 var FullscreenON = false; // κρατάει το αν είναι σε fullscreen ή όχι
