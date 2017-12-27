@@ -18,6 +18,8 @@ var VideoLoaded = false;
 var currentID; // Το τρέχον file id που παίζει
 var currentPlaylistID = '1';  // Το τρέχον id στην playlist
 var currentQueuePlaylistID = 0;  // Το τρέχον id στην queue playlist
+var nextPreloadedID = 0; // ID to play next after preloading
+var pathToTempAudioFile = null;
 
 var myVideo;
 var FullscreenON = false; // κρατάει το αν είναι σε fullscreen ή όχι
@@ -61,9 +63,11 @@ var theTimer; // Ο μετρητής του sleep timer
 if(localStorage.OverlayAllwaysOn === undefined) localStorage.OverlayAllwaysOn='false';    // μεταβλητή που κρατάει να θέλουμε να είναι πάντα on το overlay
 if(localStorage.AllwaysGiphy === undefined) localStorage.AllwaysGiphy='false';   // μεταβλητή που κρατάει αν θέλουμε πάντα να δείχνει gifs αντί για albums
 
+// Shuffle or continuus mode
 if(localStorage.PlayMode === undefined) localStorage.PlayMode='continue';
 
 // Αν δεν υπάρχει το localStorage.syncPressed θέτει αρχική τιμή
 if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  // κρατάει το αν έχει πατηθεί συγχρονισμός
 
-(localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'false' : null;
+// Convert to lower bitrate trigger
+(localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'true' : null;

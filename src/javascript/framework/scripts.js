@@ -505,11 +505,18 @@ $(function(){
     $("#myVideo").on(
         "timeupdate",
         function(event){
-            curTimePercent=(this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
+            curTimePercent = (this.currentTime/this.duration)*100; // O τρέχον χρόνος σε ποσοστό επί του συνολικού
 
             if( (curTimePercent>TimePercentTrigger) && (TimeUpdated === false) ) {   // Όταν περάσει το 20% ενημερώνει την βάση
                 updateVideoPlayed();
                 TimeUpdated=true;
+
+                // If we want to convert audio to lower bitrate
+                if(localStorage.convertToLowerBitrate === 'true') {
+                    console.log('preloading');
+                    // Preloading song
+                    getNextVideoID(0, 'next', true);
+                }
             }
 
             //Μετατροπή του track time σε λεπτά και δευτερόλεπτα

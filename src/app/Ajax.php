@@ -395,14 +395,14 @@ class Ajax extends Controller
         if(isset($_GET['operation']))
             $operation=ClearString($_GET['operation']);
 
-        $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
-        $tempPlayedQueuePlaylist=PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
+        $tempUserPlaylist = CUR_PLAYLIST_STRING . $tabID;
+        $tempPlayedQueuePlaylist = PLAYED_QUEUE_PLAYLIST_STRING . $tabID;
 
         // Ενημερώνει τον playlist_tables για το table $tempUserPlaylist με την ώρα που έγινε το access
         $theDate = date('Y-m-d H:i:s');
         MyDB::updateTableFields('playlist_tables', 'table_name=?', array('last_alive'), array($theDate, $tempUserPlaylist));
 
-        $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $UserGroup = $user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
         // Αν δεν είναι admin γίνεται true το $cantPlayVotes και δεν μπορεί να παίξει votes
         if($UserGroup!=='1') {
@@ -420,6 +420,7 @@ class Ajax extends Controller
                     $return = OWMPElements::getRandomPlaylistID($tempUserPlaylist, $randomRow);
                     $playlistID = $return['playlist_id'];
                     $fileID = $return['file_id'];
+                    $songKind = MyDB::getTableFieldValue('files', 'id=?', $fileID, 'kind');
                 } else {
                     $playlistID = $currentPlaylistID;
                     $fileID = MyDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
@@ -484,7 +485,8 @@ class Ajax extends Controller
             $jsonArray = array('success' => true,
                 'playlist_id' => $playlistID,
                 'file_id' => $fileID,
-                'operation' => $operation);
+                'operation' => $operation,
+                'songKind' => $songKind);
 
             // Σετάρει στο currentSong στην βάση, πιο ειναι το τρέχον τραγούδι
             Progress::setCurrentSong($fileID);
@@ -494,8 +496,9 @@ class Ajax extends Controller
                 $songInfo = OWMPElements::getSongInfo($fileID);
                 OWMPElements::sendToIcecast($songInfo[0]['song_name'] . ' : ' . $songInfo[0]['artist']);
             }
+        } else {
+            $jsonArray = array('success' => false);
         }
-        else $jsonArray = array('success' => false);
 
         echo json_encode($jsonArray);
     }
@@ -1470,10 +1473,11 @@ class Ajax extends Controller
         $fullPath = DIR_PREFIX . $file[0]['path'] . $file[0]['filename'];
 
         $tempPath = LOW_BITRATE_TEMP_FOLDER . $tabID . '/';
+        $filename = time() . '.mp3';
 
         FilesIO::createDirectory($tempPath);
 
-        $execCommand = 'lame -f --mp3input -b 64 "' . $fullPath . '" "' . $tempPath . TEMP_AUDIO_FILE . '" 2>&1';
+        $execCommand = 'lame -f --mp3input -b 64 "' . $fullPath . '" "' . $tempPath . $filename . '" 2>&1';
 
         $output = array();
         $result = -1;
@@ -1485,7 +1489,13 @@ class Ajax extends Controller
         if($result === 0) {
             $finalOutput = $output[count($output)-2];
 
-            $jsonArray = array('success' => true, 'result' => $finalOutput, 'time' => $script_time_elapsed_secs);
+            $jsonArray = array(
+                    'success' => true,
+                    'result' => $finalOutput,
+                    'time' => $script_time_elapsed_secs,
+                    'fullPath' => $fullPath,
+                    'tempFile' => $tempPath . $filename
+            );
         } else {
             $jsonArray = array('success' => false, 'errorCode' => $result);
         }

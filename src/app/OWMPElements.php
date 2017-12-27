@@ -1137,7 +1137,10 @@ class OWMPElements extends OWMP
 
         if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
         {
-            $result=array('playlist_id' => $item['id'], 'file_id' => $item['file_id']);
+            $result=array(
+                'playlist_id' => $item['id'],
+                'file_id' => $item['file_id']
+            );
         }
         else $result=false;
 

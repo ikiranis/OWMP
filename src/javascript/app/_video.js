@@ -91,6 +91,7 @@ function oldcheckFullscreen () {
  */
 function convertAudioToLowerBitrate(id)
 {
+    //TODO what it will do when you press next before the end of converting
     $.ajax({
         url: AJAX_path + "app/convertAudioToLowerBitRate",
         type: 'GET',
@@ -102,8 +103,11 @@ function convertAudioToLowerBitrate(id)
         dataType: "json",
         success: function (data) {
             if(data.success === true) {
-                console.log(data.result);
+                console.log(data.fullPath);
                 console.log(data.time);
+                console.log(data.result);
+
+                pathToTempAudioFile = data.tempFile;
             } else {
                 console.log(data.errorCode);
             }
@@ -117,9 +121,10 @@ function convertAudioToLowerBitrate(id)
  * @param id
  * @param operation
  */
-function getNextVideoID(id, operation) {
+function getNextVideoID(id, operation, preload) {
     var theCurrentPlaylistID;
 
+    // TODO possible problem with this when you change manual playlists
     if(operation === 'next') {
         theCurrentPlaylistID = currentPlaylistID;
     }
@@ -127,7 +132,7 @@ function getNextVideoID(id, operation) {
         theCurrentPlaylistID = currentQueuePlaylistID;
     }
 
-    $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
+    $.ajax({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "app/getNextVideo",
         type: 'GET',
         async: true,
@@ -140,17 +145,29 @@ function getNextVideoID(id, operation) {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                currentID = data.file_id;
+                if(!preload) { // Get current song ids and play the song
+                    currentID = data.file_id;
 
-                if(data.operation === 'next') {
-                    currentPlaylistID = data.playlist_id;
-                    currentQueuePlaylistID = 0;
-                }
-                if(data.operation === 'prev') {
-                    currentQueuePlaylistID = data.playlist_id;
+                    if(data.operation === 'next') {
+                        currentPlaylistID = data.playlist_id;
+                        currentQueuePlaylistID = 0;
+                    }
+                    if(data.operation === 'prev') {
+                        currentQueuePlaylistID = data.playlist_id;
+                    }
+
+                    loadNextVideo(id);
+
+                } else { // Get next song ids without playing the song
+                    nextPreloadedID = data.file_id;
+
+                    // If song is audio then convert to lower bitrate
+                    if(data.songKind === 'Music') {
+                        console.log('Converting...');
+                        convertAudioToLowerBitrate(nextPreloadedID);
+                    }
                 }
 
-                loadNextVideo(id);
             }
         }
     });
@@ -195,9 +212,14 @@ function loadNextVideo(id)
             var file_path = DIR_PREFIX + thePath + encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
             // myVideo.src = file_path;
-            myVideo.src = AJAX_path + "app/serveFile?id=" + currentID;
+            if(pathToTempAudioFile === null) {
+                myVideo.src = AJAX_path + "app/serveFile?id=" + currentID;
+            } else {
+                myVideo.src = AJAX_path + "app/serveFile?path=" + pathToTempAudioFile;
+                pathToTempAudioFile = null;
+            }
             // myVideo.controls=false;
-            // console.log(myVideo.src);
+            console.log(myVideo.src);
 
             myVideo.load();
 
@@ -252,13 +274,6 @@ function loadNextVideo(id)
                     // TODO να βρω καλύτερο τρόπο
                     for(var i=0; i<4; i++) {
                         toggleFullscreen();
-                    }
-
-                    localStorage.convertToLowerBitrate = 'true';
-
-                    // If we want to convert audio to lower bitrate
-                    if(localStorage.convertToLowerBitrate === 'true') {
-                        convertAudioToLowerBitrate(currentID);
                     }
 
                 } else { // Αν είναι video
@@ -326,16 +341,21 @@ function loadNextVideo(id)
 function loadAndplayNextVideo(operation) {
 
     myVideo.pause();
+    myVideo.currentTime = 0;
     // myVideo.poster='';
-
 
     if(operation === 'next') {
         currentPlaylistID++;
-        getNextVideoID(0, 'next');
+        if(!nextPreloadedID === 0) {
+            getNextVideoID(0, 'next', false);
+        } else {
+            loadNextVideo(nextPreloadedID);
+            nextPreloadedID = 0;
+        }
     }
 
     if(operation === 'prev') {
-        getNextVideoID(0, 'prev');
+        getNextVideoID(0, 'prev', false);
     }
 
     // myVideo.play();
@@ -366,7 +386,7 @@ function init(){
         initEventListenerHadler = true;
 
         // Load the first video when the page is loaded.
-        getNextVideoID(0, 'next');
+        getNextVideoID(0, 'next', false);
 
         // if (Playtime > 0) {
         //     $("#overlay_media_controls .pause_play_button").removeClass('play_button_white').addClass('pause_button_white');

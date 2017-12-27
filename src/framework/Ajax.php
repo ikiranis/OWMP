@@ -244,6 +244,7 @@ class Ajax extends Controller
 
     /**
      * Καθαρίζει την βάση από προσωρινούς πίνακες που δεν χρησιμοποιούνται άλλο
+     * και σβήνει παλιούς προσωρινούς φακέλους
      */
     public function garbageCollection()
     {
