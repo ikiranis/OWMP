@@ -231,6 +231,18 @@ class Ajax extends Controller
     }
 
     /**
+     * Delete temporary audio folder
+     */
+    public function deleteTemporaryAudioFolder($tableName)
+    {
+        $tempPath = LOW_BITRATE_TEMP_FOLDER . str_replace('crPl_', '', $tableName) . '/';
+
+        if(is_dir($tempPath)) {
+            Utilities::rrmdir($tempPath);
+        }
+    }
+
+    /**
      * Καθαρίζει την βάση από προσωρινούς πίνακες που δεν χρησιμοποιούνται άλλο
      */
     public function garbageCollection()
@@ -268,11 +280,7 @@ class Ajax extends Controller
             }
 
             // Delete temporary audio folders
-            $tempPath = LOW_BITRATE_TEMP_FOLDER . str_replace('crPl_', '', $item['table_name']) . '/';
-
-            if(is_dir($tempPath)) {
-                Utilities::rrmdir($tempPath);
-            }
+            $this->deleteTemporaryAudioFolder($item['table_name']);
         }
 
 //        echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
