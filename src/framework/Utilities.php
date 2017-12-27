@@ -352,12 +352,35 @@ class Utilities
         }
     }
 
+    /**
+     * Check if server is a docker container
+     *
+     * @return bool
+     */
     static function isInDockerContainer()
     {
         $dockerFile = '/.dockerenv';
 
         return file_exists($dockerFile) ? true : false;
 
+    }
+
+    /**
+     * Recursively delete a directory that is not empty
+     *
+     * @param $dir
+     */
+    static function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+                }
+            }
+            reset($objects);
+            rmdir($dir);
+        }
     }
 
 }

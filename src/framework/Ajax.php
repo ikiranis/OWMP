@@ -252,17 +252,27 @@ class Ajax extends Controller
 
         $conn = new MyDB();
 
-        $lastMinutes = strtotime('-30 minutes');
+        // 30 minutes
+        $lastMinutes = strtotime('-2 minutes');
         $theDate = date('Y-m-d H:i:s', $lastMinutes);
-        //trigger_error($theDate);
+//        trigger_error($theDate);
         $playlistTablesToDelete = MyDB::getTableArray('playlist_tables', 'table_name', 'last_alive<?', array($theDate), null, null, null);
 
         foreach ($playlistTablesToDelete as $item) {
-            if(MyDB::checkIfTableExist($item['table_name'])) // Αν υπάρχει το σβήνουμε
-                if(MyDB::dropTable($item['table_name'])) {
-                    if($conn->deleteRowFromTable ('playlist_tables','table_name',$item['table_name']))
+            if(MyDB::checkIfTableExist($item['table_name'])) { // Αν υπάρχει το σβήνουμε
+                if (MyDB::dropTable($item['table_name'])) {
+                    if ($conn->deleteRowFromTable('playlist_tables', 'table_name', $item['table_name'])) {
                         $jsonArray = array('success' => true);
+                    }
                 }
+            }
+
+            // Delete temporary audio folders
+            $tempPath = LOW_BITRATE_TEMP_FOLDER . str_replace('crPl_', '', $item['table_name']) . '/';
+
+            if(is_dir($tempPath)) {
+                Utilities::rrmdir($tempPath);
+            }
         }
 
 //        echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);

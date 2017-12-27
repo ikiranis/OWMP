@@ -1469,12 +1469,11 @@ class Ajax extends Controller
 
         $fullPath = DIR_PREFIX . $file[0]['path'] . $file[0]['filename'];
 
-        $tempPath = OUTPUT_FOLDER . 'temp/' . $tabID . '/';
-        $tempFile = 'temp.mp3';
+        $tempPath = LOW_BITRATE_TEMP_FOLDER . $tabID . '/';
 
         FilesIO::createDirectory($tempPath);
 
-        $execCommand = 'lame -f --mp3input -b 64 "' . $fullPath . '" "' . $tempPath . $tempFile . '" 2>&1';
+        $execCommand = 'lame -f --mp3input -b 64 "' . $fullPath . '" "' . $tempPath . TEMP_AUDIO_FILE . '" 2>&1';
 
         $output = array();
         $result = -1;

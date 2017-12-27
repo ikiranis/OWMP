@@ -67,6 +67,8 @@ define ('VIDEO_FILE_UPLOAD', $downloadPaths['musicVideoDownloadPath'].'/'); // �
 define ('OUTPUT_FOLDER', $downloadPaths['outputFolder'].'/');  // Ο φάκελος που κάνει τις οποιεσδήποτε εξαγωγές η εφαρμογή
 define ('MUSIC_FILE_UPLOAD', $downloadPaths['musicDownloadPath'].'/');  // Ο φάκελος που κατεβαίνουν τα audio files
 
+define ('LOW_BITRATE_TEMP_FOLDER', OUTPUT_FOLDER . 'temp/');
+define ('TEMP_AUDIO_FILE', 'temp.mp3');
 
 // Τα options
 $convertALACOption = $optionsArray['convert_alac_files'];

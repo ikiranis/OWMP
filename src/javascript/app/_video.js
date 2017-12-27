@@ -254,7 +254,7 @@ function loadNextVideo(id)
                         toggleFullscreen();
                     }
 
-                    // localStorage.convertToLowerBitrate = 'true';
+                    localStorage.convertToLowerBitrate = 'true';
 
                     // If we want to convert audio to lower bitrate
                     if(localStorage.convertToLowerBitrate === 'true') {

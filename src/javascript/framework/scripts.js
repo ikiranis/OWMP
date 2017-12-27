@@ -539,7 +539,7 @@ $(function(){
     checkCurrentVersion();
 
     // Έλεγχος για garbage collection
-    setInterval(garbageCollection, 600000);
+    setInterval(garbageCollection, 60000);
 
     document.addEventListener('touchmove', displayFullscreenControls, false);
 });
