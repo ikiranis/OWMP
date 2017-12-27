@@ -365,6 +365,7 @@ function loadAndplayNextVideo(operation) {
     }
 
     if(operation === 'prev') {
+        pathToTempAudioFile = null; // We ignore the result of audio convertion
         getNextVideoID(0, 'prev', false);
     }
 
