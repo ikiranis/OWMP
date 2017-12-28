@@ -3,6 +3,7 @@
 Convert the next audio song to lower bitrate, to reduce bandwidth consumption
 Fix on double records searching
 Bug fixes
+Update apache docker image with version 1.2
 
 2017-12-14: 0.15.2
 
