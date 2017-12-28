@@ -91,7 +91,7 @@ function oldcheckFullscreen () {
  */
 function convertAudioToLowerBitrate(id)
 {
-    console.log('Start converting...');
+    // console.log('Start converting...');
 
     $.ajax({
         url: AJAX_path + "app/convertAudioToLowerBitRate",
