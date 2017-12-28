@@ -107,8 +107,8 @@ function convertAudioToLowerBitrate(id)
         },
         success: function (data) {
             if(data.success === true) {
-                console.log('Converted... ' + data.fullPath);
-                console.log('Elapsed time... ' + data.time);
+                // console.log('Converted... ' + data.fullPath);
+                // console.log('Elapsed time... ' + data.time);
                 // console.log(data.result);
 
                 pathToTempAudioFile = data.tempFile;
@@ -229,9 +229,10 @@ function loadNextVideo(id)
                 nextPreloadedID = 0;
             }
             // myVideo.controls=false;
-            console.log('Playing now... ' + myVideo.src);
+            // console.log('Playing now... ' + myVideo.src);
 
             myVideo.load();
+            myVideo.currentTime = 0;
 
             // Αν δεν είναι το πρώτο τραγούδι που παίζει τότε αρχίζει την αναπαραγωγή του τραγουδιού
             if (PlayTime > 0) {
@@ -351,7 +352,7 @@ function loadNextVideo(id)
 function loadAndplayNextVideo(operation) {
 
     myVideo.pause();
-    myVideo.currentTime = 0;
+    // myVideo.currentTime = 0;
     // myVideo.poster='';
 
     if(operation === 'next') {
