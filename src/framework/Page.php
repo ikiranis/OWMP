@@ -133,6 +133,9 @@ class Page
             <meta http-equiv="pragma" content="no-cache" />
 
 
+
+<!--            Bootstrap-->
+<!--            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">-->
             
             <?php
             //  Καθορισμός των css αρχείων.
@@ -160,6 +163,10 @@ class Page
                 }
 
             ?>
+
+<!--            Bootstrap-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
             <title><?php echo $this->tittle; ?></title>
 
@@ -191,7 +198,9 @@ class Page
             foreach ($script as $item) {
                 $this->script[] = $item;
             }
-        } else $this->script[] = $script;
+        } else {
+            $this->script[] = $script;
+        }
     }
         
     // Δέχεται array από strings ή σκέτο string
@@ -201,7 +210,9 @@ class Page
             foreach ($css as $item) {
                 $this->css[] = $item;
             }
-        } else $this->css[] = $css;
+        } else {
+            $this->css[] = $css;
+        }
     }
 
 

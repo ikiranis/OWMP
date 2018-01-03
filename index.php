@@ -63,7 +63,6 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
-
 // Έλεγχος αν είναι σε mobile ή όχι
 if (!isset($_GET['mobile'])) {
     $css = array('styles/layouts/basic.css');
