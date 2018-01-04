@@ -25,6 +25,7 @@ header, footer {
     position: fixed;
     top:3.5em;
     bottom: 3.5em;
+    overflow-y: auto;
 }
 
 /*main {*/
