@@ -1,7 +1,7 @@
 ## TODO list
 
 **Convert to bootstrap**
-* Fix base layout
+* Fix basic layout **(done)**
 * Make vertical nav bar. Remove menu from left sidebar
 * Make all the buttons
 * Convert search (or other action windows) to modal
@@ -12,7 +12,9 @@
 
 **Fix vote.css**
 
-**Put jukebox and timer button in apropriate tools window**
+**Search on vote page**
+
+**Put jukebox and timer buttons in appropriate tools window**
 
 **Auto upgrade with git**
 
@@ -29,6 +31,11 @@
 
 **Display bitrate value of the current song**
 
+**Reset all select boxes on app reload**
+
+**Help pages in markdown format**
+
+**Sorting at search queries**
 
 
 

@@ -69,11 +69,11 @@ class Page
 
         <div class="row mainContent">
 
-            <aside class="col-lg-4">
+            <aside class="col-xl-4 col-md-12">
                 <?php OWMP::showVideo(); ?>
             </aside>
 
-            <section class="col-lg-8">
+            <section class="col-xl-8 col-md-12">
                 <article>
                     <?php
                     switch ($NavActiveItem) {
