@@ -1,12 +1,12 @@
 /* Footer */
 footer {
-    clear: both;
-    position: relative;
+    /*clear: both;*/
+    /*position: relative;*/
     background-color: #90A4AE;
-    height: 3%;
-    font-size: 0.8em;
+    height: 3em;
+    /*font-size: 0.8em;*/
     color: #FFFFFF;
-    display: flex;
+    /*display: flex;*/
 
 }
 

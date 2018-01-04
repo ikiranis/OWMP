@@ -51,47 +51,63 @@ class Page
 
         ?>
 
-        <aside class="bgc2 c7">
+<!--        <div class="row">-->
+<!--            <nav class="col-lg-12">-->
+<!---->
+<!--                --><?php //Page::NavList($NavActiveItem, 'window'); ?>
+<!---->
+<!---->
+<!--                <div id="languages">-->
+<!--                    --><?php //echo $languages_text; ?>
+<!--                </div>-->
+<!---->
+<!--                <div id="TotalInPlaylist"><span-->
+<!--                            id="TotalNumberInPlaylist">--><?php //echo $_SESSION['countThePlaylist']; ?><!--</span> --><?php //echo __('items_in_playlist'); ?>
+<!--                </div>-->
+<!--            </nav>-->
+<!--        </div>-->
 
-            <?php OWMP::showVideo(); ?>
+        <div class="row mainContent">
 
-        </aside>
+            <aside class="col-lg-4">
+                <?php OWMP::showVideo(); ?>
+            </aside>
+
+            <section class="col-lg-8">
+                <article>
+                    <?php
+                    switch ($NavActiveItem) {
+                        case 1:
+                            OWMP::showPlaylistWindow(0, PLAYLIST_LIMIT);
+                            break;
+                        case 2:
+                            OWMP::showConfiguration();
+                            break;
+                        case 3:
+                            OWMP::showSynchronization();
+                            break;
+                        case 4:
+                            OWMP::showLogs();
+                            break;
+                        case 5:
+                            OWMP::showHelp();
+                            break;
+                    }
+
+                    ?>
+                </article>
+
+                <div class="o-resultsContainer bgc3 isHidden c8">
+                    <div class="o-resultsContainer_text"></div>
+                    <input type="button" class="o-resultsContainer_closeContainer myButton"
+                           value="<?php echo __('close_text'); ?>"
+                           onclick="closeWindow('.o-resultsContainer');">
+                </div>
+
+            </section>
 
 
-        <section class="bgc2 c7">
-            <article>
-                <?php
-                switch ($NavActiveItem) {
-                    case 1: OWMP::showPlaylistWindow(0,PLAYLIST_LIMIT); break;
-                    case 2: OWMP::showConfiguration(); break;
-                    case 3: OWMP::showSynchronization(); break;
-                    case 4: OWMP::showLogs(); break;
-                    case 5: OWMP::showHelp(); break;
-                }
-
-                ?>
-            </article>
-
-            <div class="o-resultsContainer bgc3 isHidden c8">
-                <div class="o-resultsContainer_text"></div>
-                <input type="button" class="o-resultsContainer_closeContainer myButton"
-                       value="<?php echo __('close_text'); ?>"
-                       onclick="closeWindow('.o-resultsContainer');" >
-            </div>
-
-        </section>
-
-        <nav>
-
-            <?php echo Page::NavList($NavActiveItem,'window'); ?>
-
-
-            <div id="languages">
-                <?php echo $languages_text; ?>
-            </div>
-
-            <div id="TotalInPlaylist"><span id="TotalNumberInPlaylist"><?php echo $_SESSION['countThePlaylist']; ?></span> <?php echo __('items_in_playlist'); ?></div>
-        </nav>
+        </div>
 
         <div id="helpContainer" class="bgc3 c8">
             <div id="helpText"></div>
@@ -110,7 +126,7 @@ class Page
 
     ?>
 
-        <!DOCTYPE html>
+    <!DOCTYPE html>
     <HTML xmlns="http://www.w3.org/1999/html" class="bgc1">
         <head>
 
@@ -124,9 +140,10 @@ class Page
             <meta name="mobile-web-app-capable" content="yes">
 
 <!--            Για να κάνουν scale τα pixels στις mobile συσκευές-->
-            <meta name=viewport content="width=device-width, initial-scale=0.6">
-            
-<!--            <meta http-equiv="cache-control" content="max-age=0" />-->
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+            <!--            <meta http-equiv="cache-control" content="max-age=0" />-->
             <meta http-equiv="cache-control" content="no-cache" />
             <meta http-equiv="expires" content="0" />
 <!--            <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />-->
@@ -135,8 +152,8 @@ class Page
 
 
 <!--            Bootstrap-->
-<!--            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">-->
-            
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
             <?php
             //  Καθορισμός των css αρχείων.
             if (isset($this->css))
@@ -145,7 +162,7 @@ class Page
                 }
 
             ?>
-        
+
             <?php
             //  Καθορισμός των meta. Ζητάει το string μετά το "<meta "
             if (isset($this->meta))
@@ -173,11 +190,13 @@ class Page
 
         </head>
 
-        <body class="bgc1">
+        <body>
+
+        <div class="container-fluid">
 
         <?php
-        
-        
+
+
     }
 
     // Δέχεται array από strings ή σκέτο string
@@ -202,7 +221,7 @@ class Page
             $this->script[] = $script;
         }
     }
-        
+
     // Δέχεται array από strings ή σκέτο string
     function setCSS($css)
     {
@@ -221,26 +240,28 @@ class Page
     {
         ?>
 
-        <footer>
-            <?php
-                if($showAppName) {
-            ?>
-                    <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
-            <?php
-                }
-            
-                if($showAppVersion) {
+        <div class="row">
+            <footer class="col-lg-12 fixed-bottom">
+                <?php
+                if ($showAppName) {
                     ?>
-                    <span id="AppVersionContainer">
-                        <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
-                        <span id="checkCurrentVersion"></span>
-                    </span>
+                    <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
                     <?php
                 }
-            ?>
-        </footer>
-        
-        <?php 
+
+                if ($showAppVersion) {
+                    ?>
+                    <span id="AppVersionContainer">
+                    <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
+                    <span id="checkCurrentVersion"></span>
+                </span>
+                    <?php
+                }
+                ?>
+            </footer>
+        </div>
+
+        <?php
             if($showMobileVersion) {
                 ?>
                 <div id="mobileVersion">
@@ -258,6 +279,7 @@ class Page
             }
         ?>
 
+        </div>
 
         </body>
         </HTML>
@@ -283,7 +305,7 @@ class Page
             foreach ($form_elements as $item) {
                 if(!isset($item['readonly']))
                     $item['readonly']='no';
-            
+
                 if( (isset($item['allwaysview']) && $item['allwaysview']=='no') && ($splitToDetails==true && $splitted==false) )
                     if($item['disabled']=='yes' || $item['readonly']=='yes') {
                          $splitted=true;
@@ -310,7 +332,7 @@ class Page
                                     <?php if (isset($item['readonly']) && $item['readonly'] == 'yes') echo ' readonly '; ?>
 
                                 >
-                                    <?php 
+                                    <?php
                                         if (isset($item['options']))
                                             foreach ($item['options'] as $option)
                                             {
@@ -321,9 +343,9 @@ class Page
                                                 <?php
                                             }
                                     ?>
-                            
+
                                 </select>
-                            
+
                             <?php
                         }
                     else {
@@ -355,7 +377,7 @@ class Page
                             <output for="<?php echo $item['name']; ?>" id="<?php echo $item['name']; ?>_output"><?php echo $item['value']; ?></output>
                             <?php
                         }
-                        
+
                         if (isset($item['ticks'])) {
                             ?>
                             <datalist id="ticks">
@@ -374,7 +396,7 @@ class Page
 
                     ?>
                 </div>
- 
+
                 <?php
             }
 
@@ -392,25 +414,26 @@ class Page
 
         <?php
     }
-    
+
     // TODO να βγάλω το logprogress εκτός να το προσθέτει δυναμικά
     public function showMainBar ($leftSideText,$rightSideText) {
     ?>
-        <header>
-            <div id="LeftSide">
-                <div class="mainbarcontent">
-                    <?php echo $leftSideText; ?>
+        <div class="row">
+            <header class="col-lg-12 col-sm-12 fixed-top">
+                <div id="LeftSide">
+                    <div class="mainbarcontent">
+                        <?php echo $leftSideText; ?>
 
-                    <span class="o-resultsContainer_iconContainer isHidden">
-                        <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
-                               title="<?php echo __('display_activity'); ?>"
-                               onclick="toggleResultsContainer();">
-                    </span>
+                        <span class="o-resultsContainer_iconContainer isHidden">
+                            <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
+                                   title="<?php echo __('display_activity'); ?>"
+                                   onclick="toggleResultsContainer();">
+                        </span>
 
-                    <span class="o-resultsContainer_killCommandContainer isHidden">
-                        <input type="button" class="o-imageButton--large o-imageButton_killCommand"
-                               title="<?php echo __('kill_process'); ?>"
-                               onclick="sendKillCommand();">
+                        <span class="o-resultsContainer_killCommandContainer isHidden">
+                            <input type="button" class="o-imageButton--large o-imageButton_killCommand"
+                                   title="<?php echo __('kill_process'); ?>"
+                                   onclick="sendKillCommand();">
                     </span>
 
                 </div>
@@ -425,11 +448,12 @@ class Page
                 </div>
             </div>
 
-            
+
         </header>
+        </div>
 
 
-    <?php        
+    <?php
     }
 
     // Δημιουργεί τον πίνακα των επιλογών με βάση τις τιμές στο αντίστοιχο language file
@@ -460,7 +484,7 @@ class Page
 
 
         ?>
-            
+
             <ul>
                 <?php
                     foreach (self::$nav_list as $item) {
@@ -470,7 +494,7 @@ class Page
                             if ($UserGroupID == 1) $displayOK = true;
                             else $displayOK = false;
                         }  else $displayOK=true;
-                        
+
                         if($displayOK) {
                             if ($targetPage == 'page') {
                                 ?>
@@ -493,10 +517,10 @@ class Page
 
                         $counter++;
                     }
-                ?>        
+                ?>
             </ul>
 
-        <script type="text/javascript">
+        <script>
 
             var NavLength = <?php echo $counter-1; ?>;
 
@@ -506,13 +530,14 @@ class Page
 
         return true;
     }
-    
+
     static function getNavActiveItem() {
         if(!isset($_COOKIE['page'])) {
             self::setNavActiveItem(1);
             $getTheCookie=1;
+        } else {
+            $getTheCookie=$_COOKIE['page'];
         }
-        else $getTheCookie=$_COOKIE['page'];
 
         return $getTheCookie;
     }
@@ -578,15 +603,15 @@ class Page
     // Εμφανίζει εικονίδιο βοήθειας και αν πατηθεί εμφανίζει box με text το $helpText
     static function getHelp($helpText) {
         ?>
-        
+
             <input type="button" class="help_button app_icon"
                    title="<?php echo __('help_text_icon'); ?>"
                    onclick="getHelp('<?php echo $helpText;  ?>');">
-        
+
         <?php
     }
 
-    
+
     // Έλεγχος αν το ajax request γίνεται από το ίδιο το site και όχι εξωτερικά
     static function checkValidAjaxRequest($checkLogin) {
 
@@ -598,7 +623,7 @@ class Page
                 die('Invalid AJAX request');
             }
         }
-        
+
 
         if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             if(strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) {
