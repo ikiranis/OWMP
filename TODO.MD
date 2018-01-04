@@ -25,6 +25,11 @@
 
 **Make generic uploading class**
 
+**Improve cover images manipulation**
+
+**Display bitrate value of the current song**
+
+
 
 
 
