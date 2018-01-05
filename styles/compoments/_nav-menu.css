@@ -1,38 +1,38 @@
 /* Nav menu */
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+/*nav ul {*/
+    /*list-style-type: none;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*!*width: 100%;*!*/
 
-}
+/*}*/
 
-nav li a {
-    display: block;
-    color: #000000;
-    padding: 8px 0 8px 16px;
-    text-decoration: none;
+/*nav li a {*/
+    /*display: block;*/
+    /*color: #000000;*/
+    /*padding: 8px 0 8px 16px;*/
+    /*text-decoration: none;*/
 
-}
+/*}*/
 
-nav li {
-    margin-top:0.7em;
-    box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);
-    transition:all 0.5s;
-    cursor: pointer;
-}
+/*nav li {*/
+    /*margin-top:0.7em;*/
+    /*box-shadow:  7px 5px 10px 1px rgba(0, 0, 0, 0.7);*/
+    /*transition:all 0.5s;*/
+    /*cursor: pointer;*/
+/*}*/
 
-nav li a.active {
-    box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
-    transform: scale(1.05);
+/*nav li a.active {*/
+    /*box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);*/
+    /*transform: scale(1.05);*/
 
-}
+/*}*/
 
-nav li a:hover:not(.active) {
-    box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);
-    transform: scale(1.05);
-}
+/*nav li a:hover:not(.active) {*/
+    /*box-shadow:  7px 5px 7px 0px rgba(0, 0, 0, 0.7);*/
+    /*transform: scale(1.05);*/
+/*}*/
 
 
 #TotalInPlaylist {

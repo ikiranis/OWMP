@@ -1,29 +1,29 @@
 /* Header */
-header {
+.theHeader {
     height: 3em;
-    background-color: #607D8B;
+    background-color: black;
     color: #FFFFFF;
     overflow: hidden;
 }
 
-#LeftSide {
-    width: 30%;
-    float: left;
-    display: inline-block;
-}
+/*#LeftSide {*/
+    /*width: 30%;*/
+    /*float: left;*/
+    /*display: inline-block;*/
+/*}*/
 
-#RightSide {
-    width: 50%;
-    float: right;
-    text-align: right;
-    display: inline-block;
+/*#RightSide {*/
+    /*width: 50%;*/
+    /*float: right;*/
+    /*text-align: right;*/
+    /*display: inline-block;*/
 
 
-}
+/*}*/
 
-.mainbarcontent {
-    display: inline-flex;
-}
+/*.mainbarcontent {*/
+    /*display: inline-flex;*/
+/*}*/
 
 
 #account_image {
@@ -41,17 +41,16 @@ header {
     height: 1.5em;
 }
 
-#SystemTime {
-    align-self: center;
-    display: inline-flex;
-}
+/*#SystemTime {*/
+    /*align-self: center;*/
+    /*!*display: inline-flex;*!*/
+/*}*/
 
-#timetext {
-    align-self: center;
-}
+/*#timetext {*/
+    /*align-self: center;*/
+/*}*/
 
 #SystemTime img {
     width: 1.5em;
     height: 1.5em;
-
 }

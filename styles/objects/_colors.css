@@ -74,21 +74,6 @@
     background-color: #333333;
 }
 
-
-/* Χρώματα συγκεκριμένων elements */
-
-/* Nav Bar */
-nav li a.active {
-    background-color: #546E7A;
-    color: #FFFFFF;
-}
-
-nav li a:hover:not(.active) {
-    background-color: #B0BEC5;
-    color: #FFFFFF;
-}
-
-
 /* Playlist line colors */
 .track:nth-child(odd) {
     background-color: #CFD8DC;

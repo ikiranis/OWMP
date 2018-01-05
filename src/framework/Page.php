@@ -33,17 +33,16 @@ class Page
     public function DisplayMainPage() {
         $_SESSION['PlaylistCounter']=0;
 
-        if(isset($_GET['page'])) {
-            $NavActiveItem=$_GET['page'];
+        if (isset($_GET['page'])) {
+            $NavActiveItem = $_GET['page'];
             Page::setNavActiveItem($_GET['page']);
 
-        }
-        else if(isset($_COOKIE['page'])) {
-            $NavActiveItem=$_COOKIE['page'];
+        } else if (isset($_COOKIE['page'])) {
+            $NavActiveItem = $_COOKIE['page'];
             Page::setNavActiveItem($_COOKIE['page']);
         }
 
-        if(!isset($NavActiveItem)) $NavActiveItem=1;
+        if (!isset($NavActiveItem)) $NavActiveItem = 1;
 
         global $lang;
 
@@ -52,19 +51,19 @@ class Page
         ?>
 
 <!--        <div class="row">-->
-<!--            <nav class="col-lg-12">-->
+<!--            <div class="col-xl-12">-->
 <!---->
 <!--                --><?php //Page::NavList($NavActiveItem, 'window'); ?>
 <!---->
 <!---->
-<!--                <div id="languages">-->
-<!--                    --><?php //echo $languages_text; ?>
-<!--                </div>-->
-<!---->
-<!--                <div id="TotalInPlaylist"><span-->
-<!--                            id="TotalNumberInPlaylist">--><?php //echo $_SESSION['countThePlaylist']; ?><!--</span> --><?php //echo __('items_in_playlist'); ?>
-<!--                </div>-->
-<!--            </nav>-->
+<!--                                <div id="languages">-->
+<!--                                    --><?php //echo $languages_text; ?>
+<!--                                </div>-->
+<!--                -->
+<!--                                <div id="TotalInPlaylist"><span-->
+<!--                                            id="TotalNumberInPlaylist">--><?php //echo $_SESSION['countThePlaylist']; ?><!--</span> --><?php //echo __('items_in_playlist'); ?>
+<!--                                </div>-->
+<!--            </div>-->
 <!--        </div>-->
 
         <div class="row mainContent">
@@ -153,7 +152,6 @@ class Page
 
 <!--            Bootstrap-->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-
             <?php
             //  Καθορισμός των css αρχείων.
             if (isset($this->css))
@@ -181,9 +179,10 @@ class Page
 
             ?>
 
-<!--            Bootstrap-->
+            <!--            Bootstrap-->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
 
             <title><?php echo $this->tittle; ?></title>
 
@@ -261,23 +260,23 @@ class Page
             </footer>
         </div>
 
-        <?php
-            if($showMobileVersion) {
-                ?>
-                <div id="mobileVersion">
-                    <span id="mobileVersionText">
-                        <?php
-                        if(!isset($_GET['mobile'])) {
-                            echo '<a href="?mobile=true">'.__('mobile_version').'</a>';
-                        } else {
-                            echo '<a href="'.HTTP_TEXT.$_SERVER["HTTP_HOST"].PROJECT_PATH.'">'.__('desktop_version').'</a>';
-                        }
-                        ?>
-                    </span>
-                </div>
-        <?php
-            }
-        ?>
+<!--        --><?php
+//            if($showMobileVersion) {
+//                ?>
+<!--                <div id="mobileVersion">-->
+<!--                    <span id="mobileVersionText">-->
+<!--                        --><?php
+//                        if(!isset($_GET['mobile'])) {
+//                            echo '<a href="?mobile=true">'.__('mobile_version').'</a>';
+//                        } else {
+//                            echo '<a href="'.HTTP_TEXT.$_SERVER["HTTP_HOST"].PROJECT_PATH.'">'.__('desktop_version').'</a>';
+//                        }
+//                        ?>
+<!--                    </span>-->
+<!--                </div>-->
+<!--        --><?php
+//            }
+//        ?>
 
         </div>
 
@@ -418,11 +417,26 @@ class Page
     // TODO να βγάλω το logprogress εκτός να το προσθέτει δυναμικά
     public function showMainBar ($leftSideText,$rightSideText) {
     ?>
-        <div class="row">
-            <header class="col-lg-12 col-sm-12 fixed-top">
-                <div id="LeftSide">
-                    <div class="mainbarcontent">
-                        <?php echo $leftSideText; ?>
+        <div class="row fixed-top theHeader">
+                <div class="col-lg-10">
+<!--                    --><?php //echo $leftSideText; ?>
+
+                        <?php
+                            if (isset($_GET['page'])) {
+                                $NavActiveItem = $_GET['page'];
+                                Page::setNavActiveItem($_GET['page']);
+
+                            } else if (isset($_COOKIE['page'])) {
+                                $NavActiveItem = $_COOKIE['page'];
+                                Page::setNavActiveItem($_COOKIE['page']);
+                            }
+
+                            if (!isset($NavActiveItem)) {
+                                $NavActiveItem = 1;
+                            }
+
+                            Page::NavList($NavActiveItem, 'window');
+                        ?>
 
                         <span class="o-resultsContainer_iconContainer isHidden">
                             <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
@@ -436,20 +450,18 @@ class Page
                                    onclick="sendKillCommand();">
                     </span>
 
-                </div>
+
+
 
             </div>
 
-            <div id="o-progressAnimation_container"></div>
+<!--            <div id="o-progressAnimation_container"></div>-->
 
-            <div id="RightSide" >
-                <div class="mainbarcontent">
+            <div class="col-lg-2" >
                     <?php echo $rightSideText; ?>
-                </div>
             </div>
 
 
-        </header>
         </div>
 
 
@@ -484,30 +496,39 @@ class Page
 
 
         ?>
-
-            <ul>
+<!--        @source https://getbootstrap.com/docs/4.0/components/navbar/-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <ul class="nav navbar-nav">
                 <?php
                     foreach (self::$nav_list as $item) {
 
                         // έλεγχος αν ο χρήστης είναι admin σε items που πρέπει να είναι admin
                         if (in_array($counter, $adminNavItems)) {
-                            if ($UserGroupID == 1) $displayOK = true;
-                            else $displayOK = false;
-                        }  else $displayOK=true;
+                            if ($UserGroupID == 1) {
+                                $displayOK = true;
+                            } else {
+                                $displayOK = false;
+                            }
+                        }  else {
+                            $displayOK=true;
+                        }
 
                         if($displayOK) {
                             if ($targetPage == 'page') {
                                 ?>
-                                <li class="c5 bgc2"><a <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
-                                        href="?page=<?php echo $counter; ?>"><?php echo $item; ?></a></li>
+                                <li class="nav-item">
+                                    <a href="?page=<?php echo $counter; ?>" class="nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>">
+                                        <?php echo $item; ?>
+                                    </a>
+                                </li>
 
                                 <?php
                             }
 
                             if ($targetPage == 'window') {
                                 ?>
-                                <li class="c5 bgc2">
-                                    <a id="navID<?php echo $counter; ?>" <?php if ($counter == $NavActiveItem) echo 'class=active'; ?>
+                                <li class="nav-item">
+                                    <a id="navID<?php echo $counter; ?>" class="nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>"
                                        onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a>
                                 </li>
 
@@ -519,6 +540,7 @@ class Page
                     }
                 ?>
             </ul>
+        </nav>
 
         <script>
 
@@ -528,7 +550,7 @@ class Page
 
         <?php
 
-        return true;
+//        return true;
     }
 
     static function getNavActiveItem() {

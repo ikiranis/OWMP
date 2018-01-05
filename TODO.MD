@@ -37,6 +37,8 @@
 
 **Sorting at search queries**
 
+**Shortcut key to change current manual playlist on select box**
+
 
 
 

@@ -44,7 +44,7 @@ $user = new User();
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
+$scripts=array ('https://code.jquery.com/jquery-3.2.1.min.js',   // jquery
     'src/javascript/framework/variables.js',    // Javascript public variables
     'src/javascript/framework/_jqueryExtensions.js',    // jQuery extensions
     'src/javascript/framework/_utilities.js',    // Utility functions
@@ -63,14 +63,17 @@ $scripts=array ('src/javascript/framework/jquery.min.js',   // jquery
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
 
+
+$css = array('styles/layouts/basic.css');
+
 // Έλεγχος αν είναι σε mobile ή όχι
-if (!isset($_GET['mobile'])) {
-    $css = array('styles/layouts/basic.css');
-    $_SESSION['mobile']=false;
-} else {
-    $css = array('styles/layouts/mobile.css');
-    $_SESSION['mobile']=true;
-}
+//if (!isset($_GET['mobile'])) {
+//    $css = array('styles/layouts/basic.css');
+//    $_SESSION['mobile']=false;
+//} else {
+//    $css = array('styles/layouts/mobile.css');
+//    $_SESSION['mobile']=true;
+//}
 
 $MainPage->setScript($scripts);
 $MainPage->setCSS($css);
@@ -149,8 +152,8 @@ else {
 if($logged_in) {
     $LoginNameText .= ' <span id=logout><a href=?logout=true title=' . __('logout') . '><img src=img/exit.png></a></span>';
 
-    $timediv='<div id=SystemTime><img src=img/time.png><span id="timetext"></span></div>';
-    
+    $timediv = '<span id="SystemTime"><img src=img/time.png><span id="timetext"></span></span>';
+
     $MainPage->showMainBar($timediv, $LoginNameText);
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
