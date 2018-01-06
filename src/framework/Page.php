@@ -426,11 +426,16 @@ class Page
         }
 
     ?>
-        <nav class="navbar navbar-expand-xl fixed-top navbar-dark bg-dark" >
+        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark" >
 
                 <div class="navbar-brand">
                     <?php echo $languages_text; ?>
                 </div>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <?php
                     Page::NavList($NavActiveItem, 'window');
@@ -448,7 +453,7 @@ class Page
                            onclick="sendKillCommand();">
             </span>
 
-            <div class="navbar-text ml-auto" >
+            <div class="navbar-text ml-auto d-none d-md-block" >
                 <?php echo $rightSideText . '  ' . $leftSideText; ?>
 
             </div>
@@ -473,6 +478,15 @@ class Page
 
     // Τυπώνει την λίστα με τα Nav Items. Αν $targetPage=page αλλάζει τα περιεχόμενα όλης της σελίδας.
     // Αν είναι window μόνο στο κεντρικό window
+    /**
+     * Τυπώνει την λίστα με τα Nav Items. Αν $targetPage=page αλλάζει τα περιεχόμενα όλης της σελίδας.
+     * Αν είναι window μόνο στο κεντρικό window
+     *
+     * @source https://getbootstrap.com/docs/4.0/components/navbar/
+     *
+     * @param $NavActiveItem
+     * @param $targetPage
+     */
     static function NavList ($NavActiveItem, $targetPage) {
 
 //        if (!isset($_COOKIE['page'])) self::setNavActiveItem(1); // Σετάρει το NavActiveItem σε 1, αν δεν έχει κάποια τιμή
@@ -490,8 +504,8 @@ class Page
 
 
         ?>
-<!--        @source https://getbootstrap.com/docs/4.0/components/navbar/-->
 
+        <div class="collapse navbar-collapse align-items-end bg-dark navbar-dark px-3 py-1" id="navbarNavAltMarkup">
             <div class="navbar-nav nav-pills">
                 <?php
 
@@ -529,7 +543,7 @@ class Page
                     }
                 ?>
             </div>
-
+        </div>
 
         <script>
 

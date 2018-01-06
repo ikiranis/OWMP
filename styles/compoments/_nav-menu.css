@@ -1,6 +1,6 @@
 /* Nav menu */
 nav {
-    height: 3em;
+    height: 3.5em;
 }
 
 .nav-pills > a {
@@ -12,7 +12,7 @@ nav {
 }
 
 .nav-pills > a.active {
-    background-color: #ffffff !important;
+    background-color: lightgoldenrodyellow !important;
     color: grey !important;
 }
 
