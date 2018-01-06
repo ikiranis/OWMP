@@ -66,7 +66,7 @@ class Page
 <!--            </div>-->
 <!--        </div>-->
 
-        <div class="row mainContent">
+        <div class="row mainContent w-100">
 
             <aside class="col-xl-4 col-md-12">
                 <?php OWMP::showVideo(); ?>
@@ -293,8 +293,6 @@ class Page
 //      array('name' => 'email', 'fieldtext' => 'E-mail', 'type' => 'text'),
 //      array('name' => 'password', 'fieldtext' => 'Password', 'type' => 'password')
 // );
-
-
     function MakeForm($name, $form_elements, $splitToDetails)
     {
         $splitted=false;
