@@ -65,6 +65,7 @@ $scripts=array ('https://code.jquery.com/jquery-3.2.1.min.js',   // jquery
 
 
 $css = array('styles/layouts/basic.css');
+$_SESSION['mobile']=false;
 
 // Έλεγχος αν είναι σε mobile ή όχι
 //if (!isset($_GET['mobile'])) {
@@ -152,7 +153,7 @@ else {
 if($logged_in) {
     $LoginNameText .= ' <span id=logout><a href=?logout=true title=' . __('logout') . '><img src=img/exit.png></a></span>';
 
-    $timediv = '<span id="SystemTime"><img src=img/time.png><span id="timetext"></span></span>';
+    $timediv = '<span id="SystemTime"><span id="timetext"></span></span>';
 
     $MainPage->showMainBar($timediv, $LoginNameText);
 

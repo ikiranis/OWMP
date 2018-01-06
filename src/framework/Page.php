@@ -170,8 +170,12 @@ class Page
             ?>
 
             <!--            Bootstrap-->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                    crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+                    integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+                    crossorigin="anonymous"></script>
 
 
             <title><?php echo $this->tittle; ?></title>
@@ -420,11 +424,12 @@ class Page
         if (!isset($NavActiveItem)) {
             $NavActiveItem = 1;
         }
+
     ?>
         <nav class="navbar navbar-expand-xl fixed-top navbar-dark bg-dark" >
 
                 <div class="navbar-brand">
-                    <?php echo $leftSideText; ?>
+                    <?php echo $languages_text; ?>
                 </div>
 
                 <?php
@@ -444,7 +449,7 @@ class Page
             </span>
 
             <div class="navbar-text ml-auto" >
-                <?php echo $rightSideText . '  ' . $languages_text; ?>
+                <?php echo $rightSideText . '  ' . $leftSideText; ?>
 
             </div>
 
@@ -452,10 +457,6 @@ class Page
         </nav>
 
 <!--            <div id="o-progressAnimation_container"></div>-->
-
-
-
-
 
 
     <?php
@@ -493,6 +494,7 @@ class Page
 
             <div class="navbar-nav nav-pills">
                 <?php
+
                     foreach (self::$nav_list as $item) {
 
                         // έλεγχος αν ο χρήστης είναι admin σε items που πρέπει να είναι admin
@@ -509,7 +511,7 @@ class Page
                         if($displayOK) {
                             if ($targetPage == 'page') {
                                 ?>
-                                    <a href="?page=<?php echo $counter; ?>" class="nav-item nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>">
+                                    <a href="?page=<?php echo $counter; ?>" class="nav-item nav-link <?php echo ($counter == $NavActiveItem) ? 'active' : ''; ?>">
                                         <?php echo $item; ?>
                                     </a>
                                 <?php
@@ -517,7 +519,7 @@ class Page
 
                             if ($targetPage == 'window') {
                                 ?>
-                                    <a id="navID<?php echo $counter; ?>" class="nav-item nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>"
+                                    <a id="navID<?php echo $counter; ?>" class="nav-item nav-link <?php echo ($counter == $NavActiveItem) ? 'active' : ''; ?>"
                                        onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a>
                                 <?php
                             }

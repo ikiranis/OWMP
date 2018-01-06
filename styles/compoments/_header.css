@@ -42,16 +42,12 @@
     height: 1.5em;
 }
 
-/*#SystemTime {*/
-    /*align-self: center;*/
-    /*!*display: inline-flex;*!*/
-/*}*/
-
-/*#timetext {*/
-    /*align-self: center;*/
-/*}*/
+#timetext {
+    width: 4em;
+    display: inline-block;
+}
 
 #SystemTime img {
-    width: 1.3em;
-    height: 1.3em;
+    width: 1.5em;
+    /*height: 2em;*/
 }
