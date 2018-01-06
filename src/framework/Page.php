@@ -451,11 +451,10 @@ class Page
                     <input type="button" class="o-imageButton--large o-imageButton_killCommand"
                            title="<?php echo __('kill_process'); ?>"
                            onclick="sendKillCommand();">
-            </span>
+                </span>
 
-            <div class="navbar-text ml-auto d-none d-md-block" >
+            <div class="navbar-text d-none d-md-block" >
                 <?php echo $rightSideText . '  ' . $leftSideText; ?>
-
             </div>
 
 
