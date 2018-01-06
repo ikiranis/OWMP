@@ -50,29 +50,19 @@ class Page
 
         ?>
 
-<!--        <div class="row">-->
-<!--            <div class="col-xl-12">-->
-<!---->
-<!--                --><?php //Page::NavList($NavActiveItem, 'window'); ?>
-<!---->
-<!---->
-<!--                                <div id="languages">-->
-<!--                                    --><?php //echo $languages_text; ?>
-<!--                                </div>-->
-<!--                -->
+
 <!--                                <div id="TotalInPlaylist"><span-->
 <!--                                            id="TotalNumberInPlaylist">--><?php //echo $_SESSION['countThePlaylist']; ?><!--</span> --><?php //echo __('items_in_playlist'); ?>
 <!--                                </div>-->
-<!--            </div>-->
-<!--        </div>-->
 
-        <div class="row mainContent w-100">
 
-            <aside class="col-xl-4 col-md-12">
+        <div class="row mainContent w-100 bg-light">
+
+            <aside class="col-xl-4 col-md-3 col-sm-12 h-100">
                 <?php OWMP::showVideo(); ?>
             </aside>
 
-            <section class="col-xl-8 col-md-12">
+            <section class="col-xl-8 col-md-9 col-sm-12 h-100">
                 <article>
                     <?php
                     switch ($NavActiveItem) {
@@ -126,7 +116,7 @@ class Page
     ?>
 
     <!DOCTYPE html>
-    <HTML xmlns="http://www.w3.org/1999/html" class="bgc1">
+    <HTML xmlns="http://www.w3.org/1999/html">
         <head>
 
 <!--            <link id="appIcon" rel="apple-touch-icon" type="image/png" href="">-->
@@ -235,12 +225,12 @@ class Page
 
 
     // Εμφανίζει τα στοιχεία του footer
-    function showFooter($showAppName,$showAppVersion,$showMobileVersion)
+    function showFooter($showAppName,$showAppVersion)
     {
         ?>
 
         <div class="row">
-            <footer class="col-lg-12 fixed-bottom">
+            <footer class="col-lg-12 fixed-bottom bg-dark">
                 <?php
                 if ($showAppName) {
                     ?>
@@ -414,53 +404,58 @@ class Page
 
     // TODO να βγάλω το logprogress εκτός να το προσθέτει δυναμικά
     public function showMainBar ($leftSideText,$rightSideText) {
+        global $lang;
+
+        $languages_text = $lang->print_languages('lang_id',' ',true,false);
+
+        if (isset($_GET['page'])) {
+            $NavActiveItem = $_GET['page'];
+            Page::setNavActiveItem($_GET['page']);
+
+        } else if (isset($_COOKIE['page'])) {
+            $NavActiveItem = $_COOKIE['page'];
+            Page::setNavActiveItem($_COOKIE['page']);
+        }
+
+        if (!isset($NavActiveItem)) {
+            $NavActiveItem = 1;
+        }
     ?>
-        <div class="row fixed-top theHeader">
-                <div class="col-lg-10">
-<!--                    --><?php //echo $leftSideText; ?>
+        <nav class="navbar navbar-expand-xl fixed-top navbar-dark bg-dark" >
 
-                        <?php
-                            if (isset($_GET['page'])) {
-                                $NavActiveItem = $_GET['page'];
-                                Page::setNavActiveItem($_GET['page']);
+                <div class="navbar-brand">
+                    <?php echo $leftSideText; ?>
+                </div>
 
-                            } else if (isset($_COOKIE['page'])) {
-                                $NavActiveItem = $_COOKIE['page'];
-                                Page::setNavActiveItem($_COOKIE['page']);
-                            }
+                <?php
+                    Page::NavList($NavActiveItem, 'window');
+                ?>
 
-                            if (!isset($NavActiveItem)) {
-                                $NavActiveItem = 1;
-                            }
+                <span class="o-resultsContainer_iconContainer isHidden">
+                    <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
+                           title="<?php echo __('display_activity'); ?>"
+                           onclick="toggleResultsContainer();">
+                </span>
 
-                            Page::NavList($NavActiveItem, 'window');
-                        ?>
+                <span class="o-resultsContainer_killCommandContainer isHidden">
+                    <input type="button" class="o-imageButton--large o-imageButton_killCommand"
+                           title="<?php echo __('kill_process'); ?>"
+                           onclick="sendKillCommand();">
+            </span>
 
-                        <span class="o-resultsContainer_iconContainer isHidden">
-                            <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
-                                   title="<?php echo __('display_activity'); ?>"
-                                   onclick="toggleResultsContainer();">
-                        </span>
-
-                        <span class="o-resultsContainer_killCommandContainer isHidden">
-                            <input type="button" class="o-imageButton--large o-imageButton_killCommand"
-                                   title="<?php echo __('kill_process'); ?>"
-                                   onclick="sendKillCommand();">
-                    </span>
-
-
-
+            <div class="navbar-text ml-auto" >
+                <?php echo $rightSideText . '  ' . $languages_text; ?>
 
             </div>
+
+
+        </nav>
 
 <!--            <div id="o-progressAnimation_container"></div>-->
 
-            <div class="col-lg-2" >
-                    <?php echo $rightSideText; ?>
-            </div>
 
 
-        </div>
+
 
 
     <?php
@@ -495,8 +490,8 @@ class Page
 
         ?>
 <!--        @source https://getbootstrap.com/docs/4.0/components/navbar/-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <ul class="nav navbar-nav">
+
+            <div class="navbar-nav nav-pills">
                 <?php
                     foreach (self::$nav_list as $item) {
 
@@ -514,22 +509,16 @@ class Page
                         if($displayOK) {
                             if ($targetPage == 'page') {
                                 ?>
-                                <li class="nav-item">
-                                    <a href="?page=<?php echo $counter; ?>" class="nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>">
+                                    <a href="?page=<?php echo $counter; ?>" class="nav-item nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>">
                                         <?php echo $item; ?>
                                     </a>
-                                </li>
-
                                 <?php
                             }
 
                             if ($targetPage == 'window') {
                                 ?>
-                                <li class="nav-item">
-                                    <a id="navID<?php echo $counter; ?>" class="nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>"
+                                    <a id="navID<?php echo $counter; ?>" class="nav-item nav-link <?php ($counter == $NavActiveItem) ? 'active' : ''; ?>"
                                        onclick="DisplayWindow(<?php echo $counter; ?>, null,null);"><?php echo $item; ?></a>
-                                </li>
-
                                 <?php
                             }
                         }
@@ -537,8 +526,8 @@ class Page
                         $counter++;
                     }
                 ?>
-            </ul>
-        </nav>
+            </div>
+
 
         <script>
 

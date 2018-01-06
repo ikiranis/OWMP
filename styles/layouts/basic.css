@@ -2,29 +2,10 @@
 
 /* Desktop layout */
 
-/*html, body {*/
-    /*height: 100%;*/
-/*}*/
-
-/*.container-fluid {*/
-    /*height: 100%;*/
-    /*overflow-y: hidden; !* don't show content that exceeds my height *!*/
-/*}*/
-
-
-/*header, footer {*/
-    /*!*font-size: 120%;*!*/
-    /*!*margin: 0.1%;*!*/
-    /*!*border-radius: 6px;*!*/
-    /*!*padding: 1em 1em;*!*/
-    /*!*box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);*!*/
-    /*!*display:block;*!*/
-/*}*/
-
 .mainContent {
     position: fixed;
-    top:3.5em;
-    bottom: 3.5em;
+    top:3em;
+    bottom: 2em;
     overflow-y: auto;
 }
 
@@ -38,43 +19,10 @@
 
 /*Κεντρικό box*/
 section {
-    /*font-size: 120%;*/
-    /*margin: 0.5%;*/
     padding: 1em 1em;
-    /*box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);*/
-    /*position: relative;*/
-    /*display: block;*/
-    /*width: 100%;*/
-    height: 100%;
-    /*float: right;*/
-    /*margin-bottom: 1%;*/
 }
 
 aside {
-    /*font-size: 120%;*/
-    /*margin: 0.5%;*/
     padding: 1em 1em;
-    /*box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);*/
-    /*position: relative;*/
-    /*display: block;*/
-    /*width: 100%;*/
-    height: 100%;
     overflow-y: auto;
 }
-
-
-
-/*!*Nav menu*!*/
-/*nav {*/
-    /*padding:0;*/
-    /*margin:0;*/
-    /*!*position: relative;*!*/
-    /*!*width: 7%;*!*/
-    /*!*height: 75%;*!*/
-    /*!*float: right;*!*/
-    /*!*padding-top: 1em;*!*/
-    /*!*padding-bottom: 1em;*!*/
-    /*!*margin: 0.1%;*!*/
-    /*!*display:block;*!*/
-    /*!*font-size: 0.7em;*!*/
-/*}*/
