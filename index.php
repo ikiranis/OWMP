@@ -153,9 +153,9 @@ else {
 if($logged_in) {
     $LoginNameText .= ' <span id=logout><a href=?logout=true title=' . __('logout') . '><img src=img/exit.png></a></span>';
 
-    $timediv = '<span id="SystemTime"><span id="timetext"></span></span>';
+//    $timediv = '<span id="SystemTime"><span id="timetext"></span></span>';
 
-    $MainPage->showMainBar($timediv, $LoginNameText);
+    $MainPage->showMainBar($LoginNameText);
 
     // Αν η σελίδα δεν έχει τρέξει την τελευταία μέρα
     if(Page::checkNewPageRunning()) {

@@ -185,7 +185,7 @@ class Page
 
         <body>
 
-        <div class="container-fluid">
+        < class="container-fluid">
 
         <?php
 
@@ -233,26 +233,35 @@ class Page
     {
         ?>
 
-        <div class="row">
-            <footer class="col-lg-12 fixed-bottom bg-dark">
-                <?php
-                if ($showAppName) {
-                    ?>
-                    <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
-                    <?php
-                }
+            <footer class="row fixed-bottom bg-dark">
 
-                if ($showAppVersion) {
-                    ?>
-                    <span id="AppVersionContainer">
-                    <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
-                    <span id="checkCurrentVersion"></span>
-                </span>
+                <div class="col-xl-5  col-lg-4 px-4 my-auto w-100 d-none d-lg-block">
                     <?php
-                }
-                ?>
+                    if ($showAppName) {
+                        ?>
+                        <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
+                        <?php
+                    }
+                    ?>
+                </div>
+
+                <div class="col-xl-5  col-lg-6 col-md-10 my-auto text-white text-right w-100 d-none d-md-block">
+                    <?php
+                    if ($showAppVersion) {
+                        ?>
+                        <span id="AppVersionContainer">
+                            <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
+                            <span id="checkCurrentVersion"></span>
+                        </span>
+                        <?php
+                    }
+                    ?>
+                </div>
+
+                <div class="col-xl-2 col-lg-2  col-md-2 my-auto text-white text-center w-100">
+                    <span id="SystemTime"><span id="timetext"></span></span>
+                </div>
             </footer>
-        </div>
 
 <!--        --><?php
 //            if($showMobileVersion) {
@@ -407,7 +416,7 @@ class Page
     }
 
     // TODO να βγάλω το logprogress εκτός να το προσθέτει δυναμικά
-    public function showMainBar ($leftSideText,$rightSideText) {
+    public function showMainBar ($rightSideText) {
         global $lang;
 
         $languages_text = $lang->print_languages('lang_id',' ',true,false);
@@ -454,7 +463,7 @@ class Page
                 </span>
 
             <div class="navbar-text d-none d-md-block" >
-                <?php echo $rightSideText . '  ' . $leftSideText; ?>
+                <?php echo $rightSideText; ?>
             </div>
 
 

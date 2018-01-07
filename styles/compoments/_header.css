@@ -42,12 +42,3 @@
     height: 1.5em;
 }
 
-#timetext {
-    width: 4em;
-    display: inline-block;
-}
-
-#SystemTime img {
-    width: 1.5em;
-    /*height: 2em;*/
-}
