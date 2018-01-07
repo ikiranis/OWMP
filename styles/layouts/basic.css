@@ -5,7 +5,7 @@
 .mainContent {
     position: fixed;
     top:3.5em;
-    bottom: 2em;
+    bottom: 3.5em;
     overflow-y: auto;
 }
 
