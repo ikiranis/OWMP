@@ -2,13 +2,13 @@
 
 **Convert to bootstrap**
 * Fix basic layout **(done)**
-* Make vertical nav bar. Remove menu from left sidebar
+* Make vertical nav bar. Remove menu from left sidebar **(done)**
 * Make all the buttons
 * Convert search (or other action windows) to modal
 * Convert icons
 * Make columns in playlist to hide on small screens
 * Choose to mobile version with a button, for smaller images
-* With responsive design from bootstrap, there will be no need to use different css versions
+* With responsive design from bootstrap, there will be no need to use different css versions **(done)**
 
 **Fix vote.css**
 
@@ -38,6 +38,9 @@
 **Sorting at search queries**
 
 **Shortcut key to change current manual playlist on select box**
+
+**New youtube downloading system with mysql use to store new items in queue**
+* Better validation checks to url's
 
 
 
