@@ -128,36 +128,36 @@ class PlaylistSearch extends OWMPElements
         <thead class="thead-dark">
             <tr>
 
-                <th scope="col" class="kind px-3"></th>
+                <th scope="col" class="mcw-1"></th>
 
-                <th scope="col" class="delete_file">
+                <th scope="col" class="mcw-3">
                     <input type="checkbox" id="checkAll" name="checkAll"
                            onchange="changeCheckAll('checkAll', 'check_item[]');">
                 </th>
 
 
-                <th scope="col" class="song_name" title="<?php echo __('tag_title'); ?>">
+                <th scope="col" class="mcw-6" title="<?php echo __('tag_title'); ?>">
                     <?php echo __('tag_title'); ?>
                 </th>
-                <th scope="col" class="artist" title="<?php echo __('tag_artist'); ?>">
+                <th scope="col" class="mcw-3" title="<?php echo __('tag_artist'); ?>">
                     <?php echo __('tag_artist'); ?>
                 </th>
-                <th scope="col" class="album" title="<?php echo __('tag_album'); ?>">
+                <th scope="col" class="mcw-2" title="<?php echo __('tag_album'); ?>">
                     <?php echo __('tag_album'); ?>
                 </th>
-                <th scope="col" class="genre" title="<?php echo __('tag_genre'); ?>">
+                <th scope="col" class="mcw-2" title="<?php echo __('tag_genre'); ?>">
                     <?php echo __('tag_genre'); ?>
                 </th>
-                <th scope="col" class="song_year" title="<?php echo __('tag_year'); ?>">
+                <th scope="col" class="mcw-1" title="<?php echo __('tag_year'); ?>">
                     <?php echo __('tag_year'); ?>
                 </th>
-                <th scope="col" class="play_count" title="<?php echo __('tag_play_count'); ?>">
+                <th scope="col" class="mcw-1" title="<?php echo __('tag_play_count'); ?>">
                     <?php echo __('tag_play_count'); ?>
                 </th>
-                <th scope="col" class="rating" title="<?php echo __('tag_rating'); ?>">
+                <th scope="col" class="mcw-1" title="<?php echo __('tag_rating'); ?>">
                     <?php echo __('tag_rating'); ?>
                 </th>
-                <th scope="col" class="date_added" title="<?php echo __('tag_date_added'); ?>">
+                <th scope="col" class="mcw-2" title="<?php echo __('tag_date_added'); ?>">
                     <?php echo __('tag_date_added'); ?>
                 </th>
 
@@ -193,11 +193,11 @@ class PlaylistSearch extends OWMPElements
                  onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
                  onmouseout="hideCoverImage();">
 
-                <td class="kind <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
+                <td class="mcw-1 <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
                     title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></td>
 
 
-                <td class="delete_file">
+                <td class="mcw-3">
 
                     <?php
 
@@ -248,43 +248,43 @@ class PlaylistSearch extends OWMPElements
                 </td>
 
 
-                <td class="song_name" title="<?php echo $track['song_name']; ?>">
+                <td class="mcw-6" title="<?php echo $track['song_name']; ?>">
                     <span class="searchableItem" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
                         <?php echo $track['song_name']; ?>
                     </span>
                 </td>
-                <td class="artist" title="<?php echo $track['artist']; ?>">
+                <td class="mcw-3" title="<?php echo $track['artist']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('artist', $track['artist']))); ?>);">
                         <?php echo $track['artist']; ?>
                     </span>
                 </td>
-                <td class="album" title="<?php echo $track['album']; ?>">
+                <td class="mcw-2" title="<?php echo $track['album']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('album', $track['album']))); ?>);">
                         <?php echo $track['album']; ?>
                     </span>
                 </td>
-                <td class="genre" title="<?php echo $track['genre']; ?>">
+                <td class="mcw-2" title="<?php echo $track['genre']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('genre', $track['genre']))); ?>);">
                         <?php echo $track['genre']; ?>
                     </span>
                 </td>
-                <td class="song_year" title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
+                <td class="mcw-1 text-center" title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('song_year', $track['song_year']))); ?>);">
                         <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
                     </span>
                 </td>
-                <td class="play_count" title="<?php echo $track['play_count']; ?>">
+                <td class="mcw-1 text-center" title="<?php echo $track['play_count']; ?>">
                     <?php echo $track['play_count']; ?>
                 </td>
-                <td class="rating" title="<?php echo(($track['rating'] / 20)); ?>">
+                <td class="mcw-1 text-center" title="<?php echo(($track['rating'] / 20)); ?>">
                     <?php echo(($track['rating'] / 20)); ?>
                 </td>
-                <td class="date_added" title="<?php echo $track['date_added']; ?>">
+                <td class="mcw-2 text-center" title="<?php echo $track['date_added']; ?>">
                     <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
                 </td>
 

@@ -1,44 +1,9 @@
 /* Playlist */
 
-/*.playlistTittle {*/
-    /*font-weight: bold;*/
-/*}*/
-
-
-/*#playlist_container {*/
-    /*overflow-y: scroll;*/
-    /*height:96%;*/
-/*}*/
-
 .table-nowrap td, .table-nowrap th {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-#playlistTable {
-    /*display: table;*/
-    /*width: 100%;*/
-    /*height: auto;*/
-    /*font-size: 0.7em;*/
-    /*border-collapse: collapse;*/
-    /*white-space: nowrap;*/
-}
-
-/*.track {*/
-    /*display: table-row;*/
-    /*!*cursor: pointer;*!*/
-/*}*/
-
-/*.tag {*/
-    /*display: table-cell;*/
-    /*white-space: nowrap;*/
-    /*overflow: hidden;*/
-    /*padding-left: 0.5em;*/
-/*}*/
-
-.kind {
-    max-width: 1em;
 }
 
 .kind_music {
@@ -55,42 +20,29 @@
     background-position: center center;
 }
 
-.delete_file {
-    max-width: 3em;
-    /*margin: 0;*/
-    /*z-index: 10;*/
+/*Max Cell Width*/
+.mcw-1 {
+    max-width: 1em;
 }
 
-.song_name {
+.mcw-2 {
+    max-width: 2em;
+}
+
+.mcw-3 {
+   max-width: 3em;
+}
+
+.mcw-4 {
+    max-width: 4em;
+}
+
+.mcw-5 {
+    max-width: 5em;
+}
+
+.mcw-6 {
     max-width: 6em;
-}
-
-.artist {
-    max-width: 3em;
-}
-
-.album {
-    max-width: 2em;
-}
-
-.genre {
-    max-width: 2em;
-}
-
-.song_year {
-    max-width: 2em;
-}
-
-.play_count {
-    max-width: 1em;
-}
-
-.rating {
-    max-width: 1em;
-}
-
-.date_added {
-    max-width: 3em;
 }
 
 .searchableItem:hover {
