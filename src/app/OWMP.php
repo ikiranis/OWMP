@@ -28,134 +28,23 @@ class OWMP
     // Εμφανίζει το βίντεο
     static function showVideo ()
     {
-        $tags = new Page();
         $conn = new MyDB();
         $user = new User();
 
         $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
-        if ($UserGroup==1)  // Αν ο χρήστης είναι admin
-            $disabled='no';
-        else $disabled='yes';
+        if ($UserGroup==1) {  // Αν ο χρήστης είναι admin
+            $disabled = false;
+        } else {
+            $disabled = true;
+        }
 
-
-        $FormElementsArray = array(
-            array('name' => 'songID',
-                'fieldtext' => null,
-                'type' => 'hidden',
-                'required' => 'no',
-                'value' => null),
-            array('name' => 'title',
-                'fieldtext' => __('tag_title'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '255',
-                'readonly' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => null),
-            array('name' => 'artist',
-                'fieldtext' => __('tag_artist'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '255',
-                'readonly' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => null),
-            array('name' => 'album',
-                'fieldtext' => __('tag_album'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '255',
-                'readonly' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => null),
-            array('name' => 'genre',
-                'fieldtext' => __('tag_genre'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '20',
-                'readonly' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => null),
-            array('name' => 'year',
-                'fieldtext' => __('tag_year'),
-                'type' => 'number',
-                'required' => 'no',
-                'readonly' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => null),
-            array('name' => 'live',
-                'fieldtext' => __('tag_live'),
-                'type' => 'select',
-                'options' => array(
-                    array('value' => '0', 'name' => __('tag_live_official')),
-                    array('value' => '1', 'name' => __('tag_live_live'))
-                ),
-                'required' => 'no',
-                'maxlength' => '1',
-                'readonly' => $disabled,
-                'disabled' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => null),
-            array('name' => 'rating',
-                'fieldtext' => __('tag_rating'),
-                'type' => 'range',
-                'required' => 'no',
-                'maxlength' => '5',
-                'min' => '0',
-                'max' => '5',
-                'step' => '1',
-                'ticks' => array(0,1,2,3,4,5),
-                'disabled' => $disabled,
-                'allwaysview' => 'yes',
-                'value' => '0'),
-
-            array('name' => 'play_count',
-                'fieldtext' => __('tag_play_count'),
-                'type' => 'number',
-                'required' => 'no',
-                'disabled' => 'no',
-                'readonly' => 'yes',
-                'allwaysview' => 'no',
-                'value' => null),
-            array('name' => 'date_added',
-                'fieldtext' => __('tag_date_added'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '20',
-                'disabled' => 'no',
-                'readonly' => 'yes',
-                'allwaysview' => 'no',
-                'value' => null),
-            array('name' => 'date_played',
-                'fieldtext' => __('tag_date_played'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '20',
-                'disabled' => 'no',
-                'readonly' => 'yes',
-                'allwaysview' => 'no',
-                'value' => null),
-
-            array('name' => 'path_filename',
-                'fieldtext' => __('tag_path_filename'),
-                'type' => 'text',
-                'required' => 'no',
-                'maxlength' => '255',
-                'disabled' => 'no',
-                'readonly' => 'yes',
-                'allwaysview' => 'no',
-                'value' => null)
-
-        );
-
-        
         ?>
 
         <video id="myVideo" width="100%" onerror="failed(event);" ondblclick="displayFullscreenControls();"></video>
 
         <?php OWMPElements::displayControls('mediaControls', false); ?>
-        
+
         <div id="the_time_track">
             <span id="jsTrackTime">00:00</span> /
             <span id="jsTotalTrackTime">00:00</span>
@@ -216,13 +105,14 @@ class OWMP
 
         <div id="tags">
 
-            <?php $tags->MakeForm('FormTags', $FormElementsArray, true); ?>
+            <?php OWMPElements::displayTagsForm($disabled); ?>
 
             <?php
                 if ($UserGroup==1)  {
             ?>
-            <input type="button" class="myButton" name="submit" id="submit" <?php if($disabled=='yes') echo ' disabled '; ?>
+            <input type="button" class="btn btn-secondary w-100" name="submit" id="submit" <?php if($disabled) echo ' disabled '; ?>
                 value="<?php echo __('tag_form_submit'); ?>" onclick="update_tags();">
+
             <?php
             }
             ?>

@@ -1087,7 +1087,8 @@ function changeSelectToInput(elem, elementID) {
  * @param sliderId
  * @param outputId
  */
-function printValue(sliderId, outputId) {
+function printValue(sliderId, outputId)
+{
     outputId.value = sliderId.value;
 }
 

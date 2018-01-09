@@ -9,6 +9,7 @@
 * Make columns in playlist to hide on small screens
 * Choose to mobile version with a button, for smaller images
 * With responsive design from bootstrap, there will be no need to use different css versions **(done)**
+* Fix login/register screen
 
 **Fix vote.css**
 

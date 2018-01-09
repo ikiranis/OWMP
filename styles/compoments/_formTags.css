@@ -1,76 +1,7 @@
-#FormTags input:disabled, #FormTags input:read-only {
-    background-color: #CFD8DC;
-    color: grey;
-    width: 100%;
-    margin-bottom: 0.2em;
-
-}
-
-/* Για τον mozilla */
-#FormTags input:-moz-read-only {
-    background-color: #CFD8DC;
-    color: grey;
-    width: 100%;
-    margin-bottom: 0.2em;
-
-}
-
-#FormTags #title {
-    font-size: 1em;
-    margin-top: 0.2em;
-    width:100%;
-}
-
-#FormTags #artist {
-    font-size: 1em;
-    margin-top: 0.2em;
-    width:100%;
-}
-
-
-#FormTags #album {
-    font-size: 0.8em;
-    margin-top: 0.2em;
-    width:100%;
-}
-
-#FormTags #genre {
-    font-size: 0.8em;
-    margin-top: 0.2em;
-    width:33%;
-    float: left;
-    display: inline-block;
-}
-
-#FormTags #year {
-    font-size: 0.8em;
-    margin-top: 0.2em;
-    width:33%;
-    margin-left:0.2em;
-    float: left;
-    display: inline-block;
-}
-
-#FormTags #live {
-    margin-top: 0.2em;
-    width: 30%;
-    font-size:0.8em;
-    margin-left:0.2em;
-    float: right;
-    display: inline-block;
-}
-
-#FormTags select:disabled {
-    background-color: #CFD8DC;
-    color: grey;
-}
-
 #rating_div {
     display: block;
     width:100%;
     position:relative;
-    margin-top:2em;
-    margin-bottom:1em;
     text-align: center;
 }
 
@@ -100,22 +31,4 @@
     height: auto;
     text-align: center;
     display: inline-block;
-}
-
-
-#tags #submit {
-    margin-top:0.5em;
-    background-color: #000000;
-    color: white;
-    width: 97%;
-    border-radius: 6px;
-    border: none;
-    font-size: 1em;
-    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    transition:all 0.5s;
-}
-
-#tags #submit:hover {
-    transform: scale(1.05);
 }

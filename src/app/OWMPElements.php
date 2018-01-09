@@ -91,6 +91,121 @@ class OWMPElements extends OWMP
         <?php
     }
 
+    /**
+     * Display tags form
+     *
+     * @param $disabled
+     */
+    static function displayTagsForm($disabled)
+    {
+
+
+        $readonly = ($disabled) ? 'readonly' : null;
+        $disabled = ($disabled) ? 'disabled' : null;
+
+        ?>
+
+        <form class="validate-form" id="FormTags" name="FormTags">
+
+            <input type="hidden" id="songID" name="songID" >
+
+            <div class="form-group">
+                <label for="title" class="sr-only"><?php echo __('tag_title'); ?></label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="<?php echo __('tag_title'); ?>"
+                <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
+            </div>
+
+            <div class="form-group">
+                <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
+                <input type="text" class="form-control form-control-sm" id="artist" name="artist" placeholder="<?php echo __('tag_artist'); ?>"
+                    <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
+            </div>
+
+            <div class="form-group">
+                <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
+                <input type="text" class="form-control form-control-sm" id="album" name="album" placeholder="<?php echo __('tag_album'); ?>"
+                    <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
+            </div>
+
+            <div class="row">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12">
+                    <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
+                    <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
+                        <?php echo $disabled . ' ' . $readonly; ?> maxlength="20">
+                </div>
+
+                <div class="form-group col-xl-4 col-sm-4 col-md-12">
+                    <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
+                    <input type="number" class="form-control form-control-sm" id="year" name="year" placeholder="<?php echo __('tag_year'); ?>"
+                        <?php echo $disabled . ' ' . $readonly; ?>>
+                </div>
+
+                <div class="form-group col-xl-4 col-sm-4 col-md-12">
+                    <label for="live" class="sr-only"><?php echo __('tag_live'); ?></label>
+                    <select class="form-control form-control-sm" id="live" name="live" <?php echo $disabled . ' ' . $readonly; ?>>
+                        <option value="0"><?php echo __('tag_live_official'); ?></option>
+                        <option value="1"><?php echo __('tag_live_live'); ?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="rating_div">
+                <label for="rating" class="sr-only"><?php echo __('tag_rating'); ?></label>
+
+                <input type="range" id="rating" name="rating" oninput="printValue(rating, rating_output);"
+                       maxlength="5" max="5" min="0" list="rating_ticks">
+
+                <output for="rating" id="rating_output">0</output>
+
+                <datalist id="rating_ticks">
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </datalist>
+            </div>
+
+            <details>
+                <summary>
+                    <?php echo __('tag_details'); ?>
+                </summary>
+
+                <div class="form-group">
+                    <label for="play_count" class="sr-only"><?php echo __('tag_play_count'); ?></label>
+                    <input type="number" class="form-control form-control-sm" id="play_count" name="play_count" placeholder="<?php echo __('tag_play_count'); ?>"
+                        <?php echo $disabled; ?> readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="date_added" class="sr-only"><?php echo __('tag_date_added'); ?></label>
+                    <input type="text" class="form-control form-control-sm" id="date_added" name="date_added" placeholder="<?php echo __('tag_date_added'); ?>"
+                        <?php echo $disabled; ?> maxlength="20" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="date_played" class="sr-only"><?php echo __('tag_date_played'); ?></label>
+                    <input type="text" class="form-control form-control-sm" id="date_played" name="date_played" placeholder="<?php echo __('tag_date_played'); ?>"
+                        <?php echo $disabled; ?> maxlength="20" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
+                    <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename" placeholder="<?php echo __('tag_path_filename'); ?>"
+                        <?php echo $disabled; ?> maxlength="255" readonly>
+                </div>
+
+            </details>
+
+
+
+        </form>
+
+
+        <?php
+    }
+
 
     // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
     static function getOptionsInFormFields ()
