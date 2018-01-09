@@ -128,19 +128,19 @@ class OWMPElements extends OWMP
             </div>
 
             <div class="row">
-                <div class="form-group col-xl-4 col-sm-4 col-md-12">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
                     <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?> maxlength="20">
                 </div>
 
-                <div class="form-group col-xl-4 col-sm-4 col-md-12">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
                     <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
                     <input type="number" class="form-control form-control-sm" id="year" name="year" placeholder="<?php echo __('tag_year'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?>>
                 </div>
 
-                <div class="form-group col-xl-4 col-sm-4 col-md-12">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
                     <label for="live" class="sr-only"><?php echo __('tag_live'); ?></label>
                     <select class="form-control form-control-sm" id="live" name="live" <?php echo $disabled . ' ' . $readonly; ?>>
                         <option value="0"><?php echo __('tag_live_official'); ?></option>

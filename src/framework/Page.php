@@ -56,9 +56,9 @@ class Page
 <!--                                </div>-->
 
 
-        <div class="row mainContent w-100 bg-light">
+        <div class="row mainContent w-100 bg-light no-gutters">
 
-            <aside class="col-xl-4 col-md-3 col-sm-12 h-100 px-4">
+            <aside class="col-xl-4 col-md-3 col-sm-12 h-100 px-4 py-3">
                 <?php OWMP::showVideo(); ?>
             </aside>
 

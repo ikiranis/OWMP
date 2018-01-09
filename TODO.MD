@@ -43,7 +43,7 @@
 **New youtube downloading system with mysql use to store new items in queue**
 * Better validation checks to url's
 
-
+**Implement a song details history**
 
 
 

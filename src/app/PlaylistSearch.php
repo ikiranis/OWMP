@@ -125,38 +125,44 @@ class PlaylistSearch extends OWMPElements
     {
         ?>
 
-        <div class="tag kind"></div>
+        <thead class="thead-dark">
+            <tr>
 
-        <div class="tag delete_file">
-            <input type="checkbox" id="checkAll" name="checkAll"
-                   onchange="changeCheckAll('checkAll', 'check_item[]');">
-        </div>
+                <th scope="col" class="kind px-3"></th>
+
+                <th scope="col" class="delete_file">
+                    <input type="checkbox" id="checkAll" name="checkAll"
+                           onchange="changeCheckAll('checkAll', 'check_item[]');">
+                </th>
 
 
-        <div class="tag song_name playlistTittle" title="<?php echo __('tag_title'); ?>">
-            <?php echo __('tag_title'); ?>
-        </div>
-        <div class="tag artist playlistTittle" title="<?php echo __('tag_artist'); ?>">
-            <?php echo __('tag_artist'); ?>
-        </div>
-        <div class="tag album playlistTittle" title="<?php echo __('tag_album'); ?>">
-            <?php echo __('tag_album'); ?>
-        </div>
-        <div class="tag genre playlistTittle" title="<?php echo __('tag_genre'); ?>">
-            <?php echo __('tag_genre'); ?>
-        </div>
-        <div class="tag song_year playlistTittle" title="<?php echo __('tag_year'); ?>">
-            <?php echo __('tag_year'); ?>
-        </div>
-        <div class="tag play_count playlistTittle" title="<?php echo __('tag_play_count'); ?>">
-            <?php echo __('tag_play_count'); ?>
-        </div>
-        <div class="tag rating playlistTittle" title="<?php echo __('tag_rating'); ?>">
-            <?php echo __('tag_rating'); ?>
-        </div>
-        <div class="tag date_added playlistTittle" title="<?php echo __('tag_date_added'); ?>">
-            <?php echo __('tag_date_added'); ?>
-        </div>
+                <th scope="col" class="song_name" title="<?php echo __('tag_title'); ?>">
+                    <?php echo __('tag_title'); ?>
+                </th>
+                <th scope="col" class="artist" title="<?php echo __('tag_artist'); ?>">
+                    <?php echo __('tag_artist'); ?>
+                </th>
+                <th scope="col" class="album" title="<?php echo __('tag_album'); ?>">
+                    <?php echo __('tag_album'); ?>
+                </th>
+                <th scope="col" class="genre" title="<?php echo __('tag_genre'); ?>">
+                    <?php echo __('tag_genre'); ?>
+                </th>
+                <th scope="col" class="song_year" title="<?php echo __('tag_year'); ?>">
+                    <?php echo __('tag_year'); ?>
+                </th>
+                <th scope="col" class="play_count" title="<?php echo __('tag_play_count'); ?>">
+                    <?php echo __('tag_play_count'); ?>
+                </th>
+                <th scope="col" class="rating" title="<?php echo __('tag_rating'); ?>">
+                    <?php echo __('tag_rating'); ?>
+                </th>
+                <th scope="col" class="date_added" title="<?php echo __('tag_date_added'); ?>">
+                    <?php echo __('tag_date_added'); ?>
+                </th>
+
+            </tr>
+        </thead>
 
         <?php
     }
@@ -183,108 +189,106 @@ class PlaylistSearch extends OWMPElements
 
         ?>
 
-        <div id="fileID<?php echo $track['id']; ?>" class="track"
-             onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
-             onmouseout="hideCoverImage();">
+            <tr id="fileID<?php echo $track['id']; ?>"
+                 onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
+                 onmouseout="hideCoverImage();">
+
+                <td class="kind <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
+                    title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></td>
 
 
-            <div
-                class="tag kind <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
-                title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></div>
+                <td class="delete_file">
 
+                    <?php
 
-            <div class="tag delete_file">
+                    if ($track['kind'] == 'Music') {
+                        if($coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small')) {
 
-                <?php
+                            ?>
+                            <img class="coverImage" src="<?php echo AJAX_PATH . 'app/serveImage?imagePath=' . $coverImagePath; ?>">
+                            <?php
+                        }
+                    }
+                    ?>
 
-                if ($track['kind'] == 'Music') {
-                    if($coverImagePath = self::getAlbumImagePath($track['album_artwork_id'], 'small')) {
+                    <input type="checkbox" id="check_item[]" name="check_item[]"
+                           value="<?php echo $track['id']; ?>">
 
-                        ?>
-                        <img class="coverImage" src="<?php echo AJAX_PATH . 'app/serveImage?imagePath=' . $coverImagePath; ?>">
+                    <input type="button" class="play_button playlist_button_img"
+                           title="<?php echo __('play_file'); ?>"
+                           onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play()">
+
+                    <input type="button" class="vote_button playlist_button_img"
+                           title="<?php echo __('vote_song'); ?>"
+                           onclick="voteSong(<?php echo $track['id']; ?>);">
+
+                    <?php
+                    if (!$this->loadPlaylist) { ?>
+                        <input type="button" class="playlist_add_button playlist_button_img"
+                               title="<?php echo __('add_to_playlist'); ?>"
+                               onclick="addToPlaylist(<?php echo $track['id']; ?>);">
+                        <?php
+                    } else { ?>
+                        <input type="button" class="playlist_remove_button playlist_button_img"
+                               title="<?php echo __('remove_from_playlist'); ?>"
+                               onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
                         <?php
                     }
-                }
-                ?>
-
-                <input type="checkbox" id="check_item[]" name="check_item[]"
-                       value="<?php echo $track['id']; ?>">
-
-                <input type="button" class="play_button playlist_button_img"
-                       title="<?php echo __('play_file'); ?>"
-                       onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play()">
-
-                <input type="button" class="vote_button playlist_button_img"
-                       title="<?php echo __('vote_song'); ?>"
-                       onclick="voteSong(<?php echo $track['id']; ?>);">
-
-                <?php
-                if (!$this->loadPlaylist) { ?>
-                    <input type="button" class="playlist_add_button playlist_button_img"
-                           title="<?php echo __('add_to_playlist'); ?>"
-                           onclick="addToPlaylist(<?php echo $track['id']; ?>);">
-                    <?php
-                } else { ?>
-                    <input type="button" class="playlist_remove_button playlist_button_img"
-                           title="<?php echo __('remove_from_playlist'); ?>"
-                           onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
-                    <?php
-                }
-                ?>
-
-                <?php
-                if ($UserGroupID == 1) {
                     ?>
-                    <input type="button" class="delete_button playlist_button_img"
-                           title="<?php echo __('delete_file'); ?>"
-                           onclick="deleteFile(<?php echo $track['id']; ?>);">
+
                     <?php
-                }
-                ?>
-            </div>
+                    if ($UserGroupID == 1) {
+                        ?>
+                        <input type="button" class="delete_button playlist_button_img"
+                               title="<?php echo __('delete_file'); ?>"
+                               onclick="deleteFile(<?php echo $track['id']; ?>);">
+                        <?php
+                    }
+                    ?>
+                </td>
 
 
-            <div class="tag song_name" title="<?php echo $track['song_name']; ?>">
-                <span class="searchableItem" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
-                <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
-                    <?php echo $track['song_name']; ?>
-                </span>
-            </div>
-            <div class="tag artist" title="<?php echo $track['artist']; ?>">
-                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
-                <?php echo htmlentities(json_encode(self::getSearchArray('artist', $track['artist']))); ?>);">
-                    <?php echo $track['artist']; ?>
-                </span>
-            </div>
-            <div class="tag album" title="<?php echo $track['album']; ?>">
-                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
-                <?php echo htmlentities(json_encode(self::getSearchArray('album', $track['album']))); ?>);">
-                    <?php echo $track['album']; ?>
-                </span>
-            </div>
-            <div class="tag genre" title="<?php echo $track['genre']; ?>">
-                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
-                <?php echo htmlentities(json_encode(self::getSearchArray('genre', $track['genre']))); ?>);">
-                    <?php echo $track['genre']; ?>
-                </span>
-            </div>
-            <div class="tag song_year"
-                 title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
-                <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
-                <?php echo htmlentities(json_encode(self::getSearchArray('song_year', $track['song_year']))); ?>);">
-                    <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
-                </span>
-            </div>
-            <div class="tag play_count" title="<?php echo $track['play_count']; ?>">
-                <?php echo $track['play_count']; ?>
-            </div>
-            <div class="tag rating" title="<?php echo(($track['rating'] / 20)); ?>">
-                <?php echo(($track['rating'] / 20)); ?>
-            </div>
-            <div class="tag date_added" title="<?php echo $track['date_added']; ?>">
-                <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
-            </div>
-        </div>
+                <td class="song_name" title="<?php echo $track['song_name']; ?>">
+                    <span class="searchableItem" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                    <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
+                        <?php echo $track['song_name']; ?>
+                    </span>
+                </td>
+                <td class="artist" title="<?php echo $track['artist']; ?>">
+                    <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                    <?php echo htmlentities(json_encode(self::getSearchArray('artist', $track['artist']))); ?>);">
+                        <?php echo $track['artist']; ?>
+                    </span>
+                </td>
+                <td class="album" title="<?php echo $track['album']; ?>">
+                    <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                    <?php echo htmlentities(json_encode(self::getSearchArray('album', $track['album']))); ?>);">
+                        <?php echo $track['album']; ?>
+                    </span>
+                </td>
+                <td class="genre" title="<?php echo $track['genre']; ?>">
+                    <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                    <?php echo htmlentities(json_encode(self::getSearchArray('genre', $track['genre']))); ?>);">
+                        <?php echo $track['genre']; ?>
+                    </span>
+                </td>
+                <td class="song_year" title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
+                    <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                    <?php echo htmlentities(json_encode(self::getSearchArray('song_year', $track['song_year']))); ?>);">
+                        <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
+                    </span>
+                </td>
+                <td class="play_count" title="<?php echo $track['play_count']; ?>">
+                    <?php echo $track['play_count']; ?>
+                </td>
+                <td class="rating" title="<?php echo(($track['rating'] / 20)); ?>">
+                    <?php echo(($track['rating'] / 20)); ?>
+                </td>
+                <td class="date_added" title="<?php echo $track['date_added']; ?>">
+                    <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
+                </td>
+
+            </tr>
 
         <?php
     }
@@ -576,7 +580,7 @@ class PlaylistSearch extends OWMPElements
 
         ?>
 
-        <div id="playlist_content">
+        <div id="playlist_content" class="table-responsive">
 
             <?php
 
@@ -585,7 +589,7 @@ class PlaylistSearch extends OWMPElements
 
             ?>
 
-            <div id="playlistTable">
+            <table id="playlistTable" class="table table-hover table-sm table-nowrap">
                 <?php
 
                 // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
@@ -593,6 +597,11 @@ class PlaylistSearch extends OWMPElements
                     self::displayPlaylistTitle();
                 }
 
+                ?>
+
+                <tbody>
+
+                <?php
 
                 foreach ($this->playlist as $track) {
 
@@ -607,13 +616,18 @@ class PlaylistSearch extends OWMPElements
                     $counter++;
                 }
 
+                ?>
+
+                </tbody>
+
+                <?php
 
                 $this->offset = intval($this->offset);
                 $this->step = intval($this->step);
                 ?>
 
 
-            </div>
+            </table>
 
             <?php
 

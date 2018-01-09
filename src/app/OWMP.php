@@ -110,7 +110,7 @@ class OWMP
             <?php
                 if ($UserGroup==1)  {
             ?>
-            <input type="button" class="btn btn-secondary w-100" name="submit" id="submit" <?php if($disabled) echo ' disabled '; ?>
+            <input type="button" class="btn btn-dark w-100" name="submit" id="submit" <?php if($disabled) echo ' disabled '; ?>
                 value="<?php echo __('tag_form_submit'); ?>" onclick="update_tags();">
 
             <?php
