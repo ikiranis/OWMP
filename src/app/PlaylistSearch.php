@@ -128,36 +128,36 @@ class PlaylistSearch extends OWMPElements
         <thead class="thead-dark">
             <tr>
 
-                <th scope="col" class="mcw-1"></th>
+                <th scope="col" class="cell-wrap mcw-1"></th>
 
-                <th scope="col" class="mcw-3">
-                    <input type="checkbox" id="checkAll" name="checkAll"
+                <th scope="col" class="cell-fit">
+                    <input type="checkbox" id="checkAll" name="checkAll" class="d-none d-lg-inline-block"
                            onchange="changeCheckAll('checkAll', 'check_item[]');">
                 </th>
 
 
-                <th scope="col" class="mcw-6" title="<?php echo __('tag_title'); ?>">
+                <th scope="col" class="cell-wrap mcw-6" title="<?php echo __('tag_title'); ?>">
                     <?php echo __('tag_title'); ?>
                 </th>
-                <th scope="col" class="mcw-3" title="<?php echo __('tag_artist'); ?>">
+                <th scope="col" class="cell-wrap mcw-3" title="<?php echo __('tag_artist'); ?>">
                     <?php echo __('tag_artist'); ?>
                 </th>
-                <th scope="col" class="mcw-2" title="<?php echo __('tag_album'); ?>">
+                <th scope="col" class="cell-wrap mcw-2 d-none d-lg-table-cell" title="<?php echo __('tag_album'); ?>">
                     <?php echo __('tag_album'); ?>
                 </th>
-                <th scope="col" class="mcw-2" title="<?php echo __('tag_genre'); ?>">
+                <th scope="col" class="cell-wrap mcw-2 d-none d-lg-table-cell" title="<?php echo __('tag_genre'); ?>">
                     <?php echo __('tag_genre'); ?>
                 </th>
-                <th scope="col" class="mcw-1" title="<?php echo __('tag_year'); ?>">
+                <th scope="col" class="cell-wrap mcw-2 d-none d-lg-table-cell" title="<?php echo __('tag_year'); ?>">
                     <?php echo __('tag_year'); ?>
                 </th>
-                <th scope="col" class="mcw-1" title="<?php echo __('tag_play_count'); ?>">
+                <th scope="col" class="cell-wrap mcw-1 d-none d-lg-table-cell" title="<?php echo __('tag_play_count'); ?>">
                     <?php echo __('tag_play_count'); ?>
                 </th>
-                <th scope="col" class="mcw-1" title="<?php echo __('tag_rating'); ?>">
+                <th scope="col" class="cell-wrap mcw-1 d-none d-lg-table-cell" title="<?php echo __('tag_rating'); ?>">
                     <?php echo __('tag_rating'); ?>
                 </th>
-                <th scope="col" class="mcw-2" title="<?php echo __('tag_date_added'); ?>">
+                <th scope="col" class="cell-wrap mcw-3  d-none d-lg-table-cell" title="<?php echo __('tag_date_added'); ?>">
                     <?php echo __('tag_date_added'); ?>
                 </th>
 
@@ -193,11 +193,11 @@ class PlaylistSearch extends OWMPElements
                  onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
                  onmouseout="hideCoverImage();">
 
-                <td class="mcw-1 <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
+                <td class="cell-wrap mcw-1 <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
                     title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></td>
 
 
-                <td class="mcw-3">
+                <td class=" cell-fit">
 
                     <?php
 
@@ -211,25 +211,25 @@ class PlaylistSearch extends OWMPElements
                     }
                     ?>
 
-                    <input type="checkbox" id="check_item[]" name="check_item[]"
+                    <input type="checkbox" id="check_item[]" name="check_item[]" class="d-none d-lg-inline-block"
                            value="<?php echo $track['id']; ?>">
 
                     <input type="button" class="play_button playlist_button_img"
                            title="<?php echo __('play_file'); ?>"
                            onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play()">
 
-                    <input type="button" class="vote_button playlist_button_img"
+                    <input type="button" class="vote_button playlist_button_img d-none d-lg-inline-block"
                            title="<?php echo __('vote_song'); ?>"
                            onclick="voteSong(<?php echo $track['id']; ?>);">
 
                     <?php
                     if (!$this->loadPlaylist) { ?>
-                        <input type="button" class="playlist_add_button playlist_button_img"
+                        <input type="button" class="playlist_add_button playlist_button_img d-none d-lg-inline-block"
                                title="<?php echo __('add_to_playlist'); ?>"
                                onclick="addToPlaylist(<?php echo $track['id']; ?>);">
                         <?php
                     } else { ?>
-                        <input type="button" class="playlist_remove_button playlist_button_img"
+                        <input type="button" class="playlist_remove_button playlist_button_img d-none d-lg-inline-block"
                                title="<?php echo __('remove_from_playlist'); ?>"
                                onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
                         <?php
@@ -239,7 +239,7 @@ class PlaylistSearch extends OWMPElements
                     <?php
                     if ($UserGroupID == 1) {
                         ?>
-                        <input type="button" class="delete_button playlist_button_img"
+                        <input type="button" class="delete_button playlist_button_img d-none d-lg-inline-block"
                                title="<?php echo __('delete_file'); ?>"
                                onclick="deleteFile(<?php echo $track['id']; ?>);">
                         <?php
@@ -248,43 +248,43 @@ class PlaylistSearch extends OWMPElements
                 </td>
 
 
-                <td class="mcw-6" title="<?php echo $track['song_name']; ?>">
+                <td class="cell-wrap mcw-6" title="<?php echo $track['song_name']; ?>">
                     <span class="searchableItem" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
                         <?php echo $track['song_name']; ?>
                     </span>
                 </td>
-                <td class="mcw-3" title="<?php echo $track['artist']; ?>">
+                <td class="cell-wrap mcw-3" title="<?php echo $track['artist']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('artist', $track['artist']))); ?>);">
                         <?php echo $track['artist']; ?>
                     </span>
                 </td>
-                <td class="mcw-2" title="<?php echo $track['album']; ?>">
+                <td class="cell-wrap mcw-2 d-none d-lg-table-cell" title="<?php echo $track['album']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('album', $track['album']))); ?>);">
                         <?php echo $track['album']; ?>
                     </span>
                 </td>
-                <td class="mcw-2" title="<?php echo $track['genre']; ?>">
+                <td class="cell-wrap mcw-2 d-none d-lg-table-cell" title="<?php echo $track['genre']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('genre', $track['genre']))); ?>);">
                         <?php echo $track['genre']; ?>
                     </span>
                 </td>
-                <td class="mcw-1 text-center" title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
+                <td class="cell-wrap mcw-2 text-center d-none d-lg-table-cell" title="<?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                     <?php echo htmlentities(json_encode(self::getSearchArray('song_year', $track['song_year']))); ?>);">
                         <?php if ($track['song_year'] == '0') echo ''; else echo $track['song_year']; ?>
                     </span>
                 </td>
-                <td class="mcw-1 text-center" title="<?php echo $track['play_count']; ?>">
+                <td class="cell-wrap mcw-1 text-center d-none d-lg-table-cell" title="<?php echo $track['play_count']; ?>">
                     <?php echo $track['play_count']; ?>
                 </td>
-                <td class="mcw-1 text-center" title="<?php echo(($track['rating'] / 20)); ?>">
+                <td class="cell-wrap mcw-1 text-center d-none d-lg-table-cell" title="<?php echo(($track['rating'] / 20)); ?>">
                     <?php echo(($track['rating'] / 20)); ?>
                 </td>
-                <td class="mcw-2 text-center" title="<?php echo $track['date_added']; ?>">
+                <td class="cell-wrap mcw-3 text-center d-none d-lg-table-cell" title="<?php echo $track['date_added']; ?>">
                     <?php echo date(DATE_FORMAT, strtotime($track['date_added'])); ?>
                 </td>
 

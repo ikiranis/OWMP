@@ -1,6 +1,6 @@
 /* Playlist */
 
-.table-nowrap td, .table-nowrap th {
+.cell-wrap {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -18,6 +18,11 @@
     background-repeat: no-repeat;
     background-size: 1em;
     background-position: center center;
+}
+
+.cell-fit {
+    width: 1px;
+    white-space:nowrap;
 }
 
 /*Max Cell Width*/
