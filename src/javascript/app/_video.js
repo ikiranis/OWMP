@@ -17,10 +17,14 @@ function toggleFullscreen() {
     var elem = myVideo;
     if (!checkFullscreen()) { // μπαίνει σε full screen
         $(elem).addClass('full_screen_video');
+        $('nav').hide();
+        $('footer').hide();
         FullscreenON = true;
         showFullScreenVideoTags();
     } else {  // βγαίνει από full screen
         $(elem).removeClass('full_screen_video');
+        $('nav').show();
+        $('footer').show();
         FullscreenON = false;
         $('#overlay_media_controls').hide();
         showFullScreenVideoTags();

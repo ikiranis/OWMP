@@ -233,6 +233,8 @@ class Page
     {
         ?>
 
+            <div id="o-progressAnimation_container" class="row fixed-bottom bg-secondary w-100 mx-auto"></div>
+
             <footer class="row fixed-bottom bg-dark">
 
                 <div class="col-xl-5  col-lg-4 px-4 my-auto w-100 d-none d-lg-block">
@@ -450,6 +452,7 @@ class Page
                     Page::NavList($NavActiveItem, 'window');
                 ?>
 
+            <div class="navbar-text d-none d-md-block" >
                 <span class="o-resultsContainer_iconContainer isHidden">
                     <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
                            title="<?php echo __('display_activity'); ?>"
@@ -462,14 +465,13 @@ class Page
                            onclick="sendKillCommand();">
                 </span>
 
-            <div class="navbar-text d-none d-md-block" >
                 <?php echo $rightSideText; ?>
             </div>
 
 
         </nav>
 
-<!--            <div id="o-progressAnimation_container"></div>-->
+
 
 
     <?php

@@ -30,7 +30,9 @@ var ProgressAnimation =
     imagePrefix1: 'img/parrot_anime/parrot',    // Το αρχικό κομμάτι του path για τα frames
     imagePrefix2: '_small.png',                 // Το τελικό κομμάτι του path για τα frames
     doProgress: false,                          // True για εμφάνιση progress bar, false για το αντίθετο
-    spriteSize: 70,                             // Μέγεθος του sprite σε pixels
+    spriteSize: 35,                             // Μέγεθος του sprite σε pixels
+    elementName: 'o-progressAnimation',
+    canvasContainer: '#o-progressAnimation_container',
 
     // Methods
 
@@ -55,10 +57,10 @@ var ProgressAnimation =
         this.x = 0;
 
         // Δημιουργεί το o-progressAnimation μέσα στο #o-progressAnimation_container
-        this.initCanvasElement('o-progressAnimation', '#o-progressAnimation_container');
+        this.initCanvasElement();
 
         // Αρχικοποίηση του canvas
-        this.canvas = document.querySelector("#o-progressAnimation");
+        this.canvas = document.querySelector("#" + this.elementName);
         this.ctx = this.canvas.getContext('2d');
 
         // Αρχικοποίηση των images για τα frames
@@ -103,7 +105,8 @@ var ProgressAnimation =
     kill: function()
     {
         this.clearAnimations();
-        this.killCanvas('o-progressAnimation');
+        this.killCanvas();
+        $(this.canvasContainer).hide('fast');
     },
 
     // Αρχικοποίηση των frames του animation
@@ -135,7 +138,7 @@ var ProgressAnimation =
     // Εμφανίζει το ποσοστό της θέσης στην οποία βρίσκεται
     drawProgressText: function()
     {
-        this.ctx.font="17px Verdana";
+        this.ctx.font="9px Verdana";
         this.ctx.fillText((this.calculateProgressPercent()) + '%', this.x, 25);
     },
 
@@ -175,21 +178,25 @@ var ProgressAnimation =
      * @param elementName {string} Το όνομα του element που θα δημιουργηθεί
      * @param canvasContainer {string} Το div element στο οποίο θα δημιουργηθεί μέσα το canvas
      */
-    initCanvasElement: function(elementName, canvasContainer)
+    initCanvasElement: function()
     {
         // Αν υπάρχει ήδη το σβήνουμε
-        this.killCanvas(elementName);
+        this.killCanvas();
 
-        canvasContainerElement = document.querySelector(canvasContainer);
+        $(this.canvasContainer).show();
+
+        canvasContainerElement = document.querySelector(this.canvasContainer);
 
         // Τα properties του canvas
         canvasElement = document.createElement('canvas');
-        canvasElement.setAttribute('id', elementName);
+        canvasElement.setAttribute('id', this.elementName);
         canvasElement.setAttribute('width', canvasContainerElement.offsetWidth);
         canvasElement.setAttribute('height', canvasContainerElement.offsetHeight);
 
         // Το προσθέτει μέσα στο canvas container div
-        document.querySelector(canvasContainer).appendChild(canvasElement);
+        document.querySelector(this.canvasContainer).appendChild(canvasElement);
+
+
     },
 
     // Καθαρισμός των τρέχοντων animations
@@ -204,11 +211,11 @@ var ProgressAnimation =
      *
      * @param elementName {string} Το όνομα του canvas element που θα σβήσει
      */
-    killCanvas: function(elementName)
+    killCanvas: function()
     {
         // Αν υπάρχει ήδη το σβήνουμε
-        if($('#' + elementName).length>0) {
-            $('#' + elementName).remove();
+        if($('#' + this.elementName).length>0) {
+            $('#' + this.elementName).remove();
         }
     },
 
