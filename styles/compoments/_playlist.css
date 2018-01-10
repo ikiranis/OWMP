@@ -1,11 +1,5 @@
 /* Playlist */
 
-.cell-wrap {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .kind_music {
     background-image: url( '../../img/music.png' );
     background-repeat: no-repeat;
@@ -18,6 +12,12 @@
     background-repeat: no-repeat;
     background-size: 1em;
     background-position: center center;
+}
+
+.cell-wrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .cell-fit {
