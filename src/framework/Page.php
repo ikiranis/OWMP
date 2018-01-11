@@ -229,6 +229,7 @@ class Page
     // Εμφανίζει τα στοιχεία του footer
     function showFooter()
     {
+        // TODO display apps4net logo
         ?>
 
             <div id="o-progressAnimation_container" class="row fixed-bottom bg-secondary w-100 mx-auto"></div>

@@ -595,7 +595,7 @@ function searchPlaylist(offset, step, firstTime, search) {
  * @param offset
  * @param step
  */
-function playPlaylist(offset, step) {
+function playMyPlaylist(offset, step) {
     var playlistID = document.querySelector('#playlist').value;
 
     if(playlistID === '') {  // Αν δεν έχει επιλεχτεί μια playlist

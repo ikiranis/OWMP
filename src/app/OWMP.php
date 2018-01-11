@@ -149,29 +149,58 @@ class OWMP
         $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
 
-        ?>
-
-        <div id="progress" class="bgc3"></div>
-
-
-        <?php
-
+        // Display action windows
         $OWMPElements->displayEditTagsWindow($UserGroup); // Εμφάνιση του παραθύρου για edit tags
-        $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select
         $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
-
-        ?>
-
-        <input type="button" id="searchClick" onclick="displaySearchWindow();" title="<?php echo __('search_text_search'); ?>" >
-
-        <?php
-
-        $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
         $OWMPElements->displayInsertSmartPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης smart playlist
-        $OWMPElements->displaySomeTools($UserGroup); // Εμφάνιση διάφορων εργαλείων
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
-        $OWMPElements->displayEditButtons($UserGroup); // Εμφάνιση των edit buttons
+
+        // Display playlist choices bar
+        ?>
+        <div class="row w-100 px-3">
+
+            <?php
+            if ($UserGroup==1) {
+                ?>
+                <div class="col-1 col-md-1 d-none d-md-block">
+
+                    <div class="navbar navbar-light py-0 px-0">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavToolbar"
+                                aria-controls="navbarNavToolbar" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon" id="tools-toggler"></span>
+                        </button>
+
+                        <?php $OWMPElements->displaySomeTools(); // Εμφάνιση διάφορων εργαλείων ?>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+
+            <div class="col-lg-4 col-sm-5  col-12 w-100">
+                <div class="input-group">
+                    <input type="button" class="form-control col-2" id="searchClick" onclick="displaySearchWindow();" title="<?php echo __('search_text_search'); ?>" >
+
+                    <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6 col-12 w-100">
+                <?php $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist ?>
+            </div>
+
+            <div class="col-lg-3 w-100 d-none d-lg-block text-right">
+                <?php $OWMPElements->displayEditButtons($UserGroup); // Εμφάνιση των edit buttons ?>
+            </div>
+
+
+
+        </div>
+
+
+
+        <?php
         $OWMPElements->displayPlaylistContainer($offset,$step); // Εμφάνιση του playlist container
     }
 

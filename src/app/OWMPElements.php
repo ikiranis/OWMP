@@ -1499,7 +1499,10 @@ class OWMPElements extends OWMP
 
         ?>
         <div id="ChooseMediaKind">
-            <select name="mediakind" id="mediakind" onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
+
+            <label for="mediakind" class="sr-only">mediakind</label>
+            <select class="form-control form-control-sm w-100" id="mediakind" name="mediakind"
+                    onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
                 <option value="">
                     All
                 </option>
@@ -1514,6 +1517,8 @@ class OWMPElements extends OWMP
                 }
                 ?>
             </select>
+
+
         </div>
         <?php
     }
@@ -1526,37 +1531,48 @@ class OWMPElements extends OWMP
     static function displayChoosePlaylistElements($userID)
     {
         ?>
-        <div id="ChoosePlaylist">
-            <form id="formChoosePlaylist">
-                <select name="playlist" id="playlist" >
-                    <option value="">
-                        <?php echo __('choose_playlist'); ?>
-                    </option>
-                    <?php
+            <div id="ChoosePlaylist">
+                <form id="formChoosePlaylist">
 
-                    // H λίστα με τις manual playlists
-                    $manualPlaylists = MyDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
+                    <div class="input-group">
 
-                    foreach ($manualPlaylists as $playlist) {
-                        ?>
-                        <option value="<?php echo $playlist['id']; ?>">
-                            <?php echo  $playlist['playlist_name']; ?>
-                        </option>
+                        <label for="playlist" class="sr-only">playlist</label>
+                        <select class="form-control form-control-sm" id="playlist" name="playlist">
+                            <option value="">
+                                <?php echo __('choose_playlist'); ?>
+                            </option>
+                            <?php
 
-                        <?php
-                    }
-                    ?>
-                </select>
-            </form>
-        </div>
+                            // H λίστα με τις manual playlists
+                            $manualPlaylists = MyDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
 
-        <input type="button" id="playPlaylist" onclick="playPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
-        <input type="button" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
-        <input type="button" id="deletePlaylistClick" onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
+                            foreach ($manualPlaylists as $playlist) {
+                                ?>
+                                <option value="<?php echo $playlist['id']; ?>">
+                                    <?php echo  $playlist['playlist_name']; ?>
+                                </option>
+
+                                <?php
+                            }
+                            ?>
+                        </select>
+
+
+                        <input type="button" class="form-control col-1" id="playPlaylist" onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
+                        <input type="button" class="form-control col-1" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
+                        <input type="button" class="form-control col-1" id="deletePlaylistClick" onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
+                        <?php Page::getHelp('help_manual_playlists'); ?>
+
+                    </div>
+
+                </form>
+
+            </div>
+
 
         <?php
 
-        Page::getHelp('help_manual_playlists');
+
     }
 
     /**
@@ -1815,20 +1831,17 @@ class OWMPElements extends OWMP
      *
      * @param $UserGroup {int} Το user group του χρήστη
      */
-    static function displaySomeTools($UserGroup)
+    static function displaySomeTools()
     {
         ?>
-        <div id="someTools">
-            <?php
-            if ($UserGroup==1) {
-                ?>
-                <input type="button" class="myButton" name="sendToJukebox" id="sendToJukebox"
-                       value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
-                <input type="button" class="myButton" name="displaySleepTimer" id="displaySleepTimer"
-                       value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">
-                <?php
-            }
-            ?>
+
+        <div class="collapse navbar-collapse" id="navbarNavToolbar">
+            <div class="navbar-nav nav-pills">
+                    <input type="button" class="btn btn-secondary nav-item nav-link" name="sendToJukebox" id="sendToJukebox"
+                           value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
+                    <input type="button" class="btn btn-secondary nav-item nav-link" name="displaySleepTimer" id="displaySleepTimer"
+                           value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">
+            </div>
         </div>
         <?php
     }

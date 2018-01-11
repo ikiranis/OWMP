@@ -14,12 +14,12 @@
     display: inline-block;
     cursor: pointer;
     border: none;
-    width: 1.7em;
+    width: 1em;
     background-color: transparent;
     background-image: url( '../../img/search.png' );
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 2em;
+    background-size: 1em;
 }
 
 #searchClick:hover {

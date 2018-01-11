@@ -46,6 +46,7 @@ class PlaylistSearch extends OWMPElements
     // Εμφανίζει τα browse buttons
     public function getBrowseButtons()
     {
+        // TODO bootstrap pegination
 
         // Έλεγχος για το τι είδους λίστα εμφανίζει
         if (!$this->duplicates && !$this->votePlaylist && !$this->loadPlaylist) {
@@ -109,9 +110,9 @@ class PlaylistSearch extends OWMPElements
 
             <div id="browseButtons">
                 <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="playPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
+                       onclick="playMyPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
                 <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="playPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
+                       onclick="playMyPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
             </div>
 
             <?php
@@ -592,10 +593,8 @@ class PlaylistSearch extends OWMPElements
             <table id="playlistTable" class="table table-hover table-sm table-nowrap">
                 <?php
 
-                // Αν δεν είναι η σελίδα vote εμφανίζει τον τίτλο
-                if(!$this->votePlaylist && !$_SESSION['mobile']) {
+                    // Display list labels
                     self::displayPlaylistTitle();
-                }
 
                 ?>
 
@@ -605,13 +604,16 @@ class PlaylistSearch extends OWMPElements
 
                 foreach ($this->playlist as $track) {
 
-                    if(!$this->votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
-                        // Εμφανίζει την λίστα με τα πλήρη στοιχεία
-                        $this->displayFullPlaylist($track);
-                    } else { // Αν είναι η σελίδα vote
-                        // Εμφανίζει την λίστα με ελάχιστα στοιχεία
-                        self::displaySmallPlaylist($track);
-                    }
+                    // Εμφανίζει την λίστα με τα πλήρη στοιχεία
+                    $this->displayFullPlaylist($track);
+
+//                    if(!$this->votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
+//                        // Εμφανίζει την λίστα με τα πλήρη στοιχεία
+//                        $this->displayFullPlaylist($track);
+//                    } else { // Αν είναι η σελίδα vote
+//                        // Εμφανίζει την λίστα με ελάχιστα στοιχεία
+//                        self::displaySmallPlaylist($track);
+//                    }
 
                     $counter++;
                 }

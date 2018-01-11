@@ -12,52 +12,52 @@
 }
 
 
-#ChoosePlaylist {
-    display: inline-block;
-    width: auto;
-    top:0;
-    margin-left: 3em;
+/*#ChoosePlaylist {*/
+    /*display: inline-block;*/
+    /*width: auto;*/
+    /*top:0;*/
+    /*margin-left: 3em;*/
 
-}
+/*}*/
 
-#ChoosePlaylist #playlist {
-    font-size: 0.7em;
-}
+/*#ChoosePlaylist #playlist {*/
+    /*font-size: 0.7em;*/
+/*}*/
 
 #insertPlaylistClick {
     display: inline-block;
     cursor: pointer;
     border: none;
-    width: 1.7em;
+    width: 1em;
     background-color: transparent;
     background-image: url( '../../img/create.png' );
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 2em;
+    background-size: 1em;
 }
 
 #deletePlaylistClick {
     display: inline-block;
     cursor: pointer;
     border: none;
-    width: 1.7em;
+    width: 1em;
     background-color: transparent;
     background-image: url( '../../img/delete.png' );
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 2em;
+    background-size: 1em;
 }
 
 #playPlaylist {
     display: inline-block;
     cursor: pointer;
     border: none;
-    width: 1.7em;
+    width: 1em;
     background-color: transparent;
     background-image: url( '../../img/play.png' );
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 2em;
+    background-size: 1em;
 }
 
 #searchClick:hover {
