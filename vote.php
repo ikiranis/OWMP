@@ -127,7 +127,7 @@ $MainPage->showHeader();
 <?php
 
 
-$MainPage->showFooter(true, false, false);
+$MainPage->showFooter();
 
 ?>
 

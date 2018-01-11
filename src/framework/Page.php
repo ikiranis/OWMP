@@ -51,9 +51,7 @@ class Page
         ?>
 
 
-<!--                                <div id="TotalInPlaylist"><span-->
-<!--                                            id="TotalNumberInPlaylist">--><?php //echo $_SESSION['countThePlaylist']; ?><!--</span> --><?php //echo __('items_in_playlist'); ?>
-<!--                                </div>-->
+
 
 
         <div class="row mainContent w-100 bg-light no-gutters">
@@ -229,7 +227,7 @@ class Page
 
 
     // Εμφανίζει τα στοιχεία του footer
-    function showFooter($showAppName,$showAppVersion)
+    function showFooter()
     {
         ?>
 
@@ -237,51 +235,32 @@ class Page
 
             <footer class="row fixed-bottom bg-dark">
 
-                <div class="col-xl-5  col-lg-4 px-4 my-auto w-100 d-none d-lg-block">
-                    <?php
-                    if ($showAppName) {
-                        ?>
-                        <span><a href="<?php echo WEB_PAGE_URL; ?>"><?php echo __('footer_text'); ?></a></span>
-                        <?php
-                    }
-                    ?>
+                <div class="col-xl-5 col-lg-4 col-md-4 col-sm-6 col-6 px-4 my-auto w-100 text-white">
+
+                    <div id="TotalInPlaylist">
+                        <span id="TotalNumberInPlaylist"><?php echo $_SESSION['countThePlaylist']; ?></span>
+                        <?php echo __('items_in_playlist'); ?>
+                    </div>
+<!--                    --><?php
+//                    if ($showAppName) {
+//                        ?>
+<!--                        <span><a href="--><?php //echo WEB_PAGE_URL; ?><!--">--><?php //echo __('footer_text'); ?><!--</a></span>-->
+<!--                        --><?php
+//                    }
+//                    ?>
                 </div>
 
-                <div class="col-xl-5  col-lg-6 col-md-10 my-auto text-white text-right w-100 d-none d-md-block">
-                    <?php
-                    if ($showAppVersion) {
-                        ?>
-                        <span id="AppVersionContainer">
-                            <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
-                            <span id="checkCurrentVersion"></span>
-                        </span>
-                        <?php
-                    }
-                    ?>
+                <div class="col-xl-5  col-lg-6 col-md-6 my-auto text-white text-right w-100 d-none d-md-block">
+                    <span id="AppVersionContainer">
+                        <span id="AppVersion"><?php echo __('app_version') . ': ' . APP_VERSION; ?></span>
+                        <span id="checkCurrentVersion"></span>
+                    </span>
                 </div>
 
-                <div class="col-xl-2 col-lg-2  col-md-2 my-auto text-white text-center w-100">
+                <div class="col-xl-2 col-lg-2  col-sm-6 col-md-2  col-6 my-auto text-white text-right px-4 w-100">
                     <span id="SystemTime"><span id="timetext"></span></span>
                 </div>
             </footer>
-
-<!--        --><?php
-//            if($showMobileVersion) {
-//                ?>
-<!--                <div id="mobileVersion">-->
-<!--                    <span id="mobileVersionText">-->
-<!--                        --><?php
-//                        if(!isset($_GET['mobile'])) {
-//                            echo '<a href="?mobile=true">'.__('mobile_version').'</a>';
-//                        } else {
-//                            echo '<a href="'.HTTP_TEXT.$_SERVER["HTTP_HOST"].PROJECT_PATH.'">'.__('desktop_version').'</a>';
-//                        }
-//                        ?>
-<!--                    </span>-->
-<!--                </div>-->
-<!--        --><?php
-//            }
-//        ?>
 
         </div>
 

@@ -166,7 +166,7 @@ if($logged_in) {
 
     $MainPage->DisplayMainPage();
 
-    $MainPage->showFooter(true,true,true);
+    $MainPage->showFooter();
 
 }
 

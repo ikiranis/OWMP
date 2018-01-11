@@ -16,14 +16,14 @@ nav {
     color: grey !important;
 }
 
-#TotalInPlaylist {
-    display: block;
-    width: 100%;
-    position: absolute;
-    bottom:0;
-    font-size: 0.8em;
-    text-align: center;
-}
+/*#TotalInPlaylist {*/
+    /*display: block;*/
+    /*width: 100%;*/
+    /*position: absolute;*/
+    /*bottom:0;*/
+    /*font-size: 0.8em;*/
+    /*text-align: center;*/
+/*}*/
 
 #TotalNumberInPlaylist {
     font-weight: bold;
