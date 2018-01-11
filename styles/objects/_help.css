@@ -29,9 +29,9 @@
     display: inline-block;
     cursor: pointer;
     border: none;
-    width: 1em;
+    width: 0.8em;
     background-color: transparent;
     background-repeat: no-repeat;
-    background-position: center bottom;
-    background-size: 1em;
+    background-position: center center;
+    background-size: 0.8em;
 }
