@@ -190,7 +190,7 @@ class PlaylistSearch extends OWMPElements
 
         ?>
 
-            <tr id="fileID<?php echo $track['id']; ?>"
+            <tr class="track" id="fileID<?php echo $track['id']; ?>"
                  onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
                  onmouseout="hideCoverImage();">
 

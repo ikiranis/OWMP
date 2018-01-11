@@ -75,20 +75,8 @@
 }
 
 /* Playlist line colors */
-.track:nth-child(odd) {
-    background-color: #CFD8DC;
-}
-
-.track:nth-child(even) {
-    background-color: #ECEFF1;
-}
-
-.track:hover {
-    background-color: #B0BEC5;
-}
-
 .is-active {
-    background-color: #B0BEC5 !important;
+    background-color: lightgoldenrodyellow !important;
 }
 
 details div.error {
