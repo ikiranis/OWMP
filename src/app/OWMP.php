@@ -54,43 +54,7 @@ class OWMP
             <input type=range class="o-trackTime__range" name="o-trackTime__range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
         </div>
 
-        
-        <div id="overlay_volume">
-            <span id="overlay_volume_text">
-                
-            </span>
-        </div>
-
-        <!--        Fullscreen overlay elements-->
-        <div id="overlay" ondblclick="displayFullscreenControls();">
-            <div id="overlay_rating"></div>
-            <div id="overlay_play_count"></div>
-            <div class="o-trackTime--overlay l-o-trackTime--overlay c2">
-                <span id="jsOverlayTrackTime">00:00</span>
-                <input type=range class="o-trackTime--overlay__range" name="o-trackTime--overlay__range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
-                <span id="jsOverlayTotalTrackTime">00:00</span>
-            </div>
-
-
-
-            <div id="bottom_overlay">
-                <span id="overlay_song_name"></span>
-                <span id="overlay_artist"></span>
-                <span id="overlay_song_year"></span>
-                <span id="overlay_album"></span>
-            </div>
-
-            <div id="error_overlay">
-            
-            </div>
-
-            <div id="bottom_right_overlay">
-                <span id="overlay_poster_source"></span>
-                <span id="overlay_live"></span>
-                <span id="overlay_time"></span>
-            </div>
-
-        </div>
+        <?php OWMPElements::displayFullscreenOverlayElements(); //Display fullscreen overlay elements ?>
 
         <datalist id="overlay_track_ticks">
             <?php
