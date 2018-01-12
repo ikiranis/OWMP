@@ -20,7 +20,7 @@
 
     <page name="footer">
         <phrase name="footer_text">Developed by apps4net.eu</phrase>
-        <phrase name="app_version">AjaxRouting Version</phrase>
+        <phrase name="app_version">Version</phrase>
         <phrase name="change_log">Change Log</phrase>
         <phrase name="mobile_version">Mobile version</phrase>
         <phrase name="desktop_version">Desktop version</phrase>

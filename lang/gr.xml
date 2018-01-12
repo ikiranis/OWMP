@@ -20,7 +20,7 @@
 
     <page name="footer">
         <phrase name="footer_text">Ανάπτυξη εφαρμογής apps4net.eu</phrase>
-        <phrase name="app_version">Έκδοση εφαρμογής</phrase>
+        <phrase name="app_version">Έκδοση</phrase>
         <phrase name="change_log">Ημερολόγιο αλλαγών</phrase>
         <phrase name="mobile_version">Έκδοση για κινητά</phrase>
         <phrase name="desktop_version">Έκδοση για Desktop</phrase>
