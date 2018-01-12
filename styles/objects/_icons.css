@@ -180,9 +180,9 @@
 
 
 .fullscreen_button_img {
-    background-size: 7em;
-    width: 7em;
-    height: 7em;
+    background-size: 2em;
+    width: 2em;
+    height: 2em;
     background-color: transparent;
     border: none;
     /*padding-top:0.5em;*/
@@ -193,9 +193,9 @@
 }
 
 .fullscreen_icon_img {
-    background-size: 4em;
-    width: 5em;
-    height: 5em;
+    background-size: 2em;
+    width: 2em;
+    height: 2em;
     background-color: transparent;
     border: none;
     /*padding-top:0.5em;*/
@@ -206,9 +206,9 @@
 }
 
 .video_controls_button_img {
-    background-size: 3em;
-    width: 3em;
-    height: 3em;
+    background-size: 2em;
+    width: 2em;
+    height: 2em;
     background-color: transparent;
     border: none;
     /*padding-top:0.5em;*/
