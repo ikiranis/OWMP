@@ -232,7 +232,7 @@ class Page
         // TODO display apps4net logo
         ?>
 
-            <div id="o-progressAnimation_container" class="row fixed-bottom bg-secondary w-100 mx-auto"></div>
+            <div id="o-progressAnimation_container" class="row fixed-bottom bg-info w-100 mx-auto"></div>
 
             <footer class="row fixed-bottom bg-dark">
 
@@ -278,7 +278,7 @@ class Page
 //      array('name' => 'email', 'fieldtext' => 'E-mail', 'type' => 'text'),
 //      array('name' => 'password', 'fieldtext' => 'Password', 'type' => 'password')
 // );
-    function MakeForm($name, $form_elements, $splitToDetails)
+    public function MakeForm($name, $form_elements, $splitToDetails)
     {
         $splitted=false;
         ?>
@@ -397,7 +397,11 @@ class Page
         <?php
     }
 
-    // TODO να βγάλω το logprogress εκτός να το προσθέτει δυναμικά
+    /**
+     * Display top navbar
+     *
+     * @param $rightSideText
+     */
     public function showMainBar ($rightSideText) {
         global $lang;
 
@@ -419,20 +423,20 @@ class Page
     ?>
         <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark" >
 
-                <div class="navbar-brand">
-                    <?php echo $languages_text; ?>
-                </div>
+            <div class="navbar-brand">
+                <?php echo $languages_text; ?>
+            </div>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <?php
-                    Page::NavList($NavActiveItem, 'window');
-                ?>
+            <?php
+                self::NavList($NavActiveItem, 'window');
+            ?>
 
-            <div class="navbar-text d-none d-md-block" >
+            <div class="d-none d-md-block text-white" >
                 <span class="o-resultsContainer_iconContainer isHidden">
                     <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
                            title="<?php echo __('display_activity'); ?>"

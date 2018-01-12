@@ -3,5 +3,5 @@
 }
 
 .isVisible {
-    display: block;
+    display: inline-block;
 }

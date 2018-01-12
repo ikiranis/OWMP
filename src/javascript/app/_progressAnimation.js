@@ -30,7 +30,7 @@ var ProgressAnimation =
     imagePrefix1: 'img/parrot_anime/parrot',    // Το αρχικό κομμάτι του path για τα frames
     imagePrefix2: '_small.png',                 // Το τελικό κομμάτι του path για τα frames
     doProgress: false,                          // True για εμφάνιση progress bar, false για το αντίθετο
-    spriteSize: 35,                             // Μέγεθος του sprite σε pixels
+    spriteSize: 45,                             // Μέγεθος του sprite σε pixels
     elementName: 'o-progressAnimation',
     canvasContainer: '#o-progressAnimation_container',
 
@@ -138,8 +138,8 @@ var ProgressAnimation =
     // Εμφανίζει το ποσοστό της θέσης στην οποία βρίσκεται
     drawProgressText: function()
     {
-        this.ctx.font="9px Verdana";
-        this.ctx.fillText((this.calculateProgressPercent()) + '%', this.x, 25);
+        this.ctx.font="bolder 1em Verdana";
+        this.ctx.fillText((this.calculateProgressPercent()) + '%', this.x-15, 15);
     },
 
     /**

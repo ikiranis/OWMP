@@ -13,14 +13,14 @@
 }
 
 .o-imageButton {
-    background-size: 1.5em;
+    background-size: 1.4em;
     background-color: transparent;
-    width: 1.5em;
+    width: 1.4em;
     border: none;
     cursor: pointer;
     position: relative;
-    display: inline-block;
-    top:-0.3em;
+    /*display: inline-block;*/
+    /*top:-0.3em;*/
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -206,9 +206,9 @@
 }
 
 .video_controls_button_img {
-    background-size: 2em;
-    width: 2em;
-    height: 2em;
+    background-size: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
     background-color: transparent;
     border: none;
     /*padding-top:0.5em;*/
