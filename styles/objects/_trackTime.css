@@ -76,8 +76,8 @@
 .o-trackTime--overlay__range::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: black solid 1px;
-    height: 1.5em;
-    width: 1em;
+    height: 1.3em;
+    width: 0.8em;
     /*border-radius: 50%;*/
     background: white;
 }
@@ -85,8 +85,8 @@
 .o-trackTime--overlay__range::-moz-range-thumb  {
     -webkit-appearance: none;
     border: black solid 1px;
-    height: 1.5em;
-    width: 1em;
+    height: 1.3em;
+    width: 0.8em;
     /*border-radius: 50%;*/
     background: white;
 }

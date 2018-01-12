@@ -4,7 +4,7 @@
     width: 100%;
     height: 100%;
     z-index: 2147483647;
-    top:1em;
+    top:0.5em;
     left: 0;
     position: fixed;
     display: none;
@@ -12,15 +12,19 @@
 
 #overlay_rating {
     position: absolute;
-    top: 0.5em;
+    top: 2.5em;
     left: 0;
     color: #FFF;
-    width: 5em;
-    height: 2em;
+    /*width: 5em;*/
+    height: 1em;
     text-align: left;
-    font-size: 3em;
+    font-size: 1em;
     z-index: 2147483647;
     display: inline-block;
+}
+
+#overlay_rating img {
+    width: 1.5em;
 }
 
 #overlay_play_count {
@@ -29,10 +33,10 @@
     right: 0;
     border-radius: 15px;
     color: #FFF;
-    width: 2em;
-    height: 2em;
+    /*width: 4em;*/
+    height: 1em;
     text-align: center;
-    font-size: 2em;
+    font-size: 1.5em;
     z-index: 2147483647;
     display: inline-block;
 }
@@ -97,9 +101,9 @@
     left: 0;
     color: #FFF;
     width: 100%;
-    height: 4em;
+    height: 5em;
     text-align: left;
-    font-size: 2em;
+    font-size: 1.3em;
     background-color: rgba(221, 221, 221, 0.3);
     padding: 0.5em 2em 0.5em 1em;
     z-index: 2147483647;
@@ -149,11 +153,11 @@
 
 #bottom_right_overlay {
     position: absolute;
-    bottom: 2em;
+    bottom: 2.5em;
     right: 0;
     color: #FFF;
     width: 100%;
-    height: 2em;
+    height: 3em;
     text-align: right;
     font-size: 1em;
     padding: 0.5em 1em 0.5em 1em;

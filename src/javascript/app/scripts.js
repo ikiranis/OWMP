@@ -409,7 +409,6 @@ function update_tags(key_rating) {
                     $('#overlay_album').html(album);
                     $('#overlay_live').html(liveOptions[live]);
 
-                    // $('#overlay_rating').html(stars);
                     ratingToStars(rating, '#overlay_rating');
 
                     showFullScreenVideoTags();
