@@ -183,7 +183,7 @@ class Page
 
         <body>
 
-        < class="container-fluid">
+        <div class="container-fluid">
 
         <?php
 

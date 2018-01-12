@@ -454,73 +454,83 @@ class User extends MyDB
         $lang=new Language();
 
         ?>
-        <main>
-            <div id="LoginWindow">
+<!--        <main>-->
+            <div  class="row h-100 fixed-top bg-light">
 
-                <?php
+                <div id="LoginWindow" class="col-3 mx-auto my-auto  text-center py-4 bgc2">
 
-                $FormElementsArray = array(
-                    array('name' => 'username',
-                        'fieldtext' => __('form_user_name'),
-                        'type' => 'text',
-                        'onclick' => null,
-                        'required' => 'yes',
-                        'maxlength' => '15',
-                        'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
-                        'title' => __('valid_username'),
-                        'disabled' => 'no',
-                        'value' => null),
-                    array('name' => 'password',
-                        'fieldtext' => __('form_password'),
-                        'type' => 'password',
-                        'onclick' => null,
-                        'required' => 'yes',
-                        'maxlength' => '15',
-                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
-                        'title' => __('valid_password'),
-                        'disabled' => 'no',
-                        'value' => null),
-                    array('name' => 'SavePassword',
-                        'fieldtext' => __('form_save_password'),
-                        'type' => 'checkbox',
-                        'onclick' => null,
-                        'required' => 'no',
-                        'maxlength' => '',
-                        'pattern' => '',
-                        'title' => '',
-                        'disabled' => 'no',
-                        'value' => 'yes'),
-                    array('name' => 'submit',
-                        'fieldtext' => '',
-                        'type' => 'button',
-                        'onclick' => 'login();',
-                        'required' => 'no',
-                        'maxlength' => '',
-                        'pattern' => '',
-                        'title' => '',
-                        'disabled' => 'no',
-                        'value' => __('form_login'))
-                );
+                    <?php
 
-                $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
+                    $FormElementsArray = array(
+                        array('name' => 'username',
+                            'fieldtext' => __('form_user_name'),
+                            'type' => 'text',
+                            'onclick' => null,
+                            'required' => 'yes',
+                            'maxlength' => '15',
+                            'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
+                            'title' => __('valid_username'),
+                            'disabled' => 'no',
+                            'value' => null),
+                        array('name' => 'password',
+                            'fieldtext' => __('form_password'),
+                            'type' => 'password',
+                            'onclick' => null,
+                            'required' => 'yes',
+                            'maxlength' => '15',
+                            'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                            'title' => __('valid_password'),
+                            'disabled' => 'no',
+                            'value' => null),
+                        array('name' => 'SavePassword',
+                            'fieldtext' => __('form_save_password'),
+                            'type' => 'checkbox',
+                            'onclick' => null,
+                            'required' => 'no',
+                            'maxlength' => '',
+                            'pattern' => '',
+                            'title' => '',
+                            'disabled' => 'no',
+                            'value' => 'yes'),
+                        array('name' => 'submit',
+                            'fieldtext' => '',
+                            'type' => 'button',
+                            'onclick' => 'login();',
+                            'required' => 'no',
+                            'maxlength' => '',
+                            'pattern' => '',
+                            'title' => '',
+                            'disabled' => 'no',
+                            'value' => __('form_login'))
+                    );
 
-                $languages_text=$lang->print_languages('lang_id',' ',true,false);
+                    $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
 
-                ?>
+                    $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
-                <div id="languages">
-                    <?php echo $languages_text; ?>
+                    ?>
+
+                    <div id="languages" class="py-2">
+                        <?php echo $languages_text; ?>
+                    </div>
+
                 </div>
+
+<!--                <div id="error_container">-->
+<!--                    <div class="alert_error bgc9"></div>-->
+<!--                </div>-->
 
             </div>
 
-        </main>
-
-        <div id="error_container">
-            <div class="alert_error bgc9"></div>
         </div>
 
+        </body>
+        </html>
+
+<!--        </main>-->
+
         <?php
+
     }
 
     // Εμφάνιση οθόνης για εγγραφή χρήστη
@@ -530,8 +540,9 @@ class User extends MyDB
         $lang=new Language();
 
         ?>
-        <main>
-            <div id="RegisterUserWindow" class="bgc2">
+        <div  class="row h-100 fixed-top bg-light">
+
+             <div id="RegisterUserWindow" class="col-3 mx-auto my-auto  text-center py-4 bgc2">
 
                 <?php
 
@@ -597,13 +608,18 @@ class User extends MyDB
                 $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
                 ?>
-                <div id="languages">
+                <div id="languages" class="py-2">
                     <?php echo $languages_text; ?>
                 </div>
 
             </div>
 
-        </main>
+        </div>
+
+        </div>
+
+        </body>
+        </html>
 
         <?php
     }

@@ -126,7 +126,7 @@ var ProgressAnimation =
         this.ctx.fillStyle = 'white';
         var x = this.x+(this.spriteSize/2);
         var w = (this.canvas.width-(this.spriteSize/2))-x;
-        this.ctx.fillRect(x, 0, w, 3);
+        this.ctx.fillRect(x, 2, w, 5);
 
         // Shadow progress bar
         this.ctx.fillStyle = '#37474F';
