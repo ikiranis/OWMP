@@ -455,7 +455,7 @@ class User extends MyDB
 
         ?>
 <!--        <main>-->
-            <div  class="row h-100 fixed-top bg-light">
+            <div class="row h-100 fixed-top bg-light">
 
                 <div id="LoginWindow" class="col-3 mx-auto my-auto  text-center py-4 bgc2">
 

@@ -44,23 +44,15 @@ class Page
 
         if (!isset($NavActiveItem)) $NavActiveItem = 1;
 
-        global $lang;
-
-        $languages_text = $lang->print_languages('lang_id',' ',true,false);
-
         ?>
 
+        <div class="row mainContent w-100 bg-light px-1">
 
-
-
-
-        <div class="row mainContent w-100 bg-light no-gutters">
-
-            <aside class="col-xl-4 col-md-3 col-sm-12 h-100 px-4 py-3">
+            <aside class="col-xl-4 col-sm-12 h-100 w-100 py-2 px-4">
                 <?php OWMP::showVideo(); ?>
             </aside>
 
-            <section class="col-xl-8 col-md-9 col-sm-12 h-100 px-1 py-2">
+            <section class="col-xl-8 col-sm-12 h-100 w-100 px-1 py-2">
                 <article>
                     <?php
                     switch ($NavActiveItem) {

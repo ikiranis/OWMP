@@ -41,7 +41,7 @@ class OWMP
 
         ?>
 
-        <video id="myVideo" width="100%" onerror="failed(event);" ondblclick="displayFullscreenControls();"></video>
+        <video id="myVideo" class="w-100" onerror="failed(event);" ondblclick="displayFullscreenControls();"></video>
 
         <?php OWMPElements::displayControls('mediaControls', false); ?>
 
@@ -51,7 +51,8 @@ class OWMP
         </div>
 
         <div id="o-trackTime">
-            <input type=range class="o-trackTime__range" name="o-trackTime__range" min=0 max=100 list=overlay_track_ticks value=0 oninput="controlTrack();">
+            <input type=range class="o-trackTime__range" name="o-trackTime__range" min="0" max="100"
+                   list="overlay_track_ticks" value="0" oninput="controlTrack();">
         </div>
 
         <?php OWMPElements::displayFullscreenOverlayElements(); //Display fullscreen overlay elements ?>
