@@ -154,7 +154,7 @@
         <phrase name="search_or">ή</phrase>
         <phrase name="search_and">και</phrase>
         <phrase name="search_text_search">Αναζήτηση</phrase>
-        <phrase name="search_text_duplicates">Αναζήτηση διπλοεγγραφών</phrase>
+        <phrase name="search_text_duplicates">Διπλοεγγραφές</phrase>
         <phrase name="search_text_clear">Καθαρισμός</phrase>
         <phrase name="search_text_cancel">Ακύρωση</phrase>
         <phrase name="search_previous">Προηγούμενη</phrase>

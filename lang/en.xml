@@ -154,7 +154,7 @@
         <phrase name="search_or">or</phrase>
         <phrase name="search_and">and</phrase>
         <phrase name="search_text_search">Search</phrase>
-        <phrase name="search_text_duplicates">Search duplicates</phrase>
+        <phrase name="search_text_duplicates">Duplicates</phrase>
         <phrase name="search_text_clear">Clear</phrase>
         <phrase name="search_text_cancel">Cancel</phrase>
         <phrase name="search_previous">Previous</phrase>

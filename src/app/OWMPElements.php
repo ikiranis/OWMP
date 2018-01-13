@@ -1635,7 +1635,7 @@ class OWMPElements extends OWMP
         <form id="formChooseSmartPlaylist">
             <div id="ChooseSmartPlaylist" class="row w-100 my-1 py-0 no-gutters">
 
-                <div class="form-group col-lg-2 my-auto">
+                <div class="form-group col-lg-2 w-100 my-auto">
                     <label for="smartPlaylist" class="sr-only"><?php echo __('choose_playlist'); ?></label>
                     <select class="form-control form-control-sm" name="smartPlaylist" id="smartPlaylist">
                         <option value="">
@@ -1659,7 +1659,7 @@ class OWMPElements extends OWMP
                     </select>
                 </div>
 
-                <div class="col-lg-3 px-1 my-auto">
+                <div class="col-lg-3 px-1 w-100 my-auto text-center">
                     <input type="button" class="o-imageButton o-imageButton_insertSmartPlaylist" id="jsInsertSmartPlaylistClick"
                            title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
                     <input type="button" class="o-imageButton o-imageButton_deleteSmartPlaylist" id="jdDeleteSmartPlaylistClick"
@@ -1852,20 +1852,20 @@ class OWMPElements extends OWMP
                     }
                     ?>
 
-                    <div id="searchButtons">
-                        <input type="button" class="btn btn-dark" name="searching" id="searching"
+                    <div id="searchButtons" class="row w-100 no-gutters">
+                        <input type="button" class="btn btn-success col px-1 my-1 mx-1" name="searching" id="searching"
                                value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
 
-                        <input type="button" class="btn btn-dark" name="duplicates" id="duplicates"
+                        <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="duplicates" id="duplicates"
                                value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                        <input type="button" class="btn btn-dark" name="playedQueue" id="playedQueue"
+                        <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="playedQueue" id="playedQueue"
                                value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
 
-                        <input type="button" class="btn btn-dark" name="jsClearSearch" id="jsClearSearch"
+                        <input type="button" class="btn btn-warning col px-1 my-1 mx-1" name="jsClearSearch" id="jsClearSearch"
                                value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
 
-                        <input type="button" class="btn btn-dark" name="cancelSearch" id="cancelSearch"
+                        <input type="button" class="btn btn-danger col px-1 my-1 mx-1" name="cancelSearch" id="cancelSearch"
                                value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
                     </div>
                 </form>
