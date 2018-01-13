@@ -671,6 +671,7 @@ function addSearchRow()
     $('.search_equality', '#'+newElementID).prop('id', 'search_equality' + newID ).prop('name', 'search_equality' + newID );
     $('.search_text', '#'+newElementID).prop('id', 'search_text' + newID ).prop('name', 'search_text' + newID );
     $('.search_operator', '#'+newElementID).prop('id', 'search_operator' + newID ).prop('name', 'search_operator' + newID );
+    $('.search_text_group', '#'+newElementID).prop('id', 'search_text_group' + newID ).prop('name', 'search_text_group' + newID );
     theNewElementID.find('label[for^="search_field"]').prop('for', 'search_field' + newID );
     theNewElementID.find('label[for^="search_text"]').prop('for', 'search_text' + newID );
 
@@ -1034,13 +1035,14 @@ function changeToSelect(elem, elementID, optionsArray) {
     elem.outerHTML = ""; // Σβήσιμο του υπάρχοντος
     // delete elem;
 
-    var afterElement = document.querySelector('#search_operator' + elementID); // To element πριν το οποίο θα προστεθεί το select
+    var parentElement = document.querySelector('#search_text_group' + elementID); // Parent element to insert new select
 
     // Δημιουργεί το select
     var element = document.createElement('select');
     element.setAttribute('type', 'text');
     element.setAttribute('id', 'search_text' + elementID);
     element.setAttribute('name', 'search_text' + elementID);
+    element.setAttribute('class', 'form-control form-control-sm');
 
     var option=[];
 
@@ -1051,11 +1053,13 @@ function changeToSelect(elem, elementID, optionsArray) {
         option[i].innerHTML = optionsArray[i];
     }
 
-    // προσθέτει το element πριν το afterElement
-    var newSelect=document.querySelector('#searchRow'+elementID).insertBefore(element, afterElement);
+    // Insert options to element
+    for (i = 0; i < optionsArray.length; i++) {
+        element.appendChild(option[i]);
+    }
 
-    for (i = 0; i < optionsArray.length; i++)
-        newSelect.appendChild(option[i]); // προσθέτει τα options
+    // Insert new select element to parent element
+    parentElement.appendChild(element);
 
 }
 
