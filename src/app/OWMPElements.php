@@ -1625,46 +1625,59 @@ class OWMPElements extends OWMP
      *
      * @param $userID {int} To userID του χρήστη
      */
-    static function displayChooseSmartPlaylistElements($userID)
+    static function displayChooseSmartPlaylistElements()
     {
+        $user = new User();
+
+        $userID = $user->getUserID($user->getSession('username'));      // Επιστρέφει το id του user με username στο session
+
         ?>
-        <div id="ChooseSmartPlaylist">
-            <form id="formChooseSmartPlaylist">
-                <select name="smartPlaylist" id="smartPlaylist">
-                    <option value="">
-                        <?php echo __('choose_playlist'); ?>
-                    </option>
-                    <?php
+        <form id="formChooseSmartPlaylist">
+            <div id="ChooseSmartPlaylist" class="row w-100 my-1 py-0 no-gutters">
 
-                    // H λίστα με τις manual playlists
-                    $smartPlaylists = MyDB::getTableArray('smart_playlists', 'id, playlist_name, playlist_data',
-                        'user_id=?', array($userID), null, null, null);
-
-                    foreach ($smartPlaylists as $playlist) {
-                        ?>
-                        <option value="<?php echo $playlist['id']; ?>">
-                            <?php echo  $playlist['playlist_name']; ?>
+                <div class="form-group col-lg-2 my-auto">
+                    <label for="smartPlaylist" class="sr-only"><?php echo __('choose_playlist'); ?></label>
+                    <select class="form-control form-control-sm" name="smartPlaylist" id="smartPlaylist">
+                        <option value="">
+                            <?php echo __('choose_playlist'); ?>
                         </option>
-
                         <?php
-                    }
-                    ?>
-                </select>
-            </form>
-        </div>
 
-        <input type="button" class="o-imageButton--large o-imageButton_insertSmartPlaylist" id="jsInsertSmartPlaylistClick"
-               title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
-        <input type="button" class="o-imageButton--large o-imageButton_deleteSmartPlaylist" id="jdDeleteSmartPlaylistClick"
-               title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();" >
-        <input type="button" class="o-imageButton--large o-imageButton_saveSmartPlaylist" id="jsSaveSmartPlaylist"
-               title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();" >
-        <input type="button" class="o-imageButton--large o-imageButton_loadSmartPlaylist" id="jsLoadSmartPlaylist"
-               title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();" >
+                        // H λίστα με τις manual playlists
+                        $smartPlaylists = MyDB::getTableArray('smart_playlists', 'id, playlist_name, playlist_data',
+                            'user_id=?', array($userID), null, null, null);
+
+                        foreach ($smartPlaylists as $playlist) {
+                            ?>
+                            <option value="<?php echo $playlist['id']; ?>">
+                                <?php echo  $playlist['playlist_name']; ?>
+                            </option>
+
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 px-1 my-auto">
+                    <input type="button" class="o-imageButton o-imageButton_insertSmartPlaylist" id="jsInsertSmartPlaylistClick"
+                           title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
+                    <input type="button" class="o-imageButton o-imageButton_deleteSmartPlaylist" id="jdDeleteSmartPlaylistClick"
+                           title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();" >
+                    <input type="button" class="o-imageButton o-imageButton_saveSmartPlaylist" id="jsSaveSmartPlaylist"
+                           title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();" >
+                    <input type="button" class="o-imageButton o-imageButton_loadSmartPlaylist" id="jsLoadSmartPlaylist"
+                           title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();" >
+
+                    <?php Page::getHelp('help_smart_playlists'); ?>
+                </div>
+
+            </div>
+        </form>
 
         <?php
 
-        Page::getHelp('help_smart_playlists');
+
     }
 
     // Εμφάνιση παραθύρου προσθήκης playlist
@@ -1725,24 +1738,20 @@ class OWMPElements extends OWMP
     }
 
     // Εμφάνιση του παραθύρου για αναζήτηση
-    static function displaySearchWindow()
+    public function displaySearchWindow()
     {
 
-        $fields=MyDB::getTableFields('music_tags',array('id'));
-
         if($_SESSION['PlaylistCounter']==0) {
-        ?>
+
+            $fields = MyDB::getTableFields('music_tags',array('id'));
+
+            ?>
             <div id="search" class="py-1 px-3 w-75 bg-light">
 
                 <?php
 
-                $conn = new MyDB();
-                $user = new User();
-                $OWMPElements = new OWMPElements();
-
-                $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
-                // Εμφνάνιση στοιχείων για επιλογή της smart playlist
-                $OWMPElements->displayChooseSmartPlaylistElements($userID);
+                // Εμφάνιση στοιχείων για επιλογή της smart playlist
+                $this->displayChooseSmartPlaylistElements();
 
                 ?>
 
@@ -1754,9 +1763,9 @@ class OWMPElements extends OWMP
                         ?>
 
                         <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>" >
-                            <div class="row  py-1 px-1 no-gutters">
+                            <div class="row py-1 px-1 no-gutters">
 
-                                <div class="form-group col-lg-2 w-100">
+                                <div class="form-group col-lg-2 w-100 my-auto">
                                     <label for="search_field<?php echo $counter; ?>" class="sr-only">search_field<?php echo $counter; ?></label>
                                     <select class="form-control form-control-sm search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
                                         <?php
@@ -1791,7 +1800,7 @@ class OWMPElements extends OWMP
                                 </div>
 
 
-                                <div class="form-group col-lg-2 w-100">
+                                <div class="form-group col-lg-2 w-100 my-auto">
                                     <label for="search_equality<?php echo $counter; ?>" class="sr-only">search_equality<?php echo $counter; ?></label>
                                     <select class="form-control form-control-sm search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
 
@@ -1809,12 +1818,12 @@ class OWMPElements extends OWMP
                                     </select>
                                 </div>
 
-                                <div id="search_text_group<?php echo $counter; ?>" class="search_text_group form-group col-lg-4 w-100">
+                                <div id="search_text_group<?php echo $counter; ?>" class="search_text_group form-group col-lg-4 w-100 my-auto">
                                     <label for="search_text<?php echo $counter; ?>" class="sr-only">search_text<?php echo $counter; ?></label>
                                     <input type="text" class="form-control form-control-sm search_text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
                                 </div>
 
-                                <div class="form-group col-lg-2 w-100">
+                                <div class="form-group col-lg-2 w-100 my-auto">
                                     <label for="search_operator<?php echo $counter; ?>" class="sr-only">search_operator<?php echo $counter; ?></label>
                                     <select class="form-control form-control-sm search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
                                         <option value="OR">
@@ -1827,7 +1836,7 @@ class OWMPElements extends OWMP
                                     </select>
                                 </div>
 
-                                <div class="form-group col-lg-2 w-100 text-right">
+                                <div class="form-group col-lg-2 w-100 text-right my-auto">
                                     <input type="button" class="o-imageButton ο-imageButton_addSearchRow" id="jsAddSearchRow"
                                            title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
                                     <input type="button" class="o-imageButton ο-imageButton_removeSearchRow" id="jsRemoveSearchRow"

@@ -12,12 +12,12 @@
 }
 
 
-#ChooseSmartPlaylist {
-    position: relative;
-    display: inline-block;
-    width: auto;
-}
+/*#ChooseSmartPlaylist {*/
+    /*position: relative;*/
+    /*!*display: inline-block;*!*/
+    /*width: auto;*/
+/*}*/
 
-#ChooseSmartPlaylist #smartPlaylist {
-    font-size: 0.7em;
-}
+/*#ChooseSmartPlaylist #smartPlaylist {*/
+    /*font-size: 0.7em;*/
+/*}*/
