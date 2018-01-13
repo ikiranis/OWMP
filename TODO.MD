@@ -45,5 +45,7 @@
 
 **Implement a song details history**
 
+**Fix some problem with hashtag songs**
+
 
 
