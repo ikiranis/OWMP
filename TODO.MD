@@ -6,10 +6,10 @@
 * Make all the buttons
 * Convert search (or other action windows) to modal
 * Convert icons
-* Make columns in playlist to hide on small screens
+* Make columns in playlist to hide on small screens **(done)**
 * Choose to mobile version with a button, for smaller images
 * With responsive design from bootstrap, there will be no need to use different css versions **(done)**
-* Fix login/register screen
+* Fix login/register screen **(done)**
 
 **Fix vote.css**
 
