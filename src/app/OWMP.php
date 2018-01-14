@@ -119,7 +119,7 @@ class OWMP
         $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
         $OWMPElements->displayInsertSmartPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης smart playlist
-        $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
+//        $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
 
         // Display playlist choices bar
         ?>
@@ -145,7 +145,7 @@ class OWMP
 
             <div class="col-lg-4 col-sm-5  col-12 w-100">
                 <div class="input-group">
-                    <input type="button" class="form-control col-2" id="searchClick" onclick="displaySearchWindow();" title="<?php echo __('search_text_search'); ?>" >
+                    <input type="button" class="form-control col-2" data-toggle="modal" data-target="#search" id="searchClick"  title="<?php echo __('search_text_search'); ?>" >
 
                     <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
                 </div>

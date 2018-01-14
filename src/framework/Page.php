@@ -33,6 +33,9 @@ class Page
     public function DisplayMainPage() {
         $_SESSION['PlaylistCounter']=0;
 
+        $OWMPElements = new OWMPElements();
+        $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
+
         if (isset($_GET['page'])) {
             $NavActiveItem = $_GET['page'];
             Page::setNavActiveItem($_GET['page']);

@@ -1746,135 +1746,150 @@ class OWMPElements extends OWMP
             $fields = MyDB::getTableFields('music_tags',array('id'));
 
             ?>
-            <div id="search" class="py-1 px-3 w-75 bg-light">
+<!--            <div id="search" class="py-1 px-3 w-75 bg-light">-->
+            <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="searchModalLabel"><?php echo __('search_text_search'); ?></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
 
-                <?php
+                            <?php
 
-                // Εμφάνιση στοιχείων για επιλογή της smart playlist
-                $this->displayChooseSmartPlaylistElements();
+                            // Εμφάνιση στοιχείων για επιλογή της smart playlist
+                            $this->displayChooseSmartPlaylistElements();
 
-                ?>
+                            ?>
 
-                <form id="SearchForm" name="SearchForm">
-                    <?php
+                            <form id="SearchForm" name="SearchForm">
+                                <?php
 
-                    for($counter=0;$counter<2;$counter++) {
+                                for($counter=0;$counter<2;$counter++) {
 
-                        ?>
+                                    ?>
 
-                        <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>" >
-                            <div class="row py-1 px-1 no-gutters">
+                                    <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>" >
+                                        <div class="row py-1 px-1 no-gutters">
 
-                                <div class="form-group col-lg-2 w-100 my-auto">
-                                    <label for="search_field<?php echo $counter; ?>" class="sr-only">search_field<?php echo $counter; ?></label>
-                                    <select class="form-control form-control-sm search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
-                                        <?php
-                                        foreach ($fields as $field) {
-                                            ?>
-                                            <option value="<?php echo $field; ?>">
-                                                <?php
-                                                switch ($field) {
-                                                    case 'song_name': echo __('tag_title'); break;
-                                                    case 'artist': echo __('tag_artist'); break;
-                                                    case 'genre': echo __('tag_genre'); break;
-                                                    case 'date_added': echo __('tag_date_added'); break;
-                                                    case 'play_count': echo __('tag_play_count'); break;
-                                                    case 'date_last_played': echo __('tag_date_played'); break;
-                                                    case 'rating': echo __('tag_rating'); break;
-                                                    case 'album': echo __('tag_album'); break;
-                                                    case 'video_height': echo __('tag_video_height'); break;
-                                                    case 'filesize': echo __('tag_filesize'); break;
-                                                    case 'video_width': echo __('tag_video_width'); break;
-                                                    case 'track_time': echo __('tag_track_time'); break;
-                                                    case 'song_year': echo __('tag_year'); break;
-                                                    case 'live': echo __('tag_live'); break;
-                                                    case 'album_artwork_id': echo __('tag_album_artwork_id'); break;
-                                                }
-                                                ?>
-                                            </option>
+                                            <div class="form-group col-lg-2 w-100 my-auto">
+                                                <label for="search_field<?php echo $counter; ?>" class="sr-only">search_field<?php echo $counter; ?></label>
+                                                <select class="form-control form-control-sm search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
+                                                    <?php
+                                                    foreach ($fields as $field) {
+                                                        ?>
+                                                        <option value="<?php echo $field; ?>">
+                                                            <?php
+                                                            switch ($field) {
+                                                                case 'song_name': echo __('tag_title'); break;
+                                                                case 'artist': echo __('tag_artist'); break;
+                                                                case 'genre': echo __('tag_genre'); break;
+                                                                case 'date_added': echo __('tag_date_added'); break;
+                                                                case 'play_count': echo __('tag_play_count'); break;
+                                                                case 'date_last_played': echo __('tag_date_played'); break;
+                                                                case 'rating': echo __('tag_rating'); break;
+                                                                case 'album': echo __('tag_album'); break;
+                                                                case 'video_height': echo __('tag_video_height'); break;
+                                                                case 'filesize': echo __('tag_filesize'); break;
+                                                                case 'video_width': echo __('tag_video_width'); break;
+                                                                case 'track_time': echo __('tag_track_time'); break;
+                                                                case 'song_year': echo __('tag_year'); break;
+                                                                case 'live': echo __('tag_live'); break;
+                                                                case 'album_artwork_id': echo __('tag_album_artwork_id'); break;
+                                                            }
+                                                            ?>
+                                                        </option>
 
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
 
 
-                                <div class="form-group col-lg-2 w-100 my-auto">
-                                    <label for="search_equality<?php echo $counter; ?>" class="sr-only">search_equality<?php echo $counter; ?></label>
-                                    <select class="form-control form-control-sm search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
+                                            <div class="form-group col-lg-2 w-100 my-auto">
+                                                <label for="search_equality<?php echo $counter; ?>" class="sr-only">search_equality<?php echo $counter; ?></label>
+                                                <select class="form-control form-control-sm search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
 
-                                        <option value="equal">
-                                            <?php echo __('search_equal'); ?>
-                                        </option>
+                                                    <option value="equal">
+                                                        <?php echo __('search_equal'); ?>
+                                                    </option>
 
-                                        <option value="greater">
-                                            <?php echo __('search_greater'); ?>
-                                        </option>
+                                                    <option value="greater">
+                                                        <?php echo __('search_greater'); ?>
+                                                    </option>
 
-                                        <option value="less">
-                                            <?php echo __('search_less'); ?>
-                                        </option>
-                                    </select>
-                                </div>
+                                                    <option value="less">
+                                                        <?php echo __('search_less'); ?>
+                                                    </option>
+                                                </select>
+                                            </div>
 
-                                <div id="search_text_group<?php echo $counter; ?>" class="search_text_group form-group col-lg-4 w-100 my-auto">
-                                    <label for="search_text<?php echo $counter; ?>" class="sr-only">search_text<?php echo $counter; ?></label>
-                                    <input type="text" class="form-control form-control-sm search_text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
-                                </div>
+                                            <div id="search_text_group<?php echo $counter; ?>" class="search_text_group form-group col-lg-4 w-100 my-auto">
+                                                <label for="search_text<?php echo $counter; ?>" class="sr-only">search_text<?php echo $counter; ?></label>
+                                                <input type="text" class="form-control form-control-sm search_text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
+                                            </div>
 
-                                <div class="form-group col-lg-2 w-100 my-auto">
-                                    <label for="search_operator<?php echo $counter; ?>" class="sr-only">search_operator<?php echo $counter; ?></label>
-                                    <select class="form-control form-control-sm search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
-                                        <option value="OR">
-                                            <?php echo __('search_or'); ?>
-                                        </option>
+                                            <div class="form-group col-lg-2 w-100 my-auto">
+                                                <label for="search_operator<?php echo $counter; ?>" class="sr-only">search_operator<?php echo $counter; ?></label>
+                                                <select class="form-control form-control-sm search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
+                                                    <option value="OR">
+                                                        <?php echo __('search_or'); ?>
+                                                    </option>
 
-                                        <option value="AND">
-                                            <?php echo __('search_and'); ?>
-                                        </option>
-                                    </select>
-                                </div>
+                                                    <option value="AND">
+                                                        <?php echo __('search_and'); ?>
+                                                    </option>
+                                                </select>
+                                            </div>
 
-                                <div class="form-group col-lg-2 w-100 text-right my-auto">
-                                    <input type="button" class="o-imageButton ο-imageButton_addSearchRow" id="jsAddSearchRow"
-                                           title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
-                                    <input type="button" class="o-imageButton ο-imageButton_removeSearchRow" id="jsRemoveSearchRow"
-                                           title="<?php echo __('remove_search_row'); ?>" onclick="removeSearchRow(<?php echo $counter; ?>);">
-                                    <input type="button" class="o-imageButton ο-imageButton_addGroupRow" id="jsAddGroup"
-                                           title="<?php echo __('add_group_row'); ?>" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
-                                </div>
+                                            <div class="form-group col-lg-2 w-100 text-right my-auto">
+                                                <input type="button" class="o-imageButton ο-imageButton_addSearchRow" id="jsAddSearchRow"
+                                                       title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
+                                                <input type="button" class="o-imageButton ο-imageButton_removeSearchRow" id="jsRemoveSearchRow"
+                                                       title="<?php echo __('remove_search_row'); ?>" onclick="removeSearchRow(<?php echo $counter; ?>);">
+                                                <input type="button" class="o-imageButton ο-imageButton_addGroupRow" id="jsAddGroup"
+                                                       title="<?php echo __('add_group_row'); ?>" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
+                                            </div>
 
-                            </div>
+                                        </div>
+                                    </div>
+
+                                    <?php
+                                }
+                                ?>
+                            </form>
                         </div>
 
-                        <?php
-                    }
-                    ?>
+                        <div id="searchButtons" class="modal-footer row w-100 no-gutters">
+                            <input type="button" class="btn btn-success col px-1 my-1 mx-1" name="searching" id="searching"
+                                   data-dismiss="modal" value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
 
-                    <div id="searchButtons" class="row w-100 no-gutters">
-                        <input type="button" class="btn btn-success col px-1 my-1 mx-1" name="searching" id="searching"
-                               value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
+                            <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="duplicates" id="duplicates"
+                                   data-dismiss="modal" value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                        <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="duplicates" id="duplicates"
-                               value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                            <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="playedQueue" id="playedQueue"
+                                   data-dismiss="modal" value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
 
-                        <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="playedQueue" id="playedQueue"
-                               value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
+                            <input type="button" class="btn btn-warning col px-1 my-1 mx-1" name="jsClearSearch" id="jsClearSearch"
+                                   value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
 
-                        <input type="button" class="btn btn-warning col px-1 my-1 mx-1" name="jsClearSearch" id="jsClearSearch"
-                               value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
-
-                        <input type="button" class="btn btn-danger col px-1 my-1 mx-1" name="cancelSearch" id="cancelSearch"
-                               value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
+                            <input type="button" class="btn btn-danger col px-1 my-1 mx-1" name="cancelSearch" id="cancelSearch"
+                                   data-dismiss="modal" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
 
             <?php
         } else {
         ?>
-            <div id="search" class="bgc3"></div>
+            <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
+
+            </div>
             <?php
         }
         ?>

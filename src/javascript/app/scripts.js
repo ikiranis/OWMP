@@ -501,11 +501,13 @@ function getNumberOfSearchRows()
 {
     var searchFormID = $('#SearchForm');
 
+    console.log(searchFormID.children('div'));
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
     var searchRows = searchFormID.children('div').length;
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
     var groupRows = searchFormID.children('.groupRow').length;
-    searchRows = (searchRows-groupRows)-2;
+    // TODO more test... maybe need to remove 2 from searchRows
+    searchRows = (searchRows-groupRows)-1;
 
     return searchRows;
 }
