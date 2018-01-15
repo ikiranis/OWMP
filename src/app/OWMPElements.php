@@ -154,25 +154,25 @@ class OWMPElements extends OWMP
 
             <input type="hidden" id="songID" name="songID" >
 
-            <div class="form-group">
+            <div class="form-group my-1">
                 <label for="title" class="sr-only"><?php echo __('tag_title'); ?></label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="<?php echo __('tag_title'); ?>"
                 <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-1">
                 <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="artist" name="artist" placeholder="<?php echo __('tag_artist'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-1">
                 <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="album" name="album" placeholder="<?php echo __('tag_album'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="row">
+            <div class="row my-1">
                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
                     <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
@@ -217,25 +217,25 @@ class OWMPElements extends OWMP
                     <?php echo __('tag_details'); ?>
                 </summary>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="play_count" class="sr-only"><?php echo __('tag_play_count'); ?></label>
                     <input type="number" class="form-control form-control-sm" id="play_count" name="play_count" placeholder="<?php echo __('tag_play_count'); ?>"
                         <?php echo $disabled; ?> readonly>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="date_added" class="sr-only"><?php echo __('tag_date_added'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="date_added" name="date_added" placeholder="<?php echo __('tag_date_added'); ?>"
                         <?php echo $disabled; ?> maxlength="20" readonly>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="date_played" class="sr-only"><?php echo __('tag_date_played'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="date_played" name="date_played" placeholder="<?php echo __('tag_date_played'); ?>"
                         <?php echo $disabled; ?> maxlength="20" readonly>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group my-1">
                     <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename" placeholder="<?php echo __('tag_path_filename'); ?>"
                         <?php echo $disabled; ?> maxlength="255" readonly>
@@ -1751,7 +1751,7 @@ class OWMPElements extends OWMP
             $fields = MyDB::getTableFields('music_tags',array('id'));
 
             ?>
-            
+
             <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
