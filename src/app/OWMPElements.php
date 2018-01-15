@@ -1874,19 +1874,19 @@ class OWMPElements extends OWMP
 
                         <div id="searchButtons" class="modal-footer row w-100 no-gutters">
                             <input type="button" class="btn btn-success col px-1 my-1 mx-1" name="searching" id="searching"
-                                   data-dismiss="modal" value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
+                                   value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
 
                             <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="duplicates" id="duplicates"
-                                   data-dismiss="modal" value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                                   value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
                             <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="playedQueue" id="playedQueue"
-                                   data-dismiss="modal" value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
+                                   value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
 
                             <input type="button" class="btn btn-warning col px-1 my-1 mx-1" name="jsClearSearch" id="jsClearSearch"
                                    value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
 
                             <input type="button" class="btn btn-danger col px-1 my-1 mx-1" name="cancelSearch" id="cancelSearch"
-                                   data-dismiss="modal" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
+                                   value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
                         </div>
                     </div>
                 </div>

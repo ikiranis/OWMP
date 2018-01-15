@@ -480,13 +480,13 @@ function findDuplicates(offset, step, firstTime) {
                 if(!syncRunning) {
                     ProgressAnimation.kill();
                 }
-                $('#search').hide();
+                $('#search').modal('hide');
             } else {
                 $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
                 if(!syncRunning) {
                     ProgressAnimation.kill();
                 }
-                $('#search').hide();
+                $('#search').modal('hide');
             }
         }
     });
@@ -577,14 +577,14 @@ function searchPlaylist(offset, step, firstTime, search) {
                 if(!syncRunning) {
                     ProgressAnimation.kill();
                 }
-                $('#search').hide();
+                $('#search').modal('hide');
             }
             else {
                 $('#playlist_container').html('Δεν βρέθηκαν εγγραφές');
                 if(!syncRunning) {
                     ProgressAnimation.kill();
                 }
-                $('#search').hide();
+                $('#search').modal('hide');
             }
         }
     });
@@ -772,7 +772,7 @@ function clearSearch()
  */
 function loadPlayedQueuePlaylist() {
     ProgressAnimation.init(false);
-    $('#search').hide();
+    $('#search').modal('hide');
 
     $.ajax({
         url: AJAX_path + 'app/loadPlayedQueue',
@@ -1198,7 +1198,7 @@ function cancelTheEdit() {
  * Κλείνει το παράθυρο για search
  */
 function cancelTheSearch() {
-    $('#search').hide();
+    $('#search').modal('hide');
 }
 
 /**
