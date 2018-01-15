@@ -118,8 +118,6 @@ class OWMP
         $OWMPElements->displayEditTagsWindow($UserGroup); // Εμφάνιση του παραθύρου για edit tags
         $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
-        $OWMPElements->displayInsertSmartPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης smart playlist
-//        $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
 
         // Display playlist choices bar
         ?>

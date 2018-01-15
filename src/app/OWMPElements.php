@@ -1699,14 +1699,19 @@ class OWMPElements extends OWMP
     static function displayInsertSmartPlaylistWindow()
     {
         ?>
-        <div id="insertSmartPlaylistWindow" class="bgc3">
-            <form id="insertSmartPlaylist" name="insertSmartPlaylist">
-                <input type="text" id="smartPlaylistName" name="smartPlaylistName">
-                <input type="button" class="myButton PlaylistButton" id="insertSmartPlaylistButton" name="insertSmartPlaylistButton" onclick="createSmartPlaylist();"
-                       value="<?php echo __('create_playlist'); ?>">
-                <input type="button" class="myButton" name="cancelSmartPlaylist" id="cancelSmartPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreateSmartPlaylist();">
-            </form>
-        </div>
+            <div id="insertSmartPlaylistWindow" class="bg-light w-75 my-5 ml-auto mr-auto fixed-top">
+                <form id="insertSmartPlaylist" name="insertSmartPlaylist">
+                    <div class="row w-100 py-1 px-1 text-center no-gutters">
+                        <div class="form-group col-lg-5 my-auto py-1 w-100">
+                            <label for="smartPlaylistName" class="sr-only">Smart Playlist</label>
+                            <input type="text" class="form-control form-control-sm" id="smartPlaylistName" name="smartPlaylistName">
+                        </div>
+                            <input type="button" class="btm btn-success btn-sm PlaylistButton my-1 col-lg-3  w-100 ml-auto " id="insertSmartPlaylistButton" name="insertSmartPlaylistButton" onclick="createSmartPlaylist();"
+                                 value="<?php echo __('create_playlist'); ?>">
+                            <input type="button" class="btm btn-danger btn-sm  my-1 col-lg-3  w-100 ml-auto" name="cancelSmartPlaylist" id="cancelSmartPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreateSmartPlaylist();">
+                    </div>
+                </form>
+            </div>
         <?php
     }
 
@@ -1763,6 +1768,8 @@ class OWMPElements extends OWMP
 
                             // Εμφάνιση στοιχείων για επιλογή της smart playlist
                             $this->displayChooseSmartPlaylistElements();
+
+                            $this->displayInsertSmartPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης smart playlist
 
                             ?>
 
