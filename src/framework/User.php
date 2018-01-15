@@ -457,7 +457,7 @@ class User extends MyDB
 <!--        <main>-->
             <div class="row h-100 fixed-top bg-light">
 
-                <div id="LoginWindow" class="col-3 mx-auto my-auto  text-center py-4 bgc2">
+                <div id="LoginWindow" class="col-3 mx-auto my-auto text-center py-4 bg-warning">
 
                     <?php
 
@@ -504,7 +504,40 @@ class User extends MyDB
                             'value' => __('form_login'))
                     );
 
-                    $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
+//                    $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
+
+                    ?>
+
+                        <form id="loginForm" name="loginForm">
+
+                            <div class="form-group w-100 my-1">
+                                <label for="username" class="sr-only"><?php echo __('form_user_name'); ?></label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                       maxlength="15" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
+                                       title="<?php echo __('valid_username'); ?>"
+                                       placeholder="<?php echo __('form_user_name'); ?>" required>
+                            </div>
+
+                            <div class="form-group w-100 my-1">
+                                <label for="password" class="sr-only"><?php echo __('form_password'); ?></label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                       title="<?php echo __('valid_username'); ?>"
+                                       placeholder="<?php echo __('form_password'); ?>" required>
+                            </div>
+
+                            <div class="form-check my-1">
+                                <input type="checkbox" class="form-check-input" id="SavePassword" name="SavePassword"
+                                       value="yes">
+                                <label for="SavePassword" class="form-check-label"><?php echo __('form_save_password'); ?></label>
+                            </div>
+
+                            <input type="button" class="btn btn-dark w-100" id="submit" name="submit" onclick="login();"
+                                   value="<?php echo __('form_login'); ?>" >
+
+                        </form>
+
+                    <?php
 
                     $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
