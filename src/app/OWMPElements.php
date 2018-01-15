@@ -1750,9 +1750,8 @@ class OWMPElements extends OWMP
 
             $fields = MyDB::getTableFields('music_tags',array('id'));
 
-            // TODO if I press search while doing the search, new modal will not close
             ?>
-<!--            <div id="search" class="py-1 px-3 w-75 bg-light">-->
+            
             <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">

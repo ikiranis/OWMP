@@ -457,7 +457,7 @@ class User extends MyDB
 <!--        <main>-->
             <div class="row h-100 fixed-top bg-light">
 
-                <div id="LoginWindow" class="col-3 mx-auto my-auto text-center py-4 bg-warning">
+                <div id="LoginWindow" class="col-lg-5 col-11 mx-auto my-auto text-center py-4 bg-warning">
 
                     <?php
 
@@ -465,7 +465,7 @@ class User extends MyDB
 
                         <form id="LoginForm" name="LoginForm">
 
-                            <div class="form-group w-100 my-1">
+                            <div class="form-group w-100">
                                 <label for="username" class="sr-only"><?php echo __('form_user_name'); ?></label>
                                 <input type="text" class="form-control" id="username" name="username"
                                        maxlength="15" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
@@ -473,7 +473,7 @@ class User extends MyDB
                                        placeholder="<?php echo __('form_user_name'); ?>" required>
                             </div>
 
-                            <div class="form-group w-100 my-1">
+                            <div class="form-group w-100">
                                 <label for="password" class="sr-only"><?php echo __('form_password'); ?></label>
                                 <input type="password" class="form-control" id="password" name="password"
                                        maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -481,7 +481,7 @@ class User extends MyDB
                                        placeholder="<?php echo __('form_password'); ?>" required>
                             </div>
 
-                            <div class="form-check my-1">
+                            <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="SavePassword" name="SavePassword"
                                        value="yes">
                                 <label for="SavePassword" class="form-check-label"><?php echo __('form_save_password'); ?></label>
