@@ -21,6 +21,23 @@ function DisplayMessage (element, error) {
     $(element).stop().show(0).delay(5000).hide(0);
 }
 
+/**
+ * Toggle two classes, delay and then toggle again
+ *
+ * @param element
+ * @param firstClass
+ * @param secondClass
+ * @param delay
+ */
+function toggleClassWithDelay(element, firstClass, secondClass, delay)
+{
+    $(element).toggleClass(firstClass + ' ' + secondClass);
+
+    window.setTimeout(function() {
+        $(element).toggleClass(secondClass + ' ' + firstClass);
+    }, delay);
+}
+
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table options, ή εισάγει νέα εγγραφή
 function updateOption(id) {
     var optionIDElem = $("#OptionID"+id);

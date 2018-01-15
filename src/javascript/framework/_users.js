@@ -69,16 +69,18 @@ function login() {
                 password: password,
                 SavePassword: SavePassword
             },
+            dataType: 'json',
             success: function (data) {
-                result = JSON.parse(data);
-                if (result['success'] === true) {
-                    // TODO να αλλάζει χρώμα προσθέτοντας κλάση css καλύτερα
-                    // TODO δεν δουλεύει σε safari
-                    document.querySelector('#LoginForm #submit').style.backgroundColor='green';
+                // result = JSON.parse(data);
+                if (data.success === true) {
+                    toggleClassWithDelay('#LoginForm #submit', 'btn-dark', 'btn-success', 5000);
+
                     $('#LoginForm #submit').prop('disabled', true);
                     window.location.href = "";
                 } else {
-                    DisplayMessage('.alert_error',result['message']);
+                    toggleClassWithDelay('#LoginForm #submit', 'btn-dark', 'btn-danger', 3000);
+
+                    DisplayMessage('.alert_error', data.message);
                 }
             }
         });

@@ -461,54 +461,9 @@ class User extends MyDB
 
                     <?php
 
-                    $FormElementsArray = array(
-                        array('name' => 'username',
-                            'fieldtext' => __('form_user_name'),
-                            'type' => 'text',
-                            'onclick' => null,
-                            'required' => 'yes',
-                            'maxlength' => '15',
-                            'pattern' => '^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$',
-                            'title' => __('valid_username'),
-                            'disabled' => 'no',
-                            'value' => null),
-                        array('name' => 'password',
-                            'fieldtext' => __('form_password'),
-                            'type' => 'password',
-                            'onclick' => null,
-                            'required' => 'yes',
-                            'maxlength' => '15',
-                            'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
-                            'title' => __('valid_password'),
-                            'disabled' => 'no',
-                            'value' => null),
-                        array('name' => 'SavePassword',
-                            'fieldtext' => __('form_save_password'),
-                            'type' => 'checkbox',
-                            'onclick' => null,
-                            'required' => 'no',
-                            'maxlength' => '',
-                            'pattern' => '',
-                            'title' => '',
-                            'disabled' => 'no',
-                            'value' => 'yes'),
-                        array('name' => 'submit',
-                            'fieldtext' => '',
-                            'type' => 'button',
-                            'onclick' => 'login();',
-                            'required' => 'no',
-                            'maxlength' => '',
-                            'pattern' => '',
-                            'title' => '',
-                            'disabled' => 'no',
-                            'value' => __('form_login'))
-                    );
-
-//                    $LoginWindow->MakeForm('LoginForm', $FormElementsArray, false);
-
                     ?>
 
-                        <form id="loginForm" name="loginForm">
+                        <form id="LoginForm" name="LoginForm">
 
                             <div class="form-group w-100 my-1">
                                 <label for="username" class="sr-only"><?php echo __('form_user_name'); ?></label>
@@ -549,9 +504,9 @@ class User extends MyDB
 
                 </div>
 
-<!--                <div id="error_container">-->
-<!--                    <div class="alert_error bgc9"></div>-->
-<!--                </div>-->
+                <div id="error_container">
+                    <div class="alert_error bgc9"></div>
+                </div>
 
             </div>
 

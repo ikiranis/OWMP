@@ -123,9 +123,9 @@ class Ajax extends Controller
         $login=$user->CheckLogin($username, $password, $SavePassword);
 
         if($login['success']) {
-            $jsonArray=array( 'success'=>true, 'message'=>$login['message']);
+            $jsonArray = array( 'success'=>true, 'message'=>$login['message']);
         } else {
-            $jsonArray=array( 'success'=>false, 'message'=>$login['message']);
+            $jsonArray = array( 'success'=>false, 'message'=>$login['message']);
         }
 
         echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);
