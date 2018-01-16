@@ -422,7 +422,7 @@ class Page
                 <?php echo $languages_text; ?>
             </div>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -444,9 +444,11 @@ class Page
                            onclick="sendKillCommand();">
                 </span>
 
-                <?php echo $rightSideText; ?>
             </div>
 
+            <div class="text-white">
+                <?php echo $rightSideText; ?>
+            </div>
 
         </nav>
 
@@ -489,7 +491,7 @@ class Page
         $user = new User();
         $conn = new MyDB();
 
-        $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $UserGroupID = $user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
 
         ?>
