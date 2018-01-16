@@ -369,8 +369,6 @@ class Ajax extends Controller
         if (isset($_GET['email']))
             $email = ClearString($_GET['email']);
 
-        trigger_error($username);
-
         // Ελέγχει αν υπάρχει admin χρήστης ήδη.
         if(!$user->CheckIfThereIsAdminUser()) {
             $register = $user->CreateUser($username, $email, $password, '1', 'local', null, null);
