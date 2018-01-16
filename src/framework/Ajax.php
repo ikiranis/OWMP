@@ -359,7 +359,6 @@ class Ajax extends Controller
         Page::checkValidAjaxRequest(false);
 
         $user = new User();
-        $lang = new Language();
 
         if(isset($_GET['username']))
             $username = ClearString($_GET['username']);
@@ -370,6 +369,8 @@ class Ajax extends Controller
         if (isset($_GET['email']))
             $email = ClearString($_GET['email']);
 
+        trigger_error($username);
+
         // Ελέγχει αν υπάρχει admin χρήστης ήδη.
         if(!$user->CheckIfThereIsAdminUser()) {
             $register = $user->CreateUser($username, $email, $password, '1', 'local', null, null);
@@ -378,7 +379,8 @@ class Ajax extends Controller
                 $jsonArray = array('success' => true);
                 Logs::insertLog('User ' . $username . ' registered'); // Προσθήκη της κίνησης στα logs
             } else {
-                $jsonArray = array('success' => false);
+                // TODO message from lang
+                $jsonArray = array('success' => false, 'message'=>'Cannot create this user');
             }
 
             // ελέγχει και εισάγει τις αρχικές τιμές στον πίνακα options
@@ -391,7 +393,8 @@ class Ajax extends Controller
             //Page::createCrontab(); // Προσθέτει τον demon στο crontab
 
         } else {
-            $jsonArray = array('success' => false);
+            // TODO message from lang
+            $jsonArray = array('success' => false, 'message'=>'Admin already exist');
         }
 
         echo json_encode($jsonArray, JSON_UNESCAPED_UNICODE);

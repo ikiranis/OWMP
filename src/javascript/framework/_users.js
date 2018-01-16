@@ -22,7 +22,6 @@ function registerUser() {
     var repeat_password = registerUserWindowID.find('input[name="repeat_password"]').val();
 
     if ($('#RegisterForm').valid()) {
-
         $.ajax({
             url: AJAX_path + 'framework/registerUser',
             type: 'GET',
@@ -31,14 +30,15 @@ function registerUser() {
                 password: password,
                 email: email
             },
+            dataType: 'json',
             success: function (data) {
-                result = JSON.parse(data);
-                if (result['success'] === true) {
-                    document.querySelector('#RegisterForm #register').style.backgroundColor='green';
+                if (data.success === true) {
+                    toggleClassWithDelay('#RegisterForm #register', 'btn-dark', 'btn-success', 5000);
                     $('#RegisterForm #register').prop('disabled', true);
                     window.location.href = "";
                 } else {
-                    DisplayMessage('.alert_error',result['message']);
+                    toggleClassWithDelay('#RegisterForm #register', 'btn-dark', 'btn-danger', 3000);
+                    DisplayMessage('.alert_error',data.message);
                 }
             }
         });

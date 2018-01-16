@@ -450,11 +450,9 @@ class User extends MyDB
     public function showLoginWindow()
     {
 
-        $LoginWindow = new Page();
         $lang=new Language();
 
         ?>
-<!--        <main>-->
             <div class="row h-100 fixed-top bg-light">
 
                 <div id="LoginWindow" class="col-lg-5 col-11 mx-auto my-auto text-center py-4 bg-warning">
@@ -515,8 +513,6 @@ class User extends MyDB
         </body>
         </html>
 
-<!--        </main>-->
-
         <?php
 
     }
@@ -524,13 +520,12 @@ class User extends MyDB
     // Εμφάνιση οθόνης για εγγραφή χρήστη
     public function ShowRegisterUser()
     {
-        $RegisterUserWindow = new Page();
         $lang=new Language();
 
         ?>
         <div  class="row h-100 fixed-top bg-light">
 
-             <div id="RegisterUserWindow" class="col-3 mx-auto my-auto  text-center py-4 bgc2">
+             <div id="RegisterUserWindow" class="col-lg-5 col-11 mx-auto my-auto text-center py-4 bg-warning">
 
                 <?php
 
@@ -591,7 +586,49 @@ class User extends MyDB
                         'value' => __('form_register'))
                 );
 
-                $RegisterUserWindow->MakeForm('RegisterForm', $FormElementsArray, false);
+//                $RegisterUserWindow->MakeForm('RegisterForm', $FormElementsArray, false);
+
+                ?>
+
+                <form id="RegisterForm" name="RegisterForm">
+
+                    <div class="form-group w-100">
+                        <label for="username" class="sr-only"><?php echo __('form_user_name'); ?></label>
+                        <input type="text" class="form-control" id="username" name="username"
+                               maxlength="15" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
+                               title="<?php echo __('valid_username'); ?>"
+                               placeholder="<?php echo __('form_user_name'); ?>" required>
+                    </div>
+
+                    <div class="form-group w-100">
+                        <label for="email" class="sr-only"><?php echo __('form_email'); ?></label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               maxlength="50" title="<?php echo __('valid_email'); ?>"
+                               placeholder="<?php echo __('form_email'); ?>" required>
+                    </div>
+
+                    <div class="form-group w-100">
+                        <label for="password" class="sr-only"><?php echo __('form_password'); ?></label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               title="<?php echo __('valid_username'); ?>"
+                               placeholder="<?php echo __('form_password'); ?>" required>
+                    </div>
+
+                    <div class="form-group w-100">
+                        <label for="repeat_password" class="sr-only"><?php echo __('form_repeat_password'); ?></label>
+                        <input type="password" class="form-control" id="repeat_password" name="repeat_password"
+                               maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               title="<?php echo __('valid_username'); ?>"
+                               placeholder="<?php echo __('form_repeat_password'); ?>" required>
+                    </div>
+
+                    <input type="button" class="btn btn-dark w-100" id="register" name="register" onclick="registerUser();"
+                           value="<?php echo __('form_register'); ?>" >
+
+                </form>
+
+                <?php
 
                 $languages_text=$lang->print_languages('lang_id',' ',true,false);
 
@@ -600,6 +637,10 @@ class User extends MyDB
                     <?php echo $languages_text; ?>
                 </div>
 
+            </div>
+
+            <div id="error_container">
+                <div class="alert_error bgc9"></div>
             </div>
 
         </div>

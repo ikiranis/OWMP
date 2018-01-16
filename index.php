@@ -172,9 +172,11 @@ if($logged_in) {
 
 // Αν δεν είναι login κάποιος χρήστης
 if(!$logged_in) {
-    if ($user->CheckIfThereIsUsers())
+    if ($user->CheckIfThereIsUsers()) {
         $user->showLoginWindow();
-    else $user->ShowRegisterUser();
+    } else {
+        $user->ShowRegisterUser();
+    }
 }
 
 // Δημιουργεί event που σβήνει logs που είναι παλιότερα των 30 ημερών και τρέχει κάθε μέρα
