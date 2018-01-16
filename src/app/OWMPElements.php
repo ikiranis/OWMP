@@ -1543,7 +1543,7 @@ class OWMPElements extends OWMP
         global $mediaKinds;
 
         ?>
-        <div id="ChooseMediaKind">
+        <div id="ChooseMediaKind" class="form-group">
 
             <label for="mediakind" class="sr-only">mediakind</label>
             <select class="form-control form-control-sm w-100" id="mediakind" name="mediakind"

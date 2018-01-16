@@ -121,12 +121,12 @@ class OWMP
 
         // Display playlist choices bar
         ?>
-        <div class="row w-100 px-3">
+        <div class="row w-100 px-3 no-gutters">
 
             <?php
             if ($UserGroup==1) {
                 ?>
-                <div class="col-1 col-md-1 d-none d-md-block">
+                <div class="col-6 col-md-1">
 
                     <div class="navbar navbar-light py-0 px-0">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavToolbar"
@@ -141,15 +141,13 @@ class OWMP
             }
             ?>
 
-            <div class="col-lg-4 col-sm-5  col-12 w-100">
-                <div class="input-group">
-                    <input type="button" class="form-control col-2" data-toggle="modal" data-target="#search" id="searchClick"  title="<?php echo __('search_text_search'); ?>" >
+            <div class="col-lg-4 col-sm-5 col-6  text-center w-100">
+                    <input type="button"  data-toggle="modal" data-target="#search" id="searchClick"  title="<?php echo __('search_text_search'); ?>" >
 
                     <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
-                </div>
             </div>
 
-            <div class="col-lg-4 col-sm-6 col-12 w-100">
+            <div class="col-lg-4 col-sm-6 col-12  w-100">
                 <?php $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist ?>
             </div>
 
