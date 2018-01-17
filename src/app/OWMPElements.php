@@ -98,37 +98,57 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div id="overlay_volume">
-            <span id="overlay_volume_text">
+        <div id="overlay" class="fixed-top row w-100 h-100" ondblclick="displayFullscreenControls();">
 
-            </span>
-        </div>
+            <div class="row w-100 fixed-top no-gutters">
 
-        <div id="overlay" ondblclick="displayFullscreenControls();">
-            <div id="overlay_rating"></div>
-            <div id="overlay_play_count"></div>
-            <div class="o-trackTime--overlay l-o-trackTime--overlay c2">
-                <span id="jsOverlayTrackTime">00:00</span>
-                <input type=range class="o-trackTime--overlay__range" name="o-trackTime--overlay__range" min="0" max="100"
-                       list="overlay_track_ticks" value="0" oninput="controlTrack();">
-                <span id="jsOverlayTotalTrackTime">00:00</span>
+                <div id="overlay_rating" class="col-lg-2 text-left px-3">
+
+                </div>
+
+                <div class="col-lg-8 w-100 text-white text-center row no-gutters">
+                    <span id="jsOverlayTrackTime" class="col-lg-1 my-auto">00:00</span>
+                    <input type=range class="o-trackTime--overlay__range col-lg-10 my-auto" min="0" max="100"
+                           list="overlay_track_ticks" value="0" oninput="controlTrack();">
+                    <span id="jsOverlayTotalTrackTime" class="col-lg-1 my-auto">00:00</span>
+                </div>
+
+                <div id="overlay_play_count" class="col-lg-2 text-right text-white px-3">
+
+                </div>
+
             </div>
 
-            <div id="bottom_overlay">
-                <span id="overlay_song_name"></span>
-                <span id="overlay_artist"></span>
-                <span id="overlay_song_year"></span>
-                <span id="overlay_album"></span>
+            <div class="row w-100">
+
+                <div id="overlay_volume">
+                    <span id="overlay_volume_text">
+
+                    </span>
+                </div>
+
             </div>
+
+            <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3">
+
+                <div class="col-lg-6 text-left text-white">
+                    <span id="overlay_song_name"></span>
+                    <span id="overlay_artist"></span>
+                    <span id="overlay_song_year"></span>
+                    <span id="overlay_album"></span>
+                </div>
+
+                <div class="col-lg-6 text-right text-white">
+                    <span id="overlay_poster_source"></span>
+                    <span id="overlay_live"></span>
+                    <span id="overlay_time"></span>
+                </div>
+
+            </div>
+
 
             <div id="error_overlay">
 
-            </div>
-
-            <div id="bottom_right_overlay">
-                <span id="overlay_poster_source"></span>
-                <span id="overlay_live"></span>
-                <span id="overlay_time"></span>
             </div>
 
         </div>
