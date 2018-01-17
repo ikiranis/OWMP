@@ -102,18 +102,18 @@ class OWMPElements extends OWMP
 
             <div class="row w-100 fixed-top no-gutters">
 
-                <div id="overlay_rating" class="col-lg-2 text-left px-3">
+                <div id="overlay_rating" class="col-lg-2 col-3 text-left px-3 my-auto">
 
                 </div>
 
-                <div class="col-lg-8 w-100 text-white text-center row no-gutters">
-                    <span id="jsOverlayTrackTime" class="col-lg-1 my-auto">00:00</span>
-                    <input type=range class="o-trackTime--overlay__range col-lg-10 my-auto" min="0" max="100"
+                <div class="col-lg-8 col-6 w-100 text-white text-center row no-gutters">
+                    <span id="jsOverlayTrackTime" class="col-lg-1 col-4 my-auto">00:00</span>
+                    <input type=range class="o-trackTime--overlay__range col-lg-10 col-4 my-auto" min="0" max="100"
                            list="overlay_track_ticks" value="0" oninput="controlTrack();">
-                    <span id="jsOverlayTotalTrackTime" class="col-lg-1 my-auto">00:00</span>
+                    <span id="jsOverlayTotalTrackTime" class="col-lg-1 col-4 my-auto">00:00</span>
                 </div>
 
-                <div id="overlay_play_count" class="col-lg-2 text-right text-white px-3">
+                <div id="overlay_play_count" class="col-lg-2 col-3 text-right w-100 text-white px-3 my-auto">
 
                 </div>
 
@@ -131,14 +131,14 @@ class OWMPElements extends OWMP
 
             <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3 no-gutters">
 
-                <div class="col-lg-6 text-left text-white row no-gutters">
+                <div class="col-lg-6 col-8 text-left text-white row no-gutters">
                     <span id="overlay_song_name" class="col-12"></span>
                     <span id="overlay_artist" class="col-12"></span>
                     <span id="overlay_song_year" class="col-12"></span>
                     <span id="overlay_album" class="col-12"></span>
                 </div>
 
-                <div class="col-lg-6 text-right text-white row no-gutters small">
+                <div class="col-lg-6 col-4 text-right text-white row no-gutters small">
                     <span id="overlay_poster_source" class="col-12"></span>
                     <span id="overlay_live" class="col-12"></span>
                     <span id="overlay_time" class="col-12"></span>
@@ -163,8 +163,6 @@ class OWMPElements extends OWMP
      */
     static function displayTagsForm($disabled)
     {
-
-
         $readonly = ($disabled) ? 'readonly' : null;
         $disabled = ($disabled) ? 'disabled' : null;
 
@@ -193,19 +191,19 @@ class OWMPElements extends OWMP
             </div>
 
             <div class="row my-1">
-                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                     <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?> maxlength="20">
                 </div>
 
-                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                     <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
                     <input type="number" class="form-control form-control-sm" id="year" name="year" placeholder="<?php echo __('tag_year'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?>>
                 </div>
 
-                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100">
+                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                     <label for="live" class="sr-only"><?php echo __('tag_live'); ?></label>
                     <select class="form-control form-control-sm" id="live" name="live" <?php echo $disabled . ' ' . $readonly; ?>>
                         <option value="0"><?php echo __('tag_live_official'); ?></option>

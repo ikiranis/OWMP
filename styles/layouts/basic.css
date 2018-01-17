@@ -1,6 +1,6 @@
-@import '../lib/_lib.css';
-
 /* Basic layout */
+
+@import '../lib/_lib.css';
 
 .mainContent {
     position: fixed;
