@@ -129,7 +129,7 @@ class OWMPElements extends OWMP
 
             </div>
 
-            <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3">
+            <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3 no-gutters">
 
                 <div class="col-lg-6 text-left text-white">
                     <span id="overlay_song_name"></span>
