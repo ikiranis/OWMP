@@ -264,7 +264,7 @@ function loadNextVideo(id)
 
                     var albumCoverPath = data.tags.albumCoverPath;
 
-                    // console.log(albumCoverPath);
+                    console.log(albumCoverPath);
 
                     // var iconImagePath = data.tags.iconImagePath;
 
@@ -278,7 +278,7 @@ function loadNextVideo(id)
 
                     document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage?imagePath=' + albumCoverPath;
 
-                    // console.log(data.tags.fromAPI);
+                    console.log(data.tags.fromAPI);
 
                     // Εμφάνιση του cover
                     if(localStorage.AllwaysGiphy === 'true'){  // Αν θέλουμε μόνο από Giphy
