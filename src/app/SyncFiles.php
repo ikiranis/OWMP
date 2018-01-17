@@ -1189,7 +1189,7 @@ class SyncFiles
                     if (!$thumbExist || !$smallExist) {
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
-                        if (OWMPElements::checkValidImage($myImage)) {
+                        if (OWMPElements::openImage($myImage)) {
                             if (!$thumbExist) {
                                 if (OWMPElements::createSmallerImage($myImage, 'thumb')) {
                                     echo $thumbnailImage . ' CREATED<br>';
