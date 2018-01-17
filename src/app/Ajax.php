@@ -643,7 +643,7 @@ class Ajax extends Controller
 
             if($file[0]['kind']=='Music') {
                 // το Album cover, στο μέγεθος που ζητάει
-                if($getSmall) {
+                if($getSmall=='true') {
                     $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'small');
                 } else {
                     $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');

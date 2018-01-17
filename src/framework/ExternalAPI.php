@@ -29,7 +29,7 @@ class ExternalAPI
 
         if($decoded) {
             // Αν είναι mobile παίρνει την μικρή έκδοση.
-            if(!$getSmall) {
+            if(!$getSmall=='true') {
                 $coverSize = '1400x1400';
             } else {
                 $coverSize = '250x250';
