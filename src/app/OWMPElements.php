@@ -961,9 +961,9 @@ class OWMPElements extends OWMP
     {
         $conn = new MyDB();
 
-        $hash=SyncFiles::hashString($image); // Δημιουργούμε hash της εικόνας
+        $hash = SyncFiles::hashString($image); // Δημιουργούμε hash της εικόνας
 
-        if(!$coverArtID=SyncFiles::searchForImageHash($hash)) {  // Ψάχνουμε αν το hash της εικόνας υπάρχει ήδη
+        if(!$coverArtID = SyncFiles::searchForImageHash($hash)) {  // Ψάχνουμε αν το hash της εικόνας υπάρχει ήδη
 
             // εγγραφή του image σαν αρχείο σε υποκατάλογο έτους και μήνα
             switch ($mime) {  // το  extension του αρχείου αναλόγως το mime
@@ -986,8 +986,10 @@ class OWMPElements extends OWMP
             $imageDir = $myYear . '/' . $myMonth . '/';  // O φάκελος που θα γραφτεί το αρχείο
             $timestampFilename = date('YmdHis'); // Το όνομα του αρχείου
 
+            // TODO Check path permissions before starting the files upload
             $checkAlbumCoversDir = FilesIO::createDirectory(ALBUM_COVERS_DIR . $imageDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
             if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+                trigger_error($checkAlbumCoversDir['message']);
                 exit($checkAlbumCoversDir['message']);
             }
 
@@ -1006,16 +1008,18 @@ class OWMPElements extends OWMP
                 // GD install http://php.net/manual/en/image.installation.php
 
                 // Αν είναι εγκατεστημένη η GD library στην PHP και αν το image είναι valid
-                if(function_exists('gd_info') && self::checkValidImage($file)) {
+                if(function_exists('gd_info') && self::openImage($file)) {
                     // Δημιουργεί thumbnail, small image και ico
                     self::createSmallerImage($file, 'thumb');
                     self::createSmallerImage($file, 'small');
 //                    self::createSmallerImage($file, 'ico');
+                } else {
+                    trigger_error('error');
+                    exit('error');
                 }
             }
 
-        }
-        else {
+        } else {
             $coverID=$coverArtID;
         }
 
@@ -1030,7 +1034,6 @@ class OWMPElements extends OWMP
      */
     static function checkValidImage($myImage)
     {
-
         $html = VALID_IMAGE_SCRIPT_ADDRESS.'?imagePath='.$myImage;
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);

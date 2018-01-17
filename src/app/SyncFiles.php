@@ -586,7 +586,7 @@ class SyncFiles
             // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
             if(!$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
 //                echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
-                $problemInFilePath=true;
+                $problemInFilePath = true;
             }
         }
 
@@ -764,7 +764,6 @@ class SyncFiles
         if(isset($ThisFileInfo['filename'])) {
             $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a');
 
-
             if (isset($ThisFileInfo['audio']['codec'])){
                 $this->codec = ClearString($ThisFileInfo['audio']['codec']);
             }
@@ -785,9 +784,9 @@ class SyncFiles
 //                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
                 $albumCoverID = OWMPElements::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
 //                echo '<img src='.$albumCover.' />';
+            } else {
+                $albumCoverID = 1;
             }
-            else $albumCoverID = 1;
-            
 
             if (isset($ThisFileInfo['filesize']))
                 $size = intval($ThisFileInfo['filesize']);
@@ -834,7 +833,9 @@ class SyncFiles
             $this->year = $songYear;
 
 
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
 
