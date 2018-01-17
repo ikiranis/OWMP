@@ -131,17 +131,17 @@ class OWMPElements extends OWMP
 
             <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3 no-gutters">
 
-                <div class="col-lg-6 text-left text-white">
-                    <span id="overlay_song_name"></span>
-                    <span id="overlay_artist"></span>
-                    <span id="overlay_song_year"></span>
-                    <span id="overlay_album"></span>
+                <div class="col-lg-6 text-left text-white row no-gutters">
+                    <span id="overlay_song_name" class="col-12"></span>
+                    <span id="overlay_artist" class="col-12"></span>
+                    <span id="overlay_song_year" class="col-12"></span>
+                    <span id="overlay_album" class="col-12"></span>
                 </div>
 
-                <div class="col-lg-6 text-right text-white">
-                    <span id="overlay_poster_source"></span>
-                    <span id="overlay_live"></span>
-                    <span id="overlay_time"></span>
+                <div class="col-lg-6 text-right text-white row no-gutters small">
+                    <span id="overlay_poster_source" class="col-12"></span>
+                    <span id="overlay_live" class="col-12"></span>
+                    <span id="overlay_time" class="col-12"></span>
                 </div>
 
             </div>

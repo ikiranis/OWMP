@@ -63,6 +63,7 @@
 }
 
 #bottom_overlay {
+    font-size: 1.5em;
     background-color: rgba(221, 221, 221, 0.3);
 }
 
@@ -90,8 +91,6 @@
     background-color: black;
 }
 
-
-
 #myVideo {
     z-index: 10;
     height: 40%;
@@ -101,12 +100,10 @@
     display:none;
 }
 
-
-#overlay_artist { font-weight: bold; display: block; }
-#overlay_song_name { display: block; font-size: 0.7em; }
-#overlay_song_year { display: block;  }
-#overlay_album { display: block;  font-size: 0.6em; }
+#overlay_artist { font-weight: bold; }
+#overlay_song_name { font-size: 0.7em; }
+#overlay_album { font-size: 0.6em; }
 
 
-#overlay_live { display: block; font-size: 1em;}
-#overlay_time { display: block; font-size: 1em; }
+/*#overlay_live { display: block; font-size: 1em;}*/
+/*#overlay_time { display: block; font-size: 1em; }*/
