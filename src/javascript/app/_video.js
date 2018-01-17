@@ -264,7 +264,7 @@ function loadNextVideo(id)
 
                     var albumCoverPath = data.tags.albumCoverPath;
 
-                    console.log(albumCoverPath);
+                    // console.log(albumCoverPath);
 
                     // var iconImagePath = data.tags.iconImagePath;
 
