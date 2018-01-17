@@ -1055,11 +1055,11 @@ class SyncFiles
 
         $stmt->execute(array($hash));
 
-        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
-
-            $result=$item['id'];
-
-        else $result=false;
+        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $result = $item['id'];
+        } else {
+            $result=false;
+        }
 
         $stmt->closeCursor();
         $stmt = null;
@@ -1189,7 +1189,7 @@ class SyncFiles
                     if (!$thumbExist || !$smallExist) {
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
-                        if (OWMPElements::openImage($myImage)) {
+                        if (OWMPElements::checkValidImage($myImage)) {
                             if (!$thumbExist) {
                                 if (OWMPElements::createSmallerImage($myImage, 'thumb')) {
                                     echo $thumbnailImage . ' CREATED<br>';

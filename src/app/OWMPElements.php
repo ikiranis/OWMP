@@ -1008,7 +1008,7 @@ class OWMPElements extends OWMP
                 // GD install http://php.net/manual/en/image.installation.php
 
                 // Αν είναι εγκατεστημένη η GD library στην PHP και αν το image είναι valid
-                if(function_exists('gd_info') && self::openImage($file)) {
+                if(function_exists('gd_info') && self::checkValidImage($file)) {
                     // Δημιουργεί thumbnail, small image και ico
                     self::createSmallerImage($file, 'thumb');
                     self::createSmallerImage($file, 'small');
