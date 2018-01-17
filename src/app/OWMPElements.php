@@ -1158,8 +1158,6 @@ class OWMPElements extends OWMP
      */
     static function getAlbumImagePath($id, $imageSize)
     {
-        $conn = new MyDB();
-
         MyDB::createConnection();
 
         $sql='SELECT path, filename FROM album_arts WHERE id=?';
@@ -1195,11 +1193,11 @@ class OWMPElements extends OWMP
                     $thumbExist = false;
                 }
 
-                if(FilesIO::fileExists($icoImage)) {
-                    $icoExist = true;
-                } else {
-                    $icoExist = false;
-                }
+//                if(FilesIO::fileExists($icoImage)) {
+//                    $icoExist = true;
+//                } else {
+//                    $icoExist = false;
+//                }
 
                 switch ($imageSize) {
                     case 'small': if($smallExist) {
@@ -1213,9 +1211,9 @@ class OWMPElements extends OWMP
 //                    } break;
                 }
 
-                if($imageSize=='big' && $_SESSION['mobile'] && $smallExist) {
-                    $result = $smallImage;
-                }
+//                if($imageSize=='big' && $_SESSION['mobile'] && $smallExist) {
+//                    $result = $smallImage;
+//                }
             } else {
                 if($imageSize=='ico') {
                     $result = false;

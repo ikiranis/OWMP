@@ -617,6 +617,9 @@ class Ajax extends Controller
         if(isset($_GET['tabID']))
             $tabID=ClearString($_GET['tabID']);
 
+        if(isset($_GET['getSmall']))
+            $getSmall = ClearString($_GET['getSmall']);
+
         $file = MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);
 
         $filesArray=array('path'=>$file[0]['path'],
@@ -639,8 +642,12 @@ class Ajax extends Controller
             $apiSource='';
 
             if($file[0]['kind']=='Music') {
-                // το Album cover
-                $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');
+                // το Album cover, στο μέγεθος που ζητάει
+                if($getSmall) {
+                    $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'small');
+                } else {
+                    $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');
+                }
 
                 //        if(!$iconImagePath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'ico')) {
                 //            $iconImagePath=null;
@@ -651,7 +658,7 @@ class Ajax extends Controller
                 if($metadata[0]['album_artwork_id']==DEFAULT_ARTWORK_ID) {
 
                     // Από itunes API
-                    if ($iTunesArtwork = ExternalAPI::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist']))) {
+                    if ($iTunesArtwork = ExternalAPI::getItunesCover(htmlspecialchars_decode($metadata[0]['album']) . ' ' . htmlspecialchars_decode($metadata[0]['artist']), $getSmall)) {
                         $fromAPI = $iTunesArtwork;
                         $apiSource='iTunes';
                     }
@@ -674,7 +681,7 @@ class Ajax extends Controller
             }
             else {
                 $albumCoverPath=null;
-                $iconImagePath=null;
+//                $iconImagePath=null;
             }
 
             $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
@@ -698,7 +705,7 @@ class Ajax extends Controller
                 'track_time' => $metadata[0]['track_time'],
                 'live' => $metadata[0]['live'],
                 'rating' => $rating,
-                'albumCoverPath'=>$albumCoverPath,
+                'albumCoverPath' => $albumCoverPath,
 //        'iconImagePath' => $iconImagePath,
                 'fromAPI'=>$fromAPI,
                 'apiSource'=>$apiSource,

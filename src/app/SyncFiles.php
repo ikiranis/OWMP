@@ -783,7 +783,7 @@ class SyncFiles
 
             if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
 //                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
-                $albumCoverID=OWMPElements::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
+                $albumCoverID = OWMPElements::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
 //                echo '<img src='.$albumCover.' />';
             }
             else $albumCoverID = 1;

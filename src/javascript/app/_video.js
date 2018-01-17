@@ -194,6 +194,9 @@ function getNextVideoID(id, operation, preload)
  */
 function loadNextVideo(id)
 {
+
+    var getSmall;
+
     if(id !== 0) {
         currentID = id;
     }
@@ -205,6 +208,12 @@ function loadNextVideo(id)
         onlyGiphy = 'true';
     }
 
+    if(localStorage.convertToLowerBitrate === 'false') {
+        getSmall = false;
+    } else {
+        getSmall = true;
+    }
+
     // τραβάει τα metadata του αρχείου
     $.ajax({
         url: AJAX_path+"app/getVideoMetadata",
@@ -212,7 +221,8 @@ function loadNextVideo(id)
         data: {
             id: currentID,
             tabID: tabID,
-            onlyGiphy: onlyGiphy
+            onlyGiphy: onlyGiphy,
+            getSmall: getSmall
         },
         dataType: "json",
         success: function (data) {
@@ -253,6 +263,9 @@ function loadNextVideo(id)
                 if(data.file.kind === 'Music') {  // Αν είναι Music τότε παίρνει το album cover και το εμφανίζει
 
                     var albumCoverPath = data.tags.albumCoverPath;
+
+                    // console.log(albumCoverPath);
+
                     // var iconImagePath = data.tags.iconImagePath;
 
                     // Εμφάνιση του source στο fullscreen overlay
@@ -264,6 +277,8 @@ function loadNextVideo(id)
                     // }
 
                     document.querySelector("#theFavIcon").href = AJAX_path+'app/serveImage?imagePath=' + albumCoverPath;
+
+                    // console.log(data.tags.fromAPI);
 
                     // Εμφάνιση του cover
                     if(localStorage.AllwaysGiphy === 'true'){  // Αν θέλουμε μόνο από Giphy

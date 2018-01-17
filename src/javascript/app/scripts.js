@@ -501,7 +501,6 @@ function getNumberOfSearchRows()
 {
     var searchFormID = $('#SearchForm');
 
-    console.log(searchFormID.children('div'));
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
     var searchRows = searchFormID.children('div').length;
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm

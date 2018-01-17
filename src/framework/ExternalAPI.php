@@ -19,7 +19,7 @@ namespace apps4net\framework;
 class ExternalAPI
 {
     // Επιστρέφει το λινκ με το artwork cover από το itunes API
-    static function getItunesCover($searchText)
+    static function getItunesCover($searchText, $getSmall)
     {
 
         $html = 'https://itunes.apple.com/search?term='.urlencode($searchText);
@@ -29,7 +29,7 @@ class ExternalAPI
 
         if($decoded) {
             // Αν είναι mobile παίρνει την μικρή έκδοση.
-            if(!$_SESSION['mobile']) {
+            if(!$getSmall) {
                 $coverSize = '1400x1400';
             } else {
                 $coverSize = '250x250';
@@ -59,7 +59,9 @@ class ExternalAPI
                 $giphy = $items['images']['downsized_large']['url'];
                 return $giphy;
             }
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
 }
