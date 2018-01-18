@@ -2,6 +2,7 @@
 
 #overlay {
     display: none;
+    z-index: 100;
 }
 
 #overlay_rating img {
