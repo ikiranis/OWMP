@@ -138,7 +138,7 @@
         <phrase name="toggle_giphy">Giphy</phrase>
         <phrase name="toggle_overlay">Overlay</phrase>
         <phrase name="toggle_shuffle">Ενεργοποίηση/Απενεργοποίηση της τυχαίας αναπαραγωγής</phrase>
-        <phrase name="toggle_lower_bitrate">Ενεργοποίηση/Απενεργοποίηση για χαμηλότερα bitrate των μουσικών αρχείων</phrase>
+        <phrase name="toggle_lower_bitrate">Ενεργοποίηση/Απενεργοποίηση για μικρότερη χρήση δεδομένων</phrase>
         <phrase name="sleep_timer">Αντίστροφη μέτρηση</phrase>
         <phrase name="start_sleep_timer">Έναρξη αντίστροφης μέτρησης</phrase>
         <phrase name="text_minute">λεπτό</phrase>
