@@ -55,7 +55,7 @@ class Page
                 <?php OWMP::showVideo(); ?>
             </aside>
 
-            <section class="col-xl-8 col-sm-12 h-100 w-100 px-1 py-2">
+            <section id="mainScreen" class="col-xl-8 col-sm-12 h-100 w-100 px-1 py-2">
                 <article>
                     <?php
                     switch ($NavActiveItem) {

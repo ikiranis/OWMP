@@ -19,12 +19,14 @@ function toggleFullscreen() {
         $(elem).addClass('full_screen_video');
         $('nav').hide();
         $('footer').hide();
+        $('#mainScreen').hide();
         FullscreenON = true;
         showFullScreenVideoTags();
     } else {  // βγαίνει από full screen
         $(elem).removeClass('full_screen_video');
         $('nav').show();
         $('footer').show();
+        $('#mainScreen').show();
         FullscreenON = false;
         $('#overlay_media_controls').hide();
         showFullScreenVideoTags();
