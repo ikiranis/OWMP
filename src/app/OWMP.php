@@ -123,13 +123,27 @@ class OWMP
         ?>
         <div class="row w-100 px-3 no-gutters">
 
+
+
+            <div class="row col-lg-4 col-sm-5 col-12 my-1 px-2 w-100">
+                    <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
+
+                    <div class="col-2 my-1 px-1 text-center">
+                        <input type="button"  data-toggle="modal" data-target="#search" id="searchClick" title="<?php echo __('search_text_search'); ?>" >
+                    </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6 col-10 my-1 w-100">
+                <?php $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist ?>
+            </div>
+
             <?php
             if ($UserGroup==1) {
                 ?>
-                <div class="col-6 col-md-1">
+                <div class="col-2 col-lg-3  col-sm-1 my-1">
 
                     <div class="navbar navbar-light py-0 px-0">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavToolbar"
+                        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNavToolbar"
                                 aria-controls="navbarNavToolbar" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon" id="tools-toggler"></span>
                         </button>
@@ -141,17 +155,7 @@ class OWMP
             }
             ?>
 
-            <div class="col-lg-4 col-sm-5 col-6  text-center w-100">
-                    <input type="button"  data-toggle="modal" data-target="#search" id="searchClick"  title="<?php echo __('search_text_search'); ?>" >
-
-                    <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
-            </div>
-
-            <div class="col-lg-4 col-sm-6 col-12  w-100">
-                <?php $OWMPElements->displayChoosePlaylistElements($userID); // Εμφάνιση των στοιχείων επιλογής playlist ?>
-            </div>
-
-            <div class="col-lg-3 w-100 d-none d-lg-block text-right">
+            <div class="col-lg-1 w-100 my-1 d-none d-lg-block text-right">
                 <?php $OWMPElements->displayEditButtons($UserGroup); // Εμφάνιση των edit buttons ?>
             </div>
 

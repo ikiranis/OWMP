@@ -73,13 +73,13 @@
 
 
 .playlist_button_img {
-    background-size: 1em;
-    width: 1em;
+    background-size: 1.3em;
+    width: 1.3em;
     background-color: transparent;
     border: none;
     /*padding-top:0.5em;*/
     cursor: pointer;
-    position: relative;
-    display: inline-block;
+    /*position: relative;*/
+    /*display: inline-block;*/
     background-position: center center;
 }

@@ -1,12 +1,4 @@
 /* Buttons */
-#editButtons {
-    position: absolute;
-    display: block;
-    text-align: right;
-    width: 10em;
-    right: 0;
-    top: 0;
-}
 
 #browseButtons {
     width:100%;

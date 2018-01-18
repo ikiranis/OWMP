@@ -1572,10 +1572,10 @@ class OWMPElements extends OWMP
         global $mediaKinds;
 
         ?>
-        <div id="ChooseMediaKind" class="form-group">
+        <div id="ChooseMediaKind" class="form-group col-10">
 
-            <label for="mediakind" class="sr-only">mediakind</label>
-            <select class="form-control form-control-sm w-100" id="mediakind" name="mediakind"
+            <label for="mediakind" class="sr-only">Media Kind</label>
+            <select class="form-control form-control-sm id="mediakind" name="mediakind"
                     onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
                 <option value="">
                     All
@@ -1952,11 +1952,11 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div class="collapse navbar-collapse" id="navbarNavToolbar">
+        <div class="collapse navbar-collapse w-100" id="navbarNavToolbar">
             <div class="navbar-nav nav-pills">
-                    <input type="button" class="btn btn-secondary nav-item nav-link" name="sendToJukebox" id="sendToJukebox"
+                    <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white" name="sendToJukebox" id="sendToJukebox"
                            value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
-                    <input type="button" class="btn btn-secondary nav-item nav-link" name="displaySleepTimer" id="displaySleepTimer"
+                    <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white" name="displaySleepTimer" id="displaySleepTimer"
                            value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">
             </div>
         </div>
@@ -1972,7 +1972,7 @@ class OWMPElements extends OWMP
     {
         if($UserGroup==1) {
             ?>
-            <div id="editButtons">
+            <div id="editButtons" class="h-100 my-1">
                 <input type="button" class="delete_button playlist_button_img"
                        title="<?php echo __('delete_file'); ?>"
                        onclick="deleteFile(0);">
