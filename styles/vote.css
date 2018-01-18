@@ -233,21 +233,21 @@ footer a:active {
 
 
 .playlist_button_img {
-    background-size: 1.5em;
+    background-size: 1em;
     background-color: transparent;
-    width:1.5em;
+    width:1em;
     border: none;
     /*padding-top:0.5em;*/
     cursor: pointer;
     position: relative;
-    display: inline-block;
+    /*display: inline-block;*/
     background-position: center center;
 }
 
-.blackRow{
-    color:white;
-    font-weight: bold;
-}
+/*.blackRow{*/
+    /*color:white;*/
+    /*font-weight: bold;*/
+/*}*/
 
 
 

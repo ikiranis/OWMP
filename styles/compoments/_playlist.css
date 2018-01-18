@@ -75,17 +75,9 @@
 .playlist_button_img {
     background-size: 1em;
     width: 1em;
+    height: 1em;
     background-color: transparent;
     border: none;
-    /*padding-top:0.5em;*/
     cursor: pointer;
-    /*position: relative;*/
-    /*display: inline-block;*/
     background-position: center center;
-}
-
-.playlistCheckbox {
-    position: relative;
-    top: -2px;
-    /*vertical-align: middle;*/
 }
