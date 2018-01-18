@@ -4,10 +4,10 @@
 * Fix basic layout **(done)**
 * Make vertical nav bar. Remove menu from left sidebar **(done)**
 * Make all the buttons
-* Convert search (or other action windows) to modal
+* Convert search (or other action windows) to modal **(done)**
 * Convert icons
 * Make columns in playlist to hide on small screens **(done)**
-* Choose to mobile version with a button, for smaller images
+* Choose to mobile version with a button, for smaller images **(done)**
 * With responsive design from bootstrap, there will be no need to use different css versions **(done)**
 * Fix login/register screen **(done)**
 
@@ -15,7 +15,7 @@
 
 **Search on vote page**
 
-**Put jukebox and timer buttons in appropriate tools window**
+**Put jukebox and timer buttons in appropriate tools window** **(done)**
 
 **Auto upgrade with git**
 
@@ -45,7 +45,7 @@
 
 **Implement a song details history**
 
-**Fix some problem with hashtag songs**
+**Fix some problem with file hashes**
 
 
 
