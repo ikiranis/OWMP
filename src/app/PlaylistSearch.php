@@ -198,7 +198,7 @@ class PlaylistSearch extends OWMPElements
                     title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></td>
 
 
-                <td class=" cell-fit">
+                <td class="cell-fit">
 
                     <?php
 
@@ -212,7 +212,7 @@ class PlaylistSearch extends OWMPElements
                     }
                     ?>
 
-                    <input type="checkbox" id="check_item[]" name="check_item[]" class="d-none d-lg-inline-block"
+                    <input type="checkbox" id="check_item[]" name="check_item[]" class="d-none d-lg-inline-block playlistCheckbox"
                            value="<?php echo $track['id']; ?>">
 
                     <input type="button" class="play_button playlist_button_img"
