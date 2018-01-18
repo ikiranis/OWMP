@@ -1026,6 +1026,15 @@ class OWMPElements extends OWMP
         return $coverID;
     }
 
+    static function get_content($URL){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $URL);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
+    }
+
     /**
      * Ελέγχει αν ένα image είναι valid
      *
@@ -1034,8 +1043,10 @@ class OWMPElements extends OWMP
      */
     static function checkValidImage($myImage)
     {
-        $html = VALID_IMAGE_SCRIPT_ADDRESS.'?imagePath='.$myImage;
-        $response = file_get_contents($html);
+        $html = VALID_IMAGE_SCRIPT_ADDRESS . '?imagePath='.$myImage;
+        $response = @file_get_contents($html, FILE_USE_INCLUDE_PATH);
+//        $response = self::get_content($html);
+
         $decoded = json_decode($response, true);
 
         if($decoded) {
@@ -1043,7 +1054,9 @@ class OWMPElements extends OWMP
                 $result = $items;
                 return $result;
             }
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -1058,13 +1071,13 @@ class OWMPElements extends OWMP
         switch ($extension) {
             case 'jpg':
             case 'jpeg':
-                $image = imagecreatefromjpeg($myImage);
+                $image = @imagecreatefromjpeg($myImage);
                 break;
             case 'gif':
-                $image = imagecreatefromgif($myImage);
+                $image = @imagecreatefromgif($myImage);
                 break;
             case 'png':
-                $image = imagecreatefrompng($myImage);
+                $image = @imagecreatefrompng($myImage);
                 break;
             default:
                 return false;

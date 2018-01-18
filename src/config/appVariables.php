@@ -14,6 +14,7 @@
  */
 
 use apps4net\framework\MyDB;
+use apps4net\framework\Utilities;
 
 // ********* DEFINES
 
@@ -31,8 +32,12 @@ $restoreTables = array('manual_playlists', 'smart_playlists', 'salts', 'user_det
 
 // Η διεύθυνση του checkValidImage script. Πρέπει να είναι ολόκληρο το url της εσωτερικής ip του server που τρέχει η εφαρμογή
 // π.χ. http://192.168.1.19:9999/arduino
-// αν το script τρέχει στον σερβερ της εφαρμογής, αφήνουμε αυτή την γραμμή όπως είναι, αλλιώς χρησιμοποιούμε τα παρακάτω παραδείγματα
-define ('VALID_IMAGE_SCRIPT_ADDRESS', LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'app/checkValidImage');
+if(!Utilities::isInDockerContainer()) {
+    define ('VALID_IMAGE_SCRIPT_ADDRESS', LOCAL_SERVER_IP_WITH_PORT . AJAX_PATH . 'app/checkValidImage');
+} else {
+    define ('VALID_IMAGE_SCRIPT_ADDRESS', HTTP_TEXT . $_SERVER['SERVER_ADDR'] . '/' . AJAX_PATH . 'app/checkValidImage');
+}
+
 define ('JSON_FILENAME', 'playlist.json');
 define ('ITUNES_FILENAME', 'Library.xml');
 // Το αρχείο του itunes library

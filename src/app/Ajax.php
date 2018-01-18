@@ -80,17 +80,18 @@ class Ajax extends Controller
      */
     public function checkValidImage()
     {
-        session_start();
+//        session_start();
 
         //Page::checkValidAjaxRequest(true);
 
         if(isset($_GET['imagePath']))
             $imagePath=$_GET['imagePath'];
 
-
         if($myImage=OWMPElements::openImage($imagePath)) {
             $jsonArray = array('success' => true);
             imagedestroy($myImage);
+        } else {
+            $jsonArray = array('success' => false);
         }
 
         echo json_encode($jsonArray);
