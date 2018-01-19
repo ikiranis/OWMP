@@ -5,3 +5,7 @@
 .isVisible {
     display: inline;
 }
+
+.hasCursorPointer {
+    cursor: pointer;
+}

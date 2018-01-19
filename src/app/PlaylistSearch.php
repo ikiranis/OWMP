@@ -194,8 +194,11 @@ class PlaylistSearch extends OWMPElements
                  onmouseover="displayCoverImage('fileID<?php echo $track['id']; ?>');"
                  onmouseout="hideCoverImage();">
 
-                <td class="cell-wrap mcw-1 <?php if ($track['kind'] == 'Music') echo 'kind_music'; else echo 'kind_music_video'; ?>"
-                    title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>"></td>
+                <td class="cell-fit">
+                    <span class="<?php if ($track['kind'] == 'Music') echo 'fa fa-file-audio-o'; else echo 'fa fa-file-video-o'; ?>"
+                          title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>">
+                    </span>
+                </td>
 
 
                 <td class="cell-fit">
@@ -215,24 +218,28 @@ class PlaylistSearch extends OWMPElements
                     <input type="checkbox" id="check_item[]" name="check_item[]" class="d-none d-lg-inline-block"
                            value="<?php echo $track['id']; ?>">
 
-                    <input type="button" class="play_button playlist_button_img d-inline-block"
-                           title="<?php echo __('play_file'); ?>"
-                           onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play()">
+                    <span class="fa fa-play hasCursorPointer" title="<?php echo __('play_file'); ?>"
+                          onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play();">
+                    </span>
 
-                    <input type="button" class="vote_button playlist_button_img d-none d-lg-inline-block"
+
+                    <span class="fa fa-heart hasCursorPointer d-none d-lg-inline-block"
                            title="<?php echo __('vote_song'); ?>"
                            onclick="voteSong(<?php echo $track['id']; ?>);">
+                    </span>
 
                     <?php
                     if (!$this->loadPlaylist) { ?>
-                        <input type="button" class="playlist_add_button playlist_button_img d-none d-lg-inline-block"
+                        <span class="fa fa-plus-square-o hasCursorPointer d-none d-lg-inline-block"
                                title="<?php echo __('add_to_playlist'); ?>"
                                onclick="addToPlaylist(<?php echo $track['id']; ?>);">
+                        </span>
                         <?php
                     } else { ?>
-                        <input type="button" class="playlist_remove_button playlist_button_img d-none d-lg-inline-block"
+                        <span class="fa fa-minus-square-o hasCursorPointer d-none d-lg-inline-block"
                                title="<?php echo __('remove_from_playlist'); ?>"
                                onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
+                        </span>
                         <?php
                     }
                     ?>
@@ -240,9 +247,10 @@ class PlaylistSearch extends OWMPElements
                     <?php
                     if ($UserGroupID == 1) {
                         ?>
-                        <input type="button" class="delete_button playlist_button_img d-none d-lg-inline-block"
+                        <span class="fa fa-trash hasCursorPointer d-none d-lg-inline-block"
                                title="<?php echo __('delete_file'); ?>"
                                onclick="deleteFile(<?php echo $track['id']; ?>);">
+                        </span>
                         <?php
                     }
                     ?>
