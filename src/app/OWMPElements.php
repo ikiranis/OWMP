@@ -1631,15 +1631,27 @@ class OWMPElements extends OWMP
                             ?>
                         </select>
 
+                        <div class="my-auto mx-2">
+                            <span class="fa fa-play hasCursorPointer" id="playPlaylist"
+                                  onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
+                            </span>
 
-                        <input type="button" class="form-control col-1" id="playPlaylist" onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
-                        <input type="button" class="form-control col-1" id="insertPlaylistClick" onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
-                        <input type="button" class="form-control col-1" id="deletePlaylistClick" onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
-                        <?php Page::getHelp('help_manual_playlists'); ?>
+                            <span type="button" class="fa fa-list hasCursorPointer" id="insertPlaylistClick"
+                                  onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
+                            </span>
+
+                            <span type="button" class="fa fa-trash hasCursorPointer" id="deletePlaylistClick"
+                                  onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
+                            </span>
+
+                            <?php Page::getHelp('help_manual_playlists'); ?>
+                        </div>
 
                     </div>
 
                 </form>
+
+
 
             </div>
 
@@ -1689,14 +1701,18 @@ class OWMPElements extends OWMP
                 </div>
 
                 <div class="col-lg-3 px-1 w-100 my-auto text-center">
-                    <input type="button" class="o-imageButton o-imageButton_insertSmartPlaylist" id="jsInsertSmartPlaylistClick"
+                    <span class="fa fa-list hasCursorPointer" id="jsInsertSmartPlaylistClick"
                            title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
-                    <input type="button" class="o-imageButton o-imageButton_deleteSmartPlaylist" id="jdDeleteSmartPlaylistClick"
+                    </span>
+                    <span class="fa fa-trash hasCursorPointer" id="jdDeleteSmartPlaylistClick"
                            title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();" >
-                    <input type="button" class="o-imageButton o-imageButton_saveSmartPlaylist" id="jsSaveSmartPlaylist"
+                    </span>
+                    <span class="fa fa-floppy-o hasCursorPointer" id="jsSaveSmartPlaylist"
                            title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();" >
-                    <input type="button" class="o-imageButton o-imageButton_loadSmartPlaylist" id="jsLoadSmartPlaylist"
+                    </span>
+                    <span type="button" class="fa fa fa-envelope-open-o hasCursorPointer" id="jsLoadSmartPlaylist"
                            title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();" >
+                    </span>
 
                     <?php Page::getHelp('help_smart_playlists'); ?>
                 </div>
@@ -1883,12 +1899,15 @@ class OWMPElements extends OWMP
                                             </div>
 
                                             <div class="form-group col-lg-2 w-100 text-right my-auto">
-                                                <input type="button" class="o-imageButton ο-imageButton_addSearchRow" id="jsAddSearchRow"
+                                                <span class="fa fa-plus hasCursorPointer" id="jsAddSearchRow"
                                                        title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
-                                                <input type="button" class="o-imageButton ο-imageButton_removeSearchRow" id="jsRemoveSearchRow"
+                                                </span>
+                                                <span class="fa fa-minus hasCursorPointer" id="jsRemoveSearchRow"
                                                        title="<?php echo __('remove_search_row'); ?>" onclick="removeSearchRow(<?php echo $counter; ?>);">
-                                                <input type="button" class="o-imageButton ο-imageButton_addGroupRow" id="jsAddGroup"
+                                                </span>
+                                                <span class="fa fa-plus-circle hasCursorPointer" id="jsAddGroup"
                                                        title="<?php echo __('add_group_row'); ?>" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
+                                                </span>
                                             </div>
 
                                         </div>
@@ -1972,16 +1991,19 @@ class OWMPElements extends OWMP
     {
         if($UserGroup==1) {
             ?>
-            <div id="editButtons" class="h-100 my-1">
-                <input type="button" class="delete_button playlist_button_img"
+            <div id="editButtons" class="my-1 h-100">
+                <span class="fa fa-trash hasCursorPointer"
                        title="<?php echo __('delete_file'); ?>"
                        onclick="deleteFile(0);">
-                <input type="button" class="edit_button playlist_button_img"
+                </span>
+                <span class="fa fa-edit hasCursorPointer"
                        title="<?php echo __('edit_file'); ?>"
                        onclick="openMassiveTagsWindow();" >
-                <input type="button" class="export_button playlist_button_img"
+                </span>
+                <span class="fa fa-hdd-o hasCursorPointer"
                        title="<?php echo __('export_playlist'); ?>"
                        onclick="exportPlaylist();" >
+                </span>
 
             </div>
 

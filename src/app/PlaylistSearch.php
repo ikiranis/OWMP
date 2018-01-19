@@ -195,8 +195,8 @@ class PlaylistSearch extends OWMPElements
                  onmouseout="hideCoverImage();">
 
                 <td class="cell-fit">
-                    <span class="<?php if ($track['kind'] == 'Music') echo 'fa fa-file-audio-o'; else echo 'fa fa-file-video-o'; ?>"
-                          title="<?php if ($track['kind'] == 'Music') echo 'Music'; else echo 'Music Video'; ?>">
+                    <span class="<?php echo ($track['kind'] == 'Music') ? 'fa fa-file-audio-o' : 'fa fa-file-video-o'; ?>"
+                          title="<?php echo ($track['kind'] == 'Music') ? 'Music' : 'Music Video'; ?>">
                     </span>
                 </td>
 

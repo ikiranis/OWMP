@@ -24,41 +24,41 @@
     /*font-size: 0.7em;*/
 /*}*/
 
-#insertPlaylistClick {
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-    width: 1em;
-    background-color: transparent;
-    background-image: url( '../../img/create.png' );
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 1em;
-}
+/*#insertPlaylistClick {*/
+    /*display: inline-block;*/
+    /*cursor: pointer;*/
+    /*border: none;*/
+    /*width: 1em;*/
+    /*background-color: transparent;*/
+    /*background-image: url( '../../img/create.png' );*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center center;*/
+    /*background-size: 1em;*/
+/*}*/
 
-#deletePlaylistClick {
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-    width: 1em;
-    background-color: transparent;
-    background-image: url( '../../img/delete.png' );
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 1em;
-}
+/*#deletePlaylistClick {*/
+    /*display: inline-block;*/
+    /*cursor: pointer;*/
+    /*border: none;*/
+    /*width: 1em;*/
+    /*background-color: transparent;*/
+    /*background-image: url( '../../img/delete.png' );*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center center;*/
+    /*background-size: 1em;*/
+/*}*/
 
-#playPlaylist {
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-    width: 1em;
-    background-color: transparent;
-    background-image: url( '../../img/play.png' );
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 1em;
-}
+/*#playPlaylist {*/
+    /*display: inline-block;*/
+    /*cursor: pointer;*/
+    /*border: none;*/
+    /*width: 1em;*/
+    /*background-color: transparent;*/
+    /*background-image: url( '../../img/play.png' );*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center center;*/
+    /*background-size: 1em;*/
+/*}*/
 
 /*#searchClick:hover {*/
     /*transform: scale(1.15);*/

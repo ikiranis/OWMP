@@ -129,7 +129,9 @@ class OWMP
                     <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
 
                     <div class="col-2 my-1 px-1 text-center">
-                        <input type="button"  data-toggle="modal" data-target="#search" id="searchClick" title="<?php echo __('search_text_search'); ?>" >
+                        <span class="fa fa-search hasCursorPointer"  data-toggle="modal" data-target="#search"
+                              id="searchClick" title="<?php echo __('search_text_search'); ?>" >
+                        </span>
                     </div>
             </div>
 
