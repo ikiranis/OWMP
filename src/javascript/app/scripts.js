@@ -677,8 +677,8 @@ function addSearchRow()
     theNewElementID.find('label[for^="search_text"]').prop('for', 'search_text' + newID );
 
     // Αλλάζει τις τιμές στις onclick functions
-    theNewElementID.find('input[id="jsAddGroup"]').attr("onclick", "addOrAndToGroup("+newID+")");
-    theNewElementID.find('input[id="jsRemoveSearchRow"]').attr("onclick", "removeSearchRow("+newID+")");
+    theNewElementID.find('span[id="jsAddGroup"]').attr("onclick", "addOrAndToGroup("+newID+")");
+    theNewElementID.find('span[id="jsRemoveSearchRow"]').attr("onclick", "removeSearchRow("+newID+")");
 
     checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
 
@@ -717,19 +717,18 @@ function addOrAndToGroup(elementID)
     // Το div element μέσα στο οποίο θα μπει το select
     var divElement = document.createElement('div');
     divElement.setAttribute('id', 'searchRow-' + elementID);
-    divElement.setAttribute('class', 'groupRow' );
+    divElement.setAttribute('class', 'row w-25 mx-1' );
 
     // Δημιουργεί το select
     var selectElement = document.createElement('select');
     selectElement.setAttribute('type', 'text');
-    selectElement.setAttribute('class', 'search_operator');
+    selectElement.setAttribute('class', 'form-control form-control-sm col-6 search_operator');
     selectElement.setAttribute('id', 'group_operator' + elementID);
     selectElement.setAttribute('name', 'group_operator' + elementID);
 
     // Δημιουργεί το κουμπί για αφαίρεση της γραμμής
-    var removeRowButton = document.createElement('input');
-    removeRowButton.setAttribute('type', 'button');
-    removeRowButton.setAttribute('class', 'o-imageButton ο-imageButton_removeGroupRow');
+    var removeRowButton = document.createElement('span');
+    removeRowButton.setAttribute('class', 'fa fa-minus-circle col-6 my-auto hasCursorPointer');
     removeRowButton.setAttribute('id', 'jsRemoveGroup' + elementID);
     removeRowButton.setAttribute('title', phrases['remove_group_row']);
     removeRowButton.setAttribute('onclick', 'removeGroupRow(' + elementID + ')');

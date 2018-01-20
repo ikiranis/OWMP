@@ -44,7 +44,7 @@ $user = new User();
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array (
+$scripts = array (
     'src/javascript/framework/jquery-3.2.1.min.js',   // jquery
     'src/javascript/framework/variables.js',    // Javascript public variables
     'src/javascript/framework/_jqueryExtensions.js',    // jQuery extensions

@@ -122,7 +122,7 @@ class PlaylistSearch extends OWMPElements
     }
 
     // Εμφανίζει την πρώτη γραμμή με τις επικεφαλίδες στην playlist
-    static function displayPlaylistTitle()
+    public function displayPlaylistTitle()
     {
         ?>
 
@@ -585,7 +585,7 @@ class PlaylistSearch extends OWMPElements
     // Εμφανίζει τα περιεχόμενα της playlist
     public function displayPlaylistContent()
     {
-        $counter = 0;
+//        $counter = 0;
 
         ?>
 
@@ -602,7 +602,7 @@ class PlaylistSearch extends OWMPElements
                 <?php
 
                     // Display list labels
-                    self::displayPlaylistTitle();
+                    $this->displayPlaylistTitle();
 
                 ?>
 
@@ -615,15 +615,7 @@ class PlaylistSearch extends OWMPElements
                     // Εμφανίζει την λίστα με τα πλήρη στοιχεία
                     $this->displayFullPlaylist($track);
 
-//                    if(!$this->votePlaylist && !$_SESSION['mobile']) { // Αν δεν είναι η σελίδα vote ή mobile
-//                        // Εμφανίζει την λίστα με τα πλήρη στοιχεία
-//                        $this->displayFullPlaylist($track);
-//                    } else { // Αν είναι η σελίδα vote
-//                        // Εμφανίζει την λίστα με ελάχιστα στοιχεία
-//                        self::displaySmallPlaylist($track);
-//                    }
-
-                    $counter++;
+//                    $counter++;
                 }
 
                 ?>
