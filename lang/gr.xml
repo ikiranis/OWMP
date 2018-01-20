@@ -129,6 +129,7 @@
         <phrase name="create_playlist">Δημιουργία λίστας</phrase>
         <phrase name="choose_playlist">Επιλογή λίστας</phrase>
         <phrase name="delete_playlist">Διαγραφή λίστας</phrase>
+        <phrase name="playlist_name">Όνομα λίστας</phrase>
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Ψήφος για το τραγούδι</phrase>
         <phrase name="current_song">Παίζει τώρα</phrase>

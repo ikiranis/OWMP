@@ -35,6 +35,7 @@ class Page
 
         $OWMPElements = new OWMPElements();
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
+        $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
 
         if (isset($_GET['page'])) {
             $NavActiveItem = $_GET['page'];

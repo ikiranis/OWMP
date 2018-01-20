@@ -44,9 +44,6 @@
 /* Playlist List */
 @import '../compoments/_playlist.css';
 
-/* Playlist Window */
-@import '../compoments/_playlist-window.css';
-
 /* Smart Playlist Window */
 @import '../compoments/_smartPlaylistWindow.css';
 

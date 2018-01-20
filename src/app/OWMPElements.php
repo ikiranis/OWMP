@@ -1636,7 +1636,8 @@ class OWMPElements extends OWMP
                                   onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
                             </span>
 
-                            <span type="button" class="fa fa-list hasCursorPointer" id="insertPlaylistClick"
+                            <span type="button" class="fa fa-list hasCursorPointer" data-toggle="modal" data-target="#insertPlaylistWindow"
+                                  id="insertPlaylistClick"
                                   onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
                             </span>
 
@@ -1729,13 +1730,36 @@ class OWMPElements extends OWMP
     static function displayInsertPlaylistWindow()
     {
         ?>
-        <div id="insertPlaylistWindow" class="bgc3">
-            <form id="insertPlaylist" name="insertPlaylist">
-                <input type="text" id="playlistName" name="playlistName">
-                <input type="button" class="myButton PlaylistButton" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
-                       value="<?php echo __('create_playlist'); ?>">
-                <input type="button" class="myButton" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
-            </form>
+        <div class="modal fade" id="insertPlaylistWindow" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="insertPlaylistModalLabel"><?php echo __('create_playlist'); ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form id="insertPlaylist" name="insertPlaylist">
+                            <div class="row w-100 py-1 px-1 no-gutters">
+                                <div class="form-group col-12 my-auto">
+                                    <label for="playlistName" class="sr-only"><?php echo __('playlist_name'); ?></label>
+                                    <input type="text" class="form-control" id="playlistName" name="playlistName"
+                                           placeholder="<?php echo __('playlist_name'); ?>">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer row no-gutters">
+                        <input type="button" class="btm btn-success btn-sm PlaylistButton ml-auto" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
+                               value="<?php echo __('create_playlist'); ?>">
+                        <input type="button" class="btm btn-danger btn-sm mr-auto" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
+                    </div>
+                </div>
+            </div>
         </div>
         <?php
     }
@@ -1751,7 +1775,7 @@ class OWMPElements extends OWMP
                             <label for="smartPlaylistName" class="sr-only">Smart Playlist</label>
                             <input type="text" class="form-control form-control-sm" id="smartPlaylistName" name="smartPlaylistName">
                         </div>
-                            <input type="button" class="btm btn-success btn-sm PlaylistButton my-1 col-lg-3  w-100 ml-auto " id="insertSmartPlaylistButton" name="insertSmartPlaylistButton" onclick="createSmartPlaylist();"
+                            <input type="button" class="btm btn-success btn-sm PlaylistButton my-1 col-lg-3  w-100 ml-auto" id="insertSmartPlaylistButton" name="insertSmartPlaylistButton" onclick="createSmartPlaylist();"
                                  value="<?php echo __('create_playlist'); ?>">
                             <input type="button" class="btm btn-danger btn-sm  my-1 col-lg-3  w-100 ml-auto" name="cancelSmartPlaylist" id="cancelSmartPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreateSmartPlaylist();">
                     </div>

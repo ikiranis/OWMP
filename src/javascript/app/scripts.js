@@ -1546,7 +1546,7 @@ function displayInsertSmartPlaylistWindow()
  */
 function cancelCreatePlaylist()
 {
-    $('#insertPlaylistWindow').hide();
+    $('#insertPlaylistWindow').modal('hide');
 }
 
 /**
@@ -1678,7 +1678,7 @@ function createPlaylist() {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                $('#insertPlaylistWindow').hide();
+                $('#insertPlaylistWindow').modal('hide');
 
                 // Προσθέτει στο select #playlist καινούργιο option με την νέα playlist
                 var option = document.createElement('option');

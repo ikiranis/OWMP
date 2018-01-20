@@ -129,6 +129,7 @@
         <phrase name="create_playlist">Create playlist</phrase>
         <phrase name="choose_playlist">Choose playlist</phrase>
         <phrase name="delete_playlist">Delete playlist</phrase>
+        <phrase name="playlist_name">Playlist name</phrase>
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Vote the song</phrase>
         <phrase name="current_song">Playing now</phrase>
