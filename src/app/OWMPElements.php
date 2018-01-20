@@ -40,47 +40,53 @@ class OWMPElements extends OWMP
 
         <div id="<?php echo $element; ?>" <?php if($fullscreen) echo 'class="bgc10 c2"'; ?>>
 
-            <input type="button" class="<?php if($fullscreen) echo 'prev_button_white fullscreen_button_img'; else echo 'prev_button_black video_controls_button_img'; ?>"
+            <span class="<?php if($fullscreen) echo 'mdi mdi-skip-previous mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-skip-previous mdi-dark mdi-36px hasCursorPointer'; ?>"
                    title="<?php echo __('previous_song'); ?>"
                    onclick="prevSong();">
+            </span>
 
-            <input type="button" class="pause_play_button <?php if($fullscreen) echo 'play_button_white fullscreen_button_img'; else echo 'play_button video_controls_button_img'; ?>"
+            <span class="pause_play_button <?php if($fullscreen) echo 'mdi mdi-pause mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-pause mdi-dark mdi-36px hasCursorPointer'; ?>"
                    title="<?php echo __('play_file'); ?>"
                    onclick="playSong();">
+            </span>
 
-            <input type="button" class="<?php if($fullscreen) echo 'next_button_white fullscreen_button_img'; else echo 'next_button_black video_controls_button_img'; ?>"
+            <span class="<?php if($fullscreen) echo 'mdi mdi-skip-next mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-skip-next mdi-dark mdi-36px hasCursorPointer'; ?>"
                    title="<?php echo __('next_song'); ?>"
                    onclick="nextSong();">
+            </span>
 
-            <input type="button" class="<?php if($fullscreen) echo 'fullscreen_button_minimize fullscreen_button_img'; else echo 'fullscreen_button_maximize video_controls_button_img'; ?>"
+            <span class="<?php if($fullscreen) echo 'mdi mdi-fullscreen-exit mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-fullscreen mdi-dark mdi-36px hasCursorPointer'; ?>"
                    title="<?php echo __('toggle_fullscreen'); ?>"
                    onclick="toggleFullscreen();">
+            </span>
 
 
             <?php
 
             if($fullscreen) { // Αν είναι σε fullscreen
                 ?>
-                <input type="button"
-                       class="<?php if ($fullscreen) echo 'gif_button fullscreen_button_img'; else echo 'gif_button video_controls_button_img'; ?>"
+                <span class="gif_button fullscreen_button_img hasCursorPointer"
                        title="<?php echo __('toggle_giphy'); ?>"
                        onclick="giphyToggle();">
+                </span>
 
-                <input type="button"
-                       class="<?php if ($fullscreen) echo 'fullscreen_button_info fullscreen_button_img'; else echo 'fullscreen_button_info video_controls_button_img'; ?>"
+                <span class="mdi mdi-information-outline mdi-light mdi-36px hasCursorPointer"
                        title="<?php echo __('toggle_overlay'); ?>"
                        onclick="interfaceToggle();">
+                </span>
 
                 <?php
             } else { // Αν δεν είναι σε fullscreen
                 ?>
-                <input type="button" class="<?php echo 'shuffle_button video_controls_button_img'; ?>"
+                <span class="shuffle_button mdi mdi-shuffle mdi-dark mdi-36px hasCursorPointer"
                        title="<?php echo __('toggle_shuffle'); ?>"
                        onclick="toggleShuffle();">
+                </span>
 
-                <input type="button" class="<?php echo 'lower_bitrate video_controls_button_img'; ?>"
+                <span class="lower_bitrate mdi mdi-priority-low mdi-dark mdi-36px hasCursorPointer"
                        title="<?php echo __('toggle_lower_bitrate'); ?>"
                        onclick="toggleLowerBitrate();">
+                </span>
 
                 <?php
             }
@@ -1637,16 +1643,16 @@ class OWMPElements extends OWMP
                         </select>
 
                         <div class="my-auto mx-2">
-                            <span class="fa fa-play hasCursorPointer" id="playPlaylist"
+                            <span class="mdi mdi-play mdi-24px hasCursorPointer" id="playPlaylist"
                                   onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
                             </span>
 
-                            <span type="button" class="fa fa-list hasCursorPointer" data-toggle="modal" data-target="#insertPlaylistWindow"
+                            <span class="mdi mdi-playlist-plus mdi-24px hasCursorPointer" data-toggle="modal" data-target="#insertPlaylistWindow"
                                   id="insertPlaylistClick"
                                   onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
                             </span>
 
-                            <span type="button" class="fa fa-trash hasCursorPointer" id="deletePlaylistClick"
+                            <span class="mdi mdi-delete mdi-24px hasCursorPointer" id="deletePlaylistClick"
                                   onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
                             </span>
 
@@ -1707,16 +1713,16 @@ class OWMPElements extends OWMP
                 </div>
 
                 <div class="col-lg-3 px-1 w-100 my-auto text-center">
-                    <span class="fa fa-list hasCursorPointer" id="jsInsertSmartPlaylistClick"
+                    <span class="mdi mdi-playlist-plus mdi-24px hasCursorPointer" id="jsInsertSmartPlaylistClick"
                            title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
                     </span>
-                    <span class="fa fa-trash hasCursorPointer" id="jdDeleteSmartPlaylistClick"
+                    <span class="mdi mdi-delete mdi-24px hasCursorPointer" id="jdDeleteSmartPlaylistClick"
                            title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();" >
                     </span>
-                    <span class="fa fa-floppy-o hasCursorPointer" id="jsSaveSmartPlaylist"
+                    <span class="mdi mdi-content-save mdi-24px hasCursorPointer" id="jsSaveSmartPlaylist"
                            title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();" >
                     </span>
-                    <span type="button" class="fa fa fa-envelope-open-o hasCursorPointer" id="jsLoadSmartPlaylist"
+                    <span class="mdi mdi-email-open-outline mdi-24px hasCursorPointer" id="jsLoadSmartPlaylist"
                            title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();" >
                     </span>
 
@@ -2020,17 +2026,17 @@ class OWMPElements extends OWMP
     {
         if($UserGroup==1) {
             ?>
-            <div id="editButtons" class="my-1 h-100">
-                <span class="fa fa-trash hasCursorPointer"
+            <div>
+                <span class="mdi mdi-delete mdi-24px hasCursorPointer"
                        title="<?php echo __('delete_file'); ?>"
                        onclick="deleteFile(0);">
                 </span>
 
-                <span class="fa fa-edit hasCursorPointer" data-toggle="modal" data-target="#editTag"
+                <span class="mdi mdi-pencil mdi-24px hasCursorPointer" data-toggle="modal" data-target="#editTag"
                        title="<?php echo __('edit_file'); ?>"
                        onclick="openMassiveTagsWindow();" >
                 </span>
-                <span class="fa fa-hdd-o hasCursorPointer"
+                <span class="mdi mdi-file-export mdi-24px hasCursorPointer"
                        title="<?php echo __('export_playlist'); ?>"
                        onclick="exportPlaylist();" >
                 </span>

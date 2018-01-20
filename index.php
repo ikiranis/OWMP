@@ -71,8 +71,8 @@ $scripts = array (
 $css = array(
         // Bootstrap @source https://getbootstrap.com/
         'styles/external/bootstrap-4.0.0/css/bootstrap.css',
-        // Font awesome @source http://fontawesome.io
-        'styles/external/font-awesome-4.7.0/css/font-awesome.min.css',
+        // Material Design icons @source https://materialdesignicons.com/
+        'styles/external/MaterialDesign/css/materialdesignicons.css',
         'styles/layouts/basic.css'
 );
 
@@ -137,13 +137,14 @@ define('TAB_ID', date('YmdHis'));
 $logged_in=false;
 
 
+$userName = null;
+
 // Έλεγχος αν υπάρχει cookie. Αν δεν υπάρχει ψάχνει session
 if(!$user->CheckCookiesForLoggedUser()) {
     if (User::checkIfUserIsLegit())
     {
         $userName=$conn->getSession('username');
         
-        $LoginNameText= '<img id="account_image" src="img/account.png"> <span id="account_name">'.$userName.'</span>';
 //        session_regenerate_id(true);
         
         $logged_in=true;
@@ -153,7 +154,6 @@ if(!$user->CheckCookiesForLoggedUser()) {
 else {
     $userName = MyDB::getACookie('username');
 
-    $LoginNameText = '<img id="account_image" src="img/account.png"> <span id="account_name">' . $userName . '</span>';
     $logged_in = true;
 
     if (!isset($_SESSION["username"]))
@@ -161,11 +161,13 @@ else {
 }
 
 
+
+
 // Αν είναι login κάποιος χρήστης
 if($logged_in) {
-    $LoginNameText .= ' <span id=logout><a href=?logout=true title=' . __('logout') . '><img src=img/exit.png></a></span>';
+    $LoginNameText = '<div class="row mx-2"><span class="mdi mdi-account-circle mdi-light mdi-24px mdi-form"><span class="px-1">' . $userName . '</span>';
 
-//    $timediv = '<span id="SystemTime"><span id="timetext"></span></span>';
+    $LoginNameText .= '<span id="logout" class="mdi mdi-export mdi-light mdi-24px hasCursorPointer my-auto "><a href=?logout=true title=' . __('logout') . '></a></span></div>';
 
     $MainPage->showMainBar($LoginNameText);
 

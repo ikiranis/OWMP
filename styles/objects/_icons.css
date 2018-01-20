@@ -130,16 +130,6 @@
     background-repeat: no-repeat;
 }
 
-.shuffle_button {
-    background-image: url( '../../img/shuffle.png' );
-    background-repeat: no-repeat;
-}
-
-.lower_bitrate {
-    background-image: url( '../../img/low_bitrate_black.png' );
-    background-repeat: no-repeat;
-}
-
 .update_button {
     background-image: url( '../../img/update.png' );
     background-repeat: no-repeat;

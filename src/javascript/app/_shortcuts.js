@@ -28,13 +28,13 @@ function rwSong() {
 }
 
 function displayPauseButton() {
-    $("#overlay_media_controls .pause_play_button").removeClass('play_button_white').addClass('pause_button_white');
-    $("#mediaControls .pause_play_button").removeClass('play_button').addClass('pause_button_black');
+    $("#overlay_media_controls .pause_play_button").removeClass('mdi-play').addClass('mdi-pause');
+    $("#mediaControls .pause_play_button").removeClass('mdi-play').addClass('mdi-pause');
 }
 
 function displayPlayButton() {
-    $("#overlay_media_controls .pause_play_button").removeClass('pause_button_white').addClass('play_button_white');
-    $("#mediaControls .pause_play_button").removeClass('pause_button_black').addClass('play_button');
+    $("#overlay_media_controls .pause_play_button").removeClass('mdi-pause').addClass('mdi-play');
+    $("#mediaControls .pause_play_button").removeClass('mdi-pause').addClass('mdi-play');
 }
 
 function playSong() {
