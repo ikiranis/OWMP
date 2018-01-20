@@ -195,7 +195,7 @@ class PlaylistSearch extends OWMPElements
                  onmouseout="hideCoverImage();">
 
                 <td class="cell-fit">
-                    <span class="<?php echo ($track['kind'] == 'Music') ? 'fa fa-file-audio-o' : 'fa fa-file-video-o'; ?>"
+                    <span class="<?php echo ($track['kind'] == 'Music') ? 'mdi mdi-music-box-outline mdi-18px' : 'mdi mdi-video mdi-18px'; ?>"
                           title="<?php echo ($track['kind'] == 'Music') ? 'Music' : 'Music Video'; ?>">
                     </span>
                 </td>
@@ -218,25 +218,25 @@ class PlaylistSearch extends OWMPElements
                     <input type="checkbox" id="check_item[]" name="check_item[]" class="d-none d-lg-inline-block"
                            value="<?php echo $track['id']; ?>">
 
-                    <span class="fa fa-play hasCursorPointer" title="<?php echo __('play_file'); ?>"
+                    <span class="mdi mdi-play mdi-18px hasCursorPointer" title="<?php echo __('play_file'); ?>"
                           onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play();">
                     </span>
 
 
-                    <span class="fa fa-heart hasCursorPointer d-none d-lg-inline-block"
+                    <span class="mdi mdi-heart mdi-18px  hasCursorPointer d-none d-lg-inline-block"
                            title="<?php echo __('vote_song'); ?>"
                            onclick="voteSong(<?php echo $track['id']; ?>);">
                     </span>
 
                     <?php
                     if (!$this->loadPlaylist) { ?>
-                        <span class="fa fa-plus-square-o hasCursorPointer d-none d-lg-inline-block"
+                        <span class="mdi mdi-playlist-plus mdi-18px hasCursorPointer d-none d-lg-inline-block"
                                title="<?php echo __('add_to_playlist'); ?>"
                                onclick="addToPlaylist(<?php echo $track['id']; ?>);">
                         </span>
                         <?php
                     } else { ?>
-                        <span class="fa fa-minus-square-o hasCursorPointer d-none d-lg-inline-block"
+                        <span class="mdi mdi-playlist-minus mdi-18px hasCursorPointer d-none d-lg-inline-block"
                                title="<?php echo __('remove_from_playlist'); ?>"
                                onclick="removeFromPlaylist(<?php echo $track['id']; ?>);">
                         </span>
@@ -247,7 +247,7 @@ class PlaylistSearch extends OWMPElements
                     <?php
                     if ($UserGroupID == 1) {
                         ?>
-                        <span class="fa fa-trash hasCursorPointer d-none d-lg-inline-block"
+                        <span class="mdi mdi-delete mdi-18px hasCursorPointer d-none d-lg-inline-block"
                                title="<?php echo __('delete_file'); ?>"
                                onclick="deleteFile(<?php echo $track['id']; ?>);">
                         </span>
