@@ -44,7 +44,8 @@ $user = new User();
 // Τίτλος της σελίδας
 $MainPage->tittle = APP_NAME;
 
-$scripts=array ('https://code.jquery.com/jquery-3.2.1.min.js',   // jquery
+$scripts=array (
+    'src/javascript/framework/jquery-3.2.1.min.js',   // jquery
     'src/javascript/framework/variables.js',    // Javascript public variables
     'src/javascript/framework/_jqueryExtensions.js',    // jQuery extensions
     'src/javascript/framework/_utilities.js',    // Utility functions
@@ -61,10 +62,21 @@ $scripts=array ('https://code.jquery.com/jquery-3.2.1.min.js',   // jquery
     'src/javascript/framework/details.js',    // polyfill για το summary/details
     'src/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
-    'src/javascript/framework/pattern.js');   // extension για το validate. ενεργοποιεί το validation των patterns
+    'src/javascript/framework/pattern.js',  // extension για το validate. ενεργοποιεί το validation των patterns
+    'styles/external/popper.js', // popper js @source https://popper.js.org/
+    'styles/external/bootstrap-4.0.0/js/bootstrap.js' // Bootstrap @source https://getbootstrap.com/
+);
 
 
-$css = array('styles/layouts/basic.css');
+$css = array(
+        // Bootstrap @source https://getbootstrap.com/
+        'styles/external/bootstrap-4.0.0/css/bootstrap.css',
+        // Font awesome @source http://fontawesome.io
+        'styles/external/font-awesome-4.7.0/css/font-awesome.min.css',
+        'styles/layouts/basic.css'
+);
+
+// TODO remove it in the end
 $_SESSION['mobile']=false;
 
 // Έλεγχος αν είναι σε mobile ή όχι
