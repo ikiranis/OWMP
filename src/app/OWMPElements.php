@@ -1478,89 +1478,94 @@ class OWMPElements extends OWMP
      *
      * @param $UserGroup {int} Το usergroup του χρήστη
      */
-    static function displayEditTagsWindow($UserGroup)
+    static function displayEditTagsWindow()
     {
-
-
-        if ($UserGroup==1)  // Αν ο χρήστης είναι admin
-            $disabled='no';
-        else $disabled='yes';
-
         ?>
-        <div id="editTag">
 
-            <?php
-                $tags = new Page();
-                $FormElementsArray = array(
-                    array('name' => 'artist',
-                        'fieldtext' => __('tag_artist'),
-                        'type' => 'text',
-                        'required' => 'no',
-                        'maxlength' => '255',
-                        'disabled' => $disabled,
-                        'value' => null),
-                    array('name' => 'album',
-                        'fieldtext' => __('tag_album'),
-                        'type' => 'text',
-                        'required' => 'no',
-                        'maxlength' => '255',
-                        'disabled' => $disabled,
-                        'value' => null),
-                    array('name' => 'genre',
-                        'fieldtext' => __('tag_genre'),
-                        'type' => 'text',
-                        'required' => 'no',
-                        'maxlength' => '20',
-                        'disabled' => $disabled,
-                        'value' => null),
-                    array('name' => 'year',
-                        'fieldtext' => __('tag_year'),
-                        'type' => 'number',
-                        'required' => 'no',
-                        'disabled' => $disabled,
-                        'value' => null),
-                    array('name' => 'live',
-                        'fieldtext' => __('tag_live'),
-                        'type' => 'select',
-                        'options' => array(
-                            array('value' => '0', 'name' => __('tag_live_official')),
-                            array('value' => '1', 'name' => __('tag_live_live'))
-                        ),
-                        'required' => 'no',
-                        'maxlength' => '1',
-                        'disabled' => $disabled,
-                        'value' => null),
-                    array('name' => 'rating',
-                        'fieldtext' => __('tag_rating'),
-                        'type' => 'range',
-                        'required' => 'no',
-                        'maxlength' => '5',
-                        'min' => '0',
-                        'max' => '5',
-                        'step' => '1',
-                        'ticks' => array(0,1,2,3,4,5),
-                        'disabled' => $disabled,
-                        'value' => '0')
+        <div class="modal fade" id="editTag" tabindex="-1" role="dialog" aria-labelledby="editTag" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTagsModalLabel"><?php echo __('edit_file'); ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
+                        <form id="FormMassiveTags" name="FormMassiveTags">
 
+                            <div class="form-group my-1">
+                                <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
+                                <input type="text" class="form-control form-control-sm" id="artist" name="artist" placeholder="<?php echo __('tag_artist'); ?>"
+                                        maxlength="255">
+                            </div>
 
-                );
-                $tags->MakeForm('FormMassiveTags', $FormElementsArray, true);
-            ?>
+                            <div class="form-group my-1">
+                                <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
+                                <input type="text" class="form-control form-control-sm" id="album" name="album" placeholder="<?php echo __('tag_album'); ?>"
+                                       maxlength="255">
+                            </div>
 
-            <div id="myImage"></div>
+                            <div class="row my-1">
+                                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
+                                    <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
+                                    <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
+                                         maxlength="20">
+                                </div>
 
-            <input type="file" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
+                                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
+                                    <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
+                                    <input type="number" class="form-control form-control-sm" id="year" name="year" placeholder="<?php echo __('tag_year'); ?>">
+                                </div>
 
-            <div id="editTagButtons">
-                <input type="button" class="myButton" name="submit" id="submit"
-                       value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
+                                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
+                                    <label for="live" class="sr-only"><?php echo __('tag_live'); ?></label>
+                                    <select class="form-control form-control-sm" id="live" name="live">
+                                        <option value="0"><?php echo __('tag_live_official'); ?></option>
+                                        <option value="1"><?php echo __('tag_live_live'); ?></option>
+                                    </select>
+                                </div>
+                            </div>
 
-                <input type="button" class="myButton" name="clearEdit" id="clearEdit" value="<?php echo __('search_text_clear'); ?>" onclick="resetFormMassiveTags();">
+                            <div id="rating_div">
+                                <label for="tags_rating" class="sr-only"><?php echo __('tag_rating'); ?></label>
 
-                <input type="button" class="myButton" name="cancelEdit" id="cancelEdit" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheEdit();">
+                                <input type="range" id="tags_rating" name="tags_rating" oninput="printValue(tags_rating, tags_rating_output);"
+                                       maxlength="5" max="5" min="0" value="0" list="tags_rating_ticks">
+
+                                <output for="tags_rating" id="tags_rating_output">0</output>
+
+                                <datalist id="tags_rating_ticks">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </datalist>
+                            </div>
+
+                        </form>
+
+                        <div id="myImage"></div>
+
+                        <input type="file" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
+
+                    </div>
+
+                    <div class="modal-footer row no-gutters">
+                        <input type="button" class="btn btn-success ml-auto" name="submit" id="submit"
+                               value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
+
+                        <input type="button" class="btn btn-warning" name="clearEdit" id="clearEdit"
+                               value="<?php echo __('search_text_clear'); ?>" onclick="resetFormMassiveTags();">
+
+                        <input type="button" class="btn btn-danger mr-auto" name="cancelEdit" id="cancelEdit"
+                               value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheEdit();">
+                    </div>
+                </div>
             </div>
-
         </div>
 
         <?php
@@ -1730,7 +1735,7 @@ class OWMPElements extends OWMP
     static function displayInsertPlaylistWindow()
     {
         ?>
-        <div class="modal fade" id="insertPlaylistWindow" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
+        <div class="modal fade" id="insertPlaylistWindow" tabindex="-1" role="dialog" aria-labelledby="insertPlaylistWindow" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -2020,7 +2025,8 @@ class OWMPElements extends OWMP
                        title="<?php echo __('delete_file'); ?>"
                        onclick="deleteFile(0);">
                 </span>
-                <span class="fa fa-edit hasCursorPointer"
+
+                <span class="fa fa-edit hasCursorPointer" data-toggle="modal" data-target="#editTag"
                        title="<?php echo __('edit_file'); ?>"
                        onclick="openMassiveTagsWindow();" >
                 </span>

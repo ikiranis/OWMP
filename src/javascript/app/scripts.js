@@ -1189,7 +1189,7 @@ function openMassiveTagsWindow() {
  * Κλείνει το παράθυρο για edit των tags
  */
 function cancelTheEdit() {
-    $('#editTag').hide();
+    $('#editTag').modal('hide');
 }
 
 /**
@@ -1251,7 +1251,7 @@ function editFiles() {
         var genre = $('#FormMassiveTags #genre').val();
         var song_year = $('#FormMassiveTags #year').val();
         var album = $('#FormMassiveTags #album').val();
-        var rating= $ ('#FormMassiveTags #rating').val();
+        var rating= $ ('#FormMassiveTags #tags_rating').val();
         var live = $('#FormMassiveTags #live').val();
 
 
@@ -1304,7 +1304,7 @@ function editFiles() {
 
         }
 
-        $('#editTag').hide();
+        $('#editTag').modal('hide');
     }
 
 }

@@ -322,20 +322,20 @@ function loadNextVideo(id)
                 timeInMinutesAndSeconds = seconds2MinutesAndSeconds(data.tags.track_time)['minutes']+' : '+seconds2MinutesAndSeconds(data.tags.track_time)['seconds'];
 
                 // εμφανίζει τα metadata στα input fields
-                $('#songID').val(data.tags.songID);
-                $('#title').val(data.tags.title);
-                $('#artist').val(data.tags.artist);
-                $('#genre').val(data.tags.genre);
-                $('#year').val(data.tags.year);
-                $('#album').val(data.tags.album);
-                $('#play_count').val(data.tags.play_count);
-                $('#date_played').val(data.tags.date_played);
-                $('#date_added').val(data.tags.date_added);
-                $('#rating').val(data.tags.rating);
-                $('#rating_output').val(data.tags.rating);
-                $('#jsTrackTime').val(timeInMinutesAndSeconds);
-                $('#live').val(data.tags.live);
-                $('#path_filename').val(decodeURIComponent(file_path));
+                $('#FormTags #songID').val(data.tags.songID);
+                $('#FormTags #title').val(data.tags.title);
+                $('#FormTags #artist').val(data.tags.artist);
+                $('#FormTags #genre').val(data.tags.genre);
+                $('#FormTags #year').val(data.tags.year);
+                $('#FormTags #album').val(data.tags.album);
+                $('#FormTags #play_count').val(data.tags.play_count);
+                $('#FormTags #date_played').val(data.tags.date_played);
+                $('#FormTags #date_added').val(data.tags.date_added);
+                $('#FormTags #rating').val(data.tags.rating);
+                $('#FormTags #rating_output').val(data.tags.rating);
+                $('#FormTags #jsTrackTime').val(timeInMinutesAndSeconds);
+                $('#FormTags #live').val(data.tags.live);
+                $('#FormTags #path_filename').val(decodeURIComponent(file_path));
 
                 // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
                 $('#overlay_artist').html(data.tags.artist);

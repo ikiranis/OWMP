@@ -114,10 +114,6 @@ class OWMP
         $UserGroup=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
         $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
 
-        // Display action windows
-        $OWMPElements->displayEditTagsWindow($UserGroup); // Εμφάνιση του παραθύρου για edit tags
-        $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
-
 
         // Display playlist choices bar
         ?>

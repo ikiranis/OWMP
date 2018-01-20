@@ -37,6 +37,10 @@ class Page
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
 
+        // Display action windows
+        $OWMPElements->displayEditTagsWindow(); // Εμφάνιση του παραθύρου για edit tags
+        $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
+
         if (isset($_GET['page'])) {
             $NavActiveItem = $_GET['page'];
             Page::setNavActiveItem($_GET['page']);
