@@ -728,7 +728,7 @@ function addOrAndToGroup(elementID)
 
     // Δημιουργεί το κουμπί για αφαίρεση της γραμμής
     var removeRowButton = document.createElement('span');
-    removeRowButton.setAttribute('class', 'fa fa-minus-circle col-6 my-auto hasCursorPointer');
+    removeRowButton.setAttribute('class', 'mdi mdi-minus-circle mdi-24px col-6 my-auto hasCursorPointer');
     removeRowButton.setAttribute('id', 'jsRemoveGroup' + elementID);
     removeRowButton.setAttribute('title', phrases['remove_group_row']);
     removeRowButton.setAttribute('onclick', 'removeGroupRow(' + elementID + ')');

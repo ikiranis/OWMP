@@ -224,12 +224,13 @@ class OWMPElements extends OWMP
                 <output for="rating" id="rating_output">0</output>
 
                 <datalist id="rating_ticks">
-                    <option>0</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <?php
+                        for($i=0; $i<6; $i++) {
+                            ?>
+                            <option><?php echo $i; ?></option>
+                            <?php
+                        }
+                    ?>
                 </datalist>
             </div>
 
@@ -1543,12 +1544,13 @@ class OWMPElements extends OWMP
                                 <output for="tags_rating" id="tags_rating_output">0</output>
 
                                 <datalist id="tags_rating_ticks">
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <?php
+                                        for($i=0; $i<6; $i++) {
+                                            ?>
+                                                <option><?php echo $i; ?></option>
+                                            <?php
+                                        }
+                                    ?>
                                 </datalist>
                             </div>
 
@@ -1934,13 +1936,13 @@ class OWMPElements extends OWMP
                                             </div>
 
                                             <div class="form-group col-lg-2 w-100 text-right my-auto">
-                                                <span class="fa fa-plus hasCursorPointer" id="jsAddSearchRow"
+                                                <span class="mdi mdi-plus-box-outline mdi-24px hasCursorPointer" id="jsAddSearchRow"
                                                        title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
                                                 </span>
-                                                <span class="fa fa-minus hasCursorPointer" id="jsRemoveSearchRow"
+                                                <span class="mdi mdi-minus-box-outline mdi-24px hasCursorPointer" id="jsRemoveSearchRow"
                                                        title="<?php echo __('remove_search_row'); ?>" onclick="removeSearchRow(<?php echo $counter; ?>);">
                                                 </span>
-                                                <span class="fa fa-plus-circle hasCursorPointer" id="jsAddGroup"
+                                                <span class="mdi mdi-plus-circle mdi-24px hasCursorPointer" id="jsAddGroup"
                                                        title="<?php echo __('add_group_row'); ?>" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
                                                 </span>
                                             </div>

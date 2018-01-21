@@ -121,7 +121,7 @@ class OWMP
 
 
 
-            <div class="row col-lg-4 col-sm-5 col-12 my-1 px-2 w-100">
+            <div class="row col-lg-4 col-sm-5 col-12 my-1 px-4 w-100 text-center">
                     <?php $OWMPElements->displayChooseMediaSelect(); // Εμφάνιση του media select ?>
 
                     <div class="col-2 my-auto h-100">
@@ -138,7 +138,7 @@ class OWMP
             <?php
             if ($UserGroup==1) {
                 ?>
-                <div class="col-2 col-lg-3 col-sm-1 my-1">
+                <div class="col-2 col-lg-2 col-sm-1 my-1">
 
                     <div class="navbar navbar-light py-0 px-0">
                         <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNavToolbar"
@@ -153,7 +153,7 @@ class OWMP
             }
             ?>
 
-            <div class="col-lg-1 w-100 my-1 d-none d-lg-block text-right">
+            <div class="col-lg-2 w-100 my-1 d-none d-lg-block text-right">
                 <?php $OWMPElements->displayEditButtons($UserGroup); // Εμφάνιση των edit buttons ?>
             </div>
 

@@ -41,6 +41,8 @@ class Page
         $OWMPElements->displayEditTagsWindow(); // Εμφάνιση του παραθύρου για edit tags
         $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
 
+        $this->displayHelpContainer(); // Display help text container
+
         if (isset($_GET['page'])) {
             $NavActiveItem = $_GET['page'];
             Page::setNavActiveItem($_GET['page']);
@@ -95,12 +97,6 @@ class Page
 
 
         </div>
-
-        <div id="helpContainer" class="bgc3 c8">
-            <div id="helpText"></div>
-            <input type="button" id="closeHelp" name="closeHelp" class="myButton" value="<?php echo __('close_text'); ?>" onclick="closeHelp();" >
-        </div>
-
 
         <?php OWMPElements::displayControls('overlay_media_controls', true); ?>
 
@@ -425,15 +421,17 @@ class Page
 
             <div class="d-none d-md-block text-white" >
                 <span class="o-resultsContainer_iconContainer isHidden">
-                    <input type="button" class="o-imageButton--large o-imageButton_toggleResultsContainer"
+                    <span class="mdi mdi-comment-text-outline mdi-light mdi-24px hasCursorPointer"
                            title="<?php echo __('display_activity'); ?>"
                            onclick="toggleResultsContainer();">
+                    </span>
                 </span>
 
                 <span class="o-resultsContainer_killCommandContainer isHidden">
-                    <input type="button" class="o-imageButton--large o-imageButton_killCommand"
+                    <span class="mdi mdi-close-box-outline mdi-light mdi-24px hasCursorPointer"
                            title="<?php echo __('kill_process'); ?>"
                            onclick="sendKillCommand();">
+                    </span>
                 </span>
 
             </div>
@@ -612,9 +610,41 @@ class Page
     static function getHelp($helpText) {
         ?>
 
-            <input type="button" class="help_button app_icon"
+            <span class="mdi mdi-help-circle-outline mdi-18px hasCursorPointer" data-toggle="modal" data-target="#helpContainer"
                    title="<?php echo __('help_text_icon'); ?>"
                    onclick="getHelp('<?php echo $helpText;  ?>');">
+            </span>
+
+        <?php
+    }
+
+    /**
+     * Display help text container
+     */
+    public function displayHelpContainer()
+    {
+        ?>
+
+        <div class="modal fade" id="helpContainer" tabindex="-1" role="dialog" aria-labelledby="helpContainer" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="displayHelpModalLabel"><?php echo __('help_text_icon'); ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="helpText"></div>
+
+                    </div>
+
+                    <div class="modal-footer row no-gutters">
+                        <input type="button" class="btn btn-dark ml-auto mr-auto" value="<?php echo __('close_text'); ?>" onclick="closeHelp();" ></div>
+                </div>
+            </div>
+        </div>
 
         <?php
     }

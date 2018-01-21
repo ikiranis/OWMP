@@ -172,7 +172,7 @@ function DisplayWindow(page, offset, step) {
  */
 function closeHelp()
 {
-    $('#helpContainer').hide();
+    $('#helpContainer').modal('hide');
 }
 
 /**
