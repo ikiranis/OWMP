@@ -117,7 +117,7 @@ function resetPlaybackRate() {
 }
 
 function changeLive() {
-    var liveID = $('#live');
+    var liveID = $('#FormTags #live');
     var live = liveID.val(); // Η τρέχουσα τιμή του live
 
     if (live == 0) {
