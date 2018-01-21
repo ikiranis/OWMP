@@ -1,62 +1,9 @@
 /*FormMassiveTags*/
 
-/*#editTag {*/
-    /*position: absolute;*/
-    /*display: none;*/
-    /*box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.7);*/
-    /*background-color: #FFFFFF;*/
-    /*right: 1em;*/
-    /*top: 1.3em;*/
-    /*width: 50%;*/
-    /*height: auto;*/
-    /*!*border: solid 1px black;*!*/
-    /*padding: 1em;*/
-    /*z-index:10;*/
-/*}*/
-
 #editTag .thumb {
     width:5em;
     height:5em;
 }
-
-/*#editTag #artist {*/
-    /*font-size: 1em;*/
-    /*margin-top: 0.2em;*/
-    /*width:100%;*/
-/*}*/
-
-/*#editTag #album {*/
-    /*font-size: 0.8em;*/
-    /*margin-top: 0.2em;*/
-    /*width:100%;*/
-/*}*/
-
-/*#editTag #genre {*/
-    /*font-size: 0.8em;*/
-    /*margin-top: 0.2em;*/
-    /*width:33%;*/
-    /*float: left;*/
-    /*display: inline-block;*/
-/*}*/
-
-/*#editTag #year {*/
-    /*font-size: 0.8em;*/
-    /*margin-top: 0.2em;*/
-    /*width:33%;*/
-    /*margin-left:0.2em;*/
-    /*float: left;*/
-    /*display: inline-block;*/
-/*}*/
-
-/*#editTag #live {*/
-    /*margin-top: 0.2em;*/
-    /*width: 30%;*/
-    /*font-size:0.8em;*/
-    /*margin-left:0.2em;*/
-    /*float: right;*/
-    /*display: inline-block;*/
-/*}*/
-
 
 #editTag #tags_rating {
     -webkit-appearance: none;
@@ -75,8 +22,6 @@
     box-shadow: 0 0 5px #333;
     background-image:linear-gradient(to right, white, black 100%);
 }
-
-
 
 #editTag #tags_rating_output {
     border: 1px solid black;

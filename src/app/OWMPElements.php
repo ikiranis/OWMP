@@ -1803,24 +1803,52 @@ class OWMPElements extends OWMP
     static function displaySleepTimer()
     {
         ?>
-        <div id="insertSleepTimerWindow" class="bgc3">
-            <form id="sleepTimer" name="sleepTimer">
-                <select id="sleepMinutes" name="sleepMinutes">
-                    <option value="1">1 <?php echo __('text_minute'); ?></option>
-                    <option value="5">5 <?php echo __('text_minutes'); ?></option>
-                    <option value="10">10 <?php echo __('text_minutes'); ?></option>
-                    <option value="15">15 <?php echo __('text_minutes'); ?></option>
-                    <option value="30">30 <?php echo __('text_minutes'); ?></option>
-                    <option value="60">1 <?php echo __('text_hour'); ?></option>
-                    <option value="120">2 <?php echo __('text_hours'); ?></option>
-                    <option value="300">6 <?php echo __('text_hours'); ?></option>
-                </select>
-                <input type="button" class="myButton sleepButton" id="startSleepTimerButton" name="startSleepTimerButton" onclick="startSleepTimer();"
-                       value="<?php echo __('start_sleep_timer'); ?>">
-                <input type="button" class="myButton" name="cancelSleepTimer" id="cancelSleepTimer" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSleepTimer();">
-                <span id="theSleepTimer"></span>
-            </form>
+
+        <div class="modal fade" id="insertSleepTimerWindow" tabindex="-1" role="dialog" aria-labelledby="insertSleepTimerWindow" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="sleepTimerModalLabel"><?php echo __('sleep_timer'); ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form id="sleepTimer" name="sleepTimer">
+                            <div class="form-group">
+                                <label for="sleepMinutes" class="sr-only">Sleep Timer</label>
+                                <select id="sleepMinutes" name="sleepMinutes" class="form-control w-100">
+                                    <option value="1">1 <?php echo __('text_minute'); ?></option>
+                                    <option value="5">5 <?php echo __('text_minutes'); ?></option>
+                                    <option value="10">10 <?php echo __('text_minutes'); ?></option>
+                                    <option value="15">15 <?php echo __('text_minutes'); ?></option>
+                                    <option value="30">30 <?php echo __('text_minutes'); ?></option>
+                                    <option value="60">1 <?php echo __('text_hour'); ?></option>
+                                    <option value="120">2 <?php echo __('text_hours'); ?></option>
+                                    <option value="300">6 <?php echo __('text_hours'); ?></option>
+                                </select>
+                            </div>
+
+                            <div class="w-100 text-center">
+                                <span id="theSleepTimer" class="font-weight-bold"></span>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer row no-gutters">
+                        <input type="button" class="btn btn-success ml-auto" id="startSleepTimerButton" name="startSleepTimerButton"
+                               onclick="startSleepTimer();"
+                             value="<?php echo __('start_sleep_timer'); ?>">
+                        <input type="button" class="btn btn-danger mr-auto" name="cancelSleepTimer" id="cancelSleepTimer"
+                            value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSleepTimer();">
+                    </div>
+                </div>
+            </div>
         </div>
+
         <?php
     }
 
@@ -2012,7 +2040,9 @@ class OWMPElements extends OWMP
             <div class="navbar-nav nav-pills">
                     <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white" name="sendToJukebox" id="sendToJukebox"
                            value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
-                    <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white" name="displaySleepTimer" id="displaySleepTimer"
+                    <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white"
+                           name="displaySleepTimer" id="displaySleepTimer"
+                           data-toggle="modal" data-target="#insertSleepTimerWindow"
                            value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">
             </div>
         </div>
@@ -2038,6 +2068,7 @@ class OWMPElements extends OWMP
                        title="<?php echo __('edit_file'); ?>"
                        onclick="openMassiveTagsWindow();" >
                 </span>
+
                 <span class="mdi mdi-file-export mdi-24px hasCursorPointer"
                        title="<?php echo __('export_playlist'); ?>"
                        onclick="exportPlaylist();" >

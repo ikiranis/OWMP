@@ -2073,7 +2073,7 @@ function displayTheSleepTimer()
  */
 function cancelTheSleepTimer()
 {
-    $('#insertSleepTimerWindow').hide();
+    $('#insertSleepTimerWindow').modal('hide');
 }
 
 /**
@@ -2103,7 +2103,7 @@ function startSleepTimer()
 
     }, 1000);
 
-    $('#insertSleepTimerWindow').hide();
+    $('#insertSleepTimerWindow').modal('hide');
 }
 
 /**
