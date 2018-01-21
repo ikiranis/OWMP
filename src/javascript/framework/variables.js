@@ -73,3 +73,5 @@ if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  //
 
 // Convert to lower bitrate trigger
 (localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'false' : null;
+
+var currentBrowsePage = 0;

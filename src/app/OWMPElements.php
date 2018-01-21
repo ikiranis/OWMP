@@ -1646,7 +1646,7 @@ class OWMPElements extends OWMP
 
                         <div class="my-auto mx-2">
                             <span class="mdi mdi-play mdi-24px hasCursorPointer" id="playPlaylist"
-                                  onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>);" title="<?php echo __('play_file'); ?>">
+                                  onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>, true);" title="<?php echo __('play_file'); ?>">
                             </span>
 
                             <span class="mdi mdi-playlist-plus mdi-24px hasCursorPointer" data-toggle="modal" data-target="#insertPlaylistWindow"

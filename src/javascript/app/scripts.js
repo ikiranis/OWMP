@@ -595,7 +595,7 @@ function searchPlaylist(offset, step, firstTime, search) {
  * @param offset
  * @param step
  */
-function playMyPlaylist(offset, step) {
+function playMyPlaylist(offset, step, firstTime) {
     var playlistID = document.querySelector('#playlist').value;
 
     if(playlistID === '') {  // Αν δεν έχει επιλεχτεί μια playlist
@@ -611,7 +611,7 @@ function playMyPlaylist(offset, step) {
         type: 'GET',
         data: {
             playlistID: playlistID,
-            tabID: tabID
+            tabID: tabID,
         },
         dataType: "json",
         success: function (data) {
@@ -625,7 +625,7 @@ function playMyPlaylist(offset, step) {
                     type: 'GET',
                     data: {
                         tabID: tabID,
-                        firstTime: 'true',
+                        firstTime: firstTime,
                         loadPlaylist: 'true',
                         offset: offset,
                         step: step
@@ -2114,6 +2114,44 @@ function toggleResultsContainer()
     $('.o-resultsContainer').toggleClass('isHidden isVisible');
 
     BlinkElement.stop(); // Σταματάει το αναβόσβησμα του εικονίδιου
+}
+
+/**
+ * Make the chosen page active
+ *
+ * @param page
+ */
+function makePageActive(page, operation)
+{
+    // Remove from all items the active class
+    $('.browsePageNumber').removeClass('active');
+
+    if(operation=='next') {
+        page = currentBrowsePage + 1;
+    } else {
+        page = currentBrowsePage - 1;
+    }
+
+    // Add active class to current page item
+    $('#browsePageNoID' + page).addClass('active');
+
+    currentBrowsePage = page;
+}
+
+/**
+ * Get the current browse page and make it active
+ *
+ * @param firstPage
+ */
+function getCurrentBrowsePage(firstPage)
+{
+    // If it is the first time the playlist loads
+    if(firstPage === 0) {
+        currentBrowsePage = 0;
+    }
+
+    // Add active class to current page item
+    $('#browsePageNoID' + currentBrowsePage).addClass('active');
 }
 
 /**

@@ -773,7 +773,7 @@ class Ajax extends Controller
         if(isset($_GET['tabID']))
             $tabID=ClearString($_GET['tabID']);
 
-        $tempUserPlaylist=CUR_PLAYLIST_STRING . $tabID;
+        $tempUserPlaylist = CUR_PLAYLIST_STRING . $tabID;
 
         // Παίρνει το όνομα του table για την συγκεκριμένο playlistID
         $playlistTableName = MyDB::getTableFieldValue('manual_playlists', 'id=?', array($playlistID), 'table_name');

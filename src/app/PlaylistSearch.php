@@ -46,8 +46,6 @@ class PlaylistSearch extends OWMPElements
     // Εμφανίζει τα browse buttons
     public function getBrowseButtons()
     {
-        // TODO bootstrap pegination
-
         // Έλεγχος για το τι είδους λίστα εμφανίζει
         if (!$this->duplicates && !$this->votePlaylist && !$this->loadPlaylist) {
             $_SESSION['operation'] = 'search';
@@ -65,58 +63,62 @@ class PlaylistSearch extends OWMPElements
             }
         }
 
-        // Εμφάνιση των κουμπιών αναλόγως την περίπτωση
-        if($_SESSION['operation']=='search') {
-            ?>
-
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="searchPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
-                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="searchPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
-            </div>
-
-            <?php
+        // Find the javascript function we gonna use for search
+        switch ($_SESSION['operation']) {
+            case 'search' : $searchFunction = 'searchPlaylist'; break;
+            case 'duplicates' : $searchFunction = 'findDuplicates'; break;
+            case 'votePlaylist' : $searchFunction = 'getVotePlaylist'; break;
+            case 'manualPlaylist' : $searchFunction = 'playMyPlaylist'; break;
         }
 
-        if($_SESSION['operation']=='duplicates') {
-            ?>
+        // Get the number of pages
+        $numberOfPages = (int)($_SESSION['countThePlaylist'] / $this->step);
 
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="findDuplicates(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
-                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="findDuplicates(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
-            </div>
+        // Get the javascript functions with parameters
+        $previousFunction = $searchFunction . '(' . (($this->offset > 0) ? ($this->offset - $this->step) : '0') . ',' . $this->step . ');';
+        $nextFunction = $searchFunction . '(' . ((($this->offset + $this->step) < $_SESSION['countThePlaylist']) ? ($this->offset + $this->step) : $this->offset) . ',' . $this->step . ');';
 
-            <?php
-        }
+        ?>
 
-        if($_SESSION['operation']=='votePlaylist') {
-            ?>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous" onclick="<?php echo $previousFunction; ?> makePageActive(0, 'prev');">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
 
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="getVotePlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
-                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="getVotePlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
-            </div>
+                <?php
+                    for ($page=0; $page<=$numberOfPages; $page++) {
+                        if( ($numberOfPages<10) || ($page<4 || $page>$numberOfPages-4) ) {
+                            // Get the current page offset
+                            $pageFunction = $searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ');';
+                            ?>
+                            <li id="browsePageNoID<?php echo $page; ?>" class="browsePageNumber page-item">
+                                <a class="page-link" href="#"
+                                   onclick="<?php echo $pageFunction; ?> makePageActive(<?php echo $page; ?>);">
+                                    <?php echo $page; ?>
+                                </a>
+                            </li>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <script>getCurrentBrowsePage(<?php echo $_SESSION['PlaylistCounter']; ?>)</script>
+                    <?php
+                ?>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next" onclick="<?php echo $nextFunction; ?> makePageActive(0, 'next');">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-            <?php
-        }
 
-        if($_SESSION['operation']=='manualPlaylist') {
-            ?>
-
-            <div id="browseButtons">
-                <input id="previous" class="myButton" type="button" value="<?php echo __('search_previous'); ?>"
-                       onclick="playMyPlaylist(<?php if ($this->offset > 0) echo $this->offset - $this->step; else echo '0'; ?>,<?php echo $this->step; ?>);">
-                <input id="next" class="myButton" type="button" value="<?php echo __('search_next'); ?>"
-                       onclick="playMyPlaylist(<?php if (($this->offset + $this->step) < $_SESSION['countThePlaylist']) echo $this->offset + $this->step; else echo $this->offset; ?>,<?php echo $this->step; ?>);">
-            </div>
-
-            <?php
-        }
+        <?php
 
 
     }
