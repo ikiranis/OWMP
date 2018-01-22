@@ -559,6 +559,10 @@ function searchPlaylist(offset, step, firstTime, search) {
 
     currentPlaylistID = '1';
 
+    if(firstTime === true) {
+        currentBrowsePage = 0;
+    }
+
     $.ajax({
         url: AJAX_path + "app/searchPlaylist",
         type: 'GET',

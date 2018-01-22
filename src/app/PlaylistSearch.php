@@ -103,23 +103,29 @@ class PlaylistSearch extends OWMPElements
             $pagesArray = array_merge($firstArraySlice, [' '], $lastArraySlice);
         }
 
-        ?>
+        if($numberOfPages>0) {
 
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center pagination-sm">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous"
-                       onclick="makePageActive(0, 'prev'); <?php echo $previousFunction; ?>">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
+            ?>
 
-                <?php
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center pagination-sm">
+
+                    <?php
+                    if ($this->currentBrowsePageNo > 0) {
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               onclick="makePageActive(0, 'prev'); <?php echo $previousFunction; ?>">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <?php
+                    }
 
                     foreach ($pagesArray as $page) {
                         // Get the current page offset
-                        if($page!==' ') {
+                        if ($page !== ' ') {
                             $pageFunction = $searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
                             ?>
                             <li class="browsePageNoID<?php echo $page; ?> browsePageNumber page-item <?php echo ($page == $this->currentBrowsePageNo) ? 'active' : ''; ?>">
@@ -137,19 +143,25 @@ class PlaylistSearch extends OWMPElements
                     }
                     ?>
                     <?php
-                ?>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next"
-                       onclick="makePageActive(0, 'next'); <?php echo $nextFunction; ?>">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+
+                    if ($this->currentBrowsePageNo < $numberOfPages) {
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next"
+                               onclick="makePageActive(0, 'next'); <?php echo $nextFunction; ?>">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+            </nav>
 
 
-        <?php
+            <?php
+        }
 
 
     }
