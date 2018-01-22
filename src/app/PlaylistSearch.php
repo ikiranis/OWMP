@@ -43,8 +43,112 @@ class PlaylistSearch extends OWMPElements
     public $playlist; // H playlist που θα εμφανιστεί
     public $lastOperator; // Το τελευταίο operator που εμφανίστηκε, για να το σβήσουμε
     public $currentBrowsePageNo = 0;  // The current browse page number
+    public $numberOfPages;  // Sum of pages in playlist
+    public $pagesArray = []; // Array of pages to display
 
-    // Εμφανίζει τα browse buttons
+    protected $searchFunction;
+    protected $previousFunction;
+    protected $nextFunction;
+
+    /**
+     * Get the array of pages to display in pagination
+     */
+    public function getBrowsePagesArray()
+    {
+
+        for ($page=0; $page<=$this->numberOfPages; $page++) {
+            $this->pagesArray[] = $page;
+        }
+
+        // If pages are to many to display, break into two arrays
+        if($this->numberOfPages>15) {
+            $firstArraySlice = array_slice($this->pagesArray, 0, 4);
+            $lastArraySlice = array_slice($this->pagesArray, $this->numberOfPages - 4, 4);
+
+            // If current page does axist in my arrays
+            if (in_array($this->currentBrowsePageNo, $firstArraySlice) == false
+                && in_array($this->currentBrowsePageNo, $lastArraySlice) == false) {
+
+                // Change values of firstArraySlive to be next to current page
+                $currentPageDifference = $this->currentBrowsePageNo - end($firstArraySlice);
+                foreach ($firstArraySlice as $key => $page) {
+                    $firstArraySlice[$key] = $page + $currentPageDifference;
+                }
+
+            }
+
+            // Merge the arrays and set a space between them
+            $this->pagesArray = array_merge($firstArraySlice, [' '], $lastArraySlice);
+        }
+    }
+
+    /**
+     * Display the pagination elements
+     */
+    public function displayPaginationElements()
+    {
+        if($this->numberOfPages>0) { // If there is more than one page, display the pagination
+            ?>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center pagination-sm">
+
+                    <?php
+                    if ($this->currentBrowsePageNo > 0) {
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               onclick="makePageActive(0, 'prev'); <?php echo $this->previousFunction; ?>">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <?php
+                    }
+
+                    foreach ($this->pagesArray as $page) {
+                        // Get the current page offset
+                        if ($page !== ' ') {
+                            $pageFunction = $this->searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
+                            ?>
+                            <li class="browsePageNoID<?php echo $page; ?> browsePageNumber page-item <?php echo ($page == $this->currentBrowsePageNo) ? 'active' : ''; ?>">
+                                <a class="page-link" href="#"
+                                   onclick="makePageActive(<?php echo $page; ?>, false); <?php echo $pageFunction; ?> "><?php echo $page; ?></a>
+                            </li>
+                            <?php
+                        } else {
+                            ?>
+                            <li class="page-item">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <?php
+
+                    if ($this->currentBrowsePageNo < $this->numberOfPages) {
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next"
+                               onclick="makePageActive(0, 'next'); <?php echo $this->nextFunction; ?>">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+            </nav>
+
+            <?php
+        }
+    }
+
+    /**
+     * Get pagination values
+     */
     public function getBrowseButtons()
     {
         // Έλεγχος για το τι είδους λίστα εμφανίζει
@@ -66,103 +170,22 @@ class PlaylistSearch extends OWMPElements
 
         // Find the javascript function we gonna use for search
         switch ($_SESSION['operation']) {
-            case 'search' : $searchFunction = 'searchPlaylist'; break;
-            case 'duplicates' : $searchFunction = 'findDuplicates'; break;
-            case 'votePlaylist' : $searchFunction = 'getVotePlaylist'; break;
-            case 'manualPlaylist' : $searchFunction = 'playMyPlaylist'; break;
+            case 'search' : $this->searchFunction = 'searchPlaylist'; break;
+            case 'duplicates' : $this->searchFunction = 'findDuplicates'; break;
+            case 'votePlaylist' : $this->searchFunction = 'getVotePlaylist'; break;
+            case 'manualPlaylist' : $this->searchFunction = 'playMyPlaylist'; break;
         }
 
 //        var_dump($this->fieldsArray);
 
         // Get the number of pages
-        $numberOfPages = (int)($_SESSION['countThePlaylist'] / $this->step);
+        $this->numberOfPages = (int)($_SESSION['countThePlaylist'] / $this->step);
 
         // Get the javascript functions with parameters
-        $previousFunction = $searchFunction . '(' . (($this->offset > 0) ? ($this->offset - $this->step) : '0') . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
-        $nextFunction = $searchFunction . '(' . ((($this->offset + $this->step) < $_SESSION['countThePlaylist']) ? ($this->offset + $this->step) : $this->offset) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
+        $this->previousFunction = $this->searchFunction . '(' . (($this->offset > 0) ? ($this->offset - $this->step) : '0') . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
+        $this->nextFunction = $this->searchFunction . '(' . ((($this->offset + $this->step) < $_SESSION['countThePlaylist']) ? ($this->offset + $this->step) : $this->offset) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
 
-        // Array of pages to display
-        $pagesArray = [];
-
-        for ($page=0; $page<=$numberOfPages; $page++) {
-                $pagesArray[] = $page;
-        }
-
-        // If pages are to many to display, break into two arrays
-        if($numberOfPages>10) {
-            $firstArraySlice = array_slice($pagesArray, 0, 5);
-            $lastArraySlice = array_slice($pagesArray, count($pagesArray) - 5, 5);
-
-            if (in_array($this->currentBrowsePageNo, $firstArraySlice) == false && in_array($this->currentBrowsePageNo, $lastArraySlice) == false) {
-                $currentPageDifference = $this->currentBrowsePageNo - end($firstArraySlice);
-                foreach ($firstArraySlice as $key => $page) {
-                    $firstArraySlice[$key] = $page + $currentPageDifference;
-                }
-            }
-
-            $pagesArray = array_merge($firstArraySlice, [' '], $lastArraySlice);
-        }
-
-        if($numberOfPages>0) {
-
-            ?>
-
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center pagination-sm">
-
-                    <?php
-                    if ($this->currentBrowsePageNo > 0) {
-                        ?>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous"
-                               onclick="makePageActive(0, 'prev'); <?php echo $previousFunction; ?>">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <?php
-                    }
-
-                    foreach ($pagesArray as $page) {
-                        // Get the current page offset
-                        if ($page !== ' ') {
-                            $pageFunction = $searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
-                            ?>
-                            <li class="browsePageNoID<?php echo $page; ?> browsePageNumber page-item <?php echo ($page == $this->currentBrowsePageNo) ? 'active' : ''; ?>">
-                                <a class="page-link" href="#"
-                                   onclick="makePageActive(<?php echo $page; ?>, false); <?php echo $pageFunction; ?> "><?php echo $page; ?></a>
-                            </li>
-                            <?php
-                        } else {
-                            ?>
-                            <li class="page-item">
-                                <a class="page-link" href="#">...</a>
-                            </li>
-                            <?php
-                        }
-                    }
-                    ?>
-                    <?php
-
-                    if ($this->currentBrowsePageNo < $numberOfPages) {
-                        ?>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next"
-                               onclick="makePageActive(0, 'next'); <?php echo $nextFunction; ?>">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-                </ul>
-            </nav>
-
-
-            <?php
-        }
-
+        $this->getBrowsePagesArray(); // Get the array of pages to display in pagination
 
     }
 
@@ -639,8 +662,9 @@ class PlaylistSearch extends OWMPElements
 
             <?php
 
-            // Εμφάνιση των κουμπιών previous/next
-            $this->getBrowseButtons();
+            // Display pagination
+            $this->getBrowseButtons(); // Get Pagination values
+            $this->displayPaginationElements(); // Display pagination elements
 
             ?>
 
@@ -679,8 +703,7 @@ class PlaylistSearch extends OWMPElements
 
             <?php
 
-            // Εμφάνιση των κουμπιών previous/next
-            $this->getBrowseButtons();
+            $this->displayPaginationElements(); // Display pagination elements
 
             ?>
 
