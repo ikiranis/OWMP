@@ -568,7 +568,8 @@ function searchPlaylist(offset, step, firstTime, search) {
             step: step,
             firstTime: firstTime,
             mediaKind: mediaKind,
-            tabID: tabID
+            tabID: tabID,
+            currentBrowsePage: currentBrowsePage
         },
         success: function (data) {
             if (data) {
@@ -2126,16 +2127,42 @@ function makePageActive(page, operation)
     // Remove from all items the active class
     $('.browsePageNumber').removeClass('active');
 
-    if(operation=='next') {
-        page = currentBrowsePage + 1;
-    } else {
-        page = currentBrowsePage - 1;
+    if(operation) {
+        if (operation === 'next') {
+            page = currentBrowsePage + 1;
+        } else {
+            page = currentBrowsePage - 1;
+        }
     }
 
     // Add active class to current page item
-    $('#browsePageNoID' + page).addClass('active');
+    $('.browsePageNoID' + page).addClass('active');
 
     currentBrowsePage = page;
+
+    // var pageNoExist = false;
+
+    // $(".browsePageNumber").each(function (index) {
+    //     var pageNo = parseInt($(this).children('a').text());
+    //
+    //     if(pageNo === currentBrowsePage) {
+    //         pageNoExist = true;
+    //         return;
+    //     }
+    // });
+
+    // // Increase other previous page numbers
+    // if(!pageNoExist) {
+    //     $(".browsePageNumber").each(function (index) {
+    //         var pageNo = parseInt($(this).children('a').text());
+    //
+    //         if (pageNo <= currentBrowsePage) {
+    //             $(this).removeClass('browsePageNoID' + pageNo).addClass('browsePageNoID' + parseInt(pageNo + 1));
+    //             $(this).children('a').text(parseInt(pageNo + 1));
+    //         }
+    //
+    //     });
+    // }
 }
 
 /**
@@ -2151,7 +2178,8 @@ function getCurrentBrowsePage(firstPage)
     }
 
     // Add active class to current page item
-    $('#browsePageNoID' + currentBrowsePage).addClass('active');
+    $('.browsePageNoID' + currentBrowsePage).addClass('active');
+
 }
 
 /**

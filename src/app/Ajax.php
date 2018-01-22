@@ -959,6 +959,10 @@ class Ajax extends Controller
             $tabID=ClearString($_GET['tabID']);
         else $tabID = null;
 
+        if(isset($_GET['currentBrowsePage']))
+            $currentBrowsePage = ClearString($_GET['currentBrowsePage']);
+        else $currentBrowsePage = 0;
+
         $playlist->fieldsArray = $jsonArray;
         $playlist->offset = $offset;
         $playlist->step = $step;
@@ -967,6 +971,7 @@ class Ajax extends Controller
         $playlist->tabID = $tabID;
         $playlist->loadPlaylist = null;
         $playlist->votePlaylist = false;
+        $playlist->currentBrowsePageNo = $currentBrowsePage;
 
         if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
             $playlist->getPlaylist();

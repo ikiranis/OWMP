@@ -86,7 +86,7 @@ function createCookie(name, value, minutes) {
     if (minutes) {
         var date = new Date();
         date.setTime(date.getTime() + (minutes));
-        expires = minutes;
+        expires = date;
     } else {
         expires = "";
     }

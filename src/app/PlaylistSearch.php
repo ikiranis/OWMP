@@ -42,6 +42,7 @@ class PlaylistSearch extends OWMPElements
     public $mainTables; // Οι πίνακες που θα γίνουν join
     public $playlist; // H playlist που θα εμφανιστεί
     public $lastOperator; // Το τελευταίο operator που εμφανίστηκε, για να το σβήσουμε
+    public $currentBrowsePageNo = 0;  // The current browse page number
 
     // Εμφανίζει τα browse buttons
     public function getBrowseButtons()
@@ -81,35 +82,35 @@ class PlaylistSearch extends OWMPElements
         ?>
 
         <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
+            <ul class="pagination justify-content-center pagination-sm">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous" onclick="<?php echo $previousFunction; ?> makePageActive(0, 'prev');">
+                    <a class="page-link" href="#" aria-label="Previous"
+                       onclick="makePageActive(0, 'prev'); <?php echo $previousFunction; ?>">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
 
                 <?php
+
                     for ($page=0; $page<=$numberOfPages; $page++) {
                         if( ($numberOfPages<10) || ($page<4 || $page>$numberOfPages-4) ) {
                             // Get the current page offset
                             $pageFunction = $searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ');';
                             ?>
-                            <li id="browsePageNoID<?php echo $page; ?>" class="browsePageNumber page-item">
+                            <li class="browsePageNoID<?php echo $page; ?> browsePageNumber page-item <?php if($page==$this->currentBrowsePageNo) echo 'active'; ?>">
                                 <a class="page-link" href="#"
-                                   onclick="<?php echo $pageFunction; ?> makePageActive(<?php echo $page; ?>);">
-                                    <?php echo $page; ?>
-                                </a>
+                                   onclick="makePageActive(<?php echo $page; ?>, false); <?php echo $pageFunction;?> "><?php echo $page; ?></a>
                             </li>
                             <?php
                         }
                     }
                     ?>
-                    <script>getCurrentBrowsePage(<?php echo $_SESSION['PlaylistCounter']; ?>)</script>
                     <?php
                 ?>
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next" onclick="<?php echo $nextFunction; ?> makePageActive(0, 'next');">
+                    <a class="page-link" href="#" aria-label="Next"
+                       onclick="makePageActive(0, 'next'); <?php echo $nextFunction; ?>">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
