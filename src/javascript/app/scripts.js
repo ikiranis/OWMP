@@ -629,7 +629,8 @@ function playMyPlaylist(offset, step, firstTime) {
                         firstTime: firstTime,
                         loadPlaylist: 'true',
                         offset: offset,
-                        step: step
+                        step: step,
+                        currentBrowsePage: currentBrowsePage
                     },
                     success: function (data) {
                         if (data) {

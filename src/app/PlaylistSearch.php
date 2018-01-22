@@ -72,12 +72,36 @@ class PlaylistSearch extends OWMPElements
             case 'manualPlaylist' : $searchFunction = 'playMyPlaylist'; break;
         }
 
+//        var_dump($this->fieldsArray);
+
         // Get the number of pages
         $numberOfPages = (int)($_SESSION['countThePlaylist'] / $this->step);
 
         // Get the javascript functions with parameters
-        $previousFunction = $searchFunction . '(' . (($this->offset > 0) ? ($this->offset - $this->step) : '0') . ',' . $this->step . ');';
-        $nextFunction = $searchFunction . '(' . ((($this->offset + $this->step) < $_SESSION['countThePlaylist']) ? ($this->offset + $this->step) : $this->offset) . ',' . $this->step . ');';
+        $previousFunction = $searchFunction . '(' . (($this->offset > 0) ? ($this->offset - $this->step) : '0') . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
+        $nextFunction = $searchFunction . '(' . ((($this->offset + $this->step) < $_SESSION['countThePlaylist']) ? ($this->offset + $this->step) : $this->offset) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
+
+        // Array of pages to display
+        $pagesArray = [];
+
+        for ($page=0; $page<=$numberOfPages; $page++) {
+                $pagesArray[] = $page;
+        }
+
+        // If pages are to many to display, break into two arrays
+        if($numberOfPages>10) {
+            $firstArraySlice = array_slice($pagesArray, 0, 5);
+            $lastArraySlice = array_slice($pagesArray, count($pagesArray) - 5, 5);
+
+            if (in_array($this->currentBrowsePageNo, $firstArraySlice) == false && in_array($this->currentBrowsePageNo, $lastArraySlice) == false) {
+                $currentPageDifference = $this->currentBrowsePageNo - end($firstArraySlice);
+                foreach ($firstArraySlice as $key => $page) {
+                    $firstArraySlice[$key] = $page + $currentPageDifference;
+                }
+            }
+
+            $pagesArray = array_merge($firstArraySlice, [' '], $lastArraySlice);
+        }
 
         ?>
 
@@ -93,14 +117,20 @@ class PlaylistSearch extends OWMPElements
 
                 <?php
 
-                    for ($page=0; $page<=$numberOfPages; $page++) {
-                        if( ($numberOfPages<10) || ($page<4 || $page>$numberOfPages-4) ) {
-                            // Get the current page offset
-                            $pageFunction = $searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ');';
+                    foreach ($pagesArray as $page) {
+                        // Get the current page offset
+                        if($page!==' ') {
+                            $pageFunction = $searchFunction . '(' . ($page * $this->step) . ',' . $this->step . ', false, ' . htmlentities(json_encode($this->fieldsArray)) . ');';
                             ?>
-                            <li class="browsePageNoID<?php echo $page; ?> browsePageNumber page-item <?php if($page==$this->currentBrowsePageNo) echo 'active'; ?>">
+                            <li class="browsePageNoID<?php echo $page; ?> browsePageNumber page-item <?php echo ($page == $this->currentBrowsePageNo) ? 'active' : ''; ?>">
                                 <a class="page-link" href="#"
-                                   onclick="makePageActive(<?php echo $page; ?>, false); <?php echo $pageFunction;?> "><?php echo $page; ?></a>
+                                   onclick="makePageActive(<?php echo $page; ?>, false); <?php echo $pageFunction; ?> "><?php echo $page; ?></a>
+                            </li>
+                            <?php
+                        } else {
+                            ?>
+                            <li class="page-item">
+                                <a class="page-link" href="#">...</a>
                             </li>
                             <?php
                         }
@@ -261,7 +291,7 @@ class PlaylistSearch extends OWMPElements
 
 
                 <td class="cell-wrap mcw-6 song_name" title="<?php echo $track['song_name']; ?>">
-                    <span class="searchableItem" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
+                    <span class="searchableItem" onclick="searchPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>, true,
                         <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
                             <?php echo $track['song_name']; ?>
                     </span>
@@ -272,6 +302,7 @@ class PlaylistSearch extends OWMPElements
                             <?php echo $track['artist']; ?>
                     </span>
                 </td>
+
                 <td class="cell-wrap mcw-2 d-none d-lg-table-cell album" title="<?php echo $track['album']; ?>">
                     <span class="searchableItem"  onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>,true,
                         <?php echo htmlentities(json_encode(self::getSearchArray('album', $track['album']))); ?>);">
