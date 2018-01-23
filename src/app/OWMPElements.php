@@ -1562,14 +1562,14 @@ class OWMPElements extends OWMP
 
                     </div>
 
-                    <div class="modal-footer row no-gutters">
-                        <input type="button" class="btn btn-success ml-auto" name="submit" id="submit"
+                    <div class="modal-footer row w-100 no-gutters">
+                        <input type="button" class="btn btn-success col mx-1 my-1 px-1" name="submit" id="submit"
                                value="<?php echo __('tag_form_submit'); ?>" onclick="editFiles();">
 
-                        <input type="button" class="btn btn-warning" name="clearEdit" id="clearEdit"
+                        <input type="button" class="btn btn-warning col mx-1 my-1 px-1" name="clearEdit" id="clearEdit"
                                value="<?php echo __('search_text_clear'); ?>" onclick="resetFormMassiveTags();">
 
-                        <input type="button" class="btn btn-danger mr-auto" name="cancelEdit" id="cancelEdit"
+                        <input type="button" class="btn btn-danger col mx-1 my-1 px-1" name="cancelEdit" id="cancelEdit"
                                value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheEdit();">
                     </div>
                 </div>
@@ -1766,10 +1766,10 @@ class OWMPElements extends OWMP
 
                     </div>
 
-                    <div class="modal-footer row no-gutters">
-                        <input type="button" class="btm btn-success btn-sm PlaylistButton ml-auto" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
+                    <div class="modal-footer row w-100 no-gutters">
+                        <input type="button" class="btm btn-success btn-sm PlaylistButton col mx-1 my-1 px-1" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
                                value="<?php echo __('create_playlist'); ?>">
-                        <input type="button" class="btm btn-danger btn-sm mr-auto" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
+                        <input type="button" class="btm btn-danger btn-sm col mx-1 my-1 px-1" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
                     </div>
                 </div>
             </div>
@@ -1838,11 +1838,11 @@ class OWMPElements extends OWMP
 
                     </div>
 
-                    <div class="modal-footer row no-gutters">
-                        <input type="button" class="btn btn-success ml-auto" id="startSleepTimerButton" name="startSleepTimerButton"
+                    <div class="modal-footer row w-100 no-gutters">
+                        <input type="button" class="btn btn-success btn-sm col my-1 mx-1 px-1" id="startSleepTimerButton" name="startSleepTimerButton"
                                onclick="startSleepTimer();"
                              value="<?php echo __('start_sleep_timer'); ?>">
-                        <input type="button" class="btn btn-danger mr-auto" name="cancelSleepTimer" id="cancelSleepTimer"
+                        <input type="button" class="btn btn-danger btn-sm col my-1 mx-1 px-1" name="cancelSleepTimer" id="cancelSleepTimer"
                             value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSleepTimer();">
                     </div>
                 </div>
@@ -2036,11 +2036,12 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div class="collapse navbar-collapse w-100" id="navbarNavToolbar">
+        <div class="collapse navbar-collapse w-75 ml-auto mr-auto" id="navbarNavToolbar">
             <div class="navbar-nav nav-pills">
-                    <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white" name="sendToJukebox" id="sendToJukebox"
+                    <input type="button" class="btn btm-sm btn-dark nav-item nav-link my-1 text-white px-1"
+                           name="sendToJukebox" id="sendToJukebox"
                            value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
-                    <input type="button" class="btn btn-dark nav-item nav-link my-1 text-white"
+                    <input type="button" class="btn btn-sm btn-dark nav-item nav-link my-1 text-white px-1"
                            name="displaySleepTimer" id="displaySleepTimer"
                            data-toggle="modal" data-target="#insertSleepTimerWindow"
                            value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">

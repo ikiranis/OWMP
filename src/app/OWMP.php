@@ -137,19 +137,20 @@ class OWMP
 
             <?php
             if ($UserGroup==1) {
+
                 ?>
                 <div class="col-2 col-lg-2 col-sm-1 my-1">
 
                     <div class="navbar navbar-light py-0 px-0">
-                        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNavToolbar"
+                        <button class="navbar-toggler ml-auto" title="Tools" data-toggle="collapse" data-target="#navbarNavToolbar"
                                 aria-controls="navbarNavToolbar" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon" id="tools-toggler"></span>
                         </button>
 
-                        <?php $OWMPElements->displaySomeTools(); // Εμφάνιση διάφορων εργαλείων ?>
                     </div>
                 </div>
                 <?php
+
             }
             ?>
 
@@ -158,12 +159,10 @@ class OWMP
             </div>
 
 
-
         </div>
 
-
-
         <?php
+        $OWMPElements->displaySomeTools(); // Εμφάνιση διάφορων εργαλείων
         $OWMPElements->displayPlaylistContainer($offset,$step); // Εμφάνιση του playlist container
     }
 
