@@ -74,10 +74,27 @@
 
 .playlist_button_img {
     background-size: 1em;
-    /*width: auto;*/
-    /*height: auto;*/
     background-color: transparent;
     border: none;
     cursor: pointer;
     background-position: center center;
+}
+
+
+/*Pagination*/
+
+.playlistPagination>li {
+    border: 1px solid lightgrey !important;
+    width: auto !important;
+}
+
+.playlistPagination>li.active>a {
+    background-color: black !important;
+    color: white !important;
+    border: 1px solid lightgrey !important;
+}
+
+.playlistPagination .page-link {
+    color: black;
+    font-size: 0.6em;
 }

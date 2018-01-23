@@ -90,8 +90,8 @@ class PlaylistSearch extends OWMPElements
         if($this->numberOfPages>0) { // If there is more than one page, display the pagination
             ?>
 
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center pagination-sm">
+            <nav class="h-100" aria-label="Page navigation">
+                <ul class="playlistPagination pagination justify-content-center pagination-sm">
 
                     <?php
                     if ($this->currentBrowsePageNo > 0) {
@@ -118,7 +118,7 @@ class PlaylistSearch extends OWMPElements
                             <?php
                         } else {
                             ?>
-                            <li class="page-item">
+                            <li class="page-item disabled">
                                 <a class="page-link" href="#">...</a>
                             </li>
                             <?php

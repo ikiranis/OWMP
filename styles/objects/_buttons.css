@@ -1,12 +1,5 @@
 /* Buttons */
 
-#browseButtons {
-    width:100%;
-    display: block;
-    text-align: right;
-    padding: 0em 0 0.3em 0;
-}
-
 .myButton {
     background-color: black;
     color: white;
@@ -19,8 +12,6 @@
     transition:all 0.5s;
     margin: 0.1em 0.5em 0.1em 0.5em;
 }
-
-
 
 .myButton:hover {
     transform: scale(1.05);
