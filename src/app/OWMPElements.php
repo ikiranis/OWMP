@@ -487,7 +487,7 @@ class OWMPElements extends OWMP
 
 
         ?>
-        <div class="ListTable">
+        <div>
 
             <?php
 
@@ -496,46 +496,60 @@ class OWMPElements extends OWMP
             foreach($paths as $path)
             {
                 ?>
-                <div class="PathsRow" id="PathID<?php echo $path['id']; ?>">
-                    <form class="table_form paths_form" id="paths_formID<?php echo $path['id']; ?>">
+                    <div  id="PathID<?php echo $path['id']; ?>">
+                        <form class="row no-gutters my-1" id="paths_formID<?php echo $path['id']; ?>">
 
-                        <span class="ListColumn"><input class="input_field"
-                                                        placeholder="<?php echo __('paths_file_path'); ?>"
-                                                        maxlength="255" required type="text" name="file_path" id="file_path"
-                                                        value="<?php echo $path['file_path']; ?>"
-                                                        onclick="displayBrowsePath('paths_formID<?php echo $path['id']; ?>');" ></span>
+                            <div class="form-group my-1 w-100 col-5 px-1">
+                                <label for="file_path" class="sr-only"><?php echo __('paths_file_path'); ?></label>
+                                <input type="text" class="form-control form-control-sm" id="file_path" name="file_path"
+                                       maxlength="255" required placeholder="<?php echo __('paths_file_path'); ?>"
+                                       value="<?php echo $path['file_path']; ?>" onclick="displayBrowsePath('paths_formID<?php echo $path['id']; ?>');">
+                            </div>
 
-                        <span class="ListColumn">
-                            <select class="input_field" name="kind" id="kind" >
-                                <?php
-                                foreach ($mediaKinds as $mediaKind) {
-                                    ?>
-                                    <option value="<?php echo $mediaKind; ?>"
-                                        <?php if($mediaKind==$path['kind']) echo 'selected=selected'; ?>>
-                                        <?php echo $mediaKind ?>
-                                    </option>
-
+                            <div class="form-group my-1 w-100 col-5 px-1">
+                                <label for="kind" class="sr-only">Media Kind</label>
+                                <select class="form-control form-control-sm" id="kind" name="kind">
                                     <?php
-                                }
-                                ?>
-                            </select>
-                        </span>
+                                    foreach ($mediaKinds as $mediaKind) {
+                                        ?>
+                                        <option value="<?php echo $mediaKind; ?>"
+                                            <?php if($mediaKind==$path['kind']) echo 'selected=selected'; ?>>
+                                            <?php echo $mediaKind ?>
+                                        </option>
 
-                        <input type="button" class="update_button button_img" name="update_path" title="<?php echo __('update_row'); ?>" onclick="updatePath(<?php echo $path['id']; ?>);">
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                             </div>
 
-                        <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_path" title="<?php echo __('delete_row'); ?>" onclick="deletePath(<?php echo $path['id']; ?>);">
 
-                        <input type="button" class="message" id="messagePathID<?php echo $path['id']; ?>">
-                    </form>
+                            <div class="col-2 px-1 text-right">
+                                <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" id="update_path"
+                                      title="<?php echo __('update_row'); ?>" onclick="updatePath(<?php echo $path['id']; ?>);">
+                                </span>
 
-                </div>
+                                <span class="mdi mdi-delete mdi-24px hasCursorPointer <?php if($counter==1) echo 'dontDelete'; ?>"
+                                      id="delete_path" title="<?php echo __('delete_row'); ?>" onclick="deletePath(<?php echo $path['id']; ?>);">
+                                </span>
+
+                                <input type="button" class="message" id="messagePathID<?php echo $path['id']; ?>">
+                            </div>
+
+
+                        </form>
+                    </div>
+
                 <?php
                 $counter++;
             }
             ?>
 
         </div>
-        <input type="button" class="myButton insert_row" name="insert_path" onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
+
+        <div class="row">
+            <input type="button" class="btn btn-warning btn-sm ml-auto mr-auto w-25" name="insert_path" onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
+        </div>
 
         <?php
     }

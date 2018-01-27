@@ -57,8 +57,8 @@ function updatePath(id)
                         var PathID = $("#PathID" + LastInserted);
                         PathID.find('form').prop('id','paths_formID'+ LastInserted);
                         PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath(" + LastInserted + ")");
-                        PathID.find('input[name="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
-                        PathID.find('input[name="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
+                        PathID.find('span[id="update_path"]').attr("onclick", "updatePath(" + LastInserted + ")");
+                        PathID.find('span[id="delete_path"]').attr("onclick", "deletePath(" + LastInserted + ")");
                         PathID.find('input[id^="messagePathID"]').prop('id', 'messagePathID' + LastInserted);
                         $("#messagePathID" + LastInserted).addClassDelay("success", 3000);
 
@@ -107,8 +107,8 @@ function deletePath(id) {
                     PathID.find('input[id^="messagePathID"]').text('').prop('id','messagePathID0');
                     // αλλάζει την function στο button
                     PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath(paths_formID0)");
-                    PathID.find('input[name="update_path"]').attr("onclick", "updatePath(0)");
-                    PathID.find('input[name="delete_Path"]').attr("onclick", "deletePath(0)");
+                    PathID.find('span[id="update_path"]').attr("onclick", "updatePath(0)");
+                    PathID.find('span[id="delete_Path"]').attr("onclick", "deletePath(0)");
 
                     $('#paths_formID0').validate({ // initialize the plugin
                         errorElement: 'div'
@@ -137,11 +137,9 @@ function insertPath() {
         PathID.find('form').prop('id','paths_formID0');
         PathID.find('input[id^="messagePathID"]').text('').removeClass('success').prop('id','messagePathID0');
         // αλλάζει την function στο button
-        PathID.find('select[name="main"]').attr("onchange", "checkMainSelected(0, false)");
         PathID.find('input[name="file_path"]').attr("onclick", "displayBrowsePath('paths_formID0')");
-        PathID.find('select[name="main"]').val(0);
-        PathID.find('input[name="update_path"]').attr("onclick", "updatePath(0)");
-        PathID.find('input[name="delete_path"]').attr("onclick", "deletePath(0)");
+        PathID.find('span[id="update_path"]').attr("onclick", "updatePath(0)");
+        PathID.find('span[id="delete_path"]').attr("onclick", "deletePath(0)");
         PathKeyPressed=true;
 
         $('#paths_formID0').validate({ // initialize the plugin
@@ -212,7 +210,7 @@ function cancelTheBrowse() {
  * Εισαγωγή διαδρομής στο σχετικό text input field
  */
 function importPath() {
-    document.querySelector('#'+currentPathFormID+' #file_path').value = document.querySelector('#chosenPathText').innerText.slice(0, -1);
+    document.querySelector('#' + currentPathFormID + ' #file_path').value = document.querySelector('#chosenPathText').innerText.slice(0, -1);
     $('#browsePathWindow').hide();
 }
 
