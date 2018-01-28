@@ -63,7 +63,7 @@ $scripts = array (
     'src/javascript/framework/jquery.validate.min.js',      // extension του jquery για form validation
     'src/javascript/framework/nodep-date-input-polyfill.dist.js', // date input type polyfill. https://github.com/brianblakely/nodep-date-input-polyfill
     'src/javascript/framework/pattern.js',  // extension για το validate. ενεργοποιεί το validation των patterns
-    'styles/external/popper.js', // popper js @source https://popper.js.org/
+//    'styles/external/popper.js', // popper js @source https://popper.js.org/
     'styles/external/bootstrap-4.0.0/js/bootstrap.js' // Bootstrap @source https://getbootstrap.com/
 );
 
