@@ -787,7 +787,7 @@ class OWMPElements extends OWMP
             <div id="syncButtons">
                 <form id="syncForm" name="syncForm">
 
-                    <div class="row">
+                    <div class="row px-1 my-2 no-gutters">
 
                         <div class="form-group my-1 col-6">
                             <label for="mediakind" class="sr-only">Label text</label>
