@@ -806,7 +806,7 @@ class OWMPElements extends OWMP
                         </div>
 
                         <div class="col-4 px-1 col-6">
-                            <input type="button" class="btn btn-dark w-75" id="startSync" name="startSync" onclick="startTheSync('sync');"
+                            <input type="button" class="btn btn-success w-75" id="startSync" name="startSync" onclick="startTheSync('sync');"
                                    value="<?php echo __('Synchronize'); ?>">
                             <input type="hidden" id="jsGDOK" value="<?php if(function_exists('gd_info')) echo 'true'; else 'false'; ?>">
                             <?php Page::getHelp('help_sync'); ?>
@@ -818,19 +818,19 @@ class OWMPElements extends OWMP
                     <div class="row my-2 no-gutters">
 
                         <div class="col-4 px-1">
-                            <input type="button" class="btn btn-dark w-75" id="startClear" name="startClear" onclick="startTheSync('clear');"
+                            <input type="button" class="btn btn-warning w-75" id="startClear" name="startClear" onclick="startTheSync('clear');"
                                    value="<?php echo __('sync_clear'); ?>">
                             <?php Page::getHelp('help_clear_db'); ?>
                         </div>
 
                         <div class="col-4 px-1">
-                            <input type="button" class="btn btn-dark w-75" id="startHash" name="startHash" onclick="startTheSync('hash');"
+                            <input type="button" class="btn btn-warning w-75" id="startHash" name="startHash" onclick="startTheSync('hash');"
                                    value="<?php echo __('sync_hash'); ?>">
                             <?php Page::getHelp('help_hash'); ?>
                         </div>
 
                         <div class="col-4 px-1">
-                            <input type="button" class="btn btn-dark w-75" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
+                            <input type="button" class="btn btn-warning w-75" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
                                    value="<?php echo __('sync_metadata'); ?>">
                             <?php Page::getHelp('help_metadata'); ?>
                         </div>
@@ -839,19 +839,19 @@ class OWMPElements extends OWMP
                     <div class="row my-2 no-gutters">
 
                         <div class="col-4 px-1">
-                            <input type="button" class="btn btn-dark w-75" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
+                            <input type="button" class="btn btn-warning w-75" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
                                    value="<?php echo __('sync_json'); ?>">
                             <?php Page::getHelp('help_playlist_export'); ?>
                         </div>
 
                         <div class="col-4 px-1">
-                            <input type="button" class="btn btn-dark w-75" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
+                            <input type="button" class="btn btn-warning w-75" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
                                    value="<?php echo __('cover_convert'); ?>">
                             <?php Page::getHelp('help_convert_covers'); ?>
                         </div>
 
                         <div class="col-4 px-1">
-                            <input type="button" class="btn btn-dark w-75" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
+                            <input type="button" class="btn btn-warning w-75" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
                                    value="<?php echo __('start_backup'); ?>">
                             <?php Page::getHelp('help_database_backup'); ?>
                             <!-- <input type="checkbox" id="autoDownloadBackupFile" name="autoDownloadBackupFile"> --> <?php // echo __('backup_file_autoload'); ?>
@@ -871,7 +871,7 @@ class OWMPElements extends OWMP
     <!--                               accept=".sql"-->
     <!--                               onchange="UploadFiles.startUpload();" multiple>-->
 
-                            <input type="button" class="btn btn-dark" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
+                            <input type="button" class="btn btn-danger" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
                                    value="<?php echo __('start_restore'); ?>">
                             <?php Page::getHelp('help_database_backup'); ?>
                         </div>
