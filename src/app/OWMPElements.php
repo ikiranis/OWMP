@@ -786,79 +786,90 @@ class OWMPElements extends OWMP
             ?>
             <div id="syncButtons">
                 <form id="syncForm" name="syncForm">
-                    <select name="mediakind" id="mediakind">
-                        <?php
-                        foreach ($mediaKinds as $kind) {
-                            ?>
-                            <option value="<?php echo $kind; ?>">
-                                <?php echo $kind; ?>
-                            </option>
 
+                    <div class="form-group my-1">
+                        <label for="mediakind" class="sr-only">Label text</label>
+                        <select class="form-control form-control-sm" id="mediakind" name="mediakind">
                             <?php
-                        }
-                        ?>
-                    </select>
+                            foreach ($mediaKinds as $kind) {
+                                ?>
+                                <option value="<?php echo $kind; ?>">
+                                    <?php echo $kind; ?>
+                                </option>
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="startSync" name="startSync" onclick="startTheSync('sync');"
-                               value="<?php echo __('Synchronize'); ?>">
-                        <input type="hidden" id="jsGDOK" value="<?php if(function_exists('gd_info')) echo 'true'; else 'false'; ?>">
-                        <?php Page::getHelp('help_sync'); ?>
-                    </p>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                     </div>
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="startClear" name="startClear" onclick="startTheSync('clear');"
-                               value="<?php echo __('sync_clear'); ?>">
-                        <?php Page::getHelp('help_clear_db'); ?>
-                    </p>
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="startHash" name="startHash" onclick="startTheSync('hash');"
-                               value="<?php echo __('sync_hash'); ?>">
-                        <?php Page::getHelp('help_hash'); ?>
-                    </p>
+                    <div class="row my-2 no-gutters">
+                        <div class="col-4 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="startSync" name="startSync" onclick="startTheSync('sync');"
+                                   value="<?php echo __('Synchronize'); ?>">
+                            <input type="hidden" id="jsGDOK" value="<?php if(function_exists('gd_info')) echo 'true'; else 'false'; ?>">
+                            <?php Page::getHelp('help_sync'); ?>
+                        </div>
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
-                               value="<?php echo __('sync_metadata'); ?>">
-                        <?php Page::getHelp('help_metadata'); ?>
-                    </p>
+                        <div class="col-4 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="startClear" name="startClear" onclick="startTheSync('clear');"
+                                   value="<?php echo __('sync_clear'); ?>">
+                            <?php Page::getHelp('help_clear_db'); ?>
+                        </div>
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
-                               value="<?php echo __('sync_json'); ?>">
-                        <?php Page::getHelp('help_playlist_export'); ?>
-                    </p>
+                        <div class="col-4 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="startHash" name="startHash" onclick="startTheSync('hash');"
+                                   value="<?php echo __('sync_hash'); ?>">
+                            <?php Page::getHelp('help_hash'); ?>
+                        </div>
+                    </div>
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
-                               value="<?php echo __('cover_convert'); ?>">
-                        <?php Page::getHelp('help_convert_covers'); ?>
-                    </p>
+                    <div class="row my-2 no-gutters">
+                        <div class="col-4 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
+                                   value="<?php echo __('sync_metadata'); ?>">
+                            <?php Page::getHelp('help_metadata'); ?>
+                        </div>
+
+                        <div class="col-4 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
+                                   value="<?php echo __('sync_json'); ?>">
+                            <?php Page::getHelp('help_playlist_export'); ?>
+                        </div>
+
+                        <div class="col-4 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
+                                   value="<?php echo __('cover_convert'); ?>">
+                            <?php Page::getHelp('help_convert_covers'); ?>
+                        </div>
+                    </div>
 
                     <!--                    <p>-->
                     <!--                        <input type="button" class="myButton syncButton" id="startUpdate" name="startUpdate" onclick="startTheUpdate();"-->
                     <!--                               value="Update">-->
                     <!--                    </p>-->
 
-                    <p>
-                        <input type="button" class="myButton syncButton" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
-                               value="<?php echo __('start_backup'); ?>">
-                        <?php Page::getHelp('help_database_backup'); ?>
-                        <input type="checkbox" id="autoDownloadBackupFile" name="autoDownloadBackupFile"> <?php echo __('backup_file_autoload'); ?>
-                    </p>
+                    <div class="row my-2 no-gutters">
+                        <div class="col-5 px-1">
+                            <input type="button" class="btn btn-dark w-75" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
+                                   value="<?php echo __('start_backup'); ?>">
+                            <?php Page::getHelp('help_database_backup'); ?>
+                            <input type="checkbox" id="autoDownloadBackupFile" name="autoDownloadBackupFile"> <?php // echo __('backup_file_autoload'); ?>
+                        </div>
 
-                    <p>
-                        <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="jsUploadFile(this.files)">
+                        <div class="col-7 px-1">
+                            <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="jsUploadFile(this.files)">
 
-<!--                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"-->
-<!--                               accept=".sql"-->
-<!--                               onchange="UploadFiles.startUpload();" multiple>-->
+    <!--                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"-->
+    <!--                               accept=".sql"-->
+    <!--                               onchange="UploadFiles.startUpload();" multiple>-->
 
-                        <input type="button" class="myButton syncButton" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
-                               value="<?php echo __('start_restore'); ?>">
-                        <?php Page::getHelp('help_database_backup'); ?>
-                    </p>
+                            <input type="button" class="btn btn-dark" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
+                                   value="<?php echo __('start_restore'); ?>">
+                            <?php Page::getHelp('help_database_backup'); ?>
+                        </div>
+                    </div>
 
                 </form>
 
