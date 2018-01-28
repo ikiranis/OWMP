@@ -562,30 +562,40 @@ class OWMPElements extends OWMP
         $downloadPathsArray = MyDB::getTableArray('download_paths', null, null, null, null, null, null);
 
         ?>
-        <div class="ListTable">
+        <div>
 
             <?php
 
             foreach ($downloadPathsArray as $item) {
                 ?>
 
-                <div class="PathsRow" id="<?php echo $item['path_name']; ?>">
-                    <form class="table_form paths_form" id="form<?php echo $item['path_name']; ?>">
-                        <span class="ListColumn"><input class="input_field" disabled
-                                                        placeholder="<?php echo __('options_option'); ?>"
-                                                        type="text" name="option_name" value="<?php echo $item['path_name']; ?>"></span>
-                        <span class="ListColumn"><input class="input_field"
-                                                        placeholder="<?php echo __('paths_file_path'); ?>"
-                                                        maxlength="255" required type="text" name="file_path"
-                                                        id="file_path"
-                                                        value="<?php echo $item['file_path']; ?>"
-                                                        onclick="displayBrowsePath('form<?php echo $item['path_name']; ?>');"></span>
+                <div id="<?php echo $item['path_name']; ?>">
+                    <form class="row no-gutters my-1" id="form<?php echo $item['path_name']; ?>">
 
-                        <input type="button" class="update_button button_img" name="update_path"
-                               title="<?php echo __('update_row'); ?>"
-                               onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
+                        <div class="form-group my-1 w-100 col-5 px-1">
+                            <label for="option_name" class="sr-only"><?php echo $item['path_name']; ?></label>
+                            <input type="text" class="form-control form-control-sm" id="option_name" name="option_name"
+                                   placeholder="<?php echo __('options_option'); ?>" value="<?php echo $item['path_name']; ?>"
+                                   disabled>
+                        </div>
 
-                        <input type="button" class="message" id="message_<?php echo $item['path_name']; ?>">
+                        <div class="form-group my-1 w-100 col-5 px-1">
+                            <label for="file_path" class="sr-only"><?php echo $item['file_path']; ?></label>
+                            <input type="text" class="form-control form-control-sm" id="file_path" name="file_path"
+                                   placeholder="<?php echo __('paths_file_path'); ?>" maxlength="255" required
+                                   value="<?php echo $item['file_path']; ?>"
+                                   onclick="displayBrowsePath('form<?php echo $item['path_name']; ?>');">
+                        </div>
+
+                        <div class="col-2 px-1 text-right">
+                            <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" name="update_path"
+                                   title="<?php echo __('update_row'); ?>"
+                                   onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
+                            </span>
+
+                            <input type="button" class="message" id="message_<?php echo $item['path_name']; ?>">
+                        </div>
+
                     </form>
                 </div>
 
