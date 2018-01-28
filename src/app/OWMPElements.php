@@ -854,7 +854,6 @@ class OWMPElements extends OWMP
                             <input type="button" class="btn btn-warning w-75" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
                                    value="<?php echo __('start_backup'); ?>">
                             <?php Page::getHelp('help_database_backup'); ?>
-                            <!-- <input type="checkbox" id="autoDownloadBackupFile" name="autoDownloadBackupFile"> --> <?php // echo __('backup_file_autoload'); ?>
                         </div>
                     </div>
 

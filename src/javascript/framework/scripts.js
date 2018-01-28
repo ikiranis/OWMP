@@ -289,18 +289,13 @@ function startTheUpdate() {
  * @param: Bool autoDownload = true για να αρχίσει να κατεβάζει αυτόματα το αρχείο
  * @return: DOM object = To a href που θα εμφανίσει
  */
-function getDownloadLink(fullPath, filename, hrefText, autoDownload) {
+function getDownloadLink(fullPath, filename, hrefText) {
 
     var downloadText = document.createElement('a');
     downloadText.href = fullPath;
     downloadText.innerHTML = hrefText;
     downloadText.target = '_blank';
     downloadText.download = filename;
-
-    // TODO Το autoload δεν παίζει σε firefox
-    if(autoDownload) {
-        downloadText.click();
-    }
 
     return downloadText;
 
@@ -322,9 +317,6 @@ function startTheBackup() {
             ProgressAnimation.setProgressPercent(0);
             var resultsContainerElem = $('.o-resultsContainer_text');
 
-            // To checkbox για autodownload
-            var autoDownload = document.querySelector('#autoDownloadBackupFile').checked;
-
             syncRunning = true;
 
             // Κοιτάει για το progress κάθε 5 λεπτά και το τυπώνει
@@ -342,7 +334,7 @@ function startTheBackup() {
                         var path = AJAX_path + "app/serveFile?path=" + data.fullPath;
 
                         // Δημιουργία a href element και αυτόματο download
-                        var downloadText = getDownloadLink(path, data.filename, path, autoDownload);
+                        var downloadText = getDownloadLink(path, data.filename, path);
 
                         displayResultsIcon();
                         resultsContainerElem.append('<br>');
