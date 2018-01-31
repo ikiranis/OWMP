@@ -14,10 +14,9 @@ services:
     restart: always
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
-#      - /var/lib/mysql
 
   apache-server:
-    image: apps4net/apache:1.2
+    image: apps4net/apache:1.3
 #    image: apache
     ports:
       - ${APP_PORT}

@@ -668,8 +668,6 @@ function addSearchRow()
     var newID = parseInt(lastElementID.match(/[0-9]+/))+1;
     var newElementID = 'searchRow' + newID; // To id του νέου searchRow
 
-    console.log(newElementID);
-
     // Προσθέτει το νέο searchRow αντιγράφοντας το searchRow0 και το κάνει visible
     $('#searchRow0').clone().insertAfter('div[id^="searchRow"]:last').prop('id',newElementID);
     var theNewElementID = $('#' + newElementID);
