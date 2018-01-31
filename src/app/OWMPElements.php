@@ -798,7 +798,7 @@ class OWMPElements extends OWMP
 
                     <div class="row px-1 my-2 no-gutters">
 
-                        <div class="form-group my-1 col-6">
+                        <div class="form-group my-1 col-lg-6 col-12 my-1">
                             <label for="mediakind" class="sr-only">Label text</label>
                             <select class="form-control form-control-sm" id="mediakind" name="mediakind">
                                 <?php
@@ -814,7 +814,7 @@ class OWMPElements extends OWMP
                             </select>
                         </div>
 
-                        <div class="col-4 px-1 col-6">
+                        <div class="col-4 px-1 col-lg-6 col-12 my-1">
                             <input type="button" class="btn btn-success w-75" id="startSync" name="startSync" onclick="startTheSync('sync');"
                                    value="<?php echo __('Synchronize'); ?>">
                             <input type="hidden" id="jsGDOK" value="<?php if(function_exists('gd_info')) echo 'true'; else 'false'; ?>">
@@ -826,19 +826,19 @@ class OWMPElements extends OWMP
 
                     <div class="row my-2 no-gutters">
 
-                        <div class="col-4 px-1">
+                        <div class="col-lg-4 col-12 px-1 my-1">
                             <input type="button" class="btn btn-warning w-75" id="startClear" name="startClear" onclick="startTheSync('clear');"
                                    value="<?php echo __('sync_clear'); ?>">
                             <?php Page::getHelp('help_clear_db'); ?>
                         </div>
 
-                        <div class="col-4 px-1">
+                        <div class="col-lg-4 col-12 px-1 my-1">
                             <input type="button" class="btn btn-warning w-75" id="startHash" name="startHash" onclick="startTheSync('hash');"
                                    value="<?php echo __('sync_hash'); ?>">
                             <?php Page::getHelp('help_hash'); ?>
                         </div>
 
-                        <div class="col-4 px-1">
+                        <div class="col-lg-4 col-12 px-1 my-1">
                             <input type="button" class="btn btn-warning w-75" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
                                    value="<?php echo __('sync_metadata'); ?>">
                             <?php Page::getHelp('help_metadata'); ?>
@@ -847,19 +847,19 @@ class OWMPElements extends OWMP
 
                     <div class="row my-2 no-gutters">
 
-                        <div class="col-4 px-1">
+                        <div class="col-lg-4 col-12 px-1 my-1">
                             <input type="button" class="btn btn-warning w-75" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
                                    value="<?php echo __('sync_json'); ?>">
                             <?php Page::getHelp('help_playlist_export'); ?>
                         </div>
 
-                        <div class="col-4 px-1">
+                        <div class="col-lg-4 col-12 px-1 my-1">
                             <input type="button" class="btn btn-warning w-75" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
                                    value="<?php echo __('cover_convert'); ?>">
                             <?php Page::getHelp('help_convert_covers'); ?>
                         </div>
 
-                        <div class="col-4 px-1">
+                        <div class="col-lg-4 col-12 px-1 my-1">
                             <input type="button" class="btn btn-warning w-75" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
                                    value="<?php echo __('start_backup'); ?>">
                             <?php Page::getHelp('help_database_backup'); ?>
@@ -872,7 +872,7 @@ class OWMPElements extends OWMP
                     <!--                    </p>-->
 
                     <div class="row my-2 no-gutters">
-                        <div class="col-12 px-1">
+                        <div class="col-12 px-1 my-1">
                             <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="jsUploadFile(this.files)">
 
     <!--                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"-->
