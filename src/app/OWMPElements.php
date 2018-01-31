@@ -499,14 +499,14 @@ class OWMPElements extends OWMP
                     <div  id="PathID<?php echo $path['id']; ?>">
                         <form class="row no-gutters my-1" id="paths_formID<?php echo $path['id']; ?>">
 
-                            <div class="form-group my-1 w-100 col-5 px-1">
+                            <div class="form-group my-1 w-100 col-lg-5 col-12 px-1">
                                 <label for="file_path" class="sr-only"><?php echo __('paths_file_path'); ?></label>
                                 <input type="text" class="form-control form-control-sm" id="file_path" name="file_path"
                                        maxlength="255" required placeholder="<?php echo __('paths_file_path'); ?>"
                                        value="<?php echo $path['file_path']; ?>" onclick="displayBrowsePath('paths_formID<?php echo $path['id']; ?>');">
                             </div>
 
-                            <div class="form-group my-1 w-100 col-5 px-1">
+                            <div class="form-group my-1 w-100 col-lg-5 col-12 px-1">
                                 <label for="kind" class="sr-only">Media Kind</label>
                                 <select class="form-control form-control-sm" id="kind" name="kind">
                                     <?php
@@ -524,7 +524,7 @@ class OWMPElements extends OWMP
                              </div>
 
 
-                            <div class="col-2 px-1 text-right">
+                            <div class="col-lg-2 col-12 px-1 text-center">
                                 <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" id="update_path"
                                       title="<?php echo __('update_row'); ?>" onclick="updatePath(<?php echo $path['id']; ?>);">
                                 </span>
