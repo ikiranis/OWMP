@@ -653,25 +653,34 @@ class OWMPElements extends OWMP
             if( $this->checkVideoFileUpload['result'] || $this->checkAudioFileUpload['result'] ) {
 
                 ?>
-                <div>
-                    <textarea class="o-youTube__textArea" name="o-youTube__textArea"></textarea>
+                <div class="row px-3 py-1">
 
-                    <select name="jsMediaKind" class="jsMediaKind">
-                        <?php
-                        foreach ($mediaKinds as $kind) {
-                            ?>
-                            <option value="<?php echo $kind; ?>">
-                                <?php echo $kind; ?>
-                            </option>
+                    <div class="form-group col-12">
+                        <label for="o-youTube__textArea" class="sr-only">Youtube Videos</label>
+                        <textarea class="form-control" id="o-youTube__textArea" name="o-youTube__textArea" rows="3"></textarea>
+                    </div>
 
+                    <div class="form-group my-1 col-lg-6 col-12">
+                        <label for="jsMediaKind" class="sr-only">Media Kind</label>
+                        <select class="form-control form-control-sm" id="jsMediaKind" name="jsMediaKind">
                             <?php
-                        }
-                        ?>
-                    </select>
+                            foreach ($mediaKinds as $kind) {
+                                ?>
+                                <option value="<?php echo $kind; ?>">
+                                    <?php echo $kind; ?>
+                                </option>
 
-                    <input type="button" class="myButton syncButton" id="jsDownloadYouTube" name="jsDownloadYouTube"
-                           onclick="downloadTheYouTube();"
-                           value="<?php echo __('sync_youtube'); ?>" >
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-6 col-12">
+                        <input type="button" class="btn btn-dark w-100" id="jsDownloadYouTube" name="jsDownloadYouTube"
+                               onclick="downloadTheYouTube();"
+                               value="<?php echo __('sync_youtube'); ?>" >
+                    </div>
 
                     <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $this->checkVideoFileUpload['result']; ?>">
                     <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $this->checkAudioFileUpload['result']; ?>">
