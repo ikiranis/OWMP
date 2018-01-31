@@ -503,8 +503,8 @@ function getNumberOfSearchRows()
     var searchRows = searchFormID.children('div').length;
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
     var groupRows = searchFormID.children('.groupRow').length;
-    // TODO more test... maybe need to remove 2 from searchRows
-    searchRows = (searchRows-groupRows)-1;
+
+    searchRows = ( (searchRows-2) - (groupRows) );
 
     return searchRows;
 }
@@ -521,6 +521,8 @@ function getSearchArray()
     // Το σύνολο των γραμμών div μέσα στην φόρμα #SearchForm
     var searchRows = getNumberOfSearchRows();
 
+    // console.log(searchRows);
+
     for (var i = 1; i <= searchRows; i++) {
         searchArray[i] = {
             'search_field': $('#search_field' + i).val(),
@@ -531,6 +533,7 @@ function getSearchArray()
         }
     }
 
+    console.log(searchArray);
     return searchArray;
 }
 
