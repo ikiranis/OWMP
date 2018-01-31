@@ -504,7 +504,7 @@ function getNumberOfSearchRows()
     // Το σύνολο των γραμμών .groupRow στην φόρμα #SearchForm
     var groupRows = searchFormID.children('.groupRow').length;
 
-    searchRows = ( (searchRows-2) - (groupRows) );
+    searchRows = ( (searchRows-1) - (groupRows) );
 
     return searchRows;
 }
@@ -724,7 +724,7 @@ function addOrAndToGroup(elementID)
     // Το div element μέσα στο οποίο θα μπει το select
     var divElement = document.createElement('div');
     divElement.setAttribute('id', 'searchRow-' + elementID);
-    divElement.setAttribute('class', 'row w-25 mx-1' );
+    divElement.setAttribute('class', 'groupRow row w-25 mx-1' );
 
     // Δημιουργεί το select
     var selectElement = document.createElement('select');
