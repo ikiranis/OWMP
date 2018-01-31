@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 MAINTAINER rocean <rocean74@gmail.com>
 
 # Install apache, PHP, and supplimentary programs

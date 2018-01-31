@@ -668,6 +668,8 @@ function addSearchRow()
     var newID = parseInt(lastElementID.match(/[0-9]+/))+1;
     var newElementID = 'searchRow' + newID; // To id του νέου searchRow
 
+    console.log(newElementID);
+
     // Προσθέτει το νέο searchRow αντιγράφοντας το searchRow0 και το κάνει visible
     $('#searchRow0').clone().insertAfter('div[id^="searchRow"]:last').prop('id',newElementID);
     var theNewElementID = $('#' + newElementID);
@@ -688,6 +690,7 @@ function addSearchRow()
 
     checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
 
+    return theNewElementID;
 }
 
 /**
@@ -1886,32 +1889,30 @@ function loadSmartPlaylist()
                 clearSearch();
                 $("#searchRow1").remove();
 
-                console.log(jsonArray.length);
                 // Προσθέτει όλες τις γραμμές με τα περιεχόμενα τους
                 for(var i=1; i<jsonArray.length; i++) {
-                    // αν δεν είναι group operator
-                    if(jsonArray[i]['group_operator'] === undefined) {
-                        addSearchRow();
-                        loadSearchFields(i, jsonArray[i]);
 
-                        // Αλλαγή του τύπου των inputs με βάση το search field
-                        var theElement = document.querySelector('#searchRow' + i + ' .search_field');
-                        // TODO check why some searchrows take grouprow field
-                        checkTheChanges(theElement);
+                    addSearchRow();
+                    loadSearchFields(i, jsonArray[i]);
 
-                        // ξαναδιάβασμα των τιμών, γιατί πιθανών μηδενίστηκαν από την αλλαγή των τύπων
-                        loadSearchFields(i, jsonArray[i]);
-                    } else {  // αν είναι group
-                        addSearchRow();
-                        loadSearchFields(i, jsonArray[i]);
+                    // Αλλαγή του τύπου των inputs με βάση το search field
+                    var theElement = document.querySelector('#searchRow' + i + ' .search_field');
+                    checkTheChanges(theElement);
+
+                    // αν είναι group operator
+                    if(jsonArray[i]['group_operator'] !== undefined) {
+
                         addOrAndToGroup(i);
 
                         // αν είναι AND θέτει την τιμή
                         if(jsonArray[i]['group_operator'] === 'AND') {
-                            document.querySelector('#group_operator' + i).selectedIndex='1';
+                            document.querySelector('#group_operator' + i).selectedIndex = '1';
                         }
 
                     }
+
+                    // ξαναδιάβασμα των τιμών, γιατί πιθανών μηδενίστηκαν από την αλλαγή των τύπων
+                    loadSearchFields(i, jsonArray[i]);
 
                 }
 
