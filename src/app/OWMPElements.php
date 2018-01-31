@@ -572,14 +572,14 @@ class OWMPElements extends OWMP
                 <div id="<?php echo $item['path_name']; ?>">
                     <form class="row no-gutters my-1" id="form<?php echo $item['path_name']; ?>">
 
-                        <div class="form-group my-1 w-100 col-5 px-1">
+                        <div class="form-group my-1 w-100 col-lg-5 col-12 px-1 my-1">
                             <label for="option_name" class="sr-only"><?php echo $item['path_name']; ?></label>
                             <input type="text" class="form-control form-control-sm" id="option_name" name="option_name"
                                    placeholder="<?php echo __('options_option'); ?>" value="<?php echo $item['path_name']; ?>"
                                    disabled>
                         </div>
 
-                        <div class="form-group my-1 w-100 col-5 px-1">
+                        <div class="form-group my-1 w-100 col-lg-5 col-12 px-1 my-1">
                             <label for="file_path" class="sr-only"><?php echo $item['file_path']; ?></label>
                             <input type="text" class="form-control form-control-sm" id="file_path" name="file_path"
                                    placeholder="<?php echo __('paths_file_path'); ?>" maxlength="255" required
@@ -587,7 +587,7 @@ class OWMPElements extends OWMP
                                    onclick="displayBrowsePath('form<?php echo $item['path_name']; ?>');">
                         </div>
 
-                        <div class="col-2 px-1 text-right">
+                        <div class="col-lg-2 col-12 px-1 text-center my-1">
                             <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" name="update_path"
                                    title="<?php echo __('update_row'); ?>"
                                    onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
