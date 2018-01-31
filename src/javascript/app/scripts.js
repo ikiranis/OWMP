@@ -533,7 +533,6 @@ function getSearchArray()
         }
     }
 
-    console.log(searchArray);
     return searchArray;
 }
 
@@ -1578,9 +1577,11 @@ function checkTheChanges(element)
     var searchStringElement = document.querySelector('#search_text'+elementID);
 
     // αν το πεδίο που θέλουμε να αλλάξουμε δεν είναι κάποιο από αυτά
-    if( valueOfChangedElement !== 'rating' &&  valueOfChangedElement !== 'live' )
-        if (searchStringElement.type === 'select-one')  // Ελέγχουμε αν το υπάρχον είναι select
+    if( valueOfChangedElement !== 'rating' &&  valueOfChangedElement !== 'live' ) {
+        if (searchStringElement.type === 'select-one') { // Ελέγχουμε αν το υπάρχον είναι select
             changeSelectToInput(searchStringElement, elementID);  // Αν είναι select το αλλάζουμε σε input
+        }
+    }
 
     switch (valueOfChangedElement) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
         case 'date_added': searchStringElement.type='date'; break;
@@ -1881,11 +1882,11 @@ function loadSmartPlaylist()
 
             if (data.success === true) {
                 var jsonArray = JSON.parse(data.searchJsonArray);
-
                 // Καθαρίζει τα υπάρχοντα searchRows
                 clearSearch();
                 $("#searchRow1").remove();
 
+                console.log(jsonArray.length);
                 // Προσθέτει όλες τις γραμμές με τα περιεχόμενα τους
                 for(var i=1; i<jsonArray.length; i++) {
                     // αν δεν είναι group operator
@@ -1895,11 +1896,11 @@ function loadSmartPlaylist()
 
                         // Αλλαγή του τύπου των inputs με βάση το search field
                         var theElement = document.querySelector('#searchRow' + i + ' .search_field');
+                        // TODO check why some searchrows take grouprow field
                         checkTheChanges(theElement);
 
                         // ξαναδιάβασμα των τιμών, γιατί πιθανών μηδενίστηκαν από την αλλαγή των τύπων
                         loadSearchFields(i, jsonArray[i]);
-
                     } else {  // αν είναι group
                         addSearchRow();
                         loadSearchFields(i, jsonArray[i]);
