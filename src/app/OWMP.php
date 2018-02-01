@@ -258,12 +258,11 @@ class OWMP
             <details>
                 <summary> <?php echo __('upload_files'); ?> </summary>
 
-                <input type="file" name="jsMediaFiles" id="jsMediaFiles"
-                       accept=".mp4, .m4v, .mp3, .m4a"
-                       onchange="UploadFiles.startUpload();" multiple>
+                <div class="custom-file col-lg-6 col-12 px-1 my-1">
+                    <input type="file" class="custom-file-input" name="jsMediaFiles" id="jsMediaFiles" accept=".mp4, .m4v, .mp3, .m4a" onchange="UploadFiles.startUpload();" multiple>
+                    <label class="custom-file-label" for="customFile">Choose files</label>
+                </div>
 
-<!--                <input type="button" class="myButton" id="jsMediaUploadFiles" name="jsMediaUploadFiles" onclick=""-->
-<!--                       value="--><?php //echo __('upload_files'); ?><!--">-->
             </details>
 
             <p>

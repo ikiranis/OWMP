@@ -891,18 +891,23 @@ class OWMPElements extends OWMP
                     <!--                               value="Update">-->
                     <!--                    </p>-->
 
-                    <div class="row my-2 no-gutters">
-                        <div class="col-12 px-1 my-1">
-                            <input type="file" name="uploadSQLFile" id="uploadSQLFile" onchange="jsUploadFile(this.files)">
+                    <div class="row my-2 no-gutters w-100">
+
+                            <div class="custom-file col-lg-6 col-12 px-1 my-1">
+                                <input type="file" class="custom-file-input" name="uploadSQLFile" id="uploadSQLFile" accept='image/*' onchange="jsUploadFile(this.files)">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
 
     <!--                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"-->
     <!--                               accept=".sql"-->
     <!--                               onchange="UploadFiles.startUpload();" multiple>-->
 
-                            <input type="button" class="btn btn-danger" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
-                                   value="<?php echo __('start_restore'); ?>">
-                            <?php Page::getHelp('help_database_backup'); ?>
-                        </div>
+                            <div class="col-lg-6 col-12 px-1 my-1 text-center">
+                                <input type="button" class="btn btn-danger w-75" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
+                                       value="<?php echo __('start_restore'); ?>">
+
+                                <?php Page::getHelp('help_database_backup'); ?>
+                            </div>
                     </div>
 
                 </form>
@@ -1627,7 +1632,10 @@ class OWMPElements extends OWMP
 
                         <div id="myImage"></div>
 
-                        <input type="file" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
+                        <div class="custom-file my-2">
+                            <input type="file" class="custom-file-input" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
 
                     </div>
 
