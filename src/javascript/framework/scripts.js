@@ -439,7 +439,7 @@ function checkProgress()
                 }
 
                 // TODO να δω αν χρειάζεται όντως αυτός ο έλεγχος
-                // if($('.o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
+                // if($('#o-resultsContainer').length!==0 && localStorage.syncPressed=='true') {
                 //     ProgressAnimation.init(false);
                 // } else {
                 //     ProgressAnimation.kill();

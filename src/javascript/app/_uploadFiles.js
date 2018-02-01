@@ -134,7 +134,7 @@ var UploadFiles =
                     resultsContainerTextElem.append(data.filesToDelete);
 
                     // Έλεγχος αν είναι hidden. Τότε αρχίζει το blinking και πάλι. Αλλιώς όχι
-                    var resultsContainer = document.querySelector('.o-resultsContainer');
+                    var resultsContainer = document.querySelector('#o-resultsContainer');
 
                     if(resultsContainer.classList.contains('isHidden')) {
                         BlinkElement.start('.o-resultsContainer_iconContainer');
