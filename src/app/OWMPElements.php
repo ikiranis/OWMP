@@ -697,7 +697,7 @@ class OWMPElements extends OWMP
                     </div>
 
                     <div class="col-lg-6 col-12 px-1">
-                        <input type="button" class="btn btn-dark w-100" id="jsDownloadYouTube" name="jsDownloadYouTube"
+                        <input type="button" class="btn btn-warning w-100" id="jsDownloadYouTube" name="jsDownloadYouTube"
                                onclick="downloadTheYouTube();"
                                value="<?php echo __('sync_youtube'); ?>" >
 
