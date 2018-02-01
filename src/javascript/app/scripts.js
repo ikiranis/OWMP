@@ -169,9 +169,9 @@ function getPaths(path) {
         success: function (data) {
             for(var i = 1; i<data.length; i ++) {
                 // Προσθέτει κάθε directory σαν span
-                var newSpan = document.createElement('span');
-                newSpan.className = 'thePaths';
-                newSpan.innerText = data[i];
+                var newLine = document.createElement('tr');
+                newLine.className = 'px-5 hasCursorPointer';
+                newLine.innerText = data[i];
                 var newPath = null;
 
                 if(data[i] === '..') {  // Αν είναι '..' κόβει το τελευταίο directory από το string
@@ -180,9 +180,9 @@ function getPaths(path) {
                     newPath = path + data[i] + '/';
                 }
 
-                newSpan.setAttribute('onclick', 'getPaths("' + newPath + '")' );
+                newLine.setAttribute('onclick', 'getPaths("' + newPath + '")' );
 
-                document.querySelector('#displayPaths').append(newSpan);
+                document.querySelector('#displayPaths').append(newLine);
             }
         }
     });
@@ -196,14 +196,14 @@ function getPaths(path) {
 function displayBrowsePath(formID) {
     currentPathFormID = formID;
     getPaths('/');
-    $('#browsePathWindow').show();
+    $('#browsePathWindow').modal('show');
 }
 
 /**
  * Κλείσιμο παράθυρου αναζήτησης διαδρομής
  */
 function cancelTheBrowse() {
-    $('#browsePathWindow').hide();
+    $('#browsePathWindow').modal('hide');
 }
 
 /**
@@ -211,7 +211,7 @@ function cancelTheBrowse() {
  */
 function importPath() {
     document.querySelector('#' + currentPathFormID + ' #file_path').value = document.querySelector('#chosenPathText').innerText.slice(0, -1);
-    $('#browsePathWindow').hide();
+    $('#browsePathWindow').modal('hide');
 }
 
 /**

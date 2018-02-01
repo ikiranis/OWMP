@@ -453,18 +453,38 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div id="browsePathWindow">
-            <div id="displayPaths"></div>
-            <div id="chosenPath">
-                <span id="chosenPathText"></span>
-            </div>
-            <div id="browsePathButtons">
-                <input type="button" class="myButton" name="submit" id="submit"
-                       value="<?php echo __('import_path'); ?>" onclick="importPath();">
+        <div class="modal fade" id="browsePathWindow" tabindex="-1" role="dialog" aria-labelledby="browsePathWindow" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="elementModalLabel"><span id="chosenPathText"></span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
 
-                <input type="button" class="myButton" name="cancelBrowse" id="cancelBrowse"
-                       value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheBrowse();">
-            </div>
+
+                            <table id="pathsContainer" class="table table-hover table-striped table-sm table-nowrap">
+                                <tbody id="displayPaths">
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+                        <div class="modal-footer row w-100 no-gutters">
+
+                            <input type="button" class="btn btn-success ml-auto" name="submit" id="submit"
+                                   value="<?php echo __('import_path'); ?>" onclick="importPath();">
+
+                            <input type="button" class="btn btn-danger mr-auto" name="cancelBrowse" id="cancelBrowse"
+                                   value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheBrowse();">
+                        </div>
+                    </div>
+                </div>
         </div>
 
         <?php

@@ -225,7 +225,6 @@ class OWMP
 
         $OWMPElements = new OWMPElements();
 
-        OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
 
         ?>
             <details>

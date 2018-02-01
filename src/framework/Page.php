@@ -34,14 +34,19 @@ class Page
         $_SESSION['PlaylistCounter']=0;
 
         $OWMPElements = new OWMPElements();
+
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
+
+        OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
 
         // Display action windows
         $OWMPElements->displayEditTagsWindow(); // Εμφάνιση του παραθύρου για edit tags
         $OWMPElements->displaySleepTimer(); // Εμφάνιση του παραθύρου για επιλογή sleep timer
 
         $this->displayHelpContainer(); // Display help text container
+
+
 
         if (isset($_GET['page'])) {
             $NavActiveItem = $_GET['page'];
