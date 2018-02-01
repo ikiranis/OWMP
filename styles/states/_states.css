@@ -9,3 +9,11 @@
 .hasCursorPointer {
     cursor: pointer;
 }
+
+.is_youTube-success {
+    font-weight: bold;
+}
+
+.is_youTube-fail {
+    font-weight: bold;
+}
