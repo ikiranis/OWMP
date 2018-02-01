@@ -105,8 +105,8 @@ function checkVideoUrl(url,counter,total) {
  * Κατεβάζει ένα ή περισσότερα βίντεο από το YouTube
  */
 function downloadTheYouTube() {
-    var urls = document.querySelector('.o-youTube__textArea').value;
-    var mediaKind = document.querySelector('.jsMediaKind').value;
+    var urls = document.querySelector('#o-youTube__textArea').value;
+    var mediaKind = document.querySelector('#jsMediaKind').value;
 
     var OKGo=false;
 

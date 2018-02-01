@@ -673,14 +673,14 @@ class OWMPElements extends OWMP
             if( $this->checkVideoFileUpload['result'] || $this->checkAudioFileUpload['result'] ) {
 
                 ?>
-                <div class="row px-3 py-1">
+                <div class="row py-1 no-gutters">
 
-                    <div class="form-group col-12">
+                    <div class="form-group col-12 px-1">
                         <label for="o-youTube__textArea" class="sr-only">Youtube Videos</label>
                         <textarea class="form-control" id="o-youTube__textArea" name="o-youTube__textArea" rows="3"></textarea>
                     </div>
 
-                    <div class="form-group my-1 col-lg-6 col-12">
+                    <div class="form-group my-1 col-lg-6 col-12 px-1">
                         <label for="jsMediaKind" class="sr-only">Media Kind</label>
                         <select class="form-control form-control-sm" id="jsMediaKind" name="jsMediaKind">
                             <?php
@@ -696,14 +696,14 @@ class OWMPElements extends OWMP
                         </select>
                     </div>
 
-                    <div class="col-lg-6 col-12">
+                    <div class="col-lg-6 col-12 px-1">
                         <input type="button" class="btn btn-dark w-100" id="jsDownloadYouTube" name="jsDownloadYouTube"
                                onclick="downloadTheYouTube();"
                                value="<?php echo __('sync_youtube'); ?>" >
-                    </div>
 
-                    <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $this->checkVideoFileUpload['result']; ?>">
-                    <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $this->checkAudioFileUpload['result']; ?>">
+                        <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $this->checkVideoFileUpload['result']; ?>">
+                        <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $this->checkAudioFileUpload['result']; ?>">
+                    </div>
 
                 </div>
 
