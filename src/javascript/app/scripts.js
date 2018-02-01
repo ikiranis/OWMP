@@ -2118,7 +2118,7 @@ function startSleepTimer()
  */
 function toggleResultsContainer()
 {
-    $('.o-resultsContainer').toggleClass('isHidden isVisible');
+    $('#o-resultsContainer').modal("toggle");
 
     BlinkElement.stop(); // Σταματάει το αναβόσβησμα του εικονίδιου
 }

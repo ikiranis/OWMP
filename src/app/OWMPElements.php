@@ -38,54 +38,54 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div id="<?php echo $element; ?>" <?php if($fullscreen) echo 'class="bgc10 c2"'; ?>>
+        <div id="<?php echo $element; ?>" <?php if ($fullscreen) echo 'class="bgc10 c2"'; ?>>
 
-            <span class="<?php if($fullscreen) echo 'mdi mdi-skip-previous mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-skip-previous mdi-dark mdi-36px hasCursorPointer'; ?>"
-                   title="<?php echo __('previous_song'); ?>"
-                   onclick="prevSong();">
+            <span class="<?php if ($fullscreen) echo 'mdi mdi-skip-previous mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-skip-previous mdi-dark mdi-36px hasCursorPointer'; ?>"
+                  title="<?php echo __('previous_song'); ?>"
+                  onclick="prevSong();">
             </span>
 
-            <span class="pause_play_button <?php if($fullscreen) echo 'mdi mdi-pause mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-pause mdi-dark mdi-36px hasCursorPointer'; ?>"
-                   title="<?php echo __('play_file'); ?>"
-                   onclick="playSong();">
+            <span class="pause_play_button <?php if ($fullscreen) echo 'mdi mdi-pause mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-pause mdi-dark mdi-36px hasCursorPointer'; ?>"
+                  title="<?php echo __('play_file'); ?>"
+                  onclick="playSong();">
             </span>
 
-            <span class="<?php if($fullscreen) echo 'mdi mdi-skip-next mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-skip-next mdi-dark mdi-36px hasCursorPointer'; ?>"
-                   title="<?php echo __('next_song'); ?>"
-                   onclick="nextSong();">
+            <span class="<?php if ($fullscreen) echo 'mdi mdi-skip-next mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-skip-next mdi-dark mdi-36px hasCursorPointer'; ?>"
+                  title="<?php echo __('next_song'); ?>"
+                  onclick="nextSong();">
             </span>
 
-            <span class="<?php if($fullscreen) echo 'mdi mdi-fullscreen-exit mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-fullscreen mdi-dark mdi-36px hasCursorPointer'; ?>"
-                   title="<?php echo __('toggle_fullscreen'); ?>"
-                   onclick="toggleFullscreen();">
+            <span class="<?php if ($fullscreen) echo 'mdi mdi-fullscreen-exit mdi-light mdi-36px hasCursorPointer'; else echo 'mdi mdi-fullscreen mdi-dark mdi-36px hasCursorPointer'; ?>"
+                  title="<?php echo __('toggle_fullscreen'); ?>"
+                  onclick="toggleFullscreen();">
             </span>
 
 
             <?php
 
-            if($fullscreen) { // Αν είναι σε fullscreen
+            if ($fullscreen) { // Αν είναι σε fullscreen
                 ?>
                 <span class="gif_button fullscreen_button_img hasCursorPointer"
-                       title="<?php echo __('toggle_giphy'); ?>"
-                       onclick="giphyToggle();">
+                      title="<?php echo __('toggle_giphy'); ?>"
+                      onclick="giphyToggle();">
                 </span>
 
                 <span class="mdi mdi-information-outline mdi-light mdi-36px hasCursorPointer"
-                       title="<?php echo __('toggle_overlay'); ?>"
-                       onclick="interfaceToggle();">
+                      title="<?php echo __('toggle_overlay'); ?>"
+                      onclick="interfaceToggle();">
                 </span>
 
                 <?php
             } else { // Αν δεν είναι σε fullscreen
                 ?>
                 <span class="shuffle_button mdi mdi-shuffle mdi-dark mdi-36px hasCursorPointer"
-                       title="<?php echo __('toggle_shuffle'); ?>"
-                       onclick="toggleShuffle();">
+                      title="<?php echo __('toggle_shuffle'); ?>"
+                      onclick="toggleShuffle();">
                 </span>
 
                 <span class="lower_bitrate mdi mdi-priority-low mdi-dark mdi-36px hasCursorPointer"
-                       title="<?php echo __('toggle_lower_bitrate'); ?>"
-                       onclick="toggleLowerBitrate();">
+                      title="<?php echo __('toggle_lower_bitrate'); ?>"
+                      onclick="toggleLowerBitrate();">
                 </span>
 
                 <?php
@@ -125,7 +125,7 @@ class OWMPElements extends OWMP
 
             </div>
 
-            <div id="overlay_volume" class="row h-100 fixed-top no-gutters" >
+            <div id="overlay_volume" class="row h-100 fixed-top no-gutters">
                 <div id="overlay_volume_text" class="col-sm-2 col-6 ml-auto mr-auto text-white text-center px-2 py-2">
 
                 </div>
@@ -173,42 +173,48 @@ class OWMPElements extends OWMP
 
         <form class="validate-form" id="FormTags" name="FormTags">
 
-            <input type="hidden" id="songID" name="songID" >
+            <input type="hidden" id="songID" name="songID">
 
             <div class="form-group my-1">
                 <label for="title" class="sr-only"><?php echo __('tag_title'); ?></label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="<?php echo __('tag_title'); ?>"
-                <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
+                <input type="text" class="form-control" id="title" name="title"
+                       placeholder="<?php echo __('tag_title'); ?>"
+                    <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
             <div class="form-group my-1">
                 <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
-                <input type="text" class="form-control form-control-sm" id="artist" name="artist" placeholder="<?php echo __('tag_artist'); ?>"
+                <input type="text" class="form-control form-control-sm" id="artist" name="artist"
+                       placeholder="<?php echo __('tag_artist'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
             <div class="form-group my-1">
                 <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
-                <input type="text" class="form-control form-control-sm" id="album" name="album" placeholder="<?php echo __('tag_album'); ?>"
+                <input type="text" class="form-control form-control-sm" id="album" name="album"
+                       placeholder="<?php echo __('tag_album'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
             <div class="row my-1">
                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                     <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
+                    <input type="text" class="form-control form-control-sm" id="genre" name="genre"
+                           placeholder="<?php echo __('tag_genre'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?> maxlength="20">
                 </div>
 
                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                     <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
-                    <input type="number" class="form-control form-control-sm" id="year" name="year" placeholder="<?php echo __('tag_year'); ?>"
+                    <input type="number" class="form-control form-control-sm" id="year" name="year"
+                           placeholder="<?php echo __('tag_year'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?>>
                 </div>
 
                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                     <label for="live" class="sr-only"><?php echo __('tag_live'); ?></label>
-                    <select class="form-control form-control-sm" id="live" name="live" <?php echo $disabled . ' ' . $readonly; ?>>
+                    <select class="form-control form-control-sm" id="live"
+                            name="live" <?php echo $disabled . ' ' . $readonly; ?>>
                         <option value="0"><?php echo __('tag_live_official'); ?></option>
                         <option value="1"><?php echo __('tag_live_live'); ?></option>
                     </select>
@@ -225,11 +231,11 @@ class OWMPElements extends OWMP
 
                 <datalist id="rating_ticks">
                     <?php
-                        for($i=0; $i<6; $i++) {
-                            ?>
-                            <option><?php echo $i; ?></option>
-                            <?php
-                        }
+                    for ($i = 0; $i < 6; $i++) {
+                        ?>
+                        <option><?php echo $i; ?></option>
+                        <?php
+                    }
                     ?>
                 </datalist>
             </div>
@@ -241,30 +247,33 @@ class OWMPElements extends OWMP
 
                 <div class="form-group my-1">
                     <label for="play_count" class="sr-only"><?php echo __('tag_play_count'); ?></label>
-                    <input type="number" class="form-control form-control-sm" id="play_count" name="play_count" placeholder="<?php echo __('tag_play_count'); ?>"
+                    <input type="number" class="form-control form-control-sm" id="play_count" name="play_count"
+                           placeholder="<?php echo __('tag_play_count'); ?>"
                         <?php echo $disabled; ?> readonly>
                 </div>
 
                 <div class="form-group my-1">
                     <label for="date_added" class="sr-only"><?php echo __('tag_date_added'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="date_added" name="date_added" placeholder="<?php echo __('tag_date_added'); ?>"
+                    <input type="text" class="form-control form-control-sm" id="date_added" name="date_added"
+                           placeholder="<?php echo __('tag_date_added'); ?>"
                         <?php echo $disabled; ?> maxlength="20" readonly>
                 </div>
 
                 <div class="form-group my-1">
                     <label for="date_played" class="sr-only"><?php echo __('tag_date_played'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="date_played" name="date_played" placeholder="<?php echo __('tag_date_played'); ?>"
+                    <input type="text" class="form-control form-control-sm" id="date_played" name="date_played"
+                           placeholder="<?php echo __('tag_date_played'); ?>"
                         <?php echo $disabled; ?> maxlength="20" readonly>
                 </div>
 
                 <div class="form-group my-1">
                     <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename" placeholder="<?php echo __('tag_path_filename'); ?>"
+                    <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename"
+                           placeholder="<?php echo __('tag_path_filename'); ?>"
                         <?php echo $disabled; ?> maxlength="255" readonly>
                 </div>
 
             </details>
-
 
 
         </form>
@@ -275,11 +284,11 @@ class OWMPElements extends OWMP
 
 
     // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
-    static function getOptionsInFormFields ()
+    static function getOptionsInFormFields()
     {
         $conn = new MyDB();
 
-        $options=$conn->getTableArray('options', null, 'setting=?', array(1), null, null, null);  // Παίρνει τα δεδομένα του πίνακα options σε array
+        $options = $conn->getTableArray('options', null, 'setting=?', array(1), null, null, null);  // Παίρνει τα δεδομένα του πίνακα options σε array
 
 
         ?>
@@ -288,21 +297,26 @@ class OWMPElements extends OWMP
 
             <?php
 
-            foreach ($options as $option)
-            {
+            foreach ($options as $option) {
                 ?>
                 <div class="OptionsRow" id="OptionID<?php echo $option['option_id']; ?>">
                     <form class="table_form options_form" id="options_formID<?php echo $option['option_id']; ?>">
                     <span class="ListColumn"><input class="input_field" disabled
                                                     placeholder="<?php echo __('options_option'); ?>"
-                                                    type="text" name="option_name" value="<?php echo $option['option_name']; ?>"></span>
+                                                    type="text" name="option_name"
+                                                    value="<?php echo $option['option_name']; ?>"></span>
                         <span class="ListColumn"><input class="input_field"
                                                         placeholder="<?php echo __('options_value'); ?>"
                                                         title="<?php echo __('valid_option'); ?>"
 
-                                                        maxlength="255" required type="<?php if($option['encrypt']==0) echo 'text'; else echo 'password'; ?>" name="option_value" value="<?php if($option['encrypt']==0) echo $option['option_value']; ?>"></span>
+                                                        maxlength="255" required
+                                                        type="<?php if ($option['encrypt'] == 0) echo 'text'; else echo 'password'; ?>"
+                                                        name="option_value"
+                                                        value="<?php if ($option['encrypt'] == 0) echo $option['option_value']; ?>"></span>
 
-                        <input type="button" class="update_button button_img" name="update_option" title="<?php echo __('update_row'); ?>" onclick="updateOption(<?php echo $option['option_id']; ?>);"">
+                        <input type="button" class="update_button button_img" name="update_option"
+                               title="<?php echo __('update_row'); ?>"
+                               onclick="updateOption(<?php echo $option['option_id']; ?>);"">
 
                         <input type="button" class="message" id="messageOptionID<?php echo $option['option_id']; ?>">
                     </form>
@@ -310,7 +324,6 @@ class OWMPElements extends OWMP
                 <?php
             }
             ?>
-
 
 
         </div>
@@ -321,26 +334,26 @@ class OWMPElements extends OWMP
     }
 
     // Εμφάνιση των εγγραφών των χρηστών σε μορφή form fields για editing
-    static function getUsersInFormFields ()
+    static function getUsersInFormFields()
     {
         $conn = new MyDB();
         $user = new User();
         MyDB::createConnection();
 
-        $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
-        $userID=$user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
+        $UserGroupID = $user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $userID = $user->getUserID($conn->getSession('username'));      // Επιστρέφει το id του user με username στο session
 
         global $UserGroups;
 
-        if($UserGroupID==1)
+        if ($UserGroupID == 1)
             $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id';
         else $sql = 'SELECT * FROM user JOIN user_details on user.user_id=user_details.user_id WHERE user.user_id=?';
 
         $stmt = MyDB::$conn->prepare($sql);
 
-        $counter=1;
+        $counter = 1;
 
-        if($UserGroupID==1)
+        if ($UserGroupID == 1)
             $stmt->execute();
         else $stmt->execute(array($userID));
 
@@ -349,25 +362,26 @@ class OWMPElements extends OWMP
 
             <?php
 
-            while($item=$stmt->fetch(\PDO::FETCH_ASSOC))
-            {
+            while ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 ?>
                 <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
                     <form class="table_form users_form" id="users_formID<?php echo $item['user_id']; ?>">
 
                         <span class="ListColumn">
                             <input class="input_field"
-                               placeholder="<?php echo __('users_username'); ?>"
-                               title="<?php echo __('valid_username'); ?>"
-                               pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
-                               maxlength="15" required type="text" name="theUsername" value="<?php echo $item['username']; ?>">
+                                   placeholder="<?php echo __('users_username'); ?>"
+                                   title="<?php echo __('valid_username'); ?>"
+                                   pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
+                                   maxlength="15" required type="text" name="theUsername"
+                                   value="<?php echo $item['username']; ?>">
                         </span>
 
                         <span class="ListColumn">
                             <input class="input_field"
                                    placeholder="<?php echo __('users_email'); ?>"
                                    title="<?php echo __('valid_email'); ?>"
-                                   maxlength="50" required type="email" name="email" value="<?php echo $item['email']; ?>">
+                                   maxlength="50" required type="email" name="email"
+                                   value="<?php echo $item['email']; ?>">
                         </span>
 
                         <span class="ListColumn">
@@ -375,7 +389,8 @@ class OWMPElements extends OWMP
                                    placeholder="<?php echo __('users_password'); ?>"
                                    title="<?php echo __('valid_register_password'); ?>"
                                    pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                                   maxlength="15"  type="password" id="password<?php echo $item['user_id']; ?>" name="password" value="">
+                                   maxlength="15" type="password" id="password<?php echo $item['user_id']; ?>"
+                                   name="password" value="">
                         </span>
 
                         <span class="ListColumn">
@@ -383,16 +398,18 @@ class OWMPElements extends OWMP
                                    placeholder="<?php echo __('users_repeat_password'); ?>"
                                    title="<?php echo __('valid_register_repeat_password'); ?>"
                                    pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                                   maxlength="15"  type="password" id="<?php echo $item['user_id']; ?>" name="repeat_password" value="">
+                                   maxlength="15" type="password" id="<?php echo $item['user_id']; ?>"
+                                   name="repeat_password" value="">
                         </span>
 
                         <span class="ListColumn">
-                            <select class="input_field" name="usergroup" <?php if($UserGroupID!=1) echo ' disabled=disabled'; ?> >
+                            <select class="input_field"
+                                    name="usergroup" <?php if ($UserGroupID != 1) echo ' disabled=disabled'; ?> >
                                 <?php
                                 foreach ($UserGroups as $UserGroup) {
                                     ?>
                                     <option value="<?php echo $UserGroup['id']; ?>"
-                                        <?php if($UserGroup['id']==$item['user_group']) echo 'selected=selected'; ?>>
+                                        <?php if ($UserGroup['id'] == $item['user_group']) echo 'selected=selected'; ?>>
                                         <?php echo $UserGroup['group_name']; ?>
                                     </option>
 
@@ -407,7 +424,7 @@ class OWMPElements extends OWMP
                                    placeholder="<?php echo __('users_firstname'); ?>"
                                    title="<?php echo __('valid_fname'); ?>"
                                    pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
-                                   maxlength="15"  type="text" name="fname" value="<?php echo $item['fname']; ?>">
+                                   maxlength="15" type="text" name="fname" value="<?php echo $item['fname']; ?>">
                         </span>
 
                         <span class="ListColumn">
@@ -415,12 +432,17 @@ class OWMPElements extends OWMP
                                    placeholder="<?php echo __('users_lastname'); ?>"
                                    title="<?php echo __('valid_lname'); ?>"
                                    pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,25}$'
-                                   maxlength="25"  type="text" name="lname" value="<?php echo $item['lname']; ?>">
+                                   maxlength="25" type="text" name="lname" value="<?php echo $item['lname']; ?>">
                         </span>
 
-                        <input type="button" class="update_button button_img" name="update_user" title="<?php echo __('update_row'); ?>" onclick="updateUser(<?php echo $item['user_id']; ?>);"">
+                        <input type="button" class="update_button button_img" name="update_user"
+                               title="<?php echo __('update_row'); ?>"
+                               onclick="updateUser(<?php echo $item['user_id']; ?>);"">
 
-                        <input type="button" class="delete_button button_img <?php if($counter==1) echo 'dontDelete'; ?>" name="delete_user" title="<?php echo __('delete_row'); ?>" onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
+                        <input type="button"
+                               class="delete_button button_img <?php if ($counter == 1) echo 'dontDelete'; ?>"
+                               name="delete_user" title="<?php echo __('delete_row'); ?>"
+                               onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
 
                         <input type="button" class="message" id="messageUserID<?php echo $item['user_id']; ?>">
 
@@ -434,10 +456,11 @@ class OWMPElements extends OWMP
         </div>
 
         <?php
-        if($UserGroupID==1) {  // Αν είναι admin ο user εμφάνισε κουμπί για προσθήκη νέου user
+        if ($UserGroupID == 1) {  // Αν είναι admin ο user εμφάνισε κουμπί για προσθήκη νέου user
             ?>
 
-            <input type="button" class="myButton insert_row" name="insert_user" onclick="insertUser();" value="<?php echo __('insert_row'); ?>">
+            <input type="button" class="myButton insert_row" name="insert_user" onclick="insertUser();"
+                   value="<?php echo __('insert_row'); ?>">
             <?php
         }
         ?>
@@ -453,38 +476,38 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div class="modal fade" id="browsePathWindow" tabindex="-1" role="dialog" aria-labelledby="browsePathWindow" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="elementModalLabel"><span id="chosenPathText"></span></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
+        <div class="modal fade" id="browsePathWindow" tabindex="-1" role="dialog" aria-labelledby="browsePathWindow"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="elementModalLabel"><span id="chosenPathText"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
 
-                            <table id="pathsContainer" class="table table-hover table-striped table-sm table-nowrap">
-                                <tbody id="displayPaths">
+                        <table id="pathsContainer" class="table table-hover table-striped table-sm table-nowrap">
+                            <tbody id="displayPaths">
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
 
 
+                    </div>
 
-                        </div>
+                    <div class="modal-footer row w-100 no-gutters">
 
-                        <div class="modal-footer row w-100 no-gutters">
+                        <input type="button" class="btn btn-success ml-auto" name="submit" id="submit"
+                               value="<?php echo __('import_path'); ?>" onclick="importPath();">
 
-                            <input type="button" class="btn btn-success ml-auto" name="submit" id="submit"
-                                   value="<?php echo __('import_path'); ?>" onclick="importPath();">
-
-                            <input type="button" class="btn btn-danger mr-auto" name="cancelBrowse" id="cancelBrowse"
-                                   value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheBrowse();">
-                        </div>
+                        <input type="button" class="btn btn-danger mr-auto" name="cancelBrowse" id="cancelBrowse"
+                               value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheBrowse();">
                     </div>
                 </div>
+            </div>
         </div>
 
         <?php
@@ -497,13 +520,13 @@ class OWMPElements extends OWMP
         global $mediaKinds;
 
 
-        $paths=$conn->getTableArray('paths', null, null, null, null, null, null);  // Παίρνει τα δεδομένα του πίνακα paths σε array
+        $paths = $conn->getTableArray('paths', null, null, null, null, null, null);  // Παίρνει τα δεδομένα του πίνακα paths σε array
 
-        if(empty($paths)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
-            $paths[]=array('id'=>'0', 'file_path'=>'', 'kind'=>'', 'main'=>'');
+        if (empty($paths)) {  // Αν δεν επιστρέψει κανένα αποτέλεσμα, σετάρουμε εμείς μια πρώτη γραμμή στο array
+            $paths[] = array('id' => '0', 'file_path' => '', 'kind' => '', 'main' => '');
         }
 
-        $counter=1;
+        $counter = 1;
 
 
         ?>
@@ -512,53 +535,54 @@ class OWMPElements extends OWMP
             <?php
 
 
-
-            foreach($paths as $path)
-            {
+            foreach ($paths as $path) {
                 ?>
-                    <div  id="PathID<?php echo $path['id']; ?>">
-                        <form class="row no-gutters my-1" id="paths_formID<?php echo $path['id']; ?>">
+                <div id="PathID<?php echo $path['id']; ?>">
+                    <form class="row no-gutters my-1" id="paths_formID<?php echo $path['id']; ?>">
 
-                            <div class="form-group my-1 w-100 col-lg-5 col-12 px-1">
-                                <label for="file_path" class="sr-only"><?php echo __('paths_file_path'); ?></label>
-                                <input type="text" class="form-control form-control-sm" id="file_path" name="file_path"
-                                       maxlength="255" required placeholder="<?php echo __('paths_file_path'); ?>"
-                                       value="<?php echo $path['file_path']; ?>" onclick="displayBrowsePath('paths_formID<?php echo $path['id']; ?>');">
-                            </div>
+                        <div class="form-group my-1 w-100 col-lg-5 col-12 px-1">
+                            <label for="file_path" class="sr-only"><?php echo __('paths_file_path'); ?></label>
+                            <input type="text" class="form-control form-control-sm" id="file_path" name="file_path"
+                                   maxlength="255" required placeholder="<?php echo __('paths_file_path'); ?>"
+                                   value="<?php echo $path['file_path']; ?>"
+                                   onclick="displayBrowsePath('paths_formID<?php echo $path['id']; ?>');">
+                        </div>
 
-                            <div class="form-group my-1 w-100 col-lg-5 col-12 px-1">
-                                <label for="kind" class="sr-only">Media Kind</label>
-                                <select class="form-control form-control-sm" id="kind" name="kind">
-                                    <?php
-                                    foreach ($mediaKinds as $mediaKind) {
-                                        ?>
-                                        <option value="<?php echo $mediaKind; ?>"
-                                            <?php if($mediaKind==$path['kind']) echo 'selected=selected'; ?>>
-                                            <?php echo $mediaKind ?>
-                                        </option>
-
-                                        <?php
-                                    }
+                        <div class="form-group my-1 w-100 col-lg-5 col-12 px-1">
+                            <label for="kind" class="sr-only">Media Kind</label>
+                            <select class="form-control form-control-sm" id="kind" name="kind">
+                                <?php
+                                foreach ($mediaKinds as $mediaKind) {
                                     ?>
-                                </select>
-                             </div>
+                                    <option value="<?php echo $mediaKind; ?>"
+                                        <?php if ($mediaKind == $path['kind']) echo 'selected=selected'; ?>>
+                                        <?php echo $mediaKind ?>
+                                    </option>
+
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
 
 
-                            <div class="col-lg-2 col-12 px-1 text-center">
+                        <div class="col-lg-2 col-12 px-1 text-center">
                                 <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" id="update_path"
-                                      title="<?php echo __('update_row'); ?>" onclick="updatePath(<?php echo $path['id']; ?>);">
+                                      title="<?php echo __('update_row'); ?>"
+                                      onclick="updatePath(<?php echo $path['id']; ?>);">
                                 </span>
 
-                                <span class="mdi mdi-delete mdi-24px hasCursorPointer <?php if($counter==1) echo 'dontDelete'; ?>"
-                                      id="delete_path" title="<?php echo __('delete_row'); ?>" onclick="deletePath(<?php echo $path['id']; ?>);">
+                            <span class="mdi mdi-delete mdi-24px hasCursorPointer <?php if ($counter == 1) echo 'dontDelete'; ?>"
+                                  id="delete_path" title="<?php echo __('delete_row'); ?>"
+                                  onclick="deletePath(<?php echo $path['id']; ?>);">
                                 </span>
 
-                                <input type="button" class="message" id="messagePathID<?php echo $path['id']; ?>">
-                            </div>
+                            <input type="button" class="message" id="messagePathID<?php echo $path['id']; ?>">
+                        </div>
 
 
-                        </form>
-                    </div>
+                    </form>
+                </div>
 
                 <?php
                 $counter++;
@@ -568,7 +592,8 @@ class OWMPElements extends OWMP
         </div>
 
         <div class="row">
-            <input type="button" class="btn btn-warning btn-sm ml-auto mr-auto w-25" name="insert_path" onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
+            <input type="button" class="btn btn-warning btn-sm ml-auto mr-auto w-25" name="insert_path"
+                   onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
         </div>
 
         <?php
@@ -595,7 +620,8 @@ class OWMPElements extends OWMP
                         <div class="form-group my-1 w-100 col-lg-5 col-12 px-1 my-1">
                             <label for="option_name" class="sr-only"><?php echo $item['path_name']; ?></label>
                             <input type="text" class="form-control form-control-sm" id="option_name" name="option_name"
-                                   placeholder="<?php echo __('options_option'); ?>" value="<?php echo $item['path_name']; ?>"
+                                   placeholder="<?php echo __('options_option'); ?>"
+                                   value="<?php echo $item['path_name']; ?>"
                                    disabled>
                         </div>
 
@@ -609,8 +635,8 @@ class OWMPElements extends OWMP
 
                         <div class="col-lg-2 col-12 px-1 text-center my-1">
                             <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" name="update_path"
-                                   title="<?php echo __('update_row'); ?>"
-                                   onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
+                                  title="<?php echo __('update_row'); ?>"
+                                  onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
                             </span>
 
                             <input type="button" class="message" id="message_<?php echo $item['path_name']; ?>">
@@ -634,27 +660,27 @@ class OWMPElements extends OWMP
         // Παράγει το file path από το έτος και τον μήνα
         $fileDir = Utilities::getPathFromYearAndMonth();
 
-        if(VIDEO_FILE_UPLOAD) {
-            $uploadDir=VIDEO_FILE_UPLOAD . $fileDir;
+        if (VIDEO_FILE_UPLOAD) {
+            $uploadDir = VIDEO_FILE_UPLOAD . $fileDir;
 
             $this->checkVideoFileUpload = FilesIO::createDirectory($uploadDir);
 
-            if(!$this->checkVideoFileUpload['result']) {
+            if (!$this->checkVideoFileUpload['result']) {
                 echo $this->checkVideoFileUpload['message'];
             }
         } else {
-            echo '<p class="isFail">'.__('no_main_music_video_path').'</p>';
+            echo '<p class="isFail">' . __('no_main_music_video_path') . '</p>';
         }
 
-        if(MUSIC_FILE_UPLOAD) {
-            $uploadDir=MUSIC_FILE_UPLOAD . $fileDir;
+        if (MUSIC_FILE_UPLOAD) {
+            $uploadDir = MUSIC_FILE_UPLOAD . $fileDir;
             $this->checkAudioFileUpload = FilesIO::createDirectory($uploadDir);
 
-            if(!$this->checkAudioFileUpload['result']) {
+            if (!$this->checkAudioFileUpload['result']) {
                 echo $this->checkAudioFileUpload['message'];
             }
         } else {
-            echo '<p class="isFail">'.__('no_main_music_path').'</p>';
+            echo '<p class="isFail">' . __('no_main_music_path') . '</p>';
         }
 
     }
@@ -665,19 +691,20 @@ class OWMPElements extends OWMP
         global $mediaKinds;
 
         // Έλεγχος αν έχει οριστεί κάποιο FILE_UPLOAD αλλιώς να μην ενεργοποιεί το κουμπί του youtube
-        if(VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) {
+        if (VIDEO_FILE_UPLOAD || MUSIC_FILE_UPLOAD) {
 
             // Έλεγχος αν υπάρχουν κι έχουν δικαιώματα τα directories για upload από το youtube
             $this->checkYoutubeUploadDirectories();
 
-            if( $this->checkVideoFileUpload['result'] || $this->checkAudioFileUpload['result'] ) {
+            if ($this->checkVideoFileUpload['result'] || $this->checkAudioFileUpload['result']) {
 
                 ?>
                 <div class="row py-1 no-gutters">
 
                     <div class="form-group col-12 px-1">
                         <label for="o-youTube__textArea" class="sr-only">Youtube Videos</label>
-                        <textarea class="form-control" id="o-youTube__textArea" name="o-youTube__textArea" rows="3"></textarea>
+                        <textarea class="form-control" id="o-youTube__textArea" name="o-youTube__textArea"
+                                  rows="3"></textarea>
                     </div>
 
                     <div class="form-group my-1 col-lg-6 col-12 px-1">
@@ -697,12 +724,15 @@ class OWMPElements extends OWMP
                     </div>
 
                     <div class="col-lg-6 col-12 px-1">
-                        <input type="button" class="btn btn-warning w-100" id="jsDownloadYouTube" name="jsDownloadYouTube"
+                        <input type="button" class="btn btn-warning w-100" id="jsDownloadYouTube"
+                               name="jsDownloadYouTube"
                                onclick="downloadTheYouTube();"
-                               value="<?php echo __('sync_youtube'); ?>" >
+                               value="<?php echo __('sync_youtube'); ?>">
 
-                        <input type="hidden" id="jsMusicVideoPathOK" value="<?php if(VIDEO_FILE_UPLOAD) echo $this->checkVideoFileUpload['result']; ?>">
-                        <input type="hidden" id="jsMusicPathOK" value="<?php if(MUSIC_FILE_UPLOAD) echo $this->checkAudioFileUpload['result']; ?>">
+                        <input type="hidden" id="jsMusicVideoPathOK"
+                               value="<?php if (VIDEO_FILE_UPLOAD) echo $this->checkVideoFileUpload['result']; ?>">
+                        <input type="hidden" id="jsMusicPathOK"
+                               value="<?php if (MUSIC_FILE_UPLOAD) echo $this->checkAudioFileUpload['result']; ?>">
                     </div>
 
                 </div>
@@ -710,9 +740,8 @@ class OWMPElements extends OWMP
                 <?php
             }
 
-        }
-        else {
-            echo '<p>'.__('youtube_error').'</p>';
+        } else {
+            echo '<p>' . __('youtube_error') . '</p>';
         }
     }
 
@@ -723,12 +752,12 @@ class OWMPElements extends OWMP
         global $downloadPaths;
 
         foreach ($downloadPaths as $path) {
-            if(is_dir($path)) { // Αν υπάρχει ο φάκελος
-                if(!is_writable($path)) {  // Αν δεν έχει δικαιώματα εγγραγφής
-                    echo '<p class="isFail">ERROR! '.__('cant_write_to_path'). ' '.$path . '. '.__('give_permissions').'</p>';
+            if (is_dir($path)) { // Αν υπάρχει ο φάκελος
+                if (!is_writable($path)) {  // Αν δεν έχει δικαιώματα εγγραγφής
+                    echo '<p class="isFail">ERROR! ' . __('cant_write_to_path') . ' ' . $path . '. ' . __('give_permissions') . '</p>';
                 }
             } else { // Αν ο φάκελος δεν υπάρχει
-                echo '<p class="isFail">'. __('path_does_not_exist') . ': '. $path . '</p>';
+                echo '<p class="isFail">' . __('path_does_not_exist') . ': ' . $path . '</p>';
             }
 
         }
@@ -774,7 +803,7 @@ class OWMPElements extends OWMP
         <p>GD Library:
             <?php
             // Έλεγχος της GD library για την διαχείριση εικόνων
-            if(function_exists('gd_info')) {
+            if (function_exists('gd_info')) {
                 echo '<span class="isSuccess">Installed</span>';
             } else {
                 echo '<span class="isFail">Not Installed</span>';
@@ -787,13 +816,13 @@ class OWMPElements extends OWMP
         <p>php-xml Library:
             <?php
             // Έλεγχος της php-xml library για διαχείριση του xml
-            if(function_exists('xml_set_object')) {
+            if (function_exists('xml_set_object')) {
                 echo '<span class="isSuccess">Installed</span>';
             } else {
                 echo '<span class="isFail">Not Installed</span>';
             }
             // TODO να κάνω το help για το php-xml
-//            Page::getHelp('help_GD_library');
+            //            Page::getHelp('help_GD_library');
             ?>
         </p>
 
@@ -809,9 +838,9 @@ class OWMPElements extends OWMP
 
         global $mediaKinds;
 
-        $UserGroupID=$user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
+        $UserGroupID = $user->getUserGroup($conn->getSession('username'));  // Παίρνει το user group στο οποίο ανήκει ο χρήστης
 
-        if($UserGroupID==1) {
+        if ($UserGroupID == 1) {
             ?>
             <div id="syncButtons">
                 <form id="syncForm" name="syncForm">
@@ -835,9 +864,11 @@ class OWMPElements extends OWMP
                         </div>
 
                         <div class="col-4 px-1 col-lg-6 col-12 my-1">
-                            <input type="button" class="btn btn-success w-75" id="startSync" name="startSync" onclick="startTheSync('sync');"
+                            <input type="button" class="btn btn-success w-75" id="startSync" name="startSync"
+                                   onclick="startTheSync('sync');"
                                    value="<?php echo __('Synchronize'); ?>">
-                            <input type="hidden" id="jsGDOK" value="<?php if(function_exists('gd_info')) echo 'true'; else 'false'; ?>">
+                            <input type="hidden" id="jsGDOK"
+                                   value="<?php if (function_exists('gd_info')) echo 'true'; else 'false'; ?>">
                             <?php Page::getHelp('help_sync'); ?>
                         </div>
 
@@ -847,19 +878,22 @@ class OWMPElements extends OWMP
                     <div class="row my-2 no-gutters">
 
                         <div class="col-lg-4 col-12 px-1 my-1">
-                            <input type="button" class="btn btn-warning w-75" id="startClear" name="startClear" onclick="startTheSync('clear');"
+                            <input type="button" class="btn btn-warning w-75" id="startClear" name="startClear"
+                                   onclick="startTheSync('clear');"
                                    value="<?php echo __('sync_clear'); ?>">
                             <?php Page::getHelp('help_clear_db'); ?>
                         </div>
 
                         <div class="col-lg-4 col-12 px-1 my-1">
-                            <input type="button" class="btn btn-warning w-75" id="startHash" name="startHash" onclick="startTheSync('hash');"
+                            <input type="button" class="btn btn-warning w-75" id="startHash" name="startHash"
+                                   onclick="startTheSync('hash');"
                                    value="<?php echo __('sync_hash'); ?>">
                             <?php Page::getHelp('help_hash'); ?>
                         </div>
 
                         <div class="col-lg-4 col-12 px-1 my-1">
-                            <input type="button" class="btn btn-warning w-75" id="startFileMetadata" name="startFileMetadata" onclick="startTheSync('metadata');"
+                            <input type="button" class="btn btn-warning w-75" id="startFileMetadata"
+                                   name="startFileMetadata" onclick="startTheSync('metadata');"
                                    value="<?php echo __('sync_metadata'); ?>">
                             <?php Page::getHelp('help_metadata'); ?>
                         </div>
@@ -868,19 +902,22 @@ class OWMPElements extends OWMP
                     <div class="row my-2 no-gutters">
 
                         <div class="col-lg-4 col-12 px-1 my-1">
-                            <input type="button" class="btn btn-warning w-75" id="startJsonImport" name="startJsonImport" onclick="startTheSync('json_import');"
+                            <input type="button" class="btn btn-warning w-75" id="startJsonImport"
+                                   name="startJsonImport" onclick="startTheSync('json_import');"
                                    value="<?php echo __('sync_json'); ?>">
                             <?php Page::getHelp('help_playlist_export'); ?>
                         </div>
 
                         <div class="col-lg-4 col-12 px-1 my-1">
-                            <input type="button" class="btn btn-warning w-75" id="startCoverConvert" name="startCoverConvert" onclick="startTheSync('coverConvert');"
+                            <input type="button" class="btn btn-warning w-75" id="startCoverConvert"
+                                   name="startCoverConvert" onclick="startTheSync('coverConvert');"
                                    value="<?php echo __('cover_convert'); ?>">
                             <?php Page::getHelp('help_convert_covers'); ?>
                         </div>
 
                         <div class="col-lg-4 col-12 px-1 my-1">
-                            <input type="button" class="btn btn-warning w-75" id="backupDatabase" name="backupDatabase" onclick="startTheBackup();"
+                            <input type="button" class="btn btn-warning w-75" id="backupDatabase" name="backupDatabase"
+                                   onclick="startTheBackup();"
                                    value="<?php echo __('start_backup'); ?>">
                             <?php Page::getHelp('help_database_backup'); ?>
                         </div>
@@ -893,21 +930,23 @@ class OWMPElements extends OWMP
 
                     <div class="row my-2 no-gutters w-100">
 
-                            <div class="custom-file col-lg-6 col-12 px-1 my-1">
-                                <input type="file" class="custom-file-input" name="uploadSQLFile" id="uploadSQLFile" accept='image/*' onchange="jsUploadFile(this.files)">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
+                        <div class="custom-file col-lg-6 col-12 px-1 my-1">
+                            <input type="file" class="custom-file-input" name="uploadSQLFile" id="uploadSQLFile"
+                                   accept='image/*' onchange="jsUploadFile(this.files)">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
 
-    <!--                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"-->
-    <!--                               accept=".sql"-->
-    <!--                               onchange="UploadFiles.startUpload();" multiple>-->
+                        <!--                        <input type="file" name="jsMediaFiles" id="jsMediaFiles"-->
+                        <!--                               accept=".sql"-->
+                        <!--                               onchange="UploadFiles.startUpload();" multiple>-->
 
-                            <div class="col-lg-6 col-12 px-1 my-1 text-center">
-                                <input type="button" class="btn btn-danger w-75" id="restoreDatabase" name="restoreDatabase" onclick="restoreTheBackup();"
-                                       value="<?php echo __('start_restore'); ?>">
+                        <div class="col-lg-6 col-12 px-1 my-1 text-center">
+                            <input type="button" class="btn btn-danger w-75" id="restoreDatabase" name="restoreDatabase"
+                                   onclick="restoreTheBackup();"
+                                   value="<?php echo __('start_restore'); ?>">
 
-                                <?php Page::getHelp('help_database_backup'); ?>
-                            </div>
+                            <?php Page::getHelp('help_database_backup'); ?>
+                        </div>
                     </div>
 
                 </form>
@@ -915,9 +954,8 @@ class OWMPElements extends OWMP
             </div>
 
             <?php
-        }
-        else {
-            echo '<p>'.__('only_for_admin').'</p>';
+        } else {
+            echo '<p>' . __('only_for_admin') . '</p>';
         }
     }
 
@@ -929,20 +967,20 @@ class OWMPElements extends OWMP
      * @param $step {int}
      * @return mixed
      */
-    static function getFilesDuplicates ($offset, $step)
+    static function getFilesDuplicates($offset, $step)
     {
         MyDB::createConnection();
 
-        $sql='SELECT files.id as id, song_name, artist, genre, date_added, play_count, rating, song_year FROM files JOIN music_tags on files.id=music_tags.id WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
+        $sql = 'SELECT files.id as id, song_name, artist, genre, date_added, play_count, rating, song_year FROM files JOIN music_tags on files.id=music_tags.id WHERE hash IN (SELECT hash FROM OWMP.files GROUP BY hash HAVING count(*) > 1) ORDER BY hash';
 
-        if(isset($offset))
-            $sql=$sql.' LIMIT '.$offset.','.$step;
+        if (isset($offset))
+            $sql = $sql . ' LIMIT ' . $offset . ',' . $step;
 
         $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
-        $result=$stmt->fetchAll();
+        $result = $stmt->fetchAll();
 
         $stmt->closeCursor();
         $stmt = null;
@@ -959,9 +997,9 @@ class OWMPElements extends OWMP
      */
     static function makePlaylistArrayToCopy($arrayToCopy)
     {
-        $counter=0;
-        foreach($arrayToCopy as $item) {
-            $newArray[]=array('id'=>$counter, 'file_id'=>$item['id']);
+        $counter = 0;
+        foreach ($arrayToCopy as $item) {
+            $newArray[] = array('id' => $counter, 'file_id' => $item['id']);
             $counter++;
         }
 
@@ -978,24 +1016,23 @@ class OWMPElements extends OWMP
     {
         $conn = new MyDB();
 
-        $file=MyDB::getTableArray('files','*', 'id=?', array($id),null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
+        $file = MyDB::getTableArray('files', '*', 'id=?', array($id), null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
 
-        $filesArray=array('path'=>$file[0]['path'],
-            'filename'=>$file[0]['filename']);
+        $filesArray = array('path' => $file[0]['path'],
+            'filename' => $file[0]['filename']);
 
-        $fullPath=DIR_PREFIX.$filesArray['path'].$filesArray['filename'];   // Το full path του αρχείου
+        $fullPath = DIR_PREFIX . $filesArray['path'] . $filesArray['filename'];   // Το full path του αρχείου
 
         if (file_exists($fullPath)) {  // αν υπάρχει το αρχείο, σβήνει το αρχείο μαζί με την εγγραφή στην βάση
             if (unlink($fullPath)) {
-                if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$id))
-                    if($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
+                if ($deleteMusicTags = $conn->deleteRowFromTable('music_tags', 'id', $id))
+                    if ($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
                         $result = true;
                     else $result = false;
             }
-        }
-        else  {  // Αν δεν υπάρχει το αρχείο σβήνει μόνο την εγγραφή στην βάση
-            if($deleteMusicTags=$conn->deleteRowFromTable ('music_tags','id',$id))
-                if($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
+        } else {  // Αν δεν υπάρχει το αρχείο σβήνει μόνο την εγγραφή στην βάση
+            if ($deleteMusicTags = $conn->deleteRowFromTable('music_tags', 'id', $id))
+                if ($deleteFile = $conn->deleteRowFromTable('files', 'id', $id))
                     $result = true;
                 else $result = false;
         }
@@ -1013,17 +1050,17 @@ class OWMPElements extends OWMP
     {
         MyDB::createConnection();
 
-        $sql='SELECT path, filename FROM files WHERE id=?';
+        $sql = 'SELECT path, filename FROM files WHERE id=?';
 
         $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($id));
 
-        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
+        if ($item = $stmt->fetch(\PDO::FETCH_ASSOC))
 
-            $result=$item['path'].urldecode($item['filename']);
+            $result = $item['path'] . urldecode($item['filename']);
 
-        else $result=false;
+        else $result = false;
 
         $stmt->closeCursor();
         $stmt = null;
@@ -1044,7 +1081,7 @@ class OWMPElements extends OWMP
 
         $hash = SyncFiles::hashString($image); // Δημιουργούμε hash της εικόνας
 
-        if(!$coverArtID = SyncFiles::searchForImageHash($hash)) {  // Ψάχνουμε αν το hash της εικόνας υπάρχει ήδη
+        if (!$coverArtID = SyncFiles::searchForImageHash($hash)) {  // Ψάχνουμε αν το hash της εικόνας υπάρχει ήδη
 
             // εγγραφή του image σαν αρχείο σε υποκατάλογο έτους και μήνα
             switch ($mime) {  // το  extension του αρχείου αναλόγως το mime
@@ -1069,7 +1106,7 @@ class OWMPElements extends OWMP
 
             // TODO Check path permissions before starting the files upload
             $checkAlbumCoversDir = FilesIO::createDirectory(ALBUM_COVERS_DIR . $imageDir); // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
-            if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
+            if (!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
                 trigger_error($checkAlbumCoversDir['message']);
                 exit($checkAlbumCoversDir['message']);
             }
@@ -1082,14 +1119,14 @@ class OWMPElements extends OWMP
 
                 $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
 
-                $artsArray = array($imageDir, $timestampFilename.$imageExtension, $hash);
+                $artsArray = array($imageDir, $timestampFilename . $imageExtension, $hash);
 
-                $coverID=$conn->insertInto($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
+                $coverID = $conn->insertInto($sql, $artsArray); // Παίρνουμε το id της εγγραφής που έγινε
 
                 // GD install http://php.net/manual/en/image.installation.php
 
                 // Αν είναι εγκατεστημένη η GD library στην PHP και αν το image είναι valid
-                if(function_exists('gd_info') && self::checkValidImage($file)) {
+                if (function_exists('gd_info') && self::checkValidImage($file)) {
                     // Δημιουργεί thumbnail, small image και ico
                     self::createSmallerImage($file, 'thumb');
                     self::createSmallerImage($file, 'small');
@@ -1101,13 +1138,14 @@ class OWMPElements extends OWMP
             }
 
         } else {
-            $coverID=$coverArtID;
+            $coverID = $coverArtID;
         }
 
         return $coverID;
     }
 
-    static function get_content($URL){
+    static function get_content($URL)
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $URL);
@@ -1124,13 +1162,13 @@ class OWMPElements extends OWMP
      */
     static function checkValidImage($myImage)
     {
-        $html = VALID_IMAGE_SCRIPT_ADDRESS . '?imagePath='.$myImage;
+        $html = VALID_IMAGE_SCRIPT_ADDRESS . '?imagePath=' . $myImage;
         $response = @file_get_contents($html, FILE_USE_INCLUDE_PATH);
 //        $response = self::get_content($html);
 
         $decoded = json_decode($response, true);
 
-        if($decoded) {
+        if ($decoded) {
             foreach ($decoded as $items) {
                 $result = $items;
                 return $result;
@@ -1146,7 +1184,8 @@ class OWMPElements extends OWMP
      * @param $myImage {string} Το path της εικόνας
      * @return bool|resource Επιστρέφει την εικόνα σαν string ή false
      */
-    static function openImage($myImage) {
+    static function openImage($myImage)
+    {
         $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
         switch ($extension) {
@@ -1180,13 +1219,14 @@ class OWMPElements extends OWMP
      * @param $imageSize {string} "thumb" or "small"
      * @return bool True or False για την επιτυχία
      */
-    static function createSmallerImage($fullpath, $imageSize) {
+    static function createSmallerImage($fullpath, $imageSize)
+    {
         $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
         $extension = pathinfo($fullpath, PATHINFO_EXTENSION);
 
-     // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
-        if(FilesIO::fileExists($fullpath)) {
+        // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
+        if (FilesIO::fileExists($fullpath)) {
             if (!$image = self::openImage($fullpath)) {
                 return false;
             }
@@ -1200,16 +1240,16 @@ class OWMPElements extends OWMP
 
 
         // Οι νέες διαστάσεις αναλόγως τι έχουμε επιλέξει να κάνει
-        switch($imageSize) {
+        switch ($imageSize) {
             case 'thumb':
                 $newWidth = 50;
                 $newHeight = 50;
-                $newFilename = 'thumb_'.$imageFilename;
+                $newFilename = 'thumb_' . $imageFilename;
                 break;
             case 'small':
                 $newWidth = 250;
                 $newHeight = 250;
-                $newFilename = 'small_'.$imageFilename;
+                $newFilename = 'small_' . $imageFilename;
                 break;
 //            case 'ico':
 //                $newWidth = 32;
@@ -1220,15 +1260,15 @@ class OWMPElements extends OWMP
 
         // Δημιουργεί το image με νέες διαστάσεις
         $newImage = ImageCreateTrueColor($newWidth, $newHeight);
-        imagecopyResampled ($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
+        imagecopyResampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
 
         // Σώζει το image
 //        if($imageSize!=='ico') {
-            if (imagejpeg($newImage, $imagePath . '/' . $newFilename)) {
-                $result = true;
-            } else {
-                $result = false;
-            }
+        if (imagejpeg($newImage, $imagePath . '/' . $newFilename)) {
+            $result = true;
+        } else {
+            $result = false;
+        }
 //        } else {
 ////            trigger_error($imagePath . '/' . $newFilename);
 //            if (imagepng($newImage, $imagePath . '/' . $newFilename)) {
@@ -1257,34 +1297,34 @@ class OWMPElements extends OWMP
     {
         MyDB::createConnection();
 
-        $sql='SELECT path, filename FROM album_arts WHERE id=?';
+        $sql = 'SELECT path, filename FROM album_arts WHERE id=?';
 
         $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute(array($id));
 
-        if($item=$stmt->fetch(\PDO::FETCH_ASSOC)) {
+        if ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 
             $bigImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
 
             $extension = pathinfo($bigImage, PATHINFO_EXTENSION);
 
-            if(FilesIO::fileExists($bigImage)) {
+            if (FilesIO::fileExists($bigImage)) {
                 $result = $bigImage;
             }
 
-            if(function_exists('gd_info')) {
+            if (function_exists('gd_info')) {
                 $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
                 $thumbImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
                 $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
 
-                if(FilesIO::fileExists($smallImage)) {
+                if (FilesIO::fileExists($smallImage)) {
                     $smallExist = true;
                 } else {
                     $smallExist = false;
                 }
 
-                if(FilesIO::fileExists($thumbImage)) {
+                if (FilesIO::fileExists($thumbImage)) {
                     $thumbExist = true;
                 } else {
                     $thumbExist = false;
@@ -1297,12 +1337,16 @@ class OWMPElements extends OWMP
 //                }
 
                 switch ($imageSize) {
-                    case 'small': if($smallExist) {
-                        $result = $smallImage;
-                    } break;
-                    case 'thumb': if($thumbExist) {
-                        $result = $thumbImage;
-                    } break;
+                    case 'small':
+                        if ($smallExist) {
+                            $result = $smallImage;
+                        }
+                        break;
+                    case 'thumb':
+                        if ($thumbExist) {
+                            $result = $thumbImage;
+                        }
+                        break;
 //                    case 'ico': if($icoExist) {
 //                        $result = $icoImage;
 //                    } break;
@@ -1312,13 +1356,13 @@ class OWMPElements extends OWMP
 //                    $result = $smallImage;
 //                }
             } else {
-                if($imageSize=='ico') {
+                if ($imageSize == 'ico') {
                     $result = false;
                 }
             }
 
         } else {
-            $result=false;
+            $result = false;
         }
 
         $stmt->closeCursor();
@@ -1334,10 +1378,10 @@ class OWMPElements extends OWMP
      * @param $target {string} Το path του τελικού αρχείου
      * @param $bitrate {int} To bitrate της μετατροπής
      */
-    static function execConvertALAC ($source, $target, $bitrate)
+    static function execConvertALAC($source, $target, $bitrate)
     {
         // Μετατροπή ALAC σε απλό mp3. Το δημιουργεί καταρχήν σε temp dir (INTERNAL_CONVERT_PATH)
-        print shell_exec('ffmpeg -i "'.$source.'" -ac 2 -f wav - | lame -b '.$bitrate.' - "'.$target.'" ');
+        print shell_exec('ffmpeg -i "' . $source . '" -ac 2 -f wav - | lame -b ' . $bitrate . ' - "' . $target . '" ');
     }
 
     /**
@@ -1351,7 +1395,7 @@ class OWMPElements extends OWMP
         $conn = new MyDB();
         MyDB::createConnection();
 
-        $sql = 'CREATE TABLE '.$table.' (
+        $sql = 'CREATE TABLE ' . $table . ' (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `file_id` int(11) DEFAULT NULL,
                 PRIMARY KEY (`id`)
@@ -1360,11 +1404,11 @@ class OWMPElements extends OWMP
         $stmt = MyDB::$conn->prepare($sql);
 
 
-        if($stmt->execute())
+        if ($stmt->execute())
 
             $result = true;
 
-        else $result=false;
+        else $result = false;
 
         $stmt->closeCursor();
         $stmt = null;
@@ -1403,20 +1447,18 @@ class OWMPElements extends OWMP
     {
         MyDB::createConnection();
 
-        $sql='SELECT * FROM '.$table.' LIMIT '.$tableCount.',1';
+        $sql = 'SELECT * FROM ' . $table . ' LIMIT ' . $tableCount . ',1';
 
         $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
-        if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
-        {
-            $result=array(
+        if ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $result = array(
                 'playlist_id' => $item['id'],
                 'file_id' => $item['file_id']
             );
-        }
-        else $result=false;
+        } else $result = false;
 
         $stmt->closeCursor();
         $stmt = null;
@@ -1435,7 +1477,7 @@ class OWMPElements extends OWMP
     {
 
         // αν δεν υπάρχει η συγκεκριμένη εγγραφή ήδη, τότε μπορεί να γίνει η εισαγωγή
-        if(!MyDB::getTableFieldValue($tempPlaylist, 'file_id=?', array($fileID), 'id')) {
+        if (!MyDB::getTableFieldValue($tempPlaylist, 'file_id=?', array($fileID), 'id')) {
             $conn = new MyDB();
 
             $sql = 'INSERT INTO ' . $tempPlaylist . ' (file_id) VALUES(?)';
@@ -1458,16 +1500,16 @@ class OWMPElements extends OWMP
     static function voteSong($fileID)
     {
 
-        $userIP=$_SESSION['user_IP'];  // H ip του χρήστη
+        $userIP = $_SESSION['user_IP'];  // H ip του χρήστη
 
         $conn = new MyDB();
 
-        if(!MyDB::getTableFieldValue('votes', 'voter_ip=?', $userIP, 'id')) {
+        if (!MyDB::getTableFieldValue('votes', 'voter_ip=?', $userIP, 'id')) {
             $sql = 'INSERT INTO votes (file_id,voter_ip) VALUES(?,?)';
 
-            trigger_error('User vote '.$userIP);
+            trigger_error('User vote ' . $userIP);
 
-            if ($conn->insertInto($sql, array($fileID,$userIP))) {
+            if ($conn->insertInto($sql, array($fileID, $userIP))) {
                 return true;
             } else {
                 return false;
@@ -1488,13 +1530,13 @@ class OWMPElements extends OWMP
     {
         MyDB::createConnection();
 
-        $sql='SELECT file_id, count(*) as numberOfVotes FROM votes GROUP BY file_id';
+        $sql = 'SELECT file_id, count(*) as numberOfVotes FROM votes GROUP BY file_id';
 
         $stmt = MyDB::$conn->prepare($sql);
 
         $stmt->execute();
 
-        $result=$stmt->fetchAll();
+        $result = $stmt->fetchAll();
 
         $stmt->closeCursor();
         $stmt = null;
@@ -1511,14 +1553,14 @@ class OWMPElements extends OWMP
     static function getSongInfo($id)
     {
 
-        if(isset($id)) {
+        if (isset($id)) {
             $currentSongID = $id;
         } else {
             $currentSongID = Progress::getCurrentSong();
         }
 
-        if($currentSongID) { // Το id του τραγουδιού
-            if($currentSong = MyDB::getTableArray('music_tags', 'song_name, artist, id',
+        if ($currentSongID) { // Το id του τραγουδιού
+            if ($currentSong = MyDB::getTableArray('music_tags', 'song_name, artist, id',
                 'id=?', array($currentSongID), 'id DESC LIMIT 1', null, null)) { // Τα στοιχεία του τραγουδιού
                 return $currentSong;
             } else {
@@ -1536,17 +1578,17 @@ class OWMPElements extends OWMP
      * @param $songInfo {string} Τα στοιχεία του τραγουδιού
      * @return bool True or False για την επιτυχία
      */
-    static function sendToIcecast ($songInfo)
+    static function sendToIcecast($songInfo)
     {
 
-        $html = 'http://'.ICECAST_USER.':'.ICECAST_PASS.'@'.ICECAST_SERVER.'/admin/metadata?mount=/'.
-            ICECAST_MOUNT.'&mode=updinfo&song='.urlencode($songInfo);
+        $html = 'http://' . ICECAST_USER . ':' . ICECAST_PASS . '@' . ICECAST_SERVER . '/admin/metadata?mount=/' .
+            ICECAST_MOUNT . '&mode=updinfo&song=' . urlencode($songInfo);
 
         $response = file_get_contents($html);
         $decoded = json_decode($response, true);
 
 
-        if($decoded) {
+        if ($decoded) {
             return true;
         } else {
             return false;
@@ -1578,26 +1620,30 @@ class OWMPElements extends OWMP
 
                             <div class="form-group my-1">
                                 <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
-                                <input type="text" class="form-control form-control-sm" id="artist" name="artist" placeholder="<?php echo __('tag_artist'); ?>"
-                                        maxlength="255">
+                                <input type="text" class="form-control form-control-sm" id="artist" name="artist"
+                                       placeholder="<?php echo __('tag_artist'); ?>"
+                                       maxlength="255">
                             </div>
 
                             <div class="form-group my-1">
                                 <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
-                                <input type="text" class="form-control form-control-sm" id="album" name="album" placeholder="<?php echo __('tag_album'); ?>"
+                                <input type="text" class="form-control form-control-sm" id="album" name="album"
+                                       placeholder="<?php echo __('tag_album'); ?>"
                                        maxlength="255">
                             </div>
 
                             <div class="row my-1">
                                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                                     <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
-                                    <input type="text" class="form-control form-control-sm" id="genre" name="genre" placeholder="<?php echo __('tag_genre'); ?>"
-                                         maxlength="20">
+                                    <input type="text" class="form-control form-control-sm" id="genre" name="genre"
+                                           placeholder="<?php echo __('tag_genre'); ?>"
+                                           maxlength="20">
                                 </div>
 
                                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
                                     <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
-                                    <input type="number" class="form-control form-control-sm" id="year" name="year" placeholder="<?php echo __('tag_year'); ?>">
+                                    <input type="number" class="form-control form-control-sm" id="year" name="year"
+                                           placeholder="<?php echo __('tag_year'); ?>">
                                 </div>
 
                                 <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
@@ -1612,18 +1658,19 @@ class OWMPElements extends OWMP
                             <div id="rating_div">
                                 <label for="tags_rating" class="sr-only"><?php echo __('tag_rating'); ?></label>
 
-                                <input type="range" id="tags_rating" name="tags_rating" oninput="printValue(tags_rating, tags_rating_output);"
+                                <input type="range" id="tags_rating" name="tags_rating"
+                                       oninput="printValue(tags_rating, tags_rating_output);"
                                        maxlength="5" max="5" min="0" value="0" list="tags_rating_ticks">
 
                                 <output for="tags_rating" id="tags_rating_output">0</output>
 
                                 <datalist id="tags_rating_ticks">
                                     <?php
-                                        for($i=0; $i<6; $i++) {
-                                            ?>
-                                                <option><?php echo $i; ?></option>
-                                            <?php
-                                        }
+                                    for ($i = 0; $i < 6; $i++) {
+                                        ?>
+                                        <option><?php echo $i; ?></option>
+                                        <?php
+                                    }
                                     ?>
                                 </datalist>
                             </div>
@@ -1633,7 +1680,8 @@ class OWMPElements extends OWMP
                         <div id="myImage"></div>
 
                         <div class="custom-file my-2">
-                            <input type="file" class="custom-file-input" name="uploadFile" id="uploadFile" accept='image/*' onchange="readImage(this.files);">
+                            <input type="file" class="custom-file-input" name="uploadFile" id="uploadFile"
+                                   accept='image/*' onchange="readImage(this.files);">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
 
@@ -1665,21 +1713,21 @@ class OWMPElements extends OWMP
         <div id="ChooseMediaKind" class="form-group col-10">
 
             <label for="mediakind" class="sr-only">Media Kind</label>
-            <select class="form-control form-control-sm id="mediakind" name="mediakind"
-                    onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
-                <option value="">
-                    All
-                </option>
-                <?php
-                foreach ($mediaKinds as $kind) {
-                    ?>
-                    <option value="<?php echo $kind; ?>">
-                        <?php echo $kind; ?>
-                    </option>
-
-                    <?php
-                }
+            <select class="form-control form-control-sm id=" mediakind" name="mediakind"
+            onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
+            <option value="">
+                All
+            </option>
+            <?php
+            foreach ($mediaKinds as $kind) {
                 ?>
+                <option value="<?php echo $kind; ?>">
+                    <?php echo $kind; ?>
+                </option>
+
+                <?php
+            }
+            ?>
             </select>
 
 
@@ -1695,56 +1743,57 @@ class OWMPElements extends OWMP
     static function displayChoosePlaylistElements($userID)
     {
         ?>
-            <div id="ChoosePlaylist">
-                <form id="formChoosePlaylist">
+        <div id="ChoosePlaylist">
+            <form id="formChoosePlaylist">
 
-                    <div class="input-group">
+                <div class="input-group">
 
-                        <label for="playlist" class="sr-only">playlist</label>
-                        <select class="form-control form-control-sm" id="playlist" name="playlist">
-                            <option value="">
-                                <?php echo __('choose_playlist'); ?>
-                            </option>
-                            <?php
+                    <label for="playlist" class="sr-only">playlist</label>
+                    <select class="form-control form-control-sm" id="playlist" name="playlist">
+                        <option value="">
+                            <?php echo __('choose_playlist'); ?>
+                        </option>
+                        <?php
 
-                            // H λίστα με τις manual playlists
-                            $manualPlaylists = MyDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
+                        // H λίστα με τις manual playlists
+                        $manualPlaylists = MyDB::getTableArray('manual_playlists', 'id, playlist_name', 'user_id=?', array($userID), null, null, null);
 
-                            foreach ($manualPlaylists as $playlist) {
-                                ?>
-                                <option value="<?php echo $playlist['id']; ?>">
-                                    <?php echo  $playlist['playlist_name']; ?>
-                                </option>
-
-                                <?php
-                            }
+                        foreach ($manualPlaylists as $playlist) {
                             ?>
-                        </select>
+                            <option value="<?php echo $playlist['id']; ?>">
+                                <?php echo $playlist['playlist_name']; ?>
+                            </option>
 
-                        <div class="my-auto mx-2">
+                            <?php
+                        }
+                        ?>
+                    </select>
+
+                    <div class="my-auto mx-2">
                             <span class="mdi mdi-play mdi-24px hasCursorPointer" id="playPlaylist"
-                                  onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>, true);" title="<?php echo __('play_file'); ?>">
+                                  onclick="playMyPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>, true);"
+                                  title="<?php echo __('play_file'); ?>">
                             </span>
 
-                            <span class="mdi mdi-playlist-plus mdi-24px hasCursorPointer" data-toggle="modal" data-target="#insertPlaylistWindow"
-                                  id="insertPlaylistClick"
-                                  onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
+                        <span class="mdi mdi-playlist-plus mdi-24px hasCursorPointer" data-toggle="modal"
+                              data-target="#insertPlaylistWindow"
+                              id="insertPlaylistClick"
+                              onclick="displayInsertPlaylistWindow();" title="<?php echo __('create_playlist'); ?>">
                             </span>
 
-                            <span class="mdi mdi-delete mdi-24px hasCursorPointer" id="deletePlaylistClick"
-                                  onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
+                        <span class="mdi mdi-delete mdi-24px hasCursorPointer" id="deletePlaylistClick"
+                              onclick="deletePlaylist();" title="<?php echo __('delete_playlist'); ?>">
                             </span>
 
-                            <?php Page::getHelp('help_manual_playlists'); ?>
-                        </div>
-
+                        <?php Page::getHelp('help_manual_playlists'); ?>
                     </div>
 
-                </form>
+                </div>
+
+            </form>
 
 
-
-            </div>
+        </div>
 
 
         <?php
@@ -1782,7 +1831,7 @@ class OWMPElements extends OWMP
                         foreach ($smartPlaylists as $playlist) {
                             ?>
                             <option value="<?php echo $playlist['id']; ?>">
-                                <?php echo  $playlist['playlist_name']; ?>
+                                <?php echo $playlist['playlist_name']; ?>
                             </option>
 
                             <?php
@@ -1793,16 +1842,17 @@ class OWMPElements extends OWMP
 
                 <div class="col-lg-3 px-1 w-100 my-auto text-center">
                     <span class="mdi mdi-playlist-plus mdi-24px hasCursorPointer" id="jsInsertSmartPlaylistClick"
-                           title="<?php echo __('create_smart_playlist'); ?>" onclick="displayInsertSmartPlaylistWindow();" >
+                          title="<?php echo __('create_smart_playlist'); ?>"
+                          onclick="displayInsertSmartPlaylistWindow();">
                     </span>
                     <span class="mdi mdi-delete mdi-24px hasCursorPointer" id="jdDeleteSmartPlaylistClick"
-                           title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();" >
+                          title="<?php echo __('delete_smart_playlist'); ?>" onclick="deleteSmartPlaylist();">
                     </span>
                     <span class="mdi mdi-content-save mdi-24px hasCursorPointer" id="jsSaveSmartPlaylist"
-                           title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();" >
+                          title="<?php echo __('save_smart_playlist'); ?>" onclick="saveSmartPlaylist();">
                     </span>
                     <span class="mdi mdi-email-open-outline mdi-24px hasCursorPointer" id="jsLoadSmartPlaylist"
-                           title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();" >
+                          title="<?php echo __('load_smart_playlist'); ?>" onclick="loadSmartPlaylist();">
                     </span>
 
                     <?php Page::getHelp('help_smart_playlists'); ?>
@@ -1820,7 +1870,8 @@ class OWMPElements extends OWMP
     static function displayInsertPlaylistWindow()
     {
         ?>
-        <div class="modal fade" id="insertPlaylistWindow" tabindex="-1" role="dialog" aria-labelledby="insertPlaylistWindow" aria-hidden="true">
+        <div class="modal fade" id="insertPlaylistWindow" tabindex="-1" role="dialog"
+             aria-labelledby="insertPlaylistWindow" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1844,9 +1895,12 @@ class OWMPElements extends OWMP
                     </div>
 
                     <div class="modal-footer row w-100 no-gutters">
-                        <input type="button" class="btm btn-success btn-sm PlaylistButton col mx-1 my-1 px-1" id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
+                        <input type="button" class="btm btn-success btn-sm PlaylistButton col mx-1 my-1 px-1"
+                               id="insertPlaylistButton" name="insertPlaylistButton" onclick="createPlaylist();"
                                value="<?php echo __('create_playlist'); ?>">
-                        <input type="button" class="btm btn-danger btn-sm col mx-1 my-1 px-1" name="cancelPlaylist" id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreatePlaylist();">
+                        <input type="button" class="btm btn-danger btn-sm col mx-1 my-1 px-1" name="cancelPlaylist"
+                               id="cancelPlaylist" value="<?php echo __('search_text_cancel'); ?>"
+                               onclick="cancelCreatePlaylist();">
                     </div>
                 </div>
             </div>
@@ -1858,19 +1912,24 @@ class OWMPElements extends OWMP
     static function displayInsertSmartPlaylistWindow()
     {
         ?>
-            <div id="insertSmartPlaylistWindow" class="bg-light w-75 my-5 ml-auto mr-auto fixed-top">
-                <form id="insertSmartPlaylist" name="insertSmartPlaylist">
-                    <div class="row w-100 py-1 px-1 text-center no-gutters">
-                        <div class="form-group col-lg-5 my-auto py-1 w-100">
-                            <label for="smartPlaylistName" class="sr-only">Smart Playlist</label>
-                            <input type="text" class="form-control form-control-sm" id="smartPlaylistName" name="smartPlaylistName">
-                        </div>
-                            <input type="button" class="btm btn-success btn-sm PlaylistButton my-1 col-lg-3  w-100 ml-auto" id="insertSmartPlaylistButton" name="insertSmartPlaylistButton" onclick="createSmartPlaylist();"
-                                 value="<?php echo __('create_playlist'); ?>">
-                            <input type="button" class="btm btn-danger btn-sm  my-1 col-lg-3  w-100 ml-auto" name="cancelSmartPlaylist" id="cancelSmartPlaylist" value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreateSmartPlaylist();">
+        <div id="insertSmartPlaylistWindow" class="bg-light w-75 my-5 ml-auto mr-auto fixed-top">
+            <form id="insertSmartPlaylist" name="insertSmartPlaylist">
+                <div class="row w-100 py-1 px-1 text-center no-gutters">
+                    <div class="form-group col-lg-5 my-auto py-1 w-100">
+                        <label for="smartPlaylistName" class="sr-only">Smart Playlist</label>
+                        <input type="text" class="form-control form-control-sm" id="smartPlaylistName"
+                               name="smartPlaylistName">
                     </div>
-                </form>
-            </div>
+                    <input type="button" class="btm btn-success btn-sm PlaylistButton my-1 col-lg-3  w-100 ml-auto"
+                           id="insertSmartPlaylistButton" name="insertSmartPlaylistButton"
+                           onclick="createSmartPlaylist();"
+                           value="<?php echo __('create_playlist'); ?>">
+                    <input type="button" class="btm btn-danger btn-sm  my-1 col-lg-3  w-100 ml-auto"
+                           name="cancelSmartPlaylist" id="cancelSmartPlaylist"
+                           value="<?php echo __('search_text_cancel'); ?>" onclick="cancelCreateSmartPlaylist();">
+                </div>
+            </form>
+        </div>
         <?php
     }
 
@@ -1881,7 +1940,8 @@ class OWMPElements extends OWMP
     {
         ?>
 
-        <div class="modal fade" id="insertSleepTimerWindow" tabindex="-1" role="dialog" aria-labelledby="insertSleepTimerWindow" aria-hidden="true">
+        <div class="modal fade" id="insertSleepTimerWindow" tabindex="-1" role="dialog"
+             aria-labelledby="insertSleepTimerWindow" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1916,11 +1976,13 @@ class OWMPElements extends OWMP
                     </div>
 
                     <div class="modal-footer row w-100 no-gutters">
-                        <input type="button" class="btn btn-success btn-sm col my-1 mx-1 px-1" id="startSleepTimerButton" name="startSleepTimerButton"
+                        <input type="button" class="btn btn-success btn-sm col my-1 mx-1 px-1"
+                               id="startSleepTimerButton" name="startSleepTimerButton"
                                onclick="startSleepTimer();"
-                             value="<?php echo __('start_sleep_timer'); ?>">
-                        <input type="button" class="btn btn-danger btn-sm col my-1 mx-1 px-1" name="cancelSleepTimer" id="cancelSleepTimer"
-                            value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSleepTimer();">
+                               value="<?php echo __('start_sleep_timer'); ?>">
+                        <input type="button" class="btn btn-danger btn-sm col my-1 mx-1 px-1" name="cancelSleepTimer"
+                               id="cancelSleepTimer"
+                               value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSleepTimer();">
                     </div>
                 </div>
             </div>
@@ -1933,9 +1995,9 @@ class OWMPElements extends OWMP
     public function displaySearchWindow()
     {
 
-        if($_SESSION['PlaylistCounter']==0) {
+        if ($_SESSION['PlaylistCounter'] == 0) {
 
-            $fields = MyDB::getTableFields('music_tags',array('id'));
+            $fields = MyDB::getTableFields('music_tags', array('id'));
 
             ?>
 
@@ -1962,37 +2024,70 @@ class OWMPElements extends OWMP
                             <form id="SearchForm" name="SearchForm">
                                 <?php
 
-                                for($counter=0;$counter<2;$counter++) {
+                                for ($counter = 0; $counter < 2; $counter++) {
 
                                     ?>
 
-                                    <div id="searchRow<?php echo $counter; ?>" class="<?php if($counter==0) echo 'isHidden'; else echo 'isVisible'; ?>" >
+                                    <div id="searchRow<?php echo $counter; ?>"
+                                         class="<?php if ($counter == 0) echo 'isHidden'; else echo 'isVisible'; ?>">
                                         <div class="row py-1 px-1 no-gutters">
 
                                             <div class="form-group col-lg-2 w-100 my-auto">
                                                 <label for="search_field<?php echo $counter; ?>" class="sr-only">search_field<?php echo $counter; ?></label>
-                                                <select class="form-control form-control-sm search_field" name="search_field<?php echo $counter; ?>" id="search_field<?php echo $counter; ?>">
+                                                <select class="form-control form-control-sm search_field"
+                                                        name="search_field<?php echo $counter; ?>"
+                                                        id="search_field<?php echo $counter; ?>">
                                                     <?php
                                                     foreach ($fields as $field) {
                                                         ?>
                                                         <option value="<?php echo $field; ?>">
                                                             <?php
                                                             switch ($field) {
-                                                                case 'song_name': echo __('tag_title'); break;
-                                                                case 'artist': echo __('tag_artist'); break;
-                                                                case 'genre': echo __('tag_genre'); break;
-                                                                case 'date_added': echo __('tag_date_added'); break;
-                                                                case 'play_count': echo __('tag_play_count'); break;
-                                                                case 'date_last_played': echo __('tag_date_played'); break;
-                                                                case 'rating': echo __('tag_rating'); break;
-                                                                case 'album': echo __('tag_album'); break;
-                                                                case 'video_height': echo __('tag_video_height'); break;
-                                                                case 'filesize': echo __('tag_filesize'); break;
-                                                                case 'video_width': echo __('tag_video_width'); break;
-                                                                case 'track_time': echo __('tag_track_time'); break;
-                                                                case 'song_year': echo __('tag_year'); break;
-                                                                case 'live': echo __('tag_live'); break;
-                                                                case 'album_artwork_id': echo __('tag_album_artwork_id'); break;
+                                                                case 'song_name':
+                                                                    echo __('tag_title');
+                                                                    break;
+                                                                case 'artist':
+                                                                    echo __('tag_artist');
+                                                                    break;
+                                                                case 'genre':
+                                                                    echo __('tag_genre');
+                                                                    break;
+                                                                case 'date_added':
+                                                                    echo __('tag_date_added');
+                                                                    break;
+                                                                case 'play_count':
+                                                                    echo __('tag_play_count');
+                                                                    break;
+                                                                case 'date_last_played':
+                                                                    echo __('tag_date_played');
+                                                                    break;
+                                                                case 'rating':
+                                                                    echo __('tag_rating');
+                                                                    break;
+                                                                case 'album':
+                                                                    echo __('tag_album');
+                                                                    break;
+                                                                case 'video_height':
+                                                                    echo __('tag_video_height');
+                                                                    break;
+                                                                case 'filesize':
+                                                                    echo __('tag_filesize');
+                                                                    break;
+                                                                case 'video_width':
+                                                                    echo __('tag_video_width');
+                                                                    break;
+                                                                case 'track_time':
+                                                                    echo __('tag_track_time');
+                                                                    break;
+                                                                case 'song_year':
+                                                                    echo __('tag_year');
+                                                                    break;
+                                                                case 'live':
+                                                                    echo __('tag_live');
+                                                                    break;
+                                                                case 'album_artwork_id':
+                                                                    echo __('tag_album_artwork_id');
+                                                                    break;
                                                             }
                                                             ?>
                                                         </option>
@@ -2006,7 +2101,9 @@ class OWMPElements extends OWMP
 
                                             <div class="form-group col-lg-2 w-100 my-auto">
                                                 <label for="search_equality<?php echo $counter; ?>" class="sr-only">search_equality<?php echo $counter; ?></label>
-                                                <select class="form-control form-control-sm search_equality" name="search_equality<?php echo $counter; ?>" id="search_equality<?php echo $counter; ?>">
+                                                <select class="form-control form-control-sm search_equality"
+                                                        name="search_equality<?php echo $counter; ?>"
+                                                        id="search_equality<?php echo $counter; ?>">
 
                                                     <option value="equal">
                                                         <?php echo __('search_equal'); ?>
@@ -2022,14 +2119,19 @@ class OWMPElements extends OWMP
                                                 </select>
                                             </div>
 
-                                            <div id="search_text_group<?php echo $counter; ?>" class="search_text_group form-group col-lg-4 w-100 my-auto">
+                                            <div id="search_text_group<?php echo $counter; ?>"
+                                                 class="search_text_group form-group col-lg-4 w-100 my-auto">
                                                 <label for="search_text<?php echo $counter; ?>" class="sr-only">search_text<?php echo $counter; ?></label>
-                                                <input type="text" class="form-control form-control-sm search_text" name="search_text<?php echo $counter; ?>" id="search_text<?php echo $counter; ?>">
+                                                <input type="text" class="form-control form-control-sm search_text"
+                                                       name="search_text<?php echo $counter; ?>"
+                                                       id="search_text<?php echo $counter; ?>">
                                             </div>
 
                                             <div class="form-group col-lg-2 w-100 my-auto">
                                                 <label for="search_operator<?php echo $counter; ?>" class="sr-only">search_operator<?php echo $counter; ?></label>
-                                                <select class="form-control form-control-sm search_operator" name="search_operator<?php echo $counter; ?>" id="search_operator<?php echo $counter; ?>">
+                                                <select class="form-control form-control-sm search_operator"
+                                                        name="search_operator<?php echo $counter; ?>"
+                                                        id="search_operator<?php echo $counter; ?>">
                                                     <option value="OR">
                                                         <?php echo __('search_or'); ?>
                                                     </option>
@@ -2041,14 +2143,20 @@ class OWMPElements extends OWMP
                                             </div>
 
                                             <div class="form-group col-lg-2 w-100 text-right my-auto">
-                                                <span class="mdi mdi-plus-box-outline mdi-24px hasCursorPointer" id="jsAddSearchRow"
-                                                       title="<?php echo __('add_search_row'); ?>" onclick="addSearchRow();">
+                                                <span class="mdi mdi-plus-box-outline mdi-24px hasCursorPointer"
+                                                      id="jsAddSearchRow"
+                                                      title="<?php echo __('add_search_row'); ?>"
+                                                      onclick="addSearchRow();">
                                                 </span>
-                                                <span class="mdi mdi-minus-box-outline mdi-24px hasCursorPointer" id="jsRemoveSearchRow"
-                                                       title="<?php echo __('remove_search_row'); ?>" onclick="removeSearchRow(<?php echo $counter; ?>);">
+                                                <span class="mdi mdi-minus-box-outline mdi-24px hasCursorPointer"
+                                                      id="jsRemoveSearchRow"
+                                                      title="<?php echo __('remove_search_row'); ?>"
+                                                      onclick="removeSearchRow(<?php echo $counter; ?>);">
                                                 </span>
-                                                <span class="mdi mdi-plus-circle mdi-24px hasCursorPointer" id="jsAddGroup"
-                                                       title="<?php echo __('add_group_row'); ?>" onclick="addOrAndToGroup(<?php echo $counter; ?>);">
+                                                <span class="mdi mdi-plus-circle mdi-24px hasCursorPointer"
+                                                      id="jsAddGroup"
+                                                      title="<?php echo __('add_group_row'); ?>"
+                                                      onclick="addOrAndToGroup(<?php echo $counter; ?>);">
                                                 </span>
                                             </div>
 
@@ -2062,20 +2170,28 @@ class OWMPElements extends OWMP
                         </div>
 
                         <div id="searchButtons" class="modal-footer row w-100 no-gutters">
-                            <input type="button" class="btn btn-success col px-1 my-1 mx-1" name="searching" id="searching"
-                                   value="<?php echo __('search_text_search'); ?>" onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
+                            <input type="button" class="btn btn-success col px-1 my-1 mx-1" name="searching"
+                                   id="searching"
+                                   value="<?php echo __('search_text_search'); ?>"
+                                   onclick="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
 
-                            <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="duplicates" id="duplicates"
-                                   value="<?php echo __('search_text_duplicates'); ?>" onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
+                            <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="duplicates"
+                                   id="duplicates"
+                                   value="<?php echo __('search_text_duplicates'); ?>"
+                                   onclick="findDuplicates(0,<?php echo PLAYLIST_LIMIT; ?>, true);">
 
-                            <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="playedQueue" id="playedQueue"
-                                   value="<?php echo __('search_text_played_queue'); ?>" onclick="loadPlayedQueuePlaylist();">
+                            <input type="button" class="btn btn-dark col px-1 my-1 mx-1" name="playedQueue"
+                                   id="playedQueue"
+                                   value="<?php echo __('search_text_played_queue'); ?>"
+                                   onclick="loadPlayedQueuePlaylist();">
 
-                            <input type="button" class="btn btn-warning col px-1 my-1 mx-1" name="jsClearSearch" id="jsClearSearch"
+                            <input type="button" class="btn btn-warning col px-1 my-1 mx-1" name="jsClearSearch"
+                                   id="jsClearSearch"
                                    value="<?php echo __('search_text_clear'); ?>" onclick="clearSearch();">
 
-                            <input type="button" class="btn btn-danger col px-1 my-1 mx-1" name="cancelSearch" id="cancelSearch"
-                                   value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();" >
+                            <input type="button" class="btn btn-danger col px-1 my-1 mx-1" name="cancelSearch"
+                                   id="cancelSearch"
+                                   value="<?php echo __('search_text_cancel'); ?>" onclick="cancelTheSearch();">
                         </div>
                     </div>
                 </div>
@@ -2083,7 +2199,7 @@ class OWMPElements extends OWMP
 
             <?php
         } else {
-        ?>
+            ?>
             <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
 
             </div>
@@ -2095,9 +2211,9 @@ class OWMPElements extends OWMP
         <script type="text/javascript">
 
             // περνάει στην javascript τα options των αντίστοιχων select
-            var liveOptions = <?php echo json_encode([__('tag_live_official'),__('tag_live_live')]); ?>;
+            var liveOptions = <?php echo json_encode([__('tag_live_official'), __('tag_live_live')]); ?>;
 
-            var ratingOptions = <?php echo json_encode([0,1,2,3,4,5]); ?>;
+            var ratingOptions = <?php echo json_encode([0, 1, 2, 3, 4, 5]); ?>;
 
         </script>
 
@@ -2115,13 +2231,13 @@ class OWMPElements extends OWMP
 
         <div class="collapse navbar-collapse w-75 ml-auto mr-auto" id="navbarNavToolbar">
             <div class="navbar-nav nav-pills">
-                    <input type="button" class="btn btm-sm btn-dark nav-item nav-link my-1 text-white px-1"
-                           name="sendToJukebox" id="sendToJukebox"
-                           value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
-                    <input type="button" class="btn btn-sm btn-dark nav-item nav-link my-1 text-white px-1"
-                           name="displaySleepTimer" id="displaySleepTimer"
-                           data-toggle="modal" data-target="#insertSleepTimerWindow"
-                           value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">
+                <input type="button" class="btn btm-sm btn-dark nav-item nav-link my-1 text-white px-1"
+                       name="sendToJukebox" id="sendToJukebox"
+                       value="<?php echo __('send_to_jukebox'); ?>" onclick="sendToJukeboxList();">
+                <input type="button" class="btn btn-sm btn-dark nav-item nav-link my-1 text-white px-1"
+                       name="displaySleepTimer" id="displaySleepTimer"
+                       data-toggle="modal" data-target="#insertSleepTimerWindow"
+                       value="<?php echo __('sleep_timer'); ?>" onclick="displayTheSleepTimer();">
             </div>
         </div>
         <?php
@@ -2134,22 +2250,22 @@ class OWMPElements extends OWMP
      */
     static function displayEditButtons($UserGroup)
     {
-        if($UserGroup==1) {
+        if ($UserGroup == 1) {
             ?>
             <div>
                 <span class="mdi mdi-delete mdi-24px hasCursorPointer"
-                       title="<?php echo __('delete_file'); ?>"
-                       onclick="deleteFile(0);">
+                      title="<?php echo __('delete_file'); ?>"
+                      onclick="deleteFile(0);">
                 </span>
 
                 <span class="mdi mdi-pencil mdi-24px hasCursorPointer" data-toggle="modal" data-target="#editTag"
-                       title="<?php echo __('edit_file'); ?>"
-                       onclick="openMassiveTagsWindow();" >
+                      title="<?php echo __('edit_file'); ?>"
+                      onclick="openMassiveTagsWindow();">
                 </span>
 
                 <span class="mdi mdi-file-export mdi-24px hasCursorPointer"
-                       title="<?php echo __('export_playlist'); ?>"
-                       onclick="exportPlaylist();" >
+                      title="<?php echo __('export_playlist'); ?>"
+                      onclick="exportPlaylist();">
                 </span>
 
             </div>
@@ -2164,7 +2280,7 @@ class OWMPElements extends OWMP
      * @param $offset {int} Το τρέχον σημείο της λίστας
      * @param $step {int} Ο αριθμός εγγραφών ανα σελίδα
      */
-    public function displayPlaylistContainer($offset,$step)
+    public function displayPlaylistContainer($offset, $step)
     {
         ?>
         <div id="playlist_container">
@@ -2172,9 +2288,9 @@ class OWMPElements extends OWMP
             <?php
             $playlist = new PlaylistSearch();
 
-            if($_SESSION['PlaylistCounter']==0) {
-                $_SESSION['condition']=null;   // Μηδενίζει το τρέχον search query
-                $_SESSION['arrayParams']=null;
+            if ($_SESSION['PlaylistCounter'] == 0) {
+                $_SESSION['condition'] = null;   // Μηδενίζει το τρέχον search query
+                $_SESSION['arrayParams'] = null;
 
                 $playlist->fieldsArray = null;
                 $playlist->offset = $offset;
@@ -2185,8 +2301,7 @@ class OWMPElements extends OWMP
                 $playlist->loadPlaylist = null;
                 $playlist->votePlaylist = false;
                 $playlist->getPlaylist();
-            }
-            else {
+            } else {
                 ?>
 
                 <div id="playlist_content"></div>
@@ -2196,6 +2311,42 @@ class OWMPElements extends OWMP
 
             ?>
         </div>
+        <?php
+    }
+
+    /**
+     * Display the results container window
+     */
+    public function displayResultsContainer()
+    {
+        ?>
+
+        <div class="modal fade" id="o-resultsContainer" tabindex="-1" role="dialog" aria-labelledby="o-resultsContainer" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="elementModalLabel">Results</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <div class="o-resultsContainer_text"></div>
+
+
+                    </div>
+
+                    <div class="modal-footer row w-100 no-gutters">
+                        <input type="button" class="btn btn-dark ml-auto mr-auto"
+                               value="<?php echo __('close_text'); ?>"
+                               onclick="$('#o-resultsContainer').modal('hide');">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <?php
     }
 

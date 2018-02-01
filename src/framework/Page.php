@@ -37,6 +37,7 @@ class Page
 
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
+        $OWMPElements->displayResultsContainer(); // Display the results container window
 
         OWMPElements::displayBrowsePath(); // Εμφάνιση του παραθύρου για επιλογή path
 
@@ -47,6 +48,21 @@ class Page
         $this->displayHelpContainer(); // Display help text container
 
 
+
+        ?>
+
+
+
+
+<!--        <div class="o-resultsContainer bgc3 isHidden c8">-->
+<!--            <div class="o-resultsContainer_text"></div>-->
+<!--            <input type="button" class="o-resultsContainer_closeContainer myButton"-->
+<!--                   value="--><?php //echo __('close_text'); ?><!--"-->
+<!--                   onclick="closeWindow('.o-resultsContainer');">-->
+<!--        </div>-->
+
+
+        <?php
 
         if (isset($_GET['page'])) {
             $NavActiveItem = $_GET['page'];
@@ -90,13 +106,6 @@ class Page
 
                     ?>
                 </article>
-
-                <div class="o-resultsContainer bgc3 isHidden c8">
-                    <div class="o-resultsContainer_text"></div>
-                    <input type="button" class="o-resultsContainer_closeContainer myButton"
-                           value="<?php echo __('close_text'); ?>"
-                           onclick="closeWindow('.o-resultsContainer');">
-                </div>
 
             </section>
 
