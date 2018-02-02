@@ -279,7 +279,9 @@ class OWMPElements extends OWMP
     }
 
 
-    // Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
+    /**
+     * Εμφάνιση των εγγραφών των options σε μορφή form fields για editing
+     */
     static function getOptionsInFormFields()
     {
         $conn = new MyDB();
@@ -295,27 +297,42 @@ class OWMPElements extends OWMP
 
             foreach ($options as $option) {
                 ?>
-                <div class="OptionsRow" id="OptionID<?php echo $option['option_id']; ?>">
-                    <form class="table_form options_form" id="options_formID<?php echo $option['option_id']; ?>">
-                    <span class="ListColumn"><input class="input_field" disabled
-                                                    placeholder="<?php echo __('options_option'); ?>"
-                                                    type="text" name="option_name"
-                                                    value="<?php echo $option['option_name']; ?>"></span>
-                        <span class="ListColumn"><input class="input_field"
-                                                        placeholder="<?php echo __('options_value'); ?>"
-                                                        title="<?php echo __('valid_option'); ?>"
+                <div id="OptionID<?php echo $option['option_id']; ?>">
+                    <form class="row no-gutters" id="options_formID<?php echo $option['option_id']; ?>">
 
-                                                        maxlength="255" required
-                                                        type="<?php if ($option['encrypt'] == 0) echo 'text'; else echo 'password'; ?>"
-                                                        name="option_value"
-                                                        value="<?php if ($option['encrypt'] == 0) echo $option['option_value']; ?>"></span>
+                        <div class="form-group my-1 col-lg col-12 px-1">
+                            <label for="option_name" class="sr-only"><?php echo __('options_option'); ?></label>
+                            <input type="text" class="form-control form-control-sm" id="option_name" name="option_name"
+                                   placeholder="<?php echo __('options_option'); ?>"
+                                   value="<?php echo $option['option_name']; ?>">
+                        </div>
 
-                        <input type="button" class="update_button button_img" name="update_option"
-                               title="<?php echo __('update_row'); ?>"
-                               onclick="updateOption(<?php echo $option['option_id']; ?>);"">
+                        <div class="form-group my-1 col-lg col-12 px-1">
+                            <label for="option_value" class="sr-only"><?php echo __('options_value'); ?></label>
+                            <input type="<?php echo ($option['encrypt'] == 0) ? 'text' : 'password'; ?>"
+                                   class="form-control form-control-sm" id="option_value" name="option_value"
+                                   placeholder="<?php echo __('options_value'); ?>"
+                                   value="<?php echo ($option['encrypt'] == 0) ? $option['option_value'] : ''; ?>"
+                                   title="<?php echo __('valid_option'); ?>" maxlength="255" required>
+                        </div>
 
-                        <input type="button" class="message" id="messageOptionID<?php echo $option['option_id']; ?>">
+                        <div class="my-auto col-lg col-12 text-center px-1">
+                            <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer"
+                                   id="update_option"
+                                   title="<?php echo __('update_row'); ?>"
+                                   onclick="updateOption(<?php echo $option['option_id']; ?>);">
+                            </span>
+
+                            <input type="button" class="message" id="messageOptionID<?php echo $option['option_id']; ?>">
+                        </div>
                     </form>
+
+                    <script type="text/javascript">
+
+                        checkTheFocus('options_formID<?php echo $option["option_id"]; ?>');
+
+                    </script>
+
                 </div>
                 <?php
             }

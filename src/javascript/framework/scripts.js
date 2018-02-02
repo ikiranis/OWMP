@@ -42,7 +42,7 @@ function toggleClassWithDelay(element, firstClass, secondClass, delay)
 
 // Ενημερώνει την υπάρχουσα εγγραφή στην βάση στο table options, ή εισάγει νέα εγγραφή
 function updateOption(id) {
-    var optionIDElem = $("#OptionID"+id);
+    var optionIDElem = $("#OptionID" + id);
 
     var option_name = optionIDElem.find('input[name="option_name"]').val();
     var option_value = optionIDElem.find('input[name="option_value"]').val();
