@@ -17,11 +17,10 @@
  * @param error
  */
 function DisplayMessage (element, error, color) {
-    var defaultClasses = 'alert ml-auto mr-auto fixed-bottom';
-    $('.alert').removeClass().addClass(defaultClasses + ' alert-' + color);
-    $('.alert').text(error);
-    // $("#alertContainer").show();
-    $("#alertContainer").stop().show(0).delay(5000).hide(0);
+    var defaultClasses = 'alert_error alert ml-auto mr-auto fixed-bottom';
+    $(element).removeClass().addClass(defaultClasses + ' alert-' + color);
+    $(element).text(error);
+    $(element).stop().show(0).delay(5000).hide(0);
 }
 
 /**

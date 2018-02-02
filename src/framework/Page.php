@@ -726,7 +726,7 @@ class Page
     static function displayAlertElement()
     {
         ?>
-           <div id="alertContainer" class="alert fixed-bottom ml-auto mr-auto" role="alert"></div>
+           <div class="alert_error alert fixed-bottom ml-auto mr-auto" role="alert"></div>
         <?php
     }
 

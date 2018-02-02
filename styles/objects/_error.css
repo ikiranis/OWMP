@@ -1,14 +1,5 @@
-/*#error_container {*/
-    /*width: 100%;*/
-    /*height: auto;*/
-    /*position: absolute;*/
-    /*bottom: 1em;*/
-    /*display: flex;*/
-    /*z-index: 10;*/
-/*}*/
-
-#alertContainer {
-    bottom: 3em;
+.alert_error {
+    bottom: 2em;
 }
 
 
