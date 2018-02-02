@@ -95,7 +95,7 @@ function login() {
  * @param id
  */
 function updateUser(id) {
-    var userIDElem = $("#UserID"+id);
+    var userIDElem = $("#UserID" + id);
 
     var username = userIDElem.find('input[name="theUsername"]').val();
     var email = userIDElem.find('input[name="email"]').val();
@@ -115,10 +115,10 @@ function updateUser(id) {
         password = null;
     }
 
-    if ( $('#users_formID'+id).valid() && password === repeat_password ) {
+    if ( $('#users_formID' + id).valid() && password === repeat_password ) {
 
         $.ajax({
-            url: AJAX_path+"framework/updateUser",
+            url: AJAX_path + "framework/updateUser",
             type: 'GET',
             data: {
                 id: id,
@@ -181,6 +181,10 @@ function deleteUser(id) {
 
                 var userIDElem = $("#UserID"+id);
 
+                if(id===0) {
+                    UserKeyPressed = false;
+                }
+
                 var myClasses = userIDElem.find('input[name=delete_user]').classes();   // Παίρνει τις κλάσεις του delete_alert
 
                 if(!myClasses[2])   // Αν δεν έχει κλάση dontdelete σβήνει το div
@@ -232,13 +236,15 @@ function insertUser() {
         userID0Elem.find('input[name="repeat_password"]').prop('required',true).prop('id','0');
         userID0Elem.find('input[id^="messageUserID"]').text('').removeClass('success').prop('id','messageUserID0');
         // αλλάζει την function στο button
-        userID0Elem.find('input[name="update_user"]').attr("onclick", "updateUser(0)");
-        userID0Elem.find('input[name="delete_user"]').attr("onclick", "deleteUser(0)");
+        userID0Elem.find('span[id="update_user"]').attr("onclick", "updateUser(0)");
+        userID0Elem.find('span[id="delete_user"]').attr("onclick", "deleteUser(0)");
         UserKeyPressed = true;
 
         $('#users_formID0').validate({ // initialize the plugin
             errorElement: 'div'
         });
+
+        checkTheFocus('users_formID0');
 
     }
 }

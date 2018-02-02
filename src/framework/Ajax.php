@@ -539,7 +539,8 @@ class Ajax extends Controller
         else $lname='';
 
         $user = new User();
-        //MyDB::createConnection();
+
+        trigger_error('HEY');
 
         if ($id==0) {  // Αν το id είναι 0 τότε κάνει εισαγωγή
 

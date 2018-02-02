@@ -1,30 +1,30 @@
 /*Στοιχεία εμφάνισης ρυθμίσεων*/
-.UsersRow {
-    display:table-row;
-}
+/*.UsersRow {*/
+    /*display:table-row;*/
+/*}*/
 
 
-.ListTable {
-    display:table;
-    width:auto;
-}
+/*.ListTable {*/
+    /*display:table;*/
+    /*width:auto;*/
+/*}*/
 
-.ListColumn {
-    float: left; /*fix for  buggy browsers*/
-    display: table-column;
-    text-align: center;
-    margin-right: 0.3em;
-}
+/*.ListColumn {*/
+    /*float: left; !*fix for  buggy browsers*!*/
+    /*display: table-column;*/
+    /*text-align: center;*/
+    /*margin-right: 0.3em;*/
+/*}*/
 
-.input_field {
-    width: 10em;
-    font-size: 0.7em;
-    /*box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);*/
-}
+/*.input_field {*/
+    /*width: 10em;*/
+    /*font-size: 0.7em;*/
+    /*!*box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);*!*/
+/*}*/
 
-.ListTittleRow {
-    font-weight: bold;
-}
+/*.ListTittleRow {*/
+    /*font-weight: bold;*/
+/*}*/
 
 .message {
     background-size: 1.5em;
@@ -45,10 +45,10 @@
 
 }
 
-.table_form {
-    padding: 0;
-    margin: 0;
-}
+/*.table_form {*/
+    /*padding: 0;*/
+    /*margin: 0;*/
+/*}*/
 
 .is-fail {
     font-weight: bold;
@@ -56,7 +56,7 @@
 
 
 details div.error {
-    position: relative;
+    position: absolute;
     display: block;
     border: 1px dotted black;
     font-size: 0.8em;
@@ -64,7 +64,7 @@ details div.error {
     box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.7);
     padding: 0.5em;
     border-radius: 6px;
-    width: 7em;
+    width: 100%;
 }
 
 .insert_row  {

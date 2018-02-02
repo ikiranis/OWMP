@@ -354,53 +354,51 @@ class OWMPElements extends OWMP
         else $stmt->execute(array($userID));
 
         ?>
-        <div class="ListTable UsersList">
+        <div>
 
             <?php
 
             while ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
                 ?>
-                <div class="UsersRow" id="UserID<?php echo $item['user_id']; ?>">
-                    <form class="table_form users_form" id="users_formID<?php echo $item['user_id']; ?>">
+                <div id="UserID<?php echo $item['user_id']; ?>">
+                    <form class="row no-gutters w-100" id="users_formID<?php echo $item['user_id']; ?>">
 
-                        <span class="ListColumn">
-                            <input class="input_field"
-                                   placeholder="<?php echo __('users_username'); ?>"
-                                   title="<?php echo __('valid_username'); ?>"
-                                   pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$"
-                                   maxlength="15" required type="text" name="theUsername"
+                        <div class="form-group col my-1 px-1">
+                            <label for="theUsername" class="sr-only"><?php echo __('users_username'); ?></label>
+                            <input type="text" class="form-control form-control-sm" id="theUsername" name="theUsername"
+                                   placeholder="<?php echo __('users_username'); ?>" title="<?php echo __('valid_username'); ?>"
+                                   pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{4,15}$" maxlength="15" required
                                    value="<?php echo $item['username']; ?>">
-                        </span>
+                        </div>
 
-                        <span class="ListColumn">
-                            <input class="input_field"
-                                   placeholder="<?php echo __('users_email'); ?>"
-                                   title="<?php echo __('valid_email'); ?>"
-                                   maxlength="50" required type="email" name="email"
+                        <div class="form-group col my-1 px-1">
+                            <label for="email" class="sr-only"><?php echo __('users_email'); ?></label>
+                            <input type="text" class="form-control form-control-sm" id="email" name="email"
+                                   placeholder="<?php echo __('users_email'); ?>" title="<?php echo __('valid_email'); ?>"
+                                   maxlength="50" required
                                    value="<?php echo $item['email']; ?>">
-                        </span>
+                        </div>
 
-                        <span class="ListColumn">
-                            <input class="input_field"
-                                   placeholder="<?php echo __('users_password'); ?>"
-                                   title="<?php echo __('valid_register_password'); ?>"
-                                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                                   maxlength="15" type="password" id="password<?php echo $item['user_id']; ?>"
-                                   name="password" value="">
-                        </span>
+                        <div class="form-group col my-1 px-1">
+                            <label for="password<?php echo $item['user_id']; ?>" class="sr-only"><?php echo __('users_password'); ?></label>
+                            <input type="password" class="form-control form-control-sm" id="password<?php echo $item['user_id']; ?>"
+                                   name="password"
+                                   placeholder="<?php echo __('users_password'); ?>" title="<?php echo __('valid_register_password'); ?>"
+                                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' maxlength="15" value="">
+                        </div>
 
-                        <span class="ListColumn">
-                            <input class="input_field"
-                                   placeholder="<?php echo __('users_repeat_password'); ?>"
-                                   title="<?php echo __('valid_register_repeat_password'); ?>"
-                                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
-                                   maxlength="15" type="password" id="<?php echo $item['user_id']; ?>"
-                                   name="repeat_password" value="">
-                        </span>
+                        <div class="form-group col my-1 px-1">
+                            <label for="<?php echo $item['user_id']; ?>" class="sr-only"><?php echo __('users_repeat_password'); ?></label>
+                            <input type="password" class="form-control form-control-sm" id="<?php echo $item['user_id']; ?>"
+                                   name="repeat_password"
+                                   placeholder="<?php echo __('users_repeat_password'); ?>" title="<?php echo __('valid_register_repeat_password'); ?>"
+                                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' maxlength="15" value="">
+                        </div>
 
-                        <span class="ListColumn">
-                            <select class="input_field"
-                                    name="usergroup" <?php if ($UserGroupID != 1) echo ' disabled=disabled'; ?> >
+                        <div class="form-group col my-1 px-1">
+                            <label for="usergroup" class="sr-only">User Group</label>
+                            <select class="form-control form-control-sm" id="usergroup" name="usergroup"
+                                    <?php echo ($UserGroupID != 1) ? ' disabled=disabled' : ''; ?> >
                                 <?php
                                 foreach ($UserGroups as $UserGroup) {
                                     ?>
@@ -413,36 +411,44 @@ class OWMPElements extends OWMP
                                 }
                                 ?>
                             </select>
-                        </span>
+                         </div>
 
-                        <span class="ListColumn">
-                            <input class="input_field"
-                                   placeholder="<?php echo __('users_firstname'); ?>"
-                                   title="<?php echo __('valid_fname'); ?>"
-                                   pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$'
-                                   maxlength="15" type="text" name="fname" value="<?php echo $item['fname']; ?>">
-                        </span>
+                        <div class="form-group col my-1 px-1">
+                            <label for="fname" class="sr-only"><?php echo __('users_firstname'); ?></label>
+                            <input type="text" class="form-control form-control-sm" id="fname" name="fname"
+                                   placeholder="<?php echo __('users_firstname'); ?>" title="<?php echo __('valid_fname'); ?>"
+                                   pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$' maxlength="15" value="<?php echo $item['fname']; ?>">
+                        </div>
 
-                        <span class="ListColumn">
-                            <input class="input_field"
-                                   placeholder="<?php echo __('users_lastname'); ?>"
-                                   title="<?php echo __('valid_lname'); ?>"
-                                   pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,25}$'
-                                   maxlength="25" type="text" name="lname" value="<?php echo $item['lname']; ?>">
-                        </span>
+                        <div class="form-group col my-1 px-1">
+                            <label for="lname" class="sr-only"><?php echo __('users_lastname'); ?></label>
+                            <input type="text" class="form-control form-control-sm" id="lname" name="lname"
+                                   placeholder="<?php echo __('users_firstname'); ?>" title="<?php echo __('valid_lname'); ?>"
+                                   pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,25}$' maxlength="25" value="<?php echo $item['lname']; ?>">
+                        </div>
 
-                        <input type="button" class="update_button button_img" name="update_user"
-                               title="<?php echo __('update_row'); ?>"
-                               onclick="updateUser(<?php echo $item['user_id']; ?>);"">
+                        <div class="col my-auto px-1">
+                            <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" id="update_user"
+                                   title="<?php echo __('update_row'); ?>"
+                                   onclick="updateUser(<?php echo $item['user_id']; ?>);">
+                            </span>
 
-                        <input type="button"
-                               class="delete_button button_img <?php if ($counter == 1) echo 'dontDelete'; ?>"
-                               name="delete_user" title="<?php echo __('delete_row'); ?>"
-                               onclick="deleteUser(<?php echo $item['user_id']; ?>);"">
+                            <span class="mdi mdi-delete mdi-24px hasCursorPointer <?php echo ($counter == 1) ? 'dontDelete' : ''; ?>"
+                                   id="delete_user" title="<?php echo __('delete_row'); ?>"
+                                   onclick="deleteUser(<?php echo $item['user_id']; ?>);">
+                            </span>
 
-                        <input type="button" class="message" id="messageUserID<?php echo $item['user_id']; ?>">
+                            <input type="button" class="message" id="messageUserID<?php echo $item['user_id']; ?>">
+                        </div>
 
                     </form>
+
+                    <script type="text/javascript">
+
+                        checkTheFocus('users_formID<?php echo $item["user_id"]; ?>');
+
+                    </script>
+
                 </div>
                 <?php
                 $counter++;
@@ -455,8 +461,10 @@ class OWMPElements extends OWMP
         if ($UserGroupID == 1) {  // Αν είναι admin ο user εμφάνισε κουμπί για προσθήκη νέου user
             ?>
 
-            <input type="button" class="myButton insert_row" name="insert_user" onclick="insertUser();"
-                   value="<?php echo __('insert_row'); ?>">
+            <div class="row text-center w-100">
+                <input type="button" class="btn btn-warning ml-auto mr-auto" name="insert_user" onclick="insertUser();"
+                       value="<?php echo __('insert_row'); ?>">
+            </div>
             <?php
         }
         ?>
