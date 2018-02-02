@@ -157,6 +157,8 @@ function updateUser(id) {
             }
         });
 
+    } else {
+        DisplayMessage('.alert_error', 'Problem', 'danger');
     }
 
 }

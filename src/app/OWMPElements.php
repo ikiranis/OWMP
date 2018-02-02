@@ -363,7 +363,7 @@ class OWMPElements extends OWMP
                 <div id="UserID<?php echo $item['user_id']; ?>">
                     <form class="row no-gutters w-100" id="users_formID<?php echo $item['user_id']; ?>">
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="theUsername" class="sr-only"><?php echo __('users_username'); ?></label>
                             <input type="text" class="form-control form-control-sm" id="theUsername" name="theUsername"
                                    placeholder="<?php echo __('users_username'); ?>" title="<?php echo __('valid_username'); ?>"
@@ -371,7 +371,7 @@ class OWMPElements extends OWMP
                                    value="<?php echo $item['username']; ?>">
                         </div>
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="email" class="sr-only"><?php echo __('users_email'); ?></label>
                             <input type="text" class="form-control form-control-sm" id="email" name="email"
                                    placeholder="<?php echo __('users_email'); ?>" title="<?php echo __('valid_email'); ?>"
@@ -379,7 +379,7 @@ class OWMPElements extends OWMP
                                    value="<?php echo $item['email']; ?>">
                         </div>
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="password<?php echo $item['user_id']; ?>" class="sr-only"><?php echo __('users_password'); ?></label>
                             <input type="password" class="form-control form-control-sm" id="password<?php echo $item['user_id']; ?>"
                                    name="password"
@@ -387,7 +387,7 @@ class OWMPElements extends OWMP
                                    pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' maxlength="15" value="">
                         </div>
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="<?php echo $item['user_id']; ?>" class="sr-only"><?php echo __('users_repeat_password'); ?></label>
                             <input type="password" class="form-control form-control-sm" id="<?php echo $item['user_id']; ?>"
                                    name="repeat_password"
@@ -395,7 +395,7 @@ class OWMPElements extends OWMP
                                    pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' maxlength="15" value="">
                         </div>
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="usergroup" class="sr-only">User Group</label>
                             <select class="form-control form-control-sm" id="usergroup" name="usergroup"
                                     <?php echo ($UserGroupID != 1) ? ' disabled=disabled' : ''; ?> >
@@ -413,21 +413,21 @@ class OWMPElements extends OWMP
                             </select>
                          </div>
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="fname" class="sr-only"><?php echo __('users_firstname'); ?></label>
                             <input type="text" class="form-control form-control-sm" id="fname" name="fname"
                                    placeholder="<?php echo __('users_firstname'); ?>" title="<?php echo __('valid_fname'); ?>"
                                    pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,15}$' maxlength="15" value="<?php echo $item['fname']; ?>">
                         </div>
 
-                        <div class="form-group col my-1 px-1">
+                        <div class="form-group col-lg col-12 my-1 px-1">
                             <label for="lname" class="sr-only"><?php echo __('users_lastname'); ?></label>
                             <input type="text" class="form-control form-control-sm" id="lname" name="lname"
                                    placeholder="<?php echo __('users_firstname'); ?>" title="<?php echo __('valid_lname'); ?>"
                                    pattern='^[a-zA-ZΆ-Ϋά-ώ][a-zA-ZΆ-Ϋά-ώ0-9-_\.]{2,25}$' maxlength="25" value="<?php echo $item['lname']; ?>">
                         </div>
 
-                        <div class="col my-auto px-1">
+                        <div class="col-lg col-12 my-auto px-1">
                             <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" id="update_user"
                                    title="<?php echo __('update_row'); ?>"
                                    onclick="updateUser(<?php echo $item['user_id']; ?>);">
@@ -462,7 +462,7 @@ class OWMPElements extends OWMP
             ?>
 
             <div class="row text-center w-100">
-                <input type="button" class="btn btn-warning ml-auto mr-auto" name="insert_user" onclick="insertUser();"
+                <input type="button" class="btn btn-warning btn-sm col-lg-6 col-12 ml-auto mr-auto" name="insert_user" onclick="insertUser();"
                        value="<?php echo __('insert_row'); ?>">
             </div>
             <?php
@@ -596,7 +596,7 @@ class OWMPElements extends OWMP
         </div>
 
         <div class="row">
-            <input type="button" class="btn btn-warning btn-sm ml-auto mr-auto w-25" name="insert_path"
+            <input type="button" class="btn btn-warning btn-sm ml-auto mr-auto col-lg-6 col-12" name="insert_path"
                    onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
         </div>
 
@@ -637,7 +637,7 @@ class OWMPElements extends OWMP
                                    onclick="displayBrowsePath('form<?php echo $item['path_name']; ?>');">
                         </div>
 
-                        <div class="col-lg-2 col-12 px-1 text-center my-1">
+                        <div class="col-lg-2 col-12 px-1 text-center my-auto">
                             <span class="mdi mdi-checkbox-marked-circle mdi-24px hasCursorPointer" name="update_path"
                                   title="<?php echo __('update_row'); ?>"
                                   onclick="updateDownloadPath('<?php echo $item['path_name']; ?>');">
