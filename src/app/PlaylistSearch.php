@@ -20,6 +20,7 @@
 namespace apps4net\parrot\app;
 
 use apps4net\framework\MyDB;
+use apps4net\framework\Page;
 use apps4net\framework\User;
 use apps4net\framework\Utilities;
 
@@ -705,11 +706,9 @@ class PlaylistSearch extends OWMPElements
 
             $this->displayPaginationElements(); // Display pagination elements
 
+
             ?>
 
-            <div id="error_container">
-                <div class="alert_error bgc9"></div>
-            </div>
 
         </div>
 

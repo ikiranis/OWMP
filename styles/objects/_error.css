@@ -1,20 +1,16 @@
-#error_container {
-    width: 100%;
-    height: auto;
-    position: absolute;
-    bottom: 1em;
-    display: flex;
-    z-index: 10;
-}
+/*#error_container {*/
+    /*width: 100%;*/
+    /*height: auto;*/
+    /*position: absolute;*/
+    /*bottom: 1em;*/
+    /*display: flex;*/
+    /*z-index: 10;*/
+/*}*/
 
-.alert_error {
-    display:none;
-    width: 50%;
-    height: auto;
-    margin: auto;
-    text-align: center;
-    box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.7);
-    padding: 0.5em 1em;
+#alertContainer {
+
+    bottom: 4em;
+
 }
 
 

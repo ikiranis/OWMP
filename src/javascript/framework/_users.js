@@ -38,7 +38,7 @@ function registerUser() {
                     window.location.href = "";
                 } else {
                     toggleClassWithDelay('#RegisterForm #register', 'btn-dark', 'btn-danger', 3000);
-                    DisplayMessage('.alert_error',data.message);
+                    DisplayMessage('.alert_error', data.message, 'danger');
                 }
             }
         });
@@ -80,7 +80,7 @@ function login() {
                 } else {
                     toggleClassWithDelay('#LoginForm #submit', 'btn-dark', 'btn-danger', 3000);
 
-                    DisplayMessage('.alert_error', data.message);
+                    DisplayMessage('.alert_error', data.message, 'danger');
                 }
             }
         });
@@ -150,7 +150,7 @@ function updateUser(id) {
                 } else if(data.UserExists) {
                     $("#messageUserID" + id).addClassDelay("failure", 3000);
 
-                    DisplayMessage('.alert_error', error1+' '+username+' '+error2);
+                    DisplayMessage('.alert_error', error1 + ' ' + username + ' ' + error2, 'danger');
                 } else {
                     $("#messageUserID" + id).addClassDelay("failure", 3000);
                 }

@@ -35,6 +35,8 @@ class Page
 
         $OWMPElements = new OWMPElements();
 
+
+
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
         $OWMPElements->displayResultsContainer(); // Display the results container window
@@ -180,7 +182,10 @@ class Page
 
         <body>
 
+
         <div class="container-fluid">
+
+            <?php self::displayAlertElement(); ?>
 
         <?php
 
@@ -713,6 +718,16 @@ class Page
 
         }
 
+    }
+
+    /**
+     * Displaying the alert div element
+     */
+    static function displayAlertElement()
+    {
+        ?>
+           <div id="alertContainer" class="alert fixed-bottom ml-auto mr-auto" role="alert"></div>
+        <?php
     }
 
 }

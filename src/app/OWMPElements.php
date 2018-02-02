@@ -150,10 +150,6 @@ class OWMPElements extends OWMP
             </div>
 
 
-            <div id="error_overlay">
-
-            </div>
-
         </div>
 
         <?php

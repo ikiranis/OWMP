@@ -16,9 +16,12 @@
  * @param element
  * @param error
  */
-function DisplayMessage (element, error) {
-    $(element).text(error);
-    $(element).stop().show(0).delay(5000).hide(0);
+function DisplayMessage (element, error, color) {
+    var defaultClasses = 'alert ml-auto mr-auto fixed-bottom';
+    $('.alert').removeClass().addClass(defaultClasses + ' alert-' + color);
+    $('.alert').text(error);
+    // $("#alertContainer").show();
+    $("#alertContainer").stop().show(0).delay(5000).hide(0);
 }
 
 /**
@@ -272,9 +275,9 @@ function startTheUpdate() {
         dataType: "json",
         success: function (data) {
             if (data.success === true) {
-                DisplayMessage('.alert_error', 'AjaxRouting Updated');
+                DisplayMessage('.alert_error', 'AjaxRouting Updated', 'success');
             } else {
-                DisplayMessage('.alert_error', 'AjaxRouting Not Updated');
+                DisplayMessage('.alert_error', 'AjaxRouting Not Updated', 'danger');
             }
         }
     });
@@ -419,7 +422,7 @@ function restoreTheBackup() {
             }
         }
     } else {
-        DisplayMessage('.alert_error', phrases['file_not_upload']);
+        DisplayMessage('.alert_error', phrases['file_not_upload'], 'danger');
     }
 }
 

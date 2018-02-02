@@ -116,7 +116,7 @@ function downloadTheYouTube() {
         if(MusicVideoPathOK) {
             OKGo = true;
         } else {
-            DisplayMessage('.alert_error', phrases['cant_write_to_path']);
+            DisplayMessage('.alert_error', phrases['cant_write_to_path'], 'danger');
         }
     } else {
         var MusicPathOK = document.querySelector('#jsMusicPathOK').value;
@@ -124,7 +124,7 @@ function downloadTheYouTube() {
         if(MusicPathOK) {
             OKGo = true;
         } else {
-            DisplayMessage('.alert_error', phrases['cant_write_to_path']);
+            DisplayMessage('.alert_error', phrases['cant_write_to_path'], 'danger');
         }
     }
 

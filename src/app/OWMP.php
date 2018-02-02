@@ -199,10 +199,6 @@ class OWMP
             <?php OWMPElements::getUsersInFormFields() ?>
         </details>
 
-        <div id="error_container">
-            <div class="alert_error bgc9"></div>
-        </div>
-
         <script type="text/javascript">
 
             var error1='<?php echo __('user_error1'); ?>';
@@ -280,10 +276,7 @@ class OWMP
                 $OWMPElements->checkFoldersPermissions();
             ?>
 
-            <div id="error_container">
-                <div class="alert_error bgc9"></div>
-            </div>
-            
+
 
             <script type="text/javascript">
 
