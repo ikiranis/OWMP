@@ -304,31 +304,47 @@ class OWMP
 
         $stmt->execute();
 
-        echo '<div id=logs>';
+        ?>
 
-        echo '<div class=row>';
-        echo '<span class="col logs_id basic">'.__('logs_id').'</span>';
-        echo '<span class="col logs_message basic">'.__('logs_message').'</span>';
-        echo '<span class="col logs_ip basic">'.__('logs_ip').'</span>';
-        echo '<span class="col logs_user basic">'.__('logs_user').'</span>';
-        echo '<span class="col logs_date basic">'.__('logs_date').'</span>';
-        echo '<span class="col logs_browser basic">'.__('logs_browser').'</span>';
-        echo '</div>';
+        <table class="table table-striped">
+          <thead>
+            <tr>
+                <th scope="col"><?php echo __('logs_id'); ?></th>
+                <th scope="col"><?php echo __('logs_message'); ?></th>
+                <th scope="col"><?php echo __('logs_ip'); ?></th>
+                <th scope="col"><?php echo __('logs_user'); ?></th>
+                <th scope="col"><?php echo __('logs_date'); ?></th>
+                <th scope="col"><?php echo __('logs_browser'); ?></th>
+            </tr>
+          </thead>
 
-        // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
-        while ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            echo '<div class=row>';
-            echo '<span class="col logs_id">' . $item['id'] . '</span>';
-            echo '<span class="col logs_message">' . $item['message'] . '</span>';
-            echo '<span class="col logs_ip">' . $item['ip'] . '</span>';
-            echo '<span class="col logs_user">' . $item['user_name'] . '</span>';
-            echo '<span class="col logs_date">' . date('Y-m-d H:i:s', strtotime($item['log_date'])) . '</span>';
-            echo '<span class="col logs_browser">' . $item['browser'] . '</span>';
-            echo '</div>';
+          <tbody>
 
-        }
+          <?php
+          // Αν ο χρήστης username βρεθεί. Αν υπάρχει δηλαδή στην βάση μας
+          while ($item = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+              ?>
 
-        echo '</div>';
+              <tr>
+                  <td scope="row"><?php echo $item['id']; ?></td>
+                  <td scope="row"><?php echo $item['message']; ?></td>
+                  <td scope="row"><?php echo $item['ip']; ?></td>
+                  <td scope="row"><?php echo $item['user_name']; ?></td>
+                  <td scope="row"><?php echo date('Y-m-d H:i:s', strtotime($item['log_date'])); ?></td>
+                  <td scope="row"><?php echo $item['browser']; ?></td>
+              </tr>
+
+            <?php
+
+          }
+
+
+          ?>
+
+          </tbody>
+        </table>
+
+        <?php
 
         $stmt->closeCursor();
         $stmt = null;

@@ -497,7 +497,7 @@ class Ajax extends Controller
 
         if($options->changeOption($option_name, $option_value)) {
             $jsonArray=array( 'success'=>'true');
-            Logs::insertLog('Option '.$option_name.'changed'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog('Option '.$option_name.' changed'); // Προσθήκη της κίνησης στα logs
         } else {
             $jsonArray=array( 'success'=>'false');
         }
