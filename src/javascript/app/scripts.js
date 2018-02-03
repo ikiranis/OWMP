@@ -1458,12 +1458,15 @@ function removeFromPlaylist(fileID) {
  */
 function displayVolume(operation) {
     if(checkFullscreen()) {
+        var defaultClasses = 'col-sm-2 col-6 ml-auto mr-auto text-white text-center px-2 py-2';
         var volume = parseInt(localStorage.volume * 100);
         var overlayTextID = $('#overlay_volume_text');
 
         if(operation !== 'giphyON' && operation !== 'giphyOFF') {
             document.querySelector('#overlay_volume_text').innerText = volume;
         }
+
+
 
         // overlayTextID.removeClass();
 
