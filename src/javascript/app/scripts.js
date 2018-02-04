@@ -1458,7 +1458,6 @@ function removeFromPlaylist(fileID) {
  */
 function displayVolume(operation) {
     if(checkFullscreen()) {
-        var defaultClasses = 'col-sm-2 col-6 ml-auto mr-auto text-white text-center px-2 py-2';
         var volume = parseInt(localStorage.volume * 100);
         var overlayTextID = $('#overlay_volume_text');
 
@@ -1466,9 +1465,8 @@ function displayVolume(operation) {
             document.querySelector('#overlay_volume_text').innerText = volume;
         }
 
-        // reset classes
-        overlayTextID.removeClass();
-        overlayTextID.addClass(defaultClasses);
+        // remove previous classes
+        overlayTextID.removeClass('overlay_volume_up overlay_volume_down overlay_volume_mute overlay_giphy');
 
         switch (operation) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
             case 'up':
