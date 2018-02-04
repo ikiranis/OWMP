@@ -167,6 +167,9 @@ function DisplayWindow(page, offset, step) {
             $('#navID' + page).addClass('active');   // κάνει το page active
         });
     }
+
+    // Hide the collapsed menu
+    $('#navbarNavAltMarkup').collapse('hide');
 }
 
 /**
