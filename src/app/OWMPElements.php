@@ -104,6 +104,12 @@ class OWMPElements extends OWMP
     {
         ?>
 
+        <div id="overlay_volume" class="row h-100 fixed-top no-gutters">
+            <div id="overlay_volume_text" class="col-sm-2 col-6 ml-auto mr-auto text-white text-center px-2 py-2">
+
+            </div>
+        </div>
+
         <div id="overlay" class="fixed-top row w-100 h-100 no-gutters" ondblclick="displayFullscreenControls();">
 
             <div class="row w-100 fixed-top no-gutters">
@@ -124,13 +130,6 @@ class OWMPElements extends OWMP
                 </div>
 
             </div>
-
-            <div id="overlay_volume" class="row h-100 fixed-top no-gutters">
-                <div id="overlay_volume_text" class="col-sm-2 col-6 ml-auto mr-auto text-white text-center px-2 py-2">
-
-                </div>
-            </div>
-
 
             <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3 no-gutters">
 
