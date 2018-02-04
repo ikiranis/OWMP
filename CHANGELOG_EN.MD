@@ -1,5 +1,10 @@
 ## ChangeLogs
 
+## 2018-2-4: 0.17.2
+
+- Finish the interface improvements
+- Bug fixes
+
 ## 2018-1-18: 0.17.1
 
 - Convert components to bootstrap and improve interface
