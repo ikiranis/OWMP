@@ -2002,6 +2002,9 @@ function sendToJukeboxList() {
                 DisplayMessage('.alert_error', phrases['problem_to_copy_to_jukebox'], 'danger');
                 $('#progress').hide();
             }
+
+            // Hide the collapsed menu
+            $('#navbarNavToolbar').collapse('hide');
         }
     });
 }
@@ -2074,6 +2077,9 @@ function jsUploadFile(files) {
 function displayTheSleepTimer()
 {
     $('#insertSleepTimerWindow').show();
+
+    // Hide the collapsed menu
+    $('#navbarNavToolbar').collapse('hide');
 }
 
 /**
