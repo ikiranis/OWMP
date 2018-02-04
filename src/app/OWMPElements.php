@@ -166,47 +166,47 @@ class OWMPElements extends OWMP
 
         ?>
 
-        <form class="validate-form" id="FormTags" name="FormTags">
+        <form class="validate-form row no-gutters" id="FormTags" name="FormTags">
 
             <input type="hidden" id="songID" name="songID">
 
-            <div class="form-group my-1">
+            <div class="form-group col-12 my-1">
                 <label for="title" class="sr-only"><?php echo __('tag_title'); ?></label>
-                <input type="text" class="form-control" id="title" name="title"
+                <input type="text" class="form-control form-control-sm" id="title" name="title"
                        placeholder="<?php echo __('tag_title'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="form-group my-1">
+            <div class="form-group col-12 my-1">
                 <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="artist" name="artist"
                        placeholder="<?php echo __('tag_artist'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="form-group my-1">
+            <div class="form-group col-12 my-1">
                 <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="album" name="album"
                        placeholder="<?php echo __('tag_album'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="row my-1">
-                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
+            <div class="row col-12 no-gutters">
+                <div class="form-group col-md-4 col-12 w-100 my-1 px-1">
                     <label for="genre" class="sr-only"><?php echo __('tag_genre'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="genre" name="genre"
                            placeholder="<?php echo __('tag_genre'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?> maxlength="20">
                 </div>
 
-                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
+                <div class="form-group col-md-4 col-12 w-100 my-1 px-1">
                     <label for="year" class="sr-only"><?php echo __('tag_year'); ?></label>
                     <input type="number" class="form-control form-control-sm" id="year" name="year"
                            placeholder="<?php echo __('tag_year'); ?>"
                         <?php echo $disabled . ' ' . $readonly; ?>>
                 </div>
 
-                <div class="form-group col-xl-4 col-sm-4 col-md-12 w-100 my-1">
+                <div class="form-group col-md-4 col-12 w-100 my-1 px-1">
                     <label for="live" class="sr-only"><?php echo __('tag_live'); ?></label>
                     <select class="form-control form-control-sm" id="live"
                             name="live" <?php echo $disabled . ' ' . $readonly; ?>>
@@ -216,7 +216,7 @@ class OWMPElements extends OWMP
                 </div>
             </div>
 
-            <div id="rating_div">
+            <div id="rating_div" class="col-12">
                 <label for="rating" class="sr-only"><?php echo __('tag_rating'); ?></label>
 
                 <input type="range" id="rating" name="rating" oninput="printValue(rating, rating_output);"
@@ -240,28 +240,28 @@ class OWMPElements extends OWMP
                     <?php echo __('tag_details'); ?>
                 </summary>
 
-                <div class="form-group my-1">
+                <div class="form-group my-1 col-12">
                     <label for="play_count" class="sr-only"><?php echo __('tag_play_count'); ?></label>
                     <input type="number" class="form-control form-control-sm" id="play_count" name="play_count"
                            placeholder="<?php echo __('tag_play_count'); ?>"
                         <?php echo $disabled; ?> readonly>
                 </div>
 
-                <div class="form-group my-1">
+                <div class="form-group col-12 my-1">
                     <label for="date_added" class="sr-only"><?php echo __('tag_date_added'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="date_added" name="date_added"
                            placeholder="<?php echo __('tag_date_added'); ?>"
                         <?php echo $disabled; ?> maxlength="20" readonly>
                 </div>
 
-                <div class="form-group my-1">
+                <div class="form-group col-12 my-1">
                     <label for="date_played" class="sr-only"><?php echo __('tag_date_played'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="date_played" name="date_played"
                            placeholder="<?php echo __('tag_date_played'); ?>"
                         <?php echo $disabled; ?> maxlength="20" readonly>
                 </div>
 
-                <div class="form-group my-1">
+                <div class="form-group col-12 my-1">
                     <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
                     <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename"
                            placeholder="<?php echo __('tag_path_filename'); ?>"
