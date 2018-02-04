@@ -1466,9 +1466,9 @@ function displayVolume(operation) {
             document.querySelector('#overlay_volume_text').innerText = volume;
         }
 
-
-
-        // overlayTextID.removeClass();
+        // reset classes
+        overlayTextID.removeClass();
+        overlayTextID.addClass(defaultClasses);
 
         switch (operation) {  // Αναλόγως τι είναι το πεδίο αλλάζουμε το search text type
             case 'up':
