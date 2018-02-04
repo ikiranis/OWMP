@@ -379,7 +379,7 @@ function update_tags(key_rating) {
             success: function (data) {
                 if (data.success === true) {
 
-                    $("#message").addClassDelay("success", 3000);
+                    toggleClassWithDelay('#tags #submit', 'btn-dark', 'btn-success', 5000);
 
                     var fileCurrentID = $("#fileID" + currentID);
 
@@ -413,7 +413,7 @@ function update_tags(key_rating) {
 
 
                 } else {
-                    $("#message").addClassDelay("failure", 3000);
+                    toggleClassWithDelay('#tags #submit', 'btn-dark', 'btn-danger', 5000);
                 }
             }
 
