@@ -170,21 +170,21 @@ class OWMPElements extends OWMP
 
             <input type="hidden" id="songID" name="songID">
 
-            <div class="form-group col-12 my-1">
+            <div class="form-group col-12 my-1 px-1">
                 <label for="title" class="sr-only"><?php echo __('tag_title'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="title" name="title"
                        placeholder="<?php echo __('tag_title'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="form-group col-12 my-1">
+            <div class="form-group col-12 my-1 px-1">
                 <label for="artist" class="sr-only"><?php echo __('tag_artist'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="artist" name="artist"
                        placeholder="<?php echo __('tag_artist'); ?>"
                     <?php echo $disabled . ' ' . $readonly; ?> maxlength="255">
             </div>
 
-            <div class="form-group col-12 my-1">
+            <div class="form-group col-12 my-1 px-1">
                 <label for="album" class="sr-only"><?php echo __('tag_album'); ?></label>
                 <input type="text" class="form-control form-control-sm" id="album" name="album"
                        placeholder="<?php echo __('tag_album'); ?>"
@@ -240,32 +240,34 @@ class OWMPElements extends OWMP
                     <?php echo __('tag_details'); ?>
                 </summary>
 
-                <div class="form-group my-1 col-12">
-                    <label for="play_count" class="sr-only"><?php echo __('tag_play_count'); ?></label>
-                    <input type="number" class="form-control form-control-sm" id="play_count" name="play_count"
-                           placeholder="<?php echo __('tag_play_count'); ?>"
-                        <?php echo $disabled; ?> readonly>
-                </div>
+                <div class="row no-gutters">
+                    <div class="form-group my-1 col-12 px-1">
+                        <label for="play_count" class="sr-only"><?php echo __('tag_play_count'); ?></label>
+                        <input type="number" class="form-control form-control-sm" id="play_count" name="play_count"
+                               placeholder="<?php echo __('tag_play_count'); ?>"
+                            <?php echo $disabled; ?> readonly>
+                    </div>
 
-                <div class="form-group col-12 my-1">
-                    <label for="date_added" class="sr-only"><?php echo __('tag_date_added'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="date_added" name="date_added"
-                           placeholder="<?php echo __('tag_date_added'); ?>"
-                        <?php echo $disabled; ?> maxlength="20" readonly>
-                </div>
+                    <div class="form-group col-12 my-1 px-1">
+                        <label for="date_added" class="sr-only"><?php echo __('tag_date_added'); ?></label>
+                        <input type="text" class="form-control form-control-sm" id="date_added" name="date_added"
+                               placeholder="<?php echo __('tag_date_added'); ?>"
+                            <?php echo $disabled; ?> maxlength="20" readonly>
+                    </div>
 
-                <div class="form-group col-12 my-1">
-                    <label for="date_played" class="sr-only"><?php echo __('tag_date_played'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="date_played" name="date_played"
-                           placeholder="<?php echo __('tag_date_played'); ?>"
-                        <?php echo $disabled; ?> maxlength="20" readonly>
-                </div>
+                    <div class="form-group col-12 my-1 px-1">
+                        <label for="date_played" class="sr-only"><?php echo __('tag_date_played'); ?></label>
+                        <input type="text" class="form-control form-control-sm" id="date_played" name="date_played"
+                               placeholder="<?php echo __('tag_date_played'); ?>"
+                            <?php echo $disabled; ?> maxlength="20" readonly>
+                    </div>
 
-                <div class="form-group col-12 my-1">
-                    <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
-                    <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename"
-                           placeholder="<?php echo __('tag_path_filename'); ?>"
-                        <?php echo $disabled; ?> maxlength="255" readonly>
+                    <div class="form-group col-12 my-1 px-1">
+                        <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
+                        <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename"
+                               placeholder="<?php echo __('tag_path_filename'); ?>"
+                            <?php echo $disabled; ?> maxlength="255" readonly>
+                    </div>
                 </div>
 
             </details>
@@ -865,9 +867,9 @@ class OWMPElements extends OWMP
             <div id="syncButtons">
                 <form id="syncForm" name="syncForm">
 
-                    <div class="row px-1 my-2 no-gutters">
+                    <div class="row px-1 my-1 no-gutters">
 
-                        <div class="form-group my-1 col-lg-6 col-12 my-1">
+                        <div class="form-group my-auto col-lg-6 col-12">
                             <label for="mediakind" class="sr-only">Label text</label>
                             <select class="form-control form-control-sm" id="mediakind" name="mediakind">
                                 <?php
@@ -883,7 +885,7 @@ class OWMPElements extends OWMP
                             </select>
                         </div>
 
-                        <div class="col-4 px-1 col-lg-6 col-12 my-1">
+                        <div class="px-3 col-lg-6 col-12 my-auto">
                             <input type="button" class="btn btn-success w-75" id="startSync" name="startSync"
                                    onclick="startTheSync('sync');"
                                    value="<?php echo __('Synchronize'); ?>">
