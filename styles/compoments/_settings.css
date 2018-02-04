@@ -1,30 +1,4 @@
 /*Στοιχεία εμφάνισης ρυθμίσεων*/
-/*.UsersRow {*/
-    /*display:table-row;*/
-/*}*/
-
-
-/*.ListTable {*/
-    /*display:table;*/
-    /*width:auto;*/
-/*}*/
-
-/*.ListColumn {*/
-    /*float: left; !*fix for  buggy browsers*!*/
-    /*display: table-column;*/
-    /*text-align: center;*/
-    /*margin-right: 0.3em;*/
-/*}*/
-
-/*.input_field {*/
-    /*width: 10em;*/
-    /*font-size: 0.7em;*/
-    /*!*box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.7);*!*/
-/*}*/
-
-/*.ListTittleRow {*/
-    /*font-weight: bold;*/
-/*}*/
 
 .message {
     background-size: 1.5em;
@@ -44,11 +18,6 @@
     background-repeat: no-repeat;
 
 }
-
-/*.table_form {*/
-    /*padding: 0;*/
-    /*margin: 0;*/
-/*}*/
 
 .is-fail {
     font-weight: bold;

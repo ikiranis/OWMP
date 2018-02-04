@@ -35,8 +35,6 @@ class Page
 
         $OWMPElements = new OWMPElements();
 
-
-
         $OWMPElements->displaySearchWindow(); // Εμφάνιση του παραθύρου για αναζήτηση
         $OWMPElements->displayInsertPlaylistWindow(); // Εμφάνιση παραθύρου προσθήκης playlist
         $OWMPElements->displayResultsContainer(); // Display the results container window
@@ -49,19 +47,7 @@ class Page
 
         $this->displayHelpContainer(); // Display help text container
 
-
-
         ?>
-
-
-
-
-<!--        <div class="o-resultsContainer bgc3 isHidden c8">-->
-<!--            <div class="o-resultsContainer_text"></div>-->
-<!--            <input type="button" class="o-resultsContainer_closeContainer myButton"-->
-<!--                   value="--><?php //echo __('close_text'); ?><!--"-->
-<!--                   onclick="closeWindow('.o-resultsContainer');">-->
-<!--        </div>-->
 
 
         <?php
