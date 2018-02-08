@@ -954,7 +954,7 @@ class OWMPElements extends OWMP
 
                         <div class="custom-file col-lg-6 col-12 px-1 my-1">
                             <input type="file" class="custom-file-input" name="uploadSQLFile" id="uploadSQLFile"
-                                   accept='image/*' onchange="jsUploadFile(this.files)">
+                                   accept='.sql' onchange="jsUploadFile(this.files)">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
 

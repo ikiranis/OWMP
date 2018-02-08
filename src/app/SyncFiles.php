@@ -511,6 +511,8 @@ class SyncFiles
                 <?php
             }
 
+            trigger_error(count(self::$filesForUpdate) . ' files to move...');
+
             // Παίρνουμε το array για πέρασμα στην javascript
             $updateFilesArrayForJavascript = json_encode(self::$filesForUpdate, JSON_UNESCAPED_UNICODE);
 
