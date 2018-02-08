@@ -518,8 +518,8 @@ class SyncFiles
 
             ?>
 
-            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="<?php echo __('update_files'); ?>"
-                       onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
+<!--            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="--><?php //echo __('update_files'); ?><!--"-->
+<!--                       onclick="updateFiles(--><?php //echo htmlentities($updateFilesArrayForJavascript); ?>//);">
 
             <?php
         }

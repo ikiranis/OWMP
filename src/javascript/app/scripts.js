@@ -875,7 +875,7 @@ function startTheSync(operation) {
                 syncRunning = false;
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                $('.o-resultsContainer_text').append('Problem on process');
+                $('.o-resultsContainer_text').append('Problem with process. Can\'t take the results');
             }
         });
 
