@@ -450,9 +450,6 @@ function checkProgress()
                 //     ProgressAnimation.kill();
                 // }
                 ProgressAnimation.setProgressPercent(progressData.progressInPercent);
-
-                // $("#theProgressNumber" ).html(progressData.progressInPercent+'%');
-                // document.querySelector('#theProgressBar').value=progressData.progressInPercent;
             }
         }
     });

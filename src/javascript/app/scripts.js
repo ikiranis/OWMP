@@ -851,7 +851,7 @@ function startTheSync(operation) {
         $('.syncButton').prop('disabled', true);
 
         // Κοιτάει για το progress κάθε ένα λεπτό και το τυπώνει
-        var syncInterval=setInterval(function(){
+        var syncInterval = setInterval(function(){
             checkProgress();
         }, 1000);
 
