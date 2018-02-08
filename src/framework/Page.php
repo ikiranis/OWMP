@@ -175,6 +175,9 @@ class Page
 
         <?php
 
+        // Set Athens timezone
+        date_default_timezone_set('Europe/Athens');
+
 
     }
 
