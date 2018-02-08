@@ -848,6 +848,8 @@ class SyncFiles
     public function syncTheFiles($mediakind) {
         set_time_limit(0);
         ini_set('memory_limit','1024M');
+        // Set Athens timezone
+        date_default_timezone_set('Europe/Athens');
 
         Progress::setLastMomentAlive(false);
 
