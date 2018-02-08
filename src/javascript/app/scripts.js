@@ -825,6 +825,7 @@ function loadPlayedQueuePlaylist() {
  * @param operation
  */
 function startTheSync(operation) {
+    // TODO calculate estimated time
     var mediaKind = document.querySelector('#mediakind').value;
     var GDOK =  document.querySelector('#jsGDOK').value;
 
@@ -872,6 +873,9 @@ function startTheSync(operation) {
                 $('.syncButton').prop('disabled', false);
                 clearInterval(syncInterval);
                 syncRunning = false;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $('.o-resultsContainer_text').append('Problem on process');
             }
         });
 
