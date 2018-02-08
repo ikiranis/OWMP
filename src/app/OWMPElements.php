@@ -932,15 +932,15 @@ class OWMPElements extends OWMP
                             <?php Page::getHelp('help_playlist_export'); ?>
                         </div>
 
-                        <div class="col-lg-4 col-12 px-1 my-1 syncButton">
-                            <input type="button" class="btn btn-warning w-75" id="startCoverConvert"
+                        <div class="col-lg-4 col-12 px-1 my-1">
+                            <input type="button" class="btn btn-warning w-75 syncButton" id="startCoverConvert"
                                    name="startCoverConvert" onclick="startTheSync('coverConvert');"
                                    value="<?php echo __('cover_convert'); ?>">
                             <?php Page::getHelp('help_convert_covers'); ?>
                         </div>
 
-                        <div class="col-lg-4 col-12 px-1 my-1 syncButton">
-                            <input type="button" class="btn btn-warning w-75" id="backupDatabase" name="backupDatabase"
+                        <div class="col-lg-4 col-12 px-1 my-1">
+                            <input type="button" class="btn btn-warning w-75 syncButton" id="backupDatabase" name="backupDatabase"
                                    onclick="startTheBackup();"
                                    value="<?php echo __('start_backup'); ?>">
                             <?php Page::getHelp('help_database_backup'); ?>

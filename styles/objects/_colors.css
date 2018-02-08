@@ -92,9 +92,9 @@ details div.error {
     color: green;
 }
 
-.syncButton:disabled {
-    background-color: red;
-}
+/*.syncButton:disabled {*/
+    /*background-color: red;*/
+/*}*/
 
 span.error {
     background-color: #FFEDED;
