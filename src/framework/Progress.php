@@ -129,6 +129,7 @@ class Progress
 
         if(self::getKillCommand()=='1') { // Αν killCommand είναι 1 τότε σταματούμε την εκτέλεση του script
             self::setKillCommand('0');  // Το επαναφέρουμε πρώτα σε 0 για το μέλλον
+            // TODO don't terminate script but go to the end and print all values
             exit();
         }
 

@@ -722,8 +722,9 @@ class SyncFiles
                 Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
                 $progressCounter=0;
+            } else {
+                $progressCounter++;
             }
-            else $progressCounter++;
 
             $this->general_counter++;
 
@@ -734,6 +735,7 @@ class SyncFiles
         Progress::setLastMomentAlive(true);
         Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
+        trigger_error('PRINTING THE RESULTS');
         // Εμφάνιση των αποτελεσμάτων του συγχρονισμού
         $this->displaySyncResults();
 
