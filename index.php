@@ -167,7 +167,9 @@ else {
 if($logged_in) {
     $LoginNameText = '<div class="row mx-2"><span class="mdi mdi-account-circle mdi-light mdi-24px mdi-form"><span class="px-1">' . $userName . '</span>';
 
-    $LoginNameText .= '<span id="logout" class="mdi mdi-export mdi-light mdi-24px hasCursorPointer my-auto "><a href=?logout=true title=' . __('logout') . '></a></span></div>';
+    $LoginNameText .= '<a href="?logout=true" onclick="alert(\'hey\')" title=' . __('logout') . '>
+        <span  id="logout" class="mdi mdi-export mdi-light mdi-24px hasCursorPointer my-auto ">
+      </a></span></div>';
 
     $MainPage->showMainBar($LoginNameText);
 
