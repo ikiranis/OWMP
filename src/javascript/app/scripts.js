@@ -856,14 +856,19 @@ function startTheSync(operation) {
             checkProgress();
         }, 1000);
 
+        var ajaxData = JSON.stringify({
+            operation: operation,
+            mediakind: mediaKind
+        });
+
         // Τρέχει τον συγχρονισμό και περιμένει το αποτέλεσμα να το τυπώσει
         $.ajax({
-            url: AJAX_path+"app/syncTheFiles",
-            type: 'GET',
-            data: {
-                operation: operation,
-                mediakind: mediaKind
-            },
+            url: AJAX_path + "app/syncTheFiles",
+            method: 'POST',
+            cache: false,
+            dataType: "html",
+            data: ajaxData,
+            timeout: 0,
             success: function(data) {
                 $('.o-resultsContainer_text').append(data);
                 displayResultsIcon();
@@ -874,8 +879,11 @@ function startTheSync(operation) {
                 clearInterval(syncInterval);
                 syncRunning = false;
             },
-            error: function (xhr, ajaxOptions, thrownError) {
-                $('.o-resultsContainer_text').append('Problem with process. Can\'t take the results');
+            error: function (xhr, status, error) {
+                // Something went wrong
+                $('.o-resultsContainer_text').append('Error: ' + error);
+
+                // TODO find if I can solve proxy error when you are syncing when the app runs under apache proxy
             }
         });
 

@@ -1077,11 +1077,16 @@ class Ajax extends Controller
 
         Page::checkValidAjaxRequest(true);
 
-        if(isset($_GET['operation']))
-            $operation=ClearString($_GET['operation']);
+        // TODO όλα τα data σε όλες τις μεθόδους να παίρνονται row
+        // Τα row data που έρχονται από javascript
+        $results = file_get_contents ('php://input');
+        $results = json_decode($results, TRUE);
 
-        if(isset($_GET['mediakind']))
-            $mediaKind=ClearString($_GET['mediakind']);
+        if(isset($results['operation']))
+            $operation=ClearString($results['operation']);
+
+        if(isset($results['mediakind']))
+            $mediaKind=ClearString($results['mediakind']);
 
         $sync = new SyncFiles();
 

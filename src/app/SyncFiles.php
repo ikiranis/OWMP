@@ -511,15 +511,13 @@ class SyncFiles
                 <?php
             }
 
-            trigger_error(count(self::$filesForUpdate) . ' files to move...');
-
             // Παίρνουμε το array για πέρασμα στην javascript
             $updateFilesArrayForJavascript = json_encode(self::$filesForUpdate, JSON_UNESCAPED_UNICODE);
 
             ?>
 
-<!--            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="--><?php //echo __('update_files'); ?><!--"-->
-<!--                       onclick="updateFiles(--><?php //echo htmlentities($updateFilesArrayForJavascript); ?>//);">
+            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="<?php echo __('update_files'); ?>"
+                       onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
 
             <?php
         }
@@ -735,7 +733,6 @@ class SyncFiles
         Progress::setLastMomentAlive(true);
         Progress::updatePercentProgress(0);   // Μηδενίζει το progress
 
-        trigger_error('PRINTING THE RESULTS');
         // Εμφάνιση των αποτελεσμάτων του συγχρονισμού
         $this->displaySyncResults();
 
