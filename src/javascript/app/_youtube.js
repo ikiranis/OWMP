@@ -19,6 +19,8 @@
  * @param mediaKind
  */
 function callGetYouTube(id,counter,total, mediaKind) {
+    var resultsContainerTextID = $(".o-resultsContainer_text");
+
     $.ajaxQueue({  // χρησιμοποιούμε το extension του jquery (αντί του $.ajax) για να εκτελεί το επόμενο AJAX μόλις τελειώσει το προηγούμενο
         url: AJAX_path + "framework/getYouTube",
         type: 'GET',
@@ -51,8 +53,6 @@ function callGetYouTube(id,counter,total, mediaKind) {
 
         },
         success: function (data) {
-            var resultsContainerTextID = $(".o-resultsContainer_text");
-
             if (data.success === true) {
                 // TODO να το φτιάξω εμφανισιακά και με σωστό css
                 resultsContainerTextID.append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
@@ -63,6 +63,9 @@ function callGetYouTube(id,counter,total, mediaKind) {
             } else {
                 resultsContainerTextID.append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
             }
+        },
+        error: function (xhr, status, error) {
+            resultsContainerTextID.append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + ' Error: ' + error + '</p>');
         }
     });
 }
