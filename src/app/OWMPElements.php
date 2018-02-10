@@ -2349,7 +2349,7 @@ class OWMPElements extends OWMP
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="elementModalLabel">Results</h5>
+                        <h5 class="modal-title" id="elementModalLabel">Activity</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -2357,7 +2357,7 @@ class OWMPElements extends OWMP
                     <div class="modal-body">
 
 
-                        <div class="o-resultsContainer_text"></div>
+                        <div class="o-resultsContainer_text"> </div>
 
 
                     </div>
