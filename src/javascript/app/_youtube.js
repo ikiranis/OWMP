@@ -18,13 +18,11 @@
  */
 function getHTMLVideoDownloading(id)
 {
-    var htmlText = '<div class="row my-2"> ' +
+    return '<div class="row my-2"> ' +
             '<div class="col-md-3 col-12">' + phrases['youtube_downloading'] + '</div>' +
-            '<div class="col-md-9 col-12">' + '<a href="https://www.youtube.com/watch?v="' + id + '>' +
-            'https://www.youtube.com/watch?v=' + id + '</a></div>' +
+            '<div class="col-md-9 col-12">' + '<span class="font-weight-bold"><a href="https://www.youtube.com/watch?v="' + id + '>' +
+            'https://www.youtube.com/watch?v=' + id + '</a></span></div>' +
         '</div>';
-
-    return htmlText;
 }
 
 /**
@@ -36,12 +34,10 @@ function getHTMLVideoDownloading(id)
  */
 function getHTMMLVideoDownloaded(imageThumbnail, result)
 {
-    var htmlText = '<div class="row my-2">' +
+    return '<div class="row my-2">' +
             '<div class="col-md-3 col-12">' + '<img src="' + imageThumbnail + '">' + '</div>' +
-            '<div class="col-md-9 col-12 text-success my-auto">' + phrases['youtube_downloaded_to_path'] + ': ' + result + '</div>' +
+            '<div class="col-md-9 col-12 text-success my-auto"><span class="font-weight-bold">' + phrases['youtube_downloaded_to_path'] + ': ' + result + '</span></div>' +
         '</div>';
-
-    return htmlText;
 }
 
 /**
@@ -52,9 +48,7 @@ function getHTMMLVideoDownloaded(imageThumbnail, result)
  */
 function getHTMLVideoFail(theUrl)
 {
-    var htmlText = '<div class="row text-danger my-2">' + phrases['youtube_problem'] + ': ' + theUrl + '</div>';
-
-    return htmlText;
+    return '<div class="row text-danger my-2">' + phrases['youtube_problem'] + ': ' + '<span class="font-weight-bold">' + theUrl + '</span></div>';
 }
 
 /**
@@ -65,9 +59,7 @@ function getHTMLVideoFail(theUrl)
  */
 function getHTMLVideoError(error)
 {
-    var htmlText = '<div class="row text-danger my-2">' + phrases['youtube_problem'] + ': ' + ' Error: ' + error + '</div>';
-
-    return htmlText;
+    return '<div class="row text-danger my-2">' + phrases['youtube_problem'] + ': ' + '<span class="font-weight-bold">Error: ' + error + '</span></div>';
 }
 
 /**

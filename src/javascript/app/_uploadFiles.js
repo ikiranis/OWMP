@@ -128,8 +128,9 @@ var UploadFiles =
                 var resultsContainerTextElem = $(".o-resultsContainer_text");
 
                 if (data.success === true) {
-                    resultsContainerTextElem.append('<p class="is_youTube-success">'+
-                        phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+                    resultsContainerTextElem.append('<div class="row text-success my-2 px-2">' +
+                        phrases['youtube_downloaded_to_path'] + ': ' + '<span class="font-weight-bold">' +
+                        data.result + '</span></div>');
 
                     resultsContainerTextElem.append(data.filesToDelete);
 
@@ -141,7 +142,8 @@ var UploadFiles =
                     }
 
                 } else {
-                    resultsContainerTextElem.append('<p>' + phrases['problem_with_file'] + ': ' + data.fileName + '</p>');
+                    resultsContainerTextElem.append('<div class="row text-danger my-2 px-2">' + phrases['problem_with_file'] + ': ' +
+                        '<span class="font-weight-bold">' + data.fileName + '</span></div>');
                 }
 
                 this.checkUploadTermination(); // Έλεγχος και τερματισμός της διαδικασίας του uploading
@@ -174,8 +176,8 @@ var UploadFiles =
     {
         if(this.finishedUploads === this.filesUploadedCount) {
             ProgressAnimation.kill();
-            $(".o-resultsContainer_text").append('<p>' + phrases['files_added'] + ' ' + this.filesUploadedCount
-                + ' ' + phrases['added_files'] + '</p>');
+            $(".o-resultsContainer_text").append('<div class="row text-info font-weight-bold my-2 px-2">' + phrases['files_added'] + ' ' + this.filesUploadedCount
+                + ' ' + phrases['added_files'] + '</div>');
         }
     }
 
