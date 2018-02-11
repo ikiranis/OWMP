@@ -99,6 +99,7 @@ class SyncFiles
 
             $trimTracks[$track['Track ID']] = $location;
         }
+
         self::$tracks = $trimTracks;
 
 //                    echo'<pre>';
@@ -573,7 +574,7 @@ class SyncFiles
 
         $script_time_elapsed_secs = microtime(true) - $this->script_start;
 
-        echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+        echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
         Logs::insertLog('Added ' . $this->added_video . ' files.'); // Προσθήκη της κίνησης στα logs
     }
@@ -948,13 +949,13 @@ class SyncFiles
 
             Progress::setProgress(0);
             
-            echo '<div class="row my-2 px-2">'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</div>';
 
             Logs::insertLog('Were found '.$counter. ' problematic files and were erased'); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
         }
 
 
@@ -1078,8 +1079,8 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<div class="row my-2 px-2">'.$counter. ' '.__('files_to_hash').'</div>';
-            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.$counter. ' '.__('files_to_hash').'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
             Logs::insertLog($counter. ' files produced hash'); // Προσθήκη της κίνησης στα logs
         }
@@ -1194,8 +1195,8 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<div class="row my-2 px-2">'.$counter. ' '.__('files_to_metadata').'</div>';
-            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.$counter. ' '.__('files_to_metadata').'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
             Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
@@ -1310,8 +1311,8 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<div class="row my-2 px-2">'.$counter. ' '.__('files_to_metadata').'</div>';
-            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.$counter. ' '.__('files_to_metadata').'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
             Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
@@ -1491,13 +1492,13 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<div class="row my-2 px-2">'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</div>';
 
             Logs::insertLog(__('files_added').' '.$added_video. ' '.__('new_records_to_database')); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+            echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
         }
     }
     
