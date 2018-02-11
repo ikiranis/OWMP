@@ -613,7 +613,7 @@ class OWMPElements extends OWMP
 
         </div>
 
-        <div class="row">
+        <div class="row no-gutters">
             <input type="button" class="btn btn-warning btn-sm ml-auto mr-auto col-lg-6 col-12" name="insert_path"
                    onclick="insertPath();" value="<?php echo __('insert_row'); ?>">
         </div>
