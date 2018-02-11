@@ -399,8 +399,7 @@ function restoreTheBackup() {
                         if (data.success === true) {
 
                             displayResultsIcon();
-                            resultsContainerElem.append('<br>');
-                            resultsContainerElem.append(phrases['restore_success']);
+                            resultsContainerElem.append('<div class="row text-success my-2 px-2">' + phrases['restore_success'] + '</div>');
                             ProgressAnimation.kill();
                             syncRunning = false;
                             localStorage.syncPressed = 'false';
@@ -410,8 +409,7 @@ function restoreTheBackup() {
                         }
                         else {
                             displayResultsIcon();
-                            resultsContainerElem.append('<br>');
-                            resultsContainerElem.append(phrases['restore_failure']);
+                            resultsContainerElem.append('<div class="row text-danger my-2 px-2">' + phrases['restore_failure'] + '</div>');
                             ProgressAnimation.kill();
                             syncRunning = false;
                             localStorage.syncPressed = 'false';
