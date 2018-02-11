@@ -342,9 +342,8 @@ function startTheBackup() {
                         var downloadText = getDownloadLink(path, data.filename, path);
 
                         displayResultsIcon();
-                        resultsContainerElem.append('<br>');
-                        resultsContainerElem.append('<p>' + phrases['backup_success'] + '</p>');
-                        resultsContainerElem.append(downloadText);
+                        resultsContainerElem.append('<div class="row text-success my-2 px-2">' + phrases['backup_success'] +
+                            ' <span class="font-weight-bold">' + downloadText + '</span></div>');
                         ProgressAnimation.kill();
                         syncRunning = false;
                         localStorage.syncPressed = 'false';
@@ -353,8 +352,7 @@ function startTheBackup() {
 
                     } else {
                         displayResultsIcon();
-                        resultsContainerElem.append('<br>');
-                        resultsContainerElem.append('<p>' + phrases['backup_failure'] + '</p>');
+                        resultsContainerElem.append('<div class="row text-danger my-2 px-2">' + phrases['backup_failure'] + '</div>');
                         ProgressAnimation.kill();
                         syncRunning = false;
                         localStorage.syncPressed = 'false';
