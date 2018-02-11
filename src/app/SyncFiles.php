@@ -127,7 +127,12 @@ class SyncFiles
                 $dirs[]=$dir;
             }
             else {
-                echo __('path_does_not_exist').' '.$dir;
+                ?>
+                <div class="row text-danger">
+                    <div class="col-md-3 col-12"><?php echo __('path_does_not_exist'); ?></div>
+                    <div class="col-md-9 col-12"><?php echo $dir; ?></div>
+                </div>
+                <?php
             }
         }
 
@@ -368,11 +373,21 @@ class SyncFiles
                         $this->path = $newPath['path'];                        //  από την νεά τοποθεσία που έχει δημιουργηθεί
                         $this->hash = self::hashFile(DIR_PREFIX . $this->path . $this->filename);
                     } else {
-                        echo '<p>' . __('there_is_a_problem_with_alac') . '. ' . __('special_char_in_path') . ' ' . $this->fullPathName . '</p>';
+                        ?>
+                        <div class="row text-danger">
+                            <div class="col-md-6 col-12"><?php echo __('there_is_a_problem_with_alac') . '. ' . __('special_char_in_path'); ?></div>
+                            <div class="col-md-6 col-12"><?php echo $this->fullPathName; ?></div>
+                        </div>
+                        <?php
                         return true;
                     }
                 } else {
-                    echo '<p>'. __('no_programs_exist_for_alac') . ' ' .  $this->fullPathName . '</p>';
+                    ?>
+                    <div class="row text-danger">
+                        <div class="col-md-5 col-12"><?php echo __('no_programs_exist_for_alac'); ?></div>
+                        <div class="col-md-7 col-12"><?php echo $this->fullPathName; ?></div>
+                    </div>
+                    <?php
                     return true;
                 }
             } else {
@@ -459,12 +474,22 @@ class SyncFiles
 
         if ($this->stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
             if($displayEcho) {
-                echo __('file_added').' ' . $this->name . '<br>';
+                ?>
+                    <div class="row text-success">
+                        <div class="col-md-3 col-12"><?php echo __('file_added'); ?></div>
+                        <div class="col-md-9 col-12"><?php echo $this->name; ?></div>
+                    </div>
+                <?php
             }
             $this->added_video++;
         } else {
             if($displayEcho) {
-                echo __('file_not_added').' ' . $this->name . '<br>';
+                ?>
+                <div class="row text-danger">
+                    <div class="col-md-3 col-12"><?php echo __('file_not_added'); ?></div>
+                    <div class="col-md-9 col-12"><?php echo $this->name; ?></div>
+                </div>
+                <?php
             }
             trigger_error($this->general_counter . ' PROBLEM!!!!!!!    ' . '       $inserted_id ' . $this->inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
                 '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
@@ -477,11 +502,14 @@ class SyncFiles
     public function displayFilesToDelete()
     {
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
-            echo '<p>'.__('files_to_delete').': '.count(self::$filesForDelete).' </p>';
+            echo '<div class="row my-2 px-2">'.__('files_to_delete').': '.count(self::$filesForDelete).' </div>';
 
             foreach (self::$filesForDelete as $item) {  // Εμφανίζει τα αρχεία προς διαγράφη
                 ?>
-                <div id=deleteRow<?php echo $item['id']; ?> class="deleteRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
+                    <div class="row" id="deleteRow<?php echo $item['id']; ?>">
+                        <div class="col-md-2 col-12"><?php echo $item['id']; ?></div>
+                        <div class="col-md-10 col-12"><?php echo $item['filename']; ?></div>
+                    </div>
 
                 <?php
             }
@@ -491,8 +519,11 @@ class SyncFiles
 
             ?>
 
-            <br><input type="button" id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="<?php echo __('delete_files'); ?>"
+            <div class="row my-2 px-2">
+                <input type="button" class="btn btn-danger btn-sm ml-auto mr-auto col-lg-6 col-12"
+                       id="AgreeToDeleteFiles" name="AgreeToDeleteFiles" value="<?php echo __('delete_files'); ?>"
                        onclick="deleteFiles(<?php echo htmlentities($deleteFilesArrayForJavascript); ?>);">
+            </div>
 
             <?php
         }
@@ -502,12 +533,14 @@ class SyncFiles
     public function displayFilesToMove()
     {
         if(self::$filesForUpdate) {  // Αν υπάρχουν αρχεία προς ενημέρωση
-            echo '<p>'.__('files_to_update').': '.count(self::$filesForUpdate).' </p>';
+            echo '<div class="row my-2 px-2">'.__('files_to_update').': '.count(self::$filesForUpdate).' </div>';
 
             foreach (self::$filesForUpdate as $item) {  // Εμφανίζει τα αρχεία προς ενημέρωση
                 ?>
-                <div id=updateRow<?php echo $item['id']; ?> class="updateRows"><?php echo $item['id']. ' '. $item['filename']; ?></div>
-
+                    <div class="row" id="updateRow<?php echo $item['id']; ?>">
+                        <div class="col-md-2 col-12"><?php echo $item['id']; ?></div>
+                        <div class="col-md-10 col-12"><?php echo $item['filename']; ?></div>
+                    </div>
                 <?php
             }
 
@@ -516,8 +549,11 @@ class SyncFiles
 
             ?>
 
-            <br><input type="button" id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="<?php echo __('update_files'); ?>"
+            <div class="row my-2 px-2">
+                <input type="button" class="btn btn-danger btn-sm ml-auto mr-auto col-lg-6 col-12"
+                       id="AgreeToUpdateFiles" name="AgreeToUpdateFiles" value="<?php echo __('update_files'); ?>"
                        onclick="updateFiles(<?php echo htmlentities($updateFilesArrayForJavascript); ?>);">
+            </div>
 
             <?php
         }
@@ -526,7 +562,7 @@ class SyncFiles
     // Εμφάνιση των τελικών αποτελεσμάτων του συγχρονισμού
     public function displaySyncResults()
     {
-        echo '<p>' . __('files_added') . ' '. $this->added_video . ' ' . __('added_files'). '</p>';
+        echo '<div class="row my-2 px-2">' . __('files_added') . ' '. $this->added_video . ' ' . __('added_files'). '</div>';
 
 
         // Εμφάνιση αρχείων προς διαγραφή
@@ -537,7 +573,7 @@ class SyncFiles
 
         $script_time_elapsed_secs = microtime(true) - $this->script_start;
 
-        echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+        echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
         Logs::insertLog('Added ' . $this->added_video . ' files.'); // Προσθήκη της κίνησης στα logs
     }
@@ -555,9 +591,9 @@ class SyncFiles
     public function getFileToDelete()
     {
         if(self::$filesForDelete) {  // Αν υπάρχουν αρχεία προς διαγραφή
-            $this->deleteFilesString = '<p id="jsFileAlreadyExist'.$this->inserted_id.'">' . __('file_to_delete') .
-                ' <input type="button" class="myButton" value="' . __('delete_file') . '"
-                   onclick="deleteExistedFile(' . $this->inserted_id . ');"></p>';
+            $this->deleteFilesString = '<div class="row" id="jsFileAlreadyExist'.$this->inserted_id.'">' . __('file_to_delete') .
+                ' <input type="button" class="btn btn-danger" value="' . __('delete_file') . '"
+                   onclick="deleteExistedFile(' . $this->inserted_id . ');"></div>';
         }
     }
 
@@ -671,7 +707,13 @@ class SyncFiles
             if(!$fileAlreadySynced) {
                 // Έλεγχος στα νέα αρχεία αν λειτουργούν και αν το hash υπάρχει ήδη στην βάση
                 if(!$this->checkHashOfFile()) { // Αλλιώς το δηλώνουμε προβληματικό
-                    echo '<p>'.__('there_is_a_problem_with_file').' '.$this->fullPathName.'. '.__('special_char_in_path').'</p>';
+                    ?>
+                        <div class="row">
+                            <div class="col-md-5 col-12"><?php echo __('there_is_a_problem_with_file'); ?></div>
+                            <div class="col-md-7 col-12"><?php echo $this->fullPathName.'. '.__('special_char_in_path'); ?></div>
+                        </div>
+                    <?php
+
                     $problemInFilePath=true;
                 }
             }
@@ -880,7 +922,11 @@ class SyncFiles
                 $full_path = DIR_PREFIX . $file['path'] . urldecode($file['filename']);
                 if(!FilesIO::fileExists($full_path)) {
                     OWMPElements::deleteFile($file['id']);
-                    echo $full_path.'<br>';
+
+                    ?>
+                        <div class="row my-2 px-2"><?php echo $full_path; ?></div>
+                    <?php
+
                     $counter++;
                 }
 
@@ -902,13 +948,13 @@ class SyncFiles
 
             Progress::setProgress(0);
             
-            echo '<p>'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</p>';
+            echo '<div class="row my-2 px-2">'.__('files_founded'). ' ' . $counter. ' '.  __('founded_and_deleted'). '</div>';
 
             Logs::insertLog('Were found '.$counter. ' problematic files and were erased'); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
         }
 
 
@@ -935,8 +981,9 @@ class SyncFiles
 //            trigger_error(filesize($full_path).'   '.$result.'   '.$full_path);
 
             Progress::setLastMomentAlive(true);
+        } else {
+            $result=false;
         }
-        else $result=false;
 
 
         return $result;
@@ -992,10 +1039,23 @@ class SyncFiles
                                                                     array($hash, $file['id']));
 
                             if ($update) {
-                                echo 'fullpath: ' . $full_path . '  hash: ' . $hash . ' time: ' . $time_elapsed_secs . '<br>';
+                                ?>
+                                <div class="row my-2 px-2">
+                                    <div class="col-md-6 col-12"><?php echo 'fullpath: ' . $full_path; ?></div>
+                                    <div class="col-md-6 col-12"><?php echo 'hash: ' . $hash . ' time: ' . $time_elapsed_secs; ?></div>
+                                </div>
+                                <?php
+
                                 $counter++;
                             }
-                            else echo __('problem_with_file').' '.$full_path.'<br>';
+                            else {
+                                ?>
+                                <div class="row my-2 px-2 text-danger">
+                                    <div class="col-md-4 col-12"><?php echo __('problem_with_file'); ?></div>
+                                    <div class="col-md-8 col-12"><?php echo $full_path; ?></div>
+                                </div>
+                                <?php
+                            }
                 }
 
                 if($progressCounter>10) { // ανα 100 items ενημερώνει το progress
@@ -1018,8 +1078,8 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<p>'.$counter. ' '.__('files_to_hash').'</p>';
-            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<div class="row my-2 px-2">'.$counter. ' '.__('files_to_hash').'</div>';
+            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
             Logs::insertLog($counter. ' files produced hash'); // Προσθήκη της κίνησης στα logs
         }
@@ -1037,7 +1097,7 @@ class SyncFiles
 
         if($item=$stmt->fetch(\PDO::FETCH_ASSOC))
 
-            $result=$item['id'];
+            $result = $item['id'];
 
         else $result=false;
 
@@ -1103,7 +1163,14 @@ class SyncFiles
                     if ($update) {
                         $counter++;
                     }
-                    else echo __('problem_with_file').' '.$full_path.'<br>';
+                    else {
+                        ?>
+                        <div class="row my-2 px-2 text-danger">
+                            <div class="col-md-4 col-12"><?php echo __('problem_with_file'); ?></div>
+                            <div class="col-md-8 col-12"><?php echo $full_path; ?></div>
+                        </div>
+                        <?php
+                    }
                 }
 
 
@@ -1127,8 +1194,8 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
-            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<div class="row my-2 px-2">'.$counter. ' '.__('files_to_metadata').'</div>';
+            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
             Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
@@ -1193,17 +1260,17 @@ class SyncFiles
                         if (OWMPElements::checkValidImage($myImage)) {
                             if (!$thumbExist) {
                                 if (OWMPElements::createSmallerImage($myImage, 'thumb')) {
-                                    echo $thumbnailImage . ' CREATED<br>';
+                                    echo '<div class="row my-2 px-2 text-success">' . $thumbnailImage . ' CREATED</div>';
                                 } else {
-                                    echo $myImage . ' CORRUPTED<br>';
+                                    echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
                                 }
                             }
 
                             if (!$smallExist) {
                                 if (OWMPElements::createSmallerImage($myImage, 'small')) {
-                                    echo $smallImage . ' CREATED<br>';
+                                    echo '<div class="row my-2 px-2 text-success">' . $smallImage . ' CREATED</div>';
                                 } else {
-                                    echo $myImage . ' CORRUPTED<br>';
+                                    echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
                                 }
                             }
 
@@ -1216,7 +1283,7 @@ class SyncFiles
 //                            }
 
                         } else {
-                            echo $myImage . ' CORRUPTED IMAGE<br>';
+                            echo '<div class="row my-2 px-2 text-danger">' . ' CORRUPTED IMAGE</div>';
                         }
                     }
                 }
@@ -1243,8 +1310,8 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<p>'.$counter. ' '.__('files_to_metadata').'</p>';
-            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<div class="row my-2 px-2">'.$counter. ' '.__('files_to_metadata').'</div>';
+            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
 
             Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
@@ -1385,10 +1452,20 @@ class SyncFiles
 
 
                 if ($stmt_tags->execute($sqlParamsTags)) {  // Αν η εγγραφή είναι επιτυχής
-                    echo __('file_added').' ' . $this->name . '<br>';
+                    ?>
+                    <div class="row my-2 px-2 text-success">
+                        <div class="col-md-4 col-12"><?php echo __('file_added'); ?></div>
+                        <div class="col-md-8 col-12"><?php echo $this->name; ?></div>
+                    </div>
+                    <?php
                     $added_video++;
                 } else {
-                    echo __('file_not_added').' ' . $this->name . '<br>';
+                    ?>
+                    <div class="row my-2 px-2 text-danger">
+                        <div class="col-md-4 col-12"><?php echo __('file_not_added'); ?></div>
+                        <div class="col-md-8 col-12"><?php echo $this->name; ?></div>
+                    </div>
+                    <?php
                     trigger_error($general_counter . ' PROBLEM!!!!!!!      $inserted_id ' . $inserted_id . ' ' . '$this->name ' . $this->name . ' ' . '$this->artist ' . $this->artist . ' ' . '$this->genre ' . $this->genre . ' ' . '$this->date_added ' . $this->date_added . ' ' . '$this->play_count ' . $this->play_count . ' ' .
                         '$this->play_date ' . $this->play_date . ' ' . '$this->rating ' . $this->rating . ' ' . '$this->album ' . $this->album . ' ' . '$this->album_artwork_id ' . $this->album_artwork_id . ' ' . '$this->video_width ' . $this->video_width . ' ' . '$this->video_height ' . $this->video_height . ' ' .
                         '$this->size ' . $this->size . ' ' . '$this->track_time ' . $this->track_time . ' ' . '$this->year ' . $this->year . ' ' . '$this->live ' . $this->live);
@@ -1414,13 +1491,13 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<p>'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</p>';
+            echo '<div class="row my-2 px-2">'.__('files_added').' '.$added_video. ' '.__('new_records_to_database').'</div>';
 
             Logs::insertLog(__('files_added').' '.$added_video. ' '.__('new_records_to_database')); // Προσθήκη της κίνησης στα logs
 
             $script_time_elapsed_secs = microtime(true) - $script_start;
 
-            echo '<p>'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</p>';
+            echo '<div class="row my-2 px-2">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
         }
     }
     
