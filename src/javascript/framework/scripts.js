@@ -343,7 +343,9 @@ function startTheBackup() {
 
                         displayResultsIcon();
                         resultsContainerElem.append('<div class="row text-success my-2 px-2">' + phrases['backup_success'] +
-                            ' <span class="font-weight-bold">' + downloadText + '</span></div>');
+                            ' <span class="font-weight-bold">');
+                        resultsContainerElem.append(downloadText);
+                        resultsContainerElem.append('</span></div>');
                         ProgressAnimation.kill();
                         syncRunning = false;
                         localStorage.syncPressed = 'false';
