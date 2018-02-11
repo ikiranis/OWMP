@@ -11,6 +11,50 @@
  */
 
 /**
+ * Returns the html text for video downloading
+ *
+ * @param id
+ * @returns {string|*}
+ */
+function getHTMLVideoDownloading(id)
+{
+    var htmlText = '<p> :: '+phrases['youtube_downloading']+
+        ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
+        'https://www.youtube.com/watch?v=' + id + '</a></p>';
+
+    return htmlText;
+}
+
+/**
+ * Returns the html text for downloaded video
+ *
+ * @param imageThumbnail
+ * @param result
+ * @returns {string|*}
+ */
+function getHTMMLVideoDownloaded(imageThumbnail, result)
+{
+    var htmlText = '<img src="' + imageThumbnail + '" style="float:left;">' +
+        '<p class="is_youTube-success">' + phrases['youtube_downloaded_to_path'] + ': ' + result + '</p>';
+
+    return htmlText;
+}
+
+function getHTMLVideoFail(theUrl)
+{
+    var htmlText = '<p class="is_youTube-fail">' + phrases['youtube_problem'] + ': ' + theUrl + '</p>';
+
+    return htmlText;
+}
+
+function getHTMLVideoError(error)
+{
+    var htmlText = '<p class="is_youTube-fail">' + phrases['youtube_problem'] + ': ' + ' Error: ' + error + '</p>';
+
+    return htmlText;
+}
+
+/**
  * Καλεί AJAX request για να κατεβάσει το βίντεο από το youtube
  *
  * @param id
@@ -32,9 +76,7 @@ function callGetYouTube(id,counter,total, mediaKind) {
         dataType: "json",
         beforeSend: function (xhr) {
             if(runningYoutubeDownload) {
-                $('.o-resultsContainer_text').append('<p> :: '+phrases['youtube_downloading']+
-                    ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
-                    'https://www.youtube.com/watch?v=' + id + '</a></p>');
+                $('.o-resultsContainer_text').append(getHTMLVideoDownloading(id));
 
                 progressPercent = parseInt(((counter + 1) / total) * 100);
 
@@ -55,17 +97,16 @@ function callGetYouTube(id,counter,total, mediaKind) {
         success: function (data) {
             if (data.success === true) {
                 // TODO να το φτιάξω εμφανισιακά και με σωστό css
-                resultsContainerTextID.append('<img src="' + data.imageThumbnail+'" style="float:left;">' +
-                    '<p class="is_youTube-success">'+phrases['youtube_downloaded_to_path']+': ' + data.result + '</p>');
+                resultsContainerTextID.append(getHTMMLVideoDownloaded(data.imageThumbnail, data.result));
 
                 resultsContainerTextID.append(data.filesToDelete);
 
             } else {
-                resultsContainerTextID.append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + '</p>');
+                resultsContainerTextID.append(getHTMLVideoFail(data.theUrl));
             }
         },
         error: function (xhr, status, error) {
-            resultsContainerTextID.append('<p class="is_youTube-fail">'+phrases['youtube_problem']+': ' + data.theUrl + ' Error: ' + error + '</p>');
+            resultsContainerTextID.append(getHTMLVideoError(error));
         }
     });
 }
