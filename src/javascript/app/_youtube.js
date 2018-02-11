@@ -18,9 +18,11 @@
  */
 function getHTMLVideoDownloading(id)
 {
-    var htmlText = '<p> :: '+phrases['youtube_downloading']+
-        ' <a href=https://www.youtube.com/watch?v=' + id + '>' +
-        'https://www.youtube.com/watch?v=' + id + '</a></p>';
+    var htmlText = '<div class="row my-2"> ' +
+            '<div class="col-md-3 col-12">' + phrases['youtube_downloading'] + '</div>' +
+            '<div class="col-md-9 col-12">' + '<a href="https://www.youtube.com/watch?v="' + id + '>' +
+            'https://www.youtube.com/watch?v=' + id + '</a></div>' +
+        '</div>';
 
     return htmlText;
 }
@@ -34,22 +36,36 @@ function getHTMLVideoDownloading(id)
  */
 function getHTMMLVideoDownloaded(imageThumbnail, result)
 {
-    var htmlText = '<img src="' + imageThumbnail + '" style="float:left;">' +
-        '<p class="is_youTube-success">' + phrases['youtube_downloaded_to_path'] + ': ' + result + '</p>';
+    var htmlText = '<div class="row my-2">' +
+            '<div class="col-md-3 col-12">' + '<img src="' + imageThumbnail + '">' + '</div>' +
+            '<div class="col-md-9 col-12 text-success my-auto">' + phrases['youtube_downloaded_to_path'] + ': ' + result + '</div>' +
+        '</div>';
 
     return htmlText;
 }
 
+/**
+ * Returns the html text when the video is failing
+ *
+ * @param theUrl
+ * @returns {string}
+ */
 function getHTMLVideoFail(theUrl)
 {
-    var htmlText = '<p class="is_youTube-fail">' + phrases['youtube_problem'] + ': ' + theUrl + '</p>';
+    var htmlText = '<div class="row text-danger my-2">' + phrases['youtube_problem'] + ': ' + theUrl + '</div>';
 
     return htmlText;
 }
 
+/**
+ * Returns the html text when the ajax has error
+ *
+ * @param error
+ * @returns {string}
+ */
 function getHTMLVideoError(error)
 {
-    var htmlText = '<p class="is_youTube-fail">' + phrases['youtube_problem'] + ': ' + ' Error: ' + error + '</p>';
+    var htmlText = '<div class="row text-danger my-2">' + phrases['youtube_problem'] + ': ' + ' Error: ' + error + '</div>';
 
     return htmlText;
 }
@@ -96,7 +112,6 @@ function callGetYouTube(id,counter,total, mediaKind) {
         },
         success: function (data) {
             if (data.success === true) {
-                // TODO να το φτιάξω εμφανισιακά και με σωστό css
                 resultsContainerTextID.append(getHTMMLVideoDownloaded(data.imageThumbnail, data.result));
 
                 resultsContainerTextID.append(data.filesToDelete);
