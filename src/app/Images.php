@@ -216,11 +216,6 @@ class Images
                 $this->getNewImagesDimmensions(250);
                 $newFilename = 'small_' . $imageFilename;
                 break;
-//            case 'ico':
-//                $newWidth = 32;
-//                $newHeight = 32;
-//                $newFilename = str_replace('.'.$extension, '.ico', $imageFilename);
-//                break;
         }
 
         // Δημιουργεί το image με νέες διαστάσεις
@@ -234,15 +229,6 @@ class Images
         } else {
             $result = false;
         }
-//        } else {
-////            trigger_error($imagePath . '/' . $newFilename);
-//            if (imagepng($newImage, $imagePath . '/' . $newFilename)) {
-//
-//                $result = true;
-//            } else {
-//                $result = false;
-//            }
-//        }
 
         imagedestroy($image); //  clean up image storage
         imagedestroy($newImage);
@@ -295,12 +281,6 @@ class Images
                     $thumbExist = false;
                 }
 
-//                if(FilesIO::fileExists($icoImage)) {
-//                    $icoExist = true;
-//                } else {
-//                    $icoExist = false;
-//                }
-
                 switch ($imageSize) {
                     case 'small':
                         if ($smallExist) {
@@ -334,6 +314,42 @@ class Images
         $stmt = null;
 
         return $result;
+    }
+
+    /**
+     * Delete cover image file with the reference in album_arts table
+     *
+     * @param $id
+     * @return bool
+     */
+    public function deleteImage($id)
+    {
+        $conn = new MyDB();
+
+        $file = MyDB::getTableArray('album_arts', '*', 'id=?', array($id), null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
+
+        $filesArray = array('path' => $file[0]['path'],
+            'filename' => $file[0]['filename']);
+
+        $fullPath = ALBUM_COVERS_DIR . $filesArray['path'] . $filesArray['filename'];   // Το full path του αρχείου
+
+        if (file_exists($fullPath)) {  // αν υπάρχει το αρχείο, σβήνει το αρχείο μαζί με την εγγραφή στην βάση
+            if (unlink($fullPath)) {
+                if ($conn->deleteRowFromTable('album_arts', 'id', $id)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {  // Αν δεν υπάρχει το αρχείο σβήνει μόνο την εγγραφή στην βάση
+                if ($conn->deleteRowFromTable('album_arts', 'id', $id)) {
+                    return true;
+                } else {
+                    return false;
+                }
+        }
+
+        return false;
     }
 
 }

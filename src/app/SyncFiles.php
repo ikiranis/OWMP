@@ -1214,19 +1214,18 @@ class SyncFiles
 
         Progress::setProgress(0);
 
-        $images = new Images();
-
         $script_start = microtime(true);
 
         $conn = new MyDB();
+        $images = new Images();
 
-        $counter=0;
+        $counter = 0;
 
         if($artsArray = $conn->getTableArray('album_arts', '*', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
 
-            $progressCounter=0;
-            $general_counter=0;
+            $progressCounter = 0;
+            $general_counter = 0;
 
             $totalFiles = count($artsArray);
 
@@ -1234,11 +1233,10 @@ class SyncFiles
                 $myImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
                 
                 if(FilesIO::fileExists($myImage)) {
-                    $extension = pathinfo($myImage, PATHINFO_EXTENSION);
+//                    $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
                     $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
                     $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
-//                    $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
 
                     if (file_exists($thumbnailImage)) {
                         $thumbExist = true;
@@ -1252,12 +1250,6 @@ class SyncFiles
                         $smallExist = false;
                     }
 
-//                    if (file_exists($icoImage)) {
-//                        $icoExist = true;
-//                    } else {
-//                        $icoExist = false;
-//                    }
-
                     // Αν δεν υπάρχουν ήδη τα small images
                     if (!$thumbExist || !$smallExist) {
 //                        trigger_error($myImage);
@@ -1267,7 +1259,9 @@ class SyncFiles
                                 if ($images->createSmallerImage($myImage, 'thumb')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $thumbnailImage . ' CREATED</div>';
                                 } else {
-                                    echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
+                                    if($images->deleteImage($item['id'])) {
+                                        echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
+                                    }
                                 }
                             }
 
@@ -1275,20 +1269,16 @@ class SyncFiles
                                 if ($images->createSmallerImage($myImage, 'small')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $smallImage . ' CREATED</div>';
                                 } else {
-                                    echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
+                                    if($images->deleteImage($item['id'])) {
+                                        echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
+                                    }
                                 }
                             }
 
-//                            if (!$icoExist) {
-//                                if (OWMPElements::createSmallerImage($myImage, 'ico')) {
-//                                    echo $icoImage . ' CREATED<br>';
-//                                } else {
-//                                    echo $myImage . ' CORRUPTED<br>';
-//                                }
-//                            }
-
                         } else {
-                            echo '<div class="row my-2 px-2 text-danger">' . ' CORRUPTED IMAGE</div>';
+                            if($images->deleteImage($item['id'])) {
+                                echo '<div class="row my-2 px-2 text-danger">' . ' CORRUPTED IMAGE</div>';
+                            }
                         }
                     }
                 }
