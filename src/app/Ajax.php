@@ -87,7 +87,7 @@ class Ajax extends Controller
         if(isset($_GET['imagePath']))
             $imagePath=$_GET['imagePath'];
 
-        if($myImage=OWMPElements::openImage($imagePath)) {
+        if($myImage=Images::openImage($imagePath)) {
             $jsonArray = array('success' => true);
             imagedestroy($myImage);
         } else {
@@ -645,9 +645,9 @@ class Ajax extends Controller
             if($file[0]['kind']=='Music') {
                 // το Album cover, στο μέγεθος που ζητάει
                 if($getSmall=='true') {
-                    $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'small');
+                    $albumCoverPath = Images::getAlbumImagePath($metadata[0]['album_artwork_id'], 'small');
                 } else {
-                    $albumCoverPath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');
+                    $albumCoverPath = Images::getAlbumImagePath($metadata[0]['album_artwork_id'], 'big');
                 }
 
                 //        if(!$iconImagePath = OWMPElements::getAlbumImagePath($metadata[0]['album_artwork_id'], 'ico')) {
@@ -1329,7 +1329,7 @@ class Ajax extends Controller
                 $coverImage =  substr($coverImage,strpos($coverImage,",")+1);
                 $coverImage = base64_decode($coverImage);
 
-                $albumCoverID=OWMPElements::uploadAlbumImage($coverImage,$coverMime); // Ανεβάζει το αρχείο της εικόνας και παίρνει το album_artwork_id
+                $albumCoverID = Images::uploadAlbumImage($coverImage,$coverMime); // Ανεβάζει το αρχείο της εικόνας και παίρνει το album_artwork_id
                 $fieldsArray[]='album_artwork_id';
                 $valuesArray[]=$albumCoverID;
             }

@@ -826,7 +826,7 @@ class SyncFiles
 
             if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
 //                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
-                $albumCoverID = OWMPElements::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
+                $albumCoverID = Images::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
 //                echo '<img src='.$albumCover.' />';
             } else {
                 $albumCoverID = 1;
@@ -1258,9 +1258,9 @@ class SyncFiles
                     if (!$thumbExist || !$smallExist) {
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
-                        if (OWMPElements::checkValidImage($myImage)) {
+                        if (Images::checkValidImage($myImage)) {
                             if (!$thumbExist) {
-                                if (OWMPElements::createSmallerImage($myImage, 'thumb')) {
+                                if (Images::createSmallerImage($myImage, 'thumb')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $thumbnailImage . ' CREATED</div>';
                                 } else {
                                     echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
@@ -1268,7 +1268,7 @@ class SyncFiles
                             }
 
                             if (!$smallExist) {
-                                if (OWMPElements::createSmallerImage($myImage, 'small')) {
+                                if (Images::createSmallerImage($myImage, 'small')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $smallImage . ' CREATED</div>';
                                 } else {
                                     echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
