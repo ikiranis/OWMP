@@ -20,6 +20,10 @@ use apps4net\framework\FilesIO;
 
 class Images
 {
+    protected $oldImageWidth;
+    protected $oldImageHeight;
+    protected $newWidth;
+    protected $newHeight;
 
     /**
      * Upload ενός image κι εισαγωγή στην βάση
@@ -28,7 +32,7 @@ class Images
      * @param $mime {string} Ο τύπος της εικόνας
      * @return bool|mixed Επιστρέφει το id του cover ή false
      */
-    static function uploadAlbumImage($image, $mime)
+    public function uploadAlbumImage($image, $mime)
     {
         $conn = new MyDB();
 
@@ -79,10 +83,10 @@ class Images
                 // GD install http://php.net/manual/en/image.installation.php
 
                 // Αν είναι εγκατεστημένη η GD library στην PHP και αν το image είναι valid
-                if (function_exists('gd_info') && self::checkValidImage($file)) {
+                if (function_exists('gd_info') && $this->checkValidImage($file)) {
                     // Δημιουργεί thumbnail, small image και ico
-                    self::createSmallerImage($file, 'thumb');
-                    self::createSmallerImage($file, 'small');
+                    $this->createSmallerImage($file, 'thumb');
+                    $this->createSmallerImage($file, 'small');
 //                    self::createSmallerImage($file, 'ico');
                 } else {
                     trigger_error('error');
@@ -103,7 +107,7 @@ class Images
      * @param $myImage {string} To path της εικόνας
      * @return bool True or false
      */
-    static function checkValidImage($myImage)
+    public function checkValidImage($myImage)
     {
         $html = VALID_IMAGE_SCRIPT_ADDRESS . '?imagePath=' . $myImage;
         $response = @file_get_contents($html, FILE_USE_INCLUDE_PATH);
@@ -127,7 +131,7 @@ class Images
      * @param $myImage {string} Το path της εικόνας
      * @return bool|resource Επιστρέφει την εικόνα σαν string ή false
      */
-    static function openImage($myImage)
+    public function openImage($myImage)
     {
         $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
@@ -156,13 +160,34 @@ class Images
     }
 
     /**
+     * Calculate new image dimmensions
+     *
+     * @param $maxDimmension
+     */
+    public function getNewImagesDimmensions($maxDimmension)
+    {
+        if($this->oldImageWidth==$this->oldImageHeight) { // When dimmensions are equeal
+            $this->newWidth = $maxDimmension;
+            $this->newHeight = $maxDimmension;
+        } else {
+            if ($this->oldImageWidth > $this->oldImageHeight) {  // When width is bigger
+                $this->newWidth = $maxDimmension;
+                $this->newHeight = ($this->oldImageHeight * $maxDimmension) / $this->oldImageWidth;
+            } else {  // When height is bigger
+                $this->newHeight = $maxDimmension;
+                $this->newWidth = ($this->oldImageWidth * $maxDimmension) / $this->oldImageHeight;
+            }
+        }
+    }
+
+    /**
      * Δημιουργεί μικρότερες εκδόσεις μίας εικόνας. Thumb, small, large.
      *
      * @param $fullpath {string} Το path της εικόνας
      * @param $imageSize {string} "thumb" or "small"
      * @return bool True or False για την επιτυχία
      */
-    static function createSmallerImage($fullpath, $imageSize)
+    public function createSmallerImage($fullpath, $imageSize)
     {
         $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
@@ -170,7 +195,7 @@ class Images
 
         // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
         if (FilesIO::fileExists($fullpath)) {
-            if (!$image = self::openImage($fullpath)) {
+            if (!$image = $this->openImage($fullpath)) {
                 return false;
             }
         } else {
@@ -178,19 +203,17 @@ class Images
         }
 
         // Οι διαστάσεις του αρχικού image
-        $oldImageWidth = imagesx($image);
-        $oldImageHeight = imagesy($image);
+        $this->oldImageWidth = imagesx($image);
+        $this->oldImageHeight = imagesy($image);
 
         // Οι νέες διαστάσεις αναλόγως τι έχουμε επιλέξει να κάνει
         switch ($imageSize) {
             case 'thumb':
-                $newWidth = 50;
-                $newHeight = 50;
+                $this->getNewImagesDimmensions(50);
                 $newFilename = 'thumb_' . $imageFilename;
                 break;
             case 'small':
-                $newWidth = 250;
-                $newHeight = 250;
+                $this->getNewImagesDimmensions(250);
                 $newFilename = 'small_' . $imageFilename;
                 break;
 //            case 'ico':
@@ -201,8 +224,8 @@ class Images
         }
 
         // Δημιουργεί το image με νέες διαστάσεις
-        $newImage = ImageCreateTrueColor($newWidth, $newHeight);
-        imagecopyResampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $oldImageWidth, $oldImageHeight);
+        $newImage = ImageCreateTrueColor($this->newWidth, $this->newHeight);
+        imagecopyResampled($newImage, $image, 0, 0, 0, 0, $this->newWidth, $this->newHeight, $this->oldImageWidth, $this->oldImageHeight);
 
         // Σώζει το image
 //        if($imageSize!=='ico') {
@@ -235,7 +258,7 @@ class Images
      * @param $imageSize {string} "thumb" or "small" or "big"
      * @return bool|string To fullpath ή false στην αποτυχία
      */
-    static function getAlbumImagePath($id, $imageSize)
+    public function getAlbumImagePath($id, $imageSize)
     {
         MyDB::createConnection();
 

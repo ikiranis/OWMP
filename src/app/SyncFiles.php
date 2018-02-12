@@ -797,6 +797,8 @@ class SyncFiles
 
         Progress::setLastMomentAlive(true);
 
+        $images = new Images();
+
         if(!self::$getID3) {
             self::$getID3=new \getID3();
         }
@@ -826,7 +828,7 @@ class SyncFiles
 
             if (isset($ThisFileInfo['comments']['picture'][0]['data'])) {
 //                $albumCover = 'data:' . $ThisFileInfo['comments']['picture'][0]['image_mime'] . ';charset=utf-8;base64,' . base64_encode($ThisFileInfo['comments']['picture'][0]['data']);
-                $albumCoverID = Images::uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
+                $albumCoverID = $images->uploadAlbumImage($ThisFileInfo['comments']['picture'][0]['data'],$ThisFileInfo['comments']['picture'][0]['image_mime']);
 //                echo '<img src='.$albumCover.' />';
             } else {
                 $albumCoverID = 1;
@@ -1212,6 +1214,8 @@ class SyncFiles
 
         Progress::setProgress(0);
 
+        $images = new Images();
+
         $script_start = microtime(true);
 
         $conn = new MyDB();
@@ -1258,9 +1262,9 @@ class SyncFiles
                     if (!$thumbExist || !$smallExist) {
 //                        trigger_error($myImage);
                         // Ελέγχει πρώτα αν είναι valid το Image
-                        if (Images::checkValidImage($myImage)) {
+                        if ($images->checkValidImage($myImage)) {
                             if (!$thumbExist) {
-                                if (Images::createSmallerImage($myImage, 'thumb')) {
+                                if ($images->createSmallerImage($myImage, 'thumb')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $thumbnailImage . ' CREATED</div>';
                                 } else {
                                     echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
@@ -1268,7 +1272,7 @@ class SyncFiles
                             }
 
                             if (!$smallExist) {
-                                if (Images::createSmallerImage($myImage, 'small')) {
+                                if ($images->createSmallerImage($myImage, 'small')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $smallImage . ' CREATED</div>';
                                 } else {
                                     echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';

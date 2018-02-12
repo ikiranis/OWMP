@@ -249,6 +249,7 @@ class PlaylistSearch extends OWMPElements
     // Εμφανίζει την playlist με πλήρη τα στοιχεία
     public function displayFullPlaylist($track)
     {
+        $images = new Images();
 
         if(!$this->votePlaylist) {
             $conn = new MyDB();
@@ -275,7 +276,7 @@ class PlaylistSearch extends OWMPElements
                     <?php
 
                     if ($track['kind'] == 'Music') {
-                        if($coverImagePath = Images::getAlbumImagePath($track['album_artwork_id'], 'small')) {
+                        if($coverImagePath = $images->getAlbumImagePath($track['album_artwork_id'], 'small')) {
 
                             ?>
                             <img class="coverImage" src="<?php echo AJAX_PATH . 'app/serveImage?imagePath=' . $coverImagePath; ?>">
