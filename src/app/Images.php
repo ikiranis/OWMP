@@ -437,7 +437,7 @@ class Images
             }
         }
 
-        trigger_error('Not Exist '. $counter);
+        echo '<div class="row my-2 px-2 text-success">Deleted ' . $counter . ' undefigned images</div>';
 
         trigger_error('ALBUM ARTS ' . count($newAlbumArts));
         trigger_error('Images ' . count($newImagesArray));
