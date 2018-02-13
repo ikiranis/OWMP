@@ -1209,7 +1209,7 @@ class SyncFiles
         $conn = new MyDB();
         $images = new Images();
 
-//        $images->resetCoverImages(); // Delete all extra version of cover images
+        $images->resetCoverImages(); // Delete all extra version of cover images
         $images->cleanUndefinedALbumArts(); // Clean Undefined Album Arts
         $images->cleanUndefinedImagesAndTableRows();  // Clean Undefined Image files
 
