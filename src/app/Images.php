@@ -74,6 +74,7 @@ class Images
 
             $success = file_put_contents($file, $image);  // Κάνει την τελική εγγραφή του image σε αρχείο
 
+            // TODO Don't write to database (music_tags) if we already do that
             if ($success) {  // Αν το αρχείο δημιουργηθεί κανονικά κάνουμε εγγραφή στην βάση
 
                 $sql = 'INSERT INTO album_arts (path, filename, hash) VALUES(?,?,?)';   // Εισάγει στον πίνακα album_arts
