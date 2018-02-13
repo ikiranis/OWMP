@@ -407,7 +407,9 @@ class Images
      */
     public function cleanUndefinedImages()
     {
-        $albumArts = MyDB::getTableArray('album_arts', 'path, filename', null, null, null, null, null);   // Get the array of album arts
+        $conn = new MyDB();
+
+        $albumArts = MyDB::getTableArray('album_arts', 'id, path, filename', null, null, null, null, null);   // Get the array of album arts
 
         $extensions = array('jpg', 'png', 'jpeg', 'gif', 'ico'); // image extensions
         $needles = array('small_', 'thumb_');  // Strings to search in the array
@@ -415,7 +417,7 @@ class Images
         // Combine path with filename to new array
         $newAlbumArts = array();
         foreach ($albumArts as $albumArt) {
-            array_push($newAlbumArts, $albumArt['path'].$albumArt['filename']);
+            array_push($newAlbumArts, ['id' => $albumArt['id'], 'path' => $albumArt['path'].$albumArt['filename']]);
         }
 
         // παίρνει το σύνολο των αρχείων με $extensions από τον φάκελο ALBUM_COVERS_DIR
@@ -425,19 +427,29 @@ class Images
         // Search files not contains $needles
         $newImagesArray = Utilities::getFilteredArrayNot($needles, $images);
 
-
-        $counter = 0;
+        $imageDeletedCounter = 0;
         // Delete $image which is not in album_arts table
         foreach ($newImagesArray as $image) {
-            if(!in_array($image, $newAlbumArts)) {
-                if (file_exists(ALBUM_COVERS_DIR.$image)) {
-                    unlink(ALBUM_COVERS_DIR.$image);
-                    $counter++;
+            if(!in_array($image, array_column($newAlbumArts, 'path'))) {
+                if (file_exists(ALBUM_COVERS_DIR.$image['path'])) {
+                    unlink(ALBUM_COVERS_DIR.$image['path']);
+                    $imageDeletedCounter++;
                 }
             }
         }
 
-        echo '<div class="row my-2 px-2 text-success">Deleted ' . $counter . ' undefigned images</div>';
+        $tableRowDeletedCounter = 0;
+        // Delete album_arts row which is not in $newImagesArray array
+        foreach ($newAlbumArts as $albumArt) {
+            if(!in_array($albumArt['path'], $newImagesArray)) {
+                    $conn->deleteRowFromTable('album_arts', 'id', $albumArt['id']);
+                    $tableRowDeletedCounter++;
+            }
+        }
+
+        // TODO dynamic texts
+        echo '<div class="row my-2 px-2 text-info">Deleted ' . $imageDeletedCounter . ' undefined images</div>';
+        echo '<div class="row my-2 px-2 text-info">Deleted ' . $tableRowDeletedCounter . ' undefined table rows</div>';
 
         trigger_error('ALBUM ARTS ' . count($newAlbumArts));
         trigger_error('Images ' . count($newImagesArray));

@@ -459,8 +459,6 @@ class Utilities
         // Clean from ALBUM_COVERS_DIR
         $haystack = self::removeStrFromArrayItems(ALBUM_COVERS_DIR, '', $haystack);
 
-        trigger_error('Search for not array: ' . count($haystack));
-
         if(count($haystack)>0) {
             return $haystack;
         } else {
