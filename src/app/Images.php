@@ -405,7 +405,7 @@ class Images
     /**
      * Delete images which is not in album_arts table
      */
-    public function cleanUndefinedImages()
+    public function cleanUndefinedImagesAndTableRows()
     {
         $conn = new MyDB();
 
