@@ -113,7 +113,7 @@
         <phrase name="sync_json">JSON import</phrase>
         <phrase name="sync_youtube">Download from youTube</phrase>
         <phrase name="import_path">Import path</phrase>
-        <phrase name="cover_convert">Create small album covers</phrase>
+        <phrase name="cover_convert">Rebuild album covers</phrase>
         <phrase name="start_backup">Database backup</phrase>
         <phrase name="start_restore">Database restore</phrase>
         <phrase name="backup_file_autoload">Autodownload the backup file when it will be ready</phrase>
@@ -432,7 +432,7 @@
             <pre>sudo apt-get install lame</pre></p>
         ]]></phrase>
         <phrase name="help_convert_covers"><![CDATA[
-            <p>Creates smaller versions and thumbnails of album covers for the entire collection</p>
+            <p>Creates smaller versions and thumbnails of album covers for the entire collection. Clean all the garbage.</p>
             <p><strong>CAUTION:</strong> You must have <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> PHP library. Example of installation for PHP 7 in ubuntu</p>
             <pre>sudo apt-get install php7.0-gd</pre>
         ]]></phrase>

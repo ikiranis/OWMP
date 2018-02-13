@@ -113,7 +113,7 @@
         <phrase name="sync_json">Εισαγωγή JSON αρχείου</phrase>
         <phrase name="sync_youtube">Κατέβασμα από youTube</phrase>
         <phrase name="import_path">Προσθήκη διαδρομής</phrase>
-        <phrase name="cover_convert">Δημιουργία μικρογραφιών των album covers</phrase>
+        <phrase name="cover_convert">Επαναδημιουργία album covers</phrase>
         <phrase name="start_backup">Αντίγραφο της βάσης</phrase>3
         <phrase name="start_restore">Επαναφορά της βάσης</phrase>
         <phrase name="backup_file_autoload">Αυτόματο κατέβασμα του αρχείου μόλις είναι έτοιμο</phrase>
@@ -432,7 +432,7 @@
             <pre>sudo apt-get install lame</pre></p>
         ]]></phrase>
         <phrase name="help_convert_covers"><![CDATA[
-            <p>Δημιουργεί μικρότερες εκδόσεις και thumbnails των album covers, για όλη την συλλογή</p>
+            <p>Δημιουργεί μικρότερες εκδόσεις και thumbnails των album covers, για όλη την συλλογή. Καθαρίζει όλα τα σκουπίδια.</p>
             <p><strong>ΠΡΟΣΟΧΗ:</strong> Πρέπει να έχετε εγκατεστημένη την <strong><a href="http://php.net/manual/en/image.installation.php">GD</a></strong> βιβλιοθήκη της PHP. Παράδειγμα εγκατάστασης για την PHP 7 σε ubuntu</p>
             <pre>sudo apt-get install php7.0-gd</pre>
         ]]></phrase>
