@@ -1211,6 +1211,7 @@ class SyncFiles
         $images = new Images();
 
         $images->resetCoverImages(); // Delete all extra version of cover images
+        $images->cleanUndefinedALbumArts(); // Clean Undefined Album Arts
 
         $counter = 0;
 

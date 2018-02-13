@@ -383,4 +383,22 @@ class Images
 
     }
 
+    /**
+     * Clean table album_arts from undefined rows in music_tags
+     */
+    public function cleanUndefinedALbumArts()
+    {
+        $conn = new MyDB();
+
+        $condition = ' id NOT IN (SELECT album_artwork_ID FROM music_tags)';
+
+        $rows = MyDB::getTableArray('album_arts', 'id', $condition, null, null, null, null);   // Παίρνει το συγκεκριμένο αρχείο
+
+        // TODO Delete rows with mysql query
+        foreach ($rows as $row) {
+            $conn->deleteRowFromTable('album_arts', 'id', $row['id']);
+        }
+
+    }
+
 }
