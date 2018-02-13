@@ -101,16 +101,6 @@ class SyncFiles
         }
 
         self::$tracks = $trimTracks;
-
-//                    echo'<pre>';
-//        print_r(self::$tracks);
-//        echo'</pre>';
-//
-//            exit('stop');
-//
-//            echo count(self::$tracks);
-
-
     }
     
 
@@ -120,7 +110,7 @@ class SyncFiles
         $conn= new MyDB();
 
         $dirs = $conn->getTableArray('paths', 'file_path', 'kind=?', array($mediakind), null, null, null); // Παίρνει τα paths
-        $dirs=$conn->clearArray($dirs);
+        $dirs = $conn->clearArray($dirs);
 
         foreach ($dirs as $dir) {  // Έλεγχος αν υπάρχουν οι φάκελοι
 
@@ -1208,7 +1198,8 @@ class SyncFiles
     // TODO να κάνει ταυτόχρονα και έλεγχο για τα ορφανά αρχεία
     // TODO βγάζει errors
     // Δημιουργεί μαζικά μικρότερες εκδόσεις των cover albums
-    public function convertCovers() {
+    public function convertCovers()
+    {
         set_time_limit(0);
         ini_set('memory_limit', '100M'); // Για χειρισμό μεγάλων εικόνων
 
@@ -1219,9 +1210,11 @@ class SyncFiles
         $conn = new MyDB();
         $images = new Images();
 
+        $images->resetCoverImages(); // Delete all extra version of cover images
+
         $counter = 0;
 
-        if($artsArray = $conn->getTableArray('album_arts', '*', null, null, null, null, null)) // Ολόκληρη η λίστα
+        if ($artsArray = $conn->getTableArray('album_arts', '*', null, null, null, null, null)) // Ολόκληρη η λίστα
         {
 
             $progressCounter = 0;
@@ -1231,8 +1224,8 @@ class SyncFiles
 
             foreach ($artsArray as $item) {
                 $myImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
-                
-                if(FilesIO::fileExists($myImage)) {
+
+                if (FilesIO::fileExists($myImage)) {
 //                    $extension = pathinfo($myImage, PATHINFO_EXTENSION);
 
                     $thumbnailImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
@@ -1252,14 +1245,14 @@ class SyncFiles
 
                     // Αν δεν υπάρχουν ήδη τα small images
                     if (!$thumbExist || !$smallExist) {
-//                        trigger_error($myImage);
+
                         // Ελέγχει πρώτα αν είναι valid το Image
                         if ($images->checkValidImage($myImage)) {
                             if (!$thumbExist) {
                                 if ($images->createSmallerImage($myImage, 'thumb')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $thumbnailImage . ' CREATED</div>';
                                 } else {
-                                    if($images->deleteImage($item['id'])) {
+                                    if ($images->deleteImage($item['id'])) {
                                         echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
                                     }
                                 }
@@ -1269,14 +1262,14 @@ class SyncFiles
                                 if ($images->createSmallerImage($myImage, 'small')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $smallImage . ' CREATED</div>';
                                 } else {
-                                    if($images->deleteImage($item['id'])) {
+                                    if ($images->deleteImage($item['id'])) {
                                         echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
                                     }
                                 }
                             }
 
                         } else {
-                            if($images->deleteImage($item['id'])) {
+                            if ($images->deleteImage($item['id'])) {
                                 echo '<div class="row my-2 px-2 text-danger">' . ' CORRUPTED IMAGE</div>';
                             }
                         }
@@ -1284,19 +1277,19 @@ class SyncFiles
                 }
 
 
-                if($progressCounter>100) { // ανα 100 items ενημερώνει το progress
+                if ($progressCounter > 100) { // ανα 100 items ενημερώνει το progress
                     $progressPercent = intval(($general_counter / $totalFiles) * 100);
 
                     Progress::setLastMomentAlive(true);  // To timestamp της συγκεκριμένης στιγμής
 
                     Progress::setProgress($progressPercent);  // στέλνει το progress και ελέγχει τον τερματισμό
 
-                    $progressCounter=0;
+                    $progressCounter = 0;
+                } else {
+                    $progressCounter++;
                 }
-                else $progressCounter++;
 
                 $general_counter++;
-
 
 
             }
@@ -1305,10 +1298,10 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<div class="row my-2 px-2 text-info">'.$counter. ' '.__('files_to_metadata').'</div>';
-            echo '<div class="row my-2 px-2 text-info">'.__('total_time').': '.Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs).'</div>';
+            echo '<div class="row my-2 px-2 text-info">' . $counter . ' ' . __('files_to_metadata') . '</div>';
+            echo '<div class="row my-2 px-2 text-info">' . __('total_time') . ': ' . Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs) . '</div>';
 
-            Logs::insertLog($counter. ' files produced metadata'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog($counter . ' files produced metadata'); // Προσθήκη της κίνησης στα logs
         }
     }
 

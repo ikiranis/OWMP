@@ -390,4 +390,30 @@ class Utilities
         }
     }
 
+    /**
+     * Search in array $haystack for string $needle and return new array contains this $needle
+     *
+     * @param $needle
+     * @param $haystack
+     * @return array|bool
+     */
+    static function getFilteredArray($needle, $haystack)
+    {
+        $newArray = array();
+
+        foreach ($haystack as $item) {
+            if(strpos($item, $needle) !== false) {
+                array_push($newArray, str_replace('//', '/', $item));
+            }
+        }
+
+        if(count($newArray)>0) {
+//            trigger_error(count($newArray));
+//            trigger_error($newArray[12]);
+            return $newArray;
+        } else {
+            return false;
+        }
+    }
+
 }

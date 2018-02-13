@@ -17,6 +17,8 @@ namespace apps4net\parrot\app;
 
 use apps4net\framework\MyDB;
 use apps4net\framework\FilesIO;
+use apps4net\framework\ScanDir;
+use apps4net\framework\Utilities;
 
 class Images
 {
@@ -87,7 +89,6 @@ class Images
                     // Δημιουργεί thumbnail, small image και ico
                     $this->createSmallerImage($file, 'thumb');
                     $this->createSmallerImage($file, 'small');
-//                    self::createSmallerImage($file, 'ico');
                 } else {
                     trigger_error('error');
                     exit('error');
@@ -191,7 +192,7 @@ class Images
     {
         $imageFilename = pathinfo($fullpath, PATHINFO_BASENAME);  // Το όνομα του αρχείου
         $imagePath = pathinfo($fullpath, PATHINFO_DIRNAME);   // Το path του αρχείου μέσα στο ALBUM_COVERS_DIR
-        $extension = pathinfo($fullpath, PATHINFO_EXTENSION);
+//        $extension = pathinfo($fullpath, PATHINFO_EXTENSION);
 
         // Aνοίγει το image (αν υπάρχει) και το βάζει στο $image
         if (FilesIO::fileExists($fullpath)) {
@@ -258,7 +259,7 @@ class Images
 
             $bigImage = ALBUM_COVERS_DIR . $item['path'] . $item['filename'];
 
-            $extension = pathinfo($bigImage, PATHINFO_EXTENSION);
+//            $extension = pathinfo($bigImage, PATHINFO_EXTENSION);
 
             if (FilesIO::fileExists($bigImage)) {
                 $result = $bigImage;
@@ -267,7 +268,6 @@ class Images
             if (function_exists('gd_info')) {
                 $smallImage = ALBUM_COVERS_DIR . $item['path'] . 'small_' . $item['filename'];
                 $thumbImage = ALBUM_COVERS_DIR . $item['path'] . 'thumb_' . $item['filename'];
-                $icoImage = ALBUM_COVERS_DIR . $item['path'] . str_replace('.' . $extension, '.ico', $item['filename']);
 
                 if (FilesIO::fileExists($smallImage)) {
                     $smallExist = true;
@@ -292,9 +292,6 @@ class Images
                             $result = $thumbImage;
                         }
                         break;
-//                    case 'ico': if($icoExist) {
-//                        $result = $icoImage;
-//                    } break;
                 }
 
 //                if($imageSize=='big' && $_SESSION['mobile'] && $smallExist) {
@@ -350,6 +347,40 @@ class Images
         }
 
         return false;
+    }
+
+    /**
+     * Delete files from $myArray
+     *
+     * @param $myArray
+     */
+    public function deleteFilesOfArray($myArray) {
+        if (is_array($myArray)) {
+            foreach ($myArray as $item) {
+                if (file_exists($item)) {
+                    unlink($item);
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete all extra version of cover images
+     */
+    public function resetCoverImages()
+    {
+        $extensions = array('jpg', 'png', 'jpeg', 'gif', 'ico'); // image extensions
+        $needles = array('small_', 'thumb_', '.ico');  // Strings to search in the array
+
+        // παίρνει το σύνολο των αρχείων με $extensions από τον φάκελο ALBUM_COVERS_DIR
+        $images = ScanDir::scan(ALBUM_COVERS_DIR, $extensions, true);
+        $images = array_unique($images);
+
+        // Delete files which contains $needles
+        foreach ($needles as $needle) {
+            $this->deleteFilesOfArray(Utilities::getFilteredArray($needle, $images));
+        }
+
     }
 
 }
