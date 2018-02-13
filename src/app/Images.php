@@ -162,22 +162,22 @@ class Images
     }
 
     /**
-     * Calculate new image dimmensions
+     * Calculate new image dimensions
      *
-     * @param $maxDimmension
+     * @param $maxDimension
      */
-    public function getNewImagesDimmensions($maxDimmension)
+    public function getNewImagesDimensions($maxDimension)
     {
-        if($this->oldImageWidth==$this->oldImageHeight) { // When dimmensions are equeal
-            $this->newWidth = $maxDimmension;
-            $this->newHeight = $maxDimmension;
+        if($this->oldImageWidth==$this->oldImageHeight) { // When dimensions are equeal
+            $this->newWidth = $maxDimension;
+            $this->newHeight = $maxDimension;
         } else {
             if ($this->oldImageWidth > $this->oldImageHeight) {  // When width is bigger
-                $this->newWidth = $maxDimmension;
-                $this->newHeight = ($this->oldImageHeight * $maxDimmension) / $this->oldImageWidth;
+                $this->newWidth = $maxDimension;
+                $this->newHeight = ($this->oldImageHeight * $maxDimension) / $this->oldImageWidth;
             } else {  // When height is bigger
-                $this->newHeight = $maxDimmension;
-                $this->newWidth = ($this->oldImageWidth * $maxDimmension) / $this->oldImageHeight;
+                $this->newHeight = $maxDimension;
+                $this->newWidth = ($this->oldImageWidth * $maxDimension) / $this->oldImageHeight;
             }
         }
     }
@@ -211,11 +211,11 @@ class Images
         // Οι νέες διαστάσεις αναλόγως τι έχουμε επιλέξει να κάνει
         switch ($imageSize) {
             case 'thumb':
-                $this->getNewImagesDimmensions(50);
+                $this->getNewImagesDimensions(50);
                 $newFilename = 'thumb_' . $imageFilename;
                 break;
             case 'small':
-                $this->getNewImagesDimmensions(250);
+                $this->getNewImagesDimensions(250);
                 $newFilename = 'small_' . $imageFilename;
                 break;
         }
