@@ -402,4 +402,46 @@ class Images
 
     }
 
+    /**
+     * Delete images which is not in album_arts table
+     */
+    public function cleanUndefinedImages()
+    {
+        $albumArts = MyDB::getTableArray('album_arts', 'path, filename', null, null, null, null, null);   // Get the array of album arts
+
+        $extensions = array('jpg', 'png', 'jpeg', 'gif', 'ico'); // image extensions
+        $needles = array('small_', 'thumb_');  // Strings to search in the array
+
+        // Combine path with filename to new array
+        $newAlbumArts = array();
+        foreach ($albumArts as $albumArt) {
+            array_push($newAlbumArts, $albumArt['path'].$albumArt['filename']);
+        }
+
+        // παίρνει το σύνολο των αρχείων με $extensions από τον φάκελο ALBUM_COVERS_DIR
+        $images = ScanDir::scan(ALBUM_COVERS_DIR, $extensions, true);
+        $images = array_unique($images);
+
+        // Search files not contains $needles
+        $newImagesArray = Utilities::getFilteredArrayNot($needles, $images);
+
+
+        $counter = 0;
+        // Delete $image which is not in album_arts table
+        foreach ($newImagesArray as $image) {
+            if(!in_array($image, $newAlbumArts)) {
+                if (file_exists(ALBUM_COVERS_DIR.$image)) {
+                    unlink(ALBUM_COVERS_DIR.$image);
+                    $counter++;
+                }
+            }
+        }
+
+        trigger_error('Not Exist '. $counter);
+
+        trigger_error('ALBUM ARTS ' . count($newAlbumArts));
+        trigger_error('Images ' . count($newImagesArray));
+
+    }
+
 }

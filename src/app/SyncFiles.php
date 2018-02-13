@@ -1195,7 +1195,6 @@ class SyncFiles
     }
 
 
-    // TODO να κάνει ταυτόχρονα και έλεγχο για τα ορφανά αρχεία
     // TODO βγάζει errors
     // Δημιουργεί μαζικά μικρότερες εκδόσεις των cover albums
     public function convertCovers()
@@ -1210,8 +1209,9 @@ class SyncFiles
         $conn = new MyDB();
         $images = new Images();
 
-        $images->resetCoverImages(); // Delete all extra version of cover images
+//        $images->resetCoverImages(); // Delete all extra version of cover images
         $images->cleanUndefinedALbumArts(); // Clean Undefined Album Arts
+        $images->cleanUndefinedImages();  // Clean Undefined Image files
 
         $counter = 0;
 
@@ -1252,6 +1252,7 @@ class SyncFiles
                             if (!$thumbExist) {
                                 if ($images->createSmallerImage($myImage, 'thumb')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $thumbnailImage . ' CREATED</div>';
+                                    $counter++;
                                 } else {
                                     if ($images->deleteImage($item['id'])) {
                                         echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
@@ -1262,6 +1263,7 @@ class SyncFiles
                             if (!$smallExist) {
                                 if ($images->createSmallerImage($myImage, 'small')) {
                                     echo '<div class="row my-2 px-2 text-success">' . $smallImage . ' CREATED</div>';
+                                    $counter++;
                                 } else {
                                     if ($images->deleteImage($item['id'])) {
                                         echo '<div class="row my-2 px-2 text-danger">' . $myImage . ' CORRUPTED</div>';
@@ -1299,10 +1301,10 @@ class SyncFiles
 
             Progress::setProgress(0);
 
-            echo '<div class="row my-2 px-2 text-info">' . $counter . ' ' . __('files_to_metadata') . '</div>';
+            echo '<div class="row my-2 px-2 text-info">' . $counter . ' images created</div>';
             echo '<div class="row my-2 px-2 text-info">' . __('total_time') . ': ' . Utilities::seconds2MinutesAndSeconds($script_time_elapsed_secs) . '</div>';
 
-            Logs::insertLog($counter . ' files produced metadata'); // Προσθήκη της κίνησης στα logs
+            Logs::insertLog($counter . ' images created'); // Προσθήκη της κίνησης στα logs
         }
     }
 

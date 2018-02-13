@@ -403,14 +403,66 @@ class Utilities
 
         foreach ($haystack as $item) {
             if(strpos($item, $needle) !== false) {
-                array_push($newArray, str_replace('//', '/', $item));
+                array_push($newArray, self::removeURLDoubleSlashes($item));
             }
         }
 
         if(count($newArray)>0) {
-//            trigger_error(count($newArray));
-//            trigger_error($newArray[12]);
             return $newArray;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Remove $str an replace it with $replace, in array $myArray
+     *
+     * @param $str
+     * @param $replace
+     * @param $myArray
+     * @return array|bool
+     */
+    static function removeStrFromArrayItems($str, $replace, $myArray)
+    {
+        $newArray = array();
+
+        foreach ($myArray as $item) {
+            array_push($newArray, str_replace($str, $replace, $item));
+        }
+
+        if(count($newArray)>0) {
+            return $newArray;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Search in array $haystack for string $needle and return new array not contains this $needle
+     *
+     * @param $needles
+     * @param $haystack
+     * @return array|bool
+     */
+    static function getFilteredArrayNot($needles, $haystack)
+    {
+        foreach ($needles as $needle) {
+            foreach ($haystack as $key=>$item) {
+                if (strpos($item, $needle) !== false) {
+                    unset($haystack[$key]);
+                }
+            }
+        }
+
+        // Clean from double slashes
+        $haystack = self::removeStrFromArrayItems('//', '/', $haystack);
+        // Clean from ALBUM_COVERS_DIR
+        $haystack = self::removeStrFromArrayItems(ALBUM_COVERS_DIR, '', $haystack);
+
+        trigger_error('Search for not array: ' . count($haystack));
+
+        if(count($haystack)>0) {
+            return $haystack;
         } else {
             return false;
         }
