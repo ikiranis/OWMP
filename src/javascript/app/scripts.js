@@ -881,9 +881,8 @@ function startTheSync(operation) {
             },
             error: function (xhr, status, error) {
                 // Something went wrong
-                $('.o-resultsContainer_text').append('Error: ' + error);
-
-                // TODO find if I can solve proxy error when you are syncing when the app runs under apache proxy
+                $('.o-resultsContainer_text').append('<div class="row my-2 px-2 text-danger">Error: ' +
+                    '<span class="font-weight-bold">' + error + '</span></div>');
             }
         });
 
