@@ -767,19 +767,72 @@ class OWMPElements extends OWMP
         }
     }
 
-    // Έλεγχος αν οι φάκελοι υπάρχουν κι έχουν δικαιώματα εγγραφής
+    /**
+     * Display Upload files element
+     *
+     * @param $problematicPaths
+     */
+    public function displayUploadFilesElement($problematicPaths)
+    {
+        ?>
+            <details>
+                <summary> <?php echo __('upload_files'); ?> </summary>
+
+                <div class="custom-file col-lg-6 col-12 px-1 my-1">
+                    <input type="file" class="custom-file-input" name="jsMediaFiles" id="jsMediaFiles"
+                           accept=".mp4, .m4v, .mp3, .m4a" onchange="UploadFiles.startUpload(<?php echo htmlentities(json_encode($problematicPaths)); ?>);" multiple>
+                    <label class="custom-file-label" for="customFile">Choose files</label>
+                </div>
+
+            </details>
+        <?php
+    }
+
+    /**
+     * Έλεγχος αν οι φάκελοι υπάρχουν κι έχουν δικαιώματα εγγραφής
+     *
+     * @return array
+     */
     public function checkFoldersPermissions()
     {
         // Το array με τα download paths
         global $downloadPaths;
 
-        foreach ($downloadPaths as $path) {
+        $problematicPaths = array();
+
+        foreach ($downloadPaths as $key=>$path) {
             if (is_dir($path)) { // Αν υπάρχει ο φάκελος
                 if (!is_writable($path)) {  // Αν δεν έχει δικαιώματα εγγραγφής
-                    echo '<p class="isFail">ERROR! ' . __('cant_write_to_path') . ' ' . $path . '. ' . __('give_permissions') . '</p>';
+                    $problematicPaths[$key] = 5; // access denied error
+                } else {
+                    $problematicPaths[$key] = 0; // Success
                 }
             } else { // Αν ο φάκελος δεν υπάρχει
-                echo '<p class="isFail">' . __('path_does_not_exist') . ': ' . $path . '</p>';
+                $problematicPaths[$key] = 3; // not found error
+            }
+
+        }
+
+        return $problematicPaths;
+
+    }
+
+    /**
+     * Display if there is a problem with a path
+     *
+     * @param $problematicPaths
+     */
+    public function displayFoldersPermissions($problematicPaths)
+    {
+        // Το array με τα download paths
+        global $downloadPaths;
+
+        foreach ($downloadPaths as $key=>$path) {
+            if($problematicPaths[$key]!==0) { // If has an error
+                switch ($problematicPaths[$key]) {
+                    case 5: echo '<p class="isFail">ERROR! ' . __('cant_write_to_path') . ' ' . $path . '. ' . __('give_permissions') . '</p>'; break;
+                    case 3: echo '<p class="isFail">' . __('path_does_not_exist') . ': ' . $path . '</p>'; break;
+                }
             }
 
         }

@@ -226,7 +226,7 @@ class SyncFiles
     public function createDirectories()
     {
         // Αν δεν υπάρχει ο φάκελος τον δημιουργούμε
-        $checkAlbumCoversDir=FilesIO::createDirectory(ALBUM_COVERS_DIR);
+        $checkAlbumCoversDir = FilesIO::createDirectory(ALBUM_COVERS_DIR);
         if(!$checkAlbumCoversDir['result']) {  // Αν είναι false τερματίζουμε την εκτέλεση
             $myError = $checkAlbumCoversDir['message'];
             trigger_error($myError);
@@ -679,9 +679,9 @@ class SyncFiles
         // Κάνει τα prepare για τα inserts
         $this->prepareInserts();
 
-        $totalFiles=count(self::$files);
+        $totalFiles = count(self::$files);
 
-        $progressCounter=0;
+        $progressCounter = 0;
 
         foreach (self::$files as $this->file) {  // Έλεγχος κάθε αρχείου που βρέθηκε στο path
 
@@ -1196,7 +1196,10 @@ class SyncFiles
 
 
     // TODO βγάζει errors
-    // Δημιουργεί μαζικά μικρότερες εκδόσεις των cover albums
+
+    /**
+     * Δημιουργεί μαζικά μικρότερες εκδόσεις των cover albums
+     */
     public function convertCovers()
     {
         set_time_limit(0);

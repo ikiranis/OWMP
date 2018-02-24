@@ -27,28 +27,35 @@ var UploadFiles =
      * Εκκίνηση του uploading
      *
      */
-    startUpload: function ()
+    startUpload: function (problematicPaths)
     {
         // To imput element που περιέχει τα επιλεγμένα αρχεία
         var files = document.querySelector(this.filesInputElement).files;
 
-        clearResultsContainer();
-        displayResultsIcon();
-        ProgressAnimation.init(true);
-        ProgressAnimation.setProgressPercent(0);
+        console.log(problematicPaths);
 
-        this.finishedUploads = 0;
-        this.filesUploadedCount = files.length;
+        // If there is no error with needed folders
+        if(problematicPaths.coverAlbumsFolder === 0 && problematicPaths.musicDownloadPath === 0 && problematicPaths.musicVideoDownloadPath === 0) {
+            clearResultsContainer();
+            displayResultsIcon();
+            ProgressAnimation.init(true);
+            ProgressAnimation.setProgressPercent(0);
 
-        this.percent_done = [];
-        this.reader = [];
-        this.theFile = [];
+            this.finishedUploads = 0;
+            this.filesUploadedCount = files.length;
 
-        for(var i=0; i<this.filesUploadedCount; i++) {
-            this.reader.push(new FileReader());
-            this.theFile.push(files[i]);
+            this.percent_done = [];
+            this.reader = [];
+            this.theFile = [];
 
-            this.uploadSliceOfFile( 0, i );
+            for (var i = 0; i < this.filesUploadedCount; i++) {
+                this.reader.push(new FileReader());
+                this.theFile.push(files[i]);
+
+                this.uploadSliceOfFile(0, i);
+            }
+        } else {
+            alert('Error with folders');
         }
 
     },
@@ -148,7 +155,10 @@ var UploadFiles =
 
                 this.checkUploadTermination(); // Έλεγχος και τερματισμός της διαδικασίας του uploading
 
-            }.bind(this)
+            }.bind(this),
+            error: function( jqXHR, textStatus, errorThrown ) {
+                console.log( jqXHR, textStatus, errorThrown );
+            }
         });
     },
 

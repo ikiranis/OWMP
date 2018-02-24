@@ -219,6 +219,9 @@ class OWMP
 
         $OWMPElements = new OWMPElements();
 
+        // Check folders
+        $problematicPaths = $OWMPElements->checkFoldersPermissions();
+
 
         ?>
             <details>
@@ -249,15 +252,11 @@ class OWMP
                 ?>
             </details>
 
-            <details>
-                <summary> <?php echo __('upload_files'); ?> </summary>
+        <?php
 
-                <div class="custom-file col-lg-6 col-12 px-1 my-1">
-                    <input type="file" class="custom-file-input" name="jsMediaFiles" id="jsMediaFiles" accept=".mp4, .m4v, .mp3, .m4a" onchange="UploadFiles.startUpload();" multiple>
-                    <label class="custom-file-label" for="customFile">Choose files</label>
-                </div>
+            $OWMPElements->displayUploadFilesElement($problematicPaths);
 
-            </details>
+        ?>
 
             <p>
                 <li> <?php echo __('help_samba_sharing_title'); Page::getHelp('help_samba_sharing'); ?> </li>
@@ -271,7 +270,7 @@ class OWMP
                 // Έλεγχοι εφαρμογών και φακέλων
                 $OWMPElements->checkRequirements();  // Εμφανίζει τους ελέγχους για τα requirements
                 // Έλεγχος δικαιωμάτων φακέλων
-                $OWMPElements->checkFoldersPermissions();
+                $OWMPElements->displayFoldersPermissions($problematicPaths);
             ?>
 
 
