@@ -1,5 +1,14 @@
 ## ChangeLogs
 
+## 2018-2-24: 0.18.0
+
+- Improvements and fixes at creation of smaller album covers
+- Improvement on massive rebuilding of smaller album covers
+- Fixes at synchronization
+- Styling improvements at messages, on activity window
+- Folders checking when you are uploading files
+- Bug fixes
+
 ## 2018-2-4: 0.17.2
 
 - Finish the interface improvements
