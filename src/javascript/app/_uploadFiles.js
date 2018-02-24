@@ -32,8 +32,6 @@ var UploadFiles =
         // To imput element που περιέχει τα επιλεγμένα αρχεία
         var files = document.querySelector(this.filesInputElement).files;
 
-        console.log(problematicPaths);
-
         // If there is no error with needed folders
         if(problematicPaths.coverAlbumsFolder === 0 && problematicPaths.musicDownloadPath === 0 && problematicPaths.musicVideoDownloadPath === 0) {
             clearResultsContainer();
@@ -55,7 +53,20 @@ var UploadFiles =
                 this.uploadSliceOfFile(0, i);
             }
         } else {
-            alert('Error with folders');
+            let errorString = '';
+
+            // TODO dynamic texts
+            if(problematicPaths.coverAlbumsFolder !== 0) {
+                errorString+= 'Problem with Cover Albums Folder. ';
+            }
+            if(problematicPaths.musicDownloadPath !== 0) {
+                errorString+= 'Problem with Music Download Folder. ';
+            }
+            if(problematicPaths.musicVideoDownloadPath !== 0) {
+                errorString+= 'Problem with Music Video Download Folder. ';
+            }
+
+            DisplayMessage('.alert_error', errorString, 'danger');
         }
 
     },
