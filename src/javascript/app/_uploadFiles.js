@@ -33,7 +33,9 @@ var UploadFiles =
         var files = document.querySelector(this.filesInputElement).files;
 
         // If there is no error with needed folders
-        if(problematicPaths.coverAlbumsFolder === 0 && problematicPaths.musicDownloadPath === 0 && problematicPaths.musicVideoDownloadPath === 0) {
+        if(problematicPaths.coverAlbumsFolder === 0 &&
+            problematicPaths.musicDownloadPath === 0 &&
+            problematicPaths.musicVideoDownloadPath === 0) {
             clearResultsContainer();
             displayResultsIcon();
             ProgressAnimation.init(true);
@@ -52,23 +54,31 @@ var UploadFiles =
 
                 this.uploadSliceOfFile(0, i);
             }
-        } else {
-            let errorString = '';
-
-            // TODO dynamic texts
-            if(problematicPaths.coverAlbumsFolder !== 0) {
-                errorString+= 'Problem with Cover Albums Folder. ';
-            }
-            if(problematicPaths.musicDownloadPath !== 0) {
-                errorString+= 'Problem with Music Download Folder. ';
-            }
-            if(problematicPaths.musicVideoDownloadPath !== 0) {
-                errorString+= 'Problem with Music Video Download Folder. ';
-            }
-
-            DisplayMessage('.alert_error', errorString, 'danger');
+        } else { // If there is an error with needed folders
+            this.displayFolderErrors();
         }
 
+    },
+
+    /**
+     * Display Folder Errors
+     */
+    displayFolderErrors: function()
+    {
+        let errorString = '';
+
+        // TODO dynamic texts
+        if(problematicPaths.coverAlbumsFolder !== 0) {
+            errorString+= 'Problem with Cover Albums Folder. ';
+        }
+        if(problematicPaths.musicDownloadPath !== 0) {
+            errorString+= 'Problem with Music Download Folder. ';
+        }
+        if(problematicPaths.musicVideoDownloadPath !== 0) {
+            errorString+= 'Problem with Music Video Download Folder. ';
+        }
+
+        DisplayMessage('.alert_error', errorString, 'danger');
     },
 
     /**
