@@ -16,7 +16,7 @@ services:
       - ./docker/mysql/data:/var/lib/mysql
 
   apache-server:
-    image: apps4net/apache:1.3
+    image: apps4net/apache:1.5
 #    image: apache
     ports:
       - ${APP_PORT}

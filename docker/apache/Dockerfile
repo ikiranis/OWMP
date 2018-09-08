@@ -1,10 +1,10 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER rocean <rocean74@gmail.com>
 
 # Install apache, PHP, and supplimentary programs
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    apache2 php7.0 php7.0-mysql libapache2-mod-php7.0 curl lynx-cur \
-    php-xml php7.0-gd php-curl php7.0-mbstring ffmpeg lame wget python nano git \
+    apache2 php7.2 php7.2-mysql libapache2-mod-php7.2 curl lynx-common lynx \
+    php-xml php7.2-gd php-curl php7.2-mbstring ffmpeg lame wget python nano git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -13,7 +13,7 @@ RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube
     && chmod a+rx /usr/local/bin/youtube-dl
 
 # Enable apache mods.
-RUN a2enmod php7.0
+RUN a2enmod php7.2
 RUN a2enmod rewrite
 
 # Update the PHP.ini file, enable <? ?> tags and quieten logging.
@@ -39,7 +39,7 @@ EXPOSE 80
 # Update the default apache site with the config we created.
 ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
-ADD php.ini /etc/php/7.0/apache2/php.ini
+ADD php.ini /etc/php/7.2/apache2/php.ini
 
 # By default start up apache in the foreground, override with /bin/bash for interative.
 CMD /usr/sbin/apache2ctl -D FOREGROUND

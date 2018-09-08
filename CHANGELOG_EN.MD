@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2018-9-8: 0.18.1
+
+- Update docker
+
 ## 2018-2-24: 0.18.0
 
 - Improvements and fixes at creation of smaller album covers
