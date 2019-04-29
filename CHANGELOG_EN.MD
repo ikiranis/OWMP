@@ -4,6 +4,7 @@
 
 - Add 8, 9 and 0 shortcuts to change playback rate
 - Display tags overlay, when you change playback rate
+- Shortcut to change manual playlist
 
 ## 2019-4-24: 0.18.2
 

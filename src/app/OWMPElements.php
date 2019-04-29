@@ -123,13 +123,13 @@ class OWMPElements extends OWMP
                     <input type=range class="o-trackTime--overlay__range col-lg-10 col-4 my-auto" min="0" max="100"
                            list="overlay_track_ticks" value="0" oninput="controlTrack();">
                     <span id="jsOverlayTotalTrackTime" class="col-lg-1 col-4 my-auto">00:00</span>
+
+                    <div id="chozenManualPlaylist" class="col-lg-2 col-3 text-white mx-auto" ></div>
                 </div>
 
                 <div id="overlay_play_count" class="col-lg-2 col-3 text-right w-100 text-white px-3 my-auto">
 
                 </div>
-
-                <div id="chozenManualPlaylist" class="col-lg-2 col-3 text-white" ></div>
 
             </div>
 

@@ -218,7 +218,6 @@ function changeManualPlaylist()
 
     // Display the selected text
     chozenManualPlaylistText.innerHTML = playlist.options[playlist.selectedIndex].text;
-
     $('#chozenManualPlaylist').stop().show().delay(3000).hide(0);
 }
 
@@ -230,8 +229,6 @@ function changeManualPlaylist()
 function getShortcuts(elem) {
 
     elem.addEventListener('keydown', function(event) {
-        // console.log(event.keyCode);
-
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
                 nextSong();
