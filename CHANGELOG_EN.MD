@@ -1,5 +1,10 @@
 ## ChangeLogs
 
+## 2018-4-29: 0.18.3
+
+- Add 8, 9 and 0 shortcuts to change playback rate
+- Display tags overlay, when you change playback rate
+
 ## 2018-4-24: 0.18.2
 
 - Update docker

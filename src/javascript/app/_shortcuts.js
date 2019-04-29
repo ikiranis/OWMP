@@ -21,10 +21,12 @@ function prevSong() {
 
 function fwSong() {
     myVideo.currentTime+=60;
+    showFullScreenVideoTags();
 }
 
 function rwSong() {
     myVideo.currentTime-=60;
+    showFullScreenVideoTags();
 }
 
 function displayPauseButton() {
@@ -55,7 +57,6 @@ function interfaceToggle() {
     } else {
         showFullScreenVideoTags('on');
     }
-
 }
 
 function giphyToggle() {
@@ -106,10 +107,12 @@ function volumeMute() {
 
 function increasePlaybackRate() {
     myVideo.playbackRate += 1;
+    showFullScreenVideoTags();
 }
 
 function decreasePlaybackRate() {
     myVideo.playbackRate -= 1;
+    showFullScreenVideoTags();
 }
 
 function resetPlaybackRate() {

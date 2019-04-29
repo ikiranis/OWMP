@@ -1,6 +1,6 @@
 ## TODO list
 
-**Convert to bootstrap** **(done)**
+* Convert to bootstrap** **(done)**
 * Fix basic layout **(done)**
 * Make vertical nav bar. Remove menu from left sidebar **(done)**
 * Make all the buttons **(done)**
@@ -11,14 +11,13 @@
 * With responsive design from bootstrap, there will be no need to use different css versions **(done)**
 * Fix login/register screen **(done)**
 * Put jukebox and timer buttons in appropriate tools window **(done)**
+* Change '/' shortcut to something else. Set 8,9,0 for speed and normal **(done)**
 
 **Fix vote.css**
 
 **Search on vote page**
 
 **Auto upgrade with git**
-
-**Change '/' shortcut to something else. Set 8,9,0 for speed and normal**
 
 **Make queue list. The user can add songs to queue, to play next**
 
