@@ -201,9 +201,19 @@ function displayFullscreenControls() {
     }
 }
 
+/**
+ * Changing playlist selected option
+ */
 function changeManualPlaylist()
 {
     // $('#playlist');
+    let playlist = document.querySelector("#playlist");
+
+    playlist.selectedIndex++;
+
+    if (playlist.selectedIndex === -1) {
+        playlist.selectedIndex = 1;
+    }
 }
 
 /**
@@ -214,7 +224,7 @@ function changeManualPlaylist()
 function getShortcuts(elem) {
 
     elem.addEventListener('keydown', function(event) {
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
 
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
