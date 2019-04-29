@@ -129,6 +129,8 @@ class OWMPElements extends OWMP
 
                 </div>
 
+                <div id="chozenManualPlaylist" class="col-lg-2 col-3 text-white" ></div>
+
             </div>
 
             <div id="bottom_overlay" class="row w-100 fixed-bottom py-1 px-3 no-gutters">

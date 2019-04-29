@@ -208,12 +208,18 @@ function changeManualPlaylist()
 {
     // $('#playlist');
     let playlist = document.querySelector("#playlist");
+    let chozenManualPlaylistText = document.querySelector("#chozenManualPlaylist");
 
     playlist.selectedIndex++;
 
     if (playlist.selectedIndex === -1) {
         playlist.selectedIndex = 1;
     }
+
+    // Display the selected text
+    chozenManualPlaylistText.innerHTML = playlist.options[playlist.selectedIndex].text;
+
+    $('#chozenManualPlaylist').stop().show().delay(3000).hide(0);
 }
 
 /**
