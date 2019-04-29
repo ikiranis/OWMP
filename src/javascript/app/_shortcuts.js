@@ -329,7 +329,6 @@ function getShortcuts(elem) {
                 FocusOnForm=false;
             }
 
-
         }
 
         // Έλεγχος του enter στις φόρμες
