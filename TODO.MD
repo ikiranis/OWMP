@@ -10,16 +10,15 @@
 * Choose to mobile version with a button, for smaller images **(done)**
 * With responsive design from bootstrap, there will be no need to use different css versions **(done)**
 * Fix login/register screen **(done)**
+* Put jukebox and timer buttons in appropriate tools window **(done)**
 
 **Fix vote.css**
 
 **Search on vote page**
 
-**Put jukebox and timer buttons in appropriate tools window** **(done)**
-
 **Auto upgrade with git**
 
-**Change '/' shortcut to something else**
+**Change '/' shortcut to something else. Set 8,9,0 for speed and normal**
 
 **Make queue list. The user can add songs to queue, to play next**
 

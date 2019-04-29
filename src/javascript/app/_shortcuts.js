@@ -206,6 +206,8 @@ function displayFullscreenControls() {
 function getShortcuts(elem) {
 
     elem.addEventListener('keydown', function(event) {
+        console.log(event.keyCode);
+
         if (!FocusOnForm && VideoLoaded) {
             if (event.keyCode === 78) {  // N
                 nextSong();
@@ -247,11 +249,11 @@ function getShortcuts(elem) {
                 volumeMute();
             }
 
-            if (event.keyCode === 190) {   // >
+            if ( (event.keyCode === 190) || (event.keyCode === 57) ) {   // >
                 increasePlaybackRate();
             }
 
-            if (event.keyCode === 188) {   // <
+            if ( (event.keyCode === 188) || (event.keyCode === 56) ) {   // <
                 decreasePlaybackRate();
             }
 
@@ -261,7 +263,7 @@ function getShortcuts(elem) {
             // if (event.keyCode === 189) {   // -
             // }
 
-            if (event.keyCode === 191) {   // /
+            if ( (event.keyCode === 191) || (event.keyCode === 48) ) {   // /
                 resetPlaybackRate();
             }
 
