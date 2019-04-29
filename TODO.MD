@@ -24,15 +24,11 @@
 **Interface to auto search and download covers from itunes (and maybe google or other source)**
 * Fix reset for cover images after a massive editing
 
-**Make generic uploading class**
-
 **Improve cover images manipulation**
 
 **Display bitrate value of the current song**
 
 **Reset all select boxes on app reload**
-
-**Help pages in markdown format**
 
 **Sorting at search queries**
 

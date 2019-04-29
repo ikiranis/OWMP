@@ -123,7 +123,7 @@ function changeLive() {
     var liveID = $('#FormTags #live');
     var live = liveID.val(); // Η τρέχουσα τιμή του live
 
-    if (live == 0) {
+    if (live === 0) {
         liveID.val('1');
     } else { // Αν είναι 0 το κάνει 1
         liveID.val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
@@ -199,6 +199,11 @@ function displayFullscreenControls() {
             }, 5000)
         }
     }
+}
+
+function changeManualPlaylist()
+{
+    // $('#playlist');
 }
 
 /**
@@ -300,6 +305,10 @@ function getShortcuts(elem) {
 
             if (event.keyCode === 68) {   // D
                 removeFromPlaylist(currentID);  // Αφαίρεση κομματιού στην playlist
+            }
+
+            if (event.keyCode === 69) {   // E
+                changeManualPlaylist();  // Change manual playlist
             }
 
             if (event.keyCode === 70) {   // F
