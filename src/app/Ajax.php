@@ -964,7 +964,11 @@ class Ajax extends Controller
 
         if(isset($_GET['sort_by']))
             $sort_by = ClearString($_GET['sort_by']);
-        else $sort_by = null;
+        else $sort_by = 'date_added';
+
+        if(isset($_GET['order']))
+            $order = ClearString($_GET['order']);
+        else $order = 'DESC';
 
         if(isset($_GET['currentBrowsePage']))
             $currentBrowsePage = ClearString($_GET['currentBrowsePage']);
@@ -980,6 +984,7 @@ class Ajax extends Controller
         $playlist->votePlaylist = false;
         $playlist->currentBrowsePageNo = $currentBrowsePage;
         $playlist->sort_by = $sort_by;
+        $playlist->order = $order;
 
         if($duplicates==false && $playedQueue==false && $loadPlaylist==false && $votePlaylist==false) {
             $playlist->getPlaylist();

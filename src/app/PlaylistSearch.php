@@ -47,6 +47,7 @@ class PlaylistSearch extends OWMPElements
     public $numberOfPages;  // Sum of pages in playlist
     public $pagesArray = []; // Array of pages to display
     public $sort_by = 'date_added';
+    public $order = 'DESC';
 
     protected $searchFunction;
     protected $previousFunction;
@@ -641,11 +642,11 @@ class PlaylistSearch extends OWMPElements
             if(!$this->loadPlaylist) {  // Αν το $this->loadPlaylist είναι false. Δηλαδή δεν είναι manual playlist
                 // το βασικό search
                 $this->playlist = MyDB::getTableArray('music_tags', null, $this->condition, $this->arrayParams,
-                    $this->sort_by . ' DESC LIMIT ' . $this->offset . ',' . $this->step, 'files', $this->joinFieldsArray);
+                    $this->sort_by . ' ' . $this->order . ' LIMIT ' . $this->offset . ',' . $this->step, 'files', $this->joinFieldsArray);
             }
             else { // αλλιώς κάνει join με τον $this->tempUserPlaylist. Όταν είναι manual playlist δηλαδή
                 $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
-                    null, null, $this->sort_by . ' DESC LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
+                    null, null, $this->sort_by . ' ' . $this->order . ' LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
             }
 
 

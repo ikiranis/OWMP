@@ -574,7 +574,8 @@ function searchPlaylist(offset, step, firstTime, search) {
             mediaKind: mediaKind,
             tabID: tabID,
             currentBrowsePage: currentBrowsePage,
-            sort_by: document.querySelector('#sort_by').value
+            sort_by: document.querySelector('#sort_by').value,
+            order: document.querySelector('#order').value
         },
         success: function (data) {
             if (data) {

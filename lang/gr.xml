@@ -171,6 +171,8 @@
         <phrase name="add_group_row">Προσθήκη γραμμής ομαδοποίησης</phrase>
         <phrase name="remove_group_row">Αφαίρεση γραμμής ομαδοποίησης</phrase>
         <phrase name="sort_by">Ταξινόμηση με</phrase>
+        <phrase name="order_desc">Φθίνουσα</phrase>
+        <phrase name="order_asc">Αύξουσα</phrase>
     </page>
 
     <page name="logs">

@@ -171,6 +171,8 @@
         <phrase name="add_group_row">Add group row</phrase>
         <phrase name="remove_group_row">Remove group row</phrase>
         <phrase name="sort_by">Sort by</phrase>
+        <phrase name="order_desc">Descending</phrase>
+        <phrase name="order_asc">Ascending</phrase>
     </page>
 
     <page name="logs">
