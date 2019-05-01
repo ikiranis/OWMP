@@ -14,6 +14,7 @@
 * Change '/' shortcut to something else. Set 8,9,0 for speed and normal **(done)**
 * Reset all select boxes on app reload **(done)**
 * Keyboard Shortcut key to change current manual playlist on select box **(done)**
+* Sorting at search queries **(done)**
 
 **Fix vote.css**
 
@@ -30,7 +31,6 @@
 
 **Display bitrate value of the current song**
 
-**Sorting at search queries**
 
 **New youtube downloading system with mysql use to store new items in queue**
 * Better validation checks to url's
