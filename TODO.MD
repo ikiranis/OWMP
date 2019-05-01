@@ -12,6 +12,8 @@
 * Fix login/register screen **(done)**
 * Put jukebox and timer buttons in appropriate tools window **(done)**
 * Change '/' shortcut to something else. Set 8,9,0 for speed and normal **(done)**
+* Reset all select boxes on app reload **(done)**
+* Keyboard Shortcut key to change current manual playlist on select box **(done)**
 
 **Fix vote.css**
 
@@ -28,11 +30,7 @@
 
 **Display bitrate value of the current song**
 
-**Reset all select boxes on app reload**
-
 **Sorting at search queries**
-
-**Keyboard Shortcut key to change current manual playlist on select box**
 
 **New youtube downloading system with mysql use to store new items in queue**
 * Better validation checks to url's
