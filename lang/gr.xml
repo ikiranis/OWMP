@@ -170,6 +170,7 @@
         <phrase name="remove_search_row">Αφαίρεση γραμμής αναζήτησης</phrase>
         <phrase name="add_group_row">Προσθήκη γραμμής ομαδοποίησης</phrase>
         <phrase name="remove_group_row">Αφαίρεση γραμμής ομαδοποίησης</phrase>
+        <phrase name="sort_by">Ταξινόμηση με</phrase>
     </page>
 
     <page name="logs">

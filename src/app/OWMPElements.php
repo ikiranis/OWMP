@@ -1966,7 +1966,7 @@ class OWMPElements extends OWMP
                         </div>
 
                         <div class="form-group row col-lg-6 col-12 w-100 mx-auto mb-2">
-                            <label for="sort_by" class="input-group-text form-control col-6">Sort by</label>
+                            <label for="sort_by" class="input-group-text form-control col-6"><?php echo __('sort_by'); ?></label>
                             <select class="form-control form-control col-6" name="sort_by" id="sort_by">
                                 <?php
                                     $this->displayFieldsOptions($fields);

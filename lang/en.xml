@@ -170,6 +170,7 @@
         <phrase name="remove_search_row">Remove search row</phrase>
         <phrase name="add_group_row">Add group row</phrase>
         <phrase name="remove_group_row">Remove group row</phrase>
+        <phrase name="sort_by">Sort by</phrase>
     </page>
 
     <page name="logs">
