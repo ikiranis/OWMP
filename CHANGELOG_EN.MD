@@ -4,6 +4,7 @@
 
 - Reset all selected boxes to default values
 - Setting for step on forward/backward
+- Added sorting field in search window
 
 ## 2019-4-29: 0.18.3
 
