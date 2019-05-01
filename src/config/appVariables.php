@@ -51,6 +51,7 @@ define ('PLAY_PERCENTAGE',$optionsArray['play_percentage']);
 define ('PLAYLIST_LIMIT',intval($optionsArray['playlist_limit']));   // Τα κομμάτια που θα εμφανίζονται ανα σελίδα
 define ('DATE_FORMAT',$optionsArray['date_format']);  // To format των ημερομηνιών που εμφανίζονται στο site
 define ('MAX_VIDEO_HEIGHT',$optionsArray['max_video_height']);  // To μέγιστο ύψος του youtube video που θα κατεβάσει
+define ('FW_STEP',$optionsArray['fw_step']);  // Το βήμα που κάνει (σε δευτερόλεπτα) όταν πηγαίνεις αριστερά/δεξιά στο τραγούδι
 // το path που μετατρέπει τα ALAC
 //define ('INTERNAL_CONVERT_PATH', $_SERVER["DOCUMENT_ROOT"] . PROJECT_PATH . 'ConvertedMusic/');
 define ('CUR_PLAYLIST_STRING', 'crPl_'); // Το string που προσθέτει στο όνομα temp playlist

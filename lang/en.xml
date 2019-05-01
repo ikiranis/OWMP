@@ -326,6 +326,8 @@
 
             <p>The <strong>low_audio_bitrate</strong> has the bitrate to convert songs, if you choose it</p>
 
+            <p>The <strong>fw_step</strong> has the step for backward/forward (in seconds) playback</p>
+
             <p><strong>CAUTION:</strong> When you change any of these values, you must refresh the application to get the new value</p>
         ]]></phrase>
         <phrase name="help_sync"><![CDATA[

@@ -184,7 +184,8 @@ $defaultOptions = array(
     array('option_name' => 'youtube_api', 'option_value' => 'AIzaSyArMqCdw1Ih1592YL96a2Vdo5sGo6vsS4A', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'play_percentage', 'option_value' => '20', 'setting' => 1, 'encrypt' => 0),
     array('option_name' => 'max_video_height', 'option_value' => '1080', 'setting' => 1, 'encrypt' => 0),
-    array('option_name' => 'low_audio_bitrate', 'option_value' => '64', 'setting' => 1, 'encrypt' => 0)
+    array('option_name' => 'low_audio_bitrate', 'option_value' => '64', 'setting' => 1, 'encrypt' => 0),
+    array('option_name' => 'fw_step', 'option_value' => '60', 'setting' => 1, 'encrypt' => 0)
 );
 
 $defaultProgress = array(

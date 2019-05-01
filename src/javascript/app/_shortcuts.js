@@ -20,12 +20,12 @@ function prevSong() {
 }
 
 function fwSong() {
-    myVideo.currentTime+=60;
+    myVideo.currentTime += fwStep;
     showFullScreenVideoTags();
 }
 
 function rwSong() {
-    myVideo.currentTime-=60;
+    myVideo.currentTime -= fwStep;
     showFullScreenVideoTags();
 }
 

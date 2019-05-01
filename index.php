@@ -122,6 +122,7 @@ define('TAB_ID', date('YmdHis'));
         var AppVersion="<?php echo APP_VERSION; ?>";
         var changeLogUrl="<?php echo CHANGE_LOG_URL; ?>";
         var TimePercentTrigger=parseInt(<?php echo PLAY_PERCENTAGE; ?>);
+        var fwStep=parseInt("<?php echo FW_STEP; ?>");
 
         // Τα κείμενα του site παιρνούνται στην javascript
         var phrases=<?php echo $phrasesForJavascript; ?>;
