@@ -270,11 +270,11 @@ function getShortcuts(elem) {
                 volumeMute();
             }
 
-            if ( (event.keyCode === 190) || (event.keyCode === 57) ) {   // >
+            if ( (event.keyCode === 190) || (event.keyCode === 56) ) {   // >
                 increasePlaybackRate();
             }
 
-            if ( (event.keyCode === 188) || (event.keyCode === 56) ) {   // <
+            if ( (event.keyCode === 188) || (event.keyCode === 55) ) {   // <
                 decreasePlaybackRate();
             }
 
@@ -284,7 +284,7 @@ function getShortcuts(elem) {
             // if (event.keyCode === 189) {   // -
             // }
 
-            if ( (event.keyCode === 191) || (event.keyCode === 48) ) {   // /
+            if ( (event.keyCode === 191) || (event.keyCode === 57) ) {   // /
                 resetPlaybackRate();
             }
 
