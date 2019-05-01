@@ -1499,7 +1499,7 @@ class OWMPElements extends OWMP
         <div id="ChooseMediaKind" class="form-group col-10">
 
             <label for="mediakind" class="sr-only">Media Kind</label>
-            <select class="form-control form-control-sm id=" mediakind" name="mediakind"
+            <select class="form-control form-control-sm" id="mediakind" name="mediakind"
             onchange="searchPlaylist(0,<?php echo PLAYLIST_LIMIT; ?>, true, false);">
             <option value="">
                 All

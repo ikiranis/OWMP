@@ -553,6 +553,8 @@ $(function(){
     // Ελέγχει την τρέχουσα έκδοση
     checkCurrentVersion();
 
+    resetSelectBoxes();
+
     // Έλεγχος για garbage collection
     setInterval(garbageCollection, 600000);
 

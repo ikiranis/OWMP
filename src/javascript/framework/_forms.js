@@ -162,3 +162,12 @@ function resetFormMassiveTags() {
     document.querySelector('#myImage').innerHTML='';
     document.querySelector('#uploadFile').value='';
 }
+
+/**
+ * Reset all selected boxes to default values
+ */
+function resetSelectBoxes()
+{
+    document.querySelector("#playlist").selectedIndex = 0;
+    document.querySelector("#mediakind").selectedIndex = 0;
+}
