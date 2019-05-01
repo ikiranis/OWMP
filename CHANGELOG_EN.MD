@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2019-5-1: 0.18.5
+
+- Reset all selected boxes to default values
+
 ## 2019-4-29: 0.18.3
 
 - Add 8, 9 and 0 shortcuts to change playback rate
