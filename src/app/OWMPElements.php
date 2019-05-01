@@ -1777,6 +1777,71 @@ class OWMPElements extends OWMP
         <?php
     }
 
+    /**
+     * Display the fields options for select
+     *
+     * @param $fields
+     */
+    private function displayFieldsOptions($fields)
+    {
+        foreach ($fields as $field) {
+            ?>
+            <option value="<?php echo $field; ?>">
+                <?php
+                switch ($field) {
+                    case 'song_name':
+                        echo __('tag_title');
+                        break;
+                    case 'artist':
+                        echo __('tag_artist');
+                        break;
+                    case 'genre':
+                        echo __('tag_genre');
+                        break;
+                    case 'date_added':
+                        echo __('tag_date_added');
+                        break;
+                    case 'play_count':
+                        echo __('tag_play_count');
+                        break;
+                    case 'date_last_played':
+                        echo __('tag_date_played');
+                        break;
+                    case 'rating':
+                        echo __('tag_rating');
+                        break;
+                    case 'album':
+                        echo __('tag_album');
+                        break;
+                    case 'video_height':
+                        echo __('tag_video_height');
+                        break;
+                    case 'filesize':
+                        echo __('tag_filesize');
+                        break;
+                    case 'video_width':
+                        echo __('tag_video_width');
+                        break;
+                    case 'track_time':
+                        echo __('tag_track_time');
+                        break;
+                    case 'song_year':
+                        echo __('tag_year');
+                        break;
+                    case 'live':
+                        echo __('tag_live');
+                        break;
+                    case 'album_artwork_id':
+                        echo __('tag_album_artwork_id');
+                        break;
+                }
+                ?>
+            </option>
+
+            <?php
+        }
+    }
+
     // Εμφάνιση του παραθύρου για αναζήτηση
     public function displaySearchWindow()
     {
@@ -1824,62 +1889,7 @@ class OWMPElements extends OWMP
                                                         name="search_field<?php echo $counter; ?>"
                                                         id="search_field<?php echo $counter; ?>">
                                                     <?php
-                                                    foreach ($fields as $field) {
-                                                        ?>
-                                                        <option value="<?php echo $field; ?>">
-                                                            <?php
-                                                            switch ($field) {
-                                                                case 'song_name':
-                                                                    echo __('tag_title');
-                                                                    break;
-                                                                case 'artist':
-                                                                    echo __('tag_artist');
-                                                                    break;
-                                                                case 'genre':
-                                                                    echo __('tag_genre');
-                                                                    break;
-                                                                case 'date_added':
-                                                                    echo __('tag_date_added');
-                                                                    break;
-                                                                case 'play_count':
-                                                                    echo __('tag_play_count');
-                                                                    break;
-                                                                case 'date_last_played':
-                                                                    echo __('tag_date_played');
-                                                                    break;
-                                                                case 'rating':
-                                                                    echo __('tag_rating');
-                                                                    break;
-                                                                case 'album':
-                                                                    echo __('tag_album');
-                                                                    break;
-                                                                case 'video_height':
-                                                                    echo __('tag_video_height');
-                                                                    break;
-                                                                case 'filesize':
-                                                                    echo __('tag_filesize');
-                                                                    break;
-                                                                case 'video_width':
-                                                                    echo __('tag_video_width');
-                                                                    break;
-                                                                case 'track_time':
-                                                                    echo __('tag_track_time');
-                                                                    break;
-                                                                case 'song_year':
-                                                                    echo __('tag_year');
-                                                                    break;
-                                                                case 'live':
-                                                                    echo __('tag_live');
-                                                                    break;
-                                                                case 'album_artwork_id':
-                                                                    echo __('tag_album_artwork_id');
-                                                                    break;
-                                                            }
-                                                            ?>
-                                                        </option>
-
-                                                        <?php
-                                                    }
+                                                        $this->displayFieldsOptions($fields);
                                                     ?>
                                                 </select>
                                             </div>
@@ -1953,6 +1963,15 @@ class OWMPElements extends OWMP
                                 }
                                 ?>
                             </form>
+                        </div>
+
+                        <div class="form-group row col-lg-6 col-12 w-100 mx-auto mb-2">
+                            <label for="sort_by" class="input-group-text form-control col-6">Sort by</label>
+                            <select class="form-control form-control col-6" name="sort_by" id="sort_by">
+                                <?php
+                                    $this->displayFieldsOptions($fields);
+                                ?>
+                            </select>
                         </div>
 
                         <div id="searchButtons" class="modal-footer row w-100 no-gutters">
