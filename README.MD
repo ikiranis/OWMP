@@ -1,4 +1,4 @@
-#Parrot Tunes (Open Web Media Library and Player)
+Parrot Tunes (Open Web Media Library and Player)
 
 **Application Details**
 
