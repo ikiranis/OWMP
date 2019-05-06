@@ -123,7 +123,7 @@ function changeLive() {
     var liveID = $('#FormTags #live');
     var live = liveID.val(); // Η τρέχουσα τιμή του live
 
-    if (live === 0) {
+    if (live === '0') {
         liveID.val('1');
     } else { // Αν είναι 0 το κάνει 1
         liveID.val('0'); // Αλλιώς (αν είναι 1) το κάνει 0
