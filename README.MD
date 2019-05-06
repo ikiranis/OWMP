@@ -1,21 +1,38 @@
 ## Parrot Tunes (Open Web Media Library and Player) ##
 
-**Application Details**
+# Application Details
 
 http://apps4net.eu/?page_id=9
 
-**Screenshots**
+# Screenshots
 
 http://apps4net.eu/?page_id=81
 
-**Installation guide**
+#Installation guide
 
-http://apps4net.eu/?page_id=46
+- You must have docker installed
+- Clone the code
 
-**Change Log**
+``
+git clone https://github.com/ikiranis/OWMP.git
+``
 
-http://apps4net.eu/?page_id=41
+- Copy **.env.sample** file to **.env**
+- Edit **.env** file Change it with your settings
+- Start docker containers
 
-**Support the app**
+``
+docker-compose up -d
+``
+
+- Now, you must have 2 containers running. _mysql-server and _apache-server. Check it with
+
+``
+docker ps
+``
+
+- At your browser go to **http://localhost:<your_port>** or **http://<your_ip>:<your_port>**
+
+# Support the app
 
 http://apps4net.eu/?page_id=58
