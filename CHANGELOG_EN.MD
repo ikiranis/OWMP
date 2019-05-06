@@ -1,6 +1,10 @@
 ## ChangeLogs
 
-## 2019-5-1: 0.18.5
+## 2019-5-6: 0.18.5
+
+- Fix toggle live/official shortcut #6
+
+## 2019-5-1: 0.18.4
 
 - Reset all selected boxes to default values
 - Setting for step on forward/backward
