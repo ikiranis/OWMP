@@ -1,5 +1,10 @@
 ## ChangeLogs
 
+## 2019-5-7: 0.18.6
+
+- Make "date added" the default sorting field and save the last choice #13
+- Display music genre at fullscreen page #15
+
 ## 2019-5-6: 0.18.5
 
 - Fix toggle live/official shortcut #6
