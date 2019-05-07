@@ -770,6 +770,9 @@ function clearSearch()
     // Σβήνει όλα τα searchRow εκτός του searchRow0
     $('div[id^="searchRow"]').not('#searchRow0').remove();
 
+    // Reset sort_by to default value
+    document.querySelector("#sort_by").selectedIndex = sortByDefaultValue;
+
     // Προσθέτει ένα
     addSearchRow();
 }

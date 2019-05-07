@@ -75,3 +75,5 @@ if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  //
 (localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'false' : null;
 
 var currentBrowsePage = 0;
+
+const sortByDefaultValue = 3;
