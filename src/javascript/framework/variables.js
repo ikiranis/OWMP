@@ -76,4 +76,4 @@ if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  //
 
 var currentBrowsePage = 0;
 
-const sortByDefaultValue = 3;
+var sortByDefaultValue = 3;

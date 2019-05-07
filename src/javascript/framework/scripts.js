@@ -126,6 +126,9 @@ function DisplayWindow(page, offset, step) {
 
             // αντιγράφουμε τον html κώδικα που βρίσκεται μέσα στο #search, στην μεταβλητή SearchHTML
             SearchHTML = searchElem.html();
+
+            sortByDefaultValue = document.querySelector("#sort_by").selectedIndex;
+            console.log(sortByDefaultValue);
         }
 
         // Αν το #ChooseMediaKind δεν είναι κενό, άρα είμασταν πριν στην 1
@@ -154,6 +157,7 @@ function DisplayWindow(page, offset, step) {
                 $('#search').html(SearchHTML);
                 writeSearchFields(getNumberOfSearchRows());
                 document.querySelector('#ChooseMediaKind select[name=mediakind]').value = MediaKindChosen;
+                document.querySelector("#sort_by").selectedIndex = sortByDefaultValue;
                 $('#playlist_content').html(PlaylistContainerHTML);
                 checkSearchFieldChanges();  // επανεκίννηση του έλεγχου αλλαγών στα search fields
                 checkFormsFocus();
