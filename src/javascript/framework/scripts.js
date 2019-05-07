@@ -128,7 +128,6 @@ function DisplayWindow(page, offset, step) {
             SearchHTML = searchElem.html();
 
             sortByDefaultValue = document.querySelector("#sort_by").selectedIndex;
-            console.log(sortByDefaultValue);
         }
 
         // Αν το #ChooseMediaKind δεν είναι κενό, άρα είμασταν πριν στην 1

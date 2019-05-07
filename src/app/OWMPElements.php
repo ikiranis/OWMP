@@ -145,6 +145,7 @@ class OWMPElements extends OWMP
                 <div class="col-lg-6 col-4 text-right text-white row no-gutters small">
                     <span id="overlay_poster_source" class="col-12"></span>
                     <span id="overlay_live" class="col-12"></span>
+                    <span id="overlay_genre" class="col-12"></span>
                     <span id="overlay_time" class="col-12"></span>
                 </div>
 

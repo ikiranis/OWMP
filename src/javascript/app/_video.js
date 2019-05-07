@@ -349,6 +349,7 @@ function loadNextVideo(id)
                 $('#jsOverlayTotalTrackTime').html(timeInMinutesAndSeconds); // σε full screen
                 $('#jsTotalTrackTime').html(timeInMinutesAndSeconds); //  εκτός  full screen
                 $('#overlay_live').html(liveOptions[data.tags.live]);
+                $('#overlay_genre').html(data.tags.genre);
                 showFullScreenVideoTags();
 
                 makePlaylistItemActive(currentID);  // Κάνει active την συγκεκριμένη γραμμή στην playlist

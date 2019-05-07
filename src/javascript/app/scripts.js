@@ -406,6 +406,7 @@ function update_tags(key_rating) {
                     $('#overlay_song_year').html(song_year);
                     $('#overlay_album').html(album);
                     $('#overlay_live').html(liveOptions[live]);
+                    $('#overlay_genre').html(genre);
 
                     ratingToStars(rating, '#overlay_rating');
 
