@@ -553,6 +553,7 @@ $(function(){
     // Ελέγχει την τρέχουσα έκδοση
     checkCurrentVersion();
 
+    // Reset some select boxes
     resetSelectBoxes();
 
     // Έλεγχος για garbage collection

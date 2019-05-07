@@ -170,4 +170,5 @@ function resetSelectBoxes()
 {
     document.querySelector("#playlist").selectedIndex = 0;
     document.querySelector("#mediakind").selectedIndex = 0;
+    document.querySelector("#sort_by").selectedIndex = 3;
 }
