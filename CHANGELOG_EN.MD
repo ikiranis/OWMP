@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2019-5-14: 0.18.7
+
+- Update Docker image
+
 ## 2019-5-7: 0.18.6
 
 - Make "date added" the default sorting field and save the last choice #13
