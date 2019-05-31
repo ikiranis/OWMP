@@ -18,7 +18,7 @@ use apps4net\framework\Utilities;
 
 // ********* DEFINES
 
-define ('APP_VERSION', '0.18.7');
+define ('APP_VERSION', '0.18.8');
 define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
