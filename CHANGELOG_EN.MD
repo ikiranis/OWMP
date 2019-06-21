@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2019-6-21: 0.18.10
+
+- Update Docker image
+
 ## 2019-6-21: 0.18.9
 
 - Update Docker image
