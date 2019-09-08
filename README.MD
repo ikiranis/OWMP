@@ -33,11 +33,11 @@ docker ps
 
 ## Update
 
-``
+````
 docker-compose down
 git pull
 docker-compose build & docker-compose up -d
-``
+```
 
 - At your browser go to **http://localhost:<your_port>** or **http://<your_ip>:<your_port>**
 
