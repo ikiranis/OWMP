@@ -33,6 +33,8 @@ docker ps
 
 ## Update
 
+Warning: First, take a backup of the database!
+
 ```
 docker-compose down
 git pull
