@@ -15,7 +15,6 @@ services:
   apache-server:
     build:
       context: ./docker/apache
-    #container_name: parrot_apache
     ports:
       - ${APP_PORT}
 #      - "443:443"
