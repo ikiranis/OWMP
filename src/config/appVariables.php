@@ -18,7 +18,7 @@ use apps4net\framework\Utilities;
 
 // ********* DEFINES
 
-define ('APP_VERSION', '0.18.10');
+define ('APP_VERSION', '0.18.11');
 define ('APP_NAME','Parrot Tunes : Open Web Media Library & Player');     // ονομασία της εφαρμογής
 
 $mediaKinds = array ('Music Video', 'Music');    // Τα media kind που υποστηρίζονται
@@ -61,7 +61,7 @@ define ('BACKUP_FILE_PREFIX', 'backup_');
 define ('JUKEBOX_LIST_NAME', 'jukebox');  // Το όνομα του jukebox table
 define ('TEMP_RESTORE_DATABASE_FILE', 'temp_restore_database.sql');
 // Από εδώ τραβάει την τρέχουσα έκδοση της εφαρμογής
-define ('APP_VERSION_FILE', 'http://www.apps4net.eu/dev/ParrotTunesVersion.php');
+define ('APP_VERSION_FILE', 'https://www.apps4net.eu/dev/ParrotTunesVersion.php');
 
 // *********  Τραβάει τιμές από την βάση για τα options
 

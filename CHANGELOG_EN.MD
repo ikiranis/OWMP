@@ -1,5 +1,10 @@
 ## ChangeLogs
 
+## 2019-9-8: 0.18.11
+
+- Update Docker image
+- Bug fixes at installation
+
 ## 2019-6-21: 0.18.10
 
 - Update Docker image

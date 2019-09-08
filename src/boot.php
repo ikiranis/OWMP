@@ -5,7 +5,7 @@
  * http://www.apps4net.eu
  * Date: 04/05/16
  * Time: 22:36
- * 
+ *
  * Το βασικό αρχείο με όλα τα settings και εκιννήσεις της εφαρμογής
  *
  */
@@ -36,7 +36,7 @@ if(Utilities::isInDockerContainer()) {
     define('CONNSTR', 'mysql:host=mysql-server;dbname=' . getenv('MYSQL_DATABASE'));
     define('DBUSER', 'root');
     define('DBPASS', getenv('MYSQL_ROOT_PASSWORD'));
-} else { // Αλλιώς από το confing.inc.php
+} else { // Αλλιώς από το config.inc.php
     require_once('config/config.inc.php');  // Τα στοιχεία εισόδου στην βάση
 }
 

@@ -1,14 +1,11 @@
 version: '2'
 
 services:
-
   mysql-server:
-    image: mysql
+    image: mysql:5.7
     environment:
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-#      MYSQL_USER: owmp
-#      MYSQL_PASSWORD: secret
     ports:
      - ${MYSQL_PORT}
     restart: always
@@ -16,8 +13,9 @@ services:
       - ./docker/mysql/data:/var/lib/mysql
 
   apache-server:
-    image: apps4net/apache:2.2
-#    image: apache
+    build:
+      context: ./docker/apache
+    container_name: parrot_apache
     ports:
       - ${APP_PORT}
 #      - "443:443"

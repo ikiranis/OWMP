@@ -20,8 +20,8 @@ define ('LANG_PATH_HTTP', $_SERVER["HTTP_HOST"] . PROJECT_PATH . 'lang/');      
 
 define ('AJAX_PATH', 'AJAX/');
 
-define ('WEB_PAGE_URL', 'http://apps4net.eu');
-define ('CHANGE_LOG_URL', 'http://apps4net.eu/?page_id=41');
+define ('WEB_PAGE_URL', 'https://apps4net.eu');
+define ('CHANGE_LOG_URL', 'https://apps4net.eu/?page_id=41');
 
 if (isset($_SERVER['HTTPS'])) {
     define ('HTTP_TEXT', 'https://');
