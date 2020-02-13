@@ -213,10 +213,13 @@ function checkCurrentVersion() {
         url: ParrotVersionFile,
         type: 'GET',
         success: function (data) {
-            console.log(toString(data))
+            let remoteVersion = data
+
+            console.log(remoteVersion)
+
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
-            if( AppVersion !== toString(data) )
-                $("#checkCurrentVersion").html(phrases['need_update']+': ' + data + '&nbsp;<a href=' + changeLogUrl + '>(' + phrases['change_log'] + ')</a>');
+            if( AppVersion !== remoteVersion )
+                $("#checkCurrentVersion").html(phrases['need_update']+': ' + remoteVersion + '&nbsp;<a href=' + changeLogUrl + '>(' + phrases['change_log'] + ')</a>');
         },
         error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
