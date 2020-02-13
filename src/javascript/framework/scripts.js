@@ -209,6 +209,7 @@ function getHelp(helpText) {
  * Κάνει έλεγχο της τρέχουσας έκδοσης της εφαρμογής
  */
 function checkCurrentVersion() {
+    console.log(ParrotVersionFile)
     $.ajax({
         url: ParrotVersionFile,
         type: 'GET',
