@@ -213,7 +213,7 @@ function checkCurrentVersion() {
         url: ParrotVersionFile,
         type: 'GET',
         success: function (data) {
-            console.log(data)
+            console.log(toString(data))
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
             if( AppVersion !== toString(data) )
                 $("#checkCurrentVersion").html(phrases['need_update']+': ' + data + '&nbsp;<a href=' + changeLogUrl + '>(' + phrases['change_log'] + ')</a>');
