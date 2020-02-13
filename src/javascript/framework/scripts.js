@@ -215,8 +215,6 @@ function checkCurrentVersion() {
         success: function (data) {
             let remoteVersion = data.replace(/\s+/g, '');
 
-            console.log('|' + AppVersion + '|' + ' ' + '|' + remoteVersion + '|')
-
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
             if( AppVersion !== remoteVersion )
                 $("#checkCurrentVersion").html(phrases['need_update']+': ' + remoteVersion + '&nbsp;<a href=' + changeLogUrl + '>(' + phrases['change_log'] + ')</a>');
