@@ -213,7 +213,7 @@ function checkCurrentVersion() {
         url: ParrotVersionFile,
         type: 'GET',
         success: function (data) {
-            let remoteVersion = data
+            let remoteVersion = data.replace(/\s+/g, '');
 
             console.log('|' + AppVersion + '|' + ' ' + '|' + remoteVersion + '|')
 
