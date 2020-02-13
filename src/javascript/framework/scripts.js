@@ -215,8 +215,8 @@ function checkCurrentVersion() {
         success: function (data) {
             console.log(data)
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
-            if(AppVersion !== data.app_version)
-                $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version+'&nbsp;<a href='+changeLogUrl+'>('+phrases['change_log']+')</a>');
+            if(AppVersion !== data)
+                $("#checkCurrentVersion").html(phrases['need_update']+': ' + data + '&nbsp;<a href=' + changeLogUrl + '>(' + phrases['change_log'] + ')</a>');
         },
         error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
