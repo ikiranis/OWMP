@@ -61,7 +61,7 @@ define ('BACKUP_FILE_PREFIX', 'backup_');
 define ('JUKEBOX_LIST_NAME', 'jukebox');  // Το όνομα του jukebox table
 define ('TEMP_RESTORE_DATABASE_FILE', 'temp_restore_database.sql');
 // Από εδώ τραβάει την τρέχουσα έκδοση της εφαρμογής
-define ('APP_VERSION_FILE', 'https://www.apps4net.eu/dev/ParrotTunesVersion.php');
+define ('APP_VERSION_FILE', 'https://www.apps4net.eu/dev/ParrotTunesVersion.js');
 
 // *********  Τραβάει τιμές από την βάση για τα options
 
