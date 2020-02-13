@@ -215,7 +215,7 @@ function checkCurrentVersion() {
         success: function (data) {
             let remoteVersion = data
 
-            console.log(remoteVersion)
+            console.log('|' + AppVersion + '|' + ' ' + '|' + remoteVersion + '|')
 
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
             if( AppVersion !== remoteVersion )
