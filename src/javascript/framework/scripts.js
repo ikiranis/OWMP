@@ -213,7 +213,7 @@ function checkCurrentVersion() {
     $.ajax({
         url: ParrotVersionFile,
         type: 'GET',
-        dataType: "json",
+        dataType: "text",
         success: function (data) {
             console.log(data)
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
