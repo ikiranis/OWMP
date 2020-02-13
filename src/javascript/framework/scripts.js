@@ -220,9 +220,9 @@ function checkCurrentVersion() {
             if(AppVersion !== data.app_version)
                 $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version+'&nbsp;<a href='+changeLogUrl+'>('+phrases['change_log']+')</a>');
         },
-        fail: function (error) {
-            console.log(error)
-
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(thrownError);
         }
     });
 }
