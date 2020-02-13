@@ -213,9 +213,9 @@ function checkCurrentVersion() {
     $.ajax({
         url: ParrotVersionFile,
         type: 'GET',
-        dataType: "text",
+        dataType: "json",
         success: function (data) {
-            console.log(data)
+            console.log(data.app_version)
             // αν η έκδοση της εγκατεστημένης εφαρμογής δεν ταιριάζει με την τρέχουσα, βγάζει μήνυμα
             if(AppVersion !== data.app_version)
                 $("#checkCurrentVersion").html(phrases['need_update']+': '+data.app_version+'&nbsp;<a href='+changeLogUrl+'>('+phrases['change_log']+')</a>');
