@@ -417,45 +417,58 @@ class Ajax extends Controller
 
         if($operation=='next') { // όταν θέλουμε να παίξει το επόμενο
 
-            if(!MyDB::countTable('votes') || $cantPlayVotes) {  // Αν δεν υπάρχουν ψήφοι στο votes
-                if ($playMode == 'shuffle') {
-                    $tableCount = MyDB::countTable($tempUserPlaylist);
-                    $randomRow = rand(0, $tableCount);
-                    $return = OWMPElements::getRandomPlaylistID($tempUserPlaylist, $randomRow);
-                    $playlistID = $return['playlist_id'];
-                    $fileID = $return['file_id'];
-                    $songKind = MyDB::getTableFieldValue('files', 'id=?', $fileID, 'kind');
-                } else {
-                    $playlistID = $currentPlaylistID;
-                    $fileID = MyDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
-                }
-            } else {  // αλλιώς παίρνει το επόμενο τραγούδι από την καταμέτρηση των ψήφων
-
+        	// Αν υπάρχεουν τραγούδια στην ουρά
+        	if(MyDB::countTable('queue')) {
                 // Ο δισδιάστατος πίνακας με τις ψήφους. Στην 1η στήλη είναι το fileID, στην 2η ο αριθμός των ψήφων
-                $votesArray = OWMPElements::getVotes();
-
-                // Παίρνει τα fileID που έχουν τις περισσότερες ψήφους
-                $fileIDsWithMaxVotes=Utilities::getArrayMax($votesArray);
-
-                $VotesCounter=count($fileIDsWithMaxVotes);
-
-                // Αν υπάρχει ισοψηφία τότε παίρνει κάποιο random
-                if($VotesCounter>1) {
-                    $RandomVote=rand(0,$VotesCounter-1);
-                    $getFileID=$fileIDsWithMaxVotes[$RandomVote];
-                } else {  // Αλλιώς το μοναδικό που έχει τις περισσότερες ψήφους
-                    $getFileID=$fileIDsWithMaxVotes[0];
-                }
+                $getFileID = OWMPElements::getQueueSong();
 
                 // Επιστρέφει τις τιμές για να παίξουν στον player
                 $playlistID = $currentPlaylistID;
                 $fileID = $getFileID;
 
-                // Σβήνει όλες τις ψήφους για να αρχίσει η ψηφοφορία από την αρχή
-                MyDB::deleteTable('votes');
+                // Σβήνει την εγγραφή από την ουρά
+                $conn->deleteRowFromTable('queue', 'file_id', $fileID);
+			} else {
+                if (!MyDB::countTable('votes') || $cantPlayVotes) {  // Αν δεν υπάρχουν ψήφοι στο votes
+                    if ($playMode == 'shuffle') {
+                        $tableCount = MyDB::countTable($tempUserPlaylist);
+                        $randomRow = rand(0, $tableCount);
+                        $return = OWMPElements::getRandomPlaylistID($tempUserPlaylist, $randomRow);
+                        $playlistID = $return['playlist_id'];
+                        $fileID = $return['file_id'];
+                        $songKind = MyDB::getTableFieldValue('files', 'id=?', $fileID, 'kind');
+                    } else {
+                        $playlistID = $currentPlaylistID;
+                        $fileID = MyDB::getTableFieldValue($tempUserPlaylist, 'id=?', $currentPlaylistID, 'file_id');
+                    }
+                } else {  // αλλιώς παίρνει το επόμενο τραγούδι από την καταμέτρηση των ψήφων
 
-                // Σβήνει την εγγραφή από την jukebox playlist
-                $conn->deleteRowFromTable(JUKEBOX_LIST_NAME, 'file_id', $fileID);
+                    // Ο δισδιάστατος πίνακας με τις ψήφους. Στην 1η στήλη είναι το fileID, στην 2η ο αριθμός των ψήφων
+                    $votesArray = OWMPElements::getVotes();
+
+                    // Παίρνει τα fileID που έχουν τις περισσότερες ψήφους
+                    $fileIDsWithMaxVotes = Utilities::getArrayMax($votesArray);
+
+                    $VotesCounter = count($fileIDsWithMaxVotes);
+
+                    // Αν υπάρχει ισοψηφία τότε παίρνει κάποιο random
+                    if ($VotesCounter > 1) {
+                        $RandomVote = rand(0, $VotesCounter - 1);
+                        $getFileID = $fileIDsWithMaxVotes[$RandomVote];
+                    } else {  // Αλλιώς το μοναδικό που έχει τις περισσότερες ψήφους
+                        $getFileID = $fileIDsWithMaxVotes[0];
+                    }
+
+                    // Επιστρέφει τις τιμές για να παίξουν στον player
+                    $playlistID = $currentPlaylistID;
+                    $fileID = $getFileID;
+
+                    // Σβήνει όλες τις ψήφους για να αρχίσει η ψηφοφορία από την αρχή
+                    MyDB::deleteTable('votes');
+
+                    // Σβήνει την εγγραφή από την jukebox playlist
+                    $conn->deleteRowFromTable(JUKEBOX_LIST_NAME, 'file_id', $fileID);
+                }
             }
 
         }

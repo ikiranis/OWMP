@@ -1349,6 +1349,27 @@ class OWMPElements extends OWMP
     }
 
     /**
+     * Επιστρέφει το επόμενο τραγούδι που είναι στην ουρά
+     */
+    static function getQueueSong()
+    {
+        MyDB::createConnection();
+
+        $sql = 'SELECT file_id FROM queue LIMIT 1';
+
+        $stmt = MyDB::$conn->prepare($sql);
+
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        $stmt->closeCursor();
+        $stmt = null;
+
+        return $result['file_id'];
+    }
+
+    /**
      * Επιστρέφει σε πίνακα (song_name, artist) τα στοιχεία του τρέχοντος τραγουδιού
      *
      * @param $id {int} Το id του αρχείου
