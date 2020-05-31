@@ -260,7 +260,7 @@ class Page
     }
 
 
-// Function δημιουργίας φόρμας    
+// Function δημιουργίας φόρμας
 // Δέχεται τιμές όταν καλείται με αυτόν τον τρόπο
 // $FormElementsArray= array (
 //      array('name' => 'email', 'fieldtext' => 'E-mail', 'type' => 'text'),
@@ -597,7 +597,6 @@ class Page
         return $result;
     }
 
-
     //  Επιστρέφει την τρέχουσα έκδοση της εφαρμογής
     static function getCurrentVersion() {
         $html = APP_VERSION_FILE;
@@ -609,7 +608,6 @@ class Page
             return $result;
         } else return false;
     }
-
 
     // Εμφανίζει εικονίδιο βοήθειας και αν πατηθεί εμφανίζει box με text το $helpText
     static function getHelp($helpText) {
