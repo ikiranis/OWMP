@@ -138,6 +138,11 @@ $mySqlTables = array (
                                           `voter_ip` varchar(20) DEFAULT NULL,
                                           PRIMARY KEY (`id`)
                                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;'),
+    array ('table' => 'queue', 'sql' => 'CREATE TABLE `queue` (
+                                          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                          `file_id` bigint(20) DEFAULT NULL,
+                                          PRIMARY KEY (`id`)
+                                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;'),
     array ('table' => 'download_paths', 'sql' => 'CREATE TABLE `download_paths` (
                                           `id` INT(11) NOT NULL AUTO_INCREMENT,
                                           `file_path` VARCHAR(255) NULL DEFAULT NULL,
