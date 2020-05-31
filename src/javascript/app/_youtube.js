@@ -48,7 +48,8 @@ function getHTMMLVideoDownloaded(imageThumbnail, result)
  */
 function getHTMLVideoFail(theUrl)
 {
-    return '<div class="row text-danger my-2 px-3">' + phrases['youtube_problem'] + ': ' + '<span class="font-weight-bold"> ' + theUrl + '</span></div>';
+    return '<div class="row text-danger my-2 px-3">' + phrases['youtube_problem'] + ': '
+        + '<span class="font-weight-bold"><a href="' + theUrl + '">' + theUrl + '</a></span></div>';
 }
 
 /**
