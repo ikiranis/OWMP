@@ -2048,6 +2048,29 @@ function voteSong(id) {
     });
 }
 
+/**
+ * Προσθέτει το τραγούδι στην ουρά
+ *
+ * @param id
+ */
+function queueSong(id) {
+    $.ajax({
+        url: AJAX_path + 'app/queueSong',
+        type: 'GET',
+        data: {
+            id: id
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.success === true) {
+                DisplayMessage('.alert_error', phrases['queue_accepted'], 'success');
+            } else {
+                DisplayMessage('.alert_error', phrases['queue_not_accepted'], 'danger');
+            }
+        }
+    });
+}
+
 // TODO να κάνω γενική κλάση για upload
 /**
  * Ανεβάζει ένα αρχείο

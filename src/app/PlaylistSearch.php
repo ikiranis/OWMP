@@ -300,6 +300,11 @@ class PlaylistSearch extends OWMPElements
                            onclick="voteSong(<?php echo $track['id']; ?>);">
                     </span>
 
+					<span class="mdi mdi-playlist-music mdi-18px  hasCursorPointer d-none d-lg-inline-block"
+						  title="<?php echo __('queue_song'); ?>"
+						  onclick="queueSong(<?php echo $track['id']; ?>);">
+                    </span>
+
                     <?php
                     if (!$this->loadPlaylist) { ?>
                         <span class="mdi mdi-playlist-plus mdi-18px hasCursorPointer d-none d-lg-inline-block"

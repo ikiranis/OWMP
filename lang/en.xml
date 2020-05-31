@@ -132,6 +132,7 @@
         <phrase name="playlist_name">Playlist name</phrase>
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Vote the song</phrase>
+        <phrase name="queue_song">Add to queue</phrase>
         <phrase name="current_song">Playing now</phrase>
         <phrase name="next_song">Next</phrase>
         <phrase name="previous_song">Previous</phrase>
@@ -241,7 +242,9 @@
         <phrase name="playlist_loaded_to_jukebox">Playlist loaded to jukebox list</phrase>
         <phrase name="problem_to_copy_to_jukebox">Problem with jukebox list</phrase>
         <phrase name="vote_accepted">Vote accepted</phrase>
+        <phrase name="queue_accepted">Added to queue</phrase>
         <phrase name="vote_not_accepted">Vote not accepted. You can vote only once. Wait for the next song</phrase>
+        <phrase name="queue_not_accepted">Problem with queue</phrase>
         <phrase name="service_disabled">Service is disabled. Come back later</phrase>
         <phrase name="no_main_music_path">Didn't set a main music path</phrase>
         <phrase name="no_main_music_video_path">Didn't set a main music video path</phrase>

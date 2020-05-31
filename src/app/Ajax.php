@@ -1485,6 +1485,27 @@ class Ajax extends Controller
     }
 
     /**
+     * Προσθέτει το τραγούδι στην ουρά
+     */
+    public function queueSong()
+    {
+        session_start();
+
+        Page::checkValidAjaxRequest(false);
+
+        if(isset($_GET['id']))
+            $id=ClearString($_GET['id']);
+
+        if(OWMPElements::queueSong($id)) {
+            $jsonArray = array('success' => true, 'id' => $id);
+        } else {
+            $jsonArray=array( 'success'=> false);
+        }
+
+        echo json_encode($jsonArray);
+    }
+
+    /**
      * Convert an audio file to lower bitrate
      */
     public function convertAudioToLowerBitRate()

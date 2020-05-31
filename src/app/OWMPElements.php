@@ -1304,8 +1304,25 @@ class OWMPElements extends OWMP
         } else {
             return false;
         }
+    }
 
+    /**
+     * Προσθέτει μία ψήφο στο table votes
+     *
+     * @param $fileID {int} Το id του αρχείου στο οποίο θα προστεθεί μία ψήφος
+     * @return bool True or False για την επιτυχία
+     */
+    static function queueSong($fileID)
+    {
+        $conn = new MyDB();
 
+		$sql = 'INSERT INTO queue (file_id) VALUES(?)';
+
+		if ($conn->insertInto($sql, array($fileID))) {
+			return true;
+		} else {
+			return false;
+		}
     }
 
     /**

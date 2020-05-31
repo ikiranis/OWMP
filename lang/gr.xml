@@ -132,6 +132,7 @@
         <phrase name="playlist_name">Όνομα λίστας</phrase>
         <phrase name="send_to_jukebox">Jukebox List</phrase>
         <phrase name="vote_song">Ψήφος για το τραγούδι</phrase>
+        <phrase name="queue_song">Προσθήκη στην ουρά</phrase>
         <phrase name="current_song">Παίζει τώρα</phrase>
         <phrase name="next_song">Επόμενο</phrase>
         <phrase name="previous_song">Προηγούμενο</phrase>
@@ -241,7 +242,9 @@
         <phrase name="playlist_loaded_to_jukebox">Η λίστα φορτώθηκε στην jukebox list</phrase>
         <phrase name="problem_to_copy_to_jukebox">Πρόβλημα στην αντιγραφή της λίστας στην jukebox list</phrase>
         <phrase name="vote_accepted">Η ψήφος σου έγινε δεκτή</phrase>
+        <phrase name="queue_accepted">Το τραγούδι προστέθηκε στην ουρά</phrase>
         <phrase name="vote_not_accepted">Η ψήφος σου δεν έγινε δεκτή. Μπορείς να ψηφίσεις μόνο μία φορά. Ξανα προσπάθησε στο επόμενο τραγούδι</phrase>
+        <phrase name="queue_not_accepted">Το τραγούδι δεν προστέθηκε στην ουρά</phrase>
         <phrase name="service_disabled">Η υπηρεσία είναι απενεργοποιημένη. Δοκίμασε αργότερα</phrase>
         <phrase name="no_main_music_path">Δεν έχεις ορίσει main music path</phrase>
         <phrase name="no_main_music_video_path">Δεν έχεις ορίσει main music video path</phrase>
