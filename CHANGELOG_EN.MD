@@ -1,5 +1,10 @@
 ## ChangeLogs
 
+## 2020-6-1: 0.18.13
+
+- Fix youtube link on fail
+- Queue system
+
 ## 2019-9-8: 0.18.11
 
 - Update Docker image
