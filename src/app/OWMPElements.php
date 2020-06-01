@@ -1862,11 +1862,11 @@ class OWMPElements extends OWMP
                     case 'video_height':
                         echo __('tag_video_height');
                         break;
-                    case 'filesize':
-                        echo __('tag_filesize');
-                        break;
                     case 'video_width':
                         echo __('tag_video_width');
+                        break;
+                    case 'filesize':
+                        echo __('tag_filesize');
                         break;
                     case 'track_time':
                         echo __('tag_track_time');

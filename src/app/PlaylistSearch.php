@@ -294,11 +294,10 @@ class PlaylistSearch extends OWMPElements
                           onclick="loadNextVideo(<?php echo $track['id']; ?>); myVideo.play();">
                     </span>
 
-
-                    <span class="mdi mdi-heart mdi-18px  hasCursorPointer d-none d-lg-inline-block"
-                           title="<?php echo __('vote_song'); ?>"
-                           onclick="voteSong(<?php echo $track['id']; ?>);">
-                    </span>
+<!--                    <span class="mdi mdi-heart mdi-18px  hasCursorPointer d-none d-lg-inline-block"-->
+<!--                           title="--><?php //echo __('vote_song'); ?><!--"-->
+<!--                           onclick="voteSong(--><?php //echo $track['id']; ?>//);">
+//                    </span>
 
 					<span class="mdi mdi-playlist-music mdi-18px  hasCursorPointer d-none d-lg-inline-block"
 						  title="<?php echo __('queue_song'); ?>"
