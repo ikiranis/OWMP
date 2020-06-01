@@ -1,5 +1,11 @@
 ## ChangeLogs
 
+## 2020-6-1: 0.18.14
+
+- Fix youtube downloaded link
+- Display video dimensions in tags
+- Display live icon besides song name
+
 ## 2020-6-1: 0.18.13
 
 - Fix youtube link on fail
