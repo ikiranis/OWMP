@@ -20,7 +20,7 @@ function getHTMLVideoDownloading(id)
 {
     return '<div class="row my-2"> ' +
             '<div class="col-md-3 col-12">' + phrases['youtube_downloading'] + '</div>' +
-            '<div class="col-md-9 col-12">' + '<span class="font-weight-bold"><a href="https://www.youtube.com/watch?v="' + id + '>' +
+            '<div class="col-md-9 col-12">' + '<span class="font-weight-bold"><a href="https://www.youtube.com/watch?v=' + id + '">' +
             'https://www.youtube.com/watch?v=' + id + '</a></span></div>' +
         '</div>';
 }
@@ -36,7 +36,8 @@ function getHTMMLVideoDownloaded(imageThumbnail, result)
 {
     return '<div class="row my-2">' +
             '<div class="col-md-3 col-12">' + '<img src="' + imageThumbnail + '">' + '</div>' +
-            '<div class="col-md-9 col-12 text-success my-auto"><span class="font-weight-bold">' + phrases['youtube_downloaded_to_path'] + ': ' + result + '</span></div>' +
+            '<div class="col-md-9 col-12 text-success my-auto"><span class="font-weight-bold">'
+        + phrases['youtube_downloaded_to_path'] + ': ' + result + '</span></div>' +
         '</div>';
 }
 
