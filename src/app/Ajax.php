@@ -716,6 +716,8 @@ class Ajax extends Controller
                 'genre' => htmlspecialchars_decode($metadata[0]['genre']),
                 'year' => $song_year,
                 'album' => htmlspecialchars_decode($metadata[0]['album']),
+                'video_width' => htmlspecialchars_decode($metadata[0]['video_width']),
+                'video_height' => htmlspecialchars_decode($metadata[0]['video_height']),
                 'play_count' => $metadata[0]['play_count'],
                 'date_played' => $metadata[0]['date_last_played'],
                 'date_added' => $metadata[0]['date_added'],

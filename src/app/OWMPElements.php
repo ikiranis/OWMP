@@ -265,6 +265,13 @@ class OWMPElements extends OWMP
                             <?php echo $disabled; ?> maxlength="20" readonly>
                     </div>
 
+					<div class="form-group col-12 my-1 px-1">
+						<label for="video_dimensions" class="sr-only"><?php echo __('tag_video_dimensions'); ?></label>
+						<input type="text" class="form-control form-control-sm" id="video_dimensions" name="video_dimensions"
+							   placeholder="<?php echo __('tag_video_dimensions'); ?>"
+                            <?php echo $disabled; ?> readonly>
+					</div>
+
                     <div class="form-group col-12 my-1 px-1">
                         <label for="path_filename" class="sr-only"><?php echo __('tag_path_filename'); ?></label>
                         <input type="text" class="form-control form-control-sm" id="path_filename" name="path_filename"

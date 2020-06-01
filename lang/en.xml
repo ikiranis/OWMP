@@ -101,6 +101,7 @@
         <phrase name="tag_live_official">Official</phrase>
         <phrase name="tag_live_live">Live</phrase>
         <phrase name="tag_details">Details</phrase>
+        <phrase name="tag_video_dimensions">Video dimensions</phrase>
     </page>
 
     <page name="sync">

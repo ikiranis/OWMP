@@ -336,6 +336,9 @@ function loadNextVideo(id)
                 $('#FormTags #jsTrackTime').val(timeInMinutesAndSeconds);
                 $('#FormTags #live').val(data.tags.live);
                 $('#FormTags #path_filename').val(decodeURIComponent(file_path));
+                $('#FormTags #video_dimensions').val(data.tags.video_width !== '0'
+                    ? data.tags.video_width + ' x ' + data.tags.video_height
+                    : null);
 
                 // Βάζει τα metadata για εμφάνιση όταν είναι σε fullscreen
                 $('#overlay_artist').html(data.tags.artist);
