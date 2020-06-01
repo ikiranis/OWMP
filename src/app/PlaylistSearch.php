@@ -329,6 +329,7 @@ class PlaylistSearch extends OWMPElements
 
 
                 <td class="cell-wrap mcw-6 song_name" title="<?php echo $track['song_name']; ?>">
+					<span class="<?php echo ($track['live'] == 1) ? 'mdi mdi-access-point mdi-18px' : ''; ?>"></span>
                     <span class="searchableItem" onclick="searchPlaylist(0, <?php echo PLAYLIST_LIMIT; ?>, true,
                         <?php echo htmlentities(json_encode(self::getSearchArray('song_name', $track['song_name']))); ?>);">
                             <?php echo $track['song_name']; ?>
