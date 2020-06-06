@@ -74,6 +74,9 @@ if(localStorage.syncPressed === undefined) localStorage.syncPressed='false';  //
 // Convert to lower bitrate trigger
 (localStorage.convertToLowerBitrate === undefined) ? localStorage.convertToLowerBitrate = 'false' : null;
 
+// Display overlay tags
+(localStorage.displayOverlay === undefined) ? localStorage.displayOverlay = 'true' : null;
+
 var currentBrowsePage = 0;
 
 var sortByDefaultValue = 3;

@@ -303,14 +303,18 @@ function showFullScreenVideoTags(toggle) {
                 }
             }
         } else {
-            if (localStorage.OverlayAllwaysOn === 'false') {  // αν δεν εχει πατηθεί να πρέπει να είναι allways on
-                if (!OverlayON) {  // αν δεν είναι on ήδη
-                    OverlayON = true;
-                    $('#overlay').stop().show().delay(5000).hide(0);
-                    OverlayON = false;
+            // Αν δεν είναι disabled γενικώς το overlay
+            if (localStorage.displayOverlay === 'true') {
+                // αν δεν εχει πατηθεί να πρέπει να είναι allways on
+                if (localStorage.OverlayAllwaysOn === 'false') {
+                    if (!OverlayON) {  // αν δεν είναι on ήδη
+                        OverlayON = true;
+                        $('#overlay').stop().show().delay(5000).hide(0);
+                        OverlayON = false;
+                    }
+                } else {
+                    $('#overlay').show();
                 }
-            } else {
-                $('#overlay').show();
             }
         }
 

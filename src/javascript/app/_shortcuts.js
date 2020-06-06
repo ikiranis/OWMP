@@ -160,6 +160,20 @@ function toggleLowerBitrate()
 }
 
 /**
+ * Toggle overlay tags
+ */
+function toggleOverlayTags()
+{
+    if(localStorage.displayOverlay === 'true') {
+        localStorage.displayOverlay = 'false';
+        // $('.lower_bitrate').removeClass('button_on').addClass('button_off');
+    } else {
+        localStorage.displayOverlay = 'true';
+        // $('.lower_bitrate').removeClass('button_off').addClass('button_on');
+    }
+}
+
+/**
  * Έλεγχος και αρχικοποίηση της κατάστασης του shuffle button
  */
 function checkShuffleButton() {
@@ -331,6 +345,10 @@ function getShortcuts(elem) {
 
             if (event.keyCode === 81) {   // Q
                 queueSong(currentID);  // Add song to queue
+            }
+
+            if (event.keyCode === 79) {   // O
+                toggleOverlayTags();  // Enable/disable overlay tags
             }
 
         }
