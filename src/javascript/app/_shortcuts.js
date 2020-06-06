@@ -166,10 +166,10 @@ function toggleOverlayTags()
 {
     if(localStorage.displayOverlay === 'true') {
         localStorage.displayOverlay = 'false';
-        // $('.lower_bitrate').removeClass('button_on').addClass('button_off');
+        displayVolume('overlayOFF');
     } else {
         localStorage.displayOverlay = 'true';
-        // $('.lower_bitrate').removeClass('button_off').addClass('button_on');
+        displayVolume('overlayON');
     }
 }
 

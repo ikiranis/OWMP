@@ -1506,6 +1506,14 @@ function displayVolume(operation) {
                 overlayTextID.addClass('overlay_giphy');
                 document.querySelector('#overlay_volume_text').innerText = 'off';
                 break;
+            case 'overlayON':
+                overlayTextID.addClass('mdi mdi-view-dashboard-outline');
+                document.querySelector('#overlay_volume_text').innerText = 'on';
+                break;
+            case 'overlayOFF':
+                overlayTextID.addClass('mdi mdi-view-dashboard-outline');
+                document.querySelector('#overlay_volume_text').innerText = 'off';
+                break;
         }
 
         $('#overlay_volume').show().delay(1500).fadeOut();
