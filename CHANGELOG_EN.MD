@@ -6,6 +6,7 @@
 - Shortcut (Q) to add current song to queue
 - Shortcut (O) to enable/disable overlay in fullscreen
 - Password pattern removed
+- Fix saving and searching big smart playlists
 
 ## 2020-6-1: 0.18.14
 
