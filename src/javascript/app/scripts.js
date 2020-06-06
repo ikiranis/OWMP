@@ -569,7 +569,7 @@ function searchPlaylist(offset, step, firstTime, search) {
 
     $.ajax({
         url: AJAX_path + "app/searchPlaylist",
-        type: 'GET',
+        type: 'POST',
         data: {
             jsonArray: jsonArray,
             offset: offset,
@@ -1859,7 +1859,7 @@ function saveSmartPlaylist() {
 
         $.ajax({
             url: AJAX_path + "app/saveSmartPlaylist",
-            type: 'GET',
+            type: 'POST',
             data: {
                 playlistID: playlistID,
                 searchJsonString: searchJsonString

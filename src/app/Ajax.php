@@ -901,11 +901,11 @@ class Ajax extends Controller
 
         Page::checkValidAjaxRequest(true);
 
-        if(isset($_GET['playlistID']))
-            $playlistID=ClearString($_GET['playlistID']);
+        if(isset($_POST['playlistID']))
+            $playlistID=ClearString($_POST['playlistID']);
 
-        if(isset($_GET['searchJsonString']))
-            $searchJsonString=urldecode($_GET['searchJsonString']);
+        if(isset($_POST['searchJsonString']))
+            $searchJsonString=urldecode($_POST['searchJsonString']);
 
         $update=MyDB::updateTableFields('smart_playlists', 'id=?',
             array('playlist_data'),
@@ -931,62 +931,62 @@ class Ajax extends Controller
 
         $playlist = new PlaylistSearch();
 
-        if(isset($_GET['offset']))
-            $offset=ClearString($_GET['offset']);
+        if(isset($_POST['offset']))
+            $offset=ClearString($_POST['offset']);
         else $offset=0;
 
-        if(isset($_GET['step']))
-            $step=ClearString($_GET['step']);
+        if(isset($_POST['step']))
+            $step=ClearString($_POST['step']);
         else $step=PLAYLIST_LIMIT;
 
-        if(isset($_GET['jsonArray']))  // Παίρνει τα δεδομένα σε πίνακα από JSON
-            $jsonArray=json_decode($_GET['jsonArray'],true);
+        if(isset($_POST['jsonArray']))  // Παίρνει τα δεδομένα σε πίνακα από JSON
+            $jsonArray=json_decode($_POST['jsonArray'],true);
         else $jsonArray=null;
 
-        if(isset($_GET['mediaKind']))
-            if(!$_GET['mediaKind']=='')
-                $mediaKind = ClearString($_GET['mediaKind']);
+        if(isset($_POST['mediaKind']))
+            if(!$_POST['mediaKind']=='')
+                $mediaKind = ClearString($_POST['mediaKind']);
             else $mediaKind=null;
         else $mediaKind=null;
 
-        if(isset($_GET['firstTime'])) {
-            $firstTime = ClearString($_GET['firstTime']);
+        if(isset($_POST['firstTime'])) {
+            $firstTime = ClearString($_POST['firstTime']);
 
             if($firstTime=='true') {
                 $_SESSION['PlaylistCounter'] = 0;
             }
         }
 
-        if(isset($_GET['duplicates']))
+        if(isset($_POST['duplicates']))
             $duplicates=true;
         else $duplicates=false;
 
-        if(isset($_GET['queue']))
+        if(isset($_POST['queue']))
             $playedQueue=true;
         else $playedQueue=false;
 
-        if(isset($_GET['loadPlaylist']))
+        if(isset($_POST['loadPlaylist']))
             $loadPlaylist=true;
         else $loadPlaylist=null;
 
-        if(isset($_GET['votePlaylist']))
+        if(isset($_POST['votePlaylist']))
             $votePlaylist=true;
         else $votePlaylist=null;
 
-        if(isset($_GET['tabID']))
-            $tabID=ClearString($_GET['tabID']);
+        if(isset($_POST['tabID']))
+            $tabID=ClearString($_POST['tabID']);
         else $tabID = null;
 
-        if(isset($_GET['sort_by']))
-            $sort_by = ClearString($_GET['sort_by']);
+        if(isset($_POST['sort_by']))
+            $sort_by = ClearString($_POST['sort_by']);
         else $sort_by = 'date_added';
 
-        if(isset($_GET['order']))
-            $order = ClearString($_GET['order']);
+        if(isset($_POST['order']))
+            $order = ClearString($_POST['order']);
         else $order = 'DESC';
 
-        if(isset($_GET['currentBrowsePage']))
-            $currentBrowsePage = ClearString($_GET['currentBrowsePage']);
+        if(isset($_POST['currentBrowsePage']))
+            $currentBrowsePage = ClearString($_POST['currentBrowsePage']);
         else $currentBrowsePage = 0;
 
         $playlist->fieldsArray = $jsonArray;
