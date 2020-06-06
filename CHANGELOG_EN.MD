@@ -1,5 +1,10 @@
 ## ChangeLogs
 
+## 2020-6-6: 0.18.15
+
+- Display queue icon in small screens
+- Shortcut (Q) to add current song to queue
+
 ## 2020-6-1: 0.18.14
 
 - Fix youtube downloaded link
