@@ -412,7 +412,7 @@ class OWMPElements extends OWMP
                             <input type="password" class="form-control form-control-sm" id="password<?php echo $item['user_id']; ?>"
                                    name="password"
                                    placeholder="<?php echo __('users_password'); ?>" title="<?php echo __('valid_register_password'); ?>"
-                                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' maxlength="15" value="">
+                                   maxlength="15" value="">
                         </div>
 
                         <div class="form-group col-lg col-12 my-1 px-1">
@@ -420,7 +420,7 @@ class OWMPElements extends OWMP
                             <input type="password" class="form-control form-control-sm" id="<?php echo $item['user_id']; ?>"
                                    name="repeat_password"
                                    placeholder="<?php echo __('users_repeat_password'); ?>" title="<?php echo __('valid_register_repeat_password'); ?>"
-                                   pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}' maxlength="15" value="">
+                                   maxlength="15" value="">
                         </div>
 
                         <div class="form-group col-lg col-12 my-1 px-1">

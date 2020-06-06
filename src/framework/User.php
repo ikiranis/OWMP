@@ -474,7 +474,7 @@ class User extends MyDB
                             <div class="form-group w-100">
                                 <label for="password" class="sr-only"><?php echo __('form_password'); ?></label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                       maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                       maxlength="15" 
                                        title="<?php echo __('valid_username'); ?>"
                                        placeholder="<?php echo __('form_password'); ?>" required>
                             </div>
@@ -558,7 +558,7 @@ class User extends MyDB
                         'onclick' => null,
                         'required' => 'yes',
                         'maxlength' => '15',
-                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                        'pattern' => null,
                         'title' => __('valid_password'),
                         'disabled' => 'no',
                         'value' => null),
@@ -569,7 +569,7 @@ class User extends MyDB
                         'onclick' => null,
                         'required' => 'yes',
                         'maxlength' => '15',
-                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                        'pattern' => null,
                         'title' => __('valid_password'),
                         'disabled' => 'no',
                         'value' => null),
@@ -610,7 +610,7 @@ class User extends MyDB
                     <div class="form-group w-100">
                         <label for="password" class="sr-only"><?php echo __('form_password'); ?></label>
                         <input type="password" class="form-control" id="password" name="password"
-                               maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               maxlength="15"
                                title="<?php echo __('valid_username'); ?>"
                                placeholder="<?php echo __('form_password'); ?>" required>
                     </div>
@@ -618,7 +618,7 @@ class User extends MyDB
                     <div class="form-group w-100">
                         <label for="repeat_password" class="sr-only"><?php echo __('form_repeat_password'); ?></label>
                         <input type="password" class="form-control" id="repeat_password" name="repeat_password"
-                               maxlength="15" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               maxlength="15"
                                title="<?php echo __('valid_username'); ?>"
                                placeholder="<?php echo __('form_repeat_password'); ?>" required>
                     </div>
