@@ -329,6 +329,10 @@ function getShortcuts(elem) {
                 FocusOnForm=false;
             }
 
+            if (event.keyCode === 81) {   // Q
+                queueSong(currentID);  // Add song to queue
+            }
+
         }
 
         // Έλεγχος του enter στις φόρμες
