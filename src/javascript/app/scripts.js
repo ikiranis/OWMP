@@ -633,7 +633,7 @@ function playMyPlaylist(offset, step, firstTime) {
                 // Κάνει search και φορτώνει τα περιεχόμενα της manual playlist
                 $.ajax({
                     url: AJAX_path + 'app/searchPlaylist',
-                    type: 'GET',
+                    type: 'POST',
                     data: {
                         tabID: tabID,
                         firstTime: firstTime,
