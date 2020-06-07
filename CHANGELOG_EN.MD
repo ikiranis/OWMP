@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2020-6-7: 0.18.16
+
+- Fix loading custom playlist
+
 ## 2020-6-6: 0.18.15
 
 - Display queue icon in small screens
