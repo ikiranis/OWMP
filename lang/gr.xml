@@ -175,6 +175,7 @@
         <phrase name="sort_by">Ταξινόμηση με</phrase>
         <phrase name="order_desc">Φθίνουσα</phrase>
         <phrase name="order_asc">Αύξουσα</phrase>
+        <phrase name="search_not">Δεν είναι</phrase>
     </page>
 
     <page name="logs">

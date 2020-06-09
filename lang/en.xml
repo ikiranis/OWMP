@@ -175,6 +175,7 @@
         <phrase name="sort_by">Sort by</phrase>
         <phrase name="order_desc">Descending</phrase>
         <phrase name="order_asc">Ascending</phrase>
+        <phrase name="search_not">Is Not</phrase>
     </page>
 
     <page name="logs">

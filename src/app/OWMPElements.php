@@ -1958,6 +1958,10 @@ class OWMPElements extends OWMP
                                                     <option value="less">
                                                         <?php echo __('search_less'); ?>
                                                     </option>
+
+													<option value="not">
+                                                        <?php echo __('search_not'); ?>
+													</option>
                                                 </select>
                                             </div>
 

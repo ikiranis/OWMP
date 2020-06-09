@@ -404,7 +404,6 @@ class PlaylistSearch extends OWMPElements
     //      @return: array $this->arrayParams = To array με τις παραμέτρους για το search
     public function getFieldString($field)
     {
-
         if ($field['search_text'] === '0')  // Βάζει ένα κενό όταν είναι μηδέν, αλλιώς το νομίζει null
             $searchText = ' ' . $field['search_text'];
         else
@@ -434,6 +433,9 @@ class PlaylistSearch extends OWMPElements
                     case 'less':
                         $equality_sign = '<';
                         break;
+                    case 'not':
+                        $equality_sign = ' IS NOT ';
+                        break;
                 }
 
                 // Τελικό sql query
@@ -441,7 +443,10 @@ class PlaylistSearch extends OWMPElements
                 $this->arrayParams[] = $searchText;
             } else {   // αν είναι string
                 $searchText = ClearString($field['search_text']);
-                $this->condition = $this->condition . $field['search_field'] . ' LIKE ? ' . $field['search_operator'] . ' ';
+
+                $this->condition = $this->condition . $field['search_field']
+					. (($field['search_equality'] == 'not') ? ' NOT' : null)
+					. ' LIKE ? ' . $field['search_operator'] . ' ';
                 $this->arrayParams[] = '%' . $searchText . '%';
             }
 
@@ -533,7 +538,6 @@ class PlaylistSearch extends OWMPElements
             if($this->condition=='' || $this->condition==')') {
                 $this->condition = null;
             }
-
 
             // Θέτει τις τιμές του query σε sessions για να υπάρχουν για επόμενη χρήση
             $this->setQuerySessions();
@@ -648,7 +652,6 @@ class PlaylistSearch extends OWMPElements
                 $this->playlist = MyDB::getTableArray($this->mainTables, 'music_tags.*, files.path, files.filename, files.hash, files.kind',
                     null, null, $this->sort_by . ' ' . $this->order . ' LIMIT ' . $this->offset . ',' . $this->step, $this->tempUserPlaylist, $this->joinFieldsArray);
             }
-
 
         } else {  // εμφάνιση διπλών εγγραφών
             $this->getDuplicateRecords();

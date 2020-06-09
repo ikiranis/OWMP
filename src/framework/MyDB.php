@@ -74,16 +74,16 @@ class MyDB
     public function getSession($name) {
         $crypto = new Crypto();
         $result= $crypto->DecryptText($_SESSION[$name]);
-        
+
         return $result;
     }
-    
+
     // Θέτει την τιμή $text στο session $SessionName
     public function setSession($SessionName, $text) {
         $crypto = new Crypto();
         $_SESSION[$SessionName]=$crypto->EncryptText($text);
     }
-    
+
     // Επιστρέφει σε array τον πίνακα $table. Δέχεται προεραιτικά συγκεκριμένα fiels σε μορφή string $fields.
     // Επίσης δέχεται $condition (π.χ. id=?) για το WHERE μαζί με τις παραμέτρους σε array για το execute
     // π.χ $playlist = MyDB::getTableArray('music_tags', null, $condition, $arrayParams, 'date_added DESC LIMIT ' . $offset . ',' . $step, 'files', $joinFieldsArray);
@@ -122,12 +122,12 @@ class MyDB
 
         if(isset($condition))
             $sql=$sql.' WHERE '.$condition;
-        
+
         if(isset($orderBy))
             $sql=$sql.' ORDER BY '.$orderBy;
-        
+
 //        trigger_error('SQL   '.$sql);
-        
+
         $stmt = self::$conn->prepare($sql);
 
         if(isset($ParamsArray))
@@ -157,7 +157,7 @@ class MyDB
 
         if(isset($orderBy))
             $sql=$sql.' ORDER BY '.$orderBy;
-        
+
 
         return $sql;
     }
@@ -190,7 +190,7 @@ class MyDB
 
         $sql = 'SELECT * FROM '.$table;
         $stmt = MyDB::$conn->prepare($sql);
-        
+
 
         if($stmt->execute())
 
@@ -260,8 +260,8 @@ class MyDB
 
         return $result;
     }
-    
-    
+
+
     // μετατρέπει τον δισδιάστατο πίνακα, που παράγει το PDO, σε μονοδιάστατο
     static function clearArray($someArray){
         $newArray=array();
@@ -483,7 +483,7 @@ class MyDB
         $stmt = self::$conn->prepare($sql);
 
         if(self::deleteTable($table)) { // πρώτα σβήνει τα τρέχοντα περιεχόμενα του $table
-        
+
             if($stmt->execute($arrayParams))
 
                 $result=true;
@@ -507,7 +507,7 @@ class MyDB
         $stmt = self::$conn->prepare($sql);
 
 
-        if($stmt->execute()) 
+        if($stmt->execute())
 
             $result = true;
 

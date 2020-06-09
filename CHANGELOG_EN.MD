@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2020-6-9: 0.18.16
+
+- Add the ability to search with NOT
+
 ## 2020-6-7: 0.18.16
 
 - Fix loading custom playlist
