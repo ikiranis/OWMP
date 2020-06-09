@@ -1,6 +1,6 @@
 ## ChangeLogs
 
-## 2020-6-9: 0.18.16
+## 2020-6-9: 0.18.17
 
 - Add the ability to search with NOT
 
