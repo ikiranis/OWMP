@@ -22,7 +22,7 @@ git clone https://github.com/ikiranis/OWMP.git
 - Start docker containers
 
 ``
-docker-compose build & docker-compose up -d
+docker-compose build && docker-compose up -d
 ``
 
 - Now, you must have 2 containers running. _mysql-server and _apache-server. Check it with
@@ -38,7 +38,7 @@ Warning: First, take a backup of the database!
 ```
 docker-compose down
 git pull
-docker-compose build --no-cache & docker-compose up -d
+docker-compose build --no-cache && docker-compose up -d
 ```
 
 - At your browser go to **http://localhost:<your_port>** or **http://<your_ip>:<your_port>**
