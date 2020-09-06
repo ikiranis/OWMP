@@ -41,7 +41,7 @@ class OWMP
 
         ?>
 
-        <video id="myVideo" class="w-100" onerror="failed(event);" ondblclick="displayFullscreenControls();"></video>
+        <video id="myVideo" onerror="failed(event);" ondblclick="displayFullscreenControls();"></video>
 
         <?php OWMPElements::displayControls('mediaControls', false); ?>
 
@@ -362,5 +362,5 @@ class OWMP
 
     }
 
-    
+
 }

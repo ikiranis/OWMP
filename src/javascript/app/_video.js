@@ -234,6 +234,8 @@ function loadNextVideo(id)
             thePath = thePath.replace(WebFolderPath,'');
             var file_path = DIR_PREFIX + thePath + encodeURIComponent(data.file.filename);    // Το filename μαζί με όλο το path
 
+            let videoCover = document.querySelector('#myVideo');
+
             // console.log('Current ID: ' + currentID);
 
             // myVideo.src = file_path;
@@ -285,21 +287,31 @@ function loadNextVideo(id)
                     // Εμφάνιση του cover
                     if(localStorage.AllwaysGiphy === 'true'){  // Αν θέλουμε μόνο από Giphy
                         if(data.tags.fromAPI) { // αν έχει βρει κάτι στο API
-                            myVideo.poster = data.tags.fromAPI;
+                            // myVideo.poster = data.tags.fromAPI;
+                            videoCover.style.backgroundImage = 'url(' + data.tags.fromAPI + ')';
                         } else { // Αν όχι εμφανίζει το album cover
-                            myVideo.poster = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+                            // myVideo.poster = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+                            videoCover.style.backgroundImage = 'url(' + AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath + ')';
                         }
                     } else {   // όταν δεν θέλουμε μόνο από giphy
                         // Αν δεν υπάρχει album cover το παίρνουμε από itunes ή giphy API
                         if (albumCoverPath === Album_covers_path + 'default.gif' ||
                             albumCoverPath === Album_covers_path + 'small_default.gif') {
                             if (data.tags.fromAPI) { // αν έχει βρει κάτι στο API
-                                myVideo.poster = data.tags.fromAPI;
+                                // myVideo.poster = data.tags.fromAPI;
+                                videoCover.style.backgroundImage = 'url(' + data.tags.fromAPI + ')';
                             } else {
-                                myVideo.poster = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+                                // let videoCover = document.querySelector('#videoCover');
+                                // videoCover.src = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+                                // myVideo.poster = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+
+                                videoCover.style.backgroundImage = 'url(' + AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath + ')';
                             }
                         }
-                        else myVideo.poster = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+                        else {
+                            videoCover.style.backgroundImage = 'url(' + AJAX_path + "app/serveImage?imagePath=" + albumCoverPath + ')';
+                            // myVideo.poster = AJAX_path + 'app/serveImage?imagePath=' + albumCoverPath;
+                        }
                     }
 
                     // Τρικ για να εμφανίζει το poster σε fullscreen όταν πηγαίνει από βίντεο σε mp3
@@ -310,7 +322,8 @@ function loadNextVideo(id)
 
                 } else { // Αν είναι video
                     document.querySelector('#overlay_poster_source').innerHTML = '';
-                    myVideo.poster = '';
+                    // myVideo.poster = '';
+                    videoCover.style.backgroundImage = 'none';
                 }
 
                 currentPlaylistID = data.tags.playlist_id;
