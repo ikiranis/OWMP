@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2020-9-6: 0.18.18
+
+- Fix Cover for chrome
+
 ## 2020-6-9: 0.18.17
 
 - Add the ability to search with NOT
