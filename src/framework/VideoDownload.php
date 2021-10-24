@@ -134,8 +134,10 @@ class VideoDownload
         // το όνομα του αρχείου που θα κατεβάσει με το full path
         $outputfilename = shell_exec('youtube-dl ' . $youtubedlDefaultOptions . ' --get-filename -f '.$downloadString);
 
+        $ariaDownloadString = ' --external-downloader aria2c --external-downloader-args "-j 8 -s 8 -x 8 -k 5M"';
+
         // κατεβάζει το βίντεο
-        $result=shell_exec('youtube-dl ' . $youtubedlDefaultOptions . ' -f '.$downloadString);
+        $result=shell_exec('youtube-dl ' . $youtubedlDefaultOptions . ' -f '.$downloadString . $ariaDownloadString);
 
         return $outputfilename;
     }
