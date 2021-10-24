@@ -136,10 +136,12 @@ class VideoDownload
 
         $ariaDownloadString = ' --external-downloader aria2c --external-downloader-args "-j 8 -s 8 -x 8 -k 5M"';
 
+        error_log('youtube-dl ' . $youtubedlDefaultOptions . ' -f '.$downloadString . $ariaDownloadString);
+
         // κατεβάζει το βίντεο
         $result=shell_exec('youtube-dl ' . $youtubedlDefaultOptions . ' -f '.$downloadString . $ariaDownloadString);
 
-        error_log('youtube-dl ' . $youtubedlDefaultOptions . ' -f '.$downloadString . $ariaDownloadString);
+
 
         return $outputfilename;
     }
