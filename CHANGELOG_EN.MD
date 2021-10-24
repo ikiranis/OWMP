@@ -1,5 +1,9 @@
 ## ChangeLogs
 
+## 2021-10-24: 0.18.19
+
+- Use aria2c to improve download speed
+
 ## 2020-9-6: 0.18.18
 
 - Fix Cover for chrome
