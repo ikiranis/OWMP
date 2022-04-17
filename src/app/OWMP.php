@@ -243,11 +243,11 @@ class OWMP
                 <summary> <?php echo __('youtube_download'); Page::getHelp('help_youtube'); ?> </summary>
                 <?php
                     // Αν είναι εγκατεστημένο το youtube-dl
-                    if(Utilities::checkIfLinuxProgramInstalled('youtube-dl')) {
+                    if(Utilities::checkIfLinuxProgramInstalled('yt-dlp')) {
                         $OWMPElements->displayYoutubeDownloadElements(); // Εμφανίζει τις επιλογές για το youtube
                     } else {
                         // TODO να μπει δυναμικό κείμενο
-                        echo 'youtube-dl not installed';
+                        echo 'yt-dlp not installed';
                     }
                 ?>
             </details>
