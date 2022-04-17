@@ -24,6 +24,8 @@ RUN a2enmod rewrite
 #RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini
 #RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php/7.0/apache2/php.ini
 
+RUN export PATH=${PATH}:/usr/bin/python3
+
 # Configure Locales
 #RUN locale-gen en_US.UTF-8
 #ENV LANG en_US.UTF-8
