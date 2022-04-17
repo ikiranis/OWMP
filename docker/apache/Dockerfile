@@ -9,8 +9,12 @@ RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-g
     && rm -rf /var/lib/apt/lists/*
 
 # Install youtube-dl
-RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl \
-    && chmod a+rx /usr/local/bin/youtube-dl
+# RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl \
+#   && chmod a+rx /usr/local/bin/youtube-dl
+    
+# Install yt-dlp
+RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp \
+    && chmod a+rx /usr/local/bin/yt-dlp
 
 # Enable apache mods.
 RUN a2enmod php7.2
