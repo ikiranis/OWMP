@@ -1,10 +1,10 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 MAINTAINER rocean <rocean74@gmail.com>
 
 # Install apache, PHP, and supplimentary programs
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     apache2 php7.2 php7.2-mysql libapache2-mod-php7.2 curl lynx-common lynx \
-    php-xml php7.2-gd php-curl php7.2-mbstring ffmpeg aria2 lame wget python3 nano git \
+    php-xml php7.2-gd php-curl php7.2-mbstring ffmpeg aria2 lame wget python3.8 nano git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
