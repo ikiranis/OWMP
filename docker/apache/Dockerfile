@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER rocean <rocean74@gmail.com>
 
 # Install apache, PHP, and supplimentary programs
