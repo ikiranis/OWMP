@@ -2,11 +2,7 @@
 
 ## Application Details
 
-http://apps4net.eu/?page_id=9
-
-## Screenshots
-
-http://apps4net.eu/?page_id=81
+https://apps4net.eu/parrot/
 
 ## Installation guide
 
