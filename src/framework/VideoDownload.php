@@ -136,7 +136,7 @@ class VideoDownload
 
         // $ariaDownloadString = ' --external-downloader aria2c --external-downloader-args "-j 16 -s 16 -x 16 -k 1M"';
 
-        error_log('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString;
+        error_log('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString);
 
         // κατεβάζει το βίντεο
         $result=shell_exec('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString);
