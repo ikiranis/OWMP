@@ -134,12 +134,12 @@ class VideoDownload
         // το όνομα του αρχείου που θα κατεβάσει με το full path
         $outputfilename = shell_exec('yt-dlp ' . $youtubedlDefaultOptions . ' --get-filename -f '.$downloadString);
 
-        $ariaDownloadString = ' --external-downloader aria2c --external-downloader-args "-j 16 -s 16 -x 16 -k 1M"';
+        // $ariaDownloadString = ' --external-downloader aria2c --external-downloader-args "-j 16 -s 16 -x 16 -k 1M"';
 
-        error_log('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString . $ariaDownloadString);
+        error_log('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString;
 
         // κατεβάζει το βίντεο
-        $result=shell_exec('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString . $ariaDownloadString);
+        $result=shell_exec('yt-dlp ' . $youtubedlDefaultOptions . ' -f '.$downloadString);
 
         error_log($result);
 
