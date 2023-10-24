@@ -9,6 +9,11 @@ services:
     ports:
      - ${MYSQL_PORT}
     restart: always
+    ulimits:
+            nproc: 65535
+            nofile:
+                soft: 20000
+                hard: 40000
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
 
