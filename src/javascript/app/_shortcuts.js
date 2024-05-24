@@ -252,11 +252,11 @@ function getShortcuts(elem) {
                 prevSong();
             }
 
-            if (event.keyCode === 39) || (event.keyCode === 88) ) {  // δεξί βελάκι or x
+            if ( (event.keyCode === 39) || (event.keyCode === 88) ) {  // δεξί βελάκι or x
                 fwSong();
             }
 
-            if (event.keyCode === 37) || (event.keyCode === 90) ) {  // αριστερό βελάκι or z
+            if ( (event.keyCode === 37) || (event.keyCode === 90) ) {  // αριστερό βελάκι or z
                 rwSong();
             }
 
