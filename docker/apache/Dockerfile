@@ -1,54 +1,54 @@
 FROM ubuntu:18.04
 MAINTAINER rocean <rocean74@gmail.com>
 
-# Install apache, PHP, and supplimentary programs
+# Install required dependencies
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    apache2 php7.2 php7.2-mysql libapache2-mod-php7.2 curl lynx-common lynx \
-    php-xml php7.2-gd php-curl php7.2-mbstring ffmpeg aria2 lame wget python3.8 nano git \
+    software-properties-common build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev \
+    libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl wget apache2 php7.2 php7.2-mysql \
+    libapache2-mod-php7.2 lynx-common lynx php-xml php7.2-gd php-curl php7.2-mbstring ffmpeg \
+    aria2 lame nano git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install youtube-dl
-# RUN wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl \
-#   && chmod a+rx /usr/local/bin/youtube-dl
-    
+# Download and build Python 3.9 from source
+RUN wget https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz \
+    && tar -xf Python-3.9.18.tgz \
+    && cd Python-3.9.18 \
+    && ./configure --enable-optimizations \
+    && make -j$(nproc) \
+    && make altinstall \
+    && cd .. \
+    && rm -rf Python-3.9.18 Python-3.9.18.tgz
+
 # Install yt-dlp
 RUN wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp \
     && chmod a+rx /usr/local/bin/yt-dlp
 
-# Enable apache mods.
+# Enable apache mods
 RUN a2enmod php7.2
 RUN a2enmod rewrite
 
-# Update the PHP.ini file, enable <? ?> tags and quieten logging.
-#RUN sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini
-#RUN sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php/7.0/apache2/php.ini
+# Configure Python alternatives
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.9 1 \
+    && update-alternatives --config python3
 
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
-RUN update-alternatives --config python3
-
+# Set PATH environment variable
 RUN export PATH=${PATH}:/usr/bin/python
 
-# Configure Locales
-#RUN locale-gen en_US.UTF-8
-#ENV LANG en_US.UTF-8
-#ENV LANGUAGE en_US:en
-#ENV LC_ALL en_US.UTF-8
-
-# Manually set up the apache environment variables
+# Configure Apache environment variables
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
 
-# Expose apache.
+# Expose apache
 EXPOSE 80
 
-# Update the default apache site with the config we created.
+# Update the default apache site with the config we created
 ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 ADD php.ini /etc/php/7.2/apache2/php.ini
 
-# By default start up apache in the foreground, override with /bin/bash for interative.
+# By default, start up apache in the foreground, override with /bin/bash for interactive
 CMD /usr/sbin/apache2ctl -D FOREGROUND
