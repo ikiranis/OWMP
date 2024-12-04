@@ -26,50 +26,47 @@ class VideoDownload
     // TODO έχει πρόβλημα όταν το λινκ του youtube έχει τον χρονικό σημείο που πρέπει να παίξει
     // Επιστρέφει το id ενός youtube video από το url του
     // Source from http://code.runnable.com/VUpjz28i-V4jETgo/get-youtube-video-id-from-url-for-php
-    public function getYoutubeID(){
+    public function getYoutubeID() {
         $video_id = false;
-        $url = parse_url($this->videoURL);
-        if (strcasecmp($url['host'], 'youtu.be') === 0)
-        {
-            #### (dontcare)://youtu.be/<video id>
+
+        // Sanitize the video URL first
+        $sanitizedUrl = $this->sanitizeUrl($this->videoURL);
+
+        $url = parse_url($sanitizedUrl);
+
+        if (strcasecmp($url['host'], 'youtu.be') === 0) {
+            // Shortened URL (youtu.be/<video_id>)
             $video_id = substr($url['path'], 1);
-        }
-        elseif (strcasecmp($url['host'], 'www.youtube.com') === 0)
-        {
-            if (isset($url['query']))
-            {
-                parse_str($url['query'], $url['query']);
-                if (isset($url['query']['v']))
-                {
-                    #### (dontcare)://www.youtube.com/(dontcare)?v=<video id>
-                    $video_id = $url['query']['v'];
-                }
-            }
-            if ($video_id == false)
-            {
-                $url['path'] = explode('/', substr($url['path'], 1));
-                if (in_array($url['path'][0], array('e', 'embed', 'v')))
-                {
-                    #### (dontcare)://www.youtube.com/(whitelist)/<video id>
-                    $video_id = $url['path'][1];
+        } elseif (strcasecmp($url['host'], 'www.youtube.com') === 0 || strcasecmp($url['host'], 'youtube.com') === 0) {
+            // Full YouTube URL
+            if (isset($url['query'])) {
+                parse_str($url['query'], $queryParams);
+                if (isset($queryParams['v'])) {
+                    $video_id = $queryParams['v'];
                 }
             }
         }
+
         return $video_id;
     }
 
-    // Επιστρέφει το playlist ID από ένα youtube url
-    public function getYoutubePlaylistID(){
-        $url = parse_url($this->videoURL);
-        parse_str($url['query'],$q);
-        $playlistID = $q['list'];
 
-        if($playlistID) {
-            return $playlistID;
-        } else {
-            return false;
+    // Επιστρέφει το playlist ID από ένα youtube url
+    public function getYoutubePlaylistID() {
+        // Sanitize the video URL first
+        $sanitizedUrl = $this->sanitizeUrl($this->videoURL);
+
+        $url = parse_url($sanitizedUrl);
+
+        if (isset($url['query'])) {
+            parse_str($url['query'], $queryParams);
+            if (isset($queryParams['list'])) {
+                return $queryParams['list'];
+            }
         }
+        return false;
     }
+
 
     // Ελέγχει αν είναι video ή playlist
     public function checkURLkind() {
@@ -144,6 +141,12 @@ class VideoDownload
         error_log($result);
 
         return $outputfilename;
+    }
+
+    private function sanitizeUrl($url) {
+        $decodedUrl = rawurldecode($url);
+        $cleanedUrl = preg_replace('/&t=[^&]*/', '', $decodedUrl); // Remove timestamp
+        return $cleanedUrl;
     }
 
     /**
