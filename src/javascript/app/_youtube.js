@@ -133,7 +133,7 @@ function checkVideoUrl(url,counter,total) {
         type: 'GET',
         async: true,
         data: {
-            url: url
+            url: encodeURIComponent(url)
         },
         dataType: "json",
         success: function (data) {
