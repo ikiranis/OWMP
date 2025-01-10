@@ -129,7 +129,7 @@ class SyncFiles
 
         switch ($mediakind) {
             case 'Music Video': $extensions = array('mp4', 'm4v'); break;
-            case 'Music': $extensions = array('mp3', 'm4a'); break;
+            case 'Music': $extensions = array('mp3', 'm4a', 'flac'); break;
         }
 
         if($dirs) {
@@ -159,7 +159,7 @@ class SyncFiles
     // Αρχικοποίηση τιμών
     public function startingValues($filename=null) {
         // Αρχικοποίηση τιμών
-        $replace_text = array('.mp4', '.m4v', '.mp3', 'm4a');
+        $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a', '.flac');
 
         if($filename) {
             $this->name = str_replace($replace_text, '', $filename);
@@ -798,7 +798,7 @@ class SyncFiles
         \getid3_lib::CopyTagsToComments($ThisFileInfo);
 
         if(isset($ThisFileInfo['filename'])) {
-            $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a');
+            $replace_text = array('.mp4', '.m4v', '.mp3', '.m4a', '.flac');
 
             if (isset($ThisFileInfo['audio']['codec'])){
                 $this->codec = ClearString($ThisFileInfo['audio']['codec']);
