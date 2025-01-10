@@ -790,7 +790,7 @@ class OWMPElements extends OWMP
 
                 <div class="custom-file col-lg-6 col-12 px-1 my-1">
                     <input type="file" class="custom-file-input" name="jsMediaFiles" id="jsMediaFiles"
-                           accept=".mp4, .m4v, .mp3, .m4a" onchange="UploadFiles.startUpload(<?php echo htmlentities(json_encode($problematicPaths)); ?>);" multiple>
+                           accept=".mp4, .m4v, .mp3, .m4a, .flac" onchange="UploadFiles.startUpload(<?php echo htmlentities(json_encode($problematicPaths)); ?>);" multiple>
                     <label class="custom-file-label" for="customFile">Choose files</label>
                 </div>
 
