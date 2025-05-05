@@ -479,23 +479,30 @@ class MyDB
     static function copyFieldsToOtherTable($fields, $table, $query, $arrayParams) {
         self::CreateConnection();
 
+        // Disable keys for faster bulk insert (works for MyISAM/InnoDB)
+        self::$conn->exec('SET autocommit=0;');
+        self::$conn->exec('SET unique_checks=0;');
+        self::$conn->exec('SET foreign_key_checks=0;');
+
+        // Truncate table instead of delete for speed
+        $truncateSql = 'TRUNCATE TABLE ' . $table;
+        self::$conn->exec($truncateSql);
+
         $sql = 'INSERT INTO '.$table.' ('.$fields.') '.$query;
         $stmt = self::$conn->prepare($sql);
 
-        if(self::deleteTable($table)) { // πρώτα σβήνει τα τρέχοντα περιεχόμενα του $table
+        $result = $stmt->execute($arrayParams);
 
-            if($stmt->execute($arrayParams))
+        $stmt->closeCursor();
+        $stmt = null;
 
-                $result=true;
+        // Re-enable keys
+        self::$conn->exec('SET unique_checks=1;');
+        self::$conn->exec('SET foreign_key_checks=1;');
+        self::$conn->exec('COMMIT;');
+        self::$conn->exec('SET autocommit=1;');
 
-            else $result=false;
-
-            $stmt->closeCursor();
-            $stmt = null;
-
-            return $result;
-        }
-
+        return $result;
     }
 
 
@@ -536,7 +543,6 @@ class MyDB
 
         return $result;
     }
-
 
     // Ελέγχει αν υπάρχουν τα tables της βάσης και ότι δεν υπάρχει το δημιουργεί
     static function checkMySqlTables ()
