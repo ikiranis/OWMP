@@ -1190,10 +1190,10 @@ class OWMPElements extends OWMP
         MyDB::createConnection();
 
         $sql = 'CREATE TABLE ' . $table . ' (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `file_id` int(11) DEFAULT NULL,
-                PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;';
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `file_id` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=MEMORY AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;';
 
         $stmt = MyDB::$conn->prepare($sql);
 
