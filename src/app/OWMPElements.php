@@ -1184,7 +1184,7 @@ class OWMPElements extends OWMP
      * @param $table {string} To όνομα του πίνακα που θα δημιουργηθεί
      * @return bool True or False για την επιτυχία
      */
-    static function createPlaylistTempTable($table)
+    static function createPlaylistTempTable($table, $temp = false)
     {
         $conn = new MyDB();
         MyDB::createConnection();
@@ -1193,7 +1193,7 @@ class OWMPElements extends OWMP
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `file_id` int(11) DEFAULT NULL,
                 PRIMARY KEY (`id`)
-                ) ENGINE=MEMORY AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;';
+                ) ENGINE=' . ($temp ? 'MEMORY' : 'InnoDB') . ' AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;';
 
         $stmt = MyDB::$conn->prepare($sql);
 
@@ -1221,7 +1221,7 @@ class OWMPElements extends OWMP
 
         // Αν δεν υπάρχει ήδη το σχετικό table το δημιουργούμε
         if (!MyDB::checkIfTableExist($tempPlaylist)) {
-            self::createPlaylistTempTable($tempPlaylist); // Δημιουργούμε το table
+            self::createPlaylistTempTable($tempPlaylist, true); // Δημιουργούμε το table
 
             // κάνουμε την σχετική εγγραφή τον πίνακα playlist_tables
             $sql = 'INSERT INTO playlist_tables (table_name, last_alive) VALUES(?,?)';
