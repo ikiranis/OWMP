@@ -122,7 +122,7 @@ class VideoDownload
 
         if($this->mediaKind=='Music Video') {
             // Κατέβασμα βίντεο
-            $downloadString = '"bestvideo[height<='.$this->maxVideoHeight.']+bestaudio/best[height<='.$this->maxVideoHeight.']" -o "'.$videoFullPath.'.%(ext)s" -- "' . $this->videoID . '"';
+            $downloadString = '"bestvideo[height<='.$this->maxVideoHeight.']+bestaudio/best[height<='.$this->maxVideoHeight.']" -o "'.$videoFullPath.'.%(ext)s" -- "' . $this->videoID . '" --merge-output-format mp4';
             //$downloadString = '"bestvideo[ext=mp4][height<='.$this->maxVideoHeight.']+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" -- "' . $this->videoID . '"';
         } else {
             // Κατέβασμα audio
