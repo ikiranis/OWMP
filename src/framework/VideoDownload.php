@@ -125,7 +125,7 @@ class VideoDownload
             //$downloadString = '"bestvideo[height<='.$this->maxVideoHeight.']+bestaudio/best[height<='.$this->maxVideoHeight.']" -o "'.$videoFullPath.'.%(ext)s" -- "' . $this->videoID . '"';
             //$downloadString = '"bestvideo[ext=mp4][height<='.$this->maxVideoHeight.']+bestaudio[ext=m4a]/best[ext=mp4]/best" -o "'.$videoFullPath.'.%(ext)s" -- "' . $this->videoID . '"';
 
-            $downloadString = '"bestvideo[ext=mp4][height<=' . $this->maxVideoHeight . ']+bestaudio[ext=m4a]/best[ext=mp4][height<=' . $this->maxVideoHeight . ']" -o "' . $videoFullPath . '.%(ext)s" --merge-output-format mp4 -- "' . $this->videoID . '"';
+            $downloadString = '"bestvideo[height<=' . $this->maxVideoHeight . ']+bestaudio/best[ext=mp4][height<=' . $this->maxVideoHeight . ']" -o "' . $videoFullPath . '.%(ext)s" --merge-output-format mp4 -- "' . $this->videoID . '"';
         } else {
             // Κατέβασμα audio
             $downloadString = '"bestaudio[ext=m4a]/best[ext=mp3]/best" -o "'.$videoFullPath.'.%(ext)s" -- "'.$this->videoID.'"';
